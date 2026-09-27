@@ -1,0 +1,104 @@
+{
+  "formatVersion": 1,
+  "status": "fail",
+  "decision": "p10-2-stopped-on-parity-gaps",
+  "summarySha256": "71b9c404323ac04542049b688c0b2eb4d9f308e67eb363103689e9930535e8da",
+  "corpusManifestSha256": "c63f72d6b2237c85fcefebdfb6881a3ea03179447381f2d8c6c9f6d898f74714",
+  "parityMatrixSha256": "bb54fc4d84ebc0fce15484b928ac46ef75145327ea4fdce465cc013db305f5b2",
+  "gapCount": 13,
+  "gaps": [
+    {
+      "id": "ifx-provider-cycle/M",
+      "category": "v4-certified-drift",
+      "detail": "Current receipted V4 semantics differ from the frozen certified capture."
+    },
+    {
+      "id": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "category": "v4-certified-drift",
+      "detail": "Current receipted V4 semantics differ from the frozen certified capture."
+    },
+    {
+      "id": "ifx-provider-cycle/Z",
+      "category": "v4-certified-drift",
+      "detail": "Current receipted V4 semantics differ from the frozen certified capture."
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "category": "v4-certified-drift",
+      "detail": "Current receipted V4 semantics differ from the frozen certified capture."
+    },
+    {
+      "id": "real-violation/v4",
+      "category": "engine-failure",
+      "detail": "V4 real violation exit/result mismatch."
+    },
+    {
+      "id": "ifx-domain-reference/C",
+      "category": "parity-gap",
+      "detail": "clean-verdict-or-finding-difference",
+      "v3Rules": [
+        "OWNERSHIP-REFERENCE",
+        "RING-REFERENCE"
+      ],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-embedded-adapter/M",
+      "category": "parity-gap",
+      "detail": "missing-input-accepted-or-category-difference",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-injection/M",
+      "category": "parity-gap",
+      "detail": "missing-input-accepted-or-category-difference",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-provider-cycle/C",
+      "category": "parity-gap",
+      "detail": "clean-verdict-or-finding-difference",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-provider-cycle/M",
+      "category": "parity-gap",
+      "detail": "missing-input-accepted-or-category-difference",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "category": "parity-gap",
+      "detail": "blocking-rule-verdict-or-finding-semantics-difference",
+      "v3Rules": [],
+      "v4Rule": "PROVIDER-CYCLE"
+    },
+    {
+      "id": "ifx-provider-cycle/Z",
+      "category": "parity-gap",
+      "detail": "v4-zero-match-success-or-non-vacuity-loss",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "category": "parity-gap",
+      "detail": "blocking-rule-verdict-or-finding-semantics-difference",
+      "v3Rules": [],
+      "v4Rule": "DECLARATION-IMPLEMENTS"
+    }
+  ],
+  "boundary": {
+    "p10_2ExecutionClosed": true,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  },
+  "recommendation": "Do not enter P10.3. Review the preserved parity gaps and authorize a separate repair Plan if correction is desired."
+}

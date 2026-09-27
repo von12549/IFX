@@ -1,0 +1,4009 @@
+{
+  "formatVersion": 1,
+  "caseCount": 52,
+  "runs": [
+    {
+      "id": "ifx-domain-reference/C",
+      "moduleId": "ifx-domain-reference",
+      "inputSha256": "c62325aed8760ed91302f2e6f1189beeb85a761309fb142c6a6b573906b2d870",
+      "configSha256": "58823e9d2580d5f298c3e1bd9fb06e883677ae433b0248c9a847150752be975c",
+      "process": {
+        "name": "v4-ifx-domain-reference_C",
+        "startedAt": "2026-09-27T16:56:06.4108975+10:00",
+        "elapsedSeconds": 0.742,
+        "exitCode": 0,
+        "stdoutSha256": "ff75801498532ea23135eb317cc7da261b77574b7d9cfe479771ef1545760ca8",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "9f16f839051a858955817ac229ab8c3c7be4e3023534d6b49489177dafe710b8"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 2,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-domain-reference/M",
+      "moduleId": "ifx-domain-reference",
+      "inputSha256": "1a83e8ce27897a852135caa87d3b3fef5ea5d6421a9e0c04d4c69d59b7640a1e",
+      "configSha256": "58823e9d2580d5f298c3e1bd9fb06e883677ae433b0248c9a847150752be975c",
+      "process": {
+        "name": "v4-ifx-domain-reference_M",
+        "startedAt": "2026-09-27T16:56:07.1743491+10:00",
+        "elapsedSeconds": 0.384,
+        "exitCode": 0,
+        "stdoutSha256": "7c732afb8e0218708ea00ab0e431693c37115fa13fc0ecb0f3c4262e1b843aa7",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "8a01437dcb92ddd4f1572b4bad6033160f154f306c597677b17c4389c2e4a9f7"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "TargetRoot/src is missing."
+      }
+    },
+    {
+      "id": "ifx-domain-reference/V/RING-DIRECTION",
+      "moduleId": "ifx-domain-reference",
+      "inputSha256": "d3db86318b78c433ec91cfcd7913f8fe15d4ddfe2934c74e4720eb25fd72f37d",
+      "configSha256": "58823e9d2580d5f298c3e1bd9fb06e883677ae433b0248c9a847150752be975c",
+      "process": {
+        "name": "v4-ifx-domain-reference_V_RING-DIRECTION",
+        "startedAt": "2026-09-27T16:56:07.5657349+10:00",
+        "elapsedSeconds": 0.546,
+        "exitCode": 0,
+        "stdoutSha256": "981ea66c57e521ec3808bba954ab8831b5579c943208a7aa6a23c32d2a06cb77",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "9d164762cf581a842eb7b1fcf033dbc0408e4f12e99808864090b6d9cb02972d"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-domain-reference/Z",
+      "moduleId": "ifx-domain-reference",
+      "inputSha256": "0087635f728dcd340c96c01cbb44738b1f8e620b3e19b5833d4970b694b2ccd7",
+      "configSha256": "58823e9d2580d5f298c3e1bd9fb06e883677ae433b0248c9a847150752be975c",
+      "process": {
+        "name": "v4-ifx-domain-reference_Z",
+        "startedAt": "2026-09-27T16:56:08.1182849+10:00",
+        "elapsedSeconds": 0.402,
+        "exitCode": 0,
+        "stdoutSha256": "dbae181fb76eddf127265fa38942ea1d7ecb487fa534f6615cd3f463beefb990",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "f9df13be6ccda7879bc9e1fdd5e5abdd960bfa537be8101a57b3da41abf6554e"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/C",
+      "moduleId": "ifx-embedded-adapter",
+      "inputSha256": "abc4f91057189052b1f4c1e404694442ddcb54310e65403a0a5cafdb884a637b",
+      "configSha256": "e81971e618381308f4c08c68a21571bc25c40c3b844a78c09c42594a19a52b11",
+      "process": {
+        "name": "v4-ifx-embedded-adapter_C",
+        "startedAt": "2026-09-27T16:56:08.5268476+10:00",
+        "elapsedSeconds": 0.797,
+        "exitCode": 0,
+        "stdoutSha256": "94c5f7c09f42afcd60d801ee6e992d5d29bf77600bc9f86e22f85dd95a59f964",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "4db4ac73b256c50a1c5e99a05738bbfe077d6975d9c70af0394f6aa7a89fcc97"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/M",
+      "moduleId": "ifx-embedded-adapter",
+      "inputSha256": "9387ae1cf04e78505a435dec446335eca9d979a97d1f2f8dd8447f740b4ec64d",
+      "configSha256": "e81971e618381308f4c08c68a21571bc25c40c3b844a78c09c42594a19a52b11",
+      "process": {
+        "name": "v4-ifx-embedded-adapter_M",
+        "startedAt": "2026-09-27T16:56:09.3317486+10:00",
+        "elapsedSeconds": 0.45,
+        "exitCode": 0,
+        "stdoutSha256": "27dc652407efc5baf53b9bc5ed0499fe17780b8d20d5856bec853bc8dd7123e3",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "bd405dc7bb00d548c40b80bf7a692f7abe497ebf3a35dfb63c3f81fa29ed6537"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "No Infrastructure C# source files under src."
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/V/EMBEDDED-ADAPTER-LOCATION",
+      "moduleId": "ifx-embedded-adapter",
+      "inputSha256": "d2ec1ff621dfa191b83ee84672b6bfd666367ae1d8d293668fed546b174af2ed",
+      "configSha256": "e81971e618381308f4c08c68a21571bc25c40c3b844a78c09c42594a19a52b11",
+      "process": {
+        "name": "v4-ifx-embedded-adapter_V_EMBEDDED-ADAPTER-LOCATION",
+        "startedAt": "2026-09-27T16:56:09.7895014+10:00",
+        "elapsedSeconds": 0.565,
+        "exitCode": 0,
+        "stdoutSha256": "7e041ab60c4018179ec1bcb52351bdd8f3b6dc29613cd213ad0fc5722140323a",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-LOCATION",
+            "subject": "src/IFX.Modules.CRM.Infrastructure/Adapter.cs:1: IFX.Modules.CRM.Infrastructure -> IFX.Modules.IAM.Contracts [IFX.Modules.IAM.Contracts]",
+            "evidenceKind": "source-syntax",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "2fe75bf56e184b993214f73a8f6eb1d461a15223d6f5f7ac59098d48e0694e65"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-LOCATION",
+            "subject": "src/IFX.Modules.CRM.Infrastructure/Adapter.cs:1: IFX.Modules.CRM.Infrastructure -> IFX.Modules.IAM.Contracts [IFX.Modules.IAM.Contracts]",
+            "evidenceKind": "source-syntax",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/V/EMBEDDED-ADAPTER-PROVIDER",
+      "moduleId": "ifx-embedded-adapter",
+      "inputSha256": "cc8870700c46ae9c1af48bb700a89cd97699311eb7d16de1a3bffcad4555c65c",
+      "configSha256": "e81971e618381308f4c08c68a21571bc25c40c3b844a78c09c42594a19a52b11",
+      "process": {
+        "name": "v4-ifx-embedded-adapter_V_EMBEDDED-ADAPTER-PROVIDER",
+        "startedAt": "2026-09-27T16:56:10.3606569+10:00",
+        "elapsedSeconds": 0.493,
+        "exitCode": 0,
+        "stdoutSha256": "428bc36283aec81b57e4bdd82d51cdd12822594377a272faf9c153481e0ddf23",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-PROVIDER",
+            "subject": "src/IFX.Modules.CRM.Infrastructure/Adapter.cs:1: IFX.Modules.CRM.Infrastructure -> IFX.Modules.Registry.Contracts [IFX.Modules.Registry.Contracts]",
+            "evidenceKind": "source-syntax",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "bfcecfc15cb898b407f7b819e1271b7ba78875c5542d2428a5a0cb576c7628c4"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-PROVIDER",
+            "subject": "src/IFX.Modules.CRM.Infrastructure/Adapter.cs:1: IFX.Modules.CRM.Infrastructure -> IFX.Modules.Registry.Contracts [IFX.Modules.Registry.Contracts]",
+            "evidenceKind": "source-syntax",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/Z",
+      "moduleId": "ifx-embedded-adapter",
+      "inputSha256": "cefb00c812432a8d8e6860e666e23a855848bf94630c719af37c382b91ffce84",
+      "configSha256": "e81971e618381308f4c08c68a21571bc25c40c3b844a78c09c42594a19a52b11",
+      "process": {
+        "name": "v4-ifx-embedded-adapter_Z",
+        "startedAt": "2026-09-27T16:56:10.8599435+10:00",
+        "elapsedSeconds": 0.485,
+        "exitCode": 0,
+        "stdoutSha256": "e4fd44e9f42133fd37189d458f75df5cdfb543b2d3d4df1c0dcbdc20e21769c0",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-LOCATION",
+            "subject": "src: zero foreign Contracts source uses in Infrastructure",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "EMBEDDED-ADAPTER-PROVIDER",
+            "subject": "src: zero foreign Contracts source uses in Infrastructure",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "b20a44ca84a91d2b98fcaa2c1f4c1b0872ec0bed02a59462ce94543b8ec621a5"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-LOCATION",
+            "subject": "src: zero foreign Contracts source uses in Infrastructure",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "EMBEDDED-ADAPTER-PROVIDER",
+            "subject": "src: zero foreign Contracts source uses in Infrastructure",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-injection/C",
+      "moduleId": "ifx-injection",
+      "inputSha256": "edea148e1c32510da4d8d801daa3f69779390617996fff04426dace828c6e3cb",
+      "configSha256": "0f0737755204da402c2f098dbeaec7ec578fe01761ff9ca86e3c223e1c20558d",
+      "process": {
+        "name": "v4-ifx-injection_C",
+        "startedAt": "2026-09-27T16:56:11.3511324+10:00",
+        "elapsedSeconds": 0.708,
+        "exitCode": 0,
+        "stdoutSha256": "4325c9145252e120993690849ad7d400e9bf9f520b8b1204a78f5bde2b7220d4",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "719a61c0d62f5117a1021771d19675c9314216be28701d478dd8b523e9698656"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-injection/M",
+      "moduleId": "ifx-injection",
+      "inputSha256": "de45c2f259252412f9e595c35db8c81a88dfa9199456ccf255e33516ccd8e649",
+      "configSha256": "0f0737755204da402c2f098dbeaec7ec578fe01761ff9ca86e3c223e1c20558d",
+      "process": {
+        "name": "v4-ifx-injection_M",
+        "startedAt": "2026-09-27T16:56:12.0651966+10:00",
+        "elapsedSeconds": 0.396,
+        "exitCode": 0,
+        "stdoutSha256": "58f1340a23a479589ac8d810341d61fb1a0b9591fb6f54a52bf33e4b385546b8",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "8d3a235bbc20f6daf0784ddafff0ae40d8d4669ac9c12ae601417e7cc0b13870"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "No in-scope projects under src."
+      }
+    },
+    {
+      "id": "ifx-injection/V/FORBIDDEN-DEPENDENCY",
+      "moduleId": "ifx-injection",
+      "inputSha256": "1a9a8d1e1ec6bf75dd2c21f40f964832301f66b524089337a74f5c5a8a6e0efe",
+      "configSha256": "0f0737755204da402c2f098dbeaec7ec578fe01761ff9ca86e3c223e1c20558d",
+      "process": {
+        "name": "v4-ifx-injection_V_FORBIDDEN-DEPENDENCY",
+        "startedAt": "2026-09-27T16:56:12.4701236+10:00",
+        "elapsedSeconds": 0.526,
+        "exitCode": 0,
+        "stdoutSha256": "c427044274099364c26f6a9ed6d43eb61edc0425f7053b69b7a1f5a51ab79d63",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY",
+            "subject": "src/Modules/A/IFX.Modules.A.Presentation/Sample.cs:1: IFX.Modules.A.Presentation [View -> IOrderRepository]",
+            "evidenceKind": "source-parameter",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "0f80157184a5f34fffd3b5f9452ed9cc1c27244023b9f44b5574241af4213729"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY",
+            "subject": "src/Modules/A/IFX.Modules.A.Presentation/Sample.cs:1: IFX.Modules.A.Presentation [View -> IOrderRepository]",
+            "evidenceKind": "source-parameter",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-injection/V/FORBIDDEN-DEPENDENCY-ORIGIN",
+      "moduleId": "ifx-injection",
+      "inputSha256": "a24fd32eba4b92e9827e3b8b94ab65446003dfed905566a76fcd24854d7ceffb",
+      "configSha256": "0f0737755204da402c2f098dbeaec7ec578fe01761ff9ca86e3c223e1c20558d",
+      "process": {
+        "name": "v4-ifx-injection_V_FORBIDDEN-DEPENDENCY-ORIGIN",
+        "startedAt": "2026-09-27T16:56:13.0022225+10:00",
+        "elapsedSeconds": 0.475,
+        "exitCode": 0,
+        "stdoutSha256": "715143497135584441e9ed7c49e3f75c01b0c1dfc7c505dbe7b8f9f3447aa654",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+            "subject": "src/Modules/A/IFX.Modules.A.Application/Sample.cs:1: IFX.Modules.A.Application [Service -> StorageType]",
+            "evidenceKind": "source-parameter",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "cea41c91b6de2312f3919d195f051c548bde63ffbb97c41991e7cb49541e2a26"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+            "subject": "src/Modules/A/IFX.Modules.A.Application/Sample.cs:1: IFX.Modules.A.Application [Service -> StorageType]",
+            "evidenceKind": "source-parameter",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-injection/Z",
+      "moduleId": "ifx-injection",
+      "inputSha256": "524b2208e39206bea57040c0a82eae3642b46cc7c5d7dd6eb1ee09b7c695d4ae",
+      "configSha256": "0f0737755204da402c2f098dbeaec7ec578fe01761ff9ca86e3c223e1c20558d",
+      "process": {
+        "name": "v4-ifx-injection_Z",
+        "startedAt": "2026-09-27T16:56:13.4839717+10:00",
+        "elapsedSeconds": 0.527,
+        "exitCode": 0,
+        "stdoutSha256": "c362de3231c3c8ed520bf0dc00459611a24d966fdd8fa5a6a099d8ca8abcb005",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+            "subject": "src: zero Application parameters",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY",
+            "subject": "src: zero Presentation parameters",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "766017b2b227495f5ca987e2354489994227d08747181dac2f8ec6894b199b7d"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+            "subject": "src: zero Application parameters",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY",
+            "subject": "src: zero Presentation parameters",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-ownership-graph/C",
+      "moduleId": "ifx-ownership-graph",
+      "inputSha256": "82a5424628ec52c45b1c76661cceb6dc82932cfd177e3987514198f2faf0dddd",
+      "configSha256": "72ca544fd128425295424875770a272437c7dbf600ca8f40f523028538fd1a4d",
+      "process": {
+        "name": "v4-ifx-ownership-graph_C",
+        "startedAt": "2026-09-27T16:56:14.0173170+10:00",
+        "elapsedSeconds": 0.82,
+        "exitCode": 0,
+        "stdoutSha256": "1e1a704c9e948f9a8665796529341e3b09ae6908048ebc749df9058ea1aedbc5",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 11,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "757af73289dddb8fb08fed9661daca4da2c2abe8f5cc05052e6bf94131ea14d6"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 11,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-ownership-graph/M",
+      "moduleId": "ifx-ownership-graph",
+      "inputSha256": "e5d4a8f416464368e4faa2ae177e9aeb9ad29e98da7f5750b738e9cddca32c90",
+      "configSha256": "72ca544fd128425295424875770a272437c7dbf600ca8f40f523028538fd1a4d",
+      "process": {
+        "name": "v4-ifx-ownership-graph_M",
+        "startedAt": "2026-09-27T16:56:14.8451383+10:00",
+        "elapsedSeconds": 0.355,
+        "exitCode": 0,
+        "stdoutSha256": "0da8da8cbd004bf4116373629ee8996ec4bd30db5d23b1046f642d41a2a35f0c",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "e728c156ef91b6d90f975d18629efd60981cb284c1e270e4721067839685dc9d"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "TargetRoot/src is missing."
+      }
+    },
+    {
+      "id": "ifx-ownership-graph/V/OWNERSHIP-REFERENCE",
+      "moduleId": "ifx-ownership-graph",
+      "inputSha256": "8efb19980dc4aff29eeae795cdbd181237dcc16a9553754dc948be28ee49157f",
+      "configSha256": "72ca544fd128425295424875770a272437c7dbf600ca8f40f523028538fd1a4d",
+      "process": {
+        "name": "v4-ifx-ownership-graph_V_OWNERSHIP-REFERENCE",
+        "startedAt": "2026-09-27T16:56:15.2065528+10:00",
+        "elapsedSeconds": 0.642,
+        "exitCode": 0,
+        "stdoutSha256": "040bdcaecfc1448c8aa1afb9604b2cb50f1ca11d5a30140dc889eaba3d828b66",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direct: IFX.Modules.CRM.Application > IFX.Modules.CRM.Contracts]",
+            "evidenceKind": "project-graph-raw",
+            "detectorId": "ifx-ownership-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 11,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "e8e04ae4f7ccfa5e31a479c46736ba2031314d48cc1c462e84e5bdfbd4c666c2"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direct: IFX.Modules.CRM.Application > IFX.Modules.CRM.Contracts]",
+            "evidenceKind": "project-graph-raw",
+            "detectorId": "ifx-ownership-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 11,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-ownership-graph/Z",
+      "moduleId": "ifx-ownership-graph",
+      "inputSha256": "ae79218d1b3e5bbfae697cd14fcfa18630393d22b6524b29dedaa05376f82be4",
+      "configSha256": "72ca544fd128425295424875770a272437c7dbf600ca8f40f523028538fd1a4d",
+      "process": {
+        "name": "v4-ifx-ownership-graph_Z",
+        "startedAt": "2026-09-27T16:56:15.8569151+10:00",
+        "elapsedSeconds": 0.534,
+        "exitCode": 0,
+        "stdoutSha256": "08fa1d3e04094dac054344425835e4a326679e4cda46ee9e186fc6e58ab0cd88",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src: zero Application projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-ownership-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "fcdeefd215fc5b6df7e348a79219422948d6a3c9fc586d0382fa729988e389d7"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src: zero Application projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-ownership-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-package-reference/C",
+      "moduleId": "ifx-package-reference",
+      "inputSha256": "52164e8422311a805db52d4a9554434f7a7e79c5bb76ef24229f1e9ab48ab0d1",
+      "configSha256": "05cd597beeea3ed06b11e4dd52bf13eb4bf3b3e82f27ea02ea4f6d62e6b7cdb1",
+      "process": {
+        "name": "v4-ifx-package-reference_C",
+        "startedAt": "2026-09-27T16:56:16.3975226+10:00",
+        "elapsedSeconds": 0.731,
+        "exitCode": 0,
+        "stdoutSha256": "e146ed9a2659bb170b724ebde01d7f068b76ec7590219cd041fc408d285a0cc6",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "e18397391226acda7aca02f32ddf4c48d6f294d50c4c22762f5f78cf75244d62"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-package-reference/M",
+      "moduleId": "ifx-package-reference",
+      "inputSha256": "4ead2bef0b0e3d41ad47071e7cd638ea53717dbe982cfca98517a2dd3dd0cb35",
+      "configSha256": "05cd597beeea3ed06b11e4dd52bf13eb4bf3b3e82f27ea02ea4f6d62e6b7cdb1",
+      "process": {
+        "name": "v4-ifx-package-reference_M",
+        "startedAt": "2026-09-27T16:56:17.1354183+10:00",
+        "elapsedSeconds": 0.373,
+        "exitCode": 0,
+        "stdoutSha256": "3b221ce9f20b74195d249b7d2f3a121b1183e64d6db6683ef44c71c9644bac1b",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "854de656427dad36c5f1c33f4a4097976bfae446972c2c9210b97a0cb529678c"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "TargetRoot/src is missing."
+      }
+    },
+    {
+      "id": "ifx-package-reference/V/RING-PACKAGE",
+      "moduleId": "ifx-package-reference",
+      "inputSha256": "bd57470de5da9331890df6a10a0d40a07e4514942bb156325f1e7e4f9629eeb9",
+      "configSha256": "05cd597beeea3ed06b11e4dd52bf13eb4bf3b3e82f27ea02ea4f6d62e6b7cdb1",
+      "process": {
+        "name": "v4-ifx-package-reference_V_RING-PACKAGE",
+        "startedAt": "2026-09-27T16:56:17.5145255+10:00",
+        "elapsedSeconds": 0.478,
+        "exitCode": 0,
+        "stdoutSha256": "9bb55064612e6e9fe9d7a4b0d45d2ddefb00c223215ff32e5dc345f8ad68ad2f",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> xunit",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "a8754d13c7f9d3d34e6fa5ad404e4299414dfd93244e5a2c0ebcd03b6308acd5"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> xunit",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-package-reference/V/RING-PACKAGE-FORBIDDEN",
+      "moduleId": "ifx-package-reference",
+      "inputSha256": "bea6832a38d38c1aa8b19b00d202ba2f4faadd37c4114c130529d4d732037e4f",
+      "configSha256": "05cd597beeea3ed06b11e4dd52bf13eb4bf3b3e82f27ea02ea4f6d62e6b7cdb1",
+      "process": {
+        "name": "v4-ifx-package-reference_V_RING-PACKAGE-FORBIDDEN",
+        "startedAt": "2026-09-27T16:56:17.9995345+10:00",
+        "elapsedSeconds": 0.436,
+        "exitCode": 0,
+        "stdoutSha256": "de089c3cb74a0d7911a776adf317d42872f4d4ec15ad8cd81c966a7e5e06793d",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj -> MediatR",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "6f14796df0c7334dfe8cf3d37ca901552352a4b6d734737acb8c7a371ce2305c"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj -> MediatR",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-package-reference/Z",
+      "moduleId": "ifx-package-reference",
+      "inputSha256": "1661b602ad15ea366e875ccf8b7f4e71884f49dab5a44c28b74689213a70bcde",
+      "configSha256": "05cd597beeea3ed06b11e4dd52bf13eb4bf3b3e82f27ea02ea4f6d62e6b7cdb1",
+      "process": {
+        "name": "v4-ifx-package-reference_Z",
+        "startedAt": "2026-09-27T16:56:18.4443287+10:00",
+        "elapsedSeconds": 0.45,
+        "exitCode": 0,
+        "stdoutSha256": "f717df7f3863382386105168d208aebfa24cbb92867194439022b2678529b991",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Application projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Contracts projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Presentation projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "43055d48d3d047f09de2621ccea62cea03f092b977758663baa6b3bf3079152d"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Application projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Contracts projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Presentation projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-project-name/C",
+      "moduleId": "ifx-project-name",
+      "inputSha256": "3e2b63842b0f26e834d81b0fa097a6e1d80853d53dc5d806ba2100c51e5f5cec",
+      "configSha256": "31eade53e4c6a8327edcfb6846783b069b2f074ac8eafe57f2cfc2dd09f62f82",
+      "process": {
+        "name": "v4-ifx-project-name_C",
+        "startedAt": "2026-09-27T16:56:18.9004887+10:00",
+        "elapsedSeconds": 0.728,
+        "exitCode": 0,
+        "stdoutSha256": "539956bc38d664b517b9e4799d6361053b9ae79132bf129a4314e66fd2a0143b",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "782fe2dc9d5ba953faaad8cad3e6dfd565def77b0990df27b3d6094ead266e84"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-project-name/M",
+      "moduleId": "ifx-project-name",
+      "inputSha256": "6f2c9709b6cdf9f80d208cd3f95e3567f86a60813bece6ecaa85912ca4e6ba4c",
+      "configSha256": "31eade53e4c6a8327edcfb6846783b069b2f074ac8eafe57f2cfc2dd09f62f82",
+      "process": {
+        "name": "v4-ifx-project-name_M",
+        "startedAt": "2026-09-27T16:56:19.6363939+10:00",
+        "elapsedSeconds": 0.401,
+        "exitCode": 0,
+        "stdoutSha256": "7f8bad3bd3a3d4f1247bb0fe5fd14c24fe41f42fc7e4df3426619ea16959130e",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "71f7e6ccdc36496a1e7a5c140a92f12a0f62e6493bb6be2020c3511078f865e9"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "TargetRoot/src is missing."
+      }
+    },
+    {
+      "id": "ifx-project-name/V/PROJECT-NAME-FORBIDDEN",
+      "moduleId": "ifx-project-name",
+      "inputSha256": "518df3a79509335d05b77b624f4ed6d9f4900fc5aeb51f0fa20fe394c2b0531c",
+      "configSha256": "31eade53e4c6a8327edcfb6846783b069b2f074ac8eafe57f2cfc2dd09f62f82",
+      "process": {
+        "name": "v4-ifx-project-name_V_PROJECT-NAME-FORBIDDEN",
+        "startedAt": "2026-09-27T16:56:20.0451595+10:00",
+        "elapsedSeconds": 0.411,
+        "exitCode": 0,
+        "stdoutSha256": "f0025770a7d36ce3cc28ea04f1292d0902316e7b7b48b2e651d98b49a2ffc440",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROJECT-NAME-FORBIDDEN",
+            "subject": "src/IFX.Platform.Foo.Infrastructure.Abstractions/IFX.Platform.Foo.Infrastructure.Abstractions.csproj",
+            "evidenceKind": "project-declaration",
+            "detectorId": "ifx-project-name",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "60bfd37c2eab7b02d3bdf45651ba3ca083d4a0a2469f21c362d7b0e0f7e7bb8e"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROJECT-NAME-FORBIDDEN",
+            "subject": "src/IFX.Platform.Foo.Infrastructure.Abstractions/IFX.Platform.Foo.Infrastructure.Abstractions.csproj",
+            "evidenceKind": "project-declaration",
+            "detectorId": "ifx-project-name",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-project-name/Z",
+      "moduleId": "ifx-project-name",
+      "inputSha256": "eba7720643f8eb6abbae2c6051efab1ae136ad669e57b9f11f18460e7cc7a46f",
+      "configSha256": "31eade53e4c6a8327edcfb6846783b069b2f074ac8eafe57f2cfc2dd09f62f82",
+      "process": {
+        "name": "v4-ifx-project-name_Z",
+        "startedAt": "2026-09-27T16:56:20.4626965+10:00",
+        "elapsedSeconds": 0.399,
+        "exitCode": 0,
+        "stdoutSha256": "b4ac6d5a15c3a2671b591c9cf2b0c662f2c8f80ae9532976e551e5eee997ac1f",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROJECT-NAME-FORBIDDEN",
+            "subject": "src: zero in-scope projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-project-name",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "2a3ce1511850770309aa096c33c1034fc3b717a9d37930def4fffb65a7b64fd1"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROJECT-NAME-FORBIDDEN",
+            "subject": "src: zero in-scope projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-project-name",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-provider-cycle/C",
+      "moduleId": "ifx-provider-cycle",
+      "inputSha256": "44785baa509cd5526705fc7b98d5b7b440311c53e0c8d529f93898ad359889f3",
+      "configSha256": "f79946056ac528eafbade897b4c6650ce9bf610cad3228bd1d53c08fe876ecb8",
+      "process": {
+        "name": "v4-ifx-provider-cycle_C",
+        "startedAt": "2026-09-27T16:56:20.8687009+10:00",
+        "elapsedSeconds": 0.524,
+        "exitCode": 0,
+        "stdoutSha256": "dcc48a600e1bcc324161ce52fe169e0a2deca13073e3e7408f2a97706c3a8b1b",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 10,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "fba470a328231e0b64f3b2f811086147c58352fe9849f798f9bc05c1bd3cc5fa"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 10,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-provider-cycle/M",
+      "moduleId": "ifx-provider-cycle",
+      "inputSha256": "eb615da2b7d1f25c8cc8d5af9f56d7297d600e48c28594879cafbbf9f5369c0a",
+      "configSha256": "f79946056ac528eafbade897b4c6650ce9bf610cad3228bd1d53c08fe876ecb8",
+      "process": {
+        "name": "v4-ifx-provider-cycle_M",
+        "startedAt": "2026-09-27T16:56:21.3994185+10:00",
+        "elapsedSeconds": 0.397,
+        "exitCode": 0,
+        "stdoutSha256": "dcc48a600e1bcc324161ce52fe169e0a2deca13073e3e7408f2a97706c3a8b1b",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "d5cfaec7429bc20654cf3c0369ea6e67cef31c9dcb46592262de8f6759f8b24e"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 10,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "moduleId": "ifx-provider-cycle",
+      "inputSha256": "00d667ed1958656ea7a93c35123e6eadb8ac89f8d5488ae777f5d4ca4c2611d2",
+      "configSha256": "f79946056ac528eafbade897b4c6650ce9bf610cad3228bd1d53c08fe876ecb8",
+      "process": {
+        "name": "v4-ifx-provider-cycle_V_PROVIDER-CYCLE",
+        "startedAt": "2026-09-27T16:56:21.8010043+10:00",
+        "elapsedSeconds": 0.337,
+        "exitCode": 0,
+        "stdoutSha256": "dcc48a600e1bcc324161ce52fe169e0a2deca13073e3e7408f2a97706c3a8b1b",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROVIDER-CYCLE",
+            "subject": "A -> B -> C -> A",
+            "evidenceKind": "policy-graph",
+            "detectorId": "ifx-provider-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "PROVIDER-CYCLE",
+            "subject": "B -> C -> A -> B",
+            "evidenceKind": "policy-graph",
+            "detectorId": "ifx-provider-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "PROVIDER-CYCLE",
+            "subject": "C -> A -> B -> C",
+            "evidenceKind": "policy-graph",
+            "detectorId": "ifx-provider-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 3,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "cf1a183b6fc38a16f55cbb40315578b31f39e3cee49bfc5c14da5b7ec1597afd"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 10,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-provider-cycle/Z",
+      "moduleId": "ifx-provider-cycle",
+      "inputSha256": "8aeeab1185206007fe6de745dcef129f339da94982e0419b405930ccf100b314",
+      "configSha256": "f79946056ac528eafbade897b4c6650ce9bf610cad3228bd1d53c08fe876ecb8",
+      "process": {
+        "name": "v4-ifx-provider-cycle_Z",
+        "startedAt": "2026-09-27T16:56:22.1408624+10:00",
+        "elapsedSeconds": 0.328,
+        "exitCode": 0,
+        "stdoutSha256": "dcc48a600e1bcc324161ce52fe169e0a2deca13073e3e7408f2a97706c3a8b1b",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROVIDER-CYCLE",
+            "subject": "providerContracts: zero provider edges",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-provider-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "d90aae0a5459e6042e79acf69f503d83477bbb3a994470d29d971e29ddcdb761"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 10,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/C",
+      "moduleId": "ifx-reference-cycle",
+      "inputSha256": "cc824d064baddc04e9159ae6713a7a6d9b6c3962bdd179e1571c2442eb77e48c",
+      "configSha256": "956a3692deab01ade73373712ed52df6edc4dc65927322d8a56e7e30e6382e20",
+      "process": {
+        "name": "v4-ifx-reference-cycle_C",
+        "startedAt": "2026-09-27T16:56:22.4716883+10:00",
+        "elapsedSeconds": 0.648,
+        "exitCode": 0,
+        "stdoutSha256": "08bfdb971c10bb4129a5bdb54878bbda953e219611d6cfb65899aa97c85779b8",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "44e3c41872b2715191a7c75a0306ec7ba1886976861379d8f5f7e8a69384c98a"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/M",
+      "moduleId": "ifx-reference-cycle",
+      "inputSha256": "e4b73edd2dc877861dbd957168d430f2feae4be1943abe31e29e0d4b3eeb6279",
+      "configSha256": "956a3692deab01ade73373712ed52df6edc4dc65927322d8a56e7e30e6382e20",
+      "process": {
+        "name": "v4-ifx-reference-cycle_M",
+        "startedAt": "2026-09-27T16:56:23.1257406+10:00",
+        "elapsedSeconds": 0.402,
+        "exitCode": 0,
+        "stdoutSha256": "0e7bbf9de64f9f59d7a868cf4c1214e1a53cff30281d9a4bb6369c6ed4f517a7",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c48f25ec0eccfe6665f09084ad454ee1435ec46add657986214511b164a1c9d3"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "ProjectReference target is missing."
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/V/CONTRACT-CYCLE",
+      "moduleId": "ifx-reference-cycle",
+      "inputSha256": "9a217cffed82b207b6aa34a7880bfceff31100952dd0d8558e107d716530873b",
+      "configSha256": "956a3692deab01ade73373712ed52df6edc4dc65927322d8a56e7e30e6382e20",
+      "process": {
+        "name": "v4-ifx-reference-cycle_V_CONTRACT-CYCLE",
+        "startedAt": "2026-09-27T16:56:23.5357657+10:00",
+        "elapsedSeconds": 0.52,
+        "exitCode": 0,
+        "stdoutSha256": "e9475fb078b1fdb2b3ca860d9179a0dff5dfe8c6c5f779252d2d724b58dec6b1",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "CONTRACT-CYCLE",
+            "subject": "IFX.Modules.A.Contracts -> IFX.Modules.B.Contracts -> IFX.Modules.A.Contracts",
+            "evidenceKind": "contracts-project-cycle-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj -> src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj -> src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "34bb58b503c4722b2053b414109e6954cc9c62a880a9e950d668a1102a0d2588"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "CONTRACT-CYCLE",
+            "subject": "IFX.Modules.A.Contracts -> IFX.Modules.B.Contracts -> IFX.Modules.A.Contracts",
+            "evidenceKind": "contracts-project-cycle-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj -> src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj -> src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/V/RING-REFERENCE",
+      "moduleId": "ifx-reference-cycle",
+      "inputSha256": "7e5415fe26dded87b0a3f6c852bf01d0a1cb6ba05ba6a2d934cb6e1afeeedadd",
+      "configSha256": "956a3692deab01ade73373712ed52df6edc4dc65927322d8a56e7e30e6382e20",
+      "process": {
+        "name": "v4-ifx-reference-cycle_V_RING-REFERENCE",
+        "startedAt": "2026-09-27T16:56:24.0635374+10:00",
+        "elapsedSeconds": 0.482,
+        "exitCode": 0,
+        "stdoutSha256": "aa4c76d5af966ae8803acdb354917bb0ff3616b8832d978741e0cbeac747c38b",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/A/IFX.Modules.A.Application/IFX.Modules.A.Application.csproj -> src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "38474c94686bc8e507ebfe49908e919087a04044353fe55d462e63eb1eca994d"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/A/IFX.Modules.A.Application/IFX.Modules.A.Application.csproj -> src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/Z",
+      "moduleId": "ifx-reference-cycle",
+      "inputSha256": "82232cb44cf1fdeae2e0d35d4246dbfa444e75b1b446b48721078a67ac96fe77",
+      "configSha256": "956a3692deab01ade73373712ed52df6edc4dc65927322d8a56e7e30e6382e20",
+      "process": {
+        "name": "v4-ifx-reference-cycle_Z",
+        "startedAt": "2026-09-27T16:56:24.5515143+10:00",
+        "elapsedSeconds": 0.384,
+        "exitCode": 0,
+        "stdoutSha256": "01db8c054669402f569de19d175a2d26e45f6c6bc462cf50ef7eba9fd56bd7f7",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "CONTRACT-CYCLE",
+            "subject": "src: zero Contracts projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src: zero direct references in configured rings",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "5338f2ca5fd0d8f9204d528423815652669e419de109c2ca06792cfd7bf8c0ad"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "CONTRACT-CYCLE",
+            "subject": "src: zero Contracts projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src: zero direct references in configured rings",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-ring-graph/C",
+      "moduleId": "ifx-ring-graph",
+      "inputSha256": "6e8370eec81294882486ffc482e3f945c3a7b9e36962f602195b37e16b6449a5",
+      "configSha256": "09851b6f8c6893115654006256d20ad2503fbac2c61a217914e3fffd29963fa1",
+      "process": {
+        "name": "v4-ifx-ring-graph_C",
+        "startedAt": "2026-09-27T16:56:24.9449527+10:00",
+        "elapsedSeconds": 0.717,
+        "exitCode": 0,
+        "stdoutSha256": "64687be7c96d530a1b74af0f3aceed9d38ba8c3f6a1dc45effe86c15721e9286",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 6,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c93b8c435b46fb0e3bd43d729332c751c117ba27d051cdda16c4ce7c8ce61e81"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 6,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-ring-graph/M",
+      "moduleId": "ifx-ring-graph",
+      "inputSha256": "346c9d9a9efd12ca8e2684ae2a330e8b758ed103da0bf5ad3c74f0dcddd04b66",
+      "configSha256": "09851b6f8c6893115654006256d20ad2503fbac2c61a217914e3fffd29963fa1",
+      "process": {
+        "name": "v4-ifx-ring-graph_M",
+        "startedAt": "2026-09-27T16:56:25.6689904+10:00",
+        "elapsedSeconds": 0.357,
+        "exitCode": 0,
+        "stdoutSha256": "6e323a82c176095f3c5898e4db2d7af74f101e9c9b60bdc67590d59a6e84ed56",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "3b7cb22ba28c96c823beaf77d676fe65d2e8edaf07b336b36cf2579df36efcbc"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "TargetRoot/src is missing."
+      }
+    },
+    {
+      "id": "ifx-ring-graph/V/RING-DIRECTION",
+      "moduleId": "ifx-ring-graph",
+      "inputSha256": "71793be55766567aa4a93938fa70f6efe766860bf0ea7e3e80fdd1e32e4416d2",
+      "configSha256": "09851b6f8c6893115654006256d20ad2503fbac2c61a217914e3fffd29963fa1",
+      "process": {
+        "name": "v4-ifx-ring-graph_V_RING-DIRECTION",
+        "startedAt": "2026-09-27T16:56:26.0318754+10:00",
+        "elapsedSeconds": 0.526,
+        "exitCode": 0,
+        "stdoutSha256": "c93dfac82571a5d52f6ea84c708ee370d7259858fb75b58a14471e79a2356855",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direct: IFX.Modules.CRM.Domain > IFX.Modules.CRM.Contracts]",
+            "evidenceKind": "project-graph-raw",
+            "detectorId": "ifx-ring-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 6,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "97fe1308f6fa06f66f1c7bdb720479ba7c2df066585b0ea0af07e157377a40ba"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direct: IFX.Modules.CRM.Domain > IFX.Modules.CRM.Contracts]",
+            "evidenceKind": "project-graph-raw",
+            "detectorId": "ifx-ring-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 6,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-ring-graph/Z",
+      "moduleId": "ifx-ring-graph",
+      "inputSha256": "a7a28adf556740207087d18a10f09e7b2656a595b48149464b71add450ae679e",
+      "configSha256": "09851b6f8c6893115654006256d20ad2503fbac2c61a217914e3fffd29963fa1",
+      "process": {
+        "name": "v4-ifx-ring-graph_Z",
+        "startedAt": "2026-09-27T16:56:26.5653244+10:00",
+        "elapsedSeconds": 0.44,
+        "exitCode": 0,
+        "stdoutSha256": "3e5353529fe899aaa79cab782084570a351bcd6652db6270bc023d602c12f156",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-ring-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "3f531c0284a3ea51473f6dcac9754ffe15e06e02ecedbeb9baceb9b2ebe590ce"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-ring-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/C",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "f6c363e4520bd6d54af30de6bf639d58d36fb8c070904b8bc7ca477b5afc1cdd",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_C",
+        "startedAt": "2026-09-27T16:56:27.0146296+10:00",
+        "elapsedSeconds": 0.873,
+        "exitCode": 0,
+        "stdoutSha256": "6d4f3cafb4eedca08fddc3e78f58b36eefc56049a92b0e0602760446fe6751fd",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "3ffbc318175e29e276555fc59fed996cfe18d8f459aab68d3f2207900eb2cbde"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/M",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "0aa619bd2682a4212e78e5cb4e81a5393e69eb8bc02eab41a38178d721021289",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_M",
+        "startedAt": "2026-09-27T16:56:27.8936913+10:00",
+        "elapsedSeconds": 0.352,
+        "exitCode": 0,
+        "stdoutSha256": "4a1005ef3441486c38b1a792ed2b8216d3606961e7501c5d1d0846a617b78f82",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "a38367f470f5c12bed216efef8ae141ddeb76dc63817bdbfa751356073236a96"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "message": "TargetRoot/src is missing."
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-FORBIDDEN",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "c39a2b042ec5120b710857a0c10df25c2fb72554e4f865dc72db522525d63502",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_DECLARATION-FORBIDDEN",
+        "startedAt": "2026-09-27T16:56:28.2513413+10:00",
+        "elapsedSeconds": 0.598,
+        "exitCode": 0,
+        "stdoutSha256": "5a94795a6ba540540e0df1b729a017719a805b2d3f8538d7407b8eb5225a45ca",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [class FaultService]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c4cf6dca19149e5fb5f8aabeadc9d491768a7f312e5ba840b33c424396e350f8"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [class FaultService]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "f1df9d768419f5b2d14073a4b4493ab4197dbd3433efcd7622572c2ccfdf57db",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_DECLARATION-IMPLEMENTS",
+        "startedAt": "2026-09-27T16:56:28.8567570+10:00",
+        "elapsedSeconds": 0.607,
+        "exitCode": 0,
+        "stdoutSha256": "6d4f3cafb4eedca08fddc3e78f58b36eefc56049a92b0e0602760446fe6751fd",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-IMPLEMENTS",
+            "subject": "src/IFX.Modules.CRM.Infrastructure/Integrations/BadGateway.cs:1: IFX.Modules.CRM.Infrastructure [class BadGateway]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c6a1b73d88bfd48901a4ebb575818349a2463805917d82a16cb9d82d187ba7a1"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-NAMESPACE",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "d2054f746277bbf381ebc7f7aac6eb9ec8d226b8fab5e64f10c2686672f4769c",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_DECLARATION-NAMESPACE",
+        "startedAt": "2026-09-27T16:56:29.4679197+10:00",
+        "elapsedSeconds": 0.57,
+        "exitCode": 0,
+        "stdoutSha256": "2b751d0d2f4a25781f8756f655c76c39e5bdb19b4354d60b74331e8b5c47db20",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-NAMESPACE",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application [interface IFaultContract in IFX.Modules.CRM.Application]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "445e06135ed71556fdb26572215d018dc40c5d515a7c2a90b9c08a57f1ef1f19"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-NAMESPACE",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application [interface IFaultContract in IFX.Modules.CRM.Application]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-PLACEMENT",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "1e3083bf1a41bfd5b873560b9ac131f8af439055752915c6e8e0db4885c60323",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_DECLARATION-PLACEMENT",
+        "startedAt": "2026-09-27T16:56:30.0439475+10:00",
+        "elapsedSeconds": 0.566,
+        "exitCode": 0,
+        "stdoutSha256": "842a5c95307b4d8e60696302b261fdd3bfd8ea712020e957851a9aaaad3060bc",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-PLACEMENT",
+            "subject": "src/IFX.Modules.CRM.Domain/Fault.cs:1: IFX.Modules.CRM.Domain [class FaultCommandHandler]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "7091e1748e97fa10d46b9c79acfe39f4cf71e197476136ca914aadce582899de"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-PLACEMENT",
+            "subject": "src/IFX.Modules.CRM.Domain/Fault.cs:1: IFX.Modules.CRM.Domain [class FaultCommandHandler]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/IMPORT-DIRECTION",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "aae02a1aa20dfce5056265d6d17094d8e309d40ec34d73ff39ca40b147267edd",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_IMPORT-DIRECTION",
+        "startedAt": "2026-09-27T16:56:30.6163469+10:00",
+        "elapsedSeconds": 0.574,
+        "exitCode": 0,
+        "stdoutSha256": "214c2221645a0c09545c05e76316f4183c8bbd8890e12b273741ae62b04c680a",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "IMPORT-DIRECTION",
+            "subject": "src/IFX.Modules.CRM.Domain/Fault.cs:1: IFX.Modules.CRM.Domain -> IFX.Modules.CRM.Contracts",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "925b951789bbf743ca830a8cc4fd1a7c8a6641da610c50b8740de109f9a60a03"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "IMPORT-DIRECTION",
+            "subject": "src/IFX.Modules.CRM.Domain/Fault.cs:1: IFX.Modules.CRM.Domain -> IFX.Modules.CRM.Contracts",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/OWNERSHIP-REFERENCE",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "d62c652e1f6fd0b4305043e81bcedf4ed0a708be5f6b4b3e91636b6b3282690f",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_OWNERSHIP-REFERENCE",
+        "startedAt": "2026-09-27T16:56:31.1987573+10:00",
+        "elapsedSeconds": 0.583,
+        "exitCode": 0,
+        "stdoutSha256": "778264015aa5778c58e15e9bba2ea9c6c4260058443013a7d352f2bb5b46ece9",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application -> IFX.Modules.CRM.Contracts",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "525c31d92728c31f833028e61a30283ce90257962f1b7ba70c1de72b687aeaa2"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application -> IFX.Modules.CRM.Contracts",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/PAYLOAD-TYPE-FORBIDDEN",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "ecbfd62fa3916a8da88aa398c4f92ed65ef19acd409186fd4c08b32238d2a684",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_PAYLOAD-TYPE-FORBIDDEN",
+        "startedAt": "2026-09-27T16:56:31.7888161+10:00",
+        "elapsedSeconds": 0.614,
+        "exitCode": 0,
+        "stdoutSha256": "5848fb1be8028786db8e693aac046504441ba6654a820d2ea8b3e7570d4fcf77",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PAYLOAD-TYPE-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [BadIntegrationEvent payload IFX.Modules.CRM.Domain.CustomerEntity]",
+            "evidenceKind": "source-payload",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "0f5cdfbf73cbfb1f489fd90274bd918b952545a07924c2f54f423809f29c09af"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PAYLOAD-TYPE-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [BadIntegrationEvent payload IFX.Modules.CRM.Domain.CustomerEntity]",
+            "evidenceKind": "source-payload",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/RING-PACKAGE-FORBIDDEN",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "d0287d1f70c821fdeabebb96bb28fc4d99ad0d1dba35de5c2290281d0c52a1e3",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_RING-PACKAGE-FORBIDDEN",
+        "startedAt": "2026-09-27T16:56:32.4095279+10:00",
+        "elapsedSeconds": 0.612,
+        "exitCode": 0,
+        "stdoutSha256": "2a06fdd9a299352d3a3afaf59c88e2a0837ca32af3f89e60b86054d7e60d4756",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts -> MediatR",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [MediatR]",
+            "evidenceKind": "source-symbol",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "57d17cefd84c8b4334dc60563266d1f69cf57dc0c3818a0eb604d1291b7e8c48"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts -> MediatR",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [MediatR]",
+            "evidenceKind": "source-symbol",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/SYMBOL-FORBIDDEN",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "d26092a4af0a6e628f18a441fb7db180d4d5b05ee8a7909705951304ef12390a",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_V_SYMBOL-FORBIDDEN",
+        "startedAt": "2026-09-27T16:56:33.0278459+10:00",
+        "elapsedSeconds": 0.582,
+        "exitCode": 0,
+        "stdoutSha256": "b59cc1e8bbb421cc15f80eadc2a9e48597239263f4e4e0cbed2d5a4ad11b8f2e",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application [HttpContext]",
+            "evidenceKind": "source-symbol",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "5462bff172754f59dc1a7445e3b09b5f3b4b0e3291b699d474cfb246ecb5baea"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application [HttpContext]",
+            "evidenceKind": "source-symbol",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-source-policy/Z",
+      "moduleId": "ifx-source-policy",
+      "inputSha256": "a8e66206a6db4d9df8c86701b88ab3d3d3954ce1034c70eeb684b829ef58f622",
+      "configSha256": "dc0a586f9d41678014684447e25dc8a44dd8729783273100be38800d7ed01e14",
+      "process": {
+        "name": "v4-ifx-source-policy_Z",
+        "startedAt": "2026-09-27T16:56:33.6157378+10:00",
+        "elapsedSeconds": 0.492,
+        "exitCode": 0,
+        "stdoutSha256": "fba1fe0d08349d60de1c4b1db681605a7bdeb6dcf2186cf11f08179f82a7243c",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "certifiedResult": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "IMPORT-DIRECTION",
+            "subject": "src: zero matches for IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src: zero matches for IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-NAMESPACE",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-PLACEMENT",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-IMPLEMENTS",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "PAYLOAD-TYPE-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c91ba717e3dcb4ea9c7940178b671cc9073461bea4c00307d1e491cfdee7d9f2"
+      },
+      "currentResult": {
+        "formatVersion": 1,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "IMPORT-DIRECTION",
+            "subject": "src: zero matches for IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src: zero matches for IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-NAMESPACE",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-PLACEMENT",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-IMPLEMENTS",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "PAYLOAD-TYPE-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ]
+      }
+    }
+  ]
+}
