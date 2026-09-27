@@ -1,0 +1,11 @@
+P10.2 formal execution
+runnerCommit=3ce13b96756001fcfbd953b4d395c2cdf12d7cb1
+startedUnderAuthorization=2026-09-27
+exitCode=1
+phase=preflight/frozen-corpus-inventory
+error=Frozen Target fingerprint drift: ifx-domain-reference/V/RING-DIRECTION.
+outputRootExistedBeforeRun=false
+buildRootCreated=false
+runtimeEvidenceRootCreated=false
+p10_3Started=false
+

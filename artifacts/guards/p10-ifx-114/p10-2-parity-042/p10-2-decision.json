@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "status": "stopped",
+  "decision": "p10-2-stopped-on-frozen-corpus-drift",
+  "summarySha256": "3e63f7b6a4755d4ee104786e6076621dfeaa4deed3158d811aa4dca6c3f54506",
+  "formalRunLogSha256": "6c022c9875a29c438c1ce2867088d2cc77423a0004c69ed452ddd0997ee54ad0",
+  "preflightDriftSha256": "4de492eefa3cd1506f07beb5a026c450962def6244ed8324902c6253ebfa15d6",
+  "gapCount": 1,
+  "gap": {
+    "id": "ifx-domain-reference/V/RING-DIRECTION",
+    "category": "frozen-target-inventory-drift",
+    "detail": "Six generated V3 import-manifest files are present beyond the certified Target fingerprint."
+  },
+  "boundary": {
+    "p10_2ExecutionClosed": true,
+    "p10_2Accepted": false,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  },
+  "recommendation": "Do not enter P10.3. A correction and any P10.2 rerun require a separate authorized repair Plan and new absent output paths."
+}

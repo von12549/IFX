@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "status": "stopped",
+  "decision": "p10-2-stopped-on-frozen-corpus-drift",
+  "phase": "preflight/frozen-corpus-inventory",
+  "runnerCommit": "3ce13b96756001fcfbd953b4d395c2cdf12d7cb1",
+  "runnerSha256": "f9afa5a72f8f4056b9678571b71ffc7eccf6de3e401a8843535c8b25a8e893e9",
+  "comparerSha256": "b41d7d8f184b9aeb848a97c4e149db883b23ca4d9ea05ea4195cc947b94acfef",
+  "formalProcessExitCode": 1,
+  "corpus": {
+    "plannedCaseCount": 52,
+    "inventoryCheckedCaseCount": 52,
+    "driftCount": 1,
+    "enginesStarted": false,
+    "comparisonStarted": false
+  },
+  "protectedOutputs": {
+    "externalBuildRootCreated": false,
+    "externalRuntimeEvidenceRootCreated": false
+  },
+  "boundary": {
+    "p10_2ExecutionStarted": true,
+    "p10_2Accepted": false,
+    "p10_2ExecutionClosed": true,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  },
+  "recommendation": "Do not enter P10.3. Authorize a separate repair Plan if the six added generated files should be removed and P10.2 should be rerun on new absent paths."
+}
