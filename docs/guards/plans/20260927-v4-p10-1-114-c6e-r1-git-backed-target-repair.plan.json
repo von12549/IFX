@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-1-114-c6e-r1-git-backed-target-repair",
+  "title": "Repair C6e with Git-backed frozen Targets",
+  "goal": "Repeat the bounded C6e production composition and installed Web UI practice on new paths using Git-backed detached worktrees at the certified Target commit.",
+  "acceptanceCriteria": [
+    "Both new Target roots are detached Git worktrees whose HEAD is exactly the certified C6c Target commit.",
+    "A new production sibling installation and external composition receipt pass the public verifier.",
+    "Installed Web UI direct Pre passes on clean with non-vacuous coverage and blocks the deliberate IMPORT-DIRECTION violation.",
+    "UI verdicts, run IDs, findings, coverage and authority hashes match installed Host queries.",
+    "Protected inventories and expected Git facts are unchanged after practice.",
+    "The repair stops before P10.2 parity, P10.3 activation, publication, V3 retirement or IFX cutover."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-1-114-c6e-r1-git-backed-target-repair.md",
+    "docs/guards/plans/20260927-v4-p10-1-114-c6e-r1-git-backed-target-repair.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6e2/Invoke-IFX114C6eR1Preparation.ps1",
+    "artifacts/guards/p10-ifx-114/c6e-r1-042"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A worktree with the wrong HEAD would invalidate the certified Target identity.",
+    "Reusing a C6e path would confuse stopped and repaired execution evidence.",
+    "The deliberate violation could escape its one-file boundary or fail to produce blocking coverage.",
+    "C6e-R1 completion could be misrepresented as P10.2 parity or P10.3 activation."
+  ],
+  "decisions": [
+    "Use two new detached Git worktrees rather than archive exports so workspace evidence can resolve HEAD.",
+    "Use a new sibling installation, receipt, StateRoot, EvidenceRoot and evidence directory.",
+    "Retain the stopped C6e execution unchanged and treat it only as the repair dependency."
+  ],
+  "validationCommands": [
+    "ifx-package-test",
+    "git-worktree-head-and-status",
+    "Test-V4ComposedInstallation",
+    "installed-web-companion",
+    "host-query-runs-and-evidence"
+  ],
+  "dependencies": [
+    "20260927-v4-p10-1-114-c6e-receipted-installation"
+  ],
+  "boundaries": [
+    "authorization",
+    "activation"
+  ]
+}
