@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "stage": "pre",
+  "status": "blocked",
+  "mode": "formal",
+  "projectId": "ifx",
+  "plannedPaths": [],
+  "planId": "",
+  "areas": [],
+  "unmappedPaths": [],
+  "risks": [],
+  "ruleIds": [],
+  "validationCommands": [],
+  "inputSha256": "d692581f3e393e3d62d970b1ffef8cb5ccefbb45c338c5523f59c3aab1786010",
+  "reason": "The JSON is not valid with the schema: Required properties [\"areaIds\",\"ruleIds\",\"decisionPaths\"] are not present at ''"
+}

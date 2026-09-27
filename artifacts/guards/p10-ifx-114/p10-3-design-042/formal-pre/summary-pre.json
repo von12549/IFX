@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "mode": "pre",
+  "status": "fail",
+  "startedAt": "2026-09-27T07:45:33.0740098+00:00",
+  "completedAt": "2026-09-27T07:45:34.0208928+00:00",
+  "inputHash": "01fff32a018dda755c8c19ac6c8e9aae2e789736067c3da8ff398f6587bc0cf7",
+  "reason": "One or more blocking guard checks failed.",
+  "checks": [
+    {
+      "id": "pre",
+      "status": "fail",
+      "reason": "pre returned exit code 1.",
+      "evidencePaths": [
+        "artifacts/guards/p10-ifx-114/p10-3-design-042/formal-pre/pre.json"
+      ]
+    }
+  ]
+}

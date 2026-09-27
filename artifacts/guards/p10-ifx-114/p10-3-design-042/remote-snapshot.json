@@ -1,0 +1,70 @@
+{
+  "formatVersion": 1,
+  "capturedAt": "2026-09-27T17:47:32.3095224+10:00",
+  "status": "pass",
+  "mode": "github-get-only",
+  "repository": "von12549/IFX",
+  "defaultBranch": {
+    "name": "main",
+    "commit": "ecb03726a6c67208d25e7988695c53f6326d77c0",
+    "workflowFiles": []
+  },
+  "developmentBranch": {
+    "name": "codex/v4-development-base",
+    "remoteCommit": "c3e055235c51ac8e0394e76135ef7abf3045fb63",
+    "v3WorkflowPath": ".github/workflows/v3-ifx-guardrails.yml",
+    "v3WorkflowBlob": "51986b5aae2ccdacb52020f21c20b7c12f630726"
+  },
+  "ruleset": {
+    "id": 23459908,
+    "name": "IFX V3 Required Checks",
+    "enforcement": "active",
+    "strict": true,
+    "updatedAt": "2026-09-17T13:47:29.776+10:00",
+    "includes": [
+      "~DEFAULT_BRANCH",
+      "refs/heads/codex/guards-principles-plan"
+    ],
+    "requiredContexts": [
+      "v3-pre-diff",
+      "v3-architecture",
+      "v3-quality-solution",
+      "v3-quality-assembly",
+      "v3-quality-frontend",
+      "v3-specialized-g03",
+      "v3-specialized-g04",
+      "v3-specialized-g05",
+      "v3-specialized-plan04",
+      "v3-specialized-database",
+      "v3-historical-integrity",
+      "v3-cross-platform-ubuntu-latest",
+      "v3-cross-platform-windows-latest"
+    ]
+  },
+  "workflowRegistry": {
+    "totalCount": 8,
+    "classification": "historical-active-registrations-not-present-in-default-branch-tree",
+    "records": [
+      { "id": 358756401, "path": ".github/workflows/coding-guardrails.yml", "state": "active" },
+      { "id": 356562206, "path": ".github/workflows/contract-event-governance.yml", "state": "active" },
+      { "id": 356562202, "path": ".github/workflows/database-migrations.yml", "state": "active" },
+      { "id": 356562201, "path": ".github/workflows/g04-deployment-runtime.yml", "state": "active" },
+      { "id": 356562203, "path": ".github/workflows/g05-context-boundary.yml", "state": "active" },
+      { "id": 356562205, "path": ".github/workflows/layerguard.yml", "state": "active" },
+      { "id": 356562204, "path": ".github/workflows/plan04-governance.yml", "state": "active" },
+      { "id": 358687542, "path": ".github/workflows/v3-ifx-guardrails.yml", "state": "active" }
+    ]
+  },
+  "checkedIn": {
+    "v3WorkflowSha256": "3bfcc942deba649fc6df4825067428a94f07664782ac146ffb20c8f74c0e0e4e",
+    "v3RequiredChecksSha256": "8b8f44dc1282e7b37348d8d6cd2cf15c188b0b0991e29ffff5ceadc9d70e74a0",
+    "v4WorkflowSpecimenSha256": "a1ce1b8cae192f37e4d19486e9209a6f198ff96b8a3930b0f94e112a7b88a2cf",
+    "v4CiContractSha256": "9bde25d4f993557adb9ee9f9a6f0b2f2ac779971a4c38bb57671a50ba3101b39"
+  },
+  "classification": {
+    "rulesetMatchesCheckedInContract": true,
+    "defaultBranchPredatesV3AndV4Program": true,
+    "activationPrerequisite": "Promote a reviewed commit containing the active V3 workflow and accepted P10 evidence to the default branch under a separate Plan before any V4 coexistence change.",
+    "remoteMutationPerformed": false
+  }
+}

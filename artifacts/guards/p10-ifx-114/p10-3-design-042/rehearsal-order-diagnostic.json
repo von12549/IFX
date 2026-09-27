@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "recordedAt": "2026-09-27T17:55:46.7244493+10:00",
+  "phase": "P10.3-local-rehearsal-pre-evidence",
+  "status": "stopped-classified",
+  "reason": "order-only-required-context-comparison",
+  "evidenceRootCreated": false,
+  "semanticFinding": {
+    "requiredContextMembershipMatches": true,
+    "duplicateContextsFound": false,
+    "orderIsAuthoritative": false
+  },
+  "correction": "Compare required check contexts as duplicate-free case-sensitive sets while preserving source order in the read-only remote snapshot.",
+  "formalDecisionAffected": false
+}
