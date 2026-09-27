@@ -90,4 +90,3 @@ composition or receipt failure, launcher receipt refusal, hidden UI failure,
 unexpected target/authority mutation, missing/non-blocking deliberate finding,
 or Host/UI disagreement. Preserve all evidence. Any correction requires a new
 explicit Plan and new absent output paths.
-
