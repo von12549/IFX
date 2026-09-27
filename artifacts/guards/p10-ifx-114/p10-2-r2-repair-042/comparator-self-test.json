@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "caseCount": 6,
+  "expectedGapCount": 1,
+  "observedGapCount": 1,
+  "expectedStrengtheningCount": 3,
+  "observedStrengtheningCount": 3,
+  "isolatedWeakeningId": "violation-weakening",
+  "verifiedBehaviors": [
+    "module-scoped-clean-equivalence-with-unrelated-v3-findings",
+    "missing-input-fail-closed-strengthening",
+    "zero-match-non-vacuity-strengthening",
+    "new-blocking-rule-strengthening",
+    "matching-rule-equivalence",
+    "real-v4-weakening-remains-blocking"
+  ],
+  "comparerSha256": "642e92564e144126c61de6a95373773a2758177d6997a13f6c7a5b2a3e71c8c1",
+  "testSha256": "d227bd956effce274236f89d93e9da4c432a92f5f8e60664aec2fc05b77048f9",
+  "p10_3Started": false
+}
+

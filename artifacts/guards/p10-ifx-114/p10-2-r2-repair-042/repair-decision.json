@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "p10-2-r2-replay-and-comparator-repair-accepted",
+  "summarySha256": "807cd2977de154837065e38c46cf7d90c2eaf48fcc3e70c6195f1a49bfd30d28",
+  "comparatorSelfTestSha256": "66bf4c76b840d19d972f2bace0a016209de51d6cb8484148ee40f2af6e7d8f61",
+  "replayBindingsSha256": "866d82ff72e317b5c9518875dabdc54f8722a5cc714d765d4aca679e76a1cb27",
+  "certifiedReplayCaseCount": 4,
+  "certifiedReplayDriftCount": 0,
+  "selfTestGapCount": 1,
+  "selfTestStrengtheningCount": 3,
+  "boundary": {
+    "repairClosed": true,
+    "p10_2R2ExecutionPermittedByPlan": true,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  },
+  "recommendation": "Run P10.2-R2 once on the new absent parity, build and runtime evidence paths."
+}

@@ -1,0 +1,56 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "caseCount": 4,
+  "cases": [
+    {
+      "id": "ifx-provider-cycle/M",
+      "moduleId": "ifx-provider-cycle",
+      "adapterSha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+      "providerFingerprintSha256": "1ceff351581ffe469454d02ffedb4ac6f8023b1fc831fa585732d2a0f5ab5cef",
+      "targetFingerprintSha256": "cf1857c1a114158c0062f95ae74443b57cc668cd5c6ed8ecad62e85a684e607a",
+      "inputSha256": "d46d8dbdc934148ba6feddc4f2c85cd11c8ec673aa8cd70fa1092625f70737d4",
+      "status": "error",
+      "exitCategory": "prerequisite-missing",
+      "semanticSha256": "ddf08a365d554403e4c2c86b868c50a24d4524c201119c517f1d62d24fd509ca"
+    },
+    {
+      "id": "ifx-provider-cycle/Z",
+      "moduleId": "ifx-provider-cycle",
+      "adapterSha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+      "providerFingerprintSha256": "4fea70757035318b4250840674ba934163033b908105a45f75ba1d85acb05cda",
+      "targetFingerprintSha256": "8e8a235739179b41ad3905ca848dc61d36f2881f1b93740b7286a19ed7133a4a",
+      "inputSha256": "338e5d6a44f6211a062670f5e21e32c0e0e08438ed2013b4bcfc5a66af63b3a6",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "semanticSha256": "f908ce06bfa61141a44c5de147d77f8d08119acba111dd46ae00b250478b0377"
+    },
+    {
+      "id": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "moduleId": "ifx-provider-cycle",
+      "adapterSha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+      "providerFingerprintSha256": "a52c381560958396fb050aebe5be27dbb42481608e35d5369ad9819d582fe32d",
+      "targetFingerprintSha256": "b0691bab53f048ab535343ccff79acb1a15ab1f6b0c8a66e226fe57a1a849253",
+      "inputSha256": "3dfa809feec6d486245dfeb521a7a67d118cf978294dd492ac9e1943f7e7e63d",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "semanticSha256": "530cfb527d8b0d86b4fbfe7ea21996d404aa735bfeb4d52f7ed3995e45653724"
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "moduleId": "ifx-source-policy",
+      "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+      "providerFingerprintSha256": "42742d37ba7e32262d532e1eaaf29c06465d8098c228f36bed7778e575105f66",
+      "targetFingerprintSha256": "7ec140d9edf02d42837ccb154316974b4807ef4ca97326aa0365aaaee9546523",
+      "inputSha256": "3a5f0730b4a1931d721e262e01be03e8038b2a0578c373718936ba4a858fb5ee",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "semanticSha256": "8e9a9dd60abad6947fa7212886a3561fbbba8af5a365b2da3b5b8a267f794b9a"
+    }
+  ],
+  "installProfileSha256": "b7aac25f5cefbaf4d99023a71e29130da283debbe7446e160b42d7f1cb385023",
+  "boundary": {
+    "frozenInputsChanged": false,
+    "p10_3Started": false
+  }
+}

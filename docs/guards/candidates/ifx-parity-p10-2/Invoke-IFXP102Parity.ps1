@@ -180,6 +180,7 @@ foreach ($captureId in @($moduleCapture.Values + @('c6c4') | Sort-Object -Unique
 
 $corpus = [Collections.Generic.List[object]]::new()
 $targetBefore = @{}
+$providerBefore = @{}
 foreach ($case in $cases) {
     $matches = @($captureRecords | Where-Object { [string]$_.moduleId -ceq [string]$case.moduleId -and [string]$_.fixtureSha256 -ceq [string]$case.fixtureSha256 })
     if ($matches.Count -eq 0) { Fail "No raw capture for $($case.id)." }
@@ -192,10 +193,20 @@ foreach ($case in $cases) {
     $fingerprint = Fingerprint $target
     if ($fingerprint -cne [string]$capture.targetAfter -or [string]$capture.targetBefore -cne [string]$capture.targetAfter) { Fail "Frozen Target fingerprint drift: $($case.id)." }
     $targetBefore[$target] = Text-Sha $fingerprint
+    $installedAdapter = Full-File (Join-Path $install "package/modules/$($case.moduleId)/adapter.ps1") "Installed adapter $($case.moduleId)"
+    $capturedAdapter = [IO.Path]::GetFullPath([string]$capture.executed)
+    $windowsPrefix = $windows + [IO.Path]::DirectorySeparatorChar
+    $suiteLocal = [IO.File]::Exists($capturedAdapter) -and $capturedAdapter.StartsWith($windowsPrefix,[StringComparison]::OrdinalIgnoreCase)
+    $replayAdapter = if ($suiteLocal) { $capturedAdapter } else { $installedAdapter }
+    $providerRoot = [IO.Path]::GetDirectoryName($replayAdapter)
+    if ((Sha $replayAdapter) -cne (Sha $installedAdapter)) { Fail "Replay adapter differs from the receipted adapter: $($case.id)." }
+    $providerFingerprint = Fingerprint $providerRoot
+    if ($suiteLocal) { $providerBefore[$providerRoot] = Text-Sha $providerFingerprint }
     $corpus.Add([ordered]@{
         id=[string]$case.id;kind=[string]$case.kind;moduleId=[string]$case.moduleId;ruleId=$case.ruleId;claimIds=@($case.claimIds)
         fixtureSha256=[string]$case.fixtureSha256;captureId=[string]$capture.captureId;targetRoot=$target
         targetFingerprintSha256=Text-Sha $fingerprint;v4InputSha256=[string]$capture.inputSha256
+        replay=[ordered]@{mode=$(if($suiteLocal){'suite-local-provider'}else{'receipted-installation'});adapterPath=$replayAdapter;adapterSha256=Sha $replayAdapter;providerRoot=$providerRoot;providerFingerprintSha256=Text-Sha $providerFingerprint;capturedExecuted=[string]$capture.executed}
         v4=[ordered]@{status=[string]$v4.status;exitCategory=[string]$v4.exitCategory;findings=@($v4.findings);coverage=@($v4.coverage);rawOutputSha256=Text-Sha ([string]$capture.output)}
     })
 }
@@ -215,6 +226,12 @@ foreach ($case in @($corpus.ToArray())) {
     $safe = ([string]$case.id) -replace '[^A-Za-z0-9._-]','_'
     $caseState = Join-Path $runtime "v4-cases/$safe/state"
     $caseEvidence = Join-Path $runtime "v4-cases/$safe/evidence"
+    $config = $selection[0].config | ConvertTo-Json -Depth 100 | ConvertFrom-Json -AsHashtable -Depth 100
+    $suiteLocal = [string]$case.replay.mode -ceq 'suite-local-provider'
+    if ($suiteLocal) {
+        $localPolicy = Join-Path ([string]$case.replay.providerRoot) 'policy.json'
+        $config.policySha256 = if ([IO.File]::Exists($localPolicy)) { Sha $localPolicy } else { '0' * 64 }
+    }
     $payload = [ordered]@{
         formatVersion = 1
         stage = 'pre'
@@ -222,12 +239,12 @@ foreach ($case in @($corpus.ToArray())) {
         packageRoot = Join-Path $install 'package'
         stateRoot = $caseState
         evidenceRoot = $caseEvidence
-        projectId = 'ifx'
-        relativeRoots = @('src','tests')
-        config = $selection[0].config
+        projectId = $(if($suiteLocal){'ifx-c6c4-supplemental'}else{'ifx'})
+        relativeRoots = $(if($suiteLocal){@('src')}else{@('src','tests')})
+        config = $config
     }
     $payloadJson = $payload | ConvertTo-Json -Depth 100 -Compress
-    $adapter = Full-File (Join-Path $install "package/modules/$($case.moduleId)/adapter.ps1") "Installed adapter $($case.moduleId)"
+    $adapter = Full-File ([string]$case.replay.adapterPath) "Replay adapter $($case.moduleId)"
     $process = Run-Captured "v4-$safe" 'pwsh' @('-NoLogo','-NoProfile','-NonInteractive','-File',$adapter) $repo (Join-Path $logs "v4-cases/$safe") @{V4_STAGE_INPUT_JSON=$payloadJson}
     $stdout = Get-Content -LiteralPath (Join-Path $logs "v4-cases/$safe/stdout.txt") -Raw
     $current = $null; try { $current = $stdout | ConvertFrom-Json -AsHashtable -Depth 100 } catch {}
@@ -235,7 +252,8 @@ foreach ($case in @($corpus.ToArray())) {
         id = [string]$case.id
         moduleId = [string]$case.moduleId
         inputSha256 = Text-Sha $payloadJson
-        configSha256 = Text-Sha ($selection[0].config | ConvertTo-Json -Depth 100 -Compress)
+        configSha256 = Text-Sha ($config | ConvertTo-Json -Depth 100 -Compress)
+        replay = $case.replay
         process = $process
         certifiedResult = $case.v4
         currentResult = $current
@@ -272,17 +290,26 @@ $v4Runs = [Collections.Generic.List[object]]::new()
 foreach ($realCase in @([ordered]@{id='clean';root=$reference;expect=0},[ordered]@{id='violation';root=$violation;expect=16})) {
     $run = Run-Captured "v4-real-$($realCase.id)" 'dotnet' @($hostDll,'stage','run','--stage','pre','--package-root',(Join-Path $install 'package'),'--target-root',$realCase.root,'--state-root',$v4State,'--evidence-root',$v4Evidence,'--profile','ifx_profile') $repo (Join-Path $logs "v4-real-$($realCase.id)")
     $stdout = Get-Content -LiteralPath (Join-Path $logs "v4-real-$($realCase.id)/stdout.txt") -Raw
-    $document = $null; try { $document = $stdout | ConvertFrom-Json -AsHashtable -Depth 100 } catch {}
-    $v4Runs.Add([ordered]@{id=$realCase.id;process=$run;result=$document})
+    $stderr = Get-Content -LiteralPath (Join-Path $logs "v4-real-$($realCase.id)/stderr.txt") -Raw
+    $document = $null; $resultChannel = $null
+    foreach ($candidate in @([ordered]@{name='stdout';text=$stdout},[ordered]@{name='stderr';text=$stderr})) {
+        if ([string]::IsNullOrWhiteSpace([string]$candidate.text)) { continue }
+        try { $document = [string]$candidate.text | ConvertFrom-Json -AsHashtable -Depth 100; $resultChannel = $candidate.name; break } catch {}
+    }
+    $v4Runs.Add([ordered]@{id=$realCase.id;process=$run;resultChannel=$resultChannel;result=$document})
     if ($run.exitCode -ne $realCase.expect -or $null -eq $document) { $gaps.Add([ordered]@{id="real-$($realCase.id)/v4";category='engine-failure';detail="V4 real $($realCase.id) exit/result mismatch."}) }
 }
 
 $v3Host = Join-Path $build 'v3-ifx/architecture-conformance/bin/LayerGuard.Ifx/debug/layerguard-ifx.dll'
+$ownedRuleMap = @{}
+foreach ($moduleId in $modules) {
+    $ownedRuleMap[$moduleId] = @($corpus.ToArray() | Where-Object { [string]$_.moduleId -ceq $moduleId -and [string]$_.kind -ceq 'violation' } | ForEach-Object { [string]$_.ruleId } | Sort-Object -Unique)
+}
 $engineCases = [Collections.Generic.List[object]]::new()
 if (-not [IO.File]::Exists($v3Host)) {
     $gaps.Add([ordered]@{id='v3-host';category='engine-failure';detail='Built V3 host is missing.'})
     foreach ($case in @($corpus.ToArray())) {
-        $engineCases.Add([ordered]@{id=$case.id;kind=$case.kind;moduleId=$case.moduleId;claimIds=$case.claimIds;expectedRule=$case.ruleId;v4=$v4ById[[string]$case.id];v3=[ordered]@{process=[ordered]@{exitCode=127};reportPath=$null;reportSha256=$null;result=$null;rules=@();violationCount=0}})
+        $engineCases.Add([ordered]@{id=$case.id;kind=$case.kind;moduleId=$case.moduleId;claimIds=$case.claimIds;expectedRule=$case.ruleId;ownedRules=$ownedRuleMap[[string]$case.moduleId];v4=$v4ById[[string]$case.id];v3=[ordered]@{process=[ordered]@{exitCode=127};reportPath=$null;reportSha256=$null;result=$null;rules=@();violationCount=0}})
     }
 } else {
     foreach ($case in @($corpus.ToArray())) {
@@ -292,7 +319,7 @@ if (-not [IO.File]::Exists($v3Host)) {
         $scan = Run-Captured "v3-$safe" 'dotnet' @($v3Host,'check',(Join-Path $case.targetRoot 'src'),'--config',$v3PolicyPath,'--baseline',$v3BaselinePath,'--format','json','--report',$report,'--quiet') $reference (Join-Path $logs "v3-cases/$safe")
         $v3 = $null; if ([IO.File]::Exists($report)) { $v3 = Get-Content -LiteralPath $report -Raw | ConvertFrom-Json -AsHashtable -Depth 100 }
         $v3Rules = @(); if ($null -ne $v3) { $v3Rules = @($v3.violations | ForEach-Object { [string]$_.rule } | Sort-Object -Unique) }
-        $engineCases.Add([ordered]@{id=$case.id;kind=$case.kind;moduleId=$case.moduleId;claimIds=$case.claimIds;expectedRule=$case.ruleId;v4=$v4ById[[string]$case.id];v3=[ordered]@{process=$scan;reportPath=$(if($null-ne$v3){$report}else{$null});reportSha256=$(if($null-ne$v3){Sha $report}else{$null});result=$v3;rules=$v3Rules;violationCount=$(if($null-ne$v3){@($v3.violations).Count}else{0})}})
+        $engineCases.Add([ordered]@{id=$case.id;kind=$case.kind;moduleId=$case.moduleId;claimIds=$case.claimIds;expectedRule=$case.ruleId;ownedRules=$ownedRuleMap[[string]$case.moduleId];v4=$v4ById[[string]$case.id];v3=[ordered]@{process=$scan;reportPath=$(if($null-ne$v3){$report}else{$null});reportSha256=$(if($null-ne$v3){Sha $report}else{$null});result=$v3;rules=$v3Rules;violationCount=$(if($null-ne$v3){@($v3.violations).Count}else{0})}})
     }
 }
 
@@ -312,6 +339,10 @@ foreach ($entry in $targetBefore.GetEnumerator()) {
     $after = Text-Sha (Fingerprint ([string]$entry.Key))
     if ($after -cne [string]$entry.Value) { $gaps.Add([ordered]@{id=[string]$entry.Key;category='input-mutation';detail='Corpus Target changed.'}) }
 }
+foreach ($entry in $providerBefore.GetEnumerator()) {
+    $after = Text-Sha (Fingerprint ([string]$entry.Key))
+    if ($after -cne [string]$entry.Value) { $gaps.Add([ordered]@{id=[string]$entry.Key;category='input-mutation';detail='Suite-local provider changed.'}) }
+}
 $immutablePost = [ordered]@{
     reference = Text-Sha (Fingerprint $reference)
     install = Text-Sha (Fingerprint $install)
@@ -325,8 +356,8 @@ foreach ($name in @('reference','install','bundle','c6cWindows')) {
 $status = if ($gaps.Count -eq 0) { 'pass' } else { 'fail' }
 $decisionName = if ($status -ceq 'pass') { 'p10-2-parity-accepted' } else { 'p10-2-stopped-on-parity-gaps' }
 Write-Json (Join-Path $output 'v4-real-runs.json') ([ordered]@{formatVersion=1;runs=@($v4Runs.ToArray())})
-Write-Json (Join-Path $output 'summary.json') ([ordered]@{formatVersion=1;status=$status;decision=$decisionName;targetCommit=$expected.targetCommit;identities=$expected;toolchain=$toolchain;compositionProof=$compositionProof;corpus=[ordered]@{caseCount=$cases.Count;clean=$kindCounts.clean;missing=$kindCounts.missing;zero=$kindCounts.zero;violation=$kindCounts.violation;manifestSha256=Sha (Join-Path $output 'corpus-manifest.json')};v3=[ordered]@{pre=$v3Pre;post=$v3Post;cleanTargetSnapshot=[ordered]@{process=$v3Snapshot;trackedTreeBeforeRunSha256=$v3CleanBefore};realClean=$v3Build};v4=[ordered]@{caseRuns=$v4CaseRuns.Count;caseRunsSha256=Sha (Join-Path $output 'v4-case-runs.json');realRuns=@($v4Runs.ToArray())};comparison=[ordered]@{process=$comparisonProcess;caseCount=[int]$matrixDocument.caseCount;comparerGapCount=[int]$matrixDocument.gapCount;totalGapCount=$gaps.Count;sha256=Sha $matrixPath};immutableRoots=[ordered]@{pre=$immutablePre;post=$immutablePost};boundary=[ordered]@{p10_2Executed=$true;p10_2Accepted=($status-ceq'pass');p10_3Started=$false;activated=$false;published=$false;v3Retired=$false;ifxCutover=$false}})
-Write-Json (Join-Path $output 'p10-2-decision.json') ([ordered]@{formatVersion=1;status=$status;decision=$decisionName;summarySha256=Sha (Join-Path $output 'summary.json');corpusManifestSha256=Sha (Join-Path $output 'corpus-manifest.json');parityMatrixSha256=Sha (Join-Path $output 'parity-matrix.json');gapCount=$gaps.Count;gaps=@($gaps.ToArray());boundary=[ordered]@{p10_2ExecutionClosed=$true;p10_3Started=$false;activated=$false;published=$false;v3Retired=$false;ifxCutover=$false};recommendation=$(if($status-ceq'pass'){'P10.2 entry criteria are met; P10.3 still requires a separate Plan and authorization.'}else{'Do not enter P10.3. Review the preserved parity gaps and authorize a separate repair Plan if correction is desired.'})})
+Write-Json (Join-Path $output 'summary.json') ([ordered]@{formatVersion=1;status=$status;decision=$decisionName;targetCommit=$expected.targetCommit;identities=$expected;toolchain=$toolchain;compositionProof=$compositionProof;corpus=[ordered]@{caseCount=$cases.Count;clean=$kindCounts.clean;missing=$kindCounts.missing;zero=$kindCounts.zero;violation=$kindCounts.violation;suiteLocalProviderCount=$providerBefore.Count;manifestSha256=Sha (Join-Path $output 'corpus-manifest.json')};v3=[ordered]@{pre=$v3Pre;post=$v3Post;cleanTargetSnapshot=[ordered]@{process=$v3Snapshot;trackedTreeBeforeRunSha256=$v3CleanBefore};realClean=$v3Build};v4=[ordered]@{caseRuns=$v4CaseRuns.Count;caseRunsSha256=Sha (Join-Path $output 'v4-case-runs.json');realRuns=@($v4Runs.ToArray())};comparison=[ordered]@{process=$comparisonProcess;caseCount=[int]$matrixDocument.caseCount;comparerGapCount=[int]$matrixDocument.gapCount;strengtheningCount=[int]$matrixDocument.strengtheningCount;totalGapCount=$gaps.Count;sha256=Sha $matrixPath};immutableRoots=[ordered]@{pre=$immutablePre;post=$immutablePost};boundary=[ordered]@{p10_2Executed=$true;p10_2Accepted=($status-ceq'pass');p10_3Started=$false;activated=$false;published=$false;v3Retired=$false;ifxCutover=$false}})
+Write-Json (Join-Path $output 'p10-2-decision.json') ([ordered]@{formatVersion=1;status=$status;decision=$decisionName;summarySha256=Sha (Join-Path $output 'summary.json');corpusManifestSha256=Sha (Join-Path $output 'corpus-manifest.json');parityMatrixSha256=Sha (Join-Path $output 'parity-matrix.json');gapCount=$gaps.Count;gaps=@($gaps.ToArray());strengtheningCount=[int]$matrixDocument.strengtheningCount;strengthenings=@($matrixDocument.strengthenings);boundary=[ordered]@{p10_2ExecutionClosed=$true;p10_3Started=$false;activated=$false;published=$false;v3Retired=$false;ifxCutover=$false};recommendation=$(if($status-ceq'pass'){'P10.2 entry criteria are met; P10.3 still requires a separate Plan and authorization.'}else{'Do not enter P10.3. Review the preserved parity gaps and authorize a separate repair Plan if correction is desired.'})})
 
-Write-Output "P10.2 ${status}: $decisionName; gaps=$($gaps.Count); evidence=$output"
+Write-Output "P10.2 ${status}: $decisionName; gaps=$($gaps.Count); strengthenings=$([int]$matrixDocument.strengtheningCount); evidence=$output"
 if ($status -cne 'pass') { exit 1 }

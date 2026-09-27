@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "p10-2-r2-replay-and-comparator-repair-accepted",
+  "planSha256": "e3c68cafde706e8d5e40de459efbb73df813253e9c3a693e983e80fc9ecbb075",
+  "predecessorDecisionSha256": "ea01dbb5560a4893ec482b65b4f26f1e517343fdb6e314ff41753b5512aadaa7",
+  "runnerSha256": "28b85662d06325d807c9c8158ec6aa277b974e0186a5fbdbff57738bd2227cd6",
+  "comparerSha256": "642e92564e144126c61de6a95373773a2758177d6997a13f6c7a5b2a3e71c8c1",
+  "comparatorTestSha256": "d227bd956effce274236f89d93e9da4c432a92f5f8e60664aec2fc05b77048f9",
+  "replayTestSha256": "25f77b658f6c52431216f09ac995f1c0fe123c8cf7e993923ee602726b1e4923",
+  "replayBindingsSha256": "866d82ff72e317b5c9518875dabdc54f8722a5cc714d765d4aca679e76a1cb27",
+  "checks": {
+    "powerShellParse": "pass",
+    "diffCheck": "pass",
+    "comparatorSelfTest": "pass",
+    "supplementalReplayCaseCount": 4,
+    "supplementalReplayCertifiedSemanticDriftCount": 0,
+    "providerOrTargetMutationCount": 0
+  },
+  "boundary": {
+    "repairAccepted": true,
+    "formalP10_2R2RunStarted": false,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  }
+}
