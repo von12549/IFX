@@ -13,6 +13,7 @@
   "plannedPaths": [
     "docs/guards/plans/20260927-v4-p10-1-114-c6d-human-review.md",
     "docs/guards/plans/20260927-v4-p10-1-114-c6d-human-review.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6d1/Export-IFX114C6dReviewPacket.ps1",
     "artifacts/guards/p10-ifx-114/c6d-review-042"
   ],
   "areas": [
