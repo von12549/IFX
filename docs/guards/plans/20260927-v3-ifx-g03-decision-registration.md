@@ -1,6 +1,6 @@
 # V3_ifx G03 documentation decision registration
 
-Status: `CANDIDATE PREPARED — authorization pending`
+Status: `IMPLEMENTED LOCALLY — push pending operator approval`
 
 C2d (`6723d465`) added
 `shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json`
@@ -32,3 +32,16 @@ Acceptance: IFX V3_ifx `Validate` passes with zero manifest problems, Formal
 Pre passes for this Plan, and the trusted Diff from the authorization commit to
 this change reports every obligation covered by exactly one consumed record.
 Nothing is pushed without explicit operator approval.
+
+## Verification record
+
+Formal Pre passed before the registry edit at
+`artifacts/guards/o5-g03-registration/formal-pre`. The authorization-only
+commit (Plan `20260927-v3-ifx-g03-decision-registration-authorization`) adds
+the `weaken-policy` record for pointer `/entries/24/paths/41` and the
+`change-trusted-base` record for `tcb.manifest`, whose single allowed
+behavior difference is `Validate` changing from fail to pass. This change
+merges that commit and deletes both records. The base-owned trusted Diff and
+trusted-component candidate verifier run from a repository-external detached
+worktree of the authorization commit, and IFX V3_ifx `Validate` passes with
+zero manifest problems.
