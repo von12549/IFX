@@ -58,16 +58,29 @@ repository URLs remain immutable historical authorities. They are not re-tagged 
 | Integrity | `git fsck --full --strict` passed |
 | Worktree | clean |
 
-The directory is an ordinary directory, not a reparse point or symlink. Git access from the Codex
-sandbox requires a command-scoped `safe.directory` override because the directory is owned by the
-interactive user rather than the sandbox account. This is an execution-environment fact, not a
-repository corruption. Do not add a broad global safe-directory wildcard.
+The directory is an ordinary directory, not a reparse point or symlink. The feasibility audit needed
+a command-scoped `safe.directory` override because Codex ran under a sandbox account. Claude Code is
+expected to run as the interactive owner and must first try ordinary Git access. Use the exact
+command-scoped override only if Git actually reports dubious ownership; never add a broad global
+safe-directory wildcard.
 
 The repository is inside OneDrive. It is feasible, but bulk history import must run with the tree
-fully hydrated, OneDrive synchronization paused or otherwise prevented from concurrently rewriting
-`.git`, and all other Git clients closed. Run `git fsck --full --strict` after each history-changing
-checkpoint. Any sync conflict, duplicate file, lock-file resurrection or index drift is a stop
-condition; recover from a clean clone instead of repairing ambiguous `.git` bytes in place.
+fully hydrated, OneDrive synchronization manually paused by the operator, and all other Git clients
+closed. Claude Code may inspect and record attributes/process state but must not kill, pause or
+reconfigure OneDrive itself. T0 requires an explicit operator attestation that sync is paused and all
+Guard files are locally available, plus an automated scan showing no offline/recall placeholder
+attributes. Run `git fsck --full --strict` after each history-changing checkpoint. Any missing
+attestation, partial hydration, sync conflict, duplicate file, lock-file resurrection or index drift
+is a stop condition; recover from a clean clone instead of repairing ambiguous `.git` bytes in place.
+
+### Persistent evidence root
+
+All durable T0–T8 evidence is written under the fixed external root
+`D:\IFX-Root\v4-todo-008-evidence`. Each tranche uses a new child such as
+`T0-identity/<run-id>` or `T2-history-export/<run-id>`. `%TEMP%` is permitted only for disposable
+clones and scratch output; before removing a disposable directory, copy the final command records,
+inventories, commit maps, hashes and summaries into the fixed evidence root and verify their hashes.
+The evidence root is never a Git remote, PackageRoot or TargetRoot and is not deleted by the program.
 
 ### Tooling feasibility
 
@@ -157,6 +170,25 @@ The current `docs/guards/v4/plans` tree mixes product and IFX adoption concerns.
 Filename matching may prepare a candidate classification, but final disposition must be recorded for
 every Plan pair. In particular, a filename containing `v4` does not make an IFX/P10 Plan product-owned.
 
+The history/current-tree rule is exact: `git subtree split` is allowed to preserve IFX-specific bytes
+in the extracted Git **history**, because deleting them before extraction would falsify provenance.
+They must not remain in the active Guard tree after T4. At minimum, T4 deletes these active Guard
+paths while retaining their history and listing their original blob hashes in the migration receipt:
+
+- `plans/06-ifx-profile-validation-program.md`;
+- `plans/07-p10-0-baseline-acceptance.md`;
+- `plans/08-p10-1-extension-composition-compatibility.md`;
+- `plans/09-p10-3-cutover-and-rollback-proposal.md`;
+- `integrations/github/ifx-cutover-proposal.json`; and
+- `integrations/github/proposed-v4-ifx-guardrails.yml`.
+
+Do not copy these bytes into Guard `docs/plans/history`; their extracted commit history is already the
+historical record. Guard may keep only a non-authoritative provenance index naming their former paths,
+source blobs and IFX successor locations. Mixed product plans 01/02 and README retain product content
+but replace live IFX operational status with a cross-repository historical/adoption link. At T7, the
+authoritative current versions are moved inside IFX with `git mv` to `docs/guards/v4-adoption`, before
+the remaining product subtree is removed.
+
 ## 5. Intended standalone layout
 
 The extracted subtree initially becomes the Guard repository root so the product source is no longer
@@ -231,8 +263,11 @@ authorize repairing a later tranche in place.
 2. Read repository-local `CLAUDE.md`/`AGENTS.md` instructions in both repositories if present.
 3. Verify the source and destination identities in section 2.
 4. Verify both worktrees are clean and the destination still has no ruleset/workflow.
-5. Record tool versions, filesystem attributes, OneDrive state and command-scoped safe-directory use.
-6. Create a new evidence root outside both immutable product trees.
+5. Obtain and record the operator's OneDrive-paused/fully-hydrated attestation, then independently
+   scan the Guard tree for offline or recall placeholders.
+6. Record tool versions, filesystem attributes, OneDrive state and whether command-scoped
+   `safe.directory` was actually needed.
+7. Verify or create `D:\IFX-Root\v4-todo-008-evidence`, then create a new T0 run directory beneath it.
 
 Stop on any commit, tree, remote, default-branch, dirty-worktree or ownership discrepancy. Update this
 Plan through review rather than substituting a newer identity silently.
@@ -249,6 +284,11 @@ Produce, before extraction:
   `artifacts/guards/v4`, `${{ github.repository }}`, IFX release URLs and fixed parent traversal);
 - proposed destination path for every moved/copied item; and
 - exclusions for P10 evidence, target fixtures and generated/ignored artifacts.
+
+The T1 manifest must apply the exact history/current-tree disposition above: the six listed IFX paths
+are `ifx-consumer`, are retained in extracted history, are deleted from the active Guard tree in T4,
+and obtain current authoritative successors in IFX only at T7. It must discover and apply the same
+rule to any additional IFX-only file; discovery does not weaken the six-path minimum.
 
 The manifest must prove one and only one disposition for every source path. No cleanup may begin with
 an `unknown` or duplicate disposition.
@@ -285,6 +325,8 @@ Refactor only after the history merge checkpoint:
 - move maintained product plans/TODOs to `docs/plans/product`;
 - import reviewed generic historical Plan pairs to `docs/plans/history` without rewriting their bytes;
 - copy this Plan/handoff to `docs/plans/migration`;
+- delete the six enumerated IFX-only paths, plus any additional T1-confirmed IFX-only path, from the
+  active Guard tree while preserving them in extracted history and the provenance index;
 - add provenance, path-disposition and commit-map records under `docs/migration/v4-todo-008`;
 - replace IFX-incubation source path assumptions with standalone-root or explicit-root logic;
 - change test/evidence defaults from `artifacts/guards/v4` to a standalone ignored work/evidence root;
@@ -319,9 +361,11 @@ schemas, module/profile contracts, normalized package manifests and behavioral f
 archive bytes are required only when version/source metadata is identical; otherwise every expected
 difference must be enumerated and the executable/package payload must remain reproducible.
 
-Linux-complete certification is required before a standalone release. If it cannot be run locally,
-record local Windows acceptance and stop before publication until an authorized Guard CI run supplies
-the exact-commit Linux evidence.
+T5 has two explicit states. `local-windows-accepted-linux-pending` is a successful local checkpoint
+when every local test and Windows-full passes but Linux-complete is unavailable; it is not overall T5
+acceptance and cannot authorize publication or canonical-source switch. Overall T5 becomes `pass` only
+after an authorized T6 Guard CI run supplies Linux-complete evidence for the same exact Guard commit
+and package identity. A Linux mismatch returns T5 to stopped regardless of the Windows result.
 
 ### T6 — Remote Guard review and standalone release (separate authorization)
 
@@ -386,7 +430,9 @@ not bulk-rewritten to fabricate a different past.
 
 ## 8. Validation evidence and decisions
 
-Create distinct evidence roots for each tranche. The final migration decision must bind:
+Create distinct tranche/run directories below `D:\IFX-Root\v4-todo-008-evidence`. Disposable-clone
+evidence does not count until copied to that root and hash-verified. The final migration decision must
+bind:
 
 - original IFX source commit and V4 subtree tree object;
 - exported history tip and commit-map hash;

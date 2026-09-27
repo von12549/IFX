@@ -30,6 +30,8 @@ GUARD_DEFAULT_BRANCH=main
 GUARD_INITIAL_COMMIT=e75d038
 GUARD_WORK_BRANCH=codex/v4-todo-008-standalone
 
+PERSISTENT_EVIDENCE_ROOT=D:\IFX-Root\v4-todo-008-evidence
+
 P10_3_DECISION_SHA256=529e19b567c05619ec054117e2514c579a908a4e614355411fc28b6d52964964
 ```
 
@@ -51,8 +53,8 @@ If the user authorizes only local work, stop before every push, PR, merge, relea
 ## Repository instructions and safety
 
 1. Search both roots for `CLAUDE.md` and `AGENTS.md`; obey the applicable instructions.
-2. Do not add `safe.directory=*`. If the execution account hits dubious ownership, use the exact
-   command-scoped form:
+2. First try ordinary Git access as the interactive owner. Do not add `safe.directory=*`. Only if Git
+   actually reports dubious ownership, use the exact command-scoped form:
 
    ```powershell
    git -c safe.directory=C:/Users/von12/OneDrive/Desktop/Guard -C C:/Users/von12/OneDrive/Desktop/Guard status -sb
@@ -62,8 +64,10 @@ If the user authorizes only local work, stop before every push, PR, merge, relea
 4. Use a new disposable directory created with `New-Item`/`mktemp`; validate its absolute path before
    removing it.
 5. Never run subtree extraction against the live IFX `.git`. Use a no-hardlink clone.
-6. Pause or otherwise serialize OneDrive while the Guard repository is being changed. Close other Git
-   clients. Run `git fsck --full --strict` at every checkpoint.
+6. The operator, not Claude Code, pauses OneDrive and confirms the Guard tree is fully local. Claude
+   Code checks/records that attestation and scans for offline/recall placeholder attributes. Do not
+   kill, pause or reconfigure OneDrive automatically. Close other Git clients and run
+   `git fsck --full --strict` at every checkpoint.
 7. Preserve user changes. Any dirty worktree at a tranche boundary is a stop unless the changed files
    are exactly the current authorized tranche and already accounted for.
 
@@ -77,20 +81,23 @@ git -C D:/IFX-Root/IFX rev-parse HEAD
 git -C D:/IFX-Root/IFX rev-parse HEAD:docs/guards/v4
 git -C D:/IFX-Root/IFX ls-files docs/guards/v4 | Measure-Object
 
-$safe = 'safe.directory=C:/Users/von12/OneDrive/Desktop/Guard'
-git -c $safe -C C:/Users/von12/OneDrive/Desktop/Guard status -sb
-git -c $safe -C C:/Users/von12/OneDrive/Desktop/Guard rev-parse HEAD
-git -c $safe -C C:/Users/von12/OneDrive/Desktop/Guard remote -v
-git -c $safe -C C:/Users/von12/OneDrive/Desktop/Guard fsck --full --strict
+git -C C:/Users/von12/OneDrive/Desktop/Guard status -sb
+git -C C:/Users/von12/OneDrive/Desktop/Guard rev-parse HEAD
+git -C C:/Users/von12/OneDrive/Desktop/Guard remote -v
+git -C C:/Users/von12/OneDrive/Desktop/Guard fsck --full --strict
 ```
+
+If and only if ordinary Guard commands fail with dubious ownership, repeat each failed command with
+`-c safe.directory=C:/Users/von12/OneDrive/Desktop/Guard` and record that the fallback was used.
 
 Also verify the remote Guard repository remains public, defaults to `main`, and has no active ruleset
 or workflow unless a newer reviewed Plan explicitly changes that expectation. GitHub GETs are allowed;
 GitHub writes are not implied.
 
-Create a timestamped external evidence root. Record command, exit code, stdout/stderr digest, tool
-version and resolved path for each migration command. Do not write mutable evidence below the product
-PackageRoot.
+Use the fixed durable root `D:\IFX-Root\v4-todo-008-evidence`. Create a timestamped child for each
+tranche/run. Record command, exit code, stdout/stderr digest, tool version and resolved path for each
+migration command. `%TEMP%` may hold disposable clones only; copy and hash-verify their final records
+into the durable root before cleanup. Do not write mutable evidence below the product PackageRoot.
 
 ## T1 checklist — manifests before movement
 
@@ -133,6 +140,22 @@ Product/IFX decisions that must not be guessed:
 - ignored P10 evidence and accepted bundles are not imported into Guard; and
 - old release assets/tags remain authoritative at their original IFX URLs.
 
+The following minimum disposition is already decided and is not an open T1 choice:
+
+| Extracted Guard path | T4 active-tree action | Historical disposition | IFX current successor |
+| --- | --- | --- | --- |
+| `plans/06-ifx-profile-validation-program.md` | delete | retain in extracted Git history only | `docs/guards/v4-adoption/plans/06-ifx-profile-validation-program.md` |
+| `plans/07-p10-0-baseline-acceptance.md` | delete | retain in extracted Git history only | `docs/guards/v4-adoption/plans/07-p10-0-baseline-acceptance.md` |
+| `plans/08-p10-1-extension-composition-compatibility.md` | delete | retain in extracted Git history only | `docs/guards/v4-adoption/plans/08-p10-1-extension-composition-compatibility.md` |
+| `plans/09-p10-3-cutover-and-rollback-proposal.md` | delete | retain in extracted Git history only | `docs/guards/v4-adoption/plans/09-p10-3-cutover-and-rollback-proposal.md` |
+| `integrations/github/ifx-cutover-proposal.json` | delete | retain in extracted Git history only | `docs/guards/v4-adoption/integrations/github/ifx-cutover-proposal.json` |
+| `integrations/github/proposed-v4-ifx-guardrails.yml` | delete | retain in extracted Git history only | `docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml` |
+
+Do not duplicate these files under Guard `docs/plans/history`. Create only a provenance index containing
+old paths/blob hashes and the IFX successor paths. Apply the same rule to any additional T1-confirmed
+IFX-only path. Product plans 01/02 and README stay in Guard after their live IFX status is replaced by
+an external adoption-history link.
+
 ## T2 checklist — history export
 
 Use a writable disposable clone. The following is a shape, not permission to execute before T0 passes:
@@ -174,9 +197,11 @@ Operate only on the Guard work branch:
 
 ```powershell
 $guard = 'C:/Users/von12/OneDrive/Desktop/Guard'
-$safe = 'safe.directory=' + $guard
-git -c $safe -C $guard switch -c codex/v4-todo-008-standalone e75d038
+git -C $guard switch -c codex/v4-todo-008-standalone e75d038
 ```
+
+Use the command-scoped `$safe` form from T0 only if ordinary Git access produced the documented
+dubious-ownership error.
 
 Add the export clone as a temporary local remote, fetch the exact export tip, remove the temporary
 remote after fetching, then merge with a non-fast-forward unrelated-history merge. Expect only the
@@ -212,6 +237,10 @@ Repair these through explicit root parameters and standalone repository-relative
 add compatibility symlinks or duplicate product trees. Keep installed archive structure and public CLI
 stable even if source paths move.
 
+During T4, delete the six IFX-only active-tree paths listed above after their source blobs and future
+IFX destinations are recorded. Their prior commits remain reachable by design. Do not wait until T7
+to remove these active Guard copies; T7 creates/moves the authoritative current IFX successors.
+
 Move plan content according to the master Plan. Historical formal Plan JSON that names old IFX paths
 must remain byte-exact and be labeled historical; do not edit it until it validates against a false past.
 
@@ -240,6 +269,11 @@ Discover the exact commands from the migrated source, then record and run them. 
 | External synthetic target | pass with separate roots |
 | Secret and IFX/V3-content scan | zero prohibited content |
 | Post-test status and fsck | clean/pass |
+
+If Linux cannot run locally, finish T5 locally as
+`local-windows-accepted-linux-pending`. This is an expected checkpoint, not a release pass. Stop before
+publication/canonical switch. Overall T5 becomes `pass` only when authorized T6 CI supplies
+Linux-complete for the identical Guard commit and package identity; record both decision hashes.
 
 Compare a clean build of the bound old source and the new source. Produce a structured difference
 report; do not use a prose assertion in place of manifests. Version/source/provenance fields may differ
