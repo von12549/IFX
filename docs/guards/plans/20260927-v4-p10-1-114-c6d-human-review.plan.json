@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-1-114-c6d-human-review",
+  "title": "Review the exact IFX 0.4.2 bundle for C6d acceptance",
+  "goal": "Freeze and independently verify the C6c-certified IFX 0.4.2 bundle review bytes, prepare the complete C6d packet, and stop for Xiaolong Feng's explicit accept or reject decision before C6e.",
+  "acceptanceCriteria": [
+    "The review packet binds target commit 40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82, base version 1.1.4, candidate version 0.4.2 and the certified manifest hash.",
+    "All 256 manifest-listed files and all 36 module capability ceilings are complete, unique and independently hash-verified without capability broadening.",
+    "The C6c Windows pass, controls pass and non-blocking Linux advisory failure are disclosed with exact evidence hashes.",
+    "Candidate bytes, authority roots and historical C6c evidence remain unchanged.",
+    "No production extension-review record or C6e composition is created without an explicit designated-human acceptance of the exact review packet."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-1-114-c6d-human-review.md",
+    "docs/guards/plans/20260927-v4-p10-1-114-c6d-human-review.plan.json",
+    "artifacts/guards/p10-ifx-114/c6d-review-042"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A synthetic review fixture or the instruction to start C6d could be mistaken for designated-human acceptance.",
+    "Any candidate byte or capability change invalidates the frozen C6c certification identity.",
+    "The non-blocking Linux portability failure must remain visible to the reviewer."
+  ],
+  "decisions": [
+    "C6d preparation does not create acceptance; only xiaolong-feng may explicitly accept or reject the exact packet.",
+    "C6e remains unauthorized until a schema-valid production review record binds the accepted bytes."
+  ],
+  "validationCommands": [
+    "ifx-package-test",
+    "extension-review-schema"
+  ],
+  "dependencies": [
+    "20260927-v4-p10-1-114-c6c-failure-recovery"
+  ],
+  "boundaries": [
+    "authorization",
+    "trust-change"
+  ]
+}
