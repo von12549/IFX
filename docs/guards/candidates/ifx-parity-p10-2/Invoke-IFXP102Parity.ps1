@@ -149,6 +149,7 @@ if ($LASTEXITCODE -ne 0 -or $referenceHead -cne $expected.targetCommit -or $refe
 $v3Pre = Root-Inventory $reference @('docs/guards/V3','docs/guards/V3_ifx')
 if ($v3Pre.inventorySha256 -cne $expected.v3Inventory -or $v3Pre.fileCount -ne 562) { Fail 'V3/V3_ifx inventory mismatch.' }
 $immutablePre = [ordered]@{
+    reference = Text-Sha (Fingerprint $reference)
     install = Text-Sha (Fingerprint $install)
     bundle = Text-Sha (Fingerprint $bundle)
     c6cWindows = Text-Sha (Fingerprint $windows)
@@ -253,9 +254,15 @@ foreach ($case in @($corpus.ToArray())) {
 
 Write-Json (Join-Path $output 'v4-case-runs.json') ([ordered]@{formatVersion=1;caseCount=$v4CaseRuns.Count;runs=@($v4CaseRuns.ToArray())})
 
+$v3SnapshotArchive = Join-Path $runtime 'v3-clean-target.zip'
+$v3CleanTarget = Join-Path $runtime 'v3-clean-target'
+$v3Snapshot = Run-Captured 'v3-clean-snapshot' 'git' @('-C',$reference,'archive','--format=zip','--output',$v3SnapshotArchive,'HEAD') $reference (Join-Path $logs 'v3-clean-snapshot')
+if ($v3Snapshot.exitCode -ne 0 -or -not [IO.File]::Exists($v3SnapshotArchive)) { Fail 'Failed to create the tracked-file V3 clean Target snapshot.' }
+[IO.Compression.ZipFile]::ExtractToDirectory($v3SnapshotArchive,$v3CleanTarget)
+$v3CleanBefore = Text-Sha (Fingerprint $v3CleanTarget)
 $v3RealReport = Join-Path $runtime 'v3-real-clean.json'
 $v3Runner = Full-File (Join-Path $reference 'docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1') 'V3 architecture runner'
-$v3Build = Run-Captured 'v3-real-clean' 'pwsh' @('-NoLogo','-NoProfile','-NonInteractive','-File',$v3Runner,'-Mode','Scan','-TargetRoot',$reference,'-ReportPath',$v3RealReport,'-SkipAuthorityCheck') $reference (Join-Path $logs 'v3-real-clean') @{GUARD_BUILD_ROOT=$build}
+$v3Build = Run-Captured 'v3-real-clean' 'pwsh' @('-NoLogo','-NoProfile','-NonInteractive','-File',$v3Runner,'-Mode','Scan','-TargetRoot',$v3CleanTarget,'-ReportPath',$v3RealReport,'-SkipAuthorityCheck') $v3CleanTarget (Join-Path $logs 'v3-real-clean') @{GUARD_BUILD_ROOT=$build}
 if ($v3Build.exitCode -ne 0 -or -not [IO.File]::Exists($v3RealReport)) { $gaps.Add([ordered]@{id='real-clean/v3';category='engine-failure';detail='V3 real clean scan did not pass.'}) }
 
 $hostDll = Full-File (Join-Path $install 'host/v4-guards.dll') 'Installed V4 Host'
@@ -306,18 +313,19 @@ foreach ($entry in $targetBefore.GetEnumerator()) {
     if ($after -cne [string]$entry.Value) { $gaps.Add([ordered]@{id=[string]$entry.Key;category='input-mutation';detail='Corpus Target changed.'}) }
 }
 $immutablePost = [ordered]@{
+    reference = Text-Sha (Fingerprint $reference)
     install = Text-Sha (Fingerprint $install)
     bundle = Text-Sha (Fingerprint $bundle)
     c6cWindows = Text-Sha (Fingerprint $windows)
 }
-foreach ($name in @('install','bundle','c6cWindows')) {
+foreach ($name in @('reference','install','bundle','c6cWindows')) {
     if ([string]$immutablePost[$name] -cne [string]$immutablePre[$name]) { $gaps.Add([ordered]@{id=$name;category='input-mutation';detail="$name inventory changed."}) }
 }
 
 $status = if ($gaps.Count -eq 0) { 'pass' } else { 'fail' }
 $decisionName = if ($status -ceq 'pass') { 'p10-2-parity-accepted' } else { 'p10-2-stopped-on-parity-gaps' }
 Write-Json (Join-Path $output 'v4-real-runs.json') ([ordered]@{formatVersion=1;runs=@($v4Runs.ToArray())})
-Write-Json (Join-Path $output 'summary.json') ([ordered]@{formatVersion=1;status=$status;decision=$decisionName;targetCommit=$expected.targetCommit;identities=$expected;toolchain=$toolchain;compositionProof=$compositionProof;corpus=[ordered]@{caseCount=$cases.Count;clean=$kindCounts.clean;missing=$kindCounts.missing;zero=$kindCounts.zero;violation=$kindCounts.violation;manifestSha256=Sha (Join-Path $output 'corpus-manifest.json')};v3=[ordered]@{pre=$v3Pre;post=$v3Post;realClean=$v3Build};v4=[ordered]@{caseRuns=$v4CaseRuns.Count;caseRunsSha256=Sha (Join-Path $output 'v4-case-runs.json');realRuns=@($v4Runs.ToArray())};comparison=[ordered]@{process=$comparisonProcess;caseCount=[int]$matrixDocument.caseCount;comparerGapCount=[int]$matrixDocument.gapCount;totalGapCount=$gaps.Count;sha256=Sha $matrixPath};immutableRoots=[ordered]@{pre=$immutablePre;post=$immutablePost};boundary=[ordered]@{p10_2Executed=$true;p10_2Accepted=($status-ceq'pass');p10_3Started=$false;activated=$false;published=$false;v3Retired=$false;ifxCutover=$false}})
+Write-Json (Join-Path $output 'summary.json') ([ordered]@{formatVersion=1;status=$status;decision=$decisionName;targetCommit=$expected.targetCommit;identities=$expected;toolchain=$toolchain;compositionProof=$compositionProof;corpus=[ordered]@{caseCount=$cases.Count;clean=$kindCounts.clean;missing=$kindCounts.missing;zero=$kindCounts.zero;violation=$kindCounts.violation;manifestSha256=Sha (Join-Path $output 'corpus-manifest.json')};v3=[ordered]@{pre=$v3Pre;post=$v3Post;cleanTargetSnapshot=[ordered]@{process=$v3Snapshot;trackedTreeBeforeRunSha256=$v3CleanBefore};realClean=$v3Build};v4=[ordered]@{caseRuns=$v4CaseRuns.Count;caseRunsSha256=Sha (Join-Path $output 'v4-case-runs.json');realRuns=@($v4Runs.ToArray())};comparison=[ordered]@{process=$comparisonProcess;caseCount=[int]$matrixDocument.caseCount;comparerGapCount=[int]$matrixDocument.gapCount;totalGapCount=$gaps.Count;sha256=Sha $matrixPath};immutableRoots=[ordered]@{pre=$immutablePre;post=$immutablePost};boundary=[ordered]@{p10_2Executed=$true;p10_2Accepted=($status-ceq'pass');p10_3Started=$false;activated=$false;published=$false;v3Retired=$false;ifxCutover=$false}})
 Write-Json (Join-Path $output 'p10-2-decision.json') ([ordered]@{formatVersion=1;status=$status;decision=$decisionName;summarySha256=Sha (Join-Path $output 'summary.json');corpusManifestSha256=Sha (Join-Path $output 'corpus-manifest.json');parityMatrixSha256=Sha (Join-Path $output 'parity-matrix.json');gapCount=$gaps.Count;gaps=@($gaps.ToArray());boundary=[ordered]@{p10_2ExecutionClosed=$true;p10_3Started=$false;activated=$false;published=$false;v3Retired=$false;ifxCutover=$false};recommendation=$(if($status-ceq'pass'){'P10.2 entry criteria are met; P10.3 still requires a separate Plan and authorization.'}else{'Do not enter P10.3. Review the preserved parity gaps and authorize a separate repair Plan if correction is desired.'})})
 
 Write-Output "P10.2 ${status}: $decisionName; gaps=$($gaps.Count); evidence=$output"

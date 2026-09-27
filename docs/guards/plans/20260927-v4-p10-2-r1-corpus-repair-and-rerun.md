@@ -2,6 +2,15 @@
 
 Status: authorized execution
 
+Execution amendment: the repair phase executed under the validated Plan at
+commit `4f468762`, Plan SHA-256
+`281eb9a2ee290d2b6f244b60eab6ce13f55ebf594415270da599a658e0122e67`.
+Before the authorized P10.2 rerun began, static review found that the V3
+build wrapper writes import reports beneath its scan Target. The rerun runner
+therefore creates a tracked-file-only clean Target snapshot with `git archive`
+inside the new external runtime evidence root. The certified reference
+checkout remains a read-only authority and is fingerprinted before and after.
+
 ## Authorization and predecessor
 
 The user explicitly authorized a separate repair Plan and continuation of
@@ -55,10 +64,11 @@ cleanup is permitted. The certified Target fingerprint after repair must be
    drift and record the post-repair inventory and repair decision.
 5. Require the new P10.2 repository output, external build root and external
    runtime evidence root to be absent.
-6. Run the committed P10.2 executor at commit
-   `3ce13b96756001fcfbd953b4d395c2cdf12d7cb1` with the new paths. The runner
-   must execute the exact 52 cases with both engines and a third comparison
-   process, or preserve a new fail-closed stopped decision.
+6. Run the P10.2 executor whose SHA-256 is
+   `87462c94a17c109c775a361384d84ad8e49c7e366d9e467b06040a9c5a81eb13`
+   with the new paths. It must create the V3 clean Target from the frozen
+   commit's tracked archive, execute the exact 52 cases with both engines and
+   a third comparison process, or preserve a new fail-closed stopped decision.
 7. Reconfirm P10.3, activation, publication, V3 retirement and IFX cutover
    remain false.
 
@@ -94,4 +104,3 @@ file or predecessor mismatch. Stop after deletion on any remaining Target
 drift. Stop the rerun on identity drift, engine failure, corpus drift or a
 comparison gap. Do not repair or rerun in place after the new P10.2-R1
 evidence closes.
-

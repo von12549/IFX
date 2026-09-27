@@ -29,6 +29,7 @@
   "decisions": [
     "Use a six-file exact path and SHA-256 allowlist with no wildcard or recursive deletion.",
     "Revalidate every one of the 52 frozen Target fingerprints before continuing P10.2.",
+    "Run the V3 clean build and scan against a tracked-file archive snapshot so its generated import reports cannot mutate the certified reference checkout.",
     "Use new absent repair, parity, build and runtime evidence paths.",
     "Keep the stopped predecessor evidence immutable and keep P10.3 false."
   ],
