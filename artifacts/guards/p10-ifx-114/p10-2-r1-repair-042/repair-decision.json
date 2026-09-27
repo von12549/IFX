@@ -1,0 +1,20 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "p10-2-r1-frozen-corpus-repair-accepted",
+  "preRepairSha256": "1e519bed3bd4658f926469ebeeb256b93949b36380118e6c181417d776d36a63",
+  "postRepairSha256": "70dab5cd4d9fea09fad68166d519da4ffd75ce67fc033bb7685a93f659d299fd",
+  "summarySha256": "de0b1354cb7346df8b9451d4580404ae9a154d66bf86cffeb228b32e3d0982e0",
+  "removedFileCount": 6,
+  "remainingCorpusDriftCount": 0,
+  "boundary": {
+    "repairClosed": true,
+    "p10_2RerunPermittedByPlan": true,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  },
+  "recommendation": "Continue P10.2 once on the new absent P10.2-R1 repository, build and runtime evidence paths."
+}

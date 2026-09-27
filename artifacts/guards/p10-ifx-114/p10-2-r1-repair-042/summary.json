@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "p10-2-r1-frozen-corpus-repair-accepted",
+  "planSha256": "281eb9a2ee290d2b6f244b60eab6ce13f55ebf594415270da599a658e0122e67",
+  "predecessorDecisionSha256": "73a7fce1b42b504326267eba078f130ce83f643bea07def38d90e9947645c7f5",
+  "preRepairSha256": "1e519bed3bd4658f926469ebeeb256b93949b36380118e6c181417d776d36a63",
+  "removedFileCount": 6,
+  "postRepair": {
+    "caseCount": 52,
+    "driftCount": 0,
+    "aggregateSha256": "83be4294e6e76bf0317d4caa0abb840261693bbc6c00b9f2b2e7f6693ddfd003"
+  },
+  "boundary": {
+    "repairAccepted": true,
+    "p10_2RerunAuthorized": true,
+    "p10_2RerunStarted": false,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  }
+}

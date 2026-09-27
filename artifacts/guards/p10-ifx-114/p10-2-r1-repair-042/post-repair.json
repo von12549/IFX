@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "removedFileCount": 6,
+  "repairRootRemainingFileCount": 0,
+  "certifiedCorpusCaseCount": 52,
+  "certifiedCorpusDriftCount": 0,
+  "certifiedCorpusAggregateSha256": "83be4294e6e76bf0317d4caa0abb840261693bbc6c00b9f2b2e7f6693ddfd003",
+  "drifts": [],
+  "newParityOutputAbsent": true,
+  "newBuildRootAbsent": true,
+  "newRuntimeEvidenceRootAbsent": true,
+  "p10_3Started": false
+}
+

@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "planSha256": "281eb9a2ee290d2b6f244b60eab6ce13f55ebf594415270da599a658e0122e67",
+  "predecessorDecisionSha256": "73a7fce1b42b504326267eba078f130ce83f643bea07def38d90e9947645c7f5",
+  "repairRoot": "D:/IFX-Root/IFX/artifacts/guards/p10-ifx-114/c6c-recovery-042-full/windows/suites/c1b/a63d23c0a6234bab8bfeb906bff5f8a3/forbidden-reference/artifacts/guards/v3-ifx/build/architecture-conformance",
+  "observedFileCount": 6,
+  "allowlist": [
+    {"name":"Guards.ArchitectureConformance.imports.pre-build.json","sha256":"1bcfca59e3ef740a53d02c8497e3b9715b1c9e7e167709428a43d99d1bc64529"},
+    {"name":"Guards.ArchitectureConformance.Tests.imports.pre-build.json","sha256":"4b4647f5996ef2a3ce7c5f5d143904560e31234fcd86a611f24c61f54ca2f4c1"},
+    {"name":"LayerGuard.Ifx.imports.post-build.json","sha256":"0eb9c614629724f44e553783a4a7d0789e9a87ba876ed7367a4c6ac8dbbf55ca"},
+    {"name":"LayerGuard.Ifx.imports.pre-build.json","sha256":"40724b242785b2763cd2b3171da0a9eac14f3b222f288c3b76080a7b9f217a76"},
+    {"name":"LayerGuard.Ifx.Tests.imports.pre-build.json","sha256":"b16bdfd19e8a4208fbaf9d57c8e2dda1c5abf2b67ea9528b22d2056e90140cf2"},
+    {"name":"LayerGuard.Tests.imports.pre-build.json","sha256":"f6037c30f7f5a73325359fcbfef9977596aab5ba581e8ea8095bf1437f8ad87f"}
+  ],
+  "unexpectedFiles": [],
+  "authorizedAction": "remove-exact-six-files-only"
+}
+
