@@ -1,6 +1,6 @@
 # V4-TODO-008 T7 — IFX consumer rebinding to standalone V4 Guards 1.1.5
 
-Status: `APPROVED 2026-09-28 — A-IFX-REBIND local part authorized ("授权A-IFX-REBIND本地部分，执行R0–R3和R5–R9"); R4 and R10 need separate decisions`
+Status: `LOCAL COMPLETE 2026-09-28 — R0–R9 done (R4 accepted by the operator); R10 push and Guard records PR need separate authorization; see §11`
 
 Formal Plan ID: `20260928-v4-todo-008-t7-ifx-consumer-rebinding`.
 
@@ -127,3 +127,21 @@ present because T8 has not run.
   references in `profile.json` and writes `evidence-lineage.json`, so four files, not three, differ
   from 0.4.2. The seven workspace-evidence consumers are still requalified against the 1.1.5 Host
   (`hostContractRequalifiedCount=7`), although their bytes are inherited unchanged.
+
+## 11. Outcome (2026-09-28, local)
+
+| Step | Result |
+| --- | --- |
+| R0 | Plan committed `1548bb62` |
+| R1 | `v4-guards-1.1.5.zip` downloaded from the Guard release; size, SHA-256 `74c371eb…`, API digest and `.sha256` asset agree; installed to `guard-runtime/releases/v4-guards-1.1.5`, package `e8cd3269…` |
+| R2 | 1.1.4 → 1.1.5 installed diff: the 7 declared T4 files, version fields, `docs/1.1.5-release-notes.md` and Host/Companion binaries; modules, Profiles and contracts unchanged |
+| R3 | Harness `1fcc0783` (the Target commit, A1). Contract handshake: 36 exact inherits. Seven fresh locks; candidates A/B byte-identical (manifest `24c325ac…`); focused requalification of the seven consumers passed; C6c Windows product certification and controls pass (191/191 core cases, 37 suites). Linux: non-blocking `advisory-fail` |
+| R4 | Review packet `178480b3…` exported. Linux diagnostic (operator request): the `ifx-database-evidence` 60 s timeout is exceeded in the container (73–85 s measured, reproduced 3/3 in isolation); workload and module bytes identical to 0.4.2. Operator decision "1 接受"; production review `7619c12e…`, decision `074266b1…` |
+| R5 | Composition `v4-guards-1.1.5-ifx-0.4.3`, package `25fd95fa…`; installed-Host Pre: clean pass (10 modules, 22 claims), deliberate `T7R5Fault.cs` blocks with `IMPORT-DIRECTION`; Host queries agree; protected roots unchanged. Decision `b9916376…`. The first Host-run attempt stopped on a script field path after the clean run passed; fixed in `691d706c` and rerun on new output, the partial attempt is preserved |
+| R6 | Parity 52/52, zero gaps, the same 15 strengthenings; semantically identical to the accepted 1.1.4 R2 row by row. Decision `443ffdfe…` |
+| R7 | Six files moved with `git mv` (`8bd809bc`); successor proposal, specimen and design 10 (`07cf3f69`); rehearsal decision `c2e432bd…` with seven executed negative controls rejected |
+| R8 | `docs/guards/v4` README marked non-canonical (`a22ab217`); handoff decision and receipt `docs/guards/v4-adoption/migration/v4-todo-008-ifx-rebinding-receipt.json` (`6883eb62`): `standaloneSourceAccepted=true`, `ifxConsumerRebound=true`; cleanup, activation, P10.GATE and V3 retirement false |
+| R9 | V3_ifx `Validate` pass; V3, V3_ifx and `.github` byte-identical to `42b666ac`; `git fsck --full --strict` pass; clean worktree; `plan validate` (1.1.5 Host) pass; all 63 changed paths within `plannedPaths` |
+
+Evidence: `D:\IFX-Root4-todo-008-evidence\T7-rebind60928T041048Z`. Follow-up recorded: raise or
+platform-scale the `ifx-database-evidence` timeout in a later bundle under its own Plan.
