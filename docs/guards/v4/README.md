@@ -1,5 +1,11 @@
 # V4 Guards
 
+> **Non-canonical copy (V4-TODO-008 T7, 2026-09-28).** The V4 Guards product source, releases and CI now
+> live in [`von12549/Guard`](https://github.com/von12549/Guard). IFX consumes V4 Guards 1.1.5 from that
+> repository's release. This directory is a frozen duplicate kept only until the separately authorized
+> T8 cleanup; do not edit it or build from it. IFX-owned adoption records moved to
+> [`docs/guards/v4-adoption`](../v4-adoption/README.md).
+
 V4 Guards is a self-contained, profile-driven guard package for inspecting repositories through four
 independently runnable stages: Bootstrap, Analysis, Pre and Post. Version `1.1.4` adds
 opt-in reusable Host workspace evidence; earlier releases remain immutable.
