@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "id": "20260928-v4-todo-008-t7-ifx-consumer-rebinding",
+  "title": "Rebind IFX as a consumer of standalone V4 Guards 1.1.5",
+  "goal": "Make IFX consume V4 Guards 1.1.5 from von12549/Guard through a successor IFX bundle, human review, composition, parity and P10.3 successor rehearsal, move IFX-owned adoption records to docs/guards/v4-adoption, and record the handoff decision without removing docs/guards/v4.",
+  "acceptanceCriteria": [
+    "The 1.1.5 archive, install receipt and package hash match the published Guard release identities.",
+    "Bundle 0.4.3 differs from 0.4.2 only in the declared manifest, Profile version and authority-map base identity, and C6c Windows certification and controls pass.",
+    "Explicit human acceptance binds the exact 0.4.3 review packet and a production review bound to the 1.1.5 archive.",
+    "The composed 1.1.5 + 0.4.3 installation verifies, the clean Pre passes and the deliberate violation blocks.",
+    "Parity replays 52 of 52 cases with zero gaps, the same visible strengthenings and no semantic drift from the certified 1.1.4 captures.",
+    "The P10.3 successor rehearsal passes with negative controls for wrong repository, missing asset, hash drift, missing bundle, source-path fallback, self-judgment and premature cleanup.",
+    "The receipt sets standaloneSourceAccepted and ifxConsumerRebound true while cleanup, activation, P10.GATE and V3 retirement stay false.",
+    "V3 contexts, V3/V3_ifx source, IFX workflows and rulesets are unchanged."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260928-v4-todo-008-t7-ifx-consumer-rebinding.md",
+    "docs/guards/plans/20260928-v4-todo-008-t7-ifx-consumer-rebinding.plan.json",
+    "docs/guards/candidates/ifx-rebind-115",
+    "docs/guards/v4-adoption",
+    "docs/guards/v4/plans/06-ifx-profile-validation-program.md",
+    "docs/guards/v4/plans/07-p10-0-baseline-acceptance.md",
+    "docs/guards/v4/plans/08-p10-1-extension-composition-compatibility.md",
+    "docs/guards/v4/plans/09-p10-3-cutover-and-rollback-proposal.md",
+    "docs/guards/v4/integrations/github/ifx-cutover-proposal.json",
+    "docs/guards/v4/integrations/github/proposed-v4-ifx-guardrails.yml",
+    "docs/guards/v4/README.md",
+    "artifacts/guards/p10-ifx-115"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "The accepted 1.1.4 scripts pin version literals and could be edited instead of succeeded.",
+    "Expiring C6 evidence locks could be extended instead of regenerated.",
+    "A tag-only pin would trust a mutable GitHub release.",
+    "The IFX workflow specimen could fall back to the current repository or to docs/guards/v4.",
+    "A consumer rebinding could be misrepresented as cleanup, activation or P10.GATE."
+  ],
+  "decisions": [
+    "Build successor bundle 0.4.3 for base 1.1.5 at the unchanged Target commit instead of editing the accepted 0.4.2 tuple.",
+    "Require a new explicit human review because the production review binds the base archive.",
+    "Pin both the Guard release tag and the archive SHA-256, and fetch only from von12549/Guard.",
+    "Keep docs/guards/v4 in place as a frozen non-canonical duplicate until T8.",
+    "Defer the installed Web UI hands-on record to the P10.GATE successor."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "release-asset-verify",
+    "c6c-windows-certification",
+    "composition-verify",
+    "p10-2-successor-parity",
+    "p10-3-successor-rehearsal",
+    "v3-ifx-validate",
+    "git-fsck"
+  ],
+  "dependencies": [
+    "20260927-v4-todo-008-standalone-repository-extraction",
+    "20260927-v4-p10-3-cutover-and-rollback-design"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
