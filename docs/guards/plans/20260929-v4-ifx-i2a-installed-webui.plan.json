@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "id": "20260929-v4-ifx-i2a-installed-webui",
+  "title": "IFX I2-A: installed Web UI hands-on record for V4 Guards 1.1.6 + ifx_profile 0.4.4",
+  "goal": "Record the installed Web UI hands-on run (clean pass, deliberate violation blocks, UI/Host agreement, root invariance) for the exact I1 tuple and check that the composed V4 package has no V3 runtime dependency.",
+  "acceptanceCriteria": [
+    "The composed receipt and package pass public verification before the session.",
+    "Clean UI Pre passes with 10 modules, non-vacuous coverage and zero findings.",
+    "Violating UI Pre blocks with IMPORT-DIRECTION from ifx-source-policy.",
+    "Installed Host queries match the UI exactly.",
+    "Base, composed installation and both Targets are unchanged.",
+    "No V3 runtime dependency in the composed package."
+  ],
+  "plannedPaths": [
+    "artifacts/guards/p10-ifx-116/i2a-webui-044",
+    "docs/guards/TODO.md",
+    "docs/guards/candidates/ifx-i2a",
+    "docs/guards/plans/20260929-v4-ifx-i2a-installed-webui.md",
+    "docs/guards/plans/20260929-v4-ifx-i2a-installed-webui.plan.json"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A browser session could write into a Target or the installation.",
+    "UI results could be taken without Host cross-check."
+  ],
+  "decisions": [
+    "Reuse the S7 Git-backed Targets read-only; new State and Evidence roots.",
+    "Launch only the installed receipted Web Companion."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "composition-verify",
+    "host-query-agreement",
+    "root-invariance",
+    "v3-dependency-scan"
+  ],
+  "dependencies": [
+    "20260929-v4-ifx-i2-p10-gate-successor"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
