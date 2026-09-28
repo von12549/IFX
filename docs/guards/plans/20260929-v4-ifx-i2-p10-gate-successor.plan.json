@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "id": "20260929-v4-ifx-i2-p10-gate-successor",
+  "title": "IFX I2 program: P10.GATE successor for V4 Guards 1.1.6 + ifx_profile 0.4.4 (IFX-V4-001)",
+  "goal": "Reach P10.GATE for the I1 tuple through phased, separately authorized Plans: installed Web UI record, CI evidence redesign with a new bundle, V3 promotion to main without bypass, curated adoption package, workflow installation with negative tests, ruleset aggregate and coexistence window.",
+  "acceptanceCriteria": [
+    "Every phase I2-A to I2-G has its own exact Plan and authorization before execution.",
+    "No remote write, ruleset change or default-branch change happens without explicit per-step operator approval.",
+    "P10.GATE is recorded only when all conditions of plan 06 section 8 hold."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260928-v4-ifx-i1-rebind-1-1-6.md",
+    "docs/guards/plans/20260929-v4-ifx-i2-p10-gate-successor.md",
+    "docs/guards/plans/20260929-v4-ifx-i2-p10-gate-successor.plan.json"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "CI Post cannot run with lock-pinned bundle 0.4.4 (F1).",
+    "A normal PR to main cannot pass the V3 trusted-base checks (F2).",
+    "Remote setting changes could be taken as implied by program approval."
+  ],
+  "decisions": [
+    "1A: switch the default branch to codex/guards-principles-plan, fast-forward main, switch back.",
+    "2B: curated docs/guards/v4-adoption package; only v4-adoption is admitted to the V3 allowlist."
+  ],
+  "validationCommands": [
+    "plan-validate"
+  ],
+  "dependencies": [
+    "20260928-v4-ifx-i1-rebind-1-1-6"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
