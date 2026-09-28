@@ -4,6 +4,9 @@ This directory holds IFX's own records for adopting V4 Guards. IFX is a **consum
 product. The product source, releases and trusted-base CI live in the standalone repository
 [`von12549/Guard`](https://github.com/von12549/Guard) (canonical since V4-TODO-008 T7, 2026-09-28).
 
+IFX's open adoption items (V4-TODO-004, the IFX side of V4-TODO-008, IFX-V4-001 and IFX-V4-002) are in
+[`../TODO.md`](../TODO.md).
+
 `docs/guards/v4` is the former incubation copy of the product. After T7 it is a frozen, non-canonical
 duplicate that nothing here reads. V4-TODO-008 T8 removes it under its own authorization.
 
