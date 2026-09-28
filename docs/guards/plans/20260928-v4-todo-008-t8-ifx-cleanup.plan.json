@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "20260928-v4-todo-008-t8-ifx-cleanup",
+  "title": "Remove the duplicated V4 product source docs/guards/v4 from IFX",
+  "goal": "Remove the 169 obsolete-after-gate files of docs/guards/v4 after the T7 consumer gate, prove no live reference remains, V3 and the IFX application are unchanged, IFX consumes the exact Guard release from a clean environment and the P10.3 successor rollback still works, and record a cleanup receipt with the rollback commit.",
+  "acceptanceCriteria": [
+    "Exactly the 169 classified files, two ignored fixture files and three stale .gitignore lines are removed.",
+    "No live reference to docs/guards/v4 remains outside historical Plans, evidence and migration records.",
+    "V3, V3_ifx, .github and the IFX application are byte-identical and the application builds and passes its tests.",
+    "IFX consumes the exact V4 Guards 1.1.5 release from a clean environment and the post-cleanup Pre passes.",
+    "The P10.3 successor rollback rehearsal passes after cleanup with all negative controls rejected.",
+    "The cleanup receipt sets ifxCoreSourceRemoved true and records the rollback commit."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260928-v4-todo-008-t8-ifx-cleanup.md",
+    "docs/guards/plans/20260928-v4-todo-008-t8-ifx-cleanup.plan.json",
+    "docs/guards/v4",
+    ".gitignore",
+    "docs/guards/v4-adoption",
+    "docs/guards/TODO.md",
+    "docs/guards/candidates/ifx-rebind-115",
+    "artifacts/guards/p10-ifx-115"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A live consumer or harness could still read product source from docs/guards/v4.",
+    "A broad deletion could remove IFX-owned adoption records or evidence.",
+    "The accepted C6c Linux leg installs V4 from the Target's docs/guards/v4 and would fail on its next run."
+  ],
+  "decisions": [
+    "Keep the deletion in a single cleanup commit so that one revert restores the source.",
+    "Keep historical Plans and evidence unchanged and classify their references as historical.",
+    "Do not edit the accepted C6c scripts; track the installer coupling as IFX-V4-003 for the next C6c successor.",
+    "Allow cleanup in the successor rehearsal only when the T8 cleanup receipt exists."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "reference-scan",
+    "v3-ifx-validate",
+    "v3-ifx-quality-solution",
+    "clean-environment-consumer-check",
+    "p10-3-successor-rehearsal",
+    "git-fsck"
+  ],
+  "dependencies": [
+    "20260928-v4-todo-008-t7-ifx-consumer-rebinding"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
