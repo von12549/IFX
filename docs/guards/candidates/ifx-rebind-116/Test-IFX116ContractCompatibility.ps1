@@ -7,7 +7,7 @@ param(
     [string]$BaseInstallRoot='D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath='D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath='artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$PreviousInventoryPath='artifacts/guards/p10-ifx-116/formal-inventory/2113d50b2ba74eb49631ff0a6214aec8/ordinal-inventory.json',
+    [string]$PreviousInventoryPath='artifacts/guards/p10-ifx-115/formal-inventory/2113d50b2ba74eb49631ff0a6214aec8/ordinal-inventory.json',
     [string]$EvidenceRoot='artifacts/guards/p10-ifx-116/contract-preflight'
 )
 Set-StrictMode -Version Latest
