@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "id": "20260928-v4-ifx-i1-rebind-1-1-6",
+  "title": "Rebind IFX to V4 Guards 1.1.6 with successor bundle 0.4.4 (I1; IFX-V4-002, IFX-V4-003)",
+  "goal": "Make IFX consume V4 Guards 1.1.6 from von12549/Guard through successor bundle 0.4.4, human review, composition, parity and P10.3 successor rehearsal, and close IFX-V4-002 (Linux timeout) and IFX-V4-003 (C6c Linux installer path) through C6c successor harness changes.",
+  "acceptanceCriteria": [
+    "The 1.1.6 archive, install receipt and package hash match the published Guard release identities.",
+    "Bundle 0.4.4 differs from 0.4.3 only as the Plan allows; C6c Windows certification and controls pass and the Linux leg passes with the release-archive installer on container-native storage.",
+    "Explicit human acceptance binds the exact 0.4.4 review packet and a production review bound to the 1.1.6 archive.",
+    "The composed 1.1.6 + 0.4.4 installation verifies, the clean Pre passes and the deliberate violation blocks.",
+    "Parity replays 52 of 52 cases with zero gaps, the same 15 strengthenings and no semantic drift.",
+    "The P10.3 successor rehearsal passes with every negative control, including the source-path installer control.",
+    "V3 contexts, V3/V3_ifx source, IFX workflows and rulesets are unchanged."
+  ],
+  "plannedPaths": [
+    "artifacts/guards/p10-ifx-116",
+    "docs/guards/TODO.md",
+    "docs/guards/candidates/ifx-rebind-116",
+    "docs/guards/plans/20260928-v4-ifx-i1-rebind-1-1-6.md",
+    "docs/guards/plans/20260928-v4-ifx-i1-rebind-1-1-6.plan.json",
+    "docs/guards/v4-adoption"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "The accepted 1.1.5 scripts could be edited instead of succeeded.",
+    "A module timeout could be raised without measuring the native Linux duration first.",
+    "The Linux leg could still read the Target over the Windows bind mount.",
+    "Expiring C6 evidence locks could be extended instead of regenerated.",
+    "A consumer rebinding could be misrepresented as activation or P10.GATE."
+  ],
+  "decisions": [
+    "Build successor bundle 0.4.4 for base 1.1.6 instead of editing the accepted 0.4.3 tuple.",
+    "Take the Linux installer from the hash-verified release archive, never from docs/guards/v4.",
+    "Measure ifx-database-evidence on container-native storage before any module change; a module change needs an operator decision.",
+    "Keep Linux a non-blocking C6c assessment; making it blocking belongs to P10.GATE."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "release-asset-verify",
+    "linux-native-timing",
+    "c6c-windows-certification",
+    "c6c-linux-assessment",
+    "composition-verify",
+    "p10-2-successor-parity",
+    "p10-3-successor-rehearsal",
+    "v3-ifx-validate",
+    "git-fsck"
+  ],
+  "dependencies": [
+    "20260928-v4-todo-008-t7-ifx-consumer-rebinding"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
