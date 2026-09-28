@@ -45,6 +45,9 @@ foreach($relative in $trackedPaths){
     [void][IO.Directory]::CreateDirectory((Split-Path -Parent $targetFile))
     Copy-Item -LiteralPath $sourceFile -Destination $targetFile -Force
 }
+# Amendment A5: re-record the index of this throwaway checkout after the byte copy (see Sync-IFX116CheckoutIndex).
+Import-Module (Join-Path $PSScriptRoot 'IFX116.NativeStorage.psm1') -Force
+$checkoutIndexSync=Sync-IFX116CheckoutIndex -TargetRoot $TargetRoot
 foreach($relativeRoot in @('src','tests')){
     foreach($dir in @(Get-ChildItem -LiteralPath (Join-Path $SourceRoot $relativeRoot) -Directory -Recurse -Force|Where-Object{$_.FullName -notmatch '[\\/](bin|obj|node_modules|dist|coverage|\.vite)([\\/]|$)'})){
         $relative=[IO.Path]::GetRelativePath($SourceRoot,$dir.FullName)
@@ -131,5 +134,5 @@ foreach($spec in @([ordered]@{id='direct-pre';stage='pre';count=10;claims=22;dep
 $trackedAfter=@(& git -C $TargetRoot status --porcelain --untracked-files=no) -join "`n"
 Assert ((Fingerprint (Join-Path $composed 'package')) -ceq $packageBefore -and $trackedAfter -ceq $trackedBefore) 'Linux Package or tracked TargetRoot changed.'
 foreach($entry in $windows.locks){Assert ((Hash (Join-Path $TargetRoot $entry.path)) -ceq $entry.sha256) "Evidence lock changed: $($entry.id)"}
-WriteJson $ReportPath ([ordered]@{formatVersion=1;status='pass';scope='i1-c6c-linux-synthetic-candidate';sourceCommit=$commit;baseVersion=$ExpectedBaseVersion;bundleVersion=$CandidateVersion;bundleManifestSha256=Hash $manifest;profileSha256=Hash $profile;linuxSdk='10.0.303';installerSource='release-archive';installerSha256=$releaseInstaller.installerSha256;windowsBaseReceiptSha256=Hash $WindowsBaseReceiptPath;linuxBaseReceiptSha256=Hash $BaseReceiptPath;basePayloadIdentity='equal';cases=@($cases.ToArray());compositionReceiptSha256=Hash $compositionReceipt;windowsSummarySha256=Hash $WindowsSummaryPath;limitations=@('Synthetic review is not Xiaolong Feng approval.','Independent detector-family violation/zero-match matrix remains required.')})
+WriteJson $ReportPath ([ordered]@{formatVersion=1;status='pass';scope='i1-c6c-linux-synthetic-candidate';sourceCommit=$commit;baseVersion=$ExpectedBaseVersion;bundleVersion=$CandidateVersion;bundleManifestSha256=Hash $manifest;profileSha256=Hash $profile;linuxSdk='10.0.303';installerSource='release-archive';installerSha256=$releaseInstaller.installerSha256;checkoutIndexSync=$checkoutIndexSync;windowsBaseReceiptSha256=Hash $WindowsBaseReceiptPath;linuxBaseReceiptSha256=Hash $BaseReceiptPath;basePayloadIdentity='equal';cases=@($cases.ToArray());compositionReceiptSha256=Hash $compositionReceipt;windowsSummarySha256=Hash $WindowsSummaryPath;limitations=@('Synthetic review is not Xiaolong Feng approval.','Independent detector-family violation/zero-match matrix remains required.')})
 Write-Output "IFX I1 Linux candidate passed: $ReportPath"

@@ -59,4 +59,22 @@ function Copy-IFX116NativeResults {
     }
 }
 
-Export-ModuleMember -Function Assert-IFX116NativeStorage, Copy-IFX116NativeResults
+function Sync-IFX116CheckoutIndex {
+    # Amendment A5: the Linux positive runner clones with core.autocrlf=true and then overwrites every tracked
+    # file with the Windows worktree bytes. Git then reports every file as modified: the copies over the 9p
+    # mount carry the executable bit, and files that are LF on Windows changed size against the CRLF checkout
+    # (git treats a size change as modified without comparing content). The throwaway checkout records no
+    # file modes (core.filemode=false) and restages the tracked files. Identical content restages to the same
+    # blobs and leaves no change; any real difference remains a staged change and is rejected here, and again
+    # by the matrix's tracked-source-clean precondition.
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$TargetRoot)
+    $before = @(& git -C $TargetRoot status --porcelain --untracked-files=no 2>&1); if ($LASTEXITCODE -ne 0) { throw 'git status failed before index sync.' }
+    & git -C $TargetRoot config core.filemode false; if ($LASTEXITCODE -ne 0) { throw 'git config core.filemode failed.' }
+    $null = @(& git -C $TargetRoot add -u 2>&1); if ($LASTEXITCODE -ne 0) { throw 'git add -u failed.' }
+    $after = @(& git -C $TargetRoot status --porcelain --untracked-files=no 2>&1); if ($LASTEXITCODE -ne 0) { throw 'git status failed after index sync.' }
+    if ($after.Count -ne 0) { throw "Native checkout content differs from the bound commit: $(@($after | Select-Object -First 10) -join '; ')" }
+    [ordered]@{ reportedBeforeSync = $before.Count; remainingAfterSync = 0; fileMode = 'false' }
+}
+
+Export-ModuleMember -Function Assert-IFX116NativeStorage, Copy-IFX116NativeResults, Sync-IFX116CheckoutIndex

@@ -28,6 +28,32 @@ Case 'copyback-excludes-target' $false {
     if (Test-Path '/out/copyback/native-checkout') { throw 'Target checkout was copied back.' }
     foreach ($f in @('/out/copyback/work/receipt.json', '/out/copyback/linux-failure-direct-post.json', '/out/copyback/native-copyback.json')) { if (-not (Test-Path $f)) { throw "missing $f" } }
 }
+# Amendment A5: index sync of the byte-copied checkout. A synthetic origin with an LF-in-worktree file and a
+# CRLF file is cloned with core.autocrlf=true, overwritten with the origin bytes and marked executable (as the
+# 9p copy does). Identical bytes must sync clean; a real content change must still be rejected.
+function New-A5Checkout([string]$Name) {
+    $origin = "/native/a5/$Name/origin"; $clone = "/native/a5/$Name/clone"
+    [void][IO.Directory]::CreateDirectory($origin)
+    & git -C $origin init --quiet; & git -C $origin config core.autocrlf true
+    [IO.File]::WriteAllText("$origin/lf.json", "{`n  `"a`": 1`n}`n"); [IO.File]::WriteAllText("$origin/crlf.txt", "x`r`ny`r`n")
+    & git -C $origin add -A 2>&1 | Out-Null; & git -C $origin -c user.name=c -c user.email=c@c commit --quiet -m init 2>&1 | Out-Null
+    & git clone --no-local --quiet -c core.autocrlf=true $origin $clone
+    foreach ($f in @('lf.json', 'crlf.txt')) { Copy-Item -LiteralPath "$origin/$f" -Destination "$clone/$f" -Force; & chmod +x "$clone/$f" }
+    return $clone
+}
+Case 'a5-index-sync-identical-bytes-accepted' $false {
+    $clone = New-A5Checkout 'same'
+    $dirty = @(& git -C $clone status --porcelain --untracked-files=no)
+    if ($dirty.Count -eq 0) { throw 'Non-vacuity: the byte copy did not reproduce the reported modifications.' }
+    $r = Sync-IFX116CheckoutIndex -TargetRoot $clone
+    if (@(& git -C $clone status --porcelain --untracked-files=no).Count -ne 0) { throw 'Checkout still dirty after sync.' }
+    if (@(& git -C $clone diff --cached --name-only HEAD).Count -ne 0) { throw 'Index differs from HEAD after sync.' }
+}
+Case 'a5-index-sync-content-change-rejected' $true {
+    $clone = New-A5Checkout 'changed'
+    [IO.File]::AppendAllText("$clone/lf.json", "tamper`n")
+    Sync-IFX116CheckoutIndex -TargetRoot $clone
+}
 $fs = [ordered]@{ native = (& stat -f -c '%T' /native).Trim(); out = (& stat -f -c '%T' /out).Trim(); source = (& stat -f -c '%T' /source).Trim(); unlisted = (& stat -f -c '%T' /unlisted).Trim() }
 $status = if (@($cases | Where-Object { -not $_.pass }).Count -eq 0) { 'pass' } else { 'failed' }
 [IO.File]::WriteAllText($ReportPath, (([ordered]@{ formatVersion = 1; kind = 'ifx-i1-s4-native-storage-controls'; status = $status; fileSystems = $fs; cases = @($cases.ToArray()) } | ConvertTo-Json -Depth 10).Replace("`r`n", "`n") + "`n"), [Text.UTF8Encoding]::new($false))
