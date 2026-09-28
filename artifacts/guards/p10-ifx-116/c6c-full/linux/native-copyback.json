@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i1-linux-native-copyback",
+  "nativeRoot": "/native/linux",
+  "outRoot": "/out/linux",
+  "items": [
+    {
+      "name": "matrix",
+      "copied": true,
+      "fileCount": 65567,
+      "bytes": 790309999
+    },
+    {
+      "name": "native-checkout",
+      "copied": false,
+      "reason": "excluded"
+    },
+    {
+      "name": "positive.json",
+      "copied": true,
+      "fileCount": 1,
+      "bytes": 1775
+    },
+    {
+      "name": "summary.json",
+      "copied": true,
+      "fileCount": 1,
+      "bytes": 769
+    },
+    {
+      "name": "work",
+      "copied": true,
+      "fileCount": 761,
+      "bytes": 16318206
+    }
+  ]
+}

@@ -1,0 +1,558 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "ifx-1.1.6-seven-consumer-focused-qualification-v2",
+  "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+  "baseVersion": "1.1.6",
+  "bundleVersion": "0.4.4",
+  "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+  "profileSha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51",
+  "startedAt": "2026-09-28T16:14:54.6420453+00:00",
+  "completedAt": "2026-09-28T16:15:31.8194912+00:00",
+  "workspaceEvidence": {
+    "pathScope": "external-temporary",
+    "sha256": "462ecfeb598e13b00f69f31fdbae37d71a04e85b79f122ee7fef139a478631e1",
+    "fileCount": 1152,
+    "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+    "producerElapsedSeconds": 0.999,
+    "freshForRun": true
+  },
+  "modules": [
+    {
+      "moduleId": "ifx-domain-reference",
+      "stage": "pre",
+      "workspaceElapsedSeconds": 0.598,
+      "fallbackElapsedSeconds": 0.598,
+      "semanticSha256": "e855649f68e20a65e0b75084c094315e43b75570e4591620432119a6792056b8",
+      "findingCount": 0,
+      "coverageCount": 1
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "stage": "pre",
+      "workspaceElapsedSeconds": 0.549,
+      "fallbackElapsedSeconds": 0.484,
+      "semanticSha256": "d0959882a774938017c1ad95be958c13bb40f742b1e1b6cc2a0f88c95f639869",
+      "findingCount": 0,
+      "coverageCount": 1
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "stage": "post",
+      "workspaceElapsedSeconds": 0.819,
+      "fallbackElapsedSeconds": 1.164,
+      "semanticSha256": "b5171258b6712e7fa9dfd823717d3635ab4fcda2c98ffc47350abd32534be583",
+      "findingCount": 0,
+      "coverageCount": 3
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "stage": "post",
+      "workspaceElapsedSeconds": 0.647,
+      "fallbackElapsedSeconds": 0.866,
+      "semanticSha256": "cff759ad48530673210277d5ab10ebf8fd3e163cd4bbaf5809ec6bed65848ec2",
+      "findingCount": 0,
+      "coverageCount": 2
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "stage": "post",
+      "workspaceElapsedSeconds": 1.566,
+      "fallbackElapsedSeconds": 1.719,
+      "semanticSha256": "7ddfb1de3c177ad530f0e8d36b6dbce920e48a495ae9658405be6b35e8d03a13",
+      "findingCount": 0,
+      "coverageCount": 1
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "stage": "post",
+      "workspaceElapsedSeconds": 0.597,
+      "fallbackElapsedSeconds": 0.89,
+      "semanticSha256": "e67facd7b14e3bfdba928c578e7fc1b887e6f414a6e7da63c9971ed53fd80abe",
+      "findingCount": 0,
+      "coverageCount": 1
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "stage": "post",
+      "workspaceElapsedSeconds": 1.624,
+      "fallbackElapsedSeconds": 1.809,
+      "semanticSha256": "4c25255810772d121c5f05e4cb9d59c95becafbe541c6343c52291d68a99830d",
+      "findingCount": 0,
+      "coverageCount": 1
+    }
+  ],
+  "negativeCases": [
+    {
+      "moduleId": "ifx-domain-reference",
+      "id": "hash-tamper",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.374
+    },
+    {
+      "moduleId": "ifx-domain-reference",
+      "id": "target-commit-mismatch",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.41
+    },
+    {
+      "moduleId": "ifx-domain-reference",
+      "id": "missing-evidence",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.347
+    },
+    {
+      "moduleId": "ifx-domain-reference",
+      "id": "path-overlap",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.36
+    },
+    {
+      "moduleId": "ifx-domain-reference",
+      "id": "stale-evidence",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.382
+    },
+    {
+      "moduleId": "ifx-domain-reference",
+      "id": "provider-scope-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.383
+    },
+    {
+      "moduleId": "ifx-domain-reference",
+      "id": "provider-output-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.374
+    },
+    {
+      "moduleId": "ifx-domain-reference",
+      "id": "linked-input",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.343
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "id": "hash-tamper",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.335
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "id": "target-commit-mismatch",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.38
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "id": "missing-evidence",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.324
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "id": "path-overlap",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.32
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "id": "stale-evidence",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.372
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "id": "provider-scope-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.383
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "id": "provider-output-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.376
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "id": "linked-input",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.323
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "id": "hash-tamper",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.339
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "id": "target-commit-mismatch",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.4
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "id": "missing-evidence",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.354
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "id": "path-overlap",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.334
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "id": "stale-evidence",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.373
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "id": "provider-scope-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.379
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "id": "provider-output-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.388
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "id": "linked-input",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.352
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "id": "hash-tamper",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.337
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "id": "target-commit-mismatch",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.376
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "id": "missing-evidence",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.304
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "id": "path-overlap",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.318
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "id": "stale-evidence",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.379
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "id": "provider-scope-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.357
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "id": "provider-output-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.357
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "id": "linked-input",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.306
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "id": "hash-tamper",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.328
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "id": "target-commit-mismatch",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.373
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "id": "missing-evidence",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.333
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "id": "path-overlap",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.313
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "id": "stale-evidence",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.369
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "id": "provider-scope-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.384
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "id": "provider-output-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.365
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "id": "linked-input",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.309
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "id": "hash-tamper",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.402
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "id": "target-commit-mismatch",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.372
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "id": "missing-evidence",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.322
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "id": "path-overlap",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.321
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "id": "stale-evidence",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.365
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "id": "provider-scope-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.379
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "id": "provider-output-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.38
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "id": "linked-input",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.335
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "id": "hash-tamper",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.34
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "id": "target-commit-mismatch",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.378
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "id": "missing-evidence",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.315
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "id": "path-overlap",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.341
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "id": "stale-evidence",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.405
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "id": "provider-scope-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.412
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "id": "provider-output-drift",
+      "status": "blocked",
+      "exitCategory": "integrity-failure",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.365
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "id": "linked-input",
+      "status": "blocked",
+      "exitCategory": "unsafe-path",
+      "processExitCode": 0,
+      "elapsedSeconds": 0.314
+    },
+    {
+      "moduleId": "host",
+      "id": "profile-provider-config-tamper",
+      "status": "blocked",
+      "exitCategory": "composition-integrity-failure",
+      "processExitCode": 1,
+      "elapsedSeconds": 0.396
+    },
+    {
+      "moduleId": "host",
+      "id": "undeclared-evidence-root",
+      "status": "not-injected",
+      "evidence": "Host source capability gate plus CLI no-override contract"
+    }
+  ],
+  "negativeConsumerExecutions": 56,
+  "diagnosticTimeoutSeconds": 300,
+  "formalTimeoutPolicy": "process-kill-at-module-declared-timeout",
+  "hostTrustBoundary": {
+    "callerEvidenceOverride": false,
+    "profileTamper": "composition-rejected",
+    "linkedEvidence": "rejected-by-all-seven-consumers",
+    "undeclaredEvidenceRoot": "not-injected"
+  }
+}

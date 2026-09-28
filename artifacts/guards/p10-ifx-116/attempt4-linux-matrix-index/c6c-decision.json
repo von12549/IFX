@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "phase-1-complete-stop-for-human-review",
+  "targetCommit": "50ae55ea190543960f1b165583a89dde463aa3c3",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.4.4",
+  "contractSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\contract-preflight\\641d621454584ca98ea6e71cee4db20e\\summary.json",
+    "sha256": "2f3a0b145fe43b69ae860fffac10d3c8d5feff4ecf14293935c5ac70db69c05d"
+  },
+  "focusedSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\focused-qualification-044\\6be4b934da8a4cfabddfeabb12181724\\summary.json",
+    "sha256": "773206a8925fb467f99b2e762d7484272d837cd9eed0465f0f627178a38bf095"
+  },
+  "inventory": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\formal-inventory\\6c7d9d41cf434436bec14c2716492bf6\\ordinal-inventory.json",
+    "sha256": "212ca6d9ab36ec737897536bf9d947a30fe4d35245544931236f8acf3a790c74"
+  },
+  "candidate": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\formal-candidate-a\\51f7650ae1f74af690353c4d2fea065d\\bundle",
+    "manifestSha256": "03c6bd1be23e5ac1274c2ce7feffe3b8ca61614d9587813267d68689671f73e6"
+  },
+  "c6c": {
+    "attemptMarker": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-attempt.json",
+    "summaryPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\summary.json",
+    "exitCode": 0,
+    "productCertification": {
+      "targetProduct": "IFX",
+      "deploymentPlatform": "windows-server",
+      "status": "pass",
+      "blockingRequirements": [
+        "windows-full",
+        "certification-controls"
+      ],
+      "reasonCodes": []
+    },
+    "portabilityAssessment": {
+      "platform": "linux-x64",
+      "blocking": false,
+      "status": "advisory-fail",
+      "semanticProjection": "not-evaluated",
+      "reasonCodes": [
+        "linux-complete-failed",
+        "semantic-projection-not-evaluated"
+      ],
+      "processExitCode": 1,
+      "provenCoreCases": 0,
+      "diagnostics": [
+        "linux process exited 1"
+      ],
+      "report": null,
+      "matrixReport": null,
+      "caseManifest": null,
+      "failureEvidence": []
+    }
+  },
+  "risks": [
+    "The I1 C6d successor human review (S6) is still required.",
+    "The synthetic review fixture is not human extension acceptance.",
+    "Linux is a visible non-blocking portability assessment under C6c22."
+  ],
+  "recommendation": "Review phase-1 evidence before explicitly authorizing C6d."
+}

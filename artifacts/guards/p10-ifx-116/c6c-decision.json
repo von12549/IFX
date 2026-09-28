@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "phase-1-complete-stop-for-human-review",
+  "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.4.4",
+  "contractSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\contract-preflight\\983b1a2089e24c7ba3680cf83adfb2a8\\summary.json",
+    "sha256": "25c8129b054c818021f784be848f4fd0a8ebbb4c15f1e5367619bc84aec4c1a8"
+  },
+  "focusedSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\focused-qualification-044\\4a78ed845826477fbcf9a8fb83d582eb\\summary.json",
+    "sha256": "ff8acbe9d7326fd8ecef8c6871ddc16eef91d2a0c734a237d70ded683df62512"
+  },
+  "inventory": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\formal-inventory\\323f9917d9874d32ac43716e797f1019\\ordinal-inventory.json",
+    "sha256": "b623af9d686284da673e41a6aa28c631676769f4f8ee36915ec6b859c7c3bf0f"
+  },
+  "candidate": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\formal-candidate-a\\030915adc6e5463785d7d210fd228ea8\\bundle",
+    "manifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7"
+  },
+  "c6c": {
+    "attemptMarker": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-attempt.json",
+    "summaryPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\summary.json",
+    "exitCode": 0,
+    "productCertification": {
+      "targetProduct": "IFX",
+      "deploymentPlatform": "windows-server",
+      "status": "pass",
+      "blockingRequirements": [
+        "windows-full",
+        "certification-controls"
+      ],
+      "reasonCodes": []
+    },
+    "portabilityAssessment": {
+      "platform": "linux-x64",
+      "blocking": false,
+      "status": "pass",
+      "semanticProjection": "equal",
+      "reasonCodes": [],
+      "processExitCode": 0,
+      "provenCoreCases": 191,
+      "diagnostics": [],
+      "report": {
+        "path": "linux/summary.json",
+        "sha256": "d22e706c5df7133efcde434747f2132e776964ded6e9a73d00a35f21ad131093"
+      },
+      "matrixReport": {
+        "path": "linux/matrix/summary.json",
+        "sha256": "93bba4002d9fbd3783707f69bbb1c6530e851402750d22d02adac09f840bd5d8"
+      },
+      "caseManifest": {
+        "path": "linux/matrix/case-manifest.json",
+        "sha256": "3c7761510cfa23621e4571874e6f3f8f8e2b78c13f52411a023fbef285d27494"
+      },
+      "failureEvidence": []
+    }
+  },
+  "risks": [
+    "The I1 C6d successor human review (S6) is still required.",
+    "The synthetic review fixture is not human extension acceptance.",
+    "Linux is a visible non-blocking portability assessment under C6c22."
+  ],
+  "recommendation": "Review phase-1 evidence before explicitly authorizing C6d."
+}

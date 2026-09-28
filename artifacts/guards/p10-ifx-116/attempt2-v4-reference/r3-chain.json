@@ -1,0 +1,144 @@
+{
+  "formatVersion": 1,
+  "status": "failed",
+  "step": "I1-S5",
+  "targetCommit": "3d7595154c525983fa2e5acb02e5c041c22c5b10",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.4.4",
+  "startedAt": "2026-09-28T14:21:47.2950321+00:00",
+  "completedAt": "2026-09-28T14:32:56.3041645+00:00",
+  "elapsedSeconds": 669.009,
+  "failure": "Step c6c failed with exit 1; see D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\chain\\c6c.log",
+  "steps": [
+    {
+      "id": "inventory",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c6b0/Test-IFXC6ModuleInventory.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:21:47.2976632+00:00",
+      "completedAt": "2026-09-28T14:21:48.6259233+00:00",
+      "elapsedSeconds": 1.328,
+      "log": "artifacts/guards/p10-ifx-116/chain/inventory.log",
+      "logSha256": "2bfbda309f2d59e1ab81fc61829932f382e72e2b97ed5f9e946f25dc72e74094"
+    },
+    {
+      "id": "contract",
+      "script": "docs/guards/candidates/ifx-rebind-116/Test-IFX116ContractCompatibility.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:21:48.6631242+00:00",
+      "completedAt": "2026-09-28T14:21:51.6928701+00:00",
+      "elapsedSeconds": 3.03,
+      "log": "artifacts/guards/p10-ifx-116/chain/contract.log",
+      "logSha256": "5f1ad9eab0d613aa8a00833fe68415449f97791fbe61acc68ef20f0b92876ab7"
+    },
+    {
+      "id": "lock-solution",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:21:51.7046854+00:00",
+      "completedAt": "2026-09-28T14:24:28.9312594+00:00",
+      "elapsedSeconds": 157.227,
+      "log": "artifacts/guards/p10-ifx-116/chain/lock-solution.log",
+      "logSha256": "725b335c80df25730cc930d4789228bbbc4c55b9715855ad2ed754b232bbecfd"
+    },
+    {
+      "id": "lock-assembly",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:24:28.9404497+00:00",
+      "completedAt": "2026-09-28T14:24:32.2318093+00:00",
+      "elapsedSeconds": 3.291,
+      "log": "artifacts/guards/p10-ifx-116/chain/lock-assembly.log",
+      "logSha256": "2dc8ba949b9095f0b4869a07c74abf8069a867f99dd3a377089aca0e940c439e"
+    },
+    {
+      "id": "lock-frontend",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c5d/Invoke-IFXFrontendEvidenceProducer.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:24:32.2371493+00:00",
+      "completedAt": "2026-09-28T14:25:20.4463208+00:00",
+      "elapsedSeconds": 48.209,
+      "log": "artifacts/guards/p10-ifx-116/chain/lock-frontend.log",
+      "logSha256": "86db094213997895fb83c62af6404ca2b238cea909df57d4b58a02845e81c486"
+    },
+    {
+      "id": "lock-database",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:25:20.4532342+00:00",
+      "completedAt": "2026-09-28T14:27:05.6332146+00:00",
+      "elapsedSeconds": 105.18,
+      "log": "artifacts/guards/p10-ifx-116/chain/lock-database.log",
+      "logSha256": "1e8e3abeac12f8b247473b9ca06229fcd45c73696cf39cd72465569a4f8b5905"
+    },
+    {
+      "id": "lock-graph",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:27:05.6425079+00:00",
+      "completedAt": "2026-09-28T14:27:28.8803430+00:00",
+      "elapsedSeconds": 23.238,
+      "log": "artifacts/guards/p10-ifx-116/chain/lock-graph.log",
+      "logSha256": "02cf0d5aed0350076fae0d4da3042588fd4e03b95e50c484955ce087d34c8f05"
+    },
+    {
+      "id": "lock-generated",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c1r2c/Test-IFXGeneratedInputDisposition.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:27:28.8860458+00:00",
+      "completedAt": "2026-09-28T14:28:01.9315675+00:00",
+      "elapsedSeconds": 33.046,
+      "log": "artifacts/guards/p10-ifx-116/chain/lock-generated.log",
+      "logSha256": "aba73e72f6b8b802bf69ee3c038b57f44fa6351b474db7840140be6071a5ac6f"
+    },
+    {
+      "id": "lock-type",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:28:01.9387421+00:00",
+      "completedAt": "2026-09-28T14:28:03.4766928+00:00",
+      "elapsedSeconds": 1.538,
+      "log": "artifacts/guards/p10-ifx-116/chain/lock-type.log",
+      "logSha256": "dba0d7f4f9cebd0bde37fe5e0ec8a2d9db38a90d202f75644bed42ccbf25d862"
+    },
+    {
+      "id": "candidate-a",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c6b1/Test-IFXC6DraftBundle.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:28:03.4836862+00:00",
+      "completedAt": "2026-09-28T14:31:22.1397380+00:00",
+      "elapsedSeconds": 198.656,
+      "log": "artifacts/guards/p10-ifx-116/chain/candidate-a.log",
+      "logSha256": "b791ac4bd1038d43977c4b3911ece36cde3bf60e81229eb511d3f17ed7ddb1f0"
+    },
+    {
+      "id": "candidate-b",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c6b1/Test-IFXC6DraftBundle.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:31:22.1448932+00:00",
+      "completedAt": "2026-09-28T14:32:16.9420910+00:00",
+      "elapsedSeconds": 54.797,
+      "log": "artifacts/guards/p10-ifx-116/chain/candidate-b.log",
+      "logSha256": "f51ea65e03ba82412494d3841ecc32a5b4380d86eaa6f31f0f5f423641165f85"
+    },
+    {
+      "id": "focused",
+      "script": "docs/guards/candidates/ifx-rebind-116/Test-IFX116FocusedQualification.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:32:16.9497667+00:00",
+      "completedAt": "2026-09-28T14:32:54.8694285+00:00",
+      "elapsedSeconds": 37.92,
+      "log": "artifacts/guards/p10-ifx-116/chain/focused.log",
+      "logSha256": "7a37b2535333a1dff5d9b7a949af9d2c2baec01be07780d88d81b1395b741864"
+    },
+    {
+      "id": "c6c",
+      "script": "docs/guards/candidates/ifx-rebind-116/Invoke-IFX116C6c.ps1",
+      "exitCode": 1,
+      "startedAt": "2026-09-28T14:32:54.8796732+00:00",
+      "completedAt": "2026-09-28T14:32:56.2921720+00:00",
+      "elapsedSeconds": 1.412,
+      "log": "artifacts/guards/p10-ifx-116/chain/c6c.log",
+      "logSha256": "101a0d2aaaa8ef8c3fc69a94051607b152578fd02c3294ba0762314d300f33ef"
+    }
+  ]
+}

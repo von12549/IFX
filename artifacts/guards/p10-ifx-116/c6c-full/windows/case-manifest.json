@@ -1,0 +1,4692 @@
+{
+  "formatVersion": 1,
+  "sourceCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+  "platform": "windows",
+  "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+  "cases": [
+    {
+      "id": "ifx-domain-reference/C",
+      "kind": "clean",
+      "moduleId": "ifx-domain-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS"
+      ],
+      "fixtureSha256": "318d2d9c8c530a2cbf2c29238cb0d177b7cf12e4e042cabce53ec4e139d2b022",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-extraction/M",
+      "kind": "missing",
+      "moduleId": "ifx-plan04-extraction",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_EXTRACTION"
+      ],
+      "fixtureSha256": "af56ac9a763bdbb8052f0fa08b23d5b4012ab4f1781c53972a88ebf82424bad4",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-extraction/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-plan04-extraction",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_EXTRACTION"
+      ],
+      "fixtureSha256": "aee3e0b315b10e190781468e30ad630331e181efe500bf7cf065f5e3126b8ddb",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-extraction/V/PLAN04-EXTRACTION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "PLAN04-EXTRACTION",
+      "moduleId": "ifx-plan04-extraction",
+      "ruleId": "PLAN04-EXTRACTION",
+      "claimIds": [
+        "IFX.C4A.PLAN04_EXTRACTION"
+      ],
+      "fixtureSha256": "6c7ce1cb8e47a5e2ee324e816ac4c4f7c4a2591a528604e008ad1d7739c4fe7c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "defaultRemainsModularMonolith",
+        "detectorId": "ifx-plan04-extraction",
+        "evidenceKind": "extraction-policy"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-tenant/C",
+      "kind": "clean",
+      "moduleId": "ifx-plan04-tenant",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_TENANT"
+      ],
+      "fixtureSha256": "c9f2415d9b508ef2b32e4a4dcba93155a6f04be3f6d7507fc93885ed87cf949e",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-tenant/M",
+      "kind": "missing",
+      "moduleId": "ifx-plan04-tenant",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_TENANT"
+      ],
+      "fixtureSha256": "9906c5d935880d437a9cbd3b299b878a62f196d23fe6fc06838a248e93597b73",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-tenant/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-plan04-tenant",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_TENANT"
+      ],
+      "fixtureSha256": "eb5304be6d7306f9fef44124d8b5b775f7970621dcad7fded5fac482aed762cf",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-tenant/V/PLAN04-TENANT",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "PLAN04-TENANT",
+      "moduleId": "ifx-plan04-tenant",
+      "ruleId": "PLAN04-TENANT",
+      "claimIds": [
+        "IFX.C4A.PLAN04_TENANT"
+      ],
+      "fixtureSha256": "83c0ca64fc441a2f3d91fe2a84ed421bfbf5af8f2bae6d1e13543c336956897f",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "tenantMethodsGuardedAndPredicated",
+        "detectorId": "ifx-plan04-tenant",
+        "evidenceKind": "tenant-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-projection/C",
+      "kind": "clean",
+      "moduleId": "ifx-plan04-projection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_PROJECTION"
+      ],
+      "fixtureSha256": "13c2744bcb7f2e265965896860802bb73dd60d016f004e0d43307e8bbf1d4940",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-projection/M",
+      "kind": "missing",
+      "moduleId": "ifx-plan04-projection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_PROJECTION"
+      ],
+      "fixtureSha256": "ed474f443c052918d5e526de5cac06c90b8db4a4fc5fa5a7ca4855ca69fff8a3",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-extraction/C",
+      "kind": "clean",
+      "moduleId": "ifx-plan04-extraction",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_EXTRACTION"
+      ],
+      "fixtureSha256": "3b68dfc96d5193c8470d390f519a5289f8d3e9a82ee1fc8afc7bf5e9bef5bac6",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-projection/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-plan04-projection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_PROJECTION"
+      ],
+      "fixtureSha256": "2d445ba5371cc25711834f940d4d90577eb868a16ca13ffa9b19eb9967e8fe7a",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-abstractions/C",
+      "kind": "clean",
+      "moduleId": "ifx-plan04-abstractions",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_ABSTRACTIONS"
+      ],
+      "fixtureSha256": "42066fc2e384ef1e5b6e43ee1872d2db80f4688b5b35bfd68d04ffde09512489",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-abstractions/M",
+      "kind": "missing",
+      "moduleId": "ifx-plan04-abstractions",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_ABSTRACTIONS"
+      ],
+      "fixtureSha256": "142f6c548346a4c6b2a7b2af94a2aa7c6da37648b237507f4a903a0b04a21a3a",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-abstractions/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-plan04-abstractions",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4A.PLAN04_ABSTRACTIONS"
+      ],
+      "fixtureSha256": "b9fa057a43a738d74aca254ef76d9b19d411d273549746bb46ac39cb384d627c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-abstractions/V/PLAN04-ABSTRACTIONS",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "PLAN04-ABSTRACTIONS",
+      "moduleId": "ifx-plan04-abstractions",
+      "ruleId": "PLAN04-ABSTRACTIONS",
+      "claimIds": [
+        "IFX.C4A.PLAN04_ABSTRACTIONS"
+      ],
+      "fixtureSha256": "d74ced74b2fe7d2e2a5374caf88c3fd0d049b943488867dd08153e46e20987f0",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "noLegacyAbstractionsDirectories",
+        "detectorId": "ifx-plan04-abstractions",
+        "evidenceKind": "abstractions-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-database-evidence/C",
+      "kind": "clean",
+      "moduleId": "ifx-database-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.DATABASE_EVIDENCE"
+      ],
+      "fixtureSha256": "96e618def503cc82ff4696164825e0a69ccc56966595595ae14d81d629682af3",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-database-evidence/M",
+      "kind": "missing",
+      "moduleId": "ifx-database-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.DATABASE_EVIDENCE"
+      ],
+      "fixtureSha256": "5ff773b72c62ce13777371ee0a08e6222206744d4f771bb6a316ec862083c8cb",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-database-evidence/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-database-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.DATABASE_EVIDENCE"
+      ],
+      "fixtureSha256": "cfdbaa2c8a4ccaf5df44f37d084eeddbf23d13f9cd11734ce370b0bf117269ea",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-database-evidence/V/DATABASE-LOCKED-EVIDENCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "DATABASE-LOCKED-EVIDENCE",
+      "moduleId": "ifx-database-evidence",
+      "ruleId": "DATABASE-LOCKED-EVIDENCE",
+      "claimIds": [
+        "IFX.C4.DATABASE_EVIDENCE"
+      ],
+      "fixtureSha256": "cfdbaa2c8a4ccaf5df44f37d084eeddbf23d13f9cd11734ce370b0bf117269ea",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "sqlServerMatrixPassed",
+        "detectorId": "ifx-database-evidence",
+        "evidenceKind": "database-evidence"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-inventory/C",
+      "kind": "clean",
+      "moduleId": "ifx-g05-inventory",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_INVENTORY"
+      ],
+      "fixtureSha256": "16fbb7240bf4bacc4704583135619fa2797d01fbe41b1cfc00db8d70442e9ca5",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan04-projection/V/PLAN04-PROJECTION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "PLAN04-PROJECTION",
+      "moduleId": "ifx-plan04-projection",
+      "ruleId": "PLAN04-PROJECTION",
+      "claimIds": [
+        "IFX.C4A.PLAN04_PROJECTION"
+      ],
+      "fixtureSha256": "53b5d442d2e070fdf1eb4e2e18309f13e59a9d47ac2cb01b39a2c2cecd8f0a07",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "approvedConsumerInventoryIsExplicitlyEmpty",
+        "detectorId": "ifx-plan04-projection",
+        "evidenceKind": "projection-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-inventory/M",
+      "kind": "missing",
+      "moduleId": "ifx-g05-inventory",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_INVENTORY"
+      ],
+      "fixtureSha256": "c5f60c124bd006dfff0cf667985210ac3a0c1a2a0da3636a345e07799cdae811",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-closeout/V/G04-INBOUND-CLOSEOUT",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-INBOUND-CLOSEOUT",
+      "moduleId": "ifx-g04-closeout",
+      "ruleId": "G04-INBOUND-CLOSEOUT",
+      "claimIds": [
+        "IFX.C3.G04_INBOUND_CLOSEOUT"
+      ],
+      "fixtureSha256": "7621def7947e026ea91be4725155366c3f741b8173b1f4ff6323a1486656fae5",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "readinessAdvancedOnlyOneSlice",
+        "detectorId": "ifx-g04-closeout",
+        "evidenceKind": "closeout-evidence"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-closeout/V/G04-DOCUMENTATION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-DOCUMENTATION",
+      "moduleId": "ifx-g04-closeout",
+      "ruleId": "G04-DOCUMENTATION",
+      "claimIds": [
+        "IFX.C3.G04_DOCUMENTATION"
+      ],
+      "fixtureSha256": "a93fdb6a06af98fc7a1b3f7a4a59ae4f3679453cccdf98c13492a1d8bf36459c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "documentationValidated",
+        "detectorId": "ifx-g04-closeout",
+        "evidenceKind": "closeout-evidence"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-manifests/M",
+      "kind": "missing",
+      "moduleId": "ifx-g04-manifests",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_FAILURE_POLICY",
+        "IFX.C3.G04_INVENTORY",
+        "IFX.C3.G04_MANIFEST",
+        "IFX.C3.G04_ORCHESTRATION"
+      ],
+      "fixtureSha256": "6ff44a6008112789f4ddb88850ad7dd8f9f0e2964cd6662cbd7c1299c1311ec6",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-manifests/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g04-manifests",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_FAILURE_POLICY",
+        "IFX.C3.G04_INVENTORY",
+        "IFX.C3.G04_MANIFEST",
+        "IFX.C3.G04_ORCHESTRATION"
+      ],
+      "fixtureSha256": "7cef5d74f189bb7a9fbe2a2afabef9e8ac4bc70fe05239748cc506a30e2e737c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-manifests/V/G04-INVENTORY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-INVENTORY",
+      "moduleId": "ifx-g04-manifests",
+      "ruleId": "G04-INVENTORY",
+      "claimIds": [
+        "IFX.C3.G04_INVENTORY"
+      ],
+      "fixtureSha256": "afab512ce02f1cae005baa1f89eeb50af4f1e781193c4cc40268734bacfd544c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "business-modules",
+        "detectorId": "ifx-g04-manifests",
+        "evidenceKind": "runtime-inventory"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-manifests/V/G04-MANIFEST",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-MANIFEST",
+      "moduleId": "ifx-g04-manifests",
+      "ruleId": "G04-MANIFEST",
+      "claimIds": [
+        "IFX.C3.G04_MANIFEST"
+      ],
+      "fixtureSha256": "7cef5d74f189bb7a9fbe2a2afabef9e8ac4bc70fe05239748cc506a30e2e737c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "module-set",
+        "detectorId": "ifx-g04-manifests",
+        "evidenceKind": "release-manifest"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-manifests/V/G04-ORCHESTRATION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "G04-MANIFEST",
+        "G04-ORCHESTRATION"
+      ],
+      "moduleId": "ifx-g04-manifests",
+      "ruleId": "G04-ORCHESTRATION",
+      "claimIds": [
+        "IFX.C3.G04_ORCHESTRATION"
+      ],
+      "fixtureSha256": "115993578520c3aa352054b40103e05d7eabc70ecce7c7ed526309ba182cf3c4",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "release-stage-order",
+        "detectorId": "ifx-g04-manifests",
+        "evidenceKind": "release-policy"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-manifests/V/G04-FAILURE-POLICY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "G04-FAILURE-POLICY",
+        "G04-MANIFEST"
+      ],
+      "moduleId": "ifx-g04-manifests",
+      "ruleId": "G04-FAILURE-POLICY",
+      "claimIds": [
+        "IFX.C3.G04_FAILURE_POLICY"
+      ],
+      "fixtureSha256": "7308b4a85abe1b9a40218d52ca5758d25bc50825b4be40d99b666d6ea3fc28d0",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "automatic-down-prohibited",
+        "detectorId": "ifx-g04-manifests",
+        "evidenceKind": "failure-policy"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/C",
+      "kind": "clean",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_BACKPRESSURE",
+        "IFX.C3.G04_DRAIN",
+        "IFX.C3.G04_HEALTH",
+        "IFX.C3.G04_INBOUND",
+        "IFX.C3.G04_ROLE",
+        "IFX.C3.G04_STARTUP",
+        "IFX.C3.G04_WORKER"
+      ],
+      "fixtureSha256": "cf7fb5fcb8bda5138635ec5bdd58f971eb3697f06cac8bce47a190c578860d5d",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/M",
+      "kind": "missing",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_BACKPRESSURE",
+        "IFX.C3.G04_DRAIN",
+        "IFX.C3.G04_HEALTH",
+        "IFX.C3.G04_INBOUND",
+        "IFX.C3.G04_ROLE",
+        "IFX.C3.G04_STARTUP",
+        "IFX.C3.G04_WORKER"
+      ],
+      "fixtureSha256": "a8dbfaabfbe4c636fe9e0a2e5f2081d3055ead4435bc55708f83d8f45d847f83",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_BACKPRESSURE",
+        "IFX.C3.G04_DRAIN",
+        "IFX.C3.G04_HEALTH",
+        "IFX.C3.G04_INBOUND",
+        "IFX.C3.G04_ROLE",
+        "IFX.C3.G04_STARTUP",
+        "IFX.C3.G04_WORKER"
+      ],
+      "fixtureSha256": "d5933eea033e767ad3807ace1691c255a9a4d2d98de21cfa749899781f341169",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-closeout/V/G04-CLOSEOUT",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-CLOSEOUT",
+      "moduleId": "ifx-g04-closeout",
+      "ruleId": "G04-CLOSEOUT",
+      "claimIds": [
+        "IFX.C3.G04_CLOSEOUT"
+      ],
+      "fixtureSha256": "b861b8ad8521e40e615e0ae7b7753b3f715cd807d2fe862d2fa46ef30327eab4",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "closeoutValidated",
+        "detectorId": "ifx-g04-closeout",
+        "evidenceKind": "closeout-evidence"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/V/G04-ROLE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-ROLE",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": "G04-ROLE",
+      "claimIds": [
+        "IFX.C3.G04_ROLE"
+      ],
+      "fixtureSha256": "e7f8d0a9fb500fb2ca0b26b4fcaa644f50930dd3fe858a132d7a40e4dfdfd09e",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "apiEndpointMappingIsRoleGated",
+        "detectorId": "ifx-g04-runtime",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/V/G04-WORKER",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-WORKER",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": "G04-WORKER",
+      "claimIds": [
+        "IFX.C3.G04_WORKER"
+      ],
+      "fixtureSha256": "1d33314110751a0b22acece91bc280ebd927c172e6f442c24e37b8efabcb3443",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "uniqueRuntimeIdentityCreated",
+        "detectorId": "ifx-g04-runtime",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/V/G04-DRAIN",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-DRAIN",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": "G04-DRAIN",
+      "claimIds": [
+        "IFX.C3.G04_DRAIN"
+      ],
+      "fixtureSha256": "4ff99b869d0f90a965ac45fb9f22f9272abb74e53aa00d362b5b8f1675e7b96e",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "newWorkRejectedAtomically",
+        "detectorId": "ifx-g04-runtime",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/V/G04-HEALTH",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-HEALTH",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": "G04-HEALTH",
+      "claimIds": [
+        "IFX.C3.G04_HEALTH"
+      ],
+      "fixtureSha256": "30aec914cded26b77e0224848aebdc59d312ba384160e8621a43a2dbd8eaa09e",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "readyProbeUsesLifecycle",
+        "detectorId": "ifx-g04-runtime",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/V/G04-BACKPRESSURE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-BACKPRESSURE",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": "G04-BACKPRESSURE",
+      "claimIds": [
+        "IFX.C3.G04_BACKPRESSURE"
+      ],
+      "fixtureSha256": "839b4158f7ebe11e00739b463d88af86f1b1edb5bb98e9c07d6f20be087671c1",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "retrySemanticsStable",
+        "detectorId": "ifx-g04-runtime",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/V/G04-INBOUND",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-INBOUND",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": "G04-INBOUND",
+      "claimIds": [
+        "IFX.C3.G04_INBOUND"
+      ],
+      "fixtureSha256": "3fccac035d6a2f5b69f9658f950b3717c03b63742e9b2fbfc89279955e6e3aa0",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "contextValidatedBeforeHandler",
+        "detectorId": "ifx-g04-runtime",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-closeout/C",
+      "kind": "clean",
+      "moduleId": "ifx-g04-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_CLOSEOUT",
+        "IFX.C3.G04_DOCUMENTATION",
+        "IFX.C3.G04_EVIDENCE",
+        "IFX.C3.G04_INBOUND_CLOSEOUT"
+      ],
+      "fixtureSha256": "d3e8f200622cd701957e0afea4f30304587ce9a80e1207d561a3dff48ed0315e",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-closeout/M",
+      "kind": "missing",
+      "moduleId": "ifx-g04-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_CLOSEOUT",
+        "IFX.C3.G04_DOCUMENTATION",
+        "IFX.C3.G04_EVIDENCE",
+        "IFX.C3.G04_INBOUND_CLOSEOUT"
+      ],
+      "fixtureSha256": "108b42d5409928127c640cbda74d687a80dff035f3d807007c3bacba7c611c99",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-closeout/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g04-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_CLOSEOUT",
+        "IFX.C3.G04_DOCUMENTATION",
+        "IFX.C3.G04_EVIDENCE",
+        "IFX.C3.G04_INBOUND_CLOSEOUT"
+      ],
+      "fixtureSha256": "903f04f6021f6ce92b70216d30e8d8df580bbede7a2b1833cccdc2beaa80e3bf",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-closeout/V/G04-EVIDENCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-EVIDENCE",
+      "moduleId": "ifx-g04-closeout",
+      "ruleId": "G04-EVIDENCE",
+      "claimIds": [
+        "IFX.C3.G04_EVIDENCE"
+      ],
+      "fixtureSha256": "b8521523ebcdcc4f8c34bc3584a673a92358bd573f121ea25cd04c8b19e18c6b",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "phase8EvidenceExists",
+        "detectorId": "ifx-g04-closeout",
+        "evidenceKind": "closeout-evidence"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-runtime/V/G04-STARTUP",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G04-STARTUP",
+      "moduleId": "ifx-g04-runtime",
+      "ruleId": "G04-STARTUP",
+      "claimIds": [
+        "IFX.C3.G04_STARTUP"
+      ],
+      "fixtureSha256": "d5933eea033e767ad3807ace1691c255a9a4d2d98de21cfa749899781f341169",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "platformRegisteredBeforeModules",
+        "detectorId": "ifx-g04-runtime",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g04-manifests/C",
+      "kind": "clean",
+      "moduleId": "ifx-g04-manifests",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C3.G04_FAILURE_POLICY",
+        "IFX.C3.G04_INVENTORY",
+        "IFX.C3.G04_MANIFEST",
+        "IFX.C3.G04_ORCHESTRATION"
+      ],
+      "fixtureSha256": "8cecc3e6eb3276c7ec843ec54d109f94e62753b2bc72ea60cb0c0f9269d4a61f",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-inventory/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-g05-inventory",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_INVENTORY"
+      ],
+      "fixtureSha256": "9a7a00e6db2ac76d859490fcc44ef0ef0b55e00912e58b2fe56499da9f2a6490",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-protocol/C",
+      "kind": "clean",
+      "moduleId": "ifx-g05-protocol",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_PROTOCOL_DEPENDENCIES",
+        "IFX.C4.G05_PROTOCOL_EVIDENCE",
+        "IFX.C4.G05_PROTOCOL_SHAPES"
+      ],
+      "fixtureSha256": "c5d5f0c5a3ff5e806d4418a4c4d82b752c6152c6f93595b2c0d3e4b42ebd1f14",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-closeout/V/G05-DOCUMENTATION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-DOCUMENTATION",
+      "moduleId": "ifx-g05-closeout",
+      "ruleId": "G05-DOCUMENTATION",
+      "claimIds": [
+        "IFX.C4.G05_DOCUMENTATION"
+      ],
+      "fixtureSha256": "e5938af634996847ae99734a7d87c43e57709a98a0088867ed0d163f58d59d53",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "contextTrustAndFlowDiagramsAreRendered",
+        "detectorId": "ifx-g05-closeout",
+        "evidenceKind": "documentation"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-closeout/V/G05-HANDOFF",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-HANDOFF",
+      "moduleId": "ifx-g05-closeout",
+      "ruleId": "G05-HANDOFF",
+      "claimIds": [
+        "IFX.C4.G05_HANDOFF"
+      ],
+      "fixtureSha256": "2329de9b682f7bbde53c5f952bea66eb8be29aa2468f67ed1897e0288f695d16",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "fourOwnershipPreservingHandoffsExist",
+        "detectorId": "ifx-g05-closeout",
+        "evidenceKind": "handoff"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan05-security/C",
+      "kind": "clean",
+      "moduleId": "ifx-plan05-security",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.PLAN05_SECURITY"
+      ],
+      "fixtureSha256": "6f2e930c3a0ee7ac3cd1d6a20d4046083113a48468877b6bb490aacaeae121ba",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan05-security/M",
+      "kind": "missing",
+      "moduleId": "ifx-plan05-security",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.PLAN05_SECURITY"
+      ],
+      "fixtureSha256": "8d5537a59cf2f68c937c0efce52f5d23d37a2bac64b0d73118d4214661215e2a",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan05-security/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-plan05-security",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.PLAN05_SECURITY"
+      ],
+      "fixtureSha256": "51dc835f5865ffc3971b5f5b3e371500fc7cd6645d5b517604a3d5886c60e07f",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-plan05-security/V/PLAN05-SECURITY-BOUNDARY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "PLAN05-SECURITY-BOUNDARY",
+      "moduleId": "ifx-plan05-security",
+      "ruleId": "PLAN05-SECURITY-BOUNDARY",
+      "claimIds": [
+        "IFX.C4.PLAN05_SECURITY"
+      ],
+      "fixtureSha256": "51dc835f5865ffc3971b5f5b3e371500fc7cd6645d5b517604a3d5886c60e07f",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "AuthenticationContractsArePure",
+        "detectorId": "ifx-plan05-security",
+        "evidenceKind": "security-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-solution-evidence/C",
+      "kind": "clean",
+      "moduleId": "ifx-solution-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.SOLUTION_QUALITY"
+      ],
+      "fixtureSha256": "2ac7ec87d3e1decf889abbaebda1796277ba854abe8b026b7c1adf6cee55a421",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-solution-evidence/M",
+      "kind": "missing",
+      "moduleId": "ifx-solution-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.SOLUTION_QUALITY"
+      ],
+      "fixtureSha256": "f53ee1a1d46bb84a7bc47863d6cdeaa16fd3c58765f6c67d55908066ef0a823d",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-solution-evidence/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-solution-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.SOLUTION_QUALITY"
+      ],
+      "fixtureSha256": "5ce522690b7934f04208d5f79237acb2d999375a1fb34f61af8cf79f5531967b",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-closeout/V/G05-REPLAY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-REPLAY",
+      "moduleId": "ifx-g05-closeout",
+      "ruleId": "G05-REPLAY",
+      "claimIds": [
+        "IFX.C4.G05_REPLAY"
+      ],
+      "fixtureSha256": "49c07d2fb1b5308f61bdd49f2684df0b3ed5b4ac3a6b51a50319d751e5032b7a",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "realFailureDurabilityNotMisrepresented",
+        "detectorId": "ifx-g05-closeout",
+        "evidenceKind": "replay-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-solution-evidence/V/SOLUTION-LOCKED-QUALITY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "SOLUTION-LOCKED-QUALITY",
+      "moduleId": "ifx-solution-evidence",
+      "ruleId": "SOLUTION-LOCKED-QUALITY",
+      "claimIds": [
+        "IFX.C5.SOLUTION_QUALITY"
+      ],
+      "fixtureSha256": "5ce522690b7934f04208d5f79237acb2d999375a1fb34f61af8cf79f5531967b",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "nonVacuousSolutionTests",
+        "detectorId": "ifx-solution-evidence",
+        "evidenceKind": "test-results"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-assembly-evidence/M",
+      "kind": "missing",
+      "moduleId": "ifx-assembly-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.ASSEMBLY_QUALITY"
+      ],
+      "fixtureSha256": "4c1904dd9e2c6b7f646315f4fc27138f0f0c153698bafdde64d3ab69f88fef45",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-assembly-evidence/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-assembly-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.ASSEMBLY_QUALITY"
+      ],
+      "fixtureSha256": "5dfee20651955121a11b2ca10cb31cea15499f20eba40329e73e254a374ea505",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-assembly-evidence/V/ASSEMBLY-COMPILED-REFERENCES",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "ASSEMBLY-COMPILED-REFERENCES",
+      "moduleId": "ifx-assembly-evidence",
+      "ruleId": "ASSEMBLY-COMPILED-REFERENCES",
+      "claimIds": [
+        "IFX.C5.ASSEMBLY_QUALITY"
+      ],
+      "fixtureSha256": "d474019da8bbe30d1cc0116c108faf92d2f4d44471e8c42f633aebff6875fd5e",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "IFX.Modules.CRM.Domain",
+        "detectorId": "ifx-assembly-evidence",
+        "evidenceKind": "compiled-assembly"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-frontend-evidence/C",
+      "kind": "clean",
+      "moduleId": "ifx-frontend-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.FRONTEND_QUALITY"
+      ],
+      "fixtureSha256": "000af60c32e37854da9e97940531df7af929987b37fd77f5bbcf59f62eaebecf",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-frontend-evidence/M",
+      "kind": "missing",
+      "moduleId": "ifx-frontend-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.FRONTEND_QUALITY"
+      ],
+      "fixtureSha256": "decbd6a8a10b329191cc59a1d9504d79d36bfbbbaa7192ab51fd0ab281070d8d",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-frontend-evidence/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-frontend-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.FRONTEND_QUALITY"
+      ],
+      "fixtureSha256": "38bce535859d5709216bfbd00a9ebabb7c9999502f1a82cec050d4f88955490c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-frontend-evidence/V/FRONTEND-LOCKED-QUALITY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "FRONTEND-LOCKED-QUALITY",
+      "moduleId": "ifx-frontend-evidence",
+      "ruleId": "FRONTEND-LOCKED-QUALITY",
+      "claimIds": [
+        "IFX.C5.FRONTEND_QUALITY"
+      ],
+      "fixtureSha256": "878a422f5cc9d00eb2597e6b12e26aae4a5097dcd2c7a495615737283918d896",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "fullAuditHighCriticalZero",
+        "detectorId": "ifx-frontend-evidence",
+        "evidenceKind": "npm-full-audit"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-history-integrity/C",
+      "kind": "clean",
+      "moduleId": "ifx-history-integrity",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.HISTORY_INTEGRITY"
+      ],
+      "fixtureSha256": "13b07739afca7ea97f2f2daeaca08632cd8e013cdad91ee36c22b610e19066e6",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-history-integrity/M",
+      "kind": "missing",
+      "moduleId": "ifx-history-integrity",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.HISTORY_INTEGRITY"
+      ],
+      "fixtureSha256": "bcdeab5677ed05d590e70f5833b3045a361bdcd2f345ab76cc20fde28aaff13d",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-assembly-evidence/C",
+      "kind": "clean",
+      "moduleId": "ifx-assembly-evidence",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.ASSEMBLY_QUALITY"
+      ],
+      "fixtureSha256": "7fca84b85f26567ffb7adda008b67d5d755735359cd0d4887d2e6b58c50a9ee1",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-inventory/V/G05-INVENTORY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "finding-proves-evaluation",
+      "allowedRuleIds": "G05-INVENTORY",
+      "moduleId": "ifx-g05-inventory",
+      "ruleId": "G05-INVENTORY",
+      "claimIds": [
+        "IFX.C4.G05_INVENTORY"
+      ],
+      "fixtureSha256": "9a7a00e6db2ac76d859490fcc44ef0ef0b55e00912e58b2fe56499da9f2a6490",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "sourceInventoryNonEmpty",
+        "detectorId": "ifx-g05-inventory",
+        "evidenceKind": "source-location"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-closeout/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g05-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_DOCUMENTATION",
+        "IFX.C4.G05_HANDOFF",
+        "IFX.C4.G05_REPLAY"
+      ],
+      "fixtureSha256": "2329de9b682f7bbde53c5f952bea66eb8be29aa2468f67ed1897e0288f695d16",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-closeout/C",
+      "kind": "clean",
+      "moduleId": "ifx-g05-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_DOCUMENTATION",
+        "IFX.C4.G05_HANDOFF",
+        "IFX.C4.G05_REPLAY"
+      ],
+      "fixtureSha256": "c1f6f6d3e500fa1032818c73d7ddf07391e30deb0b593bb999ce0add8bc9d67e",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-protocol/M",
+      "kind": "missing",
+      "moduleId": "ifx-g05-protocol",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_PROTOCOL_DEPENDENCIES",
+        "IFX.C4.G05_PROTOCOL_EVIDENCE",
+        "IFX.C4.G05_PROTOCOL_SHAPES"
+      ],
+      "fixtureSha256": "bfed74cef1406b8079a259c3fee0015b5035d2daa2916fffe02edd8fa29bcc46",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-protocol/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g05-protocol",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_PROTOCOL_DEPENDENCIES",
+        "IFX.C4.G05_PROTOCOL_EVIDENCE",
+        "IFX.C4.G05_PROTOCOL_SHAPES"
+      ],
+      "fixtureSha256": "fd24e7448c2d720fdd91bad4f3d20fc1f7552b195f09cb9d8fcacd9606b1be97",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-protocol/V/G05-PROTOCOL-DEPS",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-PROTOCOL-DEPS",
+      "moduleId": "ifx-g05-protocol",
+      "ruleId": "G05-PROTOCOL-DEPS",
+      "claimIds": [
+        "IFX.C4.G05_PROTOCOL_DEPENDENCIES"
+      ],
+      "fixtureSha256": "284bfc34bf7710a598d596edac79dced22529221d124733c9984edfa193ef894",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "noFrameworkOrTransportLeak",
+        "detectorId": "ifx-g05-protocol",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-protocol/V/G05-PROTOCOL-SHAPES",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-PROTOCOL-SHAPES",
+      "moduleId": "ifx-g05-protocol",
+      "ruleId": "G05-PROTOCOL-SHAPES",
+      "claimIds": [
+        "IFX.C4.G05_PROTOCOL_SHAPES"
+      ],
+      "fixtureSha256": "bb1aeada461e4e41b79fdf2fb60f07ca19304af8a3ddc4599ba7dc885c4273aa",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "contractContextIsVersionedBclShape",
+        "detectorId": "ifx-g05-protocol",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-protocol/V/G05-PROTOCOL-EVIDENCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-PROTOCOL-EVIDENCE",
+      "moduleId": "ifx-g05-protocol",
+      "ruleId": "G05-PROTOCOL-EVIDENCE",
+      "claimIds": [
+        "IFX.C4.G05_PROTOCOL_EVIDENCE"
+      ],
+      "fixtureSha256": "6f261d5fd6ffe636c7a2d8e2b59a6060bc10d36e206ce9dcc02d37b7d31832ca",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "phase1EvidenceExists",
+        "detectorId": "ifx-g05-protocol",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-execution-http/C",
+      "kind": "clean",
+      "moduleId": "ifx-g05-execution-http",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_EXECUTION",
+        "IFX.C4.G05_HTTP"
+      ],
+      "fixtureSha256": "6743a687c3b4f641dd2aa9d0d44452a5bcd8bc11d7da1b2cbd06de967b1c4ce3",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-execution-http/M",
+      "kind": "missing",
+      "moduleId": "ifx-g05-execution-http",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_EXECUTION",
+        "IFX.C4.G05_HTTP"
+      ],
+      "fixtureSha256": "56eaa199f7b5bcadf85fd46430b19f4c230f7591d6d84810764aae5701fc3416",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-execution-http/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g05-execution-http",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_EXECUTION",
+        "IFX.C4.G05_HTTP"
+      ],
+      "fixtureSha256": "2e0861d6e4ca421d51fcf3fd86249b89b4d213d13bbb6879f72187a488f2a69b",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-execution-http/V/G05-EXECUTION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-EXECUTION",
+      "moduleId": "ifx-g05-execution-http",
+      "ruleId": "G05-EXECUTION",
+      "claimIds": [
+        "IFX.C4.G05_EXECUTION"
+      ],
+      "fixtureSha256": "c1b63584ab7b96642fdbefde13ea4574a364eed49d948df2a7da2e719e464e15",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "fiveExecutionSourcesHaveFailClosedRules",
+        "detectorId": "ifx-g05-execution-http",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-closeout/M",
+      "kind": "missing",
+      "moduleId": "ifx-g05-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_DOCUMENTATION",
+        "IFX.C4.G05_HANDOFF",
+        "IFX.C4.G05_REPLAY"
+      ],
+      "fixtureSha256": "d91c03dde7706a38e93bd72902322933d03004da4757a19ea23978faa7f009a0",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-execution-http/V/G05-HTTP",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-HTTP",
+      "moduleId": "ifx-g05-execution-http",
+      "ruleId": "G05-HTTP",
+      "claimIds": [
+        "IFX.C4.G05_HTTP"
+      ],
+      "fixtureSha256": "5b74fc0fe7a2ff0fed206bf461059840fd71aec29e420e92246493fa8b55ac9d",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "httpMiddlewareOrderIsDeterministic",
+        "detectorId": "ifx-g05-execution-http",
+        "evidenceKind": "runtime-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-carriers/M",
+      "kind": "missing",
+      "moduleId": "ifx-g05-carriers",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_CONTRACT_CARRIER",
+        "IFX.C4.G05_EVENT_CARRIER"
+      ],
+      "fixtureSha256": "8f5b1b08f4f6d11c682de5858b2b72205a6dabe29855a89716bfe24025a35149",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-carriers/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-g05-carriers",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_CONTRACT_CARRIER",
+        "IFX.C4.G05_EVENT_CARRIER"
+      ],
+      "fixtureSha256": "12f245246e4bcaf698c83c77d866c48e9141353d80be705688c92386f8a5cb21",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-carriers/V/G05-CONTRACT-CARRIER",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-CONTRACT-CARRIER",
+      "moduleId": "ifx-g05-carriers",
+      "ruleId": "G05-CONTRACT-CARRIER",
+      "claimIds": [
+        "IFX.C4.G05_CONTRACT_CARRIER"
+      ],
+      "fixtureSha256": "6ff87dc7e464253ce3ceb803da375af8e80a9c45e40c8c8a832e438cbbc10ac7",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "realContractCarrierNotMisrepresented",
+        "detectorId": "ifx-g05-carriers",
+        "evidenceKind": "carrier-conformance"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-carriers/V/G05-EVENT-CARRIER",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-EVENT-CARRIER",
+      "moduleId": "ifx-g05-carriers",
+      "ruleId": "G05-EVENT-CARRIER",
+      "claimIds": [
+        "IFX.C4.G05_EVENT_CARRIER"
+      ],
+      "fixtureSha256": "c683df46e12777ddccf90571ce41a406ee39b4734a32f53a8b8200eb439e46c0",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "realMessagingDurabilityNotMisrepresented",
+        "detectorId": "ifx-g05-carriers",
+        "evidenceKind": "carrier-conformance"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-governance/C",
+      "kind": "clean",
+      "moduleId": "ifx-g05-governance",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_FIELD_GOVERNANCE",
+        "IFX.C4.G05_OBSERVABILITY"
+      ],
+      "fixtureSha256": "a4be18a53ef9a40c2cdfa80da498421714880dcdefd559c2f2819695101212e1",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-governance/M",
+      "kind": "missing",
+      "moduleId": "ifx-g05-governance",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_FIELD_GOVERNANCE",
+        "IFX.C4.G05_OBSERVABILITY"
+      ],
+      "fixtureSha256": "c316dee5bdeb001a5ea98d01b10254ef356a1c76dd1bf2ed1616e8740231e611",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-governance/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g05-governance",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_FIELD_GOVERNANCE",
+        "IFX.C4.G05_OBSERVABILITY"
+      ],
+      "fixtureSha256": "7a6fc36f4bc29c44623dc45530975b37a2f7e5eef2be8ecd7c96d5a078a5ffcd",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-governance/V/G05-FIELD-GOVERNANCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-FIELD-GOVERNANCE",
+      "moduleId": "ifx-g05-governance",
+      "ruleId": "G05-FIELD-GOVERNANCE",
+      "claimIds": [
+        "IFX.C4.G05_FIELD_GOVERNANCE"
+      ],
+      "fixtureSha256": "3e00046b7ef0377b6880dbe3c1d9f18504bd57e5b99c5b63cb153cfc3357f265",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "g03CatalogRemainsSoleFieldAuthority",
+        "detectorId": "ifx-g05-governance",
+        "evidenceKind": "field-catalog"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-governance/V/G05-OBSERVABILITY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G05-OBSERVABILITY",
+      "moduleId": "ifx-g05-governance",
+      "ruleId": "G05-OBSERVABILITY",
+      "claimIds": [
+        "IFX.C4.G05_OBSERVABILITY"
+      ],
+      "fixtureSha256": "8e7d6cf677c20b8a98cc2dea8da89f1be65e794b7064ee3537442a65cb2886ef",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "destructiveMigrationApprovalIsNotMisrepresented",
+        "detectorId": "ifx-g05-governance",
+        "evidenceKind": "observability-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g05-carriers/C",
+      "kind": "clean",
+      "moduleId": "ifx-g05-carriers",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C4.G05_CONTRACT_CARRIER",
+        "IFX.C4.G05_EVENT_CARRIER"
+      ],
+      "fixtureSha256": "b789037ae54458c9ffdd38e582bf757b0453c13a592299aaa1113f2b9cbee5e8",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-history-integrity/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-history-integrity",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C5.HISTORY_INTEGRITY"
+      ],
+      "fixtureSha256": "6e19d6fd82750c61ef0b2c3cd386f78bed799e2d3256f1b63a8293274d5a8c2b",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-docs-closeout/V/G03-CLOSEOUT-READINESS",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "finding-proves-evaluation",
+      "allowedRuleIds": "G03-CLOSEOUT-READINESS",
+      "moduleId": "ifx-g03-docs-closeout",
+      "ruleId": "G03-CLOSEOUT-READINESS",
+      "claimIds": [
+        "IFX.C2.G03_CLOSEOUT_READINESS"
+      ],
+      "fixtureSha256": "649da2a396636a29fee127aed65e0cb0bd65c261181c9b9dd454b698214a84f2",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "readiness-drift:docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+        "detectorId": "ifx-g03-docs-closeout",
+        "evidenceKind": "closeout-readiness"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-docs-closeout/V/G03-DOCUMENTATION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "finding-proves-evaluation",
+      "allowedRuleIds": "G03-DOCUMENTATION",
+      "moduleId": "ifx-g03-docs-closeout",
+      "ruleId": "G03-DOCUMENTATION",
+      "claimIds": [
+        "IFX.C2.G03_DOCUMENTATION"
+      ],
+      "fixtureSha256": "3d670dd130c6b78c074ee42b60bf5f4fbe9cb28d1993dcdf17bc0ed4665aa4bd",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "protocol-table-drift:docs/architecture/review/gates/G03/contract-event-governance.en.md",
+        "detectorId": "ifx-g03-docs-closeout",
+        "evidenceKind": "governance-document"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-embedded-adapter/V/EMBEDDED-ADAPTER-PROVIDER",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "EMBEDDED-ADAPTER-PROVIDER",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": "EMBEDDED-ADAPTER-PROVIDER",
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"
+      ],
+      "fixtureSha256": "cafca7049c5a81e8646fd1ca548689d2cdf60a51bd9855c5ea340b7328d1cb17",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Infrastructure/Adapter.cs:1: IFX.Modules.CRM.Infrastructure -> IFX.Modules.Registry.Contracts [IFX.Modules.Registry.Contracts]",
+        "detectorId": "ifx-embedded-adapter",
+        "evidenceKind": "source-syntax"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/C",
+      "kind": "clean",
+      "moduleId": "ifx-source-policy",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+        "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+        "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+        "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+        "IFX.C1.IMPORT_DIRECTION_SOURCE",
+        "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+        "IFX.C1.IMPORT_PACKAGE_SOURCE",
+        "IFX.C1.PAYLOAD_TYPE_SOURCE",
+        "IFX.C1.SYMBOL_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "e7460afc0cc919e3347854b6ee103b94e8148c083f8237c1942a72960b311336",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/M",
+      "kind": "missing",
+      "moduleId": "ifx-source-policy",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+        "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+        "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+        "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+        "IFX.C1.IMPORT_DIRECTION_SOURCE",
+        "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+        "IFX.C1.IMPORT_PACKAGE_SOURCE",
+        "IFX.C1.PAYLOAD_TYPE_SOURCE",
+        "IFX.C1.SYMBOL_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "f1145d2dd55962aa827aca7254cbec3ee22d563622b2881ca501f36c5e8a8f66",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-source-policy",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+        "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+        "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+        "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+        "IFX.C1.IMPORT_DIRECTION_SOURCE",
+        "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+        "IFX.C1.IMPORT_PACKAGE_SOURCE",
+        "IFX.C1.PAYLOAD_TYPE_SOURCE",
+        "IFX.C1.SYMBOL_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "9d87f4713ae44df06c21ae13d7ec9769a50734a55b601f2c02211683edb43557",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/IMPORT-DIRECTION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "IMPORT-DIRECTION",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "IMPORT-DIRECTION",
+      "claimIds": [
+        "IFX.C1.IMPORT_DIRECTION_SOURCE"
+      ],
+      "fixtureSha256": "e7048258e8e58c9fe884d17f45bed31edf4eb43e3051f057cdaa2c4c98443dfe",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Domain/Fault.cs:1: IFX.Modules.CRM.Domain -> IFX.Modules.CRM.Contracts",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-import"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/OWNERSHIP-REFERENCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "OWNERSHIP-REFERENCE",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "OWNERSHIP-REFERENCE",
+      "claimIds": [
+        "IFX.C1.IMPORT_OWNERSHIP_SOURCE"
+      ],
+      "fixtureSha256": "4e23993af6bc00a4f03a2528c120c99f355c66fe44091c386bbc34c13e6aa6d8",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application -> IFX.Modules.CRM.Contracts",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-import"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/RING-PACKAGE-FORBIDDEN",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "RING-PACKAGE-FORBIDDEN",
+        "SYMBOL-FORBIDDEN"
+      ],
+      "moduleId": "ifx-source-policy",
+      "ruleId": "RING-PACKAGE-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.IMPORT_PACKAGE_SOURCE"
+      ],
+      "fixtureSha256": "5f1e688d4983b641ece4b97fb84b09e52c5cec9ab4552c3f495ae817bd49d311",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts -> MediatR",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-import"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-NAMESPACE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "DECLARATION-NAMESPACE",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "DECLARATION-NAMESPACE",
+      "claimIds": [
+        "IFX.C1.DECLARATION_NAMESPACE_SOURCE"
+      ],
+      "fixtureSha256": "cef7ef96abd203171a1db491c042812ce85a7f39e3afcff9718f2190ca8426ac",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application [interface IFaultContract in IFX.Modules.CRM.Application]",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-declaration"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-FORBIDDEN",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "DECLARATION-FORBIDDEN",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "DECLARATION-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.DECLARATION_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "0d69882c14a2f698659719df8e7b79512555b70093cd0179c17391a523305c87",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [class FaultService]",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-declaration"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-embedded-adapter/V/EMBEDDED-ADAPTER-LOCATION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "EMBEDDED-ADAPTER-LOCATION",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": "EMBEDDED-ADAPTER-LOCATION",
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE"
+      ],
+      "fixtureSha256": "18b561e63ee9ca36dac268c1f9f637550f4578b7ae78977b5ed679b0a15f41d5",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Infrastructure/Adapter.cs:1: IFX.Modules.CRM.Infrastructure -> IFX.Modules.IAM.Contracts [IFX.Modules.IAM.Contracts]",
+        "detectorId": "ifx-embedded-adapter",
+        "evidenceKind": "source-syntax"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-PLACEMENT",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "DECLARATION-PLACEMENT",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "DECLARATION-PLACEMENT",
+      "claimIds": [
+        "IFX.C1.DECLARATION_PLACEMENT_SOURCE"
+      ],
+      "fixtureSha256": "41e71519e3e573dc450c0517841eed9223311edb6c645afa78e5e7f2aa3127ff",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Domain/Fault.cs:1: IFX.Modules.CRM.Domain [class FaultCommandHandler]",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-declaration"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/SYMBOL-FORBIDDEN",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "SYMBOL-FORBIDDEN",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "SYMBOL-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.SYMBOL_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "1f7fab5c6ecd0c119c683871fc25464b5aef1bbc67b195bbf93758fab6a15a70",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application [HttpContext]",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-symbol"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/PAYLOAD-TYPE-FORBIDDEN",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "PAYLOAD-TYPE-FORBIDDEN",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "PAYLOAD-TYPE-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.PAYLOAD_TYPE_SOURCE"
+      ],
+      "fixtureSha256": "de30cf27e3af6662938b3886e72825590c17ed31d7198ae8f80acd9250c0cb44",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [BadIntegrationEvent payload IFX.Modules.CRM.Domain.CustomerEntity]",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-payload"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-project-name/C",
+      "kind": "clean",
+      "moduleId": "ifx-project-name",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROJECT_NAME_FORBIDDEN"
+      ],
+      "fixtureSha256": "be34e12e8d27de296c490ff855c7dff1e7ab7a729cf507a2ee8fe89476538ae7",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-project-name/M",
+      "kind": "missing",
+      "moduleId": "ifx-project-name",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROJECT_NAME_FORBIDDEN"
+      ],
+      "fixtureSha256": "2fedca13176aed9eb5997f65f2b40bdc5868d862245dae6d2fa30c36c2713f07",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-project-name/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-project-name",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROJECT_NAME_FORBIDDEN"
+      ],
+      "fixtureSha256": "1d5844fafe2372ba7554cdd7b2f813fc7aeb3c8fc010293c5cad95932d47a3fb",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-project-name/V/PROJECT-NAME-FORBIDDEN",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "PROJECT-NAME-FORBIDDEN",
+      "moduleId": "ifx-project-name",
+      "ruleId": "PROJECT-NAME-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.PROJECT_NAME_FORBIDDEN"
+      ],
+      "fixtureSha256": "1fb64f053aa16833c3b7207b334f71d19c083b71b87998dbfc7b277c5300327a",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Platform.Foo.Infrastructure.Abstractions/IFX.Platform.Foo.Infrastructure.Abstractions.csproj",
+        "detectorId": "ifx-project-name",
+        "evidenceKind": "project-declaration"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-reference-cycle/C",
+      "kind": "clean",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.CONTRACT_CYCLE_RAW",
+        "IFX.C1.RING_REFERENCE_RAW"
+      ],
+      "fixtureSha256": "f3e707da10d09ef4bfae457061817b8b259707a79e19558c14a8142572bb5fa6",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-reference-cycle/M",
+      "kind": "missing",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.CONTRACT_CYCLE_RAW",
+        "IFX.C1.RING_REFERENCE_RAW"
+      ],
+      "fixtureSha256": "43de01d0fce4bf8fd294cc43ad7a760ef494d6faaab7ac494d17abc78be4af59",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-reference-cycle/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.CONTRACT_CYCLE_RAW",
+        "IFX.C1.RING_REFERENCE_RAW"
+      ],
+      "fixtureSha256": "e5c202f2c99a3931c74a3b9dd93a08efb054c9d5b8bc205688d696067efceff6",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "DECLARATION-IMPLEMENTS",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "DECLARATION-IMPLEMENTS",
+      "claimIds": [
+        "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE"
+      ],
+      "fixtureSha256": "78c12902e6976b7e8125591f01e51acf63d0cfcc4c326d88f33ed00731f87871",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/IFX.Modules.CRM.Infrastructure/Integrations/BadGateway.cs:1: IFX.Modules.CRM.Infrastructure [class BadGateway]",
+        "detectorId": "ifx-source-policy",
+        "evidenceKind": "source-declaration"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-reference-cycle/V/RING-REFERENCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "RING-REFERENCE",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": "RING-REFERENCE",
+      "claimIds": [
+        "IFX.C1.RING_REFERENCE_RAW"
+      ],
+      "fixtureSha256": "7200a7be02ae8a0127dc5e52fe12ddc83b07ac020468d3dc80ab2052439c2690",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/A/IFX.Modules.A.Application/IFX.Modules.A.Application.csproj -> src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj",
+        "detectorId": "ifx-reference-cycle",
+        "evidenceKind": "project-reference-raw"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-embedded-adapter/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+        "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"
+      ],
+      "fixtureSha256": "9ee2d0220a24b4ba1d26b735a7dcdabea94fe0accdf589662a7c73a27b5bca3f",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-embedded-adapter/C",
+      "kind": "clean",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+        "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"
+      ],
+      "fixtureSha256": "eaf07be9c4011a911f8bec965eee75a610985f24ba8226713df077b62d3bb137",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-domain-reference/M",
+      "kind": "missing",
+      "moduleId": "ifx-domain-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS"
+      ],
+      "fixtureSha256": "e01a6bf1c0b16841371ba4045f414efc7fc9b19408a39b51922c7f6579c6e443",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-domain-reference/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-domain-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS"
+      ],
+      "fixtureSha256": "3b7a3369e2e13db4747dfd51be430dff86c5d6f09ed5f5d42039b728b5d9e5ba",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-domain-reference/V/RING-DIRECTION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "RING-DIRECTION",
+      "moduleId": "ifx-domain-reference",
+      "ruleId": "RING-DIRECTION",
+      "claimIds": [
+        "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS"
+      ],
+      "fixtureSha256": "70a79281ac7a0a8b652ff7e5e94080e0bf63addd09fcdcfa1276d55e5fc9cc15",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+        "detectorId": "ifx-domain-reference",
+        "evidenceKind": "project-model-raw"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-package-reference/C",
+      "kind": "clean",
+      "moduleId": "ifx-package-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PACKAGE_ALLOW_RAW",
+        "IFX.C1.PACKAGE_DENY_RAW"
+      ],
+      "fixtureSha256": "e852ab434740eefdfd9aadac5369f0151c4995b73ff8d0c016fb360815d9ed1b",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-package-reference/M",
+      "kind": "missing",
+      "moduleId": "ifx-package-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PACKAGE_ALLOW_RAW",
+        "IFX.C1.PACKAGE_DENY_RAW"
+      ],
+      "fixtureSha256": "cde2e2317e113d4c64c0c847a4d1ee96c2ab876649b8534032c24471f9104fca",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-package-reference/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-package-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PACKAGE_ALLOW_RAW",
+        "IFX.C1.PACKAGE_DENY_RAW"
+      ],
+      "fixtureSha256": "289f60b90af8108d2385c4aa2e7fe4528372fc031187d79ba2a6d1879e246671",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-package-reference/V/RING-PACKAGE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "RING-PACKAGE",
+      "moduleId": "ifx-package-reference",
+      "ruleId": "RING-PACKAGE",
+      "claimIds": [
+        "IFX.C1.PACKAGE_ALLOW_RAW"
+      ],
+      "fixtureSha256": "628f99e2ea75b554203afebe83a921e884ee3c46d6ed170025fb0541f72db32a",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> xunit",
+        "detectorId": "ifx-package-reference",
+        "evidenceKind": "project-model-raw"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-package-reference/V/RING-PACKAGE-FORBIDDEN",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "RING-PACKAGE-FORBIDDEN",
+      "moduleId": "ifx-package-reference",
+      "ruleId": "RING-PACKAGE-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.PACKAGE_DENY_RAW"
+      ],
+      "fixtureSha256": "2ed93205edcc45264cd31bdf0bca61dd4eadf93d4b3c276a73ddcc584b4f72be",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj -> MediatR",
+        "detectorId": "ifx-package-reference",
+        "evidenceKind": "project-model-raw"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-ring-graph/C",
+      "kind": "clean",
+      "moduleId": "ifx-ring-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.RING_GRAPH_RAW"
+      ],
+      "fixtureSha256": "f431f824ace6276f046644ef336233ac9df63c7b2d58bfad5a78cc53deb92ebe",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-embedded-adapter/M",
+      "kind": "missing",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+        "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"
+      ],
+      "fixtureSha256": "d3d5bf0e662b0794904258e4364c0ab89d99f8f0fd73612923dbc6f8f0ce9f20",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-ring-graph/M",
+      "kind": "missing",
+      "moduleId": "ifx-ring-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.RING_GRAPH_RAW"
+      ],
+      "fixtureSha256": "188d8b60a67af44dd8cb63d2d1452b926f411252dddf70160c6c10c2025b2862",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-ring-graph/V/RING-DIRECTION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "RING-DIRECTION",
+      "moduleId": "ifx-ring-graph",
+      "ruleId": "RING-DIRECTION",
+      "claimIds": [
+        "IFX.C1.RING_GRAPH_RAW"
+      ],
+      "fixtureSha256": "9a68c744a118d0e27ccdf3ad10b513b180cefe54fe73a25475738a37bf7b834a",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direct: IFX.Modules.CRM.Domain > IFX.Modules.CRM.Contracts]",
+        "detectorId": "ifx-ring-graph",
+        "evidenceKind": "project-graph-raw"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-ownership-graph/C",
+      "kind": "clean",
+      "moduleId": "ifx-ownership-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.OWNERSHIP_GRAPH_RAW"
+      ],
+      "fixtureSha256": "21a11f33a09b55537585eb58d95eefb99b3602ac672f47290885bfba6900bbfe",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-ownership-graph/M",
+      "kind": "missing",
+      "moduleId": "ifx-ownership-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.OWNERSHIP_GRAPH_RAW"
+      ],
+      "fixtureSha256": "62476c633432c019c59b71095a73089decb7e8733cd17a4004af93e50aa2d1cc",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-ownership-graph/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-ownership-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.OWNERSHIP_GRAPH_RAW"
+      ],
+      "fixtureSha256": "a872e64d0e908c48498a8a3993394786ee8c783bf990fdfc33c196fccece7ba1",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-ownership-graph/V/OWNERSHIP-REFERENCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "OWNERSHIP-REFERENCE",
+      "moduleId": "ifx-ownership-graph",
+      "ruleId": "OWNERSHIP-REFERENCE",
+      "claimIds": [
+        "IFX.C1.OWNERSHIP_GRAPH_RAW"
+      ],
+      "fixtureSha256": "609f4717b72b6c6ce949ac2dc0da2479c3ca971f2ee18a0372e903d2f23f8b14",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direct: IFX.Modules.CRM.Application > IFX.Modules.CRM.Contracts]",
+        "detectorId": "ifx-ownership-graph",
+        "evidenceKind": "project-graph-raw"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-provider-cycle/C",
+      "kind": "clean",
+      "moduleId": "ifx-provider-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROVIDER_CYCLE"
+      ],
+      "fixtureSha256": "af966191967e5bcafa2e0668e6a14ce9521ae18c50d1c12c59a4af15dd8760cc",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-provider-cycle/M",
+      "kind": "missing",
+      "moduleId": "ifx-provider-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROVIDER_CYCLE"
+      ],
+      "fixtureSha256": "10b8af965388ced7381beeb169c13340661d1e9168765d3ab79ba5bb066f837c",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-provider-cycle/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-provider-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROVIDER_CYCLE"
+      ],
+      "fixtureSha256": "dbd5ba048a678524700f4ce08866ac784012093e3c2bec0c994262390058f7e4",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "PROVIDER-CYCLE",
+      "moduleId": "ifx-provider-cycle",
+      "ruleId": "PROVIDER-CYCLE",
+      "claimIds": [
+        "IFX.C1.PROVIDER_CYCLE"
+      ],
+      "fixtureSha256": "5e51c100c7423a96f4df4cbd05a6307b01193c5f33557511148b0dd70a5201d4",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "A -> B -> C -> A",
+        "detectorId": "ifx-provider-cycle",
+        "evidenceKind": "policy-graph"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-ring-graph/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-ring-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.RING_GRAPH_RAW"
+      ],
+      "fixtureSha256": "e75dd36d52e643831e9e6664ee90e1d43b4ddcee8e9b142059b1c1e911274952",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-docs-closeout/V/G03-LEGACY-DEADLINE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "finding-proves-evaluation",
+      "allowedRuleIds": "G03-LEGACY-DEADLINE",
+      "moduleId": "ifx-g03-docs-closeout",
+      "ruleId": "G03-LEGACY-DEADLINE",
+      "claimIds": [
+        "IFX.C2.G03_LEGACY_DEADLINE"
+      ],
+      "fixtureSha256": "8a09179ef86cc52835b326526a8d2f7515754520b418e60bedd7f8ca303e6235",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "overdue-legacy:crm.reader",
+        "detectorId": "ifx-g03-docs-closeout",
+        "evidenceKind": "legacy-deadline"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-reference-cycle/V/CONTRACT-CYCLE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "CONTRACT-CYCLE",
+        "RING-REFERENCE"
+      ],
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": "CONTRACT-CYCLE",
+      "claimIds": [
+        "IFX.C1.CONTRACT_CYCLE_RAW"
+      ],
+      "fixtureSha256": "4e363d4fd64d24b668eb2811949a5465a88e8710ea88412cf7904b5d6388676b",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "IFX.Modules.A.Contracts -> IFX.Modules.B.Contracts -> IFX.Modules.A.Contracts",
+        "detectorId": "ifx-reference-cycle",
+        "evidenceKind": "contracts-project-cycle-raw"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-injection/M",
+      "kind": "missing",
+      "moduleId": "ifx-injection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+        "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE"
+      ],
+      "fixtureSha256": "9e642018716920ff7f871f899b53668656f984cd61f3f7a0ad53592cc703a151",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics/M",
+      "kind": "missing",
+      "moduleId": "ifx-g03-catalog-semantics",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_CHANGE_CONTROL",
+        "IFX.C2.G03_FIELD_GOVERNANCE",
+        "IFX.C2.G03_LEGACY_SURFACE",
+        "IFX.C2.G03_PROTOCOL_LIFECYCLE"
+      ],
+      "fixtureSha256": "fbb9595c5767ce8e7d5f7cd56b2c0956b764d48d80139ec3db8c265800828f74",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-g03-catalog-semantics",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_CHANGE_CONTROL",
+        "IFX.C2.G03_FIELD_GOVERNANCE",
+        "IFX.C2.G03_LEGACY_SURFACE",
+        "IFX.C2.G03_PROTOCOL_LIFECYCLE"
+      ],
+      "fixtureSha256": "a4ff730e52880c517647713d49d25c542c8637474684d0ca6803a4239e312776",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics/V/G03-PROTOCOL-LIFECYCLE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G03-PROTOCOL-LIFECYCLE",
+      "moduleId": "ifx-g03-catalog-semantics",
+      "ruleId": "G03-PROTOCOL-LIFECYCLE",
+      "claimIds": [
+        "IFX.C2.G03_PROTOCOL_LIFECYCLE"
+      ],
+      "fixtureSha256": "8c6d692b29e4e2609aef696e622bda6a772be9fd0dad0afbd2837cfd8d80a894",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "policy-node:sourcePolicy.identity",
+        "detectorId": "ifx-g03-catalog-semantics",
+        "evidenceKind": "catalog-semantics"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics/V/G03-FIELD-GOVERNANCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G03-FIELD-GOVERNANCE",
+      "moduleId": "ifx-g03-catalog-semantics",
+      "ruleId": "G03-FIELD-GOVERNANCE",
+      "claimIds": [
+        "IFX.C2.G03_FIELD_GOVERNANCE"
+      ],
+      "fixtureSha256": "85113f96c5391ff6f1fa00ae0f2c1ba57ba872a6d4f136a7a386c71e2f4c3c3b",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "infrastructure-field:infrastructureProtocols.authentication.identity-protocol.v1.fields.password",
+        "detectorId": "ifx-g03-catalog-semantics",
+        "evidenceKind": "catalog-semantics"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics/V/G03-LEGACY-SURFACE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G03-LEGACY-SURFACE",
+      "moduleId": "ifx-g03-catalog-semantics",
+      "ruleId": "G03-LEGACY-SURFACE",
+      "claimIds": [
+        "IFX.C2.G03_LEGACY_SURFACE"
+      ],
+      "fixtureSha256": "a5904af663b18922696d8c00a0ad6fc7a28f0cf21de2670debec1a424d83042b",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "legacy-lifecycle:publicSurface.crm.reader.lifecycle",
+        "detectorId": "ifx-g03-catalog-semantics",
+        "evidenceKind": "catalog-semantics"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics/V/G03-CHANGE-CONTROL",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G03-CHANGE-CONTROL",
+      "moduleId": "ifx-g03-catalog-semantics",
+      "ruleId": "G03-CHANGE-CONTROL",
+      "claimIds": [
+        "IFX.C2.G03_CHANGE_CONTROL"
+      ],
+      "fixtureSha256": "6642bb02555d087d7e5cb6478b95491d2862e54610c6ba7419d8f96a0d3614d3",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "change-record-metadata:changeRecords.G03-CR-001.summary",
+        "detectorId": "ifx-g03-catalog-semantics",
+        "evidenceKind": "catalog-semantics"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation/C",
+      "kind": "clean",
+      "moduleId": "ifx-g03-source-reconciliation",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_FIELD_SOURCE",
+        "IFX.C2.G03_SOURCE_INVENTORY",
+        "IFX.C2.G03_SOURCE_RECONCILIATION"
+      ],
+      "fixtureSha256": "33f855808ff4ee455059c12e584aa1e162ec0f701c6e64747b8dac960993611e",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation/M",
+      "kind": "missing",
+      "moduleId": "ifx-g03-source-reconciliation",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_FIELD_SOURCE",
+        "IFX.C2.G03_SOURCE_INVENTORY",
+        "IFX.C2.G03_SOURCE_RECONCILIATION"
+      ],
+      "fixtureSha256": "f1651e14fb76bbb8548b333daa8c28811586387164ef185c7816d9d2714e09b8",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g03-source-reconciliation",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_FIELD_SOURCE",
+        "IFX.C2.G03_SOURCE_INVENTORY",
+        "IFX.C2.G03_SOURCE_RECONCILIATION"
+      ],
+      "fixtureSha256": "1d70a3d6e8f1eed32a526886eee3e126270a6e2848b0ccc65ea362ca4606c07d",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics/C",
+      "kind": "clean",
+      "moduleId": "ifx-g03-catalog-semantics",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_CHANGE_CONTROL",
+        "IFX.C2.G03_FIELD_GOVERNANCE",
+        "IFX.C2.G03_LEGACY_SURFACE",
+        "IFX.C2.G03_PROTOCOL_LIFECYCLE"
+      ],
+      "fixtureSha256": "2d84bf2e01f246b0a5bc785460a959e318239700255f9508283458e770491325",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation/V/G03-SOURCE-INVENTORY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G03-SOURCE-INVENTORY",
+      "moduleId": "ifx-g03-source-reconciliation",
+      "ruleId": "G03-SOURCE-INVENTORY",
+      "claimIds": [
+        "IFX.C2.G03_SOURCE_INVENTORY"
+      ],
+      "fixtureSha256": "2975279948c29552a889cbd57c522bc9c2b2ec05fe97e9c37e83ebdc1da6a601",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "exact-count:readers=5",
+        "detectorId": "ifx-g03-source-reconciliation",
+        "evidenceKind": "source-inventory"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation/V/G03-FIELD-SOURCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "G03-FIELD-SOURCE",
+        "G03-SOURCE-RECONCILIATION"
+      ],
+      "moduleId": "ifx-g03-source-reconciliation",
+      "ruleId": "G03-FIELD-SOURCE",
+      "claimIds": [
+        "IFX.C2.G03_FIELD_SOURCE"
+      ],
+      "fixtureSha256": "2123e274ec927b80561e57ab26deeac0441ef6ac6682dbddb913596d65a0f047",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "field-source-missing:fieldSurfaces.crm.dto.investor-summary",
+        "detectorId": "ifx-g03-source-reconciliation",
+        "evidenceKind": "field-source"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-snapshots/C",
+      "kind": "clean",
+      "moduleId": "ifx-g03-snapshots",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_SERIALIZATION_SNAPSHOT",
+        "IFX.C2.G03_SYNC_API_SNAPSHOT"
+      ],
+      "fixtureSha256": "769e63d76af5a738334ce5bc122cff526a05db36509c733afd8570a053e366c0",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-snapshots/M",
+      "kind": "missing",
+      "moduleId": "ifx-g03-snapshots",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_SERIALIZATION_SNAPSHOT",
+        "IFX.C2.G03_SYNC_API_SNAPSHOT"
+      ],
+      "fixtureSha256": "ccc436f7da3cf4ab2b300d4cbc74f19f2e5f7ce4a4c3fd9e23e63572899677b9",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-snapshots/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-g03-snapshots",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_SERIALIZATION_SNAPSHOT",
+        "IFX.C2.G03_SYNC_API_SNAPSHOT"
+      ],
+      "fixtureSha256": "727966c5b7c6f722616e560596a7697fba9c796710dd7775a0ba4d8bc4466917",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-snapshots/V/G03-SYNC-API-SNAPSHOT",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "finding-proves-evaluation",
+      "allowedRuleIds": "G03-SYNC-API-SNAPSHOT",
+      "moduleId": "ifx-g03-snapshots",
+      "ruleId": "G03-SYNC-API-SNAPSHOT",
+      "claimIds": [
+        "IFX.C2.G03_SYNC_API_SNAPSHOT"
+      ],
+      "fixtureSha256": "727966c5b7c6f722616e560596a7697fba9c796710dd7775a0ba4d8bc4466917",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "snapshot-drift:sync-api",
+        "detectorId": "ifx-g03-snapshots",
+        "evidenceKind": "sync-api-snapshot"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-snapshots/V/G03-SERIALIZATION-SNAPSHOT",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "finding-proves-evaluation",
+      "allowedRuleIds": "G03-SERIALIZATION-SNAPSHOT",
+      "moduleId": "ifx-g03-snapshots",
+      "ruleId": "G03-SERIALIZATION-SNAPSHOT",
+      "claimIds": [
+        "IFX.C2.G03_SERIALIZATION_SNAPSHOT"
+      ],
+      "fixtureSha256": "1db3e1a2990a9c9a3b3a68f56ce0268962689f90b1dc9aafabe30ffc36e5db39",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "snapshot-drift:serialization",
+        "detectorId": "ifx-g03-snapshots",
+        "evidenceKind": "serialization-snapshot"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-docs-closeout/C",
+      "kind": "clean",
+      "moduleId": "ifx-g03-docs-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_CLOSEOUT_READINESS",
+        "IFX.C2.G03_DOCUMENTATION",
+        "IFX.C2.G03_LEGACY_DEADLINE"
+      ],
+      "fixtureSha256": "7c1b0e9121e9f2eadc229de4a43b5a16ade4de9486a7c89893cd0d28b57432e9",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-docs-closeout/M",
+      "kind": "missing",
+      "moduleId": "ifx-g03-docs-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_CLOSEOUT_READINESS",
+        "IFX.C2.G03_DOCUMENTATION",
+        "IFX.C2.G03_LEGACY_DEADLINE"
+      ],
+      "fixtureSha256": "03b07e573f46055ba4f3b0c79d7f424f32842fe2ab8e234d9134140442092d27",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-docs-closeout/Z",
+      "kind": "zero",
+      "strategy": "fixed-checklist-zero",
+      "moduleId": "ifx-g03-docs-closeout",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_CLOSEOUT_READINESS",
+        "IFX.C2.G03_DOCUMENTATION",
+        "IFX.C2.G03_LEGACY_DEADLINE"
+      ],
+      "fixtureSha256": "19963c075e0e1f4a18dfb200179af768d63b92fd6bb8c9e9078f64be9d56ac2c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation/V/G03-SOURCE-RECONCILIATION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G03-SOURCE-RECONCILIATION",
+      "moduleId": "ifx-g03-source-reconciliation",
+      "ruleId": "G03-SOURCE-RECONCILIATION",
+      "claimIds": [
+        "IFX.C2.G03_SOURCE_RECONCILIATION"
+      ],
+      "fixtureSha256": "15c0768d8cc616259f07e3aaca9982880e9a4e29fc27cd8332e5c557e35e9653",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "protocol-member-missing:protocols.crm.account-compliance.v1",
+        "detectorId": "ifx-g03-source-reconciliation",
+        "evidenceKind": "source-catalog"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-injection/C",
+      "kind": "clean",
+      "moduleId": "ifx-injection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+        "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE"
+      ],
+      "fixtureSha256": "4c99579b2cfb91a12ca1707de2b3d20075184272fba000e5abb9e400b4d16b44",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-governance-core/V/G03-PROJECTION",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "G03-PROJECTION",
+      "moduleId": "ifx-g03-governance-core",
+      "ruleId": "G03-PROJECTION",
+      "claimIds": [
+        "IFX.C2.G03_PROJECTION"
+      ],
+      "fixtureSha256": "700f446b7b394acc87493d4dc67cf9cf3e7a69c51c7eccbea25e514ac17533b1",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "projection-drift:contractRoles",
+        "detectorId": "ifx-g03-governance-core",
+        "evidenceKind": "governance-projection"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-governance-core/V/G03-PROVIDER-GRAPH",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "G03-PROJECTION",
+        "G03-PROVIDER-GRAPH"
+      ],
+      "moduleId": "ifx-g03-governance-core",
+      "ruleId": "G03-PROVIDER-GRAPH",
+      "claimIds": [
+        "IFX.C2.G03_PROVIDER_GRAPH"
+      ],
+      "fixtureSha256": "4cf25720fb142227b14fcf50d37fbf08448fc2605054b8ba8813188723bd179a",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "missing-consumer:protocols.crm.account-compliance.v1.consumers",
+        "detectorId": "ifx-g03-governance-core",
+        "evidenceKind": "catalog-governance"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-injection/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-injection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+        "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE"
+      ],
+      "fixtureSha256": "d2de62359019dd7c02f9eff92df3f1d7b8ff52efd03b3b5d8e9e07938505e424",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-injection/V/FORBIDDEN-DEPENDENCY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "FORBIDDEN-DEPENDENCY",
+      "moduleId": "ifx-injection",
+      "ruleId": "FORBIDDEN-DEPENDENCY",
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE"
+      ],
+      "fixtureSha256": "77deb867ec68320bcf7908754a3d5ed60619207e8a80846c110ad47b24a077ff",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/A/IFX.Modules.A.Presentation/Sample.cs:1: IFX.Modules.A.Presentation [View -> IOrderRepository]",
+        "detectorId": "ifx-injection",
+        "evidenceKind": "source-parameter"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-injection/V/FORBIDDEN-DEPENDENCY-ORIGIN",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "FORBIDDEN-DEPENDENCY-ORIGIN",
+      "moduleId": "ifx-injection",
+      "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE"
+      ],
+      "fixtureSha256": "30098d9b1d1b102d982089928d4e6489474320fc7245b745673c5696fffda5c7",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/A/IFX.Modules.A.Application/Sample.cs:1: IFX.Modules.A.Application [Service -> StorageType]",
+        "detectorId": "ifx-injection",
+        "evidenceKind": "source-parameter"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "architecture-conformance/C",
+      "kind": "clean",
+      "moduleId": "architecture-conformance",
+      "ruleId": null,
+      "claimIds": [
+        "ARCH.TYPE_DEPENDENCY"
+      ],
+      "fixtureSha256": "d0583f4304901e309147852df0280a6d453ea94c5093b0e3fb0fef3523264843",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "architecture-conformance/M",
+      "kind": "missing",
+      "moduleId": "architecture-conformance",
+      "ruleId": null,
+      "claimIds": [
+        "ARCH.TYPE_DEPENDENCY"
+      ],
+      "fixtureSha256": "c00af114bf4bc4c7436e00b5a54e15adac3423b5a8deb984880afb960ed05c6e",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "architecture-conformance/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "architecture-conformance",
+      "ruleId": null,
+      "claimIds": [
+        "ARCH.TYPE_DEPENDENCY"
+      ],
+      "fixtureSha256": "bb3433563681751d5521a2a1330e31b0098783be66f3086714b3167f412ffb8e",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "architecture-conformance/V/ARCH.TYPE_DEPENDENCY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "ARCH.TYPE_DEPENDENCY",
+      "moduleId": "architecture-conformance",
+      "ruleId": "ARCH.TYPE_DEPENDENCY",
+      "claimIds": [
+        "ARCH.TYPE_DEPENDENCY"
+      ],
+      "fixtureSha256": "02c1665cd876ac89c6f10a813433da9fdc3e1a9c46c74df4bb731a4381defcd4",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "IFX.Modules.CRM.Domain:IFX.Modules.CRM.Domain.Entities -> IFX.Modules.CRM.Contracts:IFX.Modules.CRM.Contracts.V1",
+        "detectorId": "archunitnet",
+        "evidenceKind": "compiled-assembly"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-type-provenance/C",
+      "kind": "clean",
+      "moduleId": "ifx-c1-type-provenance",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.COMPILED_TYPE_PROVENANCE"
+      ],
+      "fixtureSha256": "7f165d71f4a53c61044443bd4c3508ce0b121365c428d97070ae50821aeae803",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-type-provenance/M",
+      "kind": "missing",
+      "moduleId": "ifx-c1-type-provenance",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.COMPILED_TYPE_PROVENANCE"
+      ],
+      "fixtureSha256": "b5bc2ccbbaf00ee17ecc3456b9e41c7b85d57c5736a80a69575ce9a760aa17c0",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-governance-core/V/G03-WAIVER-POLICY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "G03-PROJECTION",
+        "G03-WAIVER-POLICY"
+      ],
+      "moduleId": "ifx-g03-governance-core",
+      "ruleId": "G03-WAIVER-POLICY",
+      "claimIds": [
+        "IFX.C2.G03_WAIVER_POLICY"
+      ],
+      "fixtureSha256": "bd649028ba2b6050b9065928cbe227e839db239f0009048b1533c7a6de865320",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "waiver-unwaivable:waivers.W-TEST.category",
+        "detectorId": "ifx-g03-governance-core",
+        "evidenceKind": "catalog-governance"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-type-provenance/Z",
+      "kind": "zero",
+      "strategy": "integrity-zero",
+      "moduleId": "ifx-c1-type-provenance",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.COMPILED_TYPE_PROVENANCE"
+      ],
+      "fixtureSha256": "587918e8654a53e98f7ca5520b83fd180a320e1ca0f42e54bbe8809428d6f859",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "integrity-failure"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "integrity-failure"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference/C",
+      "kind": "clean",
+      "moduleId": "ifx-c1-evaluated-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EVALUATED_REFERENCE_GRAPH"
+      ],
+      "fixtureSha256": "ca595cf64048e38ba2bb793e58a2682cf0cd8ddbb091864828ea4302611da960",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference/M",
+      "kind": "missing",
+      "moduleId": "ifx-c1-evaluated-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EVALUATED_REFERENCE_GRAPH"
+      ],
+      "fixtureSha256": "ca7103892956d2ca6e0af83722d95d6ecea00059a4e90057ebb2035da230c640",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference/Z",
+      "kind": "zero",
+      "strategy": "integrity-zero",
+      "moduleId": "ifx-c1-evaluated-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EVALUATED_REFERENCE_GRAPH"
+      ],
+      "fixtureSha256": "0be46baa5a765a9d7d05a2a0a8df605976d429f94084b89e10bd56af150147e5",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "integrity-failure"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "integrity-failure"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference/V/C1-EVALUATED-RING-REFERENCE",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "C1-EVALUATED-OWNERSHIP",
+        "C1-EVALUATED-RING-REFERENCE"
+      ],
+      "moduleId": "ifx-c1-evaluated-reference",
+      "ruleId": "C1-EVALUATED-RING-REFERENCE",
+      "claimIds": [
+        "IFX.C1.EVALUATED_REFERENCE_GRAPH"
+      ],
+      "fixtureSha256": "2aa820c486e5066708f13c41189d7394081542b39a1096c7d850a30d764ccbbd",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direction]",
+        "detectorId": "ifx-c1-evaluated-reference",
+        "evidenceKind": "project-reference-evaluated"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference/V/C1-EVALUATED-OWNERSHIP",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "C1-EVALUATED-OWNERSHIP",
+        "C1-EVALUATED-RING-REFERENCE"
+      ],
+      "moduleId": "ifx-c1-evaluated-reference",
+      "ruleId": "C1-EVALUATED-OWNERSHIP",
+      "claimIds": [
+        "IFX.C1.EVALUATED_REFERENCE_GRAPH"
+      ],
+      "fixtureSha256": "5402ca1b0a166800bb205cd6953523fcceba927fdbc12d236286a22eb3a164ff",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [transitive own]",
+        "detectorId": "ifx-c1-evaluated-reference",
+        "evidenceKind": "project-reference-evaluated"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-governance-core/C",
+      "kind": "clean",
+      "moduleId": "ifx-g03-governance-core",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_OWNERSHIP",
+        "IFX.C2.G03_PROJECTION",
+        "IFX.C2.G03_PROVIDER_GRAPH",
+        "IFX.C2.G03_WAIVER_POLICY"
+      ],
+      "fixtureSha256": "1a37324500730dcb558258072ac8bd064648fc6d09d942df20f6656c9ac1c5b6",
+      "expected": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "pass",
+        "exitCategory": "success"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-governance-core/M",
+      "kind": "missing",
+      "moduleId": "ifx-g03-governance-core",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_OWNERSHIP",
+        "IFX.C2.G03_PROJECTION",
+        "IFX.C2.G03_PROVIDER_GRAPH",
+        "IFX.C2.G03_WAIVER_POLICY"
+      ],
+      "fixtureSha256": "aecf11602779f7bc4c782ecb26ab60b281fffd19e0c77697564951ba4a264945",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "prerequisite-missing"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-governance-core/Z",
+      "kind": "zero",
+      "strategy": "enumerated-zero",
+      "moduleId": "ifx-g03-governance-core",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C2.G03_OWNERSHIP",
+        "IFX.C2.G03_PROJECTION",
+        "IFX.C2.G03_PROVIDER_GRAPH",
+        "IFX.C2.G03_WAIVER_POLICY"
+      ],
+      "fixtureSha256": "401170c64ed89bf4e378a7e4210f88ba97ba57d77bd87d2872b673af389691fb",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-g03-governance-core/V/G03-OWNERSHIP",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": [
+        "G03-OWNERSHIP",
+        "G03-PROJECTION"
+      ],
+      "moduleId": "ifx-g03-governance-core",
+      "ruleId": "G03-OWNERSHIP",
+      "claimIds": [
+        "IFX.C2.G03_OWNERSHIP"
+      ],
+      "fixtureSha256": "83b95392734186db5374c30a35ac613e278a9da1006f1ae0360c37a27ec7289c",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "owner-reference:modules.auth.owner",
+        "detectorId": "ifx-g03-governance-core",
+        "evidenceKind": "catalog-governance"
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-c1-type-provenance/V/C1-COMPILED-TYPE-PROVENANCE",
+      "kind": "violation",
+      "outcome": "integrity-failure",
+      "coverageContract": "integrity-progress",
+      "allowedRuleIds": null,
+      "moduleId": "ifx-c1-type-provenance",
+      "ruleId": "C1-COMPILED-TYPE-PROVENANCE",
+      "claimIds": [
+        "IFX.C1.COMPILED_TYPE_PROVENANCE"
+      ],
+      "fixtureSha256": "587918e8654a53e98f7ca5520b83fd180a320e1ca0f42e54bbe8809428d6f859",
+      "expected": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "integrity-failure"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "error",
+        "exitCategory": "integrity-failure",
+        "subject": null,
+        "detectorId": null,
+        "evidenceKind": null
+      },
+      "status": "pass"
+    },
+    {
+      "id": "ifx-history-integrity/V/HISTORY-INTEGRITY",
+      "kind": "violation",
+      "outcome": "findings-blocking",
+      "coverageContract": "nonzero",
+      "allowedRuleIds": "HISTORY-INTEGRITY",
+      "moduleId": "ifx-history-integrity",
+      "ruleId": "HISTORY-INTEGRITY",
+      "claimIds": [
+        "IFX.C5.HISTORY_INTEGRITY"
+      ],
+      "fixtureSha256": "389ca5c4af404960e1ce79d3a2c9402fc4722bd272fd9696c2cfb7cd46209553",
+      "expected": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking"
+      },
+      "actual": {
+        "processExit": 0,
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "subject": "mcp/LayerGuard/baselines/b0.5.json",
+        "detectorId": "ifx-history-integrity",
+        "evidenceKind": "historical-file"
+      },
+      "status": "pass"
+    }
+  ]
+}

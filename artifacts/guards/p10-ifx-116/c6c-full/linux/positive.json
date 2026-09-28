@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "i1-c6c-linux-synthetic-candidate",
+  "sourceCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+  "baseVersion": "1.1.6",
+  "bundleVersion": "0.4.4",
+  "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+  "profileSha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51",
+  "linuxSdk": "10.0.303",
+  "installerSource": "release-archive",
+  "installerSha256": "eece069e2d6e8eec84b0e8ad9db6e2927bf4ba6645bf9a887398ef9e692b4165",
+  "checkoutIndexSync": {
+    "reportedBeforeSync": 4254,
+    "remainingAfterSync": 0,
+    "fileMode": "false"
+  },
+  "windowsBaseReceiptSha256": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497",
+  "linuxBaseReceiptSha256": "3fa03c943afd85c2346bd3af33eee8e4e9013bb07cf87ded8588e8e28d50128b",
+  "basePayloadIdentity": "equal",
+  "cases": [
+    {
+      "id": "direct-pre",
+      "status": "pass",
+      "moduleCount": 10,
+      "claimCount": 22,
+      "stages": [
+        "pre"
+      ]
+    },
+    {
+      "id": "direct-post",
+      "status": "pass",
+      "moduleCount": 27,
+      "claimCount": 57,
+      "stages": [
+        "post"
+      ]
+    },
+    {
+      "id": "dependency-post",
+      "status": "pass",
+      "moduleCount": 37,
+      "claimCount": 79,
+      "stages": [
+        "bootstrap",
+        "analysis",
+        "pre",
+        "post"
+      ]
+    }
+  ],
+  "compositionReceiptSha256": "ce209d1168363aab96b3656b5b00cd04ebe25f7857e84d290d47146031aac808",
+  "windowsSummarySha256": "92d11f4f9e9aa8dd41f2739a5258bb9e36b55c0752ea57244b4e13cc3764af71",
+  "limitations": [
+    "Synthetic review is not Xiaolong Feng approval.",
+    "Independent detector-family violation/zero-match matrix remains required."
+  ]
+}

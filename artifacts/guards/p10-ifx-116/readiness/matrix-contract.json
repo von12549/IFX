@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "c6c4-matrix-contract",
+  "v4Reference": "base-package and pinned Git blob (IFX-V4-004)",
+  "inventorySha256": "b623af9d686284da673e41a6aa28c631676769f4f8ee36915ec6b859c7c3bf0f",
+  "inventoryProjectionSha256": "0ea7d78bc236c6090f7ce807465f546d224ff9297584c040a140e8c8461df75f",
+  "contractSha256": "1e54be44eddff17c61ce358e75cff1a641b57fd4767a7c33be11e076f6cd8453",
+  "fixtureSpecSha256": "f6060fe89df5b9e9038a1c1ec7fe87af0fb630a23e39e876ff33cb3da0bbf3cc",
+  "moduleCount": 37,
+  "blockingRuleCount": 80,
+  "advisoryRuleCount": 3,
+  "zeroStrategies": {
+    "enumerated": 19,
+    "fixedChecklist": 16,
+    "integrity": 2
+  },
+  "ruleOverrideCount": 17
+}

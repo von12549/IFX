@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i1-s3b-verdict-equality",
+  "native": {
+    "exitCode": 0,
+    "elapsedSeconds": 1.634,
+    "status": "pass",
+    "comparable": "{\"coverage\":{\"claimId\":\"IFX.C4.DATABASE_EVIDENCE\",\"matched\":9,\"minimum\":1},\"exitCategory\":\"success\",\"findings\":null,\"formatVersion\":1,\"status\":\"pass\"}"
+  },
+  "bind": {
+    "exitCode": 0,
+    "elapsedSeconds": 70.405,
+    "status": "pass",
+    "comparable": "{\"coverage\":{\"claimId\":\"IFX.C4.DATABASE_EVIDENCE\",\"matched\":9,\"minimum\":1},\"exitCategory\":\"success\",\"findings\":null,\"formatVersion\":1,\"status\":\"pass\"}"
+  },
+  "comparableSha256": {
+    "native": "8887f3d01410119f5c5f95d36bf3651ba066032f3704ca5b4db62cee45a49910",
+    "bind": "8887f3d01410119f5c5f95d36bf3651ba066032f3704ca5b4db62cee45a49910"
+  },
+  "equal": true
+}

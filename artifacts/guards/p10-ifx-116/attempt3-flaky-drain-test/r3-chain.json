@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "status": "failed",
+  "step": "I1-S5",
+  "targetCommit": "50ae55ea190543960f1b165583a89dde463aa3c3",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.4.4",
+  "startedAt": "2026-09-28T14:45:44.4857026+00:00",
+  "completedAt": "2026-09-28T14:47:56.6557660+00:00",
+  "elapsedSeconds": 132.17,
+  "failure": "Step lock-solution failed with exit 1; see D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\chain\\lock-solution.log",
+  "steps": [
+    {
+      "id": "inventory",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c6b0/Test-IFXC6ModuleInventory.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:45:44.4889284+00:00",
+      "completedAt": "2026-09-28T14:45:45.9121159+00:00",
+      "elapsedSeconds": 1.423,
+      "log": "artifacts/guards/p10-ifx-116/chain/inventory.log",
+      "logSha256": "bc084c8b3b29a6c50a1b832c095908ba49a232e0e7afd4a1231e6870efe92743"
+    },
+    {
+      "id": "contract",
+      "script": "docs/guards/candidates/ifx-rebind-116/Test-IFX116ContractCompatibility.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-28T14:45:45.9485173+00:00",
+      "completedAt": "2026-09-28T14:45:48.9621898+00:00",
+      "elapsedSeconds": 3.014,
+      "log": "artifacts/guards/p10-ifx-116/chain/contract.log",
+      "logSha256": "fd3fe9f00fd611a5c7ab9338a92f1f0301c269d0abe697fcf5776e2be25de915"
+    },
+    {
+      "id": "lock-solution",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "exitCode": 1,
+      "startedAt": "2026-09-28T14:45:48.9737926+00:00",
+      "completedAt": "2026-09-28T14:47:56.6424181+00:00",
+      "elapsedSeconds": 127.669,
+      "log": "artifacts/guards/p10-ifx-116/chain/lock-solution.log",
+      "logSha256": "77a22b67a1135372c3ee29fbc0e69f486359dea68908e046696329f811970529"
+    }
+  ]
+}

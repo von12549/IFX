@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "step": "I1-S3",
+  "kind": "ifx-i1-s3-summary",
+  "status": "pass",
+  "source": {
+    "path": "s3-linux-db-timing.json",
+    "sha256": "bf589579d02d7e616372fd8c3c138b8e1c0a435d6e44a73620cc489681cc900c"
+  },
+  "workload": "T7 C6c Linux native-checkout at 1fcc0783 and composed 1.1.5 + 0.4.3 package; ifx-database-evidence adapter 7c336115... (identical in 0.4.3 and planned 0.4.4)",
+  "declaredModuleTimeoutSeconds": 60,
+  "decisionThresholdSeconds": 45,
+  "native": {
+    "runs": 6,
+    "allPass": true,
+    "maxSeconds": 1.699,
+    "minSeconds": 1.21
+  },
+  "bind": {
+    "runs": 6,
+    "allPass": true,
+    "maxSeconds": 69.33,
+    "minSeconds": 58.654,
+    "directScanOverTimeout": 3
+  },
+  "copyOverBindMountSeconds": 104.945,
+  "decision": "D1-A",
+  "conclusion": "The IFX-V4-002 timeout is caused by file I/O over the Docker Desktop 9p bind mount of D:\\. On container-native storage the adapter needs at most 1.7 s against its 60 s budget. The module stays unchanged; the C6c Linux harness moves its working paths to container-native storage.",
+  "deviations": [
+    "Only the adapter was timed, not a full installed-Host direct-post: the Host needs a Type lock younger than one hour, which requires the full lock chain. The full Host run on native storage is proven by the S5 C6c Linux leg.",
+    "Attempt 001 stopped before timing (/native did not exist). Attempt 002 recorded all 12 runs; its closing aggregation failed (Measure-Object on ordered dictionaries), so this summary is computed from the recorded runs."
+  ]
+}

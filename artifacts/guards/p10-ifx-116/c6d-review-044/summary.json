@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "result": "ready-for-designated-human-review",
+  "reviewPacketPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6d-review-044\\review-packet.json",
+  "reviewPacketSha256": "631e9949347e5cce48db70cf77cfc0edba7fdea2e9eb19ef1b122bbc7783ca61",
+  "fileInventorySha256": "59e84da8b42b5ba5921d15781a4b42677d1c4a1afa8ca938d58124b356250ed6",
+  "moduleCeilingsSha256": "9810a127df11f9f03ef8abb287d1d3da16cd672b7599a0f47f798a4c0f7f8081",
+  "productionReviewRecordCreated": false,
+  "c6eAuthorized": false
+}

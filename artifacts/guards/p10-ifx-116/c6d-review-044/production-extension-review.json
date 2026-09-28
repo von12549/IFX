@@ -1,0 +1,565 @@
+{
+  "formatVersion": 1,
+  "id": "20260929-ifx-0-4-4-production-review",
+  "scope": "production",
+  "decision": "accepted",
+  "acceptedBy": {
+    "authorityType": "human-review",
+    "authorityId": "xiaolong-feng",
+    "candidateHostVerdictAllowed": false
+  },
+  "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+  "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+  "moduleCeilings": [
+    {
+      "moduleId": "ifx-domain-reference",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-package-reference",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-ring-graph",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-ownership-graph",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-provider-cycle",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-embedded-adapter",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh",
+          "dotnet"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-source-policy",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh",
+          "dotnet"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-reference-cycle",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-injection",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-c1-type-provenance",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-c1-evaluated-reference",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh",
+          "git"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-g03-governance-core",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 30
+      }
+    },
+    {
+      "moduleId": "ifx-g03-catalog-semantics",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 30
+      }
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g03-docs-closeout",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g04-manifests",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 45
+      }
+    },
+    {
+      "moduleId": "ifx-g04-runtime",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g04-closeout",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-plan04-extraction",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-plan04-tenant",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-plan04-projection",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-plan04-abstractions",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g05-protocol",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g05-execution-http",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g05-carriers",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g05-governance",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-g05-closeout",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "moduleId": "ifx-solution-evidence",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-assembly-evidence",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-frontend-evidence",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "moduleId": "ifx-history-integrity",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "v4-1.1.6-ifx-contract-handshake",
+  "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+  "base": {
+    "tagCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "archiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "receiptSha256": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497",
+    "manifestSha256": "37fb9073e30e57ca0e33a89ba41ed5aba46f061560c4e3ede2f2b6f569371f55",
+    "packageHash": "a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825"
+  },
+  "workspaceEvidence": {
+    "schemaSha256": "bbed8f4019aea8400391ea4c21bb78ae537664ef3c3e5f8b06146c1fe5f892a8",
+    "producerElapsedSeconds": 1.135,
+    "fileCount": 1152,
+    "sha256": "7e24611fc9765b18ca8072fc70889708718638a27d9faf31661874ca5fc4bc8d",
+    "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d"
+  },
+  "consumers": [
+    {
+      "moduleId": "ifx-domain-reference",
+      "manifestSha256": "d2c2ac30ce664b4134cdf0cce095e99631a70678c65bd42fd64ac58f895cd92e",
+      "adapterSha256": "5a04a73206d4fa011a45e8bd63231f27d28b7b19256a2e3998e29a41bf84dd8a",
+      "declaredTimeoutSeconds": 180,
+      "evidenceRootDeclared": true,
+      "fallbackDeclared": true
+    },
+    {
+      "moduleId": "ifx-project-name",
+      "manifestSha256": "87ae35cdf6f1faa8464e12a10db3b35f19992269ebc1434d349775136583bf64",
+      "adapterSha256": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d",
+      "declaredTimeoutSeconds": 180,
+      "evidenceRootDeclared": true,
+      "fallbackDeclared": true
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "manifestSha256": "31dfff043cdb2904e0d7539bdb17e0fcddd669330fdb78af47abd43833337aad",
+      "adapterSha256": "d0b9309d0eca3346775f2484d7f2190bd4544f3d2177cb35afd3cd6ebde0b7c8",
+      "declaredTimeoutSeconds": 60,
+      "evidenceRootDeclared": true,
+      "fallbackDeclared": true
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "manifestSha256": "8d8dc0cc15ebc203e4be55ee7bd60d5532bad7fea7d0dff7c764d8c1fdf7acfd",
+      "adapterSha256": "342bf042877499bfb3810d77d8c2a331939d9f340bfe507f238187cfac6d2bb4",
+      "declaredTimeoutSeconds": 60,
+      "evidenceRootDeclared": true,
+      "fallbackDeclared": true
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "manifestSha256": "90390a5344dcb37774c9259cd6ed9447895a442e5dea3e3ee854b85583a17df7",
+      "adapterSha256": "7c33611585554b04578b308bde7da9936a5f6d61b88e66b658c821fcf2ab23df",
+      "declaredTimeoutSeconds": 60,
+      "evidenceRootDeclared": true,
+      "fallbackDeclared": true
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "manifestSha256": "baa23080ca2367fd38183386da65d6eaaff53f0cb62a585f25884a1440bb9699",
+      "adapterSha256": "888315f9bce543d97226a628f9cf31f095d26f2424095dc5d1c321e1c873d8a7",
+      "declaredTimeoutSeconds": 60,
+      "evidenceRootDeclared": true,
+      "fallbackDeclared": true
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "manifestSha256": "d4e40c15f39280ea8cb330d111579ee6c4d6130c61aa20dea560eeda33fa124a",
+      "adapterSha256": "dec90efc0b3a12489646690c0310a707eb39a7b8f4f36bdd786e5ac9bb050367",
+      "declaredTimeoutSeconds": 60,
+      "evidenceRootDeclared": true,
+      "fallbackDeclared": true
+    }
+  ],
+  "inheritanceMatrixPath": "artifacts/guards/p10-ifx-116/contract-preflight/983b1a2089e24c7ba3680cf83adfb2a8/c1-c5-inheritance-matrix.json",
+  "inheritanceMatrixSha256": "b696a78053e1b5bfceec9dddfede1b80cd2395b43d3814da9be1056cc188e728",
+  "inheritedModuleCount": 36,
+  "focusedModuleCount": 0,
+  "hostContractRequalifiedCount": 7,
+  "baseRebindModuleCount": 1
+}

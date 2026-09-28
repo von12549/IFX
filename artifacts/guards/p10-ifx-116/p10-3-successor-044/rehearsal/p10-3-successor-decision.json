@@ -1,0 +1,60 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+  "planId": "20260928-v4-ifx-i1-rebind-1-1-6",
+  "supersedes": {
+    "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+    "sha256": "f9775c584be738ebe5b72892cec18a04f3b938f638b0dbae68e327b530b3ce47",
+    "tuple": "V4 Guards 1.1.5 + ifx_profile 0.4.3",
+    "status": "historical"
+  },
+  "identity": {
+    "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+    "v4ProductVersion": "1.1.6",
+    "ifxProfileVersion": "0.4.4",
+    "guardRepository": "von12549/Guard",
+    "guardReleaseCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+    "profileSha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51",
+    "productionReviewSha256": "8e4ee60369125b4122089728cbbaab1a9e372828148b876bf142d11fe8780bae",
+    "packageSha256": "bea54366341289bda0d82dd9bfb9c0653864ff614ebc9ddebbeda47ff090d37a",
+    "compositionReceiptSha256": "a75e67bc7ff993968cf4906bea2568f5d306987316033c068b72c875f96047fd",
+    "s6DecisionSha256": "683ca3881ab8bdf509b009bbc305b1587f8f6d6a4b83dd8398f44985e90cfc54",
+    "s7DecisionSha256": "77acf8ad837ed7d9aee3fd04293f926dda53fb66a961a3fdd7d282661b9218bc",
+    "p10_2DecisionSha256": "59936476061591692701942a21044b2cf1ace1a4cffbc80cd31e915756636f0c",
+    "windowsFullSummarySha256": "00dec3df6aa7633ea8d33bc249434ab1a55e6d1eff0f7ce7b8731cc502a2d8f0"
+  },
+  "remote": {
+    "ifxDevelopmentCommit": "2141f040989b52b426e1d8e630a57dd037334815",
+    "rulesetId": 23459908,
+    "requiredContextCount": 13,
+    "guardReleaseTag": "v4-guards-v1.1.6",
+    "remoteMutationPerformed": false
+  },
+  "proof": {
+    "contextOwnershipRows": 13,
+    "detectorOwnershipRows": 9,
+    "executedNegativeControls": 8,
+    "protectedRootsUnchanged": true
+  },
+  "activationBlockers": [
+    "promote-reviewed-v3-workflow-and-p10-evidence-to-default-branch",
+    "publish-exact-ifx-0.4.4-bundle-by-separate-plan",
+    "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
+    "add-v4-ifx-required-to-ruleset-by-separate-plan",
+    "complete-coexistence-window-before-removing-any-v3-context"
+  ],
+  "boundary": {
+    "p10_3SuccessorDesignComplete": true,
+    "p10GatePassed": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "activated": false,
+    "ifxCutover": false,
+    "ifxCoreSourceRemoved": true,
+    "cleanupReceiptSha256": "fe371edac2167bbd4ff60377b02b2f04ae942f99c312d0d2376d46be8daaf2a7",
+    "v3Retired": false
+  }
+}

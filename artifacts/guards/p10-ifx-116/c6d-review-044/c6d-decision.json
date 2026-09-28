@@ -1,0 +1,90 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "c6d-exact-bundle-human-review-accepted",
+  "decidedAt": "2026-09-28T18:19:58.454988Z",
+  "planId": "20260928-v4-ifx-i1-rebind-1-1-6",
+  "step": "S6",
+  "authority": {
+    "authorityType": "human-review",
+    "authorityId": "xiaolong-feng",
+    "candidateHostVerdictAllowed": false
+  },
+  "acceptanceStatement": "接受",
+  "acceptanceContext": "Operator reply to the S6 request to accept or reject the exact review packet 631e9949347e5cce48db70cf77cfc0edba7fdea2e9eb19ef1b122bbc7783ca61 (0.4.4 on V4 Guards 1.1.6, archive 92f1ec54...). Acceptance permits writing the production review record and continuing with S7-S9 under A-I1-LOCAL.",
+  "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.4.4",
+  "bundle": {
+    "manifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "fileCount": 256,
+    "moduleCount": 36,
+    "profileCount": 1
+  },
+  "acceptedEvidence": {
+    "reviewPacket": {
+      "path": "artifacts/guards/p10-ifx-116/c6d-review-044/review-packet.json",
+      "sha256": "631e9949347e5cce48db70cf77cfc0edba7fdea2e9eb19ef1b122bbc7783ca61"
+    },
+    "fileInventory": {
+      "path": "artifacts/guards/p10-ifx-116/c6d-review-044/file-inventory.json",
+      "sha256": "59e84da8b42b5ba5921d15781a4b42677d1c4a1afa8ca938d58124b356250ed6"
+    },
+    "moduleCeilings": {
+      "path": "artifacts/guards/p10-ifx-116/c6d-review-044/module-ceilings.json",
+      "sha256": "9810a127df11f9f03ef8abb287d1d3da16cd672b7599a0f47f798a4c0f7f8081"
+    },
+    "productionReviewRecord": {
+      "path": "artifacts/guards/p10-ifx-116/c6d-review-044/production-extension-review.json",
+      "sha256": "8e4ee60369125b4122089728cbbaab1a9e372828148b876bf142d11fe8780bae",
+      "schema": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6/package/core/contracts/extension-review.schema.json (installed 1.1.6 base)",
+      "schemaValid": true
+    },
+    "c6cDecision": {
+      "path": "artifacts/guards/p10-ifx-116/c6c-decision.json",
+      "sha256": "504968ff40e94b65d941b47c156633d09c8e3e09d1e8e4300c7b57acca8cf9bd"
+    },
+    "c6cCertificationSummary": {
+      "path": "artifacts/guards/p10-ifx-116/c6c-full/summary.json",
+      "sha256": "3427ede969104350626909e10928152032542b3ab813ab3df65122796257ec6a"
+    },
+    "s3TimingSummary": {
+      "path": "D:\\IFX-Root\\v4-todo-008-evidence\\I1-rebind-116\\20260928T131600Z\\s3\\s3-summary.json",
+      "sha256": "d6ec4747c3c19a9deb0c95d8e96286fa8a7178aeb2de76f300438e0c40f4eba4"
+    }
+  },
+  "disclosures": {
+    "windowsProductCertification": "pass",
+    "certificationControls": "pass",
+    "linuxPortability": {
+      "blocking": false,
+      "status": "pass",
+      "semanticProjection": "equal",
+      "reasonCodes": [],
+      "harness": "IFX-V4-003 installer from the verified release archive; IFX-V4-002 Target, work and matrix on container-native storage",
+      "processDiagnostics": [],
+      "predecessorLinux": "0.4.3 (T7): advisory-fail; ifx-database-evidence exceeded its 60 s timeout over the 9p bind mount (IFX-V4-002)."
+    },
+    "predecessorComparison": "Only authority-map.json, evidence-lineage.json and profile.json changed from 0.4.3; module declarations and ceilings identical.",
+    "amendments": [
+      "A4 (IFX-V4-004): V4 reference inputs from the verified base and a pinned Git blob",
+      "A5: index sync of the Linux byte-copied checkout"
+    ]
+  },
+  "closesBacklog": [
+    "IFX-V4-002",
+    "IFX-V4-003",
+    "IFX-V4-004"
+  ],
+  "followUps": [
+    "Timing-sensitive IFX test RuntimeDrainCoordinatorTests.BeginDrain_AtomicallyRejectsNewWork_AndWaitsForExistingWork (1 s idle wait; failed in 4 of 126 solution-evidence runs) - IFX product fix outside I1.",
+    "C6c Linux copy-back of about 65k matrix files over the 9p mount took about 90 minutes; archive before copy-back in a later harness revision."
+  ],
+  "boundary": {
+    "s6Complete": true,
+    "productionReviewAccepted": true,
+    "s7CoveredByAI1Local": true,
+    "compositionPerformed": false
+  }
+}

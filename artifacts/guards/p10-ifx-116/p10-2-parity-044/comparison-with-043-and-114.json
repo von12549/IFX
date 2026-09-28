@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "kind": "i1-s8-parity-comparison",
+  "current": {
+    "path": "D:/IFX-Root/IFX/artifacts/guards/p10-ifx-116/p10-2-parity-044/parity-matrix.json",
+    "sha256": "1d61650695185ed8ad69b3c013f241a63190d0ca5999e0205c7262676bf4ac7c",
+    "caseCount": 52,
+    "gapCount": 0,
+    "strengtheningCount": 15
+  },
+  "excludedAsRunMetadata": [
+    "paths",
+    "timestamps",
+    "process hashes",
+    "input hashes (contain paths)"
+  ],
+  "references": {
+    "t7-0.4.3": {
+      "path": "D:/IFX-Root/IFX/artifacts/guards/p10-ifx-115/p10-2-parity-043/parity-matrix.json",
+      "sha256": "9bd20a02bf68210daaf97420c1df5a44379c4fbb4ce83d9fbee5189e89b58c10",
+      "caseCount": 52,
+      "gapCount": 0,
+      "strengtheningCount": 15,
+      "sameCaseIds": true,
+      "semanticRowDiffs": 0,
+      "differingCases": [],
+      "strengtheningsIdentical": true
+    },
+    "1.1.4-r2-0.4.2": {
+      "path": "D:/IFX-Root/IFX/artifacts/guards/p10-ifx-114/p10-2-r2-parity-042/parity-matrix.json",
+      "sha256": "5f72d82247542bcbd04e008bbad66cca2dba9285a103f3d383e6b6faf3c7a9e4",
+      "caseCount": 52,
+      "gapCount": 0,
+      "strengtheningCount": 15,
+      "sameCaseIds": true,
+      "semanticRowDiffs": 0,
+      "differingCases": [],
+      "strengtheningsIdentical": true
+    }
+  },
+  "status": "pass"
+}

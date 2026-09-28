@@ -1,0 +1,2840 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "sourceCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+  "sourceManifestSha256": "5a941375c7803b2031fb967f4ed5bebfa754e3419c8887f36c54d27f4b2af65f",
+  "cases": [
+    {
+      "id": "ifx-domain-reference/C",
+      "kind": "clean",
+      "moduleId": "ifx-domain-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS"
+      ],
+      "fixtureSha256": "318d2d9c8c530a2cbf2c29238cb0d177b7cf12e4e042cabce53ec4e139d2b022",
+      "captureId": "c1b",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1b\\e67a1ebb3fd1407cbabd7932889d12bb\\clean",
+      "targetFingerprintSha256": "660a4b74b92317f467505be76ad80f9f5164c32f5184db209d3d39a57e8b0594",
+      "v4InputSha256": "e5437bda8d1527b30a6c49046d5daa5a5e01cbf2324b6b04e795e463edfc4cdb",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-domain-reference\\adapter.ps1",
+        "adapterSha256": "5a04a73206d4fa011a45e8bd63231f27d28b7b19256a2e3998e29a41bf84dd8a",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-domain-reference",
+        "providerFingerprintSha256": "194770ee1cc3d5d01d634a0466f57807a100edc583d535da1e1919910db6a944",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-domain-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "9f16f839051a858955817ac229ab8c3c7be4e3023534d6b49489177dafe710b8"
+      }
+    },
+    {
+      "id": "ifx-domain-reference/M",
+      "kind": "missing",
+      "moduleId": "ifx-domain-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS"
+      ],
+      "fixtureSha256": "e01a6bf1c0b16841371ba4045f414efc7fc9b19408a39b51922c7f6579c6e443",
+      "captureId": "c1b",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1b\\e67a1ebb3fd1407cbabd7932889d12bb\\missing-root",
+      "targetFingerprintSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "v4InputSha256": "220d9c177891456e87fe0c3f6bbc03d9ecc80e31c94f33ac1656e465ac99e9c7",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-domain-reference\\adapter.ps1",
+        "adapterSha256": "5a04a73206d4fa011a45e8bd63231f27d28b7b19256a2e3998e29a41bf84dd8a",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-domain-reference",
+        "providerFingerprintSha256": "194770ee1cc3d5d01d634a0466f57807a100edc583d535da1e1919910db6a944",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-domain-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "8a01437dcb92ddd4f1572b4bad6033160f154f306c597677b17c4389c2e4a9f7"
+      }
+    },
+    {
+      "id": "ifx-domain-reference/V/RING-DIRECTION",
+      "kind": "violation",
+      "moduleId": "ifx-domain-reference",
+      "ruleId": "RING-DIRECTION",
+      "claimIds": [
+        "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS"
+      ],
+      "fixtureSha256": "70a79281ac7a0a8b652ff7e5e94080e0bf63addd09fcdcfa1276d55e5fc9cc15",
+      "captureId": "c1b",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1b\\e67a1ebb3fd1407cbabd7932889d12bb\\forbidden-reference",
+      "targetFingerprintSha256": "5b0a57b92e2848f475316b1f41ff2aa859c22a8868de403ab75693acdb50e59c",
+      "v4InputSha256": "de1cd20098d32b9f4e9bca2f9edf005d1d2d02647854de6ee86283abd4aa2671",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-domain-reference\\adapter.ps1",
+        "adapterSha256": "5a04a73206d4fa011a45e8bd63231f27d28b7b19256a2e3998e29a41bf84dd8a",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-domain-reference",
+        "providerFingerprintSha256": "194770ee1cc3d5d01d634a0466f57807a100edc583d535da1e1919910db6a944",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-domain-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "9d164762cf581a842eb7b1fcf033dbc0408e4f12e99808864090b6d9cb02972d"
+      }
+    },
+    {
+      "id": "ifx-domain-reference/Z",
+      "kind": "zero",
+      "moduleId": "ifx-domain-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS"
+      ],
+      "fixtureSha256": "3b7a3369e2e13db4747dfd51be430dff86c5d6f09ed5f5d42039b728b5d9e5ba",
+      "captureId": "c1b",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1b\\e67a1ebb3fd1407cbabd7932889d12bb\\zero-domain",
+      "targetFingerprintSha256": "faa65fe0636ecface2cc06c2df89e8d27a3463321f676090b58b0a3e0d337f36",
+      "v4InputSha256": "01fb5e5fd5eeebca7b9531c682a73675305fca5474deeb5288e411f77a6b6613",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-domain-reference\\adapter.ps1",
+        "adapterSha256": "5a04a73206d4fa011a45e8bd63231f27d28b7b19256a2e3998e29a41bf84dd8a",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-domain-reference",
+        "providerFingerprintSha256": "194770ee1cc3d5d01d634a0466f57807a100edc583d535da1e1919910db6a944",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-domain-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-domain-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "f9df13be6ccda7879bc9e1fdd5e5abdd960bfa537be8101a57b3da41abf6554e"
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/C",
+      "kind": "clean",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+        "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"
+      ],
+      "fixtureSha256": "eaf07be9c4011a911f8bec965eee75a610985f24ba8226713df077b62d3bb137",
+      "captureId": "c1g",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1g\\832e70887ba94c33b3e3c257a4f577ea\\clean",
+      "targetFingerprintSha256": "b60358855c7f236ad994c5d0e5f957bf0c7902c58f25429cb641be5047cfc470",
+      "v4InputSha256": "5d02f68a50da18bdd0a19618475ae8238386e4b95b39a15ba95199469e8d72f7",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter\\adapter.ps1",
+        "adapterSha256": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter",
+        "providerFingerprintSha256": "a342efcdcd6e46a99a4dc9fd08a846864db9a318db9504be5abcb785409bc21f",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-embedded-adapter\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "4db4ac73b256c50a1c5e99a05738bbfe077d6975d9c70af0394f6aa7a89fcc97"
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/M",
+      "kind": "missing",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+        "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"
+      ],
+      "fixtureSha256": "d3d5bf0e662b0794904258e4364c0ab89d99f8f0fd73612923dbc6f8f0ce9f20",
+      "captureId": "c1g",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1g\\832e70887ba94c33b3e3c257a4f577ea\\generated-only",
+      "targetFingerprintSha256": "80912557f850d65ef778c32c7d4a028c765a481b68a207fddce93b5ec40d577a",
+      "v4InputSha256": "cd418408c2c9d578e6ffbe635e9fc3e54845516483929f42a9c70a189fc1785e",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter\\adapter.ps1",
+        "adapterSha256": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter",
+        "providerFingerprintSha256": "a342efcdcd6e46a99a4dc9fd08a846864db9a318db9504be5abcb785409bc21f",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-embedded-adapter\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "bd405dc7bb00d548c40b80bf7a692f7abe497ebf3a35dfb63c3f81fa29ed6537"
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/V/EMBEDDED-ADAPTER-LOCATION",
+      "kind": "violation",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": "EMBEDDED-ADAPTER-LOCATION",
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE"
+      ],
+      "fixtureSha256": "18b561e63ee9ca36dac268c1f9f637550f4578b7ae78977b5ed679b0a15f41d5",
+      "captureId": "c1g",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1g\\832e70887ba94c33b3e3c257a4f577ea\\wrong-location",
+      "targetFingerprintSha256": "aeecebd76f7777e2d7d72559eb913debf2748cb86d0e238ff6c74863e060e188",
+      "v4InputSha256": "ddb58ea302a5d3e0118fdba3096cb82701d2b236cfdf8ac57466757cd638089a",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter\\adapter.ps1",
+        "adapterSha256": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter",
+        "providerFingerprintSha256": "a342efcdcd6e46a99a4dc9fd08a846864db9a318db9504be5abcb785409bc21f",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-embedded-adapter\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-LOCATION",
+            "subject": "src/IFX.Modules.CRM.Infrastructure/Adapter.cs:1: IFX.Modules.CRM.Infrastructure -> IFX.Modules.IAM.Contracts [IFX.Modules.IAM.Contracts]",
+            "evidenceKind": "source-syntax",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "2fe75bf56e184b993214f73a8f6eb1d461a15223d6f5f7ac59098d48e0694e65"
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/V/EMBEDDED-ADAPTER-PROVIDER",
+      "kind": "violation",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": "EMBEDDED-ADAPTER-PROVIDER",
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"
+      ],
+      "fixtureSha256": "cafca7049c5a81e8646fd1ca548689d2cdf60a51bd9855c5ea340b7328d1cb17",
+      "captureId": "c1g",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1g\\832e70887ba94c33b3e3c257a4f577ea\\unapproved-provider",
+      "targetFingerprintSha256": "6a9154f133934bcb0990d3c43a657c237bf5c209790b7d7ccc2c17191d2d010a",
+      "v4InputSha256": "0c591f203a94c91c479ab53516cebd4d7ad35f94206e88d7b0ae467b921893b4",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter\\adapter.ps1",
+        "adapterSha256": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter",
+        "providerFingerprintSha256": "a342efcdcd6e46a99a4dc9fd08a846864db9a318db9504be5abcb785409bc21f",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-embedded-adapter\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-PROVIDER",
+            "subject": "src/IFX.Modules.CRM.Infrastructure/Adapter.cs:1: IFX.Modules.CRM.Infrastructure -> IFX.Modules.Registry.Contracts [IFX.Modules.Registry.Contracts]",
+            "evidenceKind": "source-syntax",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "bfcecfc15cb898b407f7b819e1271b7ba78875c5542d2428a5a0cb576c7628c4"
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter/Z",
+      "kind": "zero",
+      "moduleId": "ifx-embedded-adapter",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+        "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"
+      ],
+      "fixtureSha256": "9ee2d0220a24b4ba1d26b735a7dcdabea94fe0accdf589662a7c73a27b5bca3f",
+      "captureId": "c1g",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1g\\832e70887ba94c33b3e3c257a4f577ea\\zero-foreign",
+      "targetFingerprintSha256": "3f94b270053aa75f18e51ce45c722e22513408d39a511fd9967bca08307358e0",
+      "v4InputSha256": "348314dd11619a1f130dfe5663172f965ba932113caae0b855cf6c14454a0632",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter\\adapter.ps1",
+        "adapterSha256": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-embedded-adapter",
+        "providerFingerprintSha256": "a342efcdcd6e46a99a4dc9fd08a846864db9a318db9504be5abcb785409bc21f",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-embedded-adapter\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "EMBEDDED-ADAPTER-LOCATION",
+            "subject": "src: zero foreign Contracts source uses in Infrastructure",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "EMBEDDED-ADAPTER-PROVIDER",
+            "subject": "src: zero foreign Contracts source uses in Infrastructure",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-embedded-adapter",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "b20a44ca84a91d2b98fcaa2c1f4c1b0872ec0bed02a59462ce94543b8ec621a5"
+      }
+    },
+    {
+      "id": "ifx-injection/C",
+      "kind": "clean",
+      "moduleId": "ifx-injection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+        "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE"
+      ],
+      "fixtureSha256": "4c99579b2cfb91a12ca1707de2b3d20075184272fba000e5abb9e400b4d16b44",
+      "captureId": "c1o",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1o\\5efa3d5c6125443c88e7a301d019b2c2\\clean",
+      "targetFingerprintSha256": "7a8385e0e287059cd6d43a37853b5b6949267728d081b3de603b504f54e9df4b",
+      "v4InputSha256": "cf1923d5ea14ab2d878b0e3a13ac36d0e1cabdfccb7465910542b7169d617aa5",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection\\adapter.ps1",
+        "adapterSha256": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection",
+        "providerFingerprintSha256": "c61bc50008876f034597e07c4142f111a9a0b7dbe8249120af2b7ad3fc0dcd7a",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-injection\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "719a61c0d62f5117a1021771d19675c9314216be28701d478dd8b523e9698656"
+      }
+    },
+    {
+      "id": "ifx-injection/M",
+      "kind": "missing",
+      "moduleId": "ifx-injection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+        "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE"
+      ],
+      "fixtureSha256": "9e642018716920ff7f871f899b53668656f984cd61f3f7a0ad53592cc703a151",
+      "captureId": "c1o",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1o\\5efa3d5c6125443c88e7a301d019b2c2\\zero-projects",
+      "targetFingerprintSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "v4InputSha256": "704367666e54c9043cb6186aa7f90f254f85d748d453cac80c89ca9b073a8d9d",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection\\adapter.ps1",
+        "adapterSha256": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection",
+        "providerFingerprintSha256": "c61bc50008876f034597e07c4142f111a9a0b7dbe8249120af2b7ad3fc0dcd7a",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-injection\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "8d3a235bbc20f6daf0784ddafff0ae40d8d4669ac9c12ae601417e7cc0b13870"
+      }
+    },
+    {
+      "id": "ifx-injection/V/FORBIDDEN-DEPENDENCY",
+      "kind": "violation",
+      "moduleId": "ifx-injection",
+      "ruleId": "FORBIDDEN-DEPENDENCY",
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE"
+      ],
+      "fixtureSha256": "77deb867ec68320bcf7908754a3d5ed60619207e8a80846c110ad47b24a077ff",
+      "captureId": "c1o",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1o\\5efa3d5c6125443c88e7a301d019b2c2\\presentation-primary",
+      "targetFingerprintSha256": "4990c15f8179300141e85d0ff655e06a71220783dc01d1b335ddc8f2543acde1",
+      "v4InputSha256": "7479c1c789fd44a944d7f57355ba4305be823cac348e07c44a0827da72ab6c58",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection\\adapter.ps1",
+        "adapterSha256": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection",
+        "providerFingerprintSha256": "c61bc50008876f034597e07c4142f111a9a0b7dbe8249120af2b7ad3fc0dcd7a",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-injection\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY",
+            "subject": "src/Modules/A/IFX.Modules.A.Presentation/Sample.cs:1: IFX.Modules.A.Presentation [View -> IOrderRepository]",
+            "evidenceKind": "source-parameter",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "0f80157184a5f34fffd3b5f9452ed9cc1c27244023b9f44b5574241af4213729"
+      }
+    },
+    {
+      "id": "ifx-injection/V/FORBIDDEN-DEPENDENCY-ORIGIN",
+      "kind": "violation",
+      "moduleId": "ifx-injection",
+      "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE"
+      ],
+      "fixtureSha256": "30098d9b1d1b102d982089928d4e6489474320fc7245b745673c5696fffda5c7",
+      "captureId": "c1o",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1o\\5efa3d5c6125443c88e7a301d019b2c2\\origin-primary",
+      "targetFingerprintSha256": "953027a3ece473d18c054a2d857b0a0840c46f1e4366d37088d203de40daeafc",
+      "v4InputSha256": "2a619935c14c124dfe21752a3cb60d7f86d676d57f77a85cf894412e1d073a24",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection\\adapter.ps1",
+        "adapterSha256": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection",
+        "providerFingerprintSha256": "c61bc50008876f034597e07c4142f111a9a0b7dbe8249120af2b7ad3fc0dcd7a",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-injection\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+            "subject": "src/Modules/A/IFX.Modules.A.Application/Sample.cs:1: IFX.Modules.A.Application [Service -> StorageType]",
+            "evidenceKind": "source-parameter",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "cea41c91b6de2312f3919d195f051c548bde63ffbb97c41991e7cb49541e2a26"
+      }
+    },
+    {
+      "id": "ifx-injection/Z",
+      "kind": "zero",
+      "moduleId": "ifx-injection",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+        "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE"
+      ],
+      "fixtureSha256": "d2de62359019dd7c02f9eff92df3f1d7b8ff52efd03b3b5d8e9e07938505e424",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\injection-zero",
+      "targetFingerprintSha256": "4020167242c0d5757b2d7c0d01f032fadfb9e959e6a4a7cafbecc39a2792251e",
+      "v4InputSha256": "b511ddac6e0754b1493ecdad7a72a736706aa493ab0aa2e5efaf651caf9e763b",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection\\adapter.ps1",
+        "adapterSha256": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-injection",
+        "providerFingerprintSha256": "c61bc50008876f034597e07c4142f111a9a0b7dbe8249120af2b7ad3fc0dcd7a",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-injection\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+            "subject": "src: zero Application parameters",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "FORBIDDEN-DEPENDENCY",
+            "subject": "src: zero Presentation parameters",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-injection",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "766017b2b227495f5ca987e2354489994227d08747181dac2f8ec6894b199b7d"
+      }
+    },
+    {
+      "id": "ifx-ownership-graph/C",
+      "kind": "clean",
+      "moduleId": "ifx-ownership-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.OWNERSHIP_GRAPH_RAW"
+      ],
+      "fixtureSha256": "21a11f33a09b55537585eb58d95eefb99b3602ac672f47290885bfba6900bbfe",
+      "captureId": "c1e",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1e\\851b7d4da8904405ba21bb415e8230d6\\clean-own",
+      "targetFingerprintSha256": "b75f9cf0d38d02bcc3d416aa63b4e8baa82f007e185fe44ed90f7fc0abf62296",
+      "v4InputSha256": "644f99f659e357582dc9561b4709f4d5d27d89ab4fdc44c4bcdf797b900331da",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ownership-graph\\adapter.ps1",
+        "adapterSha256": "ce948cdae72097de20db11e8ca1c4d41188a05948dff68198c23e91cf8adce88",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ownership-graph",
+        "providerFingerprintSha256": "d9312a03d11af69a224ea735ad6d19e0b48419cf4095ea77810672aa47e8d553",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-ownership-graph\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 11,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "757af73289dddb8fb08fed9661daca4da2c2abe8f5cc05052e6bf94131ea14d6"
+      }
+    },
+    {
+      "id": "ifx-ownership-graph/M",
+      "kind": "missing",
+      "moduleId": "ifx-ownership-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.OWNERSHIP_GRAPH_RAW"
+      ],
+      "fixtureSha256": "62476c633432c019c59b71095a73089decb7e8733cd17a4004af93e50aa2d1cc",
+      "captureId": "c1e",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1e\\851b7d4da8904405ba21bb415e8230d6\\missing-src",
+      "targetFingerprintSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "v4InputSha256": "010eab4fcc6062bc0d1e60f71f91d0b48e545cc8ac67b0e4bdd4487c265cfaac",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ownership-graph\\adapter.ps1",
+        "adapterSha256": "ce948cdae72097de20db11e8ca1c4d41188a05948dff68198c23e91cf8adce88",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ownership-graph",
+        "providerFingerprintSha256": "d9312a03d11af69a224ea735ad6d19e0b48419cf4095ea77810672aa47e8d553",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-ownership-graph\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "e728c156ef91b6d90f975d18629efd60981cb284c1e270e4721067839685dc9d"
+      }
+    },
+    {
+      "id": "ifx-ownership-graph/V/OWNERSHIP-REFERENCE",
+      "kind": "violation",
+      "moduleId": "ifx-ownership-graph",
+      "ruleId": "OWNERSHIP-REFERENCE",
+      "claimIds": [
+        "IFX.C1.OWNERSHIP_GRAPH_RAW"
+      ],
+      "fixtureSha256": "609f4717b72b6c6ce949ac2dc0da2479c3ca971f2ee18a0372e903d2f23f8b14",
+      "captureId": "c1e",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1e\\851b7d4da8904405ba21bb415e8230d6\\own-contract-forbidden",
+      "targetFingerprintSha256": "4ff444b8aaae661e078a2c6d7943fd32281ab99c2389e73546ae3ab48433ffb7",
+      "v4InputSha256": "65f19d88f3615ecf220f412b0fe32bd7d2459b2ee235eaf2583c87c3e59c22c9",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ownership-graph\\adapter.ps1",
+        "adapterSha256": "ce948cdae72097de20db11e8ca1c4d41188a05948dff68198c23e91cf8adce88",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ownership-graph",
+        "providerFingerprintSha256": "d9312a03d11af69a224ea735ad6d19e0b48419cf4095ea77810672aa47e8d553",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-ownership-graph\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direct: IFX.Modules.CRM.Application > IFX.Modules.CRM.Contracts]",
+            "evidenceKind": "project-graph-raw",
+            "detectorId": "ifx-ownership-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 11,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "e8e04ae4f7ccfa5e31a479c46736ba2031314d48cc1c462e84e5bdfbd4c666c2"
+      }
+    },
+    {
+      "id": "ifx-ownership-graph/Z",
+      "kind": "zero",
+      "moduleId": "ifx-ownership-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.OWNERSHIP_GRAPH_RAW"
+      ],
+      "fixtureSha256": "a872e64d0e908c48498a8a3993394786ee8c783bf990fdfc33c196fccece7ba1",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\raw-graph-zero",
+      "targetFingerprintSha256": "406f3ba6cd60ca5dd5f5c7d69fc6cc57958f645014560b928a55a70d293f5fbf",
+      "v4InputSha256": "2e382bbfed3fe5b092b7d19161d723bb3ca71edf2cfe4579a3e5c4dd864a5854",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ownership-graph\\adapter.ps1",
+        "adapterSha256": "ce948cdae72097de20db11e8ca1c4d41188a05948dff68198c23e91cf8adce88",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ownership-graph",
+        "providerFingerprintSha256": "d9312a03d11af69a224ea735ad6d19e0b48419cf4095ea77810672aa47e8d553",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-ownership-graph\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src: zero Application projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-ownership-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "fcdeefd215fc5b6df7e348a79219422948d6a3c9fc586d0382fa729988e389d7"
+      }
+    },
+    {
+      "id": "ifx-package-reference/C",
+      "kind": "clean",
+      "moduleId": "ifx-package-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PACKAGE_ALLOW_RAW",
+        "IFX.C1.PACKAGE_DENY_RAW"
+      ],
+      "fixtureSha256": "e852ab434740eefdfd9aadac5369f0151c4995b73ff8d0c016fb360815d9ed1b",
+      "captureId": "c1c",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1c\\86b69603eead4908945ac3ebabedf6cb\\clean",
+      "targetFingerprintSha256": "46de8a410aa731b84fc8efa764fb58ed1370802e51348750e3f5b5edae15edd9",
+      "v4InputSha256": "deb895591d2b44d7e8362131d8e56c6a8ce15f1ae9db955f9ee31916a020cf82",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference\\adapter.ps1",
+        "adapterSha256": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference",
+        "providerFingerprintSha256": "614090b6431e7e23aac599cf477c94a4eb22b111d246b11fdf5c7f9a08387340",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-package-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "e18397391226acda7aca02f32ddf4c48d6f294d50c4c22762f5f78cf75244d62"
+      }
+    },
+    {
+      "id": "ifx-package-reference/M",
+      "kind": "missing",
+      "moduleId": "ifx-package-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PACKAGE_ALLOW_RAW",
+        "IFX.C1.PACKAGE_DENY_RAW"
+      ],
+      "fixtureSha256": "cde2e2317e113d4c64c0c847a4d1ee96c2ab876649b8534032c24471f9104fca",
+      "captureId": "c1c",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1c\\86b69603eead4908945ac3ebabedf6cb\\missing-src",
+      "targetFingerprintSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "v4InputSha256": "d4674337426f5dbc077392c02d523c2f81bb4103ccae74a84ec48b43862321c9",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference\\adapter.ps1",
+        "adapterSha256": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference",
+        "providerFingerprintSha256": "614090b6431e7e23aac599cf477c94a4eb22b111d246b11fdf5c7f9a08387340",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-package-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "854de656427dad36c5f1c33f4a4097976bfae446972c2c9210b97a0cb529678c"
+      }
+    },
+    {
+      "id": "ifx-package-reference/V/RING-PACKAGE",
+      "kind": "violation",
+      "moduleId": "ifx-package-reference",
+      "ruleId": "RING-PACKAGE",
+      "claimIds": [
+        "IFX.C1.PACKAGE_ALLOW_RAW"
+      ],
+      "fixtureSha256": "628f99e2ea75b554203afebe83a921e884ee3c46d6ed170025fb0541f72db32a",
+      "captureId": "c1c",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1c\\86b69603eead4908945ac3ebabedf6cb\\allow-list-miss",
+      "targetFingerprintSha256": "3a482ca010145598636df79f792f22e86b99448bc03097c45572454268fc57a0",
+      "v4InputSha256": "b22a7262070207696871edbc89837dbb5dccb6b0d09096be67effb6969556c9b",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference\\adapter.ps1",
+        "adapterSha256": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference",
+        "providerFingerprintSha256": "614090b6431e7e23aac599cf477c94a4eb22b111d246b11fdf5c7f9a08387340",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-package-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> xunit",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "a8754d13c7f9d3d34e6fa5ad404e4299414dfd93244e5a2c0ebcd03b6308acd5"
+      }
+    },
+    {
+      "id": "ifx-package-reference/V/RING-PACKAGE-FORBIDDEN",
+      "kind": "violation",
+      "moduleId": "ifx-package-reference",
+      "ruleId": "RING-PACKAGE-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.PACKAGE_DENY_RAW"
+      ],
+      "fixtureSha256": "2ed93205edcc45264cd31bdf0bca61dd4eadf93d4b3c276a73ddcc584b4f72be",
+      "captureId": "c1c",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1c\\86b69603eead4908945ac3ebabedf6cb\\explicit-deny",
+      "targetFingerprintSha256": "33cc32594fbe37e9026a99a4082fc380e79faab3140111e6e2e4075b5672f455",
+      "v4InputSha256": "82fae281c8f132b0d43aa888aef122fe508abffcc4710b5b5301c7d3ed0f9944",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference\\adapter.ps1",
+        "adapterSha256": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference",
+        "providerFingerprintSha256": "614090b6431e7e23aac599cf477c94a4eb22b111d246b11fdf5c7f9a08387340",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-package-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj -> MediatR",
+            "evidenceKind": "project-model-raw",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "6f14796df0c7334dfe8cf3d37ca901552352a4b6d734737acb8c7a371ce2305c"
+      }
+    },
+    {
+      "id": "ifx-package-reference/Z",
+      "kind": "zero",
+      "moduleId": "ifx-package-reference",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PACKAGE_ALLOW_RAW",
+        "IFX.C1.PACKAGE_DENY_RAW"
+      ],
+      "fixtureSha256": "289f60b90af8108d2385c4aa2e7fe4528372fc031187d79ba2a6d1879e246671",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\raw-graph-zero",
+      "targetFingerprintSha256": "406f3ba6cd60ca5dd5f5c7d69fc6cc57958f645014560b928a55a70d293f5fbf",
+      "v4InputSha256": "683d2c2d94c20f62471c822043efd85060107c368af51185ced3cb6a68fe788b",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference\\adapter.ps1",
+        "adapterSha256": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-package-reference",
+        "providerFingerprintSha256": "614090b6431e7e23aac599cf477c94a4eb22b111d246b11fdf5c7f9a08387340",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-package-reference\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Application projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Contracts projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE",
+            "subject": "src: zero Presentation projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-package-reference",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "43055d48d3d047f09de2621ccea62cea03f092b977758663baa6b3bf3079152d"
+      }
+    },
+    {
+      "id": "ifx-project-name/C",
+      "kind": "clean",
+      "moduleId": "ifx-project-name",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROJECT_NAME_FORBIDDEN"
+      ],
+      "fixtureSha256": "be34e12e8d27de296c490ff855c7dff1e7ab7a729cf507a2ee8fe89476538ae7",
+      "captureId": "c1j",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1j\\b122a537cde44cb3966c3c8dc3d943e7\\clean",
+      "targetFingerprintSha256": "1d7934b65541e97c496c01f69d2dc0ff94f4b5f4c0ad6ebc8239ce529f5073dd",
+      "v4InputSha256": "12e5ec5efa26b041c86216694f22b939d5d7392d2d6627d3f804cbed5b2a7ad2",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-project-name\\adapter.ps1",
+        "adapterSha256": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-project-name",
+        "providerFingerprintSha256": "2766091da998fa61442bbc9f84ccf77e473c8b530403a17c39c66c3cac6a4301",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-project-name\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "782fe2dc9d5ba953faaad8cad3e6dfd565def77b0990df27b3d6094ead266e84"
+      }
+    },
+    {
+      "id": "ifx-project-name/M",
+      "kind": "missing",
+      "moduleId": "ifx-project-name",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROJECT_NAME_FORBIDDEN"
+      ],
+      "fixtureSha256": "2fedca13176aed9eb5997f65f2b40bdc5868d862245dae6d2fa30c36c2713f07",
+      "captureId": "c1j",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1j\\b122a537cde44cb3966c3c8dc3d943e7\\missing-root",
+      "targetFingerprintSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "v4InputSha256": "c37a4df710c636892f180634f3201eb12dcde1e1edf3a0aa59acc73cf3ccbee7",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-project-name\\adapter.ps1",
+        "adapterSha256": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-project-name",
+        "providerFingerprintSha256": "2766091da998fa61442bbc9f84ccf77e473c8b530403a17c39c66c3cac6a4301",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-project-name\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "71f7e6ccdc36496a1e7a5c140a92f12a0f62e6493bb6be2020c3511078f865e9"
+      }
+    },
+    {
+      "id": "ifx-project-name/V/PROJECT-NAME-FORBIDDEN",
+      "kind": "violation",
+      "moduleId": "ifx-project-name",
+      "ruleId": "PROJECT-NAME-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.PROJECT_NAME_FORBIDDEN"
+      ],
+      "fixtureSha256": "1fb64f053aa16833c3b7207b334f71d19c083b71b87998dbfc7b277c5300327a",
+      "captureId": "c1j",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1j\\b122a537cde44cb3966c3c8dc3d943e7\\forbidden-in-scope",
+      "targetFingerprintSha256": "b24cc6f9257b641f166771826d7008ad0e0287d0e2d6af6d4945f394c342f77b",
+      "v4InputSha256": "340f9d3714ccbe08853dbc0439c94e41b20b13a10882683ef1aa55dda75ce7aa",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-project-name\\adapter.ps1",
+        "adapterSha256": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-project-name",
+        "providerFingerprintSha256": "2766091da998fa61442bbc9f84ccf77e473c8b530403a17c39c66c3cac6a4301",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-project-name\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROJECT-NAME-FORBIDDEN",
+            "subject": "src/IFX.Platform.Foo.Infrastructure.Abstractions/IFX.Platform.Foo.Infrastructure.Abstractions.csproj",
+            "evidenceKind": "project-declaration",
+            "detectorId": "ifx-project-name",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "60bfd37c2eab7b02d3bdf45651ba3ca083d4a0a2469f21c362d7b0e0f7e7bb8e"
+      }
+    },
+    {
+      "id": "ifx-project-name/Z",
+      "kind": "zero",
+      "moduleId": "ifx-project-name",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROJECT_NAME_FORBIDDEN"
+      ],
+      "fixtureSha256": "1d5844fafe2372ba7554cdd7b2f813fc7aeb3c8fc010293c5cad95932d47a3fb",
+      "captureId": "c1j",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1j\\b122a537cde44cb3966c3c8dc3d943e7\\zero-in-scope",
+      "targetFingerprintSha256": "84e4377f97f5cb7df5dcbeb9d3da242df94aed58d1ce8ecea63afa56dd42e4d1",
+      "v4InputSha256": "1be200652bb42e6d4fcec0ac976bf794d36069af189fa4691ae0306f7164857b",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-project-name\\adapter.ps1",
+        "adapterSha256": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-project-name",
+        "providerFingerprintSha256": "2766091da998fa61442bbc9f84ccf77e473c8b530403a17c39c66c3cac6a4301",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-project-name\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROJECT-NAME-FORBIDDEN",
+            "subject": "src: zero in-scope projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-project-name",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "2a3ce1511850770309aa096c33c1034fc3b717a9d37930def4fffb65a7b64fd1"
+      }
+    },
+    {
+      "id": "ifx-provider-cycle/C",
+      "kind": "clean",
+      "moduleId": "ifx-provider-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROVIDER_CYCLE"
+      ],
+      "fixtureSha256": "af966191967e5bcafa2e0668e6a14ce9521ae18c50d1c12c59a4af15dd8760cc",
+      "captureId": "c1f",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1f\\1a798866f3ab49d78716e53b75cab111\\target",
+      "targetFingerprintSha256": "31f52a502ee4a94c8a86fd9438b798672bd1fe94594d7d30413e33fb8ceb18b2",
+      "v4InputSha256": "e8939ac5de96310d8b9efeba3c95f5de92bd9469be07225ed4bb83cadaad6e30",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-provider-cycle\\adapter.ps1",
+        "adapterSha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-provider-cycle",
+        "providerFingerprintSha256": "4c5a6d1053c4dc400c52c1feb19f67ebf6a3d9780e8f917d7a609fa4306a9b6f",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-provider-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 10,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "fba470a328231e0b64f3b2f811086147c58352fe9849f798f9bc05c1bd3cc5fa"
+      }
+    },
+    {
+      "id": "ifx-provider-cycle/M",
+      "kind": "missing",
+      "moduleId": "ifx-provider-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROVIDER_CYCLE"
+      ],
+      "fixtureSha256": "10b8af965388ced7381beeb169c13340661d1e9168765d3ab79ba5bb066f837c",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\ifx-provider-cycle_M",
+      "targetFingerprintSha256": "e835d2174746fdd3e0d718eee94e27a6374aed20c51e4d8b33e9cf2ff16a0912",
+      "v4InputSha256": "479d19cc00cc82a0b6634806ac6d6db5b5c0d2d8adb4eff34ead407f644d8163",
+      "replay": {
+        "mode": "suite-local-provider",
+        "adapterPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_M\\ifx-provider-cycle\\adapter.ps1",
+        "adapterSha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+        "providerRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_M\\ifx-provider-cycle",
+        "providerFingerprintSha256": "1ceff351581ffe469454d02ffedb4ac6f8023b1fc831fa585732d2a0f5ab5cef",
+        "capturedExecuted": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_M\\ifx-provider-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "d5cfaec7429bc20654cf3c0369ea6e67cef31c9dcb46592262de8f6759f8b24e"
+      }
+    },
+    {
+      "id": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "kind": "violation",
+      "moduleId": "ifx-provider-cycle",
+      "ruleId": "PROVIDER-CYCLE",
+      "claimIds": [
+        "IFX.C1.PROVIDER_CYCLE"
+      ],
+      "fixtureSha256": "5e51c100c7423a96f4df4cbd05a6307b01193c5f33557511148b0dd70a5201d4",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\ifx-provider-cycle_V_PROVIDER-CYCLE",
+      "targetFingerprintSha256": "8be8f749c92fdf78433b157c2a38cb4dc8e56846e8af29d0bff81caa7388b4ff",
+      "v4InputSha256": "9cfb302dffd32de84386a1ac1268040e97bc4e251392cf4a069cbabaa01c1965",
+      "replay": {
+        "mode": "suite-local-provider",
+        "adapterPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_V_PROVIDER-CYCLE\\ifx-provider-cycle\\adapter.ps1",
+        "adapterSha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+        "providerRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_V_PROVIDER-CYCLE\\ifx-provider-cycle",
+        "providerFingerprintSha256": "a52c381560958396fb050aebe5be27dbb42481608e35d5369ad9819d582fe32d",
+        "capturedExecuted": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_V_PROVIDER-CYCLE\\ifx-provider-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROVIDER-CYCLE",
+            "subject": "A -> B -> C -> A",
+            "evidenceKind": "policy-graph",
+            "detectorId": "ifx-provider-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "PROVIDER-CYCLE",
+            "subject": "B -> C -> A -> B",
+            "evidenceKind": "policy-graph",
+            "detectorId": "ifx-provider-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "PROVIDER-CYCLE",
+            "subject": "C -> A -> B -> C",
+            "evidenceKind": "policy-graph",
+            "detectorId": "ifx-provider-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 3,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "cf1a183b6fc38a16f55cbb40315578b31f39e3cee49bfc5c14da5b7ec1597afd"
+      }
+    },
+    {
+      "id": "ifx-provider-cycle/Z",
+      "kind": "zero",
+      "moduleId": "ifx-provider-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.PROVIDER_CYCLE"
+      ],
+      "fixtureSha256": "dbd5ba048a678524700f4ce08866ac784012093e3c2bec0c994262390058f7e4",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\ifx-provider-cycle_Z",
+      "targetFingerprintSha256": "cae13af9d6eb9f399d5f9405f80006b9768611d3358f753e6b5d9f588f480ee2",
+      "v4InputSha256": "a2d4dc741867d13bfcb1a6298a370b7ea751880c275f831a9626b99f01093a2e",
+      "replay": {
+        "mode": "suite-local-provider",
+        "adapterPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_Z\\ifx-provider-cycle\\adapter.ps1",
+        "adapterSha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+        "providerRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_Z\\ifx-provider-cycle",
+        "providerFingerprintSha256": "4fea70757035318b4250840674ba934163033b908105a45f75ba1d85acb05cda",
+        "capturedExecuted": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\provider\\ifx-provider-cycle_Z\\ifx-provider-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PROVIDER-CYCLE",
+            "subject": "providerContracts: zero provider edges",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-provider-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "d90aae0a5459e6042e79acf69f503d83477bbb3a994470d29d971e29ddcdb761"
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/C",
+      "kind": "clean",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.CONTRACT_CYCLE_RAW",
+        "IFX.C1.RING_REFERENCE_RAW"
+      ],
+      "fixtureSha256": "f3e707da10d09ef4bfae457061817b8b259707a79e19558c14a8142572bb5fa6",
+      "captureId": "c1n",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1n\\e9d85b80ce3d431687a91869b6c0dd58\\clean",
+      "targetFingerprintSha256": "9b10c1313ed114b8fd70733fef47db297efec19ea4ecbe79ee063e70208dda58",
+      "v4InputSha256": "4e76593e350079ffbc22e66043b805a2d6ebbc53799a180bc45ad868eb8cf7c2",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle\\adapter.ps1",
+        "adapterSha256": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle",
+        "providerFingerprintSha256": "cdb429cb7637b0e93b1e5f5e7fb32156f77493124454dfb414de934eb43b015b",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-reference-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "44e3c41872b2715191a7c75a0306ec7ba1886976861379d8f5f7e8a69384c98a"
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/M",
+      "kind": "missing",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.CONTRACT_CYCLE_RAW",
+        "IFX.C1.RING_REFERENCE_RAW"
+      ],
+      "fixtureSha256": "43de01d0fce4bf8fd294cc43ad7a760ef494d6faaab7ac494d17abc78be4af59",
+      "captureId": "c1n",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1n\\e9d85b80ce3d431687a91869b6c0dd58\\missing-target",
+      "targetFingerprintSha256": "75b72253a0f601ca0a2fcf462f730583c82a45fb9f4a0fc16cf0497178dbf9f6",
+      "v4InputSha256": "1011d28de730bf0b8ed1e5cee2b2cc939dfee4a22f94bd097d89488122f3dc2f",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle\\adapter.ps1",
+        "adapterSha256": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle",
+        "providerFingerprintSha256": "cdb429cb7637b0e93b1e5f5e7fb32156f77493124454dfb414de934eb43b015b",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-reference-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c48f25ec0eccfe6665f09084ad454ee1435ec46add657986214511b164a1c9d3"
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/V/CONTRACT-CYCLE",
+      "kind": "violation",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": "CONTRACT-CYCLE",
+      "claimIds": [
+        "IFX.C1.CONTRACT_CYCLE_RAW"
+      ],
+      "fixtureSha256": "4e363d4fd64d24b668eb2811949a5465a88e8710ea88412cf7904b5d6388676b",
+      "captureId": "c1n",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1n\\e9d85b80ce3d431687a91869b6c0dd58\\cycle-two",
+      "targetFingerprintSha256": "b3f06532a674c0bf4ee9568d73e1b903e70bc1ac09db716c074c5cb3fb97513b",
+      "v4InputSha256": "a31d62fbfabd0d51590faad407f28036f471d950da503de9e6fbb28b63891765",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle\\adapter.ps1",
+        "adapterSha256": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle",
+        "providerFingerprintSha256": "cdb429cb7637b0e93b1e5f5e7fb32156f77493124454dfb414de934eb43b015b",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-reference-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "CONTRACT-CYCLE",
+            "subject": "IFX.Modules.A.Contracts -> IFX.Modules.B.Contracts -> IFX.Modules.A.Contracts",
+            "evidenceKind": "contracts-project-cycle-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj -> src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj -> src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "34bb58b503c4722b2053b414109e6954cc9c62a880a9e950d668a1102a0d2588"
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/V/RING-REFERENCE",
+      "kind": "violation",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": "RING-REFERENCE",
+      "claimIds": [
+        "IFX.C1.RING_REFERENCE_RAW"
+      ],
+      "fixtureSha256": "7200a7be02ae8a0127dc5e52fe12ddc83b07ac020468d3dc80ab2052439c2690",
+      "captureId": "c1n",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1n\\e9d85b80ce3d431687a91869b6c0dd58\\off-list",
+      "targetFingerprintSha256": "e9a188b3eca2d4c1914fe492c512734d333cff933c656ac186fbcb4702de4e08",
+      "v4InputSha256": "9f45c1df8b9aeca77009af7e2613dc9609f36c28c0da3c5fd4008b7fec87c455",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle\\adapter.ps1",
+        "adapterSha256": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle",
+        "providerFingerprintSha256": "cdb429cb7637b0e93b1e5f5e7fb32156f77493124454dfb414de934eb43b015b",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-reference-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src/Modules/A/IFX.Modules.A.Application/IFX.Modules.A.Application.csproj -> src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj",
+            "evidenceKind": "project-reference-raw",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "38474c94686bc8e507ebfe49908e919087a04044353fe55d462e63eb1eca994d"
+      }
+    },
+    {
+      "id": "ifx-reference-cycle/Z",
+      "kind": "zero",
+      "moduleId": "ifx-reference-cycle",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.CONTRACT_CYCLE_RAW",
+        "IFX.C1.RING_REFERENCE_RAW"
+      ],
+      "fixtureSha256": "e5c202f2c99a3931c74a3b9dd93a08efb054c9d5b8bc205688d696067efceff6",
+      "captureId": "c1n",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1n\\e9d85b80ce3d431687a91869b6c0dd58\\zero-projects",
+      "targetFingerprintSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "v4InputSha256": "91a7773b61dee69faefc46422a31d97251bfe2489bb9656e1b0e911dd900393b",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle\\adapter.ps1",
+        "adapterSha256": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-reference-cycle",
+        "providerFingerprintSha256": "cdb429cb7637b0e93b1e5f5e7fb32156f77493124454dfb414de934eb43b015b",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-reference-cycle\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "CONTRACT-CYCLE",
+            "subject": "src: zero Contracts projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-REFERENCE",
+            "subject": "src: zero direct references in configured rings",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-reference-cycle",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "5338f2ca5fd0d8f9204d528423815652669e419de109c2ca06792cfd7bf8c0ad"
+      }
+    },
+    {
+      "id": "ifx-ring-graph/C",
+      "kind": "clean",
+      "moduleId": "ifx-ring-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.RING_GRAPH_RAW"
+      ],
+      "fixtureSha256": "f431f824ace6276f046644ef336233ac9df63c7b2d58bfad5a78cc53deb92ebe",
+      "captureId": "c1d",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1d\\3c162404b94d474d8b0a0b1f4d952972\\clean",
+      "targetFingerprintSha256": "e1ed0c98ef449750eb234b8673b4598f1926bc78ea3b2b98ab9f07a6b3674f1f",
+      "v4InputSha256": "c051a623df5477a3896e80ebc9ded79dd8cf8d2a56f71aaf3995b36e9b2b7e1e",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ring-graph\\adapter.ps1",
+        "adapterSha256": "b07b1eb7b34c1601d9710a867d68c20a3a0f253c919fb2a7f1aa5b6e6721f456",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ring-graph",
+        "providerFingerprintSha256": "064d267ca5df92cd9c80073948882d15e963ec8f2681191260532c9b7191faae",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-ring-graph\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 6,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c93b8c435b46fb0e3bd43d729332c751c117ba27d051cdda16c4ce7c8ce61e81"
+      }
+    },
+    {
+      "id": "ifx-ring-graph/M",
+      "kind": "missing",
+      "moduleId": "ifx-ring-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.RING_GRAPH_RAW"
+      ],
+      "fixtureSha256": "188d8b60a67af44dd8cb63d2d1452b926f411252dddf70160c6c10c2025b2862",
+      "captureId": "c1d",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1d\\3c162404b94d474d8b0a0b1f4d952972\\missing-src",
+      "targetFingerprintSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "v4InputSha256": "4cc6b894902f22b72ba9086f63139c0a54b4e012d0c1c1e4da6b0d33e496b809",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ring-graph\\adapter.ps1",
+        "adapterSha256": "b07b1eb7b34c1601d9710a867d68c20a3a0f253c919fb2a7f1aa5b6e6721f456",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ring-graph",
+        "providerFingerprintSha256": "064d267ca5df92cd9c80073948882d15e963ec8f2681191260532c9b7191faae",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-ring-graph\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "3b7cb22ba28c96c823beaf77d676fe65d2e8edaf07b336b36cf2579df36efcbc"
+      }
+    },
+    {
+      "id": "ifx-ring-graph/V/RING-DIRECTION",
+      "kind": "violation",
+      "moduleId": "ifx-ring-graph",
+      "ruleId": "RING-DIRECTION",
+      "claimIds": [
+        "IFX.C1.RING_GRAPH_RAW"
+      ],
+      "fixtureSha256": "9a68c744a118d0e27ccdf3ad10b513b180cefe54fe73a25475738a37bf7b834a",
+      "captureId": "c1d",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1d\\3c162404b94d474d8b0a0b1f4d952972\\direct",
+      "targetFingerprintSha256": "e5894c735232e1d116ebd9887163c558a7b8a35c7a42bebf7735aceb481742c5",
+      "v4InputSha256": "945511f08cca0d5394b9b36d772678369e7d09b20ac9fd828d04855088ce61dc",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ring-graph\\adapter.ps1",
+        "adapterSha256": "b07b1eb7b34c1601d9710a867d68c20a3a0f253c919fb2a7f1aa5b6e6721f456",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ring-graph",
+        "providerFingerprintSha256": "064d267ca5df92cd9c80073948882d15e963ec8f2681191260532c9b7191faae",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-ring-graph\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direct: IFX.Modules.CRM.Domain > IFX.Modules.CRM.Contracts]",
+            "evidenceKind": "project-graph-raw",
+            "detectorId": "ifx-ring-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 6,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "97fe1308f6fa06f66f1c7bdb720479ba7c2df066585b0ea0af07e157377a40ba"
+      }
+    },
+    {
+      "id": "ifx-ring-graph/Z",
+      "kind": "zero",
+      "moduleId": "ifx-ring-graph",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.RING_GRAPH_RAW"
+      ],
+      "fixtureSha256": "e75dd36d52e643831e9e6664ee90e1d43b4ddcee8e9b142059b1c1e911274952",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\raw-graph-zero",
+      "targetFingerprintSha256": "406f3ba6cd60ca5dd5f5c7d69fc6cc57958f645014560b928a55a70d293f5fbf",
+      "v4InputSha256": "1dc57a21b3fcf3aa74eddc419d288911f339c44a821721e51d653bebff23c5f8",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ring-graph\\adapter.ps1",
+        "adapterSha256": "b07b1eb7b34c1601d9710a867d68c20a3a0f253c919fb2a7f1aa5b6e6721f456",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-ring-graph",
+        "providerFingerprintSha256": "064d267ca5df92cd9c80073948882d15e963ec8f2681191260532c9b7191faae",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-ring-graph\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-DIRECTION",
+            "subject": "src: zero Domain projects",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-ring-graph",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "3f531c0284a3ea51473f6dcac9754ffe15e06e02ecedbeb9baceb9b2ebe590ce"
+      }
+    },
+    {
+      "id": "ifx-source-policy/C",
+      "kind": "clean",
+      "moduleId": "ifx-source-policy",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+        "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+        "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+        "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+        "IFX.C1.IMPORT_DIRECTION_SOURCE",
+        "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+        "IFX.C1.IMPORT_PACKAGE_SOURCE",
+        "IFX.C1.PAYLOAD_TYPE_SOURCE",
+        "IFX.C1.SYMBOL_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "e7460afc0cc919e3347854b6ee103b94e8148c083f8237c1942a72960b311336",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\clean",
+      "targetFingerprintSha256": "5686b9862a174a6c012260dea543473c827dc28ddb0d264727f33d4c14fe9817",
+      "v4InputSha256": "ab7a98574bfb308fedc26b3cef074d43605c9840ba5423b150f645831f417b59",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "pass",
+        "exitCategory": "success",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "3ffbc318175e29e276555fc59fed996cfe18d8f459aab68d3f2207900eb2cbde"
+      }
+    },
+    {
+      "id": "ifx-source-policy/M",
+      "kind": "missing",
+      "moduleId": "ifx-source-policy",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+        "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+        "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+        "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+        "IFX.C1.IMPORT_DIRECTION_SOURCE",
+        "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+        "IFX.C1.IMPORT_PACKAGE_SOURCE",
+        "IFX.C1.PAYLOAD_TYPE_SOURCE",
+        "IFX.C1.SYMBOL_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "f1145d2dd55962aa827aca7254cbec3ee22d563622b2881ca501f36c5e8a8f66",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\missing-src",
+      "targetFingerprintSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "v4InputSha256": "7d16b9cda7ce138b948025b1095e31e661da4736eb80ecbd6a7a62e54a267a9c",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "error",
+        "exitCategory": "prerequisite-missing",
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "a38367f470f5c12bed216efef8ae141ddeb76dc63817bdbfa751356073236a96"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-FORBIDDEN",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "DECLARATION-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.DECLARATION_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "0d69882c14a2f698659719df8e7b79512555b70093cd0179c17391a523305c87",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\declaration-forbidden",
+      "targetFingerprintSha256": "6a3d53854965579643fef71a690d200d88cb73d81bd75d73394ffe1e402e4cda",
+      "v4InputSha256": "dce80bf76e969b8802757ef85b3af852d28a46cd6fd0bf3ff3d12e2cafda666b",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [class FaultService]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c4cf6dca19149e5fb5f8aabeadc9d491768a7f312e5ba840b33c424396e350f8"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "DECLARATION-IMPLEMENTS",
+      "claimIds": [
+        "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE"
+      ],
+      "fixtureSha256": "78c12902e6976b7e8125591f01e51acf63d0cfcc4c326d88f33ed00731f87871",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\source-policy-blocking-implements",
+      "targetFingerprintSha256": "d5de08f906639dd969a96d0694c8a47c5c7459362ba3bcb74bceb017e8dd787d",
+      "v4InputSha256": "386411b00737cf37c2b678c88c9501069f3c512ac6bf792491316405531e9743",
+      "replay": {
+        "mode": "suite-local-provider",
+        "adapterPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\source-policy\\blocking-implements\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\source-policy\\blocking-implements\\ifx-source-policy",
+        "providerFingerprintSha256": "42742d37ba7e32262d532e1eaaf29c06465d8098c228f36bed7778e575105f66",
+        "capturedExecuted": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\source-policy\\blocking-implements\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-IMPLEMENTS",
+            "subject": "src/IFX.Modules.CRM.Infrastructure/Integrations/BadGateway.cs:1: IFX.Modules.CRM.Infrastructure [class BadGateway]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c6a1b73d88bfd48901a4ebb575818349a2463805917d82a16cb9d82d187ba7a1"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-NAMESPACE",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "DECLARATION-NAMESPACE",
+      "claimIds": [
+        "IFX.C1.DECLARATION_NAMESPACE_SOURCE"
+      ],
+      "fixtureSha256": "cef7ef96abd203171a1db491c042812ce85a7f39e3afcff9718f2190ca8426ac",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\declaration-namespace",
+      "targetFingerprintSha256": "aa5cbc10f265ac5701d422d48c87c68795fb939aeac1e018a9dd00fb1bc77b8e",
+      "v4InputSha256": "4fc9b2064d6c8e798e6a6418e12207498bb42427411048ac761f6334d18e50b5",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-NAMESPACE",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application [interface IFaultContract in IFX.Modules.CRM.Application]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "445e06135ed71556fdb26572215d018dc40c5d515a7c2a90b9c08a57f1ef1f19"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-PLACEMENT",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "DECLARATION-PLACEMENT",
+      "claimIds": [
+        "IFX.C1.DECLARATION_PLACEMENT_SOURCE"
+      ],
+      "fixtureSha256": "41e71519e3e573dc450c0517841eed9223311edb6c645afa78e5e7f2aa3127ff",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\declaration-placement",
+      "targetFingerprintSha256": "c26c7ed4af68e4965b76cd8aa284c89cd9199a66fa0d4ee822108024b664d7fd",
+      "v4InputSha256": "9f37faa16269ddfc2e980fcffac6798d486ea32f7c7ed3a99bf65fb700a451b0",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "DECLARATION-PLACEMENT",
+            "subject": "src/IFX.Modules.CRM.Domain/Fault.cs:1: IFX.Modules.CRM.Domain [class FaultCommandHandler]",
+            "evidenceKind": "source-declaration",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "7091e1748e97fa10d46b9c79acfe39f4cf71e197476136ca914aadce582899de"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/IMPORT-DIRECTION",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "IMPORT-DIRECTION",
+      "claimIds": [
+        "IFX.C1.IMPORT_DIRECTION_SOURCE"
+      ],
+      "fixtureSha256": "e7048258e8e58c9fe884d17f45bed31edf4eb43e3051f057cdaa2c4c98443dfe",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\import-direction",
+      "targetFingerprintSha256": "9f8f03301455e6127e9444b6e1ea1d7efdbd0819a5e89598d37fc9dfa8c27cb5",
+      "v4InputSha256": "b705cd558fd4d93cdaf4e084bb434d90cf8591c21c0440ed97ef43ffd7cce991",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "IMPORT-DIRECTION",
+            "subject": "src/IFX.Modules.CRM.Domain/Fault.cs:1: IFX.Modules.CRM.Domain -> IFX.Modules.CRM.Contracts",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "925b951789bbf743ca830a8cc4fd1a7c8a6641da610c50b8740de109f9a60a03"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/OWNERSHIP-REFERENCE",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "OWNERSHIP-REFERENCE",
+      "claimIds": [
+        "IFX.C1.IMPORT_OWNERSHIP_SOURCE"
+      ],
+      "fixtureSha256": "4e23993af6bc00a4f03a2528c120c99f355c66fe44091c386bbc34c13e6aa6d8",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\import-ownership",
+      "targetFingerprintSha256": "e150dd474db2ee8a422003cdda34acecb12dae1bc54d37646814eae46c1ab293",
+      "v4InputSha256": "2952615c5f898285f80b34ad6629e247b5a7bb0e4d790588ba3d80a9792eec40",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application -> IFX.Modules.CRM.Contracts",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "525c31d92728c31f833028e61a30283ce90257962f1b7ba70c1de72b687aeaa2"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/PAYLOAD-TYPE-FORBIDDEN",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "PAYLOAD-TYPE-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.PAYLOAD_TYPE_SOURCE"
+      ],
+      "fixtureSha256": "de30cf27e3af6662938b3886e72825590c17ed31d7198ae8f80acd9250c0cb44",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\payload-forbidden",
+      "targetFingerprintSha256": "2b15148cef4c97f6e38da75d9ff2ba53abe509e8e682bbf21c5c8d904287bafc",
+      "v4InputSha256": "219aa400913921fdc4bbd79ed53ca54480d9274beb2af442368b2b181f292ad8",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "PAYLOAD-TYPE-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [BadIntegrationEvent payload IFX.Modules.CRM.Domain.CustomerEntity]",
+            "evidenceKind": "source-payload",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "0f5cdfbf73cbfb1f489fd90274bd918b952545a07924c2f54f423809f29c09af"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/RING-PACKAGE-FORBIDDEN",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "RING-PACKAGE-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.IMPORT_PACKAGE_SOURCE"
+      ],
+      "fixtureSha256": "5f1e688d4983b641ece4b97fb84b09e52c5cec9ab4552c3f495ae817bd49d311",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\package-forbidden",
+      "targetFingerprintSha256": "27131134e1cb789fb63d21fc7725ab0792fd7b712d4d5e61b96de5f1288a91b8",
+      "v4InputSha256": "cc2ac67d5d3898d81eb187cb15eef0f5add689dd336023089bc34734f758cf9b",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts -> MediatR",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Contracts/Fault.cs:1: IFX.Modules.CRM.Contracts [MediatR]",
+            "evidenceKind": "source-symbol",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "57d17cefd84c8b4334dc60563266d1f69cf57dc0c3818a0eb604d1291b7e8c48"
+      }
+    },
+    {
+      "id": "ifx-source-policy/V/SYMBOL-FORBIDDEN",
+      "kind": "violation",
+      "moduleId": "ifx-source-policy",
+      "ruleId": "SYMBOL-FORBIDDEN",
+      "claimIds": [
+        "IFX.C1.SYMBOL_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "1f7fab5c6ecd0c119c683871fc25464b5aef1bbc67b195bbf93758fab6a15a70",
+      "captureId": "c1h",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c1h\\36b6a1e1a7c24398bd78152e3cfbe7aa\\symbol-name",
+      "targetFingerprintSha256": "ff7993698f1894cff25c215916b55e9c41441189cabcf4cbf143a5fa7d3a3d58",
+      "v4InputSha256": "fce32febfc8f5508f2080a89db7c4e4999efd0c795b4526ed8764584749d9da7",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src/IFX.Modules.CRM.Application/Fault.cs:1: IFX.Modules.CRM.Application [HttpContext]",
+            "evidenceKind": "source-symbol",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 3,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 2,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 4,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 1,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "5462bff172754f59dc1a7445e3b09b5f3b4b0e3291b699d474cfb246ecb5baea"
+      }
+    },
+    {
+      "id": "ifx-source-policy/Z",
+      "kind": "zero",
+      "moduleId": "ifx-source-policy",
+      "ruleId": null,
+      "claimIds": [
+        "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+        "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+        "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+        "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+        "IFX.C1.IMPORT_DIRECTION_SOURCE",
+        "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+        "IFX.C1.IMPORT_PACKAGE_SOURCE",
+        "IFX.C1.PAYLOAD_TYPE_SOURCE",
+        "IFX.C1.SYMBOL_FORBIDDEN_SOURCE"
+      ],
+      "fixtureSha256": "9d87f4713ae44df06c21ae13d7ec9769a50734a55b601f2c02211683edb43557",
+      "captureId": "c6c4",
+      "targetRoot": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-116\\c6c-full\\windows\\suites\\c6c4\\05e6e5b7ed3e4d78ad6136ef76b824d3\\targets\\source-policy-zero",
+      "targetFingerprintSha256": "e70ac75e5c823b4bf21e4762a7a0cea8e5c82243111a21c49a6de8a7e8368a5a",
+      "v4InputSha256": "c2a3623926508a6045f97e7df2e75d06d5d193b581b0d225d02e6287becf59f1",
+      "replay": {
+        "mode": "receipted-installation",
+        "adapterPath": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy\\adapter.ps1",
+        "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+        "providerRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package\\modules\\ifx-source-policy",
+        "providerFingerprintSha256": "50a1bf51dacf9ebbacbc4c5d742b8215d214aac36d9f0b75417c06b1388742dd",
+        "capturedExecuted": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx-c6c3-a4e03f3969014f86b93c97a80ae3e27c\\composed\\package\\modules\\ifx-source-policy\\adapter.ps1"
+      },
+      "v4": {
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "findings": [
+          {
+            "ruleId": "IMPORT-DIRECTION",
+            "subject": "src: zero matches for IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "OWNERSHIP-REFERENCE",
+            "subject": "src: zero matches for IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "RING-PACKAGE-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-NAMESPACE",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-PLACEMENT",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "DECLARATION-IMPLEMENTS",
+            "subject": "src: zero matches for IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "SYMBOL-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          },
+          {
+            "ruleId": "PAYLOAD-TYPE-FORBIDDEN",
+            "subject": "src: zero matches for IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "evidenceKind": "coverage",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 0,
+            "minimum": 1
+          }
+        ],
+        "rawOutputSha256": "c91ba717e3dcb4ea9c7940178b671cc9073461bea4c00307d1e491cfdee7d9f2"
+      }
+    }
+  ]
+}

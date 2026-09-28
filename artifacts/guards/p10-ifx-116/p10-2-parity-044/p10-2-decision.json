@@ -1,0 +1,127 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "p10-2-parity-accepted",
+  "summarySha256": "1025a443d9e47e63a7610409f2341812a17d7d78d81f414e73f90c06d0ae9c54",
+  "corpusManifestSha256": "eeb4c7965893fe710a0b2967200badb8b86e770f50c867a65d214f6580238bbd",
+  "parityMatrixSha256": "1d61650695185ed8ad69b3c013f241a63190d0ca5999e0205c7262676bf4ac7c",
+  "gapCount": 0,
+  "gaps": [],
+  "strengtheningCount": 15,
+  "strengthenings": [
+    {
+      "id": "ifx-domain-reference/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-embedded-adapter/M",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-fail-closed-missing-input-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-embedded-adapter/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-injection/M",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-fail-closed-missing-input-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-injection/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-ownership-graph/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-package-reference/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-project-name/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-provider-cycle/M",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-fail-closed-missing-input-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-blocking-rule-coverage-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": "PROVIDER-CYCLE"
+    },
+    {
+      "id": "ifx-provider-cycle/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-reference-cycle/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-ring-graph/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-blocking-rule-coverage-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": "DECLARATION-IMPLEMENTS"
+    },
+    {
+      "id": "ifx-source-policy/Z",
+      "category": "v4-fail-closed-strengthening",
+      "detail": "v4-explicit-non-vacuity-strengthening-over-v3",
+      "v3Rules": [],
+      "v4Rule": null
+    }
+  ],
+  "boundary": {
+    "p10_2ExecutionClosed": true,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  },
+  "recommendation": "P10.2 entry criteria are met; P10.3 still requires a separate Plan and authorization."
+}

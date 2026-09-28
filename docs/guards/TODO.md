@@ -91,17 +91,21 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
 
 ## Items found during V4-TODO-008 T7
 
-- [ ] **IFX-V4-001 — P10.GATE successor for V4 Guards 1.1.5 + `ifx_profile` 0.4.3**
+- [ ] **IFX-V4-001 — P10.GATE successor for V4 Guards 1.1.6 + `ifx_profile` 0.4.4**
 
-  P10.GATE stays open. Before V4 can protect IFX:
+  Retargeted by I1 (2026-09-29, Plan `20260928-v4-ifx-i1-rebind-1-1-6`) from 1.1.5 + 0.4.3 to the I1 tuple
+  (receipt `v4-adoption/migration/ifx-i1-rebinding-1-1-6-receipt.json`, design note
+  `v4-adoption/plans/11-p10-3-successor-1-1-6.md`). P10.GATE stays open. Before V4 can protect IFX:
 
-  - record the installed Web UI hands-on run (clean and blocking cases) for the exact 1.1.5 + 0.4.3
+  - record the installed Web UI hands-on run (clean and blocking cases) for the exact 1.1.6 + 0.4.4
     installation, as `v4-adoption/plans/06-ifx-profile-validation-program.md` §8 requires;
+  - decide whether the Linux C6c leg, which passes since I1, becomes blocking, and whether the V3 Linux
+    bridge can go;
   - clear the activation prerequisites listed in
     `v4-adoption/integrations/github/ifx-cutover-proposal.json`:
     - promote the reviewed V3 workflow and P10 evidence to the default branch;
-    - publish the exact 0.4.3 bundle as a trusted input under
-      `docs/guards/v4-adoption/extensions/ifx/0.4.3`;
+    - publish the exact 0.4.4 bundle as a trusted input under
+      `docs/guards/v4-adoption/extensions/ifx/0.4.4`;
     - install and negative-test the V4 IFX workflow;
     - add `v4-ifx-required` to the ruleset;
     - complete the coexistence window before removing any V3 context.
@@ -109,7 +113,15 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
   Each prerequisite needs its own exact Plan and authorization. This also covers IFX's own protection
   of its Profile, bundle, review records and workflow (see Guard V4-TODO-015).
 
-- [ ] **IFX-V4-002 — Linux timeout of `ifx-database-evidence` (Guard checklist O20)**
+- [x] **IFX-V4-002 — Linux timeout of `ifx-database-evidence` (Guard checklist O20) — COMPLETE (2026-09-29, I1)**
+
+  I1 measured the unchanged adapter on the T7 workload (S3, decision D1-A): 1.2–1.7 s on container-native
+  storage, 58.7–69.3 s over the Docker Desktop 9p bind mount, with identical results. The cause was the
+  bind mount, not the module. The I1 C6c Linux harness keeps the Target, work and matrix paths on `/native`.
+  The module and its 60 s timeout are unchanged, and the Linux C6c leg passes (191/191). Evidence:
+  `artifacts/guards/p10-ifx-116/c6d-review-044/linux-timing-summary.json`.
+
+  Original entry:
 
   In the pinned Linux container, the `ifx-database-evidence` module of bundle 0.4.3 needs 73–85 s
   against its declared 60 s timeout (reproduced 3/3 in isolation; files are read over a Windows bind
@@ -120,7 +132,14 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
   Measure the module on native Linux storage, then raise or platform-scale its timeout in a later bundle
   version under its own Plan. Evidence: `artifacts/guards/p10-ifx-115/c6d-review-043/linux-diagnostic-summary.json`.
 
-- [ ] **IFX-V4-003 — C6c Linux leg installs V4 from the removed `docs/guards/v4` (found in T8)**
+- [x] **IFX-V4-003 — C6c Linux leg installs V4 from the removed `docs/guards/v4` (found in T8) — COMPLETE (2026-09-29, I1)**
+
+  The I1 Linux positive runner (`candidates/ifx-rebind-116/Test-IFX116DualPlatformCandidate.ps1`) takes
+  the installer from the hash-verified release archive (`IFX116.ReleaseInstaller.psm1`). The Linux receipt
+  payload equals the Windows receipt, and negative controls reject archive drift and extraction under the
+  Target.
+
+  Original entry:
 
   The accepted `docs/guards/candidates/ifx-gate-coverage-c6c1/Test-IFXC6DualPlatformCandidate.ps1` runs
   the V4 installer from the Target's `docs/guards/v4/core/distribution/Install-V4Distribution.ps1`. In T7
@@ -128,3 +147,36 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
   the resulting receipt equals the Windows receipt produced by the release's own installer. Since T8 the
   path is gone, so the next C6c Linux leg fails. The next C6c successor (also needed for IFX-V4-002) must
   take the installer from the release archive. The accepted script stays unchanged.
+
+## Items found during I1 (rebind to V4 Guards 1.1.6)
+
+- [x] **IFX-V4-004 — C6c matrix inputs read the removed IFX copy under upper-case `docs/guards/V4/` — COMPLETE (2026-09-29, I1 amendment A4)**
+
+  The T8 coupling scan was case-sensitive, and Windows paths are not. Three kinds of accepted inputs still
+  read the removed copy:
+
+  - 17 module suites (c1b…c2e) read `core/contracts/module.schema.json` and `profile.schema.json`;
+  - the c6c4 matrix contract names the built-in `architecture-conformance` adapter;
+  - the c6c4 fixture specification binds the provenance suite `tests/p4/Test-V4ArchUnitNetAdapter.ps1`.
+
+  I1 S5 stopped at C6c readiness on them. The fix is `candidates/ifx-rebind-116/IFX116.V4Reference.psm1`
+  with successor contract, fixture specification, verifier and matrix runner:
+
+  - the three product files come from the verified base, pinned to the removed files' hashes;
+  - the provenance suite is the pinned Git blob `591ee477…` of `896bca24`;
+  - removed-path checks are case-insensitive.
+
+  Lesson: search removed paths case-insensitively.
+
+- [ ] **IFX-V4-005 — Timing-sensitive test `RuntimeDrainCoordinatorTests.BeginDrain_AtomicallyRejectsNewWork_AndWaitsForExistingWork`**
+
+  `tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs` waits at most 1 s for idle after
+  releasing the operation. Under load it fails (4 of 126 recorded C5b solution-evidence runs, including
+  I1 S5 attempt 3), and the solution-evidence producer then issues no lock. Make the test deterministic,
+  for example with a longer bound or an explicit completion signal, under an IFX product Plan.
+
+- [ ] **IFX-V4-006 — Slow C6c Linux result copy-back**
+
+  The I1 Linux certification copies about 65k matrix files back over the 9p bind mount. The copy took about
+  90 minutes of the 2-hour S5 run. A later harness revision should archive the native results into a single
+  file inside the container and copy that archive back.

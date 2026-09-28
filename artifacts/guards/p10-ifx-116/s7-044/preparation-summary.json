@@ -1,0 +1,90 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "result": "git-backed-targets-and-receipted-sibling-ready",
+  "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+  "identities": {
+    "bundleManifest": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+    "reviewPacket": "631e9949347e5cce48db70cf77cfc0edba7fdea2e9eb19ef1b122bbc7783ca61",
+    "reviewRecord": "8e4ee60369125b4122089728cbbaab1a9e372828148b876bf142d11fe8780bae",
+    "c6dDecision": "683ca3881ab8bdf509b009bbc305b1587f8f6d6a4b83dd8398f44985e90cfc54",
+    "baseArchive": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "baseReceipt": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497"
+  },
+  "baseProof": {
+    "formatVersion": 1,
+    "status": "pass",
+    "kind": "base-release",
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6",
+    "productVersion": "1.1.6",
+    "packageHash": "a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825",
+    "receiptSha256": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "sourceCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "manifestSha256": "37fb9073e30e57ca0e33a89ba41ed5aba46f061560c4e3ede2f2b6f569371f55"
+  },
+  "compositionProof": {
+    "formatVersion": 1,
+    "status": "pass",
+    "kind": "local-extension-composition",
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4",
+    "productVersion": "1.1.6",
+    "packageHash": "bea54366341289bda0d82dd9bfb9c0653864ff614ebc9ddebbeda47ff090d37a",
+    "receiptSha256": "a75e67bc7ff993968cf4906bea2568f5d306987316033c068b72c875f96047fd",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+    "scope": "production"
+  },
+  "compositionReceipt": {
+    "path": "D:\\IFX-Root\\guard-runtime\\receipts\\v4-guards-1.1.6-ifx-0.4.4.compose.json",
+    "sha256": "a75e67bc7ff993968cf4906bea2568f5d306987316033c068b72c875f96047fd"
+  },
+  "roots": {
+    "state": "D:\\IFX-Root\\guard-runtime\\state\\ifx-i1-044",
+    "evidence": "D:\\IFX-Root\\guard-runtime\\evidence\\ifx-i1-044",
+    "cleanTarget": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-i1-clean-044",
+    "violatingTarget": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-i1-violating-044",
+    "install": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4"
+  },
+  "gitFacts": {
+    "clean": {
+      "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-i1-clean-044",
+      "head": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+      "insideWorkTree": true,
+      "detached": true,
+      "status": []
+    },
+    "violating": {
+      "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-i1-violating-044",
+      "head": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+      "insideWorkTree": true,
+      "detached": null,
+      "status": [
+        "?? src/Modules/CRM/IFX.Modules.CRM.Domain/I1S7Fault.cs"
+      ]
+    }
+  },
+  "preInventoryDigests": {
+    "baseInstallation": "e01fe4eb046f64b0da8e1b2e8e3ae541fd9c5ad7277dad5132e965e296ef76e3",
+    "bundle": "b5a81165dcab12010a6cb00b2d45f447e7da55bc07924dac4ae6cbc444980ee7",
+    "cleanTarget": "d4d6ddf38bbe93a0f88144160d7f7051246c4ed80775218d6d0a5e010588bf58",
+    "violatingTarget": "88f413851a8ffa0d4badfa5e23f12678e810b0046ff34a287405d6ddfd3386de"
+  },
+  "deliberateViolation": {
+    "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/I1S7Fault.cs",
+    "expectedRule": "IMPORT-DIRECTION",
+    "expectedModule": "ifx-source-policy",
+    "expectedBlocking": true
+  },
+  "installedWebUi": {
+    "status": "deferred-to-p10-gate-successor",
+    "cleanRun": null,
+    "violatingRun": null
+  },
+  "boundary": {
+    "i1S7PreparationComplete": true,
+    "p10_2SuccessorStarted": false,
+    "p10_3SuccessorStarted": false,
+    "activated": false
+  }
+}
