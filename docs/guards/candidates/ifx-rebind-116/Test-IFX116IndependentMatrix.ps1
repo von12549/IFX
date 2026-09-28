@@ -1,0 +1,221 @@
+# IFX I1 (Plan 20260928-v4-ifx-i1-rebind-1-1-6, amendment A4 / IFX-V4-004) successor of
+# docs/guards/candidates/ifx-gate-coverage-c6c3/Test-IFXC6IndependentMatrix.ps1.
+# V4 reference inputs come from the verified base release and a pinned Git blob (IFX116.V4Reference.psm1).
+# The accepted script stays unchanged as historical authority.
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory)][string]$InventoryPath,
+    [Parameter(Mandatory)][string]$BundleRoot,
+    [Parameter(Mandatory)][string]$ReviewRecordPath,
+    [Parameter(Mandatory)][ValidateSet('windows','linux')][string]$Platform,
+    [string]$BaseInstallRoot='D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
+    [string]$BaseReceiptPath='D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
+    [string]$BaseArchivePath='artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
+    [string]$EvidenceRoot='artifacts/guards/p10-ifx-c6c3/matrix-runs',
+    [string]$MatrixContractPath='docs/guards/candidates/ifx-rebind-116/matrix-contract-116.json',
+    [string]$MatrixContractVerifierPath='docs/guards/candidates/ifx-rebind-116/Test-IFX116MatrixContract.ps1',
+    [string]$ExpectedBaseVersion='1.1.6',
+    [string]$ExpectedArchiveSha256='92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
+    [string]$ExpectedPackageHash='a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825',
+    [string]$CandidateVersion='0.4.4',
+    [string]$ReportPath
+)
+Set-StrictMode -Version Latest
+$ErrorActionPreference='Stop'
+Import-Module (Join-Path $PSScriptRoot 'IFX116.V4Reference.psm1') -Force
+function Assert([bool]$Condition,[string]$Message){if(-not $Condition){throw $Message}}
+function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function TextHash([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
+function WriteJson([string]$Path,$Value){[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($Path));[IO.File]::WriteAllText($Path,(($Value|ConvertTo-Json -Depth 100).Replace("`r`n","`n")+"`n"),[Text.UTF8Encoding]::new($false))}
+function Full([string]$Path){if([IO.Path]::IsPathFullyQualified($Path)){[IO.Path]::GetFullPath($Path)}else{[IO.Path]::GetFullPath((Join-Path $repo $Path))}}
+function Fingerprint([string]$Root){@((Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"})) -join "`n"}
+function AddGap([string]$Id,[string]$Reason){$gaps.Add([ordered]@{id=$Id;reason=$Reason})}
+function Prop($Object,[string]$Name){
+    if($null -eq $Object){return}
+    $property=$Object.PSObject.Properties[$Name]
+    if($null -eq $property){return}
+    return $property.Value
+}
+
+$repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
+$commit=(& git -C $repo rev-parse HEAD).Trim();Assert ($LASTEXITCODE -eq 0) 'Git commit unavailable.'
+$trackedBefore=@(& git -C $repo status --porcelain --untracked-files=no);Assert ($LASTEXITCODE -eq 0 -and ($trackedBefore -join '').Trim().Length -eq 0) 'Tracked source must be clean.'
+$inventoryFull=Full $InventoryPath;$bundleFull=Full $BundleRoot;$reviewFull=Full $ReviewRecordPath
+$baseInstall=Full $BaseInstallRoot;$baseReceiptFull=Full $BaseReceiptPath;$archiveFull=Full $BaseArchivePath
+$inventory=Get-Content $inventoryFull -Raw|ConvertFrom-Json -Depth 100
+Assert ($inventory.status -ceq 'pass' -and $inventory.sourceCommit -ceq $commit) 'C6b0 inventory must be regenerated on HEAD.'
+Assert (@($inventory.modules).Count -eq 37 -and @($inventory.rules).Count -eq 83 -and $inventory.claimCount -eq 79) 'C6b0 cardinality drift.'
+$blocking=@($inventory.rules|Where-Object severity -CEQ 'blocking');$advisory=@($inventory.rules|Where-Object severity -CEQ 'advisory')
+Assert ($blocking.Count -eq 80 -and $advisory.Count -eq 3) 'Expected 80 blocking and three advisory rules.'
+$manifestPath=Join-Path $bundleFull 'bundle-manifest.json';$packageInBundle=Join-Path $bundleFull 'package'
+$manifest=Get-Content $manifestPath -Raw|ConvertFrom-Json -Depth 100
+Assert ($manifest.id -ceq 'ifx-profile-candidate' -and $manifest.version -ceq $CandidateVersion -and $manifest.baseVersion -ceq $ExpectedBaseVersion -and @($manifest.modules).Count -eq 36) 'Final bundle identity drift.'
+foreach($entry in $manifest.files){$path=Join-Path $packageInBundle $entry.path;Assert ([IO.File]::Exists($path) -and (Hash $path) -ceq $entry.sha256 -and (Get-Item $path).Length -eq $entry.size) "Bundle file drift: $($entry.path)"}
+Assert (@(Get-ChildItem $packageInBundle -File -Recurse).Count -eq @($manifest.files).Count) 'Bundle contains an unmanifested file.'
+$review=Get-Content $reviewFull -Raw|ConvertFrom-Json -Depth 100
+Assert ($review.scope -ceq 'synthetic-test-only' -and -not $review.acceptedBy.candidateHostVerdictAllowed -and $review.bundleManifestSha256 -ceq (Hash $manifestPath)) 'Synthetic review identity drift.'
+Assert ((Hash $archiveFull) -ceq $ExpectedArchiveSha256) 'Published archive drift.'
+$receipt=Get-Content $baseReceiptFull -Raw|ConvertFrom-Json -Depth 100
+Assert ($receipt.version -ceq $ExpectedBaseVersion -and $receipt.archiveSha256 -ceq (Hash $archiveFull)) 'Published receipt drift.'
+
+$runId=[guid]::NewGuid().ToString('N');$runRoot=Join-Path (Full $EvidenceRoot) $runId
+if($ReportPath){$reportFull=Full $ReportPath;$runRoot=[IO.Path]::GetDirectoryName($reportFull)}else{$reportFull=Join-Path $runRoot 'summary.json'}
+Assert (-not(Test-Path $runRoot)) 'Matrix run root must be absent.'
+[void][IO.Directory]::CreateDirectory($runRoot)
+$contractFull=Full $MatrixContractPath;$contractVerifierFull=Full $MatrixContractVerifierPath;$contractReport=Join-Path $runRoot 'matrix-contract-summary.json'
+Assert ([IO.File]::Exists($contractFull) -and [IO.File]::Exists($contractVerifierFull)) 'C6c4 matrix contract or verifier is missing.'
+$contractCheck=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $contractVerifierFull -RepositoryRoot $repo -BaseInstallRoot $baseInstall -InventoryPath $inventoryFull -ContractPath $contractFull -ReportPath $contractReport 2>&1)
+Assert ($LASTEXITCODE -eq 0 -and [IO.File]::Exists($contractReport)) "C6c4 matrix contract failed: $($contractCheck -join "`n")"
+$contract=Get-Content $contractFull -Raw|ConvertFrom-Json -Depth 100
+$workRoot=Join-Path ([IO.Path]::GetTempPath()) "ifx-c6c3-$runId";Assert (-not(Test-Path $workRoot)) 'Matrix work root must be absent.'
+[void][IO.Directory]::CreateDirectory($workRoot)
+$workBundle=Join-Path $workRoot 'bundle';Copy-Item -LiteralPath $bundleFull -Destination $workBundle -Recurse
+$workReview=Join-Path $workRoot 'synthetic-review.json';Copy-Item -LiteralPath $reviewFull -Destination $workReview
+$composeState=Join-Path $workRoot 'compose-state';$composeEvidence=Join-Path $workRoot 'compose-evidence';$composed=Join-Path $workRoot 'composed';$compositionReceipt=Join-Path $workRoot 'composition.receipt.json'
+[void][IO.Directory]::CreateDirectory($composeState);[void][IO.Directory]::CreateDirectory($composeEvidence)
+$compose=@(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $baseInstall 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceiptFull -BaseArchivePath $archiveFull -BundleRoot $workBundle -ReviewRecordPath $workReview -OutputInstallRoot $composed -CompositionReceiptPath $compositionReceipt -TargetRoot $repo -StateRoot $composeState -EvidenceRoot $composeEvidence -AllowSyntheticFixture 2>&1)
+Assert ($LASTEXITCODE -eq 0) "Final bundle composition failed: $($compose -join "`n")"
+$verify=@(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $baseInstall 'package/core/distribution/Test-V4ComposedInstallation.ps1') -InstallRoot $composed -ReceiptPath $compositionReceipt -BaseReceiptPath $baseReceiptFull -AllowSyntheticFixture 2>&1)
+Assert ($LASTEXITCODE -eq 0 -and (($verify -join "`n")|ConvertFrom-Json).status -ceq 'pass') 'Final composition receipt failed.'
+$package=Join-Path $composed 'package';$profilePath=Join-Path $package 'profiles/catalog/ifx_profile/profile.json';$profile=Get-Content $profilePath -Raw|ConvertFrom-Json -Depth 100
+Assert (@($profile.moduleSelections).Count -eq 37 -and @($profile.stageConfiguration.pre.modules).Count -eq 10 -and @($profile.stageConfiguration.post.modules).Count -eq 27 -and @($profile.rules).Count -eq 80 -and @($profile.baselineRefs).Count -eq 0) 'Final Profile cardinality drift.'
+$lineagePath=Join-Path $package 'profiles/catalog/ifx_profile/evidence-lineage.json';$lineage=Get-Content $lineagePath -Raw|ConvertFrom-Json -Depth 100
+Assert ($lineage.sourceCommit -ceq $commit -and $lineage.ordinalInventorySha256 -ceq (Hash $inventoryFull) -and @($lineage.locks).Count -eq 7) 'Final evidence lineage drift.'
+$lineageLockPaths=@{}
+foreach($lock in $lineage.locks){$lockPath=Join-Path $repo $lock.path;Assert ([IO.File]::Exists($lockPath) -and (Hash $lockPath) -ceq $lock.sha256) "Final evidence lock drift: $($lock.id)";$lineageLockPaths[[string]$lock.id]=[string]$lock.path}
+foreach($module in $inventory.modules){
+    $moduleRoot=Join-Path $package "modules/$($module.id)";$moduleManifest=Join-Path $moduleRoot 'module.json'
+    Assert ([IO.File]::Exists($moduleManifest) -and (Hash $moduleManifest) -ceq $module.manifestSha256) "Final module manifest drift: $($module.id)"
+    if($module.id -cne 'architecture-conformance'){
+        Assert ((Hash (Join-Path $moduleRoot 'adapter.ps1')) -ceq $module.adapterSha256 -and (Hash (Join-Path $moduleRoot 'dependencies.lock.json')) -ceq $module.dependencyLockSha256) "Final module byte drift: $($module.id)"
+    }
+}
+
+# IFX-V4-004: the suites' V4 schema lookups are redirected to the verified base package (pinned hashes).
+$v4ReferencePackage=Assert-IFX116V4BaseReference -BaseInstallRoot $baseInstall;$v4ReferenceModule=Join-Path $PSScriptRoot 'IFX116.V4Reference.psm1'
+$suiteSpecs=@(
+    @('c1b','docs/guards/candidates/ifx-gate-coverage-c1b/tests/Test-IFXDomainReference.ps1'),
+    @('c1c','docs/guards/candidates/ifx-gate-coverage-c1c/tests/Test-IFXPackageReference.ps1'),
+    @('c1d','docs/guards/candidates/ifx-gate-coverage-c1d/tests/Test-IFXRingGraph.ps1'),
+    @('c1e','docs/guards/candidates/ifx-gate-coverage-c1e/tests/Test-IFXOwnershipGraph.ps1'),
+    @('c1f','docs/guards/candidates/ifx-gate-coverage-c1f/tests/Test-IFXProviderCycle.ps1'),
+    @('c1g','docs/guards/candidates/ifx-gate-coverage-c1g/tests/Test-IFXEmbeddedAdapter.ps1'),
+    @('c1h','docs/guards/candidates/ifx-gate-coverage-c1h/tests/Test-IFXSourcePolicy.ps1'),
+    @('c1j','docs/guards/candidates/ifx-gate-coverage-c1j/tests/Test-IFXProjectName.ps1'),
+    @('c1n','docs/guards/candidates/ifx-gate-coverage-c1n/tests/Test-IFXReferenceCycle.ps1'),
+    @('c1o','docs/guards/candidates/ifx-gate-coverage-c1o/tests/Test-IFXInjection.ps1'),
+    @('c1r1b','docs/guards/candidates/ifx-gate-coverage-c1r1b/tests/Test-IFXCompiledTypeEvidence.ps1'),
+    @('c1r2b','docs/guards/candidates/ifx-gate-coverage-c1r2b/tests/Test-IFXEvaluatedGraphEvidence.ps1'),
+    @('c2b1','docs/guards/candidates/ifx-gate-coverage-c2b1/tests/Test-IFXG03GovernanceCore.ps1'),
+    @('c2b2','docs/guards/candidates/ifx-gate-coverage-c2b2/tests/Test-IFXG03CatalogSemantics.ps1'),
+    @('c2c1','docs/guards/candidates/ifx-gate-coverage-c2c1/tests/Test-IFXG03SourceReconciliation.ps1'),
+    @('c2c2','docs/guards/candidates/ifx-gate-coverage-c2c2/tests/Test-IFXG03Snapshots.ps1'),
+    @('c2d','docs/guards/candidates/ifx-gate-coverage-c2d/tests/Test-IFXG03DocsCloseout.ps1'),
+    @('c3b','docs/guards/candidates/ifx-gate-coverage-c3b/tests/Test-IFXG04Manifests.ps1'),
+    @('c3c','docs/guards/candidates/ifx-gate-coverage-c3c/tests/Test-IFXG04Runtime.ps1'),
+    @('c3d','docs/guards/candidates/ifx-gate-coverage-c3d/tests/Test-IFXG04Closeout.ps1'),
+    @('c4a1','docs/guards/candidates/ifx-gate-coverage-c4a1/tests/Test-IFXPlan04Extraction.ps1'),
+    @('c4a2','docs/guards/candidates/ifx-gate-coverage-c4a2/tests/Test-IFXPlan04Tenant.ps1'),
+    @('c4a3','docs/guards/candidates/ifx-gate-coverage-c4a3/tests/Test-IFXPlan04Projection.ps1'),
+    @('c4a4','docs/guards/candidates/ifx-gate-coverage-c4a4/tests/Test-IFXPlan04Abstractions.ps1'),
+    @('c4b','docs/guards/candidates/ifx-gate-coverage-c4b/tests/Test-IFXDatabaseEvidence.ps1'),
+    @('c4p0','docs/guards/candidates/ifx-gate-coverage-c4p0/tests/Test-IFXG05Inventory.ps1'),
+    @('c4p1','docs/guards/candidates/ifx-gate-coverage-c4p1/tests/Test-IFXG05Protocol.ps1'),
+    @('c4p2','docs/guards/candidates/ifx-gate-coverage-c4p2/tests/Test-IFXG05ExecutionHttp.ps1'),
+    @('c4p4p5','docs/guards/candidates/ifx-gate-coverage-c4p4p5/tests/Test-IFXG05Carriers.ps1'),
+    @('c4p6p7','docs/guards/candidates/ifx-gate-coverage-c4p6p7/tests/Test-IFXG05Governance.ps1'),
+    @('c4p8p11','docs/guards/candidates/ifx-gate-coverage-c4p8p11/tests/Test-IFXG05Closeout.ps1'),
+    @('c4s','docs/guards/candidates/ifx-gate-coverage-c4s/tests/Test-IFXPlan05Security.ps1'),
+    @('c5b','docs/guards/candidates/ifx-gate-coverage-c5b/tests/Test-IFXSolutionEvidence.ps1'),
+    @('c5c','docs/guards/candidates/ifx-gate-coverage-c5c/tests/Test-IFXAssemblyEvidence.ps1'),
+    @('c5d','docs/guards/candidates/ifx-gate-coverage-c5d/tests/Test-IFXFrontendEvidence.ps1'),
+    @('c5h','docs/guards/candidates/ifx-gate-coverage-c5h/tests/Test-IFXHistoricalIntegrity.ps1')
+)
+Assert ($suiteSpecs.Count -eq 36 -and @($suiteSpecs|ForEach-Object{$_[0]}|Sort-Object -Unique).Count -eq 36) 'Suite catalog drift.'
+$wrapperPath=Join-Path $workRoot 'Invoke-InstrumentedSuite.ps1'
+$wrapper=@'
+param([string]$TestScript,[string]$HarnessPath,[string]$ModuleId,[int]$ReviewedTimeoutSeconds,[string]$PackageRoot,[string]$RepositoryRoot,[string]$LogPath,[string]$EvidenceRoot,[string]$BaseInstallRoot,[string]$BaseReceiptPath,[string]$BaseArchivePath,[string]$RealEvidenceLockPath,[string]$SolutionLockPath,[string]$AssemblyLockPath,[string]$BaseVersion,[string]$BundleVersion,[string]$ArchiveSha256,[string]$PackageHash,[string]$V4ReferenceModulePath)
+$ErrorActionPreference='Stop'
+$global:C6MatrixFingerprintScript={param([string]$Root)if(-not(Test-Path $Root -PathType Container)){return '<absent>'};@((Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant())"}))-join "`n"}
+$global:C6MatrixTextHashScript={param([string]$Text)[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
+$global:C6RealPwsh=@(Get-Command pwsh -CommandType Application)[0].Source
+$global:C6PackageRoot=[IO.Path]::GetFullPath($PackageRoot);$global:C6RepositoryRoot=[IO.Path]::GetFullPath($RepositoryRoot);$global:C6LogPath=[IO.Path]::GetFullPath($LogPath)
+[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($global:C6LogPath))
+function global:pwsh {
+    $actual=@($args);$fileIndex=[Array]::IndexOf($actual,'-File');$capture=$false;$requested=$null;$moduleId=$null
+    if($fileIndex -ge 0 -and $fileIndex+1 -lt $actual.Count){$requested=[string]$actual[$fileIndex+1];$requestedName=[IO.Path]::GetFileName($requested);if($requestedName -ceq 'adapter.ps1'){$moduleId=[IO.Path]::GetFileName([IO.Path]::GetDirectoryName($requested));$replacement=Join-Path $global:C6PackageRoot "modules/$moduleId/adapter.ps1";if([IO.File]::Exists($replacement)){$actual[$fileIndex+1]=$replacement;$capture=[bool]$env:V4_STAGE_INPUT_JSON}}elseif($requestedName -ceq 'Invoke-IFXCompiledTypeEvidenceProducer.ps1'){if($actual -cnotcontains '-SolutionLockPath'){$actual+=@('-SolutionLockPath',$SolutionLockPath)};if($actual -cnotcontains '-AssemblyLockPath'){$actual+=@('-AssemblyLockPath',$AssemblyLockPath)}}}
+    $inputJson=$env:V4_STAGE_INPUT_JSON;$targetRoot=$null;$before=$null;$inputCanonical=$null
+    if($capture){$inputObject=$inputJson|ConvertFrom-Json -AsHashtable -Depth 100;$inputObject.packageRoot=$global:C6PackageRoot;$targetRoot=[IO.Path]::GetFullPath([string]$inputObject.targetRoot);$inputCanonical=$inputObject|ConvertTo-Json -Depth 100 -Compress;$env:V4_STAGE_INPUT_JSON=$inputCanonical;if($targetRoot -cne $global:C6RepositoryRoot){$before=& $global:C6MatrixFingerprintScript $targetRoot}}
+    $output=@(& $global:C6RealPwsh @actual 2>&1);$code=$LASTEXITCODE
+    if($capture){$after=if($targetRoot -cne $global:C6RepositoryRoot){& $global:C6MatrixFingerprintScript $targetRoot}else{'<repository-group>'};$record=[ordered]@{moduleId=$moduleId;requested=$requested;executed=[string]$actual[$fileIndex+1];targetRoot=$targetRoot;stage=$inputObject.stage;inputSha256=(& $global:C6MatrixTextHashScript $inputCanonical);fixtureSha256=(& $global:C6MatrixTextHashScript "$inputCanonical`n$before");exitCode=$code;targetBefore=$before;targetAfter=$after;output=($output-join "`n")};[IO.File]::AppendAllText($global:C6LogPath,(($record|ConvertTo-Json -Depth 100 -Compress)+"`n"),[Text.UTF8Encoding]::new($false));$env:V4_STAGE_INPUT_JSON=$inputJson}
+    $global:LASTEXITCODE=$code;$output
+}
+$scriptToRun=$TestScript;$harnessAdjusted=$false;$source=Get-Content -LiteralPath $TestScript -Raw;$originalSource=$source;$timeoutMatch=[regex]::Match($source,'timeoutSeconds\s+-eq\s+(\d+)')
+if($timeoutMatch.Success -and [int]$timeoutMatch.Groups[1].Value -ne $ReviewedTimeoutSeconds){$old=[int]$timeoutMatch.Groups[1].Value;$source=[regex]::Replace($source,"(timeoutSeconds\s+-eq\s+)$old\b",('${1}'+$ReviewedTimeoutSeconds));$source=[regex]::Replace($source,"(maxTimeoutSeconds\s*=\s*)$old\b",('${1}'+$ReviewedTimeoutSeconds))}
+$source=$source.Replace('1.1.3',$BaseVersion).Replace('0.3.0',$BundleVersion).Replace('28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e',$ArchiveSha256).Replace('9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494',$PackageHash)
+Import-Module $V4ReferenceModulePath -Force;$source=Convert-IFX116V4SchemaReferences -Source $source -BaseInstallRoot $BaseInstallRoot
+if($source -cne $originalSource){$testDirectory=[IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($TestScript)).Replace("'","''");$source=$source.Replace('$PSScriptRoot',"'$testDirectory'");[IO.File]::WriteAllText($HarnessPath,$source,[Text.UTF8Encoding]::new($false));$scriptToRun=$HarnessPath;$harnessAdjusted=$true}
+$fixtureOnly=$originalSource -match "BaseInstallRoot\s*=\s*''"
+$parameters=@{};$command=Get-Command $scriptToRun
+if($command.Parameters.ContainsKey('EvidenceRoot')){$parameters.EvidenceRoot=$EvidenceRoot}
+if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseInstallRoot')){$parameters.BaseInstallRoot=$BaseInstallRoot}
+if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseReceiptPath')){$parameters.BaseReceiptPath=$BaseReceiptPath}
+if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseArchivePath')){$parameters.BaseArchivePath=$BaseArchivePath}
+if($command.Parameters.ContainsKey('RealEvidenceLockPath')){$parameters.RealEvidenceLockPath=$RealEvidenceLockPath}
+if($command.Parameters.ContainsKey('SolutionLockPath')){$parameters.SolutionLockPath=$SolutionLockPath}
+if($command.Parameters.ContainsKey('AssemblyLockPath')){$parameters.AssemblyLockPath=$AssemblyLockPath}
+& $scriptToRun @parameters
+exit $LASTEXITCODE
+'@
+[IO.File]::WriteAllText($wrapperPath,$wrapper,[Text.UTF8Encoding]::new($false))
+$packageBefore=Fingerprint $package;$suiteResults=[Collections.Generic.List[object]]::new();$captureFiles=[Collections.Generic.List[string]]::new()
+foreach($spec in $suiteSpecs){
+    $id=$spec[0];$script=Join-Path $repo $spec[1];$module=@($inventory.modules|Where-Object tranche -CEQ $id);Assert ($module.Count-eq1) "Suite-to-module mapping drift: $id";$reviewCeiling=@($review.moduleCeilings|Where-Object moduleId -CEQ $module[0].id);Assert ($reviewCeiling.Count-eq1) "Reviewed capability ceiling missing: $($module[0].id)";$capture=Join-Path $runRoot "captures/$id.jsonl";$suiteEvidence=Join-Path $runRoot "suites/$id";$suiteLog=Join-Path $runRoot "suites/$id.output.txt";$harness=Join-Path $workRoot "harness/$id.ps1"
+    [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($harness));$realLock=switch($id){'c5b'{$lineageLockPaths.solution};'c5c'{$lineageLockPaths.assembly};'c5d'{$lineageLockPaths.frontend};default{''}}
+    $suiteStarted=[DateTimeOffset]::UtcNow;$suiteWatch=[Diagnostics.Stopwatch]::StartNew()
+    $output=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $wrapperPath -TestScript $script -HarnessPath $harness -ModuleId $module[0].id -ReviewedTimeoutSeconds ([int]$reviewCeiling[0].allowedCapabilities.maxTimeoutSeconds) -PackageRoot $package -RepositoryRoot $repo -LogPath $capture -EvidenceRoot $suiteEvidence -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceiptFull -BaseArchivePath $archiveFull -RealEvidenceLockPath $realLock -SolutionLockPath $lineageLockPaths.solution -AssemblyLockPath $lineageLockPaths.assembly -BaseVersion $ExpectedBaseVersion -BundleVersion $CandidateVersion -ArchiveSha256 $ExpectedArchiveSha256 -PackageHash $ExpectedPackageHash -V4ReferenceModulePath $v4ReferenceModule 2>&1);$code=$LASTEXITCODE;$suiteWatch.Stop();$suiteCompleted=[DateTimeOffset]::UtcNow
+    [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($suiteLog));[IO.File]::WriteAllText($suiteLog,(($output-join "`n")+"`n"),[Text.UTF8Encoding]::new($false))
+    $suiteResults.Add([ordered]@{id=$id;moduleId=$module[0].id;script=$spec[1];scriptSha256=Hash $script;startedAt=$suiteStarted.ToString('o');completedAt=$suiteCompleted.ToString('o');elapsedSeconds=[math]::Round($suiteWatch.Elapsed.TotalSeconds,3);reviewedTimeoutSeconds=[int]$reviewCeiling[0].allowedCapabilities.maxTimeoutSeconds;workspaceEvidenceMode=$(if($module[0].id-in@('ifx-domain-reference','ifx-project-name','ifx-g03-source-reconciliation','ifx-g03-snapshots','ifx-database-evidence','ifx-g05-inventory','ifx-plan05-security')){'focused-qualified-host-and-fallback; matrix=fallback-harness'}else{'not-consumer'});harnessAdjusted=[IO.File]::Exists($harness);harnessSha256=$(if([IO.File]::Exists($harness)){Hash $harness}else{$null});exitCode=$code;status=$(if($code-eq 0){'pass'}else{'error'});capturePath=[IO.Path]::GetRelativePath($runRoot,$capture).Replace('\','/');outputPath=[IO.Path]::GetRelativePath($runRoot,$suiteLog).Replace('\','/')})
+    if(Test-Path $capture){$captureFiles.Add($capture)}
+}
+$supplementalScript=Join-Path $repo 'docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6SupplementalFixtures.ps1';$supplementalCapture=Join-Path $runRoot 'captures/c6c4.jsonl';$supplementalEvidence=Join-Path $runRoot 'suites/c6c4';$supplementalLog=Join-Path $runRoot 'suites/c6c4.output.txt'
+$supplementalStarted=[DateTimeOffset]::UtcNow;$supplementalWatch=[Diagnostics.Stopwatch]::StartNew();$supplementalOutput=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $supplementalScript -PackageRoot $package -RepositoryRoot $repo -EvidenceRoot $supplementalEvidence -CapturePath $supplementalCapture 2>&1);$supplementalCode=$LASTEXITCODE;$supplementalWatch.Stop();$supplementalCompleted=[DateTimeOffset]::UtcNow
+[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($supplementalLog));[IO.File]::WriteAllText($supplementalLog,(($supplementalOutput-join "`n")+"`n"),[Text.UTF8Encoding]::new($false))
+$suiteResults.Add([ordered]@{id='c6c4';moduleId='architecture-conformance';script='docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6SupplementalFixtures.ps1';scriptSha256=Hash $supplementalScript;startedAt=$supplementalStarted.ToString('o');completedAt=$supplementalCompleted.ToString('o');elapsedSeconds=[math]::Round($supplementalWatch.Elapsed.TotalSeconds,3);reviewedTimeoutSeconds=180;workspaceEvidenceMode='not-consumer';harnessAdjusted=$false;harnessSha256=$null;exitCode=$supplementalCode;status=$(if($supplementalCode-eq0){'pass'}else{'error'});capturePath='captures/c6c4.jsonl';outputPath='suites/c6c4.output.txt'})
+if(Test-Path $supplementalCapture){$captureFiles.Add($supplementalCapture)}
+
+$captures=[Collections.Generic.List[object]]::new()
+foreach($file in $captureFiles){foreach($line in Get-Content -LiteralPath $file){if(-not $line.Trim()){continue};$record=$line|ConvertFrom-Json -Depth 100;try{$result=$record.output|ConvertFrom-Json -Depth 100}catch{continue};$captures.Add([ordered]@{moduleId=$record.moduleId;fixtureId=[IO.Path]::GetFileName($record.targetRoot);fixtureSha256=$record.fixtureSha256;inputSha256=$record.inputSha256;processExit=[int]$record.exitCode;status=[string](Prop $result 'status');exitCategory=[string](Prop $result 'exitCategory');findings=@(Prop $result 'findings');coverage=@(Prop $result 'coverage');targetInvariant=($record.targetBefore -eq $null -or $record.targetBefore -ceq $record.targetAfter)})}}
+$gaps=[Collections.Generic.List[object]]::new();$matrix=[Collections.Generic.List[object]]::new();$usedViolationFixtures=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+foreach($module in $inventory.modules){
+    $id=[string]$module.id;$moduleRules=@($inventory.rules|Where-Object moduleId -CEQ $id);$blockingRules=@($moduleRules|Where-Object severity -CEQ 'blocking');$ownedClaims=@($blockingRules.claimId|Sort-Object -Unique);$rows=@($captures|Where-Object moduleId -CEQ $id);$moduleContract=@($contract.modules|Where-Object id -CEQ $id);Assert ($moduleContract.Count-eq1) "Matrix contract module missing: $id";$moduleContract=$moduleContract[0]
+    $clean=@($rows|Where-Object{$_.processExit-eq 0-and$_.status-ceq'pass'-and@($_.findings).Count-eq0-and@($_.coverage|Where-Object{$_.claimId-in$ownedClaims-and$_.matched-ge$_.minimum}).Count-eq$ownedClaims.Count-and$_.targetInvariant})
+    if($clean.Count-eq0){AddGap "$id/C" 'No clean result with non-vacuous coverage for every owned blocking claim.'}else{$r=$clean[0];$matrix.Add([ordered]@{id="$id/C";kind='clean';moduleId=$id;ruleId=$null;claimIds=$ownedClaims;fixtureSha256=$r.fixtureSha256;expected=[ordered]@{processExit=0;status='pass';exitCategory='success'};actual=[ordered]@{processExit=$r.processExit;status=$r.status;exitCategory=$r.exitCategory};status='pass'})}
+    $missing=@($rows|Where-Object{$_.processExit-eq0-and$_.status-ceq'error'-and$_.exitCategory-ceq'prerequisite-missing'-and@($_.findings).Count-eq0-and$_.targetInvariant})
+    if($missing.Count-eq0){AddGap "$id/M" 'No prerequisite-missing result with zero findings.'}else{$r=$missing[0];$matrix.Add([ordered]@{id="$id/M";kind='missing';moduleId=$id;ruleId=$null;claimIds=$ownedClaims;fixtureSha256=$r.fixtureSha256;expected=[ordered]@{processExit=0;status='error';exitCategory='prerequisite-missing'};actual=[ordered]@{processExit=$r.processExit;status=$r.status;exitCategory=$r.exitCategory};status='pass'})}
+    $zero=switch([string]$moduleContract.zeroStrategy){
+        'enumerated-zero'{@($rows|Where-Object{$r=$_;if($r.processExit-ne0-or$r.status-cne'fail'-or$r.exitCategory-cne'findings-blocking'-or-not$r.targetInvariant){return $false};$zeroClaims=@($r.coverage|Where-Object{$_.claimId-in$ownedClaims-and$_.matched-eq0-and$_.minimum-gt0}|ForEach-Object claimId|Sort-Object -Unique);return (($zeroClaims-join ',')-ceq($ownedClaims-join ','))})}
+        'fixed-checklist-zero'{@($rows|Where-Object{$r=$_;if($r.processExit-ne0-or$r.status-cne'fail'-or$r.exitCategory-cne'findings-blocking'-or-not$r.targetInvariant){return $false};$finding=@($r.findings|Where-Object{$_.ruleId-ceq$moduleContract.zeroFinding.ruleId-and$_.subject-ceq$moduleContract.zeroFinding.subject-and$_.evidenceKind-ceq$moduleContract.zeroFinding.evidenceKind-and$_.detectorId-ceq$id});$covered=@($r.coverage|Where-Object{$_.claimId-in$ownedClaims-and$_.minimum-gt0}|ForEach-Object claimId|Sort-Object -Unique);return ($finding.Count-gt0-and($covered-join',')-ceq($ownedClaims-join','))})}
+        'integrity-zero'{@($rows|Where-Object{$r=$_;if($r.processExit-ne0-or$r.status-cne'error'-or$r.exitCategory-cne$moduleContract.zeroExitCategory-or@($r.findings).Count-ne0-or-not$r.targetInvariant){return $false};$zeroClaims=@($r.coverage|Where-Object{$_.claimId-in$ownedClaims-and$_.matched-eq0-and$_.minimum-gt0}|ForEach-Object claimId|Sort-Object -Unique);return (($zeroClaims-join',')-ceq($ownedClaims-join','))})}
+        default{throw "Unknown zero strategy: $id/$($moduleContract.zeroStrategy)"}
+    }
+    $zero=@($zero);if($zero.Count-eq0){AddGap "$id/Z" "No $($moduleContract.zeroStrategy) result covering every owned blocking claim."}else{$r=$zero[0];$matrix.Add([ordered]@{id="$id/Z";kind='zero';strategy=$moduleContract.zeroStrategy;moduleId=$id;ruleId=$null;claimIds=$ownedClaims;fixtureSha256=$r.fixtureSha256;expected=[ordered]@{processExit=0;status=$(if($moduleContract.zeroStrategy-ceq'integrity-zero'){'error'}else{'fail'});exitCategory=$(if($moduleContract.zeroStrategy-ceq'integrity-zero'){'integrity-failure'}else{'findings-blocking'})};actual=[ordered]@{processExit=$r.processExit;status=$r.status;exitCategory=$r.exitCategory};status='pass'})}
+    foreach($rule in $blockingRules){
+        $override=@($contract.ruleOverrides|Where-Object{$_.moduleId-ceq$id-and$_.ruleId-ceq$rule.ruleId});$outcome=if($override.Count){[string]$override[0].outcome}else{[string]$contract.defaultRuleContract.outcome};$coverageContract=if($override.Count){[string]$override[0].coverage}else{[string]$contract.defaultRuleContract.coverage};$allowedRules=if($override.Count){@($override[0].allowedRuleIds|Sort-Object -Unique)}else{@([string]$rule.ruleId)}
+        if($outcome-ceq'integrity-failure'){$violations=@($rows|Where-Object{$_.processExit-eq0-and$_.status-ceq'error'-and$_.exitCategory-ceq'integrity-failure'-and@($_.findings).Count-eq0-and$_.targetInvariant})}else{$violations=@($rows|Where-Object{$r=$_;if($r.processExit-ne0-or$r.status-cne'fail'-or$r.exitCategory-cne'findings-blocking'-or-not$r.targetInvariant){return $false};$blockingIds=@($r.findings|Where-Object{$_.ruleId-in@($blockingRules.ruleId)}|ForEach-Object ruleId|Sort-Object -Unique);$finding=@($r.findings|Where-Object ruleId -CEQ $rule.ruleId);$coverage=@($r.coverage|Where-Object claimId -CEQ $rule.claimId);$coverageOkay=$coverage.Count-eq1-and($coverageContract-ceq'finding-proves-evaluation'-or$coverage[0].matched-gt0);return (($blockingIds-join',')-ceq($allowedRules-join',')-and$finding.Count-gt0-and@($finding|Where-Object{[string]$_.subject-and[string]$_.detectorId-and[string]$_.evidenceKind}).Count-eq$finding.Count-and$coverageOkay)})}
+        $violations=@($violations|Where-Object{-not$usedViolationFixtures.Contains([string]$_.fixtureSha256)})
+        if($violations.Count-eq0){AddGap "$id/V/$($rule.ruleId)" "No independent result satisfies outcome $outcome, coverage $coverageContract and the allowed rule set."}else{$r=$violations[0];[void]$usedViolationFixtures.Add([string]$r.fixtureSha256);$f=@($r.findings|Where-Object ruleId -CEQ $rule.ruleId);$matrix.Add([ordered]@{id="$id/V/$($rule.ruleId)";kind='violation';outcome=$outcome;coverageContract=$coverageContract;allowedRuleIds=$allowedRules;moduleId=$id;ruleId=$rule.ruleId;claimIds=@($rule.claimId);fixtureSha256=$r.fixtureSha256;expected=[ordered]@{processExit=0;status=$(if($outcome-ceq'integrity-failure'){'error'}else{'fail'});exitCategory=$outcome};actual=[ordered]@{processExit=$r.processExit;status=$r.status;exitCategory=$r.exitCategory;subject=$(if($f.Count){$f[0].subject}else{$null});detectorId=$(if($f.Count){$f[0].detectorId}else{$null});evidenceKind=$(if($f.Count){$f[0].evidenceKind}else{$null})};status='pass'})}
+    }
+}
+foreach($rule in $advisory){$rows=@($captures|Where-Object moduleId -CEQ $rule.moduleId);$advisoryFindings=@($rows|ForEach-Object{@($_.findings)}|Where-Object ruleId -CEQ $rule.ruleId);if($advisoryFindings.Count-eq0){AddGap "$($rule.moduleId)/A/$($rule.ruleId)" 'Advisory companion was not projected.'}}
+foreach($suite in $suiteResults){if($suite.exitCode-ne0){AddGap "suite/$($suite.id)" 'Fresh instrumented suite failed; see suite output.'}}
+if($matrix.Count-lt191){AddGap 'matrix/cardinality' "Only $($matrix.Count) of 191 required core results were proven."}
+Assert ((Fingerprint $package) -ceq $packageBefore) 'Composed PackageRoot changed during matrix.'
+$trackedAfter=@(& git -C $repo status --porcelain --untracked-files=no);Assert ($LASTEXITCODE-eq0-and($trackedAfter-join"`n")-ceq($trackedBefore-join"`n")) 'Tracked TargetRoot changed during matrix.'
+$matrixArray=@($matrix.ToArray()|Sort-Object id);$caseManifestPath=Join-Path $runRoot 'case-manifest.json';WriteJson $caseManifestPath ([ordered]@{formatVersion=1;sourceCommit=$commit;platform=$Platform;bundleManifestSha256=Hash $manifestPath;cases=$matrixArray})
+$status=if($gaps.Count-eq0-and$matrix.Count-ge191){'pass'}else{'blocked'}
+$report=[ordered]@{formatVersion=1;status=$status;scope='c6c4-independent-matrix';platform=$Platform;sourceCommit=$commit;baseVersion=$ExpectedBaseVersion;bundleVersion=$CandidateVersion;matrixContractSha256=Hash $contractFull;matrixContractReportSha256=Hash $contractReport;bundleManifestSha256=Hash $manifestPath;profileSha256=Hash $profilePath;inventorySha256=Hash $inventoryFull;compositionReceiptSha256=Hash $compositionReceipt;suiteCount=$suiteResults.Count;captureCount=$captures.Count;requiredCoreCases=191;provenCoreCases=$matrix.Count;blockingRules=$blocking.Count;advisoryRules=$advisory.Count;caseManifestPath=[IO.Path]::GetRelativePath($repo,$caseManifestPath).Replace('\','/');caseManifestSha256=Hash $caseManifestPath;suites=@($suiteResults.ToArray());gaps=@($gaps.ToArray())}
+WriteJson $reportFull $report
+if($status-ceq'pass'){Write-Output "IFX C6c4 independent matrix passed: $reportFull";exit 0}
+Write-Error "IFX C6c4 independent matrix blocked with $($gaps.Count) gaps and $($matrix.Count)/191 proven cases. Report: $reportFull" -ErrorAction Continue
+exit 1

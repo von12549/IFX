@@ -11,7 +11,8 @@ param(
     [Parameter(Mandatory)][string]$FocusedSummaryPath,
     [Parameter(Mandatory)][string]$ReportPath,
     [string]$CandidateVersion = '0.4.4',
-    [ValidateRange(1,3600)][int]$MinimumRemainingSeconds = 2700
+    [ValidateRange(1,3600)][int]$MinimumRemainingSeconds = 2700,
+    [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6'
 )
 
 Set-StrictMode -Version Latest
@@ -68,8 +69,8 @@ foreach ($item in $historical) { $full = Full $item.path; Assert ([IO.File]::Exi
 
 $reportFull = Full $ReportPath
 $matrixReport = Join-Path ([IO.Path]::GetDirectoryName($reportFull)) 'matrix-contract.json'
-$matrixRunner = Join-Path $repo 'docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6MatrixContract.ps1'
-$matrixOutput = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $matrixRunner -RepositoryRoot $repo -InventoryPath $inventoryFull -ReportPath $matrixReport 2>&1)
+$matrixRunner = Join-Path $repo 'docs/guards/candidates/ifx-rebind-116/Test-IFX116MatrixContract.ps1'
+$matrixOutput = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $matrixRunner -RepositoryRoot $repo -BaseInstallRoot $BaseInstallRoot -InventoryPath $inventoryFull -ReportPath $matrixReport 2>&1)
 $matrixExit = $LASTEXITCODE
 Assert ($matrixExit -eq 0 -and [IO.File]::Exists($matrixReport)) "C6c4 matrix readiness failed: $($matrixOutput -join ' ')"
 $matrix = Get-Content -LiteralPath $matrixReport -Raw | ConvertFrom-Json -Depth 100 -DateKind String

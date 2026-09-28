@@ -69,7 +69,7 @@ Assert ($LASTEXITCODE -eq 0) "Linux same-candidate validation failed: $($positiv
 $positive = Get-Content -LiteralPath $positiveReport -Raw | ConvertFrom-Json -Depth 100
 Assert ($positive.status -ceq 'pass' -and $positive.sourceCommit -ceq $sourceCommit -and @($positive.cases).Count -eq 3) 'Linux positive report is invalid.'
 
-$matrixRunner = Join-Path $target 'docs/guards/candidates/ifx-gate-coverage-c6c3/Test-IFXC6IndependentMatrix.ps1'
+$matrixRunner = Join-Path $target 'docs/guards/candidates/ifx-rebind-116/Test-IFX116IndependentMatrix.ps1'
 $baseInstall = Join-Path $work 'base-install'
 $baseReceipt = Join-Path $work 'base-receipt.json'
 $matrixRoot = [IO.Path]::GetDirectoryName($matrixReport)

@@ -5,6 +5,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$EvidenceRoot,
+    [string]$InventoryPath,
     [string]$BaseArchivePath = 'D:/IFX-Root/guard-runtime/downloads/v4-guards-1.1.6/v4-guards-1.1.6.zip',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
     [string]$LinuxImage = 'ifx-c6c-sdk:10.0.303',
@@ -25,15 +26,81 @@ function Case([string]$Id, [bool]$ExpectReject, [scriptblock]$Body) {
     $cases.Add([ordered]@{ id = $Id; expected = $(if ($ExpectReject) { 'reject' } else { 'accept' }); actual = $(if ($rejected) { 'reject' } else { 'accept' }); message = $message; detail = $detail; pass = ($rejected -eq $ExpectReject) })
 }
 
-# IFX-V4-003 static control: no I1 harness file names the removed incubation path; the accepted c6c1 script
-# does (so the scan is not vacuous). The pattern is assembled so this file does not match itself.
-$old = 'docs/guards/' + 'v4/'
+# IFX-V4-003/004 static control: no I1 harness file names the removed incubation path in any letter case
+# (T8 missed the upper-case docs/guards/V4 references). The only allowed occurrence is the pinned Git blob
+# path inside fixture-spec-116.json. The accepted c6c1 script and c6c4 contract still show the old path, so
+# the scan is not vacuous.
+$oldPattern = '(?i)docs[/\\]guards[/\\]v4[/\\]'
 Case 'no-harness-file-uses-docs-guards-v4' $false {
-    $hits = @(Get-ChildItem -LiteralPath $PSScriptRoot -File | Where-Object { (Get-Content -LiteralPath $_.FullName -Raw).Contains($old) } | ForEach-Object Name)
+    $hits = [Collections.Generic.List[string]]::new()
+    foreach ($file in @(Get-ChildItem -LiteralPath $PSScriptRoot -File)) {
+        $text = Get-Content -LiteralPath $file.FullName -Raw
+        if ($file.Name -ceq 'fixture-spec-116.json') {
+            $spec = $text | ConvertFrom-Json -Depth 50
+            $blobPaths = @($spec.sourceSuites.PSObject.Properties | Where-Object { $null -ne $_.Value.PSObject.Properties['gitBlob'] } | ForEach-Object { [string]$_.Value.gitBlob.path })
+            foreach ($p in $blobPaths) { $text = $text.Replace($p, '<pinned-git-blob-path>') }
+        }
+        if ($text -match $oldPattern) { $hits.Add($file.Name) }
+    }
     if ($hits.Count -ne 0) { throw "Harness files reference the removed path: $($hits -join ', ')" }
-    $accepted = Join-Path $repo 'docs/guards/candidates/ifx-gate-coverage-c6c1/Test-IFXC6DualPlatformCandidate.ps1'
-    if (-not (Get-Content -LiteralPath $accepted -Raw).Contains($old)) { throw 'Non-vacuity: the accepted c6c1 script no longer shows the old path.' }
+    foreach ($accepted in @('docs/guards/candidates/ifx-gate-coverage-c6c1/Test-IFXC6DualPlatformCandidate.ps1', 'docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json')) {
+        if ((Get-Content -LiteralPath (Join-Path $repo $accepted) -Raw) -notmatch $oldPattern) { throw "Non-vacuity: $accepted no longer shows the old path." }
+    }
     [ordered]@{ scannedFiles = @(Get-ChildItem -LiteralPath $PSScriptRoot -File).Count }
+}
+
+# IFX-V4-004 (amendment A4) controls: V4 reference inputs from the verified base release and a pinned blob.
+Import-Module (Join-Path $PSScriptRoot 'IFX116.V4Reference.psm1') -Force
+$baseInstall = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6'
+Case 'a4-base-reference-verified' $false { [ordered]@{ package = (Assert-IFX116V4BaseReference -BaseInstallRoot $baseInstall) } }
+Case 'a4-base-reference-drift-rejected' $true {
+    $fake = Join-Path $root 'a4-drift/base'
+    foreach ($rel in (Get-IFX116V4PinnedBaseFiles).Keys) { $dst = Join-Path $fake "package/$rel"; [void][IO.Directory]::CreateDirectory((Split-Path -Parent $dst)); Copy-Item -LiteralPath (Join-Path $baseInstall "package/$rel") -Destination $dst }
+    [IO.File]::AppendAllText((Join-Path $fake 'package/modules/architecture-conformance/adapter.ps1'), "`n# drift")
+    Assert-IFX116V4BaseReference -BaseInstallRoot $fake
+}
+Case 'a4-accepted-suites-converted' $false {
+    $suites = @(Get-ChildItem -LiteralPath (Join-Path $repo 'docs/guards/candidates') -Recurse -File -Filter 'Test-IFX*.ps1' | Where-Object { $_.FullName -match 'ifx-gate-coverage-c\d' -and (Get-Content -LiteralPath $_.FullName -Raw) -match $oldPattern -and $_.Name -cne 'Test-IFXC6DualPlatformCandidate.ps1' })
+    if ($suites.Count -ne 17) { throw "Expected 17 accepted suites with V4 schema lookups, found $($suites.Count)" }
+    $package = Assert-IFX116V4BaseReference -BaseInstallRoot $baseInstall
+    foreach ($s in $suites) { $converted = Convert-IFX116V4SchemaReferences -Source (Get-Content -LiteralPath $s.FullName -Raw) -BaseInstallRoot $baseInstall; if (-not $converted.Contains($package)) { throw "Conversion did not redirect: $($s.Name)" } }
+    [ordered]@{ convertedSuites = $suites.Count }
+}
+Case 'a4-unconvertible-reference-rejected' $true {
+    $removed = 'docs/guards/' + 'V4/tests/p4/Test-V4ArchUnitNetAdapter.ps1'
+    Convert-IFX116V4SchemaReferences -Source "`$x = Join-Path `$repoRoot '$removed'" -BaseInstallRoot $baseInstall
+}
+Case 'a4-git-blob-verified' $false {
+    $bytes = Get-IFX116GitBlobBytes -RepositoryRoot $repo -Commit '896bca2442a0bff9f8bc8bf1a7826e5621acbf07' -Path ('docs/guards/' + 'v4/tests/p4/Test-V4ArchUnitNetAdapter.ps1') -BlobId '591ee4774c4a72ae44c6804ccd3dc4eb9d5b3713'
+    $sha = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
+    if ($sha -cne '69be54c3e6968f82217d7fb904a788fb177dc28568b875150ebec37304b8431e') { throw "Blob content hash $sha" }
+    [ordered]@{ sha256 = $sha; bytes = $bytes.Length }
+}
+Case 'a4-git-blob-mismatch-rejected' $true {
+    Get-IFX116GitBlobBytes -RepositoryRoot $repo -Commit '896bca2442a0bff9f8bc8bf1a7826e5621acbf07' -Path ('docs/guards/' + 'v4/tests/p4/Test-V4ArchUnitNetAdapter.ps1') -BlobId ('0' * 40)
+}
+Case 'a4-removed-path-resolution-rejected' $true {
+    Resolve-IFX116V4Path -Path ('docs/guards/' + 'V4/modules/architecture-conformance/adapter.ps1') -RepositoryRoot $repo -BaseInstallRoot $baseInstall
+}
+Case 'a4-unpinned-base-reference-rejected' $true {
+    Resolve-IFX116V4Path -Path 'base-package:modules/architecture-conformance/module.json' -RepositoryRoot $repo -BaseInstallRoot $baseInstall
+}
+if ($InventoryPath) {
+    $verifier = Join-Path $PSScriptRoot 'Test-IFX116MatrixContract.ps1'
+    Case 'a4-contract-verifier-pass' $false {
+        $out = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $verifier -RepositoryRoot $repo -BaseInstallRoot $baseInstall -InventoryPath $InventoryPath -ReportPath (Join-Path $root 'a4-verifier/summary.json') 2>&1)
+        if ($LASTEXITCODE -ne 0) { throw ($out -join ' ') }
+        [ordered]@{ report = 'a4-verifier/summary.json' }
+    }
+    Case 'a4-contract-verifier-rejects-removed-adapter-path' $true {
+        $dir = Join-Path $root 'a4-verifier-removed'; [void][IO.Directory]::CreateDirectory($dir)
+        $contractText = (Get-Content -LiteralPath (Join-Path $PSScriptRoot 'matrix-contract-116.json') -Raw).Replace('base-package:modules/architecture-conformance/adapter.ps1', ('docs/guards/' + 'V4/modules/architecture-conformance/adapter.ps1'))
+        $contractPath = Join-Path $dir 'matrix-contract.json'; [IO.File]::WriteAllText($contractPath, $contractText, [Text.UTF8Encoding]::new($false))
+        $spec = (Get-Content -LiteralPath (Join-Path $PSScriptRoot 'fixture-spec-116.json') -Raw) -replace '"matrixContractSha256": "[0-9a-f]{64}"', ('"matrixContractSha256": "' + (Hash $contractPath) + '"')
+        $specPath = Join-Path $dir 'fixture-spec.json'; [IO.File]::WriteAllText($specPath, $spec, [Text.UTF8Encoding]::new($false))
+        $out = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $verifier -RepositoryRoot $repo -BaseInstallRoot $baseInstall -InventoryPath $InventoryPath -ContractPath $contractPath -FixtureSpecPath $specPath -ReportPath (Join-Path $dir 'summary.json') 2>&1)
+        if ($LASTEXITCODE -ne 0) { throw ($out -join ' ') }
+    }
 }
 # IFX-V4-003 behaviour controls.
 Case 'installer-from-verified-archive' $false {

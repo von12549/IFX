@@ -110,7 +110,7 @@ $archiveRelative = Relative-Under $repo $BaseArchivePath
 $windowsMatrix = Join-Path $root 'windows/summary.json'
 $controls = Join-Path $root 'controls/summary.json'
 $linuxSummary = Join-Path $root 'linux/summary.json'
-$windowsRunner = Join-Path $repo 'docs/guards/candidates/ifx-gate-coverage-c6c3/Test-IFXC6IndependentMatrix.ps1'
+$windowsRunner = Join-Path $repo 'docs/guards/candidates/ifx-rebind-116/Test-IFX116IndependentMatrix.ps1'
 $controlRunner = Join-Path $repo 'docs/guards/candidates/ifx-gate-coverage-c6c5/Test-IFXC6CertificationControls.ps1'
 $linuxRunner = '/source/docs/guards/candidates/ifx-rebind-116/Invoke-IFX116LinuxCertification.ps1'
 
