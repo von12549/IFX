@@ -20,7 +20,7 @@ place, and it becomes a frozen, non-canonical duplicate until T8.
 | Package hash | `e8cd32697709e8ca155b051ddbf731e12b65bad42858eafd92cddb0ee4dbf733` (Guard certification run 36331614650: Linux 33/33, Windows 34/34) |
 | Guard default-branch commit at handoff | `b339dbc634a60c4be9f8059f798375df4bedad7a` (re-read at R9; any later commit is recorded, not assumed) |
 | Accepted 1.1.4 IFX tuple (historical) | V4 1.1.4 + `ifx_profile` 0.4.2, package `739e2035…`, bundle manifest `82eb0c5d…`, C6e-R1 decision `94a7c01b…`, P10.2-R2 decision `7c5ff243…`, P10.3 decision `529e19b5…` |
-| IFX Target commit for re-certification | `40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82` (unchanged, so the frozen V3/V3_ifx reference results and the 52-case corpus stay valid) |
+| IFX Target commit for re-certification | The R3 harness commit on `codex/v4-development-base` (Amendment A1). The P10.2 52-case corpus stays the frozen corpus certified at `40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82` |
 
 The accepted 1.1.4 P10 decisions stay historical facts. They are not edited, re-signed or reused as
 1.1.5 evidence (master Plan §7 T7).
@@ -32,10 +32,13 @@ and a production `extension-review` record binds `baseArchiveSha256`. The accept
 declares `baseVersion: 1.1.4` and its review binds the 1.1.4 archive `dce03714…`. It therefore cannot be
 composed with 1.1.5.
 
-T7 builds the successor bundle `ifx-profile-candidate` **0.4.3** with the existing C6 builder at the
-same Target commit and base 1.1.5. Expected difference from 0.4.2: only `bundle-manifest.json`,
-`profiles/catalog/ifx_profile/profile.json` (version) and `authority-map.json` (embedded base
-identity) change; all 36 module trees are byte-identical. Any other difference stops T7 for review.
+T7 builds the successor bundle `ifx-profile-candidate` **0.4.3** with the existing C6 builder on base
+1.1.5 (Amendment A2). Expected difference from 0.4.2: only four Profile/manifest files change —
+`bundle-manifest.json`, `profiles/catalog/ifx_profile/profile.json` (version and the seven fresh
+evidence-lock references), `authority-map.json` (inventory commit and base identity) and
+`evidence-lineage.json` (commit and locks). All 36 module trees are byte-identical, and the contract
+handshake must classify all 36 external modules as exact inheritance from the accepted 1.1.4
+inventory. Any other difference stops T7 for review.
 
 ## 3. Steps
 
@@ -112,3 +115,15 @@ present because T8 has not run.
   commits on `codex/v4-development-base`.
 - **R4:** your explicit acceptance of the exact 0.4.3 review packet, requested when it is ready.
 - **R10:** IFX push and the Guard records PR, requested after R9.
+
+## 10. Amendments
+
+- **A1 (2026-09-28, before R3 execution).** The accepted C6 chain binds the Target commit to the
+  HEAD of the IFX checkout that holds the harness (`git rev-parse HEAD`, tracked-clean). The 1.1.4
+  chain used its own harness commit `40b4c0f8` the same way. The R3 and R5 Target commit is therefore
+  the R3 harness commit, and all seven evidence locks are regenerated there. The P10.2 corpus is
+  independent of HEAD: R6 replays the frozen 52-case corpus certified at `40b4c0f8`.
+- **A2 (2026-09-28, before R3 execution).** The builder also embeds the seven evidence-lock
+  references in `profile.json` and writes `evidence-lineage.json`, so four files, not three, differ
+  from 0.4.2. The seven workspace-evidence consumers are still requalified against the 1.1.5 Host
+  (`hostContractRequalifiedCount=7`), although their bytes are inherited unchanged.
