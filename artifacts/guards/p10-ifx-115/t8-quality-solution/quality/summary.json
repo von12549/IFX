@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "mode": "quality",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "Solution",
+      "status": "pass"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # V4-TODO-008 T8 — protected removal of `docs/guards/v4` from IFX
 
-Status: `APPROVED 2026-09-28 — A-IFX-DELETE local part authorized ("授权A-IFX-DELETE本地部分，执行S0–S8"); S9 needs a separate decision`
+Status: `LOCAL COMPLETE 2026-09-28 — S0–S8 done; S9 (IFX push and Guard records PR) needs a separate decision; see §7`
 
 Formal Plan ID: `20260928-v4-todo-008-t8-ifx-cleanup`.
 
@@ -77,3 +77,22 @@ or negative control, or any need for a remote write before S9.
 
 - **A-IFX-DELETE (local):** S0–S8, including the protected deletion and the S6 release download.
 - **S9:** IFX push and the Guard records PR, requested after S8.
+
+## 7. Outcome (2026-09-28, local)
+
+| Step | Result |
+| --- | --- |
+| S0 | Plan committed `896bca24` |
+| S1 | 169 tracked files (tree `5282001c`), 2 ignored fixtures; unchanged-root fingerprints recorded |
+| S2 | Cleanup commit `ae42e11d`: 169 files and the three `.gitignore` lines removed (170 files changed); the two ignored fixtures deleted by exact path; `docs/guards/v4` no longer exists |
+| S3 | Records commit `020af534`: cleanup receipt `fe371eda…`, proposal boundary, successor verifier premature-cleanup amendment, TODO (V4-TODO-008 IFX side done, new IFX-V4-003) |
+| S4 | 109 files still name `docs/guards/v4`; all fall in historical classes (91 Plans, 5 evidence, 6 migration records, TODO, 1 historical inventory that names the old `artifacts/guards/v4` directory, 2 accepted pre-T7 verifiers, 2 T7 successor files asserting absence, the disclosed C6c Linux leg IFX-V4-003); zero unclassified |
+| S5 | `src`, `tests`, `tools`, V3, V3_ifx, `.github` and `IFX.sln` byte-identical to S1; V3_ifx `Validate` pass; V3_ifx Quality Solution pass (81 projects, 1277/1277 tests) |
+| S6 | Clean environment `D:4t	8-clean-…`: release archive `74c371eb…` downloaded and verified, installed with its own installer (package `e8cd3269…`), 0.4.3 composed with the production review (package `25fd95fa…`, identical to T7 R5), post-cleanup Pre on `020af534` passed (10/10 modules, 22 non-vacuous claims, 0 findings, Target unchanged); temporary root removed after evidence copy |
+| S7 | P10.3 successor rehearsal after cleanup passed; all seven negative controls rejected, including premature cleanup without the T8 receipt; decision records `ifxCoreSourceRemoved=true` |
+| S8 | See the evidence index |
+
+The cleanup receipt's list of historical reference classes omits `docs/guards/inventories`; S4 evidence
+classifies that one file. The receipt is not edited because the S7 decision binds its hash.
+
+Evidence: `D:\IFX-Root4-todo-008-evidence\T8-cleanup60928T070603Z`. Rollback: `git revert ae42e11d`.
