@@ -1,0 +1,108 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "ifx-115-t7-c6c-readiness",
+  "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+  "baseVersion": "1.1.5",
+  "candidateVersion": "0.4.3",
+  "checkedAt": "2026-09-28T04:34:09.8547249+00:00",
+  "minimumRemainingSeconds": 2700,
+  "inventory": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\formal-inventory\\2113d50b2ba74eb49631ff0a6214aec8\\ordinal-inventory.json",
+    "sha256": "f9cab179f6eee79a98632d763ee2810bab146a6527a0182b9f8e37da7494bee1"
+  },
+  "primaryCandidate": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\formal-candidate-a\\18bed64e5c7e4797953415c44f52bc61\\summary.json",
+    "sha256": "b33cd11ed619dd41371817dfc8c65cb4cf8f93b7381a7e340e251817ae468407"
+  },
+  "secondCandidate": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\formal-candidate-b\\fbae1f48310b448992feb11a6dd4823b\\summary.json",
+    "sha256": "e01890155e5dffd24f58c79fc6e26df346649286184045f3b3af9d1ef59fb22b"
+  },
+  "contractSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\contract-preflight\\653c175f9fb342b381a795637eb308a7\\summary.json",
+    "sha256": "71910c25d143bc9d13cb3a19d23aa6bb596437ef4795f89654f9273a1b74699d"
+  },
+  "focusedSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\focused-qualification-043\\983dbb195fb2445a93552c3d2e109451\\summary.json",
+    "sha256": "35a33774dca426896bc87f2a5fe2c979080d32bb68b43924c2f8332ee6727a8b"
+  },
+  "matrixContract": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\readiness\\matrix-contract.json",
+    "sha256": "3e9828d173c3810927870de27cb969672fd4396f3fe18435e1e6999342d7fe57",
+    "inventoryProjectionSha256": "0ea7d78bc236c6090f7ce807465f546d224ff9297584c040a140e8c8461df75f"
+  },
+  "locks": [
+    {
+      "id": "assembly",
+      "path": "artifacts/guards/p10-ifx-c5c/assembly-runs/310967dd4c0348adb37904a51fcaee78/evidence-lock.json",
+      "sha256": "0a16cfd7ec60240d61b15ae6bd514801a63e150802c45135c8e8a965fbfdebfa",
+      "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+      "expiresAt": null,
+      "remainingSeconds": null
+    },
+    {
+      "id": "database",
+      "path": "artifacts/guards/p10-ifx-c4b/database-runs/7a343002df3143579203b42672627591/evidence-lock.json",
+      "sha256": "86ced0577a432578a2b734fe306e0105a510d52ed179894e9111869adaae7a91",
+      "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+      "expiresAt": null,
+      "remainingSeconds": null
+    },
+    {
+      "id": "frontend",
+      "path": "artifacts/guards/p10-ifx-c5d/frontend-runs/f011fdf6f3fe46be9eb92ec2a09bc769/evidence-lock.json",
+      "sha256": "20cbb1f0bd3254f5dbc0f91223ad4e0c0597e22eaf1392d0ea3212fd47e8e35b",
+      "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+      "expiresAt": null,
+      "remainingSeconds": null
+    },
+    {
+      "id": "generated",
+      "path": "artifacts/guards/p10-ifx-115/generated-runs/e81249e0a7eb45b48771d2e3faa2324b/evidence-lock.json",
+      "sha256": "4bfc1689f8a245f8033c76cce55011ec1f91f70855fe956ae488418c0e61355f",
+      "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+      "expiresAt": "2026-09-28T05:29:04.6263804+00:00",
+      "remainingSeconds": 3294.0
+    },
+    {
+      "id": "graph",
+      "path": "artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/a5b3611a81414b90b8221b4740dfc319/evidence-lock.json",
+      "sha256": "65bab85ebc6965a8aee3af3a8f4f4de342e6bfb39449b0ba35bf4bf083371e41",
+      "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+      "expiresAt": "2026-09-28T05:28:28.8212604+00:00",
+      "remainingSeconds": 3258.0
+    },
+    {
+      "id": "solution",
+      "path": "artifacts/guards/p10-ifx-c5b/solution-runs/6960a30844cc4fa8883cde71385625e3/evidence-lock.json",
+      "sha256": "5b69499565e1f6a2a6d75caa60419d1e94a258a3ba0f347e3a9ed5e269e7734b",
+      "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+      "expiresAt": null,
+      "remainingSeconds": null
+    },
+    {
+      "id": "type",
+      "path": "artifacts/guards/p10-ifx-c1-r1b/type-runs/06619d6eedf548458958ed4022f9c872/evidence-lock.json",
+      "sha256": "b735dc0711f0764866440e7acdc1520eefea621cdf8c6f11e46f847d34501563",
+      "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+      "expiresAt": "2026-09-28T05:29:05.1443824+00:00",
+      "remainingSeconds": 3295.0
+    }
+  ],
+  "preservedFailureEvidence": [
+    {
+      "path": "artifacts/guards/p10-ifx-114/c6c-attempt.json",
+      "sha256": "23e638d13e7555228dc9712fc9f8877cd6d9ac18a31ebbc0c1ef65b3b167c4b5"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-114/recovery-041-final2/c6c-decision.json",
+      "sha256": "2c76990c1cc34278aabd82be94f0af490fcfa788fb1f640c9573da6c435ce02a"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-114/recovery-041-final2/c6c-result-record.json",
+      "sha256": "dde33f88ce4c974640f3d0c1a2a025e136d862f5138b3571e7726e18779c6034"
+    }
+  ],
+  "authorization": "readiness-only-full-c6c-not-authorized"
+}

@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "t7-r5-composition-accepted",
+  "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+  "composition": {
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.5-ifx-0.4.3",
+    "receipt": {
+      "path": "D:\\IFX-Root\\guard-runtime\\receipts\\v4-guards-1.1.5-ifx-0.4.3.compose.json",
+      "sha256": "6901c54fb4d80d7b556cb5d78be3d4178d27c99299d057f63387c750da91fbcd"
+    },
+    "packageHash": "25fd95fa4f8e56190aa5993ddc7efde99c3aafd8a185fbb7cdaead8efa1369c6",
+    "bundleManifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03",
+    "reviewRecordSha256": "7619c12e010a4707ef4e23f4f0b0886cdfcefbed96ccd970c31324e5c787542d"
+  },
+  "preparationSummarySha256": "329ec78c783c8f2e73c5bdc9fbe37148db18ca60febf55eeed1701dc06d534f1",
+  "hostVerificationSha256": "130dbe10c596340656a4b7ddfaf4809a57256082cf8cfb3f2bf9d9ccbfb06515",
+  "checks": {
+    "cleanPass": true,
+    "cleanNonVacuous": true,
+    "violatingBlocks": true,
+    "deliberateFinding": true,
+    "violatingNonVacuous": true,
+    "profileIdentity": true,
+    "hostQueriesAgree": true,
+    "protectedRootsUnchanged": true,
+    "gitFactsUnchanged": true
+  },
+  "boundary": {
+    "installedWebUi": "deferred-to-p10-gate-successor",
+    "p10GatePassed": false,
+    "activated": false,
+    "cutover": false
+  }
+}

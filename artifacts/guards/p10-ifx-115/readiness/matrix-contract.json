@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "c6c4-matrix-contract",
+  "inventorySha256": "f9cab179f6eee79a98632d763ee2810bab146a6527a0182b9f8e37da7494bee1",
+  "inventoryProjectionSha256": "0ea7d78bc236c6090f7ce807465f546d224ff9297584c040a140e8c8461df75f",
+  "contractSha256": "6c7a53a31e27a6e8853bcf8362342db21387b9fcdbcba5f6b41dbc1feaca2998",
+  "fixtureSpecSha256": "1a906d5cf52d3704fca00abee264df9fcafd0ded29ddcd22cd4dbaf0e1317c19",
+  "moduleCount": 37,
+  "blockingRuleCount": 80,
+  "advisoryRuleCount": 3,
+  "zeroStrategies": {
+    "enumerated": 19,
+    "fixedChecklist": 16,
+    "integrity": 2
+  },
+  "ruleOverrideCount": 17
+}

@@ -1,0 +1,85 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "c6d-exact-bundle-human-review-accepted",
+  "decidedAt": "2026-09-28T05:55:26.168684Z",
+  "planId": "20260928-v4-todo-008-t7-ifx-consumer-rebinding",
+  "step": "R4",
+  "authority": {
+    "authorityType": "human-review",
+    "authorityId": "xiaolong-feng",
+    "candidateHostVerdictAllowed": false
+  },
+  "acceptanceStatement": "1 接受",
+  "acceptanceContext": "Operator reply to the R4 request after the Linux timeout diagnostic. Option 1 was defined as: accept review packet 178480b32513a773b52368da00279e15639be928ab09e8c5d2f9ed2f15746c74, write the production review record, bind the Linux diagnostic summary and record the ifx-database-evidence timeout follow-up, then continue R5-R9.",
+  "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+  "baseVersion": "1.1.5",
+  "candidateVersion": "0.4.3",
+  "bundle": {
+    "manifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03",
+    "baseArchiveSha256": "74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976",
+    "fileCount": 256,
+    "moduleCount": 36,
+    "profileCount": 1
+  },
+  "acceptedEvidence": {
+    "reviewPacket": {
+      "path": "artifacts/guards/p10-ifx-115/c6d-review-043/review-packet.json",
+      "sha256": "178480b32513a773b52368da00279e15639be928ab09e8c5d2f9ed2f15746c74"
+    },
+    "fileInventory": {
+      "path": "artifacts/guards/p10-ifx-115/c6d-review-043/file-inventory.json",
+      "sha256": "7b1112ab46bc69ced092d87f9f2dbbd3b25117cda38b7d05aefc9ad1513bb8d9"
+    },
+    "moduleCeilings": {
+      "path": "artifacts/guards/p10-ifx-115/c6d-review-043/module-ceilings.json",
+      "sha256": "06a3abb695a6a12b822a273b18b2f3c9174bce56d68ce19b0d7f16548d84bb57"
+    },
+    "productionReviewRecord": {
+      "path": "artifacts/guards/p10-ifx-115/c6d-review-043/production-extension-review.json",
+      "sha256": "7619c12e010a4707ef4e23f4f0b0886cdfcefbed96ccd970c31324e5c787542d",
+      "schema": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.5/package/core/contracts/extension-review.schema.json (installed 1.1.5 base)",
+      "schemaValid": true
+    },
+    "c6cDecision": {
+      "path": "artifacts/guards/p10-ifx-115/c6c-decision.json",
+      "sha256": "8ef606c24be2d86a50319ad36f7b713e8ab6fa3281505a5fcbb73f131b284959"
+    },
+    "c6cCertificationSummary": {
+      "path": "artifacts/guards/p10-ifx-115/c6c-full/summary.json",
+      "sha256": "7fc401257022fa08503949300428467d68819bc039e4b08ac6942c0dc987e8d0"
+    },
+    "linuxDiagnosticSummary": {
+      "path": "artifacts/guards/p10-ifx-115/c6d-review-043/linux-diagnostic-summary.json",
+      "sha256": "4f7d332f5a880b780cc69b5757d70215a6e865456383e6d37d9bdd4e126dc48a"
+    }
+  },
+  "disclosures": {
+    "windowsProductCertification": "pass",
+    "certificationControls": "pass",
+    "linuxPortability": {
+      "blocking": false,
+      "status": "advisory-fail",
+      "semanticProjection": "not-evaluated",
+      "reasonCodes": [
+        "linux-complete-failed",
+        "semantic-projection-not-evaluated"
+      ],
+      "diagnostic": "Linux direct-post returned adapter-failure: module ifx-database-evidence exceeded its declared 60 s timeout in the pinned offline container (V4.RUNTIME, detector v4-host). Windows product certification, including ifx-database-evidence, passed; module bytes are identical to 0.4.2. Non-blocking under C6c22.",
+      "processDiagnostics": [
+        "linux process exited 1"
+      ],
+      "predecessorLinux": "0.4.2: Linux direct-post and dependency-post passed; the independent matrix then stopped on the tracked-source-clean precondition."
+    },
+    "predecessorComparison": "Only authority-map.json, evidence-lineage.json and profile.json changed from 0.4.2; module declarations and ceilings identical."
+  },
+  "followUps": [
+    "Measure and raise or platform-scale the ifx-database-evidence 60 s timeout in a later bundle version under its own Plan (Linux container runs take 73-85 s)."
+  ],
+  "boundary": {
+    "r4Complete": true,
+    "productionReviewAccepted": true,
+    "r5CoveredByAIfxRebindLocal": true,
+    "compositionPerformed": false
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "kind": "t7-r6-parity-comparison-with-accepted-1.1.4-r2",
+  "cases": 52,
+  "sameCaseIds": true,
+  "v4SemanticDiffs": 0,
+  "gapCount": [
+    0,
+    0
+  ],
+  "strengtheningCount": [
+    15,
+    15
+  ],
+  "strengtheningsIdentical": true,
+  "semanticRowDiffs": 0,
+  "semanticFieldsCompared": [
+    "kind",
+    "moduleId",
+    "claimIds",
+    "expectedRule",
+    "ownedRules",
+    "ownedV3Rules",
+    "comparison",
+    "explanation",
+    "v4 status/exitCategory/findings/coverage",
+    "v3 rule set",
+    "v3 exit code"
+  ],
+  "excludedAsRunMetadata": [
+    "paths",
+    "timestamps",
+    "process hashes",
+    "input hashes (contain paths)"
+  ]
+}

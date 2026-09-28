@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "single-full-c6c",
+  "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+  "startedAt": "2026-09-28T04:34:11.8969358+00:00",
+  "completedAt": "2026-09-28T05:02:04.0252706+00:00",
+  "elapsedSeconds": 1672.128,
+  "exitCode": 0,
+  "inventorySha256": "f9cab179f6eee79a98632d763ee2810bab146a6527a0182b9f8e37da7494bee1",
+  "bundleManifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03",
+  "focusedSummarySha256": "35a33774dca426896bc87f2a5fe2c979080d32bb68b43924c2f8332ee6727a8b",
+  "certificationSummarySha256": "7fc401257022fa08503949300428467d68819bc039e4b08ac6942c0dc987e8d0",
+  "output": [
+    "IFX Windows product certification passed: D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\c6c-full\\summary.json (Linux portability: advisory-fail)"
+  ]
+}

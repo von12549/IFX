@@ -1,0 +1,113 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "entryIdentities": "pass",
+  "remoteSnapshot": "pass",
+  "contextOwnershipRows": 13,
+  "detectorOwnershipRows": 9,
+  "states": [
+    "v3-active",
+    "coexistence",
+    "v4-primary-with-linux-bridge",
+    "rollback-restored"
+  ],
+  "transitions": [
+    "enter-coexistence",
+    "promote-v4-primary",
+    "rollback"
+  ],
+  "declaredNegativeControls": [
+    {
+      "id": "remove-v3-before-v4-proof",
+      "expected": "rejected"
+    },
+    {
+      "id": "remove-v4-before-v3-restore",
+      "expected": "rejected"
+    },
+    {
+      "id": "candidate-supplies-bundle",
+      "expected": "rejected"
+    },
+    {
+      "id": "aggregate-job-skipped",
+      "expected": "rejected"
+    },
+    {
+      "id": "unpublished-bundle-activation",
+      "expected": "rejected"
+    },
+    {
+      "id": "wrong-release-repository",
+      "expected": "rejected"
+    },
+    {
+      "id": "missing-release-asset",
+      "expected": "rejected"
+    },
+    {
+      "id": "archive-hash-drift",
+      "expected": "rejected"
+    },
+    {
+      "id": "missing-bundle",
+      "expected": "rejected"
+    },
+    {
+      "id": "source-path-fallback",
+      "expected": "rejected"
+    },
+    {
+      "id": "candidate-self-judgment",
+      "expected": "rejected"
+    },
+    {
+      "id": "premature-cleanup",
+      "expected": "rejected"
+    }
+  ],
+  "executedNegativeControls": [
+    {
+      "id": "wrong-release-repository",
+      "actual": "rejected",
+      "message": "Workflow fetches V4 from the current repository."
+    },
+    {
+      "id": "missing-release-asset",
+      "actual": "rejected",
+      "message": "Release asset is missing from the live Guard release: v4-guards-1.1.5-missing.zip"
+    },
+    {
+      "id": "archive-hash-drift",
+      "actual": "rejected",
+      "message": "Workflow does not bind identity: 74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976"
+    },
+    {
+      "id": "missing-bundle",
+      "actual": "rejected",
+      "message": "Missing-bundle refusal is absent."
+    },
+    {
+      "id": "source-path-fallback",
+      "actual": "rejected",
+      "message": "Bundle path falls back to docs/guards/v4."
+    },
+    {
+      "id": "candidate-self-judgment",
+      "actual": "rejected",
+      "message": "Aggregate is not evaluated from the trusted base."
+    },
+    {
+      "id": "premature-cleanup",
+      "actual": "rejected",
+      "message": "Cleanup is premature: docs/guards/v4 must remain until T8 is authorized."
+    }
+  ],
+  "activationBlockers": [
+    "promote-reviewed-v3-workflow-and-p10-evidence-to-default-branch",
+    "publish-exact-ifx-0.4.3-bundle-by-separate-plan",
+    "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
+    "add-v4-ifx-required-to-ruleset-by-separate-plan",
+    "complete-coexistence-window-before-removing-any-v3-context"
+  ]
+}

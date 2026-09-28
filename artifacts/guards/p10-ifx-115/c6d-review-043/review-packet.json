@@ -1,0 +1,95 @@
+{
+  "formatVersion": 1,
+  "status": "ready-for-designated-human-review",
+  "scope": "c6d-exact-bundle-review",
+  "reviewDecision": "pending",
+  "acceptedBy": null,
+  "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+  "baseVersion": "1.1.5",
+  "candidateVersion": "0.4.3",
+  "bundle": {
+    "id": "ifx-profile-candidate",
+    "manifestPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\formal-candidate-a\\18bed64e5c7e4797953415c44f52bc61\\bundle\\bundle-manifest.json",
+    "manifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03",
+    "baseArchiveSha256": "74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976",
+    "profileCount": 1,
+    "moduleCount": 36,
+    "fileCount": 256
+  },
+  "frozenInventories": {
+    "ordinalInventory": {
+      "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\formal-inventory\\2113d50b2ba74eb49631ff0a6214aec8\\ordinal-inventory.json",
+      "sha256": "f9cab179f6eee79a98632d763ee2810bab146a6527a0182b9f8e37da7494bee1"
+    },
+    "fileInventory": {
+      "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\c6d-review-043\\file-inventory.json",
+      "sha256": "7b1112ab46bc69ced092d87f9f2dbbd3b25117cda38b7d05aefc9ad1513bb8d9"
+    },
+    "moduleCeilings": {
+      "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\c6d-review-043\\module-ceilings.json",
+      "sha256": "06a3abb695a6a12b822a273b18b2f3c9174bce56d68ce19b0d7f16548d84bb57"
+    }
+  },
+  "predecessorComparison": {
+    "predecessorVersion": "0.4.2",
+    "predecessorManifestSha256": "82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5",
+    "changedPackageFiles": [
+      {
+        "path": "profiles/catalog/ifx_profile/authority-map.json",
+        "old": "61fd7befd8c2e0da21156c604f42c4622d921b99691f551ee640343b981b7d97",
+        "new": "f9cab179f6eee79a98632d763ee2810bab146a6527a0182b9f8e37da7494bee1"
+      },
+      {
+        "path": "profiles/catalog/ifx_profile/evidence-lineage.json",
+        "old": "d286f52749b236356d633dce1177999a9427cef8b363ed615707ec8ae5ce930c",
+        "new": "eeafc2df0eafa003dd9182217ffded2115d6a022168cf3123dc2d9531c1c51c6"
+      },
+      {
+        "path": "profiles/catalog/ifx_profile/profile.json",
+        "old": "b7aac25f5cefbaf4d99023a71e29130da283debbe7446e160b42d7f1cb385023",
+        "new": "a8558812fb66d2071c42023ae67f27eff309573ee5af8224bba75f02bf5b99c4"
+      }
+    ],
+    "addedPackageFiles": [],
+    "removedPackageFiles": [],
+    "moduleDeclarationsAndCeilingsIdentical": true,
+    "manifestDifferences": "version 0.4.2 -> 0.4.3, baseVersion 1.1.4 -> 1.1.5, profile entry hash, changed file hashes"
+  },
+  "certification": {
+    "decision": {
+      "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\c6c-decision.json",
+      "sha256": "8ef606c24be2d86a50319ad36f7b713e8ab6fa3281505a5fcbb73f131b284959"
+    },
+    "summary": {
+      "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-115\\c6c-full\\summary.json",
+      "sha256": "7fc401257022fa08503949300428467d68819bc039e4b08ac6942c0dc987e8d0"
+    },
+    "windowsProductCertification": "pass",
+    "controls": "pass",
+    "linuxPortability": {
+      "blocking": false,
+      "status": "advisory-fail",
+      "semanticProjection": "not-evaluated",
+      "reasonCodes": [
+        "linux-complete-failed",
+        "semantic-projection-not-evaluated"
+      ],
+      "diagnostic": "Linux direct-post returned adapter-failure: module ifx-database-evidence exceeded its declared 60 s timeout in the pinned offline container (V4.RUNTIME, detector v4-host). Windows product certification, including ifx-database-evidence, passed; module bytes are identical to 0.4.2. Non-blocking under C6c22.",
+      "processDiagnostics": [
+        "linux process exited 1"
+      ],
+      "predecessorLinux": "0.4.2: Linux direct-post and dependency-post passed; the independent matrix then stopped on the tracked-source-clean precondition."
+    }
+  },
+  "requiredAuthority": {
+    "authorityType": "human-review",
+    "authorityId": "xiaolong-feng",
+    "candidateHostVerdictAllowed": false
+  },
+  "decisionBoundary": {
+    "startAuthorizationIsAcceptance": false,
+    "syntheticReviewIsAcceptance": false,
+    "c6eAuthorized": false,
+    "instruction": "Review the exact packet and explicitly accept or reject it. Do not compose before acceptance."
+  }
+}

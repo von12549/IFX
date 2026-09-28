@@ -1,0 +1,86 @@
+{
+  "formatVersion": 2,
+  "status": "pass",
+  "scope": "ifx-windows-product-certification",
+  "sourceCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+  "productCertification": {
+    "targetProduct": "IFX",
+    "deploymentPlatform": "windows-server",
+    "status": "pass",
+    "blockingRequirements": [
+      "windows-full",
+      "certification-controls"
+    ],
+    "reasonCodes": []
+  },
+  "portabilityAssessment": {
+    "platform": "linux-x64",
+    "blocking": false,
+    "status": "advisory-fail",
+    "semanticProjection": "not-evaluated",
+    "reasonCodes": [
+      "linux-complete-failed",
+      "semantic-projection-not-evaluated"
+    ],
+    "processExitCode": 1,
+    "provenCoreCases": 0,
+    "diagnostics": [
+      "linux process exited 1"
+    ],
+    "report": null,
+    "matrixReport": null,
+    "caseManifest": null,
+    "failureEvidence": [
+      {
+        "path": "linux/linux-failure-direct-post.json",
+        "sha256": "c2153931b43351f25d3b9244754cd6a1dbf0863beeb7833437e810d6f541fa93"
+      }
+    ]
+  },
+  "v4PackageReleaseCertification": "not-adjudicated",
+  "execution": {
+    "linuxImage": "ifx-c6c-sdk:10.0.303",
+    "linuxImageDigest": "sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773",
+    "inspectedLinuxImageDigest": "sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773",
+    "network": "none"
+  },
+  "windows": {
+    "reportSha256": "356616e523bc27f7d2dd2657f8428d7cb4e39b26a4e6bf275ce7f0bdfe7ee437",
+    "caseManifestSha256": "44aa4d4e020ded43be38c5b9a0f8d0e84f45a863a52306de0aba911f95061c04",
+    "provenCoreCases": 191
+  },
+  "controls": {
+    "reportSha256": "46ab4385a323f9ac356e7efcae9932bc00a4fa2e971a07c6b9d232372a12bf5f",
+    "capabilityVariantCount": 180,
+    "lockControlCount": 42
+  },
+  "processes": [
+    {
+      "name": "windows-matrix",
+      "startedAt": "2026-09-28T04:34:12.4207075+00:00",
+      "completedAt": "2026-09-28T04:56:15.3639705+00:00",
+      "elapsedSeconds": 1322.98,
+      "exitCode": 0,
+      "stdoutSha256": "586059e752104e0c29233ad78cc429365c19c326b620a135ee743b00ac513cb6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "controls",
+      "startedAt": "2026-09-28T04:34:12.4341557+00:00",
+      "completedAt": "2026-09-28T04:56:15.3982438+00:00",
+      "elapsedSeconds": 1323.002,
+      "exitCode": 0,
+      "stdoutSha256": "4142954e5b36d529aadf35ca35dcafc34cc3732dc280841ef643a0a567a738df",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "linux",
+      "startedAt": "2026-09-28T04:34:12.4424128+00:00",
+      "completedAt": "2026-09-28T05:02:03.5632512+00:00",
+      "elapsedSeconds": 1671.167,
+      "exitCode": 1,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "30b0472df54d6e1ccf6d39830c7c12c527e3808646e5285e3835b831567bdf6f"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "clean": {
+    "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-t7-clean-043",
+    "head": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+    "insideWorkTree": true,
+    "detached": true,
+    "status": []
+  },
+  "violating": {
+    "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-t7-violating-043",
+    "head": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+    "insideWorkTree": true,
+    "detached": null,
+    "status": [
+      "?? src/Modules/CRM/IFX.Modules.CRM.Domain/T7R5Fault.cs"
+    ]
+  }
+}

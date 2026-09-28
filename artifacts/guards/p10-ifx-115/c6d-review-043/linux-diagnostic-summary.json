@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "kind": "t7-r4-linux-timeout-diagnostic-summary",
+  "status": "diagnosed",
+  "request": "operator: 先查Linux超时 (2026-09-28)",
+  "certificationUnchanged": true,
+  "container": {
+    "image": "ifx-c6c-sdk:10.0.303",
+    "digest": "sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773",
+    "network": "none",
+    "cpuCount": 12
+  },
+  "findings": [
+    "Isolated Host direct-post (no concurrent Windows matrix or controls) reproduced the timeout 3/3 before the 1-hour Type lock expired (attempt 2 run records: status error, adapter-failure, 'module ifx-database-evidence timed out.'); host workspace evidence production alone took 70-72 s.",
+    "The ifx-database-evidence adapter run alone in the same container passes every time but needs 84-85 s (direct scan) and 73-74 s (with Host workspace evidence) against the declared 60 s module timeout.",
+    "The workload is identical to 0.4.2: the database source inventory has the same 1152 files and 138 lock files, and the module bytes are identical.",
+    "A same-day 0.4.2 baseline could not be timed: its 24-hour database lock has expired, so its adapter stops at the staleness check."
+  ],
+  "conclusion": "Not caused by 0.4.3 content. The 60 s timeout of ifx-database-evidence is too tight for Linux container file I/O over a Windows bind mount on this machine today; the 0.4.2 run's margin was not recorded. Windows (the IFX product platform) passes. Linux remains a non-blocking advisory under C6c22, and the Linux compatibility bridge stays required (P10.3).",
+  "followUp": "A later bundle version could raise or platform-scale the ifx-database-evidence timeout after measurement; this needs its own Plan and is outside T7.",
+  "records": {
+    "linux-diag-adapter-043.json": "b981c0251942474cf804b1f011a81a59284ffd4816fb8376ad73f7ed9fe0f417",
+    "linux-diag-attempt3.json": "9a9a4c2d43d4295436447a535ebbdb162d5ba1928382c0be3da3c7d8188c4b54",
+    "Invoke-LinuxDbTimingDiag.ps1": "2312e10438b971f8c92066c11b2109732ff4b9d59ba74afd99f3151e84e2cfab"
+  }
+}

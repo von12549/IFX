@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "runId": "486963e4e35d4d0b95bac07f8b76bfeb",
+  "stage": "post",
+  "status": "error",
+  "exitCategory": "adapter-failure",
+  "executedStages": [
+    "post"
+  ],
+  "profile": {
+    "id": "ifx_profile",
+    "version": "0.4.3",
+    "sha256": "a8558812fb66d2071c42023ae67f27eff309573ee5af8224bba75f02bf5b99c4"
+  },
+  "roots": {
+    "packageRoot": "/out/linux/work/composed/package",
+    "targetRoot": "/out/linux/native-checkout",
+    "stateRoot": "/out/linux/work/host-state-direct-post",
+    "evidenceRoot": "/out/linux/work/host-evidence"
+  },
+  "authorityHashes": {
+    "package": "25fd95fa4f8e56190aa5993ddc7efde99c3aafd8a185fbb7cdaead8efa1369c6",
+    "profile": "a8558812fb66d2071c42023ae67f27eff309573ee5af8224bba75f02bf5b99c4",
+    "workspaceEvidence": "9601ddb1cc3750eb230177feee88301bf4a2e5e0b159f3d6842ed2307f047378"
+  },
+  "moduleResults": [],
+  "findings": [
+    {
+      "ruleId": "V4.RUNTIME",
+      "subject": "module ifx-database-evidence timed out.",
+      "evidenceKind": "runtime",
+      "detectorId": "v4-host",
+      "severity": "blocking"
+    }
+  ],
+  "coverage": []
+}

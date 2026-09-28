@@ -1,0 +1,110 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "verification": "installed-host-and-host-query-match",
+  "installedRuntime": {
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.5-ifx-0.4.3",
+    "packageHash": "25fd95fa4f8e56190aa5993ddc7efde99c3aafd8a185fbb7cdaead8efa1369c6",
+    "profileId": "ifx_profile",
+    "profileVersion": "0.4.3",
+    "profileSha256": "a8558812fb66d2071c42023ae67f27eff309573ee5af8224bba75f02bf5b99c4"
+  },
+  "cases": {
+    "clean": {
+      "targetRoot": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-t7-clean-043",
+      "projectId": "38b7421c1f378e98c62bf758a134dfc3",
+      "runId": "3f0960ceae0e4039b96bd34adbf286c1",
+      "hostExitCode": 0,
+      "resultChannel": "stdout",
+      "status": "pass",
+      "exitCategory": "success",
+      "moduleCount": 10,
+      "passedModuleCount": 10,
+      "failedModules": [],
+      "findings": [],
+      "coverageClaimCount": 22,
+      "allCoverageNonVacuous": true,
+      "profileSha256": "a8558812fb66d2071c42023ae67f27eff309573ee5af8224bba75f02bf5b99c4",
+      "packageHash": "25fd95fa4f8e56190aa5993ddc7efde99c3aafd8a185fbb7cdaead8efa1369c6",
+      "stageResultSha256": "e59059e48f356611b4d454d2b81436d5c2375eda9d41abfa170935cc7de6bbf4",
+      "query": {
+        "listedStatus": "pass",
+        "listedExitCategory": "success",
+        "listedFindingCount": 0,
+        "listedCoverageCount": 22,
+        "listedResultSha256": "e59059e48f356611b4d454d2b81436d5c2375eda9d41abfa170935cc7de6bbf4",
+        "evidenceResultSha256": "e59059e48f356611b4d454d2b81436d5c2375eda9d41abfa170935cc7de6bbf4",
+        "evidenceStageStatus": "pass",
+        "evidenceFindingCount": 0,
+        "evidenceCoverageCount": 22,
+        "runsSha256": "f27cbee29d4f1e16ed78a98dd68144dd849e843a59655d3f9ffb589d15b7ae09",
+        "evidenceSha256": "39f02b44b85749603fd39cde1d81973b2405a23baee16482aa754a56f68c000c"
+      }
+    },
+    "violating": {
+      "targetRoot": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-t7-violating-043",
+      "projectId": "f0989d58b5fa1d846cdd139368237296",
+      "runId": "638854b943c54030b0405881b017729e",
+      "hostExitCode": 16,
+      "resultChannel": "stderr",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "moduleCount": 10,
+      "passedModuleCount": 9,
+      "failedModules": [
+        "ifx-source-policy"
+      ],
+      "findings": [
+        {
+          "ruleId": "IMPORT-DIRECTION",
+          "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/T7R5Fault.cs:1: IFX.Modules.CRM.Domain -> IFX.Modules.CRM.Contracts",
+          "evidenceKind": "source-import",
+          "detectorId": "ifx-source-policy",
+          "severity": "blocking"
+        }
+      ],
+      "coverageClaimCount": 22,
+      "allCoverageNonVacuous": true,
+      "profileSha256": "a8558812fb66d2071c42023ae67f27eff309573ee5af8224bba75f02bf5b99c4",
+      "packageHash": "25fd95fa4f8e56190aa5993ddc7efde99c3aafd8a185fbb7cdaead8efa1369c6",
+      "stageResultSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "query": {
+        "listedStatus": "fail",
+        "listedExitCategory": "findings-blocking",
+        "listedFindingCount": 1,
+        "listedCoverageCount": 22,
+        "listedResultSha256": "63b4046b42f735bc467e274aa898d023bec9ad5289ea0996c3a4a1833e2ea5e6",
+        "evidenceResultSha256": "63b4046b42f735bc467e274aa898d023bec9ad5289ea0996c3a4a1833e2ea5e6",
+        "evidenceStageStatus": "fail",
+        "evidenceFindingCount": 1,
+        "evidenceCoverageCount": 22,
+        "runsSha256": "7f557ff5f0db0c9b027e089496f74e3ea9d5245b3d6b7b836fc0d1d388cf2060",
+        "evidenceSha256": "b74d4a83c5fb1ed31655a5c86750fdfb6cec01485df8604985e5b4bc67063d9b"
+      }
+    }
+  },
+  "checks": {
+    "cleanPass": true,
+    "cleanNonVacuous": true,
+    "violatingBlocks": true,
+    "deliberateFinding": true,
+    "violatingNonVacuous": true,
+    "profileIdentity": true,
+    "hostQueriesAgree": true,
+    "protectedRootsUnchanged": true,
+    "gitFactsUnchanged": true
+  },
+  "preInventoryDigests": {
+    "baseInstallation": "9488883981a2266004ff1df78c27b05f50a10e8014a4b8fccd0592e69e8190cd",
+    "bundle": "17d2ea1da2171903b40df10c5c28a619611f130f729095c2da53d7b3b1c694ed",
+    "cleanTarget": "01729c936938d6f3970fb487a8ba46deddc034e8ca7c3eebd36f6ec1cbbeb907",
+    "violatingTarget": "cc89a53fd9edda9f942b759dee8a612048ba0958417d05e318a19c3a0c1782e0"
+  },
+  "postInventoryDigests": {
+    "baseInstallation": "9488883981a2266004ff1df78c27b05f50a10e8014a4b8fccd0592e69e8190cd",
+    "bundle": "17d2ea1da2171903b40df10c5c28a619611f130f729095c2da53d7b3b1c694ed",
+    "cleanTarget": "01729c936938d6f3970fb487a8ba46deddc034e8ca7c3eebd36f6ec1cbbeb907",
+    "violatingTarget": "cc89a53fd9edda9f942b759dee8a612048ba0958417d05e318a19c3a0c1782e0"
+  },
+  "installedWebUi": "deferred-to-p10-gate-successor"
+}
