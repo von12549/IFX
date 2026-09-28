@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "roots": {
+    "baseInstall": {
+      "root": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6",
+      "fileCount": 141,
+      "sha256": "e01fe4eb046f64b0da8e1b2e8e3ae541fd9c5ad7277dad5132e965e296ef76e3"
+    },
+    "composedInstall": {
+      "root": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4",
+      "fileCount": 400,
+      "sha256": "642b78f20d062371e85dcaebb3e9e41b3be644b5afb909a049104bd53919a6ce"
+    },
+    "cleanTarget": {
+      "root": "D:/IFX-Root/guard-runtime/fixtures/ifx-i1-clean-044",
+      "fileCount": 4255,
+      "sha256": "ccc73e8ba73511b551e79a003d1fa8cf51c07f36f27c62183efa325c75a39e76"
+    },
+    "violatingTarget": {
+      "root": "D:/IFX-Root/guard-runtime/fixtures/ifx-i1-violating-044",
+      "fileCount": 4256,
+      "sha256": "e7b8651b371a83aa29d26bba29241a6dcb7841620f28d8ca443a26aaf0fb9ad6"
+    }
+  }
+}

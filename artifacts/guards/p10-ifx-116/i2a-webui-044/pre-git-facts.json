@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "clean": {
+    "root": "D:/IFX-Root/guard-runtime/fixtures/ifx-i1-clean-044",
+    "head": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+    "detached": true,
+    "status": []
+  },
+  "violating": {
+    "root": "D:/IFX-Root/guard-runtime/fixtures/ifx-i1-violating-044",
+    "head": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+    "detached": true,
+    "status": [
+      "?? src/Modules/CRM/IFX.Modules.CRM.Domain/I1S7Fault.cs"
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "formatVersion": 1,
+  "step": "A6",
+  "scan": "v3-dependency-scan.json (status fail: 70 runtime-classified hits in 400 files)",
+  "classification": {
+    "v4ProductCoreAndHost": {
+      "runtimeDependency": false,
+      "hits": [
+        "package/core/certification/Test-V4SupplyChain.ps1: the V4 supply-chain check that forbids V3/V3_ifx/LayerGuard paths (the check itself, not a dependency)"
+      ]
+    },
+    "ifxBundleProvenanceOnly": {
+      "runtimeDependency": false,
+      "description": "Module policies bind their V3_ifx rule origin by path and SHA-256; adapters compare the recorded path strings only and read their own packaged policy. Covers all ten Pre modules.",
+      "example": "ifx-provider-cycle adapter lines 71-73 compare policy.sourcePolicy/sourceG03/sourceRule paths; the provider graph is packaged in policy.json"
+    },
+    "ifxBundleRuntimeCouplings": [
+      {
+        "module": "ifx-c1-type-provenance",
+        "stage": "post",
+        "kind": "V3 runtime dependency",
+        "reads": [
+          "docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+          "docs/guards/V3_ifx/stages/post/policy/layerguard.json"
+        ],
+        "evidence": "adapter.ps1 lines 109-110 (Resolve-Input from TargetRoot)"
+      },
+      {
+        "module": "ifx-c1-evaluated-reference",
+        "stage": "post",
+        "kind": "lab-tree dependency (not V3)",
+        "reads": [
+          "docs/guards/candidates/ifx-gate-coverage-c1n/.../policy.json",
+          "docs/guards/candidates/ifx-gate-coverage-c1e/.../policy.json"
+        ],
+        "evidence": "adapter.ps1 line 55 (policy.sourcePolicies)"
+      },
+      {
+        "module": "ifx-g03-governance-core, ifx-g05-governance",
+        "stage": "post",
+        "kind": "V3-generated IFX architecture data",
+        "reads": [
+          "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"
+        ],
+        "evidence": "policy projectionPath / authorities"
+      }
+    ]
+  },
+  "assessment": "The installed Web UI record (A1-A5) is complete. The V4 product has no V3 runtime dependency. The IFX bundle 0.4.4 has two Post-stage runtime couplings (V3_ifx authorities; docs/guards/candidates policies) and one V3-generated data input; all three belong to the I2-B bundle redesign and to I3 (V3 retirement).",
+  "operatorDecision": {
+    "decision": "option-1",
+    "statement": "1",
+    "decidedAt": "2026-09-29",
+    "meaning": "The P10.GATE condition \"no V3 runtime dependency exists in V4\" is assessed on the V4 product (core and Host) and passes. The three IFX bundle couplings are known issues moved into the I2-B bundle redesign (0.5.0)."
+  }
+}

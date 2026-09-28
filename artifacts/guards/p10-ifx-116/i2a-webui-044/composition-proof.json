@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "kind": "local-extension-composition",
+  "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4",
+  "productVersion": "1.1.6",
+  "packageHash": "bea54366341289bda0d82dd9bfb9c0653864ff614ebc9ddebbeda47ff090d37a",
+  "receiptSha256": "a75e67bc7ff993968cf4906bea2568f5d306987316033c068b72c875f96047fd",
+  "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+  "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+  "scope": "production"
+}

@@ -113,6 +113,23 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
   Each prerequisite needs its own exact Plan and authorization. This also covers IFX's own protection
   of its Profile, bundle, review records and workflow (see Guard V4-TODO-015).
 
+  Progress (program Plan `20260929-v4-ifx-i2-p10-gate-successor`, phases I2-A to I2-G):
+
+  - **I2-A is done (2026-09-29).** The installed Web UI record for 1.1.6 + 0.4.4 is complete:
+    - clean Pre passes, run `a28e2de2…`: 10 modules, 22 non-vacuous claims;
+    - the deliberate fault blocks with `IMPORT-DIRECTION`, run `a67ac892…`;
+    - the UI and Host projections are identical, and all roots are unchanged;
+    - decision `artifacts/guards/p10-ifx-116/i2a-webui-044/i2a-decision.json`.
+
+    The V4 product has no V3 runtime dependency (operator decision "1"). Bundle 0.4.4 has three Post-stage
+    couplings, which move into the I2-B bundle redesign:
+    - `ifx-c1-type-provenance` reads two `docs/guards/V3_ifx` authorities;
+    - `ifx-c1-evaluated-reference` reads policies under `docs/guards/candidates`;
+    - the G03/G05 modules read the V3-generated `layerguard-governance-input.json`.
+  - **I2-B, still open:** CI evidence design and bundle 0.5.0. The Profile must not pin commit-bound,
+    expiring local locks. The workflow must produce its own evidence. The three couplings above must go.
+    IFX-V4-006 is fixed first.
+
 - [x] **IFX-V4-002 — Linux timeout of `ifx-database-evidence` (Guard checklist O20) — COMPLETE (2026-09-29, I1)**
 
   I1 measured the unchanged adapter on the T7 workload (S3, decision D1-A): 1.2–1.7 s on container-native

@@ -1,0 +1,449 @@
+{
+  "formatVersion": 1,
+  "step": "A6",
+  "status": "fail",
+  "installRoot": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4",
+  "scannedFiles": 400,
+  "patterns": {
+    "v3-root": "(?i)docs[/\\\\]guards[/\\\\]V3(_ifx)?([/\\\\]|\\b)",
+    "v3-ifx-name": "(?i)\\bV3_ifx\\b",
+    "v3-command": "(?i)\\b(Invoke-V3(Setup|Docs)?|Invoke-IFXGuardrails|Invoke-IFXTrustedBase|Invoke-IFXArchitecture)\\b",
+    "layerguard": "(?i)layer-?guard"
+  },
+  "runtimeReferences": [
+    {
+      "path": "package/core/certification/Test-V4SupplyChain.ps1",
+      "pattern": "v3-ifx-name",
+      "count": 1,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/core/certification/Test-V4SupplyChain.ps1",
+      "pattern": "layerguard",
+      "count": 2,
+      "sample": "LayerGuard"
+    },
+    {
+      "path": "package/modules/ifx-c1-type-provenance/adapter.ps1",
+      "pattern": "v3-root",
+      "count": 2,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-c1-type-provenance/adapter.ps1",
+      "pattern": "v3-ifx-name",
+      "count": 2,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-c1-type-provenance/adapter.ps1",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-database-evidence/source-inventory.json",
+      "pattern": "v3-root",
+      "count": 1,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-database-evidence/source-inventory.json",
+      "pattern": "v3-ifx-name",
+      "count": 1,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-domain-reference/policy.json",
+      "pattern": "v3-root",
+      "count": 2,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-domain-reference/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 2,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-domain-reference/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-embedded-adapter/policy.json",
+      "pattern": "v3-root",
+      "count": 4,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-embedded-adapter/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 3,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-embedded-adapter/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-g03-catalog-semantics/policy.json",
+      "pattern": "v3-root",
+      "count": 1,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-g03-catalog-semantics/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 1,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-g03-docs-closeout/adapter.ps1",
+      "pattern": "layerguard",
+      "count": 2,
+      "sample": "LayerGuard"
+    },
+    {
+      "path": "package/modules/ifx-g03-docs-closeout/policy.json",
+      "pattern": "v3-root",
+      "count": 2,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-g03-docs-closeout/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 2,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-g03-docs-closeout/policy.json",
+      "pattern": "layerguard",
+      "count": 2,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-g03-governance-core/policy.json",
+      "pattern": "v3-root",
+      "count": 3,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-g03-governance-core/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 3,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-g03-governance-core/policy.json",
+      "pattern": "layerguard",
+      "count": 3,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-g03-snapshots/policy.json",
+      "pattern": "v3-root",
+      "count": 2,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-g03-snapshots/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 2,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-g03-source-reconciliation/policy.json",
+      "pattern": "v3-root",
+      "count": 3,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-g03-source-reconciliation/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 3,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-g04-closeout/adapter.ps1",
+      "pattern": "layerguard",
+      "count": 4,
+      "sample": "LayerGuard"
+    },
+    {
+      "path": "package/modules/ifx-g04-closeout/policy.json",
+      "pattern": "layerguard",
+      "count": 2,
+      "sample": "LayerGuard"
+    },
+    {
+      "path": "package/modules/ifx-g05-carriers/policy.json",
+      "pattern": "layerguard",
+      "count": 4,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-g05-closeout/adapter.ps1",
+      "pattern": "layerguard",
+      "count": 3,
+      "sample": "LayerGuard"
+    },
+    {
+      "path": "package/modules/ifx-g05-closeout/policy.json",
+      "pattern": "layerguard",
+      "count": 7,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-g05-execution-http/policy.json",
+      "pattern": "layerguard",
+      "count": 4,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-g05-governance/adapter.ps1",
+      "pattern": "layerguard",
+      "count": 4,
+      "sample": "layerGuard"
+    },
+    {
+      "path": "package/modules/ifx-g05-governance/policy.json",
+      "pattern": "layerguard",
+      "count": 7,
+      "sample": "layerGuard"
+    },
+    {
+      "path": "package/modules/ifx-g05-inventory/adapter.ps1",
+      "pattern": "layerguard",
+      "count": 2,
+      "sample": "LayerGuard"
+    },
+    {
+      "path": "package/modules/ifx-g05-inventory/policy.json",
+      "pattern": "layerguard",
+      "count": 2,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-g05-protocol/policy.json",
+      "pattern": "layerguard",
+      "count": 5,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-history-integrity/policy.json",
+      "pattern": "layerguard",
+      "count": 17,
+      "sample": "LayerGuard"
+    },
+    {
+      "path": "package/modules/ifx-injection/policy.json",
+      "pattern": "v3-root",
+      "count": 4,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-injection/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 1,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-injection/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-ownership-graph/policy.json",
+      "pattern": "v3-root",
+      "count": 3,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-ownership-graph/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 3,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-ownership-graph/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-package-reference/policy.json",
+      "pattern": "v3-root",
+      "count": 2,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-package-reference/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 2,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-package-reference/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-plan04-abstractions/adapter.ps1",
+      "pattern": "layerguard",
+      "count": 8,
+      "sample": "layerGuard"
+    },
+    {
+      "path": "package/modules/ifx-plan04-abstractions/policy.json",
+      "pattern": "layerguard",
+      "count": 2,
+      "sample": "layerGuard"
+    },
+    {
+      "path": "package/modules/ifx-project-name/policy.json",
+      "pattern": "v3-root",
+      "count": 2,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-project-name/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 2,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-project-name/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-provider-cycle/adapter.ps1",
+      "pattern": "v3-root",
+      "count": 3,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-provider-cycle/adapter.ps1",
+      "pattern": "v3-ifx-name",
+      "count": 3,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-provider-cycle/adapter.ps1",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-provider-cycle/policy.json",
+      "pattern": "v3-root",
+      "count": 3,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-provider-cycle/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 3,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-provider-cycle/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-reference-cycle/policy.json",
+      "pattern": "v3-root",
+      "count": 7,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-reference-cycle/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 2,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-reference-cycle/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-ring-graph/policy.json",
+      "pattern": "v3-root",
+      "count": 2,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-ring-graph/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 2,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-ring-graph/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/modules/ifx-source-policy/policy.json",
+      "pattern": "v3-root",
+      "count": 14,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/modules/ifx-source-policy/policy.json",
+      "pattern": "v3-ifx-name",
+      "count": 9,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/modules/ifx-source-policy/policy.json",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "layerguard"
+    },
+    {
+      "path": "package/profiles/catalog/ifx_profile/profile.json",
+      "pattern": "v3-root",
+      "count": 1,
+      "sample": "docs/guards/V3_ifx/"
+    },
+    {
+      "path": "package/profiles/catalog/ifx_profile/profile.json",
+      "pattern": "v3-ifx-name",
+      "count": 1,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/profiles/catalog/ifx_profile/profile.json",
+      "pattern": "layerguard",
+      "count": 4,
+      "sample": "LayerGuard"
+    }
+  ],
+  "documentationMentions": [
+    {
+      "path": "package/README.md",
+      "pattern": "v3-ifx-name",
+      "count": 1,
+      "sample": "V3_ifx"
+    },
+    {
+      "path": "package/docs/v1-certification.md",
+      "pattern": "layerguard",
+      "count": 1,
+      "sample": "LayerGuard"
+    }
+  ]
+}

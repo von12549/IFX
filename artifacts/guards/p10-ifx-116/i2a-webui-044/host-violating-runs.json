@@ -1,0 +1,23 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "query": "runs",
+  "authority": "v4-host",
+  "projectId": "4268f7bedb2d69c1e48073f8f5790888",
+  "runs": [
+    {
+      "runId": "a67ac892064349af95cd8721694bd37b",
+      "stage": "pre",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "profileId": "ifx_profile",
+      "profileVersion": "0.4.4",
+      "resultSha256": "9c26619f2cd48133d83a93d0023a40635538425eaf46f407fae298f3e6aeaa5f",
+      "executedStages": [
+        "pre"
+      ],
+      "findingCount": 1,
+      "coverageCount": 22
+    }
+  ]
+}

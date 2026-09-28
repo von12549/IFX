@@ -1,0 +1,141 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "i2a-installed-webui-accepted-with-known-bundle-couplings",
+  "planId": "20260929-v4-ifx-i2a-installed-webui",
+  "recordedAt": "2026-09-28T19:13:39.548702Z",
+  "tuple": {
+    "v4": "1.1.6",
+    "ifxProfile": "0.4.4",
+    "packageHash": "bea54366341289bda0d82dd9bfb9c0653864ff614ebc9ddebbeda47ff090d37a",
+    "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d"
+  },
+  "operator": {
+    "browserOperatedBy": "assistant (chrome-devtools, isolated context) at the operator's request",
+    "authorization": "1 授权 2 你操作即可，关键步骤留下截图证据",
+    "a6Decision": "1"
+  },
+  "companion": {
+    "launcher": "package/core/distribution/Invoke-V4ReceiptedWebCompanion.ps1",
+    "profile": "ifx_profile",
+    "address": "http://127.0.0.1:8765",
+    "attempts": [
+      "1: StateRoot/EvidenceRoot must exist (created empty, then relaunched)",
+      "2: port 5319 lies in a Windows excluded port range (5289-5388)",
+      "3: ready on 8765"
+    ]
+  },
+  "installedWebUi": {
+    "clean": {
+      "projectId": "04d53ceb7af97674a3657052a33c83ee",
+      "runId": "a28e2de2c0dc41a2b5969d82bc513e98",
+      "resultSha256": "87602e38964c9d0328a560385255bf311ff1c81444669eed53f5751dc6e03e99",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "coverageClaimCount": 22
+    },
+    "violating": {
+      "projectId": "4268f7bedb2d69c1e48073f8f5790888",
+      "runId": "a67ac892064349af95cd8721694bd37b",
+      "resultSha256": "9c26619f2cd48133d83a93d0023a40635538425eaf46f407fae298f3e6aeaa5f",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "findingCount": 1,
+      "coverageClaimCount": 22
+    },
+    "uiHostProjectionIdentical": true
+  },
+  "invariance": "pass: base, composed installation and both Targets byte-identical; Git facts unchanged; writes only under the new State and Evidence roots",
+  "v3RuntimeDependency": {
+    "v4Product": "none",
+    "ifxBundleKnownCouplings": [
+      "ifx-c1-type-provenance reads docs/guards/V3_ifx rule and layerguard policy",
+      "ifx-c1-evaluated-reference reads docs/guards/candidates policies",
+      "G03/G05 modules read V3-generated layerguard-governance-input.json"
+    ],
+    "movedTo": "I2-B bundle 0.5.0"
+  },
+  "evidence": {
+    "preparation": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/preparation-summary.json",
+      "sha256": "15daaefec882c3d5a890fe78457ee7143ced29ea92c3d6b71ed113ca247ad9c7"
+    },
+    "preInventories": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/pre-inventories.json",
+      "sha256": "1dd5bd6e6d9412a4c7c75d7978038733db8027d3bb8a4ce099524d74ff5b27c9"
+    },
+    "postInventories": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/post-inventories.json",
+      "sha256": "1dd5bd6e6d9412a4c7c75d7978038733db8027d3bb8a4ce099524d74ff5b27c9"
+    },
+    "invariance": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/invariance.json",
+      "sha256": "5de7d73f2e051288e8947e13278f7b9a27a9a3c9ca85efccb6a4706db56dc49a"
+    },
+    "hostAgreement": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/host-agreement.json",
+      "sha256": "0f7d8e50b3355150fc9ec6f27c769c5e8762485b7070cf87c1bc28e43adbc896"
+    },
+    "v3Scan": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/v3-dependency-scan.json",
+      "sha256": "4d93751677583eb40de9044770e38c7c0834b60cd992207f225bebcc1c8a2101"
+    },
+    "v3Classification": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/v3-dependency-classification.json",
+      "sha256": "7e4621b2a4b636d3e046e2d314035d6c1f4d54d04943ee38cd8b9b547ac5883e"
+    },
+    "uiClean": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/ui-clean-raw.json",
+      "sha256": "f3427cbaa4fa6447ced8f46c722141a945991e97ac872ccdc18ed9f8f9883383"
+    },
+    "uiViolating": {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/ui-violating-raw.json",
+      "sha256": "bee6f01e7c3efdf9247fab6ebbad0b24d003fec2ccc2cc38713c87d65caad030"
+    }
+  },
+  "screenshots": [
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/01-console-ifx-profile-clean-target.png",
+      "sha256": "518e53bf4483ed9555708af8cef0ab19b7b9f1d5112f830527826defa46c9540"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/02-clean-pre-pass.png",
+      "sha256": "2d8107cf58936dc4a3a6a50ff19eb5fa5b891691107f1b78f1c51623ac8ea44f"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/02-clean-pre-pass.snapshot.txt",
+      "sha256": "8005dfb9f4b90c39ceb23fb4b45a0c58e8c908c602b0ae84b44560c255885b96"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/03-clean-evidence-desk.png",
+      "sha256": "101aa63a18ac5a4005c8ea9a2b0cd30917aef15e0c818cc246132766434ef5b3"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/04-switch-to-violating-target.png",
+      "sha256": "8eccb3f50f6a1b43129e98d87ae22ce46755729ff9ae1fc8d614acc9f38c9ec8"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/05-violating-pre-blocks-import-direction.png",
+      "sha256": "59bd03f1f53c76164bf025535b047384aa9f881b785ae3f2c38fc81fdc2bef77"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/05-violating-pre-blocks.snapshot.txt",
+      "sha256": "ddb4b82e4197fd4a281c78c8582482effb09cac3e028bca30265bb4984fcbe70"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/06-violating-evidence-desk-raw-json.png",
+      "sha256": "5014d2dbf37a3013e6f1b16ada14132cda2f9f43b25592124eb851ca449d083c"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/i2a-webui-044/screenshots/07-clean-evidence-desk-raw-json.png",
+      "sha256": "90089b8e3a5a27142dfe4f9c8e224fe80f2aca06d07efa2ab7b8b05cca8abafc"
+    }
+  ],
+  "boundary": {
+    "p10GatePassed": false,
+    "published": false,
+    "workflowInstalled": false,
+    "remoteWrites": false
+  }
+}

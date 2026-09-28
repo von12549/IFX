@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "step": "A4",
+  "status": "pass",
+  "cases": [
+    {
+      "id": "clean",
+      "projectId": "04d53ceb7af97674a3657052a33c83ee",
+      "runId": "a28e2de2c0dc41a2b5969d82bc513e98",
+      "resultSha256": "87602e38964c9d0328a560385255bf311ff1c81444669eed53f5751dc6e03e99",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "coverageClaimCount": 22,
+      "checks": {
+        "projectId": true,
+        "runId": true,
+        "resultSha256": true,
+        "fullProjectionEqual": true,
+        "verdict": true,
+        "moduleCount": true,
+        "coverageNonVacuous": true,
+        "findings": true
+      },
+      "pass": true
+    },
+    {
+      "id": "violating",
+      "projectId": "4268f7bedb2d69c1e48073f8f5790888",
+      "runId": "a67ac892064349af95cd8721694bd37b",
+      "resultSha256": "9c26619f2cd48133d83a93d0023a40635538425eaf46f407fae298f3e6aeaa5f",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "findingCount": 1,
+      "coverageClaimCount": 22,
+      "checks": {
+        "projectId": true,
+        "runId": true,
+        "resultSha256": true,
+        "fullProjectionEqual": true,
+        "verdict": true,
+        "moduleCount": true,
+        "coverageNonVacuous": true,
+        "findings": true
+      },
+      "pass": true
+    }
+  ]
+}

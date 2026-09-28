@@ -1,6 +1,6 @@
 # IFX I2-A — installed Web UI hands-on record for V4 Guards 1.1.6 + `ifx_profile` 0.4.4
 
-Status: `ACTIVE — A0–A7 authorized 2026-09-29 ("1 授权 2 你操作即可，关键步骤留下截图证据"); the assistant operates the browser and keeps screenshots; A8 push needs separate authorization`
+Status: `COMPLETE (local) 2026-09-29 — A0–A7 done; A6 assessed by operator decision "1"; A8 push needs separate authorization`
 
 Formal Plan ID: `20260929-v4-ifx-i2a-installed-webui`. Phase I2-A of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -70,3 +70,16 @@ A failure is a V4 or bundle defect handled by its own Plan.
 - `docs/guards/candidates/ifx-i2a`
 - `artifacts/guards/p10-ifx-116/i2a-webui-044`
 - `docs/guards/TODO.md`
+
+## 7. Outcome (2026-09-29)
+
+| Step | Result |
+| --- | --- |
+| A0 | Plan `a5092122` |
+| A1 | Composition verified publicly (package `bea54366…`). Target HEADs `44536a6a`, detached; the clean Target is clean; the violating Target has exactly `I1S7Fault.cs` |
+| A2 | Receipted Companion ready on `127.0.0.1:8765` with `ifx_profile` (37 modules). Attempt 1 failed because the State and Evidence roots must exist; they were created empty and the launch retried. Attempt 2 failed because port 5319 is in a Windows excluded range. Both logs are preserved |
+| A3 | Browser session driven by the assistant (chrome-devtools, isolated context) at the operator's request. Clean Pre passes: run `a28e2de2…`, 10 modules, 0 findings, 22 non-vacuous claims. The violating Pre blocks: run `a67ac892…`, `findings-blocking`, a single `IMPORT-DIRECTION` finding from `ifx-source-policy` on `I1S7Fault.cs`. Evidence desk and raw JSON inspected; 7 screenshots and 2 page snapshots |
+| A4 | Host `query project/runs/evidence`: the UI evidence projections are byte-identical to the Host's for both runs |
+| A5 | Base, composed installation and both Targets are unchanged, and so are the Git facts; 27 files were written under the new State and Evidence roots; no process is left |
+| A6 | The scan as defined fails. Classification: the V4 product (core, Host) has **no** V3 runtime dependency, and most bundle mentions are provenance only. Three Post-stage bundle couplings remain (V3_ifx authorities, `docs/guards/candidates` policies, V3-generated G03 projection). Operator decision "1": the P10.GATE condition is met for the V4 product, and the couplings move to I2-B |
+| A7 | Decision `i2a-webui-044/i2a-decision.json`; `docs/guards/TODO.md` updated (IFX-V4-001 progress, I2-B scope) |

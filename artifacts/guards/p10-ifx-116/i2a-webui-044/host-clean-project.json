@@ -1,0 +1,20 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "query": "project",
+  "authority": "v4-host",
+  "project": {
+    "projectId": "04d53ceb7af97674a3657052a33c83ee",
+    "targetRoot": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-i1-clean-044",
+    "targetIdentityHash": "04d53ceb7af97674a3657052a33c83eebbf68e8dae3f1c75258b19af48167b1b",
+    "bound": true,
+    "profileId": "ifx_profile",
+    "stateDocumentStatus": "valid"
+  },
+  "roots": {
+    "packageRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.4.4\\package",
+    "targetRoot": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-i1-clean-044",
+    "stateRoot": "D:\\IFX-Root\\guard-runtime\\state\\ifx-i2a-044-webui",
+    "evidenceRoot": "D:\\IFX-Root\\guard-runtime\\evidence\\ifx-i2a-044-webui"
+  }
+}
