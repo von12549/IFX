@@ -79,15 +79,15 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
   sources or are removed through protected deletion. LayerGuard-derived source removal is the last
   migration action. Preserve Plan 06 evidence either way and close Plan 06 §20 only after this item.
 
-- [ ] **V4-TODO-008 (IFX side) — Standalone V4 repository**
+- [x] **V4-TODO-008 (IFX side) — Standalone V4 repository**
 
   The product side is tracked in Guard. IFX's part: rebind IFX as a consumer (T7) and remove the
   duplicated product source (T8) only after that consumer gate.
 
   - T7 is done (2026-09-28): IFX consumes V4 Guards 1.1.5 from `von12549/Guard`
     (receipt `v4-adoption/migration/v4-todo-008-ifx-rebinding-receipt.json`).
-  - Remaining: T8, the protected removal of `docs/guards/v4` (A-IFX-DELETE), under its own Plan and
-    authorization.
+  - T8 is done (2026-09-28): `docs/guards/v4` was removed by cleanup commit `ae42e11d` under Plan
+    `20260928-v4-todo-008-t8-ifx-cleanup` (receipt `v4-adoption/migration/v4-todo-008-ifx-cleanup-receipt.json`).
 
 ## Items found during V4-TODO-008 T7
 
@@ -119,3 +119,12 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
 
   Measure the module on native Linux storage, then raise or platform-scale its timeout in a later bundle
   version under its own Plan. Evidence: `artifacts/guards/p10-ifx-115/c6d-review-043/linux-diagnostic-summary.json`.
+
+- [ ] **IFX-V4-003 — C6c Linux leg installs V4 from the removed `docs/guards/v4` (found in T8)**
+
+  The accepted `docs/guards/candidates/ifx-gate-coverage-c6c1/Test-IFXC6DualPlatformCandidate.ps1` runs
+  the V4 installer from the Target's `docs/guards/v4/core/distribution/Install-V4Distribution.ps1`. In T7
+  R3 this installed the 1.1.5 archive on Linux with the incubated installer; the script asserted that
+  the resulting receipt equals the Windows receipt produced by the release's own installer. Since T8 the
+  path is gone, so the next C6c Linux leg fails. The next C6c successor (also needed for IFX-V4-002) must
+  take the installer from the release archive. The accepted script stays unchanged.

@@ -176,7 +176,8 @@
     "activated": false,
     "ifxCutover": false,
     "v3Retired": false,
-    "ifxCoreSourceRemoved": false,
-    "cleanupAuthorized": false
+    "ifxCoreSourceRemoved": true,
+    "cleanupAuthorized": true,
+    "cleanupPlanId": "20260928-v4-todo-008-t8-ifx-cleanup"
   }
 }

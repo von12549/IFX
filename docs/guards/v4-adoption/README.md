@@ -4,11 +4,11 @@ This directory holds IFX's own records for adopting V4 Guards. IFX is a **consum
 product. The product source, releases and trusted-base CI live in the standalone repository
 [`von12549/Guard`](https://github.com/von12549/Guard) (canonical since V4-TODO-008 T7, 2026-09-28).
 
-IFX's open adoption items (V4-TODO-004, the IFX side of V4-TODO-008, IFX-V4-001 and IFX-V4-002) are in
+IFX's open adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-003) are in
 [`../TODO.md`](../TODO.md).
 
-`docs/guards/v4` is the former incubation copy of the product. After T7 it is a frozen, non-canonical
-duplicate that nothing here reads. V4-TODO-008 T8 removes it under its own authorization.
+`docs/guards/v4` was the former incubation copy of the product. V4-TODO-008 T8 removed it on 2026-09-28
+(cleanup receipt below); `git revert` of the recorded cleanup commit restores it.
 
 | Path | Content |
 | --- | --- |
@@ -20,6 +20,7 @@ duplicate that nothing here reads. V4-TODO-008 T8 removes it under its own autho
 | `integrations/github/ifx-cutover-proposal.json` | Inactive cutover proposal, bound to the T7 successor identities |
 | `integrations/github/proposed-v4-ifx-guardrails.yml` | Inactive workflow specimen; fetches V4 only from `von12549/Guard` and pins the archive SHA-256 |
 | `migration/v4-todo-008-ifx-rebinding-receipt.json` | T7 handoff decision and receipt |
+| `migration/v4-todo-008-ifx-cleanup-receipt.json` | T8 cleanup receipt: deleted and retained inventories, rollback commit |
 
 The files 06–09 were moved here with `git mv` from `docs/guards/v4/plans/` and
 `docs/guards/v4/integrations/github/`; their history is intact (`git log --follow`). The accepted P10.1–P10.3

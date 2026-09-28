@@ -92,7 +92,7 @@ Assert-True ($p10.status -ceq 'pass' -and $p10.decision -ceq 'p10-2-parity-accep
 Assert-True ($remote.status -ceq 'pass' -and $remote.mode -ceq 'github-get-only') 'Remote snapshot is not a passing GET-only capture.'
 Assert-True ($remote.ruleset.id -eq 23459908 -and $remote.ruleset.enforcement -ceq 'active' -and $remote.ruleset.strict) 'Live IFX ruleset boundary mismatch.'
 
-function Test-Design($Proposal, [string] $Workflow, [bool] $CoreSourcePresent) {
+function Test-Design($Proposal, [string] $Workflow, [bool] $CoreSourcePresent, $CleanupReceipt) {
     # Accepted P10.3 rules (unchanged semantics).
     $declared = @($required.jobs | Where-Object blocking | ForEach-Object id)
     Assert-True ($Proposal.identity.targetCommit -ceq $c6c.targetCommit -and $windows.sourceCommit -ceq $Proposal.identity.targetCommit -and $r5.targetCommit -ceq $Proposal.identity.targetCommit) 'Target commit is not shared across C6c, R5 and proposal.'
@@ -146,14 +146,24 @@ function Test-Design($Proposal, [string] $Workflow, [bool] $CoreSourcePresent) {
     $bundleBase = Get-EnvValue $Workflow 'IFX_BUNDLE_BASE_PATH'
     Assert-True (-not ([string]$bundleBase).StartsWith('docs/guards/v4/') -and -not ([string]$Proposal.trustedInputs.futureBundleBasePath).StartsWith('docs/guards/v4/')) 'Bundle path falls back to docs/guards/v4.'
     Assert-True ($Workflow -notmatch 'docs/guards/v4/') 'Workflow references the old IFX product source path.'
-    # Premature cleanup: T7 never removes docs/guards/v4; T8 needs its own authorization.
-    Assert-True (-not [bool]$Proposal.boundary.ifxCoreSourceRemoved -and -not [bool]$Proposal.boundary.cleanupAuthorized -and $CoreSourcePresent) 'Cleanup is premature: docs/guards/v4 must remain until T8 is authorized.'
+    # Premature cleanup: docs/guards/v4 may be absent only after the authorized T8 cleanup, proven by the
+    # T8 cleanup receipt binding an existing cleanup commit (V4-TODO-008 T8 amendment of this control).
+    if ($CoreSourcePresent) {
+        Assert-True (-not [bool]$Proposal.boundary.ifxCoreSourceRemoved -and -not [bool]$Proposal.boundary.cleanupAuthorized) 'Cleanup is premature: docs/guards/v4 must remain until T8 is authorized.'
+    } else {
+        Assert-True ([bool]$Proposal.boundary.ifxCoreSourceRemoved -and [bool]$Proposal.boundary.cleanupAuthorized -and $null -ne $CleanupReceipt) 'Cleanup is premature: docs/guards/v4 is absent without the authorized T8 cleanup receipt.'
+        Assert-True ([string]$CleanupReceipt.planId -ceq '20260928-v4-todo-008-t8-ifx-cleanup' -and [string]$CleanupReceipt.status -ceq 'pass' -and [int]$CleanupReceipt.deleted.trackedFileCount -eq 169) 'Cleanup receipt does not bind the authorized T8 Plan.'
+        & git -C $root cat-file -e "$([string]$CleanupReceipt.cleanupCommit)^{commit}" 2>$null
+        Assert-True ($LASTEXITCODE -eq 0) 'Cleanup receipt names a missing cleanup commit.'
+    }
 }
 
 $proposalText = Get-Content -Raw -LiteralPath $paths.proposal
 $workflowText = Get-Content -Raw -LiteralPath $paths.workflow
 $corePresent = Test-Path -LiteralPath (Full 'docs/guards/v4/plugin.json') -PathType Leaf
-Test-Design ($proposalText | ConvertFrom-Json -Depth 100) $workflowText $corePresent
+$cleanupReceiptPath = Full 'docs/guards/v4-adoption/migration/v4-todo-008-ifx-cleanup-receipt.json'
+$cleanupReceipt = if ([IO.File]::Exists($cleanupReceiptPath)) { Get-Content -Raw -LiteralPath $cleanupReceiptPath | ConvertFrom-Json -Depth 100 } else { $null }
+Test-Design ($proposalText | ConvertFrom-Json -Depth 100) $workflowText $corePresent $cleanupReceipt
 
 # Executed negative controls: every mutation must be rejected by the same design checks.
 function Mutate-Json([scriptblock] $Change) { $p = $proposalText | ConvertFrom-Json -Depth 100; & $Change $p; $p }
@@ -164,14 +174,15 @@ $controls = @(
     @{ id = 'missing-bundle'; proposal = $null; workflow = $workflowText.Replace("throw 'The exact IFX bundle has not been published into the trusted base by its separate authorization.'", "Write-Warning 'bundle missing'") },
     @{ id = 'source-path-fallback'; proposal = $null; workflow = $workflowText.Replace('IFX_BUNDLE_BASE_PATH: docs/guards/v4-adoption/', 'IFX_BUNDLE_BASE_PATH: docs/guards/v4/') },
     @{ id = 'candidate-self-judgment'; proposal = $null; workflow = $workflowText.Replace('"$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-rebind-115/Test-IFX115CutoverRollback.ps1"', '"./docs/guards/candidates/ifx-rebind-115/Test-IFX115CutoverRollback.ps1"') },
-    @{ id = 'premature-cleanup'; proposal = (Mutate-Json { param($p) $p.boundary.ifxCoreSourceRemoved = $true }); workflow = $workflowText }
+    @{ id = 'premature-cleanup'; proposal = (Mutate-Json { param($p) $p.boundary.ifxCoreSourceRemoved = $true; $p.boundary.cleanupAuthorized = $true }); workflow = $workflowText; noReceipt = $true }
 )
 $controlResults = [Collections.Generic.List[object]]::new()
 foreach ($control in $controls) {
     Assert-True ($control.workflow -cne $workflowText -or $null -ne $control.proposal) "Negative control did not mutate anything: $($control.id)"
     $candidate = if ($null -ne $control.proposal) { $control.proposal } else { $proposalText | ConvertFrom-Json -Depth 100 }
     $rejected = $false; $message = $null
-    try { Test-Design $candidate $control.workflow $corePresent } catch { $rejected = $true; $message = $_.Exception.Message }
+    $receiptForControl = if ($control.ContainsKey('noReceipt')) { $null } else { $cleanupReceipt }
+    try { Test-Design $candidate $control.workflow $corePresent $receiptForControl } catch { $rejected = $true; $message = $_.Exception.Message }
     Assert-True $rejected "Negative control was accepted: $($control.id)"
     $controlResults.Add([ordered]@{ id = $control.id; actual = 'rejected'; message = $message })
 }
@@ -208,6 +219,6 @@ Write-Json (Join-Path $evidence 'p10-3-successor-decision.json') ([ordered]@{
     remote = [ordered]@{ ifxDevelopmentCommit = $remote.developmentBranch.remoteCommit; rulesetId = $remote.ruleset.id; requiredContextCount = @($remote.ruleset.requiredContexts).Count; guardReleaseTag = $remote.guardRelease.tag; remoteMutationPerformed = $false }
     proof = [ordered]@{ contextOwnershipRows = @($proposal.contextOwnership).Count; detectorOwnershipRows = @($proposal.detectorOwnership).Count; executedNegativeControls = $controlResults.Count; protectedRootsUnchanged = $true }
     activationBlockers = @($proposal.activationPrerequisites)
-    boundary = [ordered]@{ p10_3SuccessorDesignComplete = $true; p10GatePassed = $false; workflowInstalled = $false; rulesetChanged = $false; activated = $false; ifxCutover = $false; ifxCoreSourceRemoved = $false; v3Retired = $false }
+    boundary = [ordered]@{ p10_3SuccessorDesignComplete = $true; p10GatePassed = $false; workflowInstalled = $false; rulesetChanged = $false; activated = $false; ifxCutover = $false; ifxCoreSourceRemoved = (-not $corePresent); cleanupReceiptSha256 = $(if ($null -ne $cleanupReceipt) { (Get-FileHash -Algorithm SHA256 -LiteralPath $cleanupReceiptPath).Hash.ToLowerInvariant() } else { $null }); v3Retired = $false }
 })
 Write-Output "T7 P10.3 successor rehearsal PASS: $evidence"
