@@ -1,4 +1,5 @@
-# INACTIVE P10.3 SPECIMEN. A later exact Plan must install this as .github/workflows/v4-ifx-guardrails.yml.
+# INACTIVE P10.3 SUCCESSOR SPECIMEN. V4-TODO-008 T7 binds V4 Guards 1.1.5 from von12549/Guard.
+# A later exact Plan must install this as .github/workflows/v4-ifx-guardrails.yml.
 name: V4 IFX Guardrails
 
 on:
@@ -14,13 +15,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  V4_RELEASE_TAG: v4-guards-v1.1.4
-  V4_ARCHIVE_NAME: v4-guards-1.1.4.zip
-  V4_ARCHIVE_SHA256: dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d
-  IFX_BUNDLE_BASE_PATH: docs/guards/v4/extensions/ifx/0.4.2
-  IFX_BUNDLE_MANIFEST_SHA256: 82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5
-  IFX_PRODUCTION_REVIEW_SHA256: 871173d4fc27236c06ff0a0c940c6f2d8a8983771b897878261de092826d8ced
-  IFX_TARGET_COMMIT: 40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82
+  V4_RELEASE_REPOSITORY: von12549/Guard
+  V4_RELEASE_TAG: v4-guards-v1.1.5
+  V4_ARCHIVE_NAME: v4-guards-1.1.5.zip
+  V4_ARCHIVE_SHA256: 74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976
+  IFX_BUNDLE_BASE_PATH: docs/guards/v4-adoption/extensions/ifx/0.4.3
+  IFX_BUNDLE_MANIFEST_SHA256: 24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03
+  IFX_PRODUCTION_REVIEW_SHA256: 7619c12e010a4707ef4e23f4f0b0886cdfcefbed96ccd970c31324e5c787542d
+  IFX_TARGET_COMMIT: 1fcc07838c4c37a2ee8518a27f8966f8f5a095f5
 
 jobs:
   v4-ifx-contract:
@@ -46,7 +48,7 @@ jobs:
         run: |
           $input = Join-Path $env:RUNNER_TEMP 'v4-ifx-inputs'
           New-Item -ItemType Directory -Path $input | Out-Null
-          gh release download $env:V4_RELEASE_TAG --repo ${{ github.repository }} --pattern $env:V4_ARCHIVE_NAME --dir $input
+          gh release download $env:V4_RELEASE_TAG --repo von12549/Guard --pattern $env:V4_ARCHIVE_NAME --dir $input
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $archive = Join-Path $input $env:V4_ARCHIVE_NAME
           $archiveHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant()
@@ -63,7 +65,7 @@ jobs:
           if ((Get-FileHash -Algorithm SHA256 -LiteralPath $review).Hash.ToLowerInvariant() -cne $env:IFX_PRODUCTION_REVIEW_SHA256) {
             throw 'IFX production review hash mismatch.'
           }
-          Copy-Item -LiteralPath $trusted -Destination (Join-Path $input 'ifx-0.4.2') -Recurse
+          Copy-Item -LiteralPath $trusted -Destination (Join-Path $input 'ifx-0.4.3') -Recurse
       - uses: actions/upload-artifact@v4
         with:
           name: v4-ifx-inputs-${{ github.sha }}
@@ -106,7 +108,7 @@ jobs:
           Expand-Archive -LiteralPath $archive -DestinationPath $expanded
           pwsh -NoProfile -File (Join-Path $expanded 'package/core/distribution/Install-V4Distribution.ps1') -Mode Install -InstallRoot $base -ReceiptPath $baseReceipt -ArchivePath $archive
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          $bundleBase = Join-Path $input 'ifx-0.4.2'
+          $bundleBase = Join-Path $input 'ifx-0.4.3'
           pwsh -NoProfile -File (Join-Path $base 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $base -BaseReceiptPath $baseReceipt -BaseArchivePath $archive -BundleRoot (Join-Path $bundleBase 'bundle') -ReviewRecordPath (Join-Path $bundleBase 'production-extension-review.json') -OutputInstallRoot $composed -CompositionReceiptPath $composeReceipt -TargetRoot $env:GITHUB_WORKSPACE -StateRoot $state -EvidenceRoot $evidence
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "V4_IFX_COMPOSED=$composed" >> $env:GITHUB_ENV
@@ -153,5 +155,5 @@ jobs:
           CONTRACT_RESULT: ${{ needs.v4-ifx-contract.result }}
           WINDOWS_RESULT: ${{ needs.v4-ifx-windows.result }}
         run: |
-          pwsh -NoProfile -File "$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-cutover-p10-3/Test-IFXP10CutoverRollback.ps1" -Mode Aggregate -ContractResult $env:CONTRACT_RESULT -WindowsResult $env:WINDOWS_RESULT
+          pwsh -NoProfile -File "$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-rebind-115/Test-IFX115CutoverRollback.ps1" -Mode Aggregate -ContractResult $env:CONTRACT_RESULT -WindowsResult $env:WINDOWS_RESULT
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

@@ -2,6 +2,10 @@
 
 Status: `DESIGN AND LOCAL REHEARSAL ACCEPTED — REMOTE ACTIVATION NOT AUTHORIZED`
 
+Historical for the 1.1.4 + 0.4.2 tuple. The current proposal and specimen in `../integrations/github/` are
+the V4-TODO-008 T7 successor bound to V4 Guards 1.1.5 from `von12549/Guard`; see
+`10-p10-3-successor-standalone-1-1-5.md`.
+
 Formal Plan: `20260927-v4-p10-3-cutover-and-rollback-design`.
 
 ## Bound baseline

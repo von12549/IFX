@@ -1,0 +1,26 @@
+# V4 Guards adoption in IFX
+
+This directory holds IFX's own records for adopting V4 Guards. IFX is a **consumer** of the V4 Guards
+product. The product source, releases and trusted-base CI live in the standalone repository
+[`von12549/Guard`](https://github.com/von12549/Guard) (canonical since V4-TODO-008 T7, 2026-09-28).
+
+`docs/guards/v4` is the former incubation copy of the product. After T7 it is a frozen, non-canonical
+duplicate that nothing here reads. V4-TODO-008 T8 removes it under its own authorization.
+
+| Path | Content |
+| --- | --- |
+| `plans/06-ifx-profile-validation-program.md` | P10 program: `ifx_profile` practice, parity and cutover readiness |
+| `plans/07-p10-0-baseline-acceptance.md` | P10.0 released 1.1.0 baseline and Web UI operator evidence |
+| `plans/08-p10-1-extension-composition-compatibility.md` | P10.1 extension composition design and gates |
+| `plans/09-p10-3-cutover-and-rollback-proposal.md` | Accepted P10.3 design for the 1.1.4 + 0.4.2 tuple (historical) |
+| `plans/10-p10-3-successor-standalone-1-1-5.md` | T7 successor: V4 Guards 1.1.5 from `von12549/Guard` + `ifx_profile` 0.4.3 |
+| `integrations/github/ifx-cutover-proposal.json` | Inactive cutover proposal, bound to the T7 successor identities |
+| `integrations/github/proposed-v4-ifx-guardrails.yml` | Inactive workflow specimen; fetches V4 only from `von12549/Guard` and pins the archive SHA-256 |
+| `migration/v4-todo-008-ifx-rebinding-receipt.json` | T7 handoff decision and receipt |
+
+The files 06–09 were moved here with `git mv` from `docs/guards/v4/plans/` and
+`docs/guards/v4/integrations/github/`; their history is intact (`git log --follow`). The accepted P10.1–P10.3
+decision records under `artifacts/guards/p10-ifx-114/` are historical facts and are not edited.
+
+Nothing here is active. Installing the specimen, publishing the IFX bundle, changing a required context
+or ruleset, P10.GATE, cutover and V3 retirement each need their own exact Plan and authorization.

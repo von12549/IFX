@@ -2,6 +2,12 @@
 
 Status: `IN PROGRESS — P10.0–P10.2 and P10.3 design accepted; P10.GATE and remote activation not authorized`
 
+V4-TODO-008 T7 (2026-09-28): the V4 product source moved to the standalone repository `von12549/Guard`,
+and IFX now consumes V4 Guards 1.1.5 from its release. The P10.1–P10.3 evidence was re-run for
+1.1.5 + `ifx_profile` 0.4.3 without editing the accepted 1.1.4 decisions; see
+`10-p10-3-successor-standalone-1-1-5.md`. Paths below that name `docs/guards/v4` as the canonical source
+describe the program before T7.
+
 Formal planning checkpoint: `20260923-v4-ifx-profile-validation-program`
 
 Initial V4 baseline: `v4-guards-v1.1.0`

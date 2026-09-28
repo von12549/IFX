@@ -1,32 +1,43 @@
 {
   "formatVersion": 1,
   "status": "inactive-design-only",
+  "successorOf": {
+    "tuple": "V4 Guards 1.1.4 + ifx_profile 0.4.2",
+    "decision": "p10-3-design-and-local-rehearsal-accepted",
+    "decisionSha256": "529e19b567c05619ec054117e2514c579a908a4e614355411fc28b6d52964964",
+    "previousIdentity": { "targetCommit": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82", "baseArchiveSha256": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d", "bundleManifestSha256": "82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5" },
+    "planId": "20260928-v4-todo-008-t7-ifx-consumer-rebinding"
+  },
   "remoteMutationAuthorized": false,
   "activationBlocked": true,
   "identity": {
-    "targetCommit": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
-    "v4ProductVersion": "1.1.4",
-    "ifxProfileVersion": "0.4.2",
-    "baseArchiveSha256": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d",
-    "bundleManifestSha256": "82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5",
-    "profileSha256": "b7aac25f5cefbaf4d99023a71e29130da283debbe7446e160b42d7f1cb385023",
-    "productionReviewSha256": "871173d4fc27236c06ff0a0c940c6f2d8a8983771b897878261de092826d8ced",
-    "packageSha256": "739e2035b24f42a0d09719bd78d010de9320452086109fbdd95c064f67e5a6c1",
-    "compositionReceiptSha256": "51f5fc11b7fa36e14d83eade699979e31de2d06d3134af9caad9a329fd043345",
-    "c6eDecisionSha256": "94a7c01bd991a7b4371f6d3406b43f58830bdb29740c477db7abdaf2bb0ece22",
-    "p10_2DecisionSha256": "7c5ff243ec452958ffbb08ced46ae6e1a8320f586b9fb71ef0d98f2931934516",
-    "windowsFullSummarySha256": "858b69949c0febc386557f8bb70287d2abe3a7c2af56e6f5aa20b2fbc7de9ff8"
+    "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+    "v4ProductVersion": "1.1.5",
+    "ifxProfileVersion": "0.4.3",
+    "guardRepository": "von12549/Guard",
+    "guardReleaseCommit": "a02ee3c66712c1cc9c3a84676da8ce1cd1bd6286",
+    "baseArchiveSha256": "74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976",
+    "bundleManifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03",
+    "profileSha256": "a8558812fb66d2071c42023ae67f27eff309573ee5af8224bba75f02bf5b99c4",
+    "productionReviewSha256": "7619c12e010a4707ef4e23f4f0b0886cdfcefbed96ccd970c31324e5c787542d",
+    "packageSha256": "25fd95fa4f8e56190aa5993ddc7efde99c3aafd8a185fbb7cdaead8efa1369c6",
+    "compositionReceiptSha256": "6901c54fb4d80d7b556cb5d78be3d4178d27c99299d057f63387c750da91fbcd",
+    "r5DecisionSha256": "b99163765917e7ced4f485e63c7cf627566e743645864edcf106f9a3ca9b94c9",
+    "p10_2DecisionSha256": "443ffdfe9f500168c456dee72452b206ee669958df8848c5fa70fb909962db8b",
+    "windowsFullSummarySha256": "356616e523bc27f7d2dd2657f8428d7cb4e39b26a4e6bf275ce7f0bdfe7ee437"
   },
   "trustedInputs": {
-    "baseReleaseTag": "v4-guards-v1.1.4",
-    "baseReleaseAsset": "v4-guards-1.1.4.zip",
-    "baseReleaseUrl": "https://github.com/von12549/IFX/releases/download/v4-guards-v1.1.4/v4-guards-1.1.4.zip",
-    "futureBundleBasePath": "docs/guards/v4/extensions/ifx/0.4.2",
+    "baseReleaseRepository": "von12549/Guard",
+    "baseReleaseTag": "v4-guards-v1.1.5",
+    "baseReleaseAsset": "v4-guards-1.1.5.zip",
+    "baseReleaseUrl": "https://github.com/von12549/Guard/releases/download/v4-guards-v1.1.5/v4-guards-1.1.5.zip",
+    "baseReleaseDigestPinned": true,
+    "futureBundleBasePath": "docs/guards/v4-adoption/extensions/ifx/0.4.3",
     "bundlePublicationState": "not-published-separate-plan-required",
     "candidateMaySupplyAuthority": false
   },
   "workflow": {
-    "specimenPath": "docs/guards/v4/integrations/github/proposed-v4-ifx-guardrails.yml",
+    "specimenPath": "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml",
     "futureActivePath": ".github/workflows/v4-ifx-guardrails.yml",
     "permissions": { "contents": "read" },
     "secrets": [],
@@ -130,22 +141,29 @@
       "required-context-or-ruleset-drift",
       "evidence-or-target-root-mutation"
     ],
-    "restoreCommit": "c3e055235c51ac8e0394e76135ef7abf3045fb63",
+    "restoreCommit": "42b666acc7762c12eb2d34182537825430825f55",
     "restoreWorkflowPath": ".github/workflows/v3-ifx-guardrails.yml",
     "restoreWorkflowBlob": "51986b5aae2ccdacb52020f21c20b7c12f630726",
     "restoreRulesetId": 23459908,
     "removeV4OnlyAfterV3Green": true
   },
   "negativeControls": [
-    { "id": "remove-v3-before-v4-proof", "expected": "rejected" },
-    { "id": "remove-v4-before-v3-restore", "expected": "rejected" },
-    { "id": "candidate-supplies-bundle", "expected": "rejected" },
-    { "id": "aggregate-job-skipped", "expected": "rejected" },
-    { "id": "unpublished-bundle-activation", "expected": "rejected" }
+    { "id": "remove-v3-before-v4-proof", "expected": "rejected", "executedBy": "p10-3-design" },
+    { "id": "remove-v4-before-v3-restore", "expected": "rejected", "executedBy": "p10-3-design" },
+    { "id": "candidate-supplies-bundle", "expected": "rejected", "executedBy": "p10-3-design" },
+    { "id": "aggregate-job-skipped", "expected": "rejected", "executedBy": "p10-3-design" },
+    { "id": "unpublished-bundle-activation", "expected": "rejected", "executedBy": "p10-3-design" },
+    { "id": "wrong-release-repository", "expected": "rejected", "executedBy": "t7-successor-rehearsal" },
+    { "id": "missing-release-asset", "expected": "rejected", "executedBy": "t7-successor-rehearsal" },
+    { "id": "archive-hash-drift", "expected": "rejected", "executedBy": "t7-successor-rehearsal" },
+    { "id": "missing-bundle", "expected": "rejected", "executedBy": "t7-successor-rehearsal" },
+    { "id": "source-path-fallback", "expected": "rejected", "executedBy": "t7-successor-rehearsal" },
+    { "id": "candidate-self-judgment", "expected": "rejected", "executedBy": "t7-successor-rehearsal" },
+    { "id": "premature-cleanup", "expected": "rejected", "executedBy": "t7-successor-rehearsal" }
   ],
   "activationPrerequisites": [
     "promote-reviewed-v3-workflow-and-p10-evidence-to-default-branch",
-    "publish-exact-ifx-0.4.2-bundle-by-separate-plan",
+    "publish-exact-ifx-0.4.3-bundle-by-separate-plan",
     "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
     "add-v4-ifx-required-to-ruleset-by-separate-plan",
     "complete-coexistence-window-before-removing-any-v3-context"
@@ -157,6 +175,8 @@
     "rulesetChanged": false,
     "activated": false,
     "ifxCutover": false,
-    "v3Retired": false
+    "v3Retired": false,
+    "ifxCoreSourceRemoved": false,
+    "cleanupAuthorized": false
   }
 }

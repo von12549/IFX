@@ -50,6 +50,18 @@
     "r5Decision": {
       "path": "artifacts/guards/p10-ifx-115/r5-043/r5-decision.json",
       "sha256": "b99163765917e7ced4f485e63c7cf627566e743645864edcf106f9a3ca9b94c9"
+    },
+    "p10_2Decision": {
+      "path": "artifacts/guards/p10-ifx-115/p10-2-parity-043/p10-2-decision.json",
+      "sha256": "443ffdfe9f500168c456dee72452b206ee669958df8848c5fa70fb909962db8b"
+    },
+    "p10_2Comparison": {
+      "path": "artifacts/guards/p10-ifx-115/p10-2-parity-043/comparison-with-114.json",
+      "sha256": "2ea06ce168d9e4084ae69795605cee1e63b1bee5371d0b7e66fcdfd20e4d8118"
+    },
+    "remoteSnapshot": {
+      "path": "artifacts/guards/p10-ifx-115/p10-3-successor-043/remote-snapshot.json",
+      "sha256": "da7cd373b1135b7a5ae44e3c00e4e42e9e060e0a8ea229c6509a99bfab0ec7df"
     }
   }
 }
