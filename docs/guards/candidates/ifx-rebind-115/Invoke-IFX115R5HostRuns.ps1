@@ -65,14 +65,13 @@ foreach ($case in @(@{ id = 'clean'; root = $clean; exit = 0 }, @{ id = 'violati
     if ($run.exitCode -ne $case.exit -or $null -eq $run.result) { Fail "Host $($case.id) Pre returned exit $($run.exitCode)." }
     $project = Invoke-Host "project-$($case.id)" @('query','project','--package-root',$package,'--target-root',$case.root,'--state-root',$state,'--evidence-root',$evidence)
     if ($project.exitCode -ne 0) { Fail "Project query failed: $($case.id)" }
-    $projectId = [string]$project.result.projectId
-    if ([string]::IsNullOrWhiteSpace($projectId)) { $projectId = [string]$project.result.project.id }
-    if ([string]::IsNullOrWhiteSpace($projectId)) { Fail "Project ID unavailable: $($case.id)" }
+    $projectId = [string]$project.result['project']['projectId']
+    if ($projectId -cnotmatch '^[a-f0-9]{32}$' -or -not [bool]$project.result['project']['bound']) { Fail "Project ID unavailable or unbound: $($case.id)" }
     $runId = [string]$run.result.runId
     $runs = Invoke-Host "runs-$($case.id)" @('query','runs','--package-root',$package,'--state-root',$state,'--evidence-root',$evidence,'--project',$projectId)
     $ev = Invoke-Host "evidence-$($case.id)" @('query','evidence','--package-root',$package,'--state-root',$state,'--evidence-root',$evidence,'--project',$projectId,'--run',$runId)
     if ($runs.exitCode -ne 0 -or $ev.exitCode -ne 0) { Fail "Host queries failed: $($case.id)" }
-    $listed = @($runs.result.runs | Where-Object { [string]$_.runId -ceq $runId })
+    $listed = @($runs.result['runs'] | Where-Object { [string]$_['runId'] -ceq $runId })
     if ($listed.Count -ne 1) { Fail "Run is not listed exactly once by query runs: $($case.id)" }
     $r = $run.result
     $row = [ordered]@{
@@ -84,7 +83,14 @@ foreach ($case in @(@{ id = 'clean'; root = $clean; exit = 0 }, @{ id = 'violati
         allCoverageNonVacuous = (@($r.coverage | Where-Object { [int]$_.matched -lt [int]$_.minimum -or [int]$_.matched -lt 1 }).Count -eq 0)
         profileSha256 = [string]$r.profile.sha256; packageHash = [string]$r.authorityHashes.package
         stageResultSha256 = $run.stdoutSha256
-        query = [ordered]@{ listedStatus = [string]$listed[0].status; evidenceStatus = [string]$ev.result.status; runsSha256 = $runs.stdoutSha256; evidenceSha256 = $ev.stdoutSha256 }
+        query = [ordered]@{
+            listedStatus = [string]$listed[0]['status']; listedExitCategory = [string]$listed[0]['exitCategory']
+            listedFindingCount = [int]$listed[0]['findingCount']; listedCoverageCount = [int]$listed[0]['coverageCount']
+            listedResultSha256 = [string]$listed[0]['resultSha256']; evidenceResultSha256 = [string]$ev.result['resultSha256']
+            evidenceStageStatus = [string]$ev.result['stageResult']['status']; evidenceFindingCount = @($ev.result['stageResult']['findings']).Count
+            evidenceCoverageCount = @($ev.result['stageResult']['coverage']).Count
+            runsSha256 = $runs.stdoutSha256; evidenceSha256 = $ev.stdoutSha256
+        }
     }
     $cases[$case.id] = $row
 }
@@ -98,7 +104,11 @@ $checks = [ordered]@{
     deliberateFinding = ($expectedFinding.Count -eq 1 -and @($v.findings).Count -eq 1)
     violatingNonVacuous = ($v.coverageClaimCount -eq $c.coverageClaimCount -and $v.allCoverageNonVacuous)
     profileIdentity = ($c.profileSha256 -ceq $profileSha -and $v.profileSha256 -ceq $profileSha -and $profile.version -ceq '0.4.3')
-    hostQueriesAgree = ($c.query.listedStatus -ceq $c.status -and $v.query.listedStatus -ceq $v.status)
+    hostQueriesAgree = (@($c, $v | Where-Object {
+        $_.query.listedStatus -cne $_.status -or $_.query.listedExitCategory -cne $_.exitCategory -or
+        $_.query.listedFindingCount -ne @($_.findings).Count -or $_.query.listedCoverageCount -ne $_.coverageClaimCount -or
+        $_.query.listedResultSha256 -cne $_.query.evidenceResultSha256 -or $_.query.evidenceStageStatus -cne $_.status -or
+        $_.query.evidenceFindingCount -ne @($_.findings).Count -or $_.query.evidenceCoverageCount -ne $_.coverageClaimCount }).Count -eq 0)
 }
 
 # Protected roots and Git facts after the runs.
