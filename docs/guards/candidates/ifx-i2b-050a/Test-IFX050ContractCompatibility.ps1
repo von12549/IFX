@@ -8,7 +8,7 @@ param(
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath = 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$PreviousInventoryPath = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4/package/profiles/catalog/ifx_profile/authority-map.json',
+    [string]$PreviousInventoryPath = 'docs/guards/candidates/ifx-i2b-050a/baseline-044/authority-map.json',
     [string]$SuiteIndexPath = 'artifacts/guards/p10-ifx-i2b/a1-suites/index.json',
     [Parameter(Mandatory)][string]$InventoryPath,
     [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/contract-preflight'
@@ -36,7 +36,7 @@ Assert ((@($workspaceSchemaObject.required) -join '|') -ceq 'formatVersion|scope
 
 $inventory = Get-Content (Full $InventoryPath) -Raw | ConvertFrom-Json -Depth 100
 Assert ($inventory.scope -ceq 'ifx-050a-source-module-claim-inventory' -and $inventory.sourceCommit -ceq $commit -and @($inventory.modules).Count -eq 37) '0.5.0-a inventory drift.'
-$previous = Get-Content $PreviousInventoryPath -Raw | ConvertFrom-Json -Depth 100
+$previous = Get-Content (Full $PreviousInventoryPath) -Raw | ConvertFrom-Json -Depth 100
 Assert ($previous.baseVersion -ceq '1.1.6' -and @($previous.modules).Count -eq 37) '0.4.4 comparison inventory drift.'
 $index = Get-Content (Full $SuiteIndexPath) -Raw | ConvertFrom-Json -Depth 50
 Assert ($index.kind -ceq 'ifx-050a-module-suites' -and $index.summary.passed -eq 25 -and $index.summary.failed -eq 0) 'A1-3 suite index does not record 25 passing modules.'

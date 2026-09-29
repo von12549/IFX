@@ -72,6 +72,14 @@ try {
         caseManifestPath = [string]$matrix.caseManifestPath; caseManifestSha256 = [string]$matrix.caseManifestSha256; provenCoreCases = [int]$matrix.provenCoreCases; gaps = @($matrix.gaps) })
     Write-Output "IFX 0.5.0-a Linux certification passed: $report"
 } finally {
+    # The accepted 0.4.4 suites leave their linked-path fixtures (directory symbolic links) in the matrix evidence.
+    # The archive listing counts regular files only, so each link is recorded in native-links.json and replaced by
+    # a text file naming its target before the archive is made; the link targets stay in the results.
+    try {
+        $links = @(Get-ChildItem -LiteralPath $nativeRoot -Recurse -Force -Attributes ReparsePoint -ErrorAction SilentlyContinue | Where-Object { -not $_.FullName.StartsWith("$target/", [StringComparison]::Ordinal) -and $_.FullName -cne $target } | Sort-Object FullName)
+        $rows = @(foreach ($l in $links) { $row = [ordered]@{ path = [IO.Path]::GetRelativePath($nativeRoot, $l.FullName); target = [string]$l.LinkTarget }; [IO.File]::Delete($l.FullName); [IO.File]::WriteAllText("$($l.FullName).symlink.txt", "$($row.target)`n", [Text.UTF8Encoding]::new($false)); $row })
+        Write-Json (Join-Path $nativeRoot 'native-links.json') ([ordered]@{ formatVersion = 1; links = $rows })
+    } catch { Write-Warning "Symbolic-link recording failed: $($_.Exception.Message)" }
     # IFX-V4-006: one archive of the native results (the checkout excluded), plus the reports the runner reads.
     Copy-IFXI2BNativeResults -NativeRoot $nativeRoot -OutRoot $OutRoot -Exclude @([IO.Path]::GetFileName($target))
 }

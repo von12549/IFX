@@ -5,7 +5,12 @@ Set-StrictMode -Version Latest
 
 $script:Root = $PSScriptRoot
 $script:Repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
-$script:Base044 = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4'
+# The two 0.4.4 inputs, copied byte for byte from the composed 0.4.4 installation (v4-guards-1.1.6-ifx-0.4.4) so that
+# the harness runs on any checkout (the Linux leg has no D: drive). Their hashes are those of the installed files.
+$script:Base044Files = [ordered]@{
+    'profile.json' = '4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51'
+    'authority-map.json' = 'b623af9d686284da673e41a6aa28c631676769f4f8ee36915ec6b859c7c3bf0f'
+}
 
 function Get-IFX050Sha256([string]$Path) { (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
 function Get-IFX050Sha256Text([string]$Text) { [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant() }
@@ -13,6 +18,12 @@ function Get-IFX050Sha256Text([string]$Text) { [Convert]::ToHexString([Security.
 function Write-IFX050Json([string]$Path, $Value) {
     [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($Path)))
     [IO.File]::WriteAllText($Path, (($Value | ConvertTo-Json -Depth 100).Replace("`r`n", "`n") + "`n"), [Text.UTF8Encoding]::new($false))
+}
+
+function Get-IFX050Baseline044Path([ValidateSet('profile.json', 'authority-map.json')][string]$Name) {
+    $path = Join-Path $script:Root "baseline-044/$Name"
+    if ((Get-IFX050Sha256 $path) -cne $script:Base044Files[$Name]) { throw "0.4.4 baseline drift: $Name" }
+    $path
 }
 
 function Get-IFX050Spec {
@@ -29,7 +40,7 @@ function Get-IFX050ModuleRoot([string]$ModuleId) { Join-Path $script:Root "modul
 
 function Get-IFX050SourceModuleRoot([string]$ModuleId) {
     # The 0.4.4 source of a module, as recorded by the composed installation's authority map.
-    $map = Get-Content -LiteralPath (Join-Path $script:Base044 'package/profiles/catalog/ifx_profile/authority-map.json') -Raw | ConvertFrom-Json -Depth 50
+    $map = Get-Content -LiteralPath (Get-IFX050Baseline044Path 'authority-map.json') -Raw | ConvertFrom-Json -Depth 50
     $row = @($map.modules | Where-Object { $_.id -ceq $ModuleId })
     if ($row.Count -ne 1) { throw "Module is not in the 0.4.4 authority map: $ModuleId" }
     Join-Path $script:Repo ([string]$row[0].sourcePath)
@@ -67,7 +78,7 @@ function Update-IFX050ModuleManifest {
 
 function Get-IFX050BaseConfig([string]$ModuleId) {
     # The module's config in the composed 0.4.4 Profile.
-    $profile = Get-Content -LiteralPath (Join-Path $script:Base044 'package/profiles/catalog/ifx_profile/profile.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+    $profile = Get-Content -LiteralPath (Get-IFX050Baseline044Path 'profile.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
     $row = @($profile.moduleSelections | Where-Object { $_.id -ceq $ModuleId })
     if ($row.Count -ne 1) { throw "Module is not selected by the 0.4.4 Profile: $ModuleId" }
     $row[0].config
@@ -130,6 +141,6 @@ function New-IFX050ModuleConfig {
     $config
 }
 
-Export-ModuleMember -Function Get-IFX050Sha256, Get-IFX050Sha256Text, Write-IFX050Json, Get-IFX050Spec, Get-IFX050SpecModule, Get-IFX050ModuleRoot,
+Export-ModuleMember -Function Get-IFX050Baseline044Path, Get-IFX050Sha256, Get-IFX050Sha256Text, Write-IFX050Json, Get-IFX050Spec, Get-IFX050SpecModule, Get-IFX050ModuleRoot,
     Get-IFX050SourceModuleRoot, Copy-IFX050Module, Update-IFX050ModuleManifest, Get-IFX050BaseConfig, New-IFX050ModuleConfig,
     Get-IFX050PinSha256, Get-IFX050TreePin

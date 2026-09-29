@@ -64,7 +64,7 @@ $head = ([string]@(Invoke-CloneGit @('rev-parse', 'HEAD'))[0]).Trim()
 Assert (@(Invoke-CloneGit @('status', '--porcelain', '--untracked-files=all')).Count -eq 0) 'CloneRoot must be clean.'
 $config = New-IFX050ModuleConfig $ModuleId -TargetRoot $clone
 Assert (Test-Json -Json ($config | ConvertTo-Json -Depth 50 -Compress) -SchemaFile (Join-Path $moduleRoot 'config.schema.json') -ErrorAction Stop) 'Config schema failed.'
-$profile044 = Get-Content -LiteralPath 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4/package/profiles/catalog/ifx_profile/profile.json' -Raw | ConvertFrom-Json -Depth 100
+$profile044 = Get-Content -LiteralPath (Get-IFX050Baseline044Path 'profile.json') -Raw | ConvertFrom-Json -Depth 100
 $relativeRoots = @($profile044.projectIdentity.relativeRoots)
 $evidence = [IO.Path]::GetFullPath($EvidenceRoot)
 $runRoot = Join-Path $evidence ("$ModuleId-" + [guid]::NewGuid().ToString('N'))

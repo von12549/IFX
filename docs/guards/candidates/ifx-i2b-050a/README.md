@@ -127,3 +127,7 @@ found by reclassifying the A1-3 captures, the catalogs gained 10 cases: fixed-ch
 for the four checklist evidence modules, two evaluated-graph edges, and the I1 supplemental recipes for G04 and G05
 evidence, handoff and field-governance. `Test-IFX050Module.ps1` gained two staged edit forms for them:
 `find`/`replace`, and `relock` (record an edited evidence file's hash in its lock and reseal).
+
+`baseline-044/` holds the two 0.4.4 inputs the harness reads (`profile.json`, `authority-map.json`), byte copies
+of the composed 0.4.4 installation; `IFX050.Tooling.psm1` pins their hashes. The harness then runs on any checkout,
+including the Linux leg, which has no `D:` drive.

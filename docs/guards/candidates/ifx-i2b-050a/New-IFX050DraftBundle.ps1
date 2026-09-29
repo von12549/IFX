@@ -51,7 +51,7 @@ $basePackage = Join-Path $BaseInstallRoot 'package'
 $baseCheck = & pwsh -NoProfile -File (Join-Path $basePackage 'core/runtime/Test-V4Package.ps1') -PackageRoot $basePackage | ConvertFrom-Json
 Assert ($LASTEXITCODE -eq 0 -and $baseCheck.status -ceq 'pass' -and $baseCheck.packageHash -ceq $inventory.basePackageHash) 'Published Package drift.'
 $spec = Get-IFX050Spec
-$profile044Path = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4/package/profiles/catalog/ifx_profile/profile.json'
+$profile044Path = Get-IFX050Baseline044Path 'profile.json'
 $profile044 = Get-Content $profile044Path -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 Assert ($profile044.version -ceq '0.4.4' -and @($profile044.moduleSelections).Count -eq 37) '0.4.4 Profile drift.'
 

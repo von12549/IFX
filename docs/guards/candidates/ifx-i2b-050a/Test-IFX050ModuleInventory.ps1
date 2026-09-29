@@ -11,7 +11,7 @@ param(
     [string]$ExpectedBaseVersion = '1.1.6',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
     [string]$ExpectedPackageHash = 'a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825',
-    [string]$PredecessorInventoryPath = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4/package/profiles/catalog/ifx_profile/authority-map.json'
+    [string]$PredecessorInventoryPath = 'docs/guards/candidates/ifx-i2b-050a/baseline-044/authority-map.json'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -28,6 +28,7 @@ Assert ($receipt.status -ceq 'installed' -and $receipt.version -ceq $ExpectedBas
 $baseCheck = & pwsh -NoProfile -File (Join-Path $package 'core/runtime/Test-V4Package.ps1') -PackageRoot $package | ConvertFrom-Json
 Assert ($LASTEXITCODE -eq 0 -and $baseCheck.status -ceq 'pass' -and $baseCheck.packageHash -ceq $ExpectedPackageHash) 'Published Package drift.'
 $spec = Get-Content (Join-Path $PSScriptRoot 'change-spec.json') -Raw | ConvertFrom-Json -Depth 50
+if (-not [IO.Path]::IsPathFullyQualified($PredecessorInventoryPath)) { $PredecessorInventoryPath = Join-Path $repo $PredecessorInventoryPath }
 $predecessor = Get-Content $PredecessorInventoryPath -Raw | ConvertFrom-Json -Depth 100
 Assert ($predecessor.status -ceq 'pass' -and @($predecessor.modules).Count -eq 37 -and $predecessor.baseVersion -ceq $ExpectedBaseVersion) '0.4.4 predecessor inventory drift.'
 $g04 = Get-Content (Join-Path $repo 'docs/architecture/review/evidence/gates/G04/G04-phase12-status.json') -Raw | ConvertFrom-Json -Depth 100
