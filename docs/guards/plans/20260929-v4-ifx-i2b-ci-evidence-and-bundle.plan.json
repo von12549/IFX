@@ -12,25 +12,36 @@
     "artifacts/guards/p10-ifx-i2b",
     "docs/guards/TODO.md",
     "docs/guards/candidates/ifx-i2b",
+    "docs/guards/candidates/ifx-i2b-050a",
     "docs/guards/plans/20260929-v4-ifx-i2b-ci-evidence-and-bundle.md",
     "docs/guards/plans/20260929-v4-ifx-i2b-ci-evidence-and-bundle.plan.json",
-    "docs/guards/v4-adoption/plans/12-ci-evidence-design.md"
+    "docs/guards/v4-adoption/README.md",
+    "docs/guards/v4-adoption/integrations/github",
+    "docs/guards/v4-adoption/migration",
+    "docs/guards/v4-adoption/plans/12-ci-evidence-design.md",
+    "docs/guards/v4-adoption/plans/13-p10-3-successor-0-5-0.md"
   ],
   "areas": [
     "GuardDocs"
   ],
   "risks": [
     "Re-attesting V3-produced evidence could be mistaken for V4 ownership.",
-    "Copy-back changes could drop evidence."
+    "Copy-back changes could drop evidence.",
+    "Dropping a live pin could remove a check that depended only on the hash; the A1-2 change specification lists and rewrites such checks."
   ],
   "decisions": [
     "IFX-V4-006 is fixed before any new C6c run.",
-    "Options D-A, D-B and D-C are compared before choosing."
+    "Options D-A, D-B and D-C are compared before choosing.",
+    "B3: pin split accepted; D-B in two steps (0.5.0-a PR-gate rework, 0.5.0-b producer relocation).",
+    "A1: 0.5.0 lock consumers read locks from EvidenceRoot and verify the producer contract; live pins are dropped, governance pins kept."
   ],
   "validationCommands": [
     "plan-validate",
     "harness-controls",
-    "copyback-benchmark"
+    "copyback-benchmark",
+    "module-suites",
+    "pr-gate-controls",
+    "c6c"
   ],
   "dependencies": [
     "20260929-v4-ifx-i2-p10-gate-successor"

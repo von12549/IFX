@@ -1,0 +1,1822 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-a1-pin-classification",
+  "profile": {
+    "version": "0.4.4",
+    "sha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51"
+  },
+  "rules": [
+    {
+      "class": "lab-coupling",
+      "pattern": "^docs/guards/candidates/"
+    },
+    {
+      "class": "v3-coupling",
+      "pattern": "(?i)^docs/guards/V3|^mcp/LayerGuard/|/generated/layerguard-governance-input\\.json$"
+    },
+    {
+      "class": "live-registry",
+      "pattern": "^docs/architecture/review/gates/G03/(contract-event-catalog\\.yaml|snapshots/)|^docs/architecture/review/policies/.*registry[^/]*\\.json$"
+    },
+    {
+      "class": "live-source",
+      "pattern": "^(src|tests|deployment)(/|$)|^docker-compose[^/]*\\.yml$|^IFX\\.sln$|^Directory\\.[^/]+$|^\\.github/CODEOWNERS$"
+    },
+    {
+      "class": "governance",
+      "pattern": "^docs/architecture/review/|^\\.claude/Plans/"
+    }
+  ],
+  "totals": {
+    "modulePathRows": {
+      "live-source": 136,
+      "lab-coupling": 4,
+      "live-registry": 11,
+      "v3-coupling": 3,
+      "provenance-only": 11,
+      "governance": 123
+    },
+    "distinctPaths": {
+      "governance": 119,
+      "lab-coupling": 3,
+      "live-registry": 5,
+      "live-source": 113,
+      "provenance-only": 8,
+      "v3-coupling": 1
+    }
+  },
+  "unclassified": [],
+  "modules": [
+    {
+      "module": "architecture-conformance",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {},
+      "paths": []
+    },
+    {
+      "module": "ifx-c1-type-provenance",
+      "evidenceLock": true,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-source": 4
+      },
+      "paths": [
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/bin/Release/net8.0/IFX.Modules.CRM.Contracts.dll",
+          "key": "assemblies[].sourcePath",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/bin/Release/net8.0/IFX.Platform.Context.Contracts.dll",
+          "key": "assemblies[].sourcePath",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Release/net8.0/IFX.BuildingBlocks.Domain.dll",
+          "key": "assemblies[].sourcePath",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Release/net8.0/IFX.Modules.CRM.Domain.dll",
+          "key": "assemblies[].sourcePath",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-c1-evaluated-reference",
+      "evidenceLock": true,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "lab-coupling": 2
+      },
+      "paths": [
+        {
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+          "key": "sourcePolicies[].path",
+          "class": "lab-coupling"
+        },
+        {
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+          "key": "sourcePolicies[].path",
+          "class": "lab-coupling"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g03-governance-core",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-source": 1,
+        "live-registry": 1,
+        "v3-coupling": 1,
+        "provenance-only": 3
+      },
+      "paths": [
+        {
+          "path": ".github/CODEOWNERS",
+          "key": "codeownersPath",
+          "class": "live-source"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "key": "catalogPath",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "key": "projectionPath",
+          "class": "v3-coupling"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Export-G03LayerGuardGovernance.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03LayerGuardGovernance.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g03-catalog-semantics",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-registry": 1,
+        "provenance-only": 1
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "key": "catalogPath",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+          "key": "sourceScript.path",
+          "class": "provenance-only"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g03-source-reconciliation",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-registry": 1,
+        "provenance-only": 3
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "key": "catalogPath",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03SourceReconciliation.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g03-snapshots",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-registry": 3,
+        "provenance-only": 2
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "key": "catalogPath",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+          "key": "serializationSnapshotPath",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+          "key": "apiSnapshotPath",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g03-docs-closeout",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "governance": 8,
+        "live-registry": 1,
+        "provenance-only": 2,
+        "live-source": 2
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+          "key": "closeoutPath",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "key": "catalogPath",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+          "key": "enPath",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+          "key": "zhPath",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/handoffs/plan01-contracts-handoff.md",
+          "key": "handoffPaths[]",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/handoffs/plan02-events-handoff.md",
+          "key": "handoffPaths[]",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/handoffs/plan03-layerguard-handoff.md",
+          "key": "handoffPaths[]",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/00-G03-contract-event-governance.md",
+          "key": "g03PlanPath",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/03-layerguard-alignment.md",
+          "key": "layerPlanPath",
+          "class": "governance"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03CloseoutReadiness.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        },
+        {
+          "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03Documentation.ps1",
+          "key": "sourceScripts[].path",
+          "class": "provenance-only"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj",
+          "key": "messagingProjectPaths[]",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj",
+          "key": "messagingProjectPaths[]",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g04-manifests",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 19,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-source": 18,
+        "governance": 1
+      },
+      "paths": [
+        {
+          "path": "deployment/g04/backpressure-policy.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/dependency-criticality-catalog.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/deployment-unit-catalog.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/failure-matrix.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/infrastructure-compatibility-matrix.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/module-manifest.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/module-manifest.schema.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/release-evidence-template.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/release-orchestration.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/g04/release-runtime-manifest.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/release-manifest.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "docker-compose.nas.yml",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "docker-compose.yml",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/ADR-G04-001-deployment-runtime-boundary.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g04-runtime",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 20,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-source": 19,
+        "governance": 1
+      },
+      "paths": [
+        {
+          "path": "deployment/g04/backpressure-policy.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "docker-compose.yml",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase3-dependency-review.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/CriticalWorkerBackgroundService.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/HealthSnapshotStore.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainOptions.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeProfileResolver.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/StartupDependencyMonitor.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/InProcessIntegrationEventTransport.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessageBackpressurePolicy.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessagingServiceCollectionExtensions.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RawIntegrationEventReceiver.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RuntimeContracts.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.DatabaseBoundary.Tests/G04DispatcherLeaseConformanceTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.IntegrationTests/Runtime/InboundIntegrationEventTransportAdapterTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.IntegrationTests/Runtime/MessageBackpressurePolicyTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g04-closeout",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 43,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-source": 1,
+        "governance": 42
+      },
+      "paths": [
+        {
+          "path": "deployment/g04/release-evidence-template.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "docs/architecture/review/README.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/final-closure/readiness.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase0-baseline.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase10-automated-acceptance.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase11-documentation.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase12-handoff.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase12-status.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase4-lease-conformance.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase6-health-conformance.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase7-backpressure-conformance.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase8-release-orchestration.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase9-failure-safety.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/plan02/P02-C1-status.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/backpressure-recovery-runbook.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.mmd",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.png",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.svg",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.mmd",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.png",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.svg",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.mmd",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.png",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.svg",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.mmd",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.png",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.svg",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.mmd",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.png",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.svg",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.mmd",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.png",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.svg",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G04/failure-rollback-runbook.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/00-G02-database-boundary.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/00-G04-deployment-runtime-boundary.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/00-prerequisites.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/01-contracts-adapters-refactor.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/02-reliable-integration-events.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/03-layerguard-alignment.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        }
+      ]
+    },
+    {
+      "module": "ifx-plan04-extraction",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [
+        "fixtureTreeSha256"
+      ],
+      "classCounts": {
+        "governance": 2,
+        "live-source": 1
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/policies/plan04/extraction-decision-record.schema.json",
+          "key": "schemaPath",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+          "key": "policyPath",
+          "class": "governance"
+        },
+        {
+          "path": "tests/Architecture/Plan04/Fixtures",
+          "key": "fixtureRoot",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-plan04-tenant",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [
+        "sourceTreeSha256",
+        "fixtureTreeSha256"
+      ],
+      "classCounts": {
+        "live-registry": 1,
+        "governance": 1,
+        "live-source": 14
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json",
+          "key": "registryPath",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/architecture/review/policies/plan04/tenant-query-policy.json",
+          "key": "policyPath",
+          "class": "governance"
+        },
+        {
+          "path": "src",
+          "key": "sourceRoot",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/Repositories/ICorporateInvestorProfileRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/Repositories/IIndividualInvestorProfileRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/Repositories/ITrustInvestorProfileRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Domain/Repositories/IHoldingRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IPolicyDefinitionRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleGroupRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/IIdpRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/Tenancy/IDepartmentRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Presentation/Access/Endpoints/GlobalRoleEndpointExtensions.cs",
+          "key": "endpointPath",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Transaction/IFX.Modules.Transaction.Domain/Repositories/IOrderRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Transaction/IFX.Modules.Transaction.Domain/Repositories/ITransactionRepository.cs",
+          "key": "tenantOwnedContracts[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/Architecture/Plan04/Fixtures",
+          "key": "fixtureRoot",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-plan04-projection",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 9,
+      "profileTreeFingerprints": [
+        "sourceTreeSha256",
+        "fixtureTreeSha256"
+      ],
+      "classCounts": {
+        "governance": 3,
+        "live-registry": 2,
+        "live-source": 6
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/plan04/module-boundary-dependency-graph.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "key": "authorities[].path",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/policies/plan04/projection-registration.schema.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/policies/plan04/projection-registry.json",
+          "key": "authorities[].path",
+          "class": "live-registry"
+        },
+        {
+          "path": "src/Modules",
+          "key": "sourceRoot",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyClassStatusChangedCommand.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyTransactionProcessedCommand.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboxConfiguration.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/Architecture/Plan04/Fixtures",
+          "key": "fixtureRoot",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-plan04-abstractions",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [
+        "fixtureTreeSha256"
+      ],
+      "classCounts": {
+        "live-source": 4,
+        "lab-coupling": 2
+      },
+      "paths": [
+        {
+          "path": "IFX.sln",
+          "key": "solutionPath",
+          "class": "live-source"
+        },
+        {
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/policy.json",
+          "key": "projectNamePolicyPath",
+          "class": "lab-coupling"
+        },
+        {
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+          "key": "referencePolicyPath",
+          "class": "lab-coupling"
+        },
+        {
+          "path": "src",
+          "key": "scanRoots[]",
+          "class": "live-source"
+        },
+        {
+          "path": "tests",
+          "key": "scanRoots[]",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/Architecture/Plan04/Fixtures",
+          "key": "fixtureRoot",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-database-evidence",
+      "evidenceLock": true,
+      "profileAuthorityHashes": 3,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-source": 3
+      },
+      "paths": [
+        {
+          "path": "deployment/migration-safety-policy.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "deployment/release-manifest.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g05-inventory",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 4,
+      "profileTreeFingerprints": [
+        "sourceTreeSha256"
+      ],
+      "classCounts": {
+        "governance": 4
+      },
+      "paths": [
+        {
+          "path": ".claude/Plans/20260908-g05-context-sensitive-data-boundary.md",
+          "key": "authorityPaths[]",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-context-inventory.json",
+          "key": "authorityPaths[]",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase0-baseline.md",
+          "key": "authorityPaths[]",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase0-layerguard-report.json",
+          "key": "authorityPaths[]",
+          "class": "governance"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g05-protocol",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 15,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "governance": 3,
+        "v3-coupling": 1,
+        "live-source": 11
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase1-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase1-protocol-primitives.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "key": "authorities[].path",
+          "class": "v3-coupling"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/context-protocol-v1.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextIdentifiers.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextReferences.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ExecutionScope.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventEnvelopeV1.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventIdentifier.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventSchemaIdentity.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IIntegrationEventV1.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/EventEnvelopeV1Tests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g05-execution-http",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 20,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "governance": 5,
+        "live-source": 16
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase3-http-boundary.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase3-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/execution-context-sources.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpCorrelationMiddleware.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpExecutionContextMiddleware.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpTraceContextMiddleware.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/appsettings.json",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/ExecutionContextSnapshot.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/IExecutionContextAccessor.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules",
+          "key": "presentationRoot",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/CurrentUser.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/ExecutionTenantSelection.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.Modules.IAM.Infrastructure.Tests/Authorization/HttpContextFactTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g05-carriers",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 13,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "governance": 10,
+        "live-source": 3
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase4-contract-context.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase5-event-propagation.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/ContractContextConformanceTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/EventPropagationConformanceTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g05-governance",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 24,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "governance": 6,
+        "live-registry": 1,
+        "v3-coupling": 1,
+        "live-source": 17
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-catalog-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-field-classification.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase7-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase7-observability-security.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "key": "authorities[].path",
+          "class": "live-registry"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "key": "authorities[].path",
+          "class": "v3-coupling"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/observability-security-policy.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/RequestLoggingMiddleware.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Observability/SensitiveLogEventSink.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Observability/SensitiveTelemetryRedactorFactory.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Observability/SensitiveTelemetryRedactor.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/LoginEvent.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Identity/Configurations/LoginEventConfiguration.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands",
+          "key": "transactionHandlersRoot",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/OidcProtocolService.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Notifications/IFX.Platform.Notifications.Composition/NoOpEmailService.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/SendGridEmailService.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.IntegrationTests/Middleware/ExceptionHandlingHttpEndToEndTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "tests/IFX.IntegrationTests/Observability/SensitiveObservabilityTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-g05-closeout",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 20,
+      "profileTreeFingerprints": [
+        "diagramTreeSha256"
+      ],
+      "classCounts": {
+        "governance": 20,
+        "live-source": 1
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase10-documentation-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase10-documentation.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase10-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase11-handoff.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase11-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase11-status.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase8-failure-replay-compatibility.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase8-layerguard-report.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/context-sensitive-data-boundary.zh-CN.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/diagrams",
+          "key": "diagramRoot",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/g04-runtime-handoff.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan03-layerguard-handoff.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/open-items-v1.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/ops-evidence-map-v1.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/00-G05-context-sensitive-data-boundary.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/plans/00-prerequisites.md",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/FailureReplayCompatibilityConformanceTests.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-plan05-security",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 8,
+      "profileTreeFingerprints": [
+        "sourceTreeSha256"
+      ],
+      "classCounts": {
+        "governance": 1,
+        "live-source": 10
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/plan05/compatibility-identifiers.json",
+          "key": "authorities[].path",
+          "class": "governance"
+        },
+        {
+          "path": "src",
+          "key": "sourceRoot",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Authorization/PermissionAuthorizationHandler.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Configuration/OpaConfiguration.cs",
+          "key": "retiredPaths[]",
+          "class": "live-source"
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Application/Access/Abac/Resolver/IAbacPolicyCache.cs",
+          "key": "retiredPaths[]",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/PermissionChecker.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/VerifiedIdentityFacts.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Inbound/ResourceAuthorizationInboundAdapter.cs",
+          "key": "authorities[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-solution-evidence",
+      "evidenceLock": true,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {},
+      "paths": []
+    },
+    {
+      "module": "ifx-assembly-evidence",
+      "evidenceLock": true,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "live-source": 5
+      },
+      "paths": [
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Release/net8.0/IFX.Modules.CRM.Domain.dll",
+          "key": "assemblies[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Domain/bin/Release/net8.0/IFX.Modules.Holdings.Domain.dll",
+          "key": "assemblies[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/bin/Release/net8.0/IFX.Modules.IAM.Domain.dll",
+          "key": "assemblies[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Registry/IFX.Modules.Registry.Domain/bin/Release/net8.0/IFX.Modules.Registry.Domain.dll",
+          "key": "assemblies[].path",
+          "class": "live-source"
+        },
+        {
+          "path": "src/Modules/Transaction/IFX.Modules.Transaction.Domain/bin/Release/net8.0/IFX.Modules.Transaction.Domain.dll",
+          "key": "assemblies[].path",
+          "class": "live-source"
+        }
+      ]
+    },
+    {
+      "module": "ifx-frontend-evidence",
+      "evidenceLock": true,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {},
+      "paths": []
+    },
+    {
+      "module": "ifx-history-integrity",
+      "evidenceLock": false,
+      "profileAuthorityHashes": 0,
+      "profileTreeFingerprints": [],
+      "classCounts": {
+        "governance": 16
+      },
+      "paths": [
+        {
+          "path": "docs/architecture/review/evidence/03-a1-layerguard-policy-binding-status.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B1-report.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-report.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-validation-status.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/plan00-prerequisite-release-status.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/plan00-prerequisite-release.md",
+          "key": "references[].target",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/plan04/phase0-baseline-status.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "docs/architecture/review/evidence/plan04/phase2-audit-status.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "mcp/LayerGuard/baselines/b0.5.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "mcp/LayerGuard/baselines/b1.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "mcp/LayerGuard/baselines/b2.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "mcp/LayerGuard/baselines/b3.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "mcp/LayerGuard/baselines/b4.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "mcp/LayerGuard/baselines/plan05.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "mcp/LayerGuard/baselines/plan06.json",
+          "key": "entries[].path",
+          "class": "governance"
+        },
+        {
+          "path": "mcp/LayerGuard/baselines/plan07.json",
+          "key": "entries[].path",
+          "class": "governance"
+        }
+      ]
+    }
+  ]
+}

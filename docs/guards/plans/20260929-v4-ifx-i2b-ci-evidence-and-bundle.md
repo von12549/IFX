@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; the implementation amendment needs a separate authorization`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R4 taken 2026-09-29; A1-6 C6c and A1-10 push need authorization`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -143,3 +143,122 @@ Operator statement: "A 接受，B 是 。授权推送".
 Next: an amendment to this Plan with the concrete 0.5.0-a module changes, harness successors (using the B1
 archive copy-back) and the C6 chain re-run. It is executed only after its own authorization. IFX-V4-005 needs
 its own IFX product Plan before any option builds and tests the solution in CI.
+## 9. Amendment A1 — bundle 0.5.0-a, the PR-gate rework
+
+A1 implements the first D-B step chosen at B3. It produces `ifx_profile` 0.5.0: every Post module checks the
+current commit and still blocks real violations. Relocating the V3-wrapping producers is the second step,
+0.5.0-b, under its own amendment.
+
+### 9.1 Scope, from the recorded classification
+
+Record: `artifacts/guards/p10-ifx-i2b/a1-design/pin-classification.json` (run 008). It classifies every repository
+path named by a 0.4.4 Post module policy, by ordered path rules:
+
+| Class | Distinct paths | A1 action |
+| --- | --- | --- |
+| governance — `docs/architecture/review/**`, `.claude/Plans/**`, history-integrity entries | 119 | keep the Profile/policy pin; a change needs a bundle update |
+| live-source — `src`, `tests`, `deployment`, compose files, `IFX.sln`, `Directory.*`, `.github/CODEOWNERS` | 113 | drop the pin; the module's predicates run on current content |
+| live-registry — G03 catalog, two G03 snapshots, two Plan04 registries | 5 | drop the pin; reconcile with current source (ruling R1) |
+| v3-coupling — V3-generated `layerguard-governance-input.json` (G03 core, G05 protocol, G05 governance) | 1 | replace (ruling R2) |
+| lab-coupling — `docs/guards/candidates` policies read by `ifx-c1-evaluated-reference` and `ifx-plan04-abstractions` | 3 | embed into the module |
+| provenance-only — G03 `sourceScripts` (never read by the adapter) | 8 | unchanged |
+
+Four couplings are hard-coded in adapters or the Profile rather than named by policy, and are also removed:
+
+- `ifx-c1-type-provenance` reads two V3_ifx files;
+- the generated producer pins the V3 scanner source;
+- `workspaceEvidence.relativeRoots` includes `V3_ifx/…/specialized`;
+- the frontend producer sets a fixed Windows `PATH`.
+
+The 0.4.4 checks already evaluate content. `g04-runtime` and the G05 modules use regex predicates;
+`g05-inventory` counts surfaces in every `src/**/*.cs`. The hash pins sit in front of those checks as freshness
+locks. Removing a live pin therefore keeps the check and removes only the snapshot condition. Any check found to
+depend on the hash alone is listed in the change specification (A1-2) and rewritten.
+
+Module dispositions:
+
+- **Unchanged: the 10 Pre modules, `architecture-conformance` (built into the base) and `ifx-history-integrity`
+  (all pins are historical records).**
+- **Lock binding (6):**
+  - `ifx-solution-evidence`, `ifx-assembly-evidence`, `ifx-frontend-evidence`;
+  - `ifx-database-evidence` (also pin split);
+  - `ifx-c1-type-provenance` (also coupling);
+  - `ifx-c1-evaluated-reference` (also coupling).
+- **Pin split (19 more):**
+  - G03: core, catalog semantics, source reconciliation, snapshots, docs closeout;
+  - G04: manifests, runtime, closeout;
+  - Plan04: extraction, tenant, projection, abstractions;
+  - G05: inventory, protocol, execution/HTTP, carriers, governance, closeout;
+  - `ifx-plan05-security`.
+
+### 9.2 Lock binding by producer contract
+
+- **Profile.** The 0.5.0 Profile no longer carries `evidenceLockPath` or `evidenceLockSha256`.
+- **Where the lock lives.** Each lock consumer reads `locks/<gate>/evidence-lock.json` and its evidence files from
+  EvidenceRoot. The type consumer and `architecture-conformance` also read `assembly-manifest.json` and the four
+  DLLs there.
+- **What the module verifies.**
+  - The producer id.
+  - The producer script SHA-256 values, pinned in the module policy.
+  - `targetCommit` equal to HEAD.
+  - The freshness window, unchanged: 24 h or 1 h.
+  - The source-tree fingerprint and the hash of every listed evidence file.
+  - The lineage between locks.
+  - Missing evidence is `prerequisite-missing`; anything else inconsistent is `integrity-failure`.
+- **Staging.** A staging script (`candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1`) runs the seven
+  producers in C6 chain order and writes that layout. It is used by the harness and, from 0.5.0-b on, by the
+  workflow.
+- **Cost of this choice.** Relocating the producers in 0.5.0-b changes their hashes. That step therefore issues
+  0.5.1, with its own C6 chain.
+
+### 9.3 Steps
+
+| Step | Action | Gate |
+| --- | --- | --- |
+| A1-0 | Operator rulings R1–R4 (§9.4); commit this amendment and the classification record | **Operator** |
+| A1-1 | IFX-V4-005 fixed under its own IFX product Plan (the drain test), before A1-6 | Separate Plan and authorization |
+| A1-2 | **Change specification** `candidates/ifx-i2b-050a/change-spec.json`. For each of the 37 modules: disposition, removed and kept pins, and whether each check depends on content or only on the hash. New versions: changed modules go from 0.1.x to 0.2.0. Rewrites for hash-only checks | Local commit; operator reads the spec |
+| A1-3 | Module successors under `candidates/ifx-i2b-050a/modules/<id>`, each with its suite. New suite cases per changed module: (a) a benign edit to a formerly pinned live file still passes; (b) a rule-breaking edit still blocks; (c) an edited governance file is still `integrity-failure`. Lock consumers also reject a missing lock, an expired lock, a wrong commit, a forged producer hash and a tampered evidence file | Local commits; suites pass |
+| A1-4 | Harness successors under `candidates/ifx-i2b-050a/`. **Pipeline:** inventory; contract handshake (0.4.4 → 0.5.0, changed claims re-qualified, not inherited); draft bundle builder (Profile without lock or live pins); focused qualification. **C6c tests:** regenerated matrix contract and fixture spec, independent matrix, and C6c with the Linux leg using `IFXI2B.NativeArchive.psm1`. **Harness controls** add the **PR-gate cases**: synthetic PR commits on a clean clone with producers re-run at each commit — a benign `src` edit passes Post, a rule-breaking edit blocks with the expected rule, a governance edit fails closed | Local commits; controls pass |
+| A1-5 | Readiness: two deterministic candidates (A/B), focused qualification, controls | Local |
+| A1-6 | **Single C6c** for 0.5.0 (Windows matrix, controls, Linux on native storage with archive copy-back) | **Authorization** |
+| A1-7 | C6d review packet; **human review** of the changed claims (what "pass" now means per module) | **Operator acceptance** |
+| A1-8 | C6e composition and installed-Host Pre/Post on the S7-style Targets. **P10.2 parity against 0.4.4:** differences expected only where live pins were removed, and each difference listed. **P10.3 successor rehearsal:** new specimen with producer, staging and upload steps; proposal ownership saying "re-attests the V3 producer" until 0.5.0-b | Local |
+| A1-9 | Local verification: V3, V3_ifx and `.github` byte-identical, `git fsck`, `plan validate`, planned paths. Receipt and evidence index | Local |
+| A1-10 | Push the A1 commits | **Authorization** |
+
+### 9.4 Operator rulings needed before A1-2
+
+- **R1 — live registries.** The G03 contract-event catalog, the G03 API and serialization snapshots, and the
+  Plan04 tenant-bypass and projection registries change with ordinary contract work.
+  - *Recommended:* treat them as live. Drop the pin; the existing reconciliation and snapshot checks compare them
+    with the current source.
+  - *Alternative:* keep them pinned as governance. Then every new event or projection needs a bundle update.
+- **R2 — the G03 projection** (`generated/layerguard-governance-input.json`, generated today by the V3 script
+  `Export-G03LayerGuardGovernance.ps1`).
+  - *Recommended:* the G03 core module regenerates the projection from the current catalog, using the IFX export
+    logic embedded in the module, and requires the committed file to equal it. G05 protocol and governance read
+    the checked file.
+  - *Alternative:* keep it pinned as governance, which breaks with R1 "live".
+- **R3 — source location.**
+  - *Recommended:* develop the 0.5.0 modules and harness in the lab tree `docs/guards/candidates/ifx-i2b-050a`, as
+    for every earlier bundle. The curated `docs/guards/v4-adoption` receives only the published bundle (I2-D, per
+    decision 2B).
+  - *Alternative:* develop in `v4-adoption` directly.
+- **R4 — IFX-V4-005 order.**
+  - *Recommended:* fix the drain test under a separate IFX product Plan before the A1-6 C6c, because the chain runs
+    the solution producer and the PR-gate controls re-run it per synthetic commit.
+  - *Alternative:* accept retries in the harness. Not recommended: it hides a product defect.
+
+**Rulings (2026-09-29, operator: "R1-R4都按照推荐项决定"):**
+
+- R1: the registries are live.
+- R2: the G03 core module regenerates the projection.
+- R3: the lab tree `candidates/ifx-i2b-050a`.
+- R4: IFX-V4-005 is fixed first, under its own IFX product Plan.
+
+### 9.5 Out of scope for A1
+
+- the producer relocation (0.5.0-b);
+- the workflow installation, the ruleset, 1A, the V3 allowlist, publishing (I2-D) and V3 retirement;
+- Guard product changes.
