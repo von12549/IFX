@@ -113,16 +113,18 @@ if (-not $SkipPrGate) {
         $t
     }
     function Produce([string]$Target, [string]$Name) { $rec = Join-Path $root "pr-gate/$Name/production.json"; [void][IO.Directory]::CreateDirectory((Split-Path -Parent $rec)); $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $producers -Phase Produce -TargetRoot $Target -RunRecordPath $rec 2>&1); Assert ($LASTEXITCODE -eq 0) "Producers failed ($Name): $($o | Select-Object -Last 5)"; $rec }
-    function Post([string]$Target, [string]$Record, [string]$Name) {
-        $ev = Join-Path $work "pr-evidence-$Name"; $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $producers -Phase Stage -TargetRoot $Target -RunRecordPath $Record -EvidenceRoot $ev 2>&1); Assert ($LASTEXITCODE -eq 0) "Staging failed ($Name): $($o -join ' ')"
+    function Post([string]$Target, [string]$Record, [string]$Name, [string]$StageTarget) {
+        # The evidence is staged from the checkout that produced it (StageTarget; the PR commit itself by default).
+        if (-not $StageTarget) { $StageTarget = $Target }
+        $ev = Join-Path $work "pr-evidence-$Name"; $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $producers -Phase Stage -TargetRoot $StageTarget -RunRecordPath $Record -EvidenceRoot $ev 2>&1); Assert ($LASTEXITCODE -eq 0) "Staging failed ($Name): $($o -join ' ')"
         $state = Join-Path $work "pr-state-$Name"; [void][IO.Directory]::CreateDirectory($state)
         $raw = @(& dotnet (Join-Path $composed 'host/v4-guards.dll') stage run --stage post --package-root (Join-Path $composed 'package') --target-root $Target --state-root $state --evidence-root $ev --profile ifx_profile 2>&1) -join "`n"; $exit = $LASTEXITCODE
         $result = $raw | ConvertFrom-Json -Depth 100
         [IO.File]::WriteAllText((Join-Path $root "pr-gate/$Name/post.json"), $raw + "`n", [Text.UTF8Encoding]::new($false))
         [pscustomobject]@{ exit = $exit; result = $result }
     }
-    function PrCase([string]$Id, [string]$Target, [string]$Record, [string]$Status, [string]$Category, [string]$Rule) {
-        $r = Post $Target $Record $Id; $rules = @($r.result.findings | ForEach-Object ruleId | Sort-Object -Unique)
+    function PrCase([string]$Id, [string]$Target, [string]$Record, [string]$Status, [string]$Category, [string]$Rule, [string]$StageTarget) {
+        $r = Post $Target $Record $Id $StageTarget; $rules = @($r.result.findings | ForEach-Object ruleId | Sort-Object -Unique)
         $ok = $r.result.status -ceq $Status -and $r.result.exitCategory -ceq $Category -and (($Status -ceq 'pass') -eq ($r.exit -eq 0)) -and (-not $Rule -or $rules -ccontains $Rule)
         if ($Status -ceq 'pass') { $ok = $ok -and @($r.result.findings).Count -eq 0 -and @($r.result.coverage | Where-Object { $_.matched -lt $_.minimum }).Count -eq 0 }
         $prCases.Add([ordered]@{ id = $Id; commit = (& git -C $Target rev-parse HEAD).Trim(); production = [IO.Path]::GetRelativePath($root, $Record).Replace('\', '/'); expected = "$Status/$Category$(if ($Rule) { " $Rule" })"; actual = "$($r.result.status)/$($r.result.exitCategory)"; rules = $rules; exitCode = $r.exit; pass = $ok })
@@ -133,7 +135,7 @@ if (-not $SkipPrGate) {
     # Rule-breaking edit: a G04 design decision identifier drifts.
     $breaking = New-PrCommit 'pr-rule-breaking' { param($t) $f = Join-Path $t 'docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md'; [IO.File]::WriteAllText($f, [IO.File]::ReadAllText($f).Replace('G04-D01', 'G04-X01'), [Text.UTF8Encoding]::new($false)) }
     # Evidence produced for another commit (the benign PR) is rejected before the PR's own production.
-    PrCase 'pr-foreign-production' $breaking $benignRecord 'error' 'integrity-failure' $null
+    PrCase 'pr-foreign-production' $breaking $benignRecord 'error' 'integrity-failure' $null $benign
     $breakingRecord = Produce $breaking 'pr-rule-breaking'; PrCase 'pr-rule-breaking' $breaking $breakingRecord 'fail' 'findings-blocking' 'G04-DOCUMENTATION'
     # Governance edit: a file whose pin 0.5.0-a keeps changes without a new bundle.
     $governance = New-PrCommit 'pr-governance' { param($t) [IO.File]::AppendAllText((Join-Path $t 'docs/architecture/review/gates/G05/open-items-v1.json'), "`n") }
