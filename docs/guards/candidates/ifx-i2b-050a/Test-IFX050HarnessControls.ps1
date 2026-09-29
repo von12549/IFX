@@ -132,11 +132,12 @@ if (-not $SkipPrGate) {
     # Benign src edit: a comment in a governed source file.
     $benign = New-PrCommit 'pr-benign-src' { param($t) [IO.File]::AppendAllText((Join-Path $t 'src/ApiHost/IFX.ApiHost/Program.cs'), "`n// synthetic PR: benign comment`n") }
     $benignRecord = Produce $benign 'pr-benign-src'; PrCase 'pr-benign-src' $benign $benignRecord 'pass' 'success' $null
-    # Rule-breaking edit: a G04 design decision identifier drifts.
-    $breaking = New-PrCommit 'pr-rule-breaking' { param($t) $f = Join-Path $t 'docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md'; [IO.File]::WriteAllText($f, [IO.File]::ReadAllText($f).Replace('G04-D01', 'G04-X01'), [Text.UTF8Encoding]::new($false)) }
+    # Rule-breaking edit of a live src input that still builds and passes the tests: the backpressure policy loses
+    # its G04 retry decision code. (A governed document such as the G04 design is a kept pin and fails closed instead.)
+    $breaking = New-PrCommit 'pr-rule-breaking' { param($t) $f = Join-Path $t 'src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessageBackpressurePolicy.cs'; $x = [IO.File]::ReadAllText($f); if (-not $x.Contains('"G04-BACKPRESSURE-RETRY"')) { throw 'Rule-breaking subject absent.' }; [IO.File]::WriteAllText($f, $x.Replace('"G04-BACKPRESSURE-RETRY"', '"NO-RETRY"'), [Text.UTF8Encoding]::new($false)) }
     # Evidence produced for another commit (the benign PR) is rejected before the PR's own production.
     PrCase 'pr-foreign-production' $breaking $benignRecord 'error' 'integrity-failure' $null $benign
-    $breakingRecord = Produce $breaking 'pr-rule-breaking'; PrCase 'pr-rule-breaking' $breaking $breakingRecord 'fail' 'findings-blocking' 'G04-DOCUMENTATION'
+    $breakingRecord = Produce $breaking 'pr-rule-breaking'; PrCase 'pr-rule-breaking' $breaking $breakingRecord 'fail' 'findings-blocking' 'G04-BACKPRESSURE'
     # Governance edit: a file whose pin 0.5.0-a keeps changes without a new bundle.
     $governance = New-PrCommit 'pr-governance' { param($t) [IO.File]::AppendAllText((Join-Path $t 'docs/architecture/review/gates/G05/open-items-v1.json'), "`n") }
     $governanceRecord = Produce $governance 'pr-governance'; PrCase 'pr-governance' $governance $governanceRecord 'error' 'integrity-failure' $null
