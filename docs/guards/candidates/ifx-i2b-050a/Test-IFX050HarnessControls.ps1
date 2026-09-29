@@ -36,14 +36,14 @@ $trackedBefore = @(& git -C $repo status --porcelain --untracked-files=no); Asse
 $root = [IO.Path]::GetFullPath($EvidenceRoot)
 if (Test-Path -LiteralPath $root) { throw "EvidenceRoot must be absent: $root" }
 [void][IO.Directory]::CreateDirectory($root)
-$work = Join-Path ([IO.Path]::GetTempPath()) "ifx-050-harness-controls-$([guid]::NewGuid().ToString('N'))"; [void][IO.Directory]::CreateDirectory($work)
+$work = Join-Path ([IO.Path]::GetTempPath()) "ifx050-h-$([guid]::NewGuid().ToString('N').Substring(0,8))"; [void][IO.Directory]::CreateDirectory($work)
 $cases = [Collections.Generic.List[object]]::new()
 function Case([string]$Id, [bool]$ExpectReject, [scriptblock]$Body) {
     $message = $null; $rejected = $false; $detail = $null
     try { $detail = & $Body } catch { $rejected = $true; $message = $_.Exception.Message }
     $cases.Add([ordered]@{ id = $Id; expected = $(if ($ExpectReject) { 'reject' } else { 'accept' }); actual = $(if ($rejected) { 'reject' } else { 'accept' }); message = $message; detail = $detail; pass = ($rejected -eq $ExpectReject) })
 }
-function Clone-Head([string]$Name) { $t = Join-Path $work $Name; $o = @(& git clone --no-local --quiet $repo $t 2>&1); Assert ($LASTEXITCODE -eq 0) "Clone failed ($Name): $($o -join ' ')"; $t }
+function Clone-Head([string]$Name) { $t = Join-Path $work $Name; $o = @(& git clone --no-local --quiet -c core.longpaths=true $repo $t 2>&1); Assert ($LASTEXITCODE -eq 0) "Clone failed ($Name): $($o -join ' ')"; $t }
 
 # Removed incubation path (IFX-V4-003/004): no 0.5.0-a harness file names docs/guards/v4 in any letter case.
 $oldPattern = '(?i)docs[/\\]guards[/\\]v4[/\\]'
@@ -143,7 +143,7 @@ if (-not $SkipPrGate) {
         $s = Join-Path $work 'snapshot-drift'; $null = Export-IFX050Production -TargetRoot $benign -RunRecordPath $benignRecord -OutRoot $s
         $m = Get-Content (Join-Path $s 'manifest.json') -Raw | ConvertFrom-Json; [IO.File]::AppendAllText((Join-Path $s "tree/$($m.files[0].path)"), 'x')
         # A checkout of the same commit, so only the drifted file can reject the import.
-        $t = Join-Path $work 'snapshot-drift-target'; $o = @(& git clone --no-local --quiet $benign $t 2>&1); Assert ($LASTEXITCODE -eq 0) "Clone failed: $($o -join ' ')"
+        $t = Join-Path $work 'snapshot-drift-target'; $o = @(& git clone --no-local --quiet -c core.longpaths=true $benign $t 2>&1); Assert ($LASTEXITCODE -eq 0) "Clone failed: $($o -join ' ')"
         # Only the drift rejection counts; any other outcome is reported as an acceptance, which fails the case.
         $reason = $null; try { Import-IFX050Production -SnapshotRoot $s -TargetRoot $t } catch { $reason = $_.Exception.Message }
         if ($reason -match 'Snapshot file drift') { throw $reason }

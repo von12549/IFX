@@ -119,7 +119,7 @@ $runRoot=Full $EvidenceRoot; $report=Full $ReportPath
 foreach ($path in @($inventoryFull,$bundle,$reviewFull,$baseInstall,$baseReceipt,$archive)) { Assert (Test-Path -LiteralPath $path) "Required control input missing: $path" }
 Assert (-not (Test-Path -LiteralPath $runRoot)) 'Control EvidenceRoot must be absent.'
 [void][IO.Directory]::CreateDirectory($runRoot)
-$workRoot=Join-Path ([IO.Path]::GetTempPath()) "ifx-050-controls-$([guid]::NewGuid().ToString('N'))"
+$workRoot=Join-Path ([IO.Path]::GetTempPath()) "ifx050-c-$([guid]::NewGuid().ToString('N').Substring(0,8))"
 Assert (-not (Test-Path -LiteralPath $workRoot)) 'Control WorkRoot must be absent.'
 [void][IO.Directory]::CreateDirectory($workRoot)
 [void][IO.Directory]::CreateDirectory((Join-Path $workRoot 'adapter-state'))
@@ -212,7 +212,7 @@ foreach ($writeRoot in @('PackageRoot','TargetRoot')) {
 
 # Staged-evidence controls. One clean checkout of HEAD holds the C6c production; every case stages it afresh.
 Import-Module (Join-Path $PSScriptRoot 'IFX050.Production.psm1') -Force
-$shadow=Join-Path $workRoot 'evidence-shadow'
+$shadow=Join-Path $workRoot 'shadow'
 $clone=@(& git clone --no-local --quiet -c core.longpaths=true $repo $shadow 2>&1); Assert ($LASTEXITCODE -eq 0) "Evidence shadow clone failed: $($clone -join ' ')"
 Assert ((& git -C $shadow rev-parse HEAD).Trim() -ceq $commit) 'Evidence shadow commit drift.'
 $imported=Import-IFX050Production -SnapshotRoot $snapshot -TargetRoot $shadow; $productionRecord=[string]$imported.productionRecord

@@ -50,8 +50,8 @@ try {
     $contract = Join-Path (OnlyChild "$EvidenceRoot/contract-preflight") 'summary.json'
 
     # 3. One production at HEAD on a clean clone (the candidate's Host runs and the focused qualification stage it).
-    $target = Join-Path ([IO.Path]::GetTempPath()) "ifx-050-chain-target-$([guid]::NewGuid().ToString('N'))"
-    $o = @(& git clone --no-local --quiet $repo $target 2>&1); Assert ($LASTEXITCODE -eq 0) "Chain target clone failed: $($o -join ' ')"
+    $target = Join-Path ([IO.Path]::GetTempPath()) "ifx050-t-$([guid]::NewGuid().ToString('N').Substring(0,8))"
+    $o = @(& git clone --no-local --quiet -c core.longpaths=true $repo $target 2>&1); Assert ($LASTEXITCODE -eq 0) "Chain target clone failed: $($o -join ' ')"
     $production = Join-Path $root 'chain-production/production.json'; [void][IO.Directory]::CreateDirectory((Split-Path -Parent $production))
     Step 'production' (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') @('-Phase', 'Produce', '-TargetRoot', $target, '-RunRecordPath', $production)
 

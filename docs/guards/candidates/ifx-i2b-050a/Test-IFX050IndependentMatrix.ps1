@@ -81,7 +81,7 @@ $contractFull = Full $MatrixContractPath; $contractVerifierFull = Full $MatrixCo
 $contractCheck = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $contractVerifierFull -RepositoryRoot $repo -BaseInstallRoot $baseInstall -InventoryPath $inventoryFull -ContractPath $contractFull -ReportPath $contractReport 2>&1)
 Assert ($LASTEXITCODE -eq 0 -and [IO.File]::Exists($contractReport)) "Matrix contract failed: $($contractCheck -join "`n")"
 $contract = Get-Content $contractFull -Raw | ConvertFrom-Json -Depth 100
-$workRoot = Join-Path ([IO.Path]::GetTempPath()) "ifx-050-matrix-$runId"; Assert (-not (Test-Path $workRoot)) 'Matrix work root must be absent.'
+$workRoot = Join-Path ([IO.Path]::GetTempPath()) "ifx050-m-$($runId.Substring(0,8))"; Assert (-not (Test-Path $workRoot)) 'Matrix work root must be absent.'
 [void][IO.Directory]::CreateDirectory($workRoot)
 $workBundle = Join-Path $workRoot 'bundle'; Copy-Item -LiteralPath $bundleFull -Destination $workBundle -Recurse
 $workReview = Join-Path $workRoot 'synthetic-review.json'; Copy-Item -LiteralPath $reviewFull -Destination $workReview
@@ -105,7 +105,7 @@ foreach ($module in $inventory.modules) {
 # The Target clone and its evidence.
 if ($TargetRoot) { $target = Full $TargetRoot } else {
     $target = Join-Path $workRoot 'target'
-    $o = @(& git clone --no-local --quiet $repo $target 2>&1); Assert ($LASTEXITCODE -eq 0) "Target clone failed: $($o -join ' ')"
+    $o = @(& git clone --no-local --quiet -c core.longpaths=true $repo $target 2>&1); Assert ($LASTEXITCODE -eq 0) "Target clone failed: $($o -join ' ')"
 }
 Assert (((& git -C $target rev-parse HEAD) | Out-String).Trim() -ceq $commit) 'Target clone is not at HEAD.'
 Assert (@(& git -C $target status --porcelain --untracked-files=all).Count -eq 0) 'Target clone must be clean.'

@@ -118,8 +118,8 @@ $controlRunner = Join-Path $repo 'docs/guards/candidates/ifx-i2b-050a/Test-IFX05
 $linuxRunner = '/source/docs/guards/candidates/ifx-i2b-050a/Invoke-IFX050LinuxCertification.ps1'
 
 # One production at HEAD on a clean Windows clone; its snapshot serves the controls and the Linux leg.
-$windowsTarget = Join-Path ([IO.Path]::GetTempPath()) "ifx-050-c6c-target-$([guid]::NewGuid().ToString('N'))"
-$cloneOutput = @(& git clone --no-local --quiet $repo $windowsTarget 2>&1); Assert ($LASTEXITCODE -eq 0) "Windows target clone failed: $($cloneOutput -join ' ')"
+$windowsTarget = Join-Path ([IO.Path]::GetTempPath()) "ifx050-w-$([guid]::NewGuid().ToString('N').Substring(0,8))"
+$cloneOutput = @(& git clone --no-local --quiet -c core.longpaths=true $repo $windowsTarget 2>&1); Assert ($LASTEXITCODE -eq 0) "Windows target clone failed: $($cloneOutput -join ' ')"
 $production = Join-Path $root 'production.json'; $productionLog = Join-Path $root 'logs/production.txt'; [void][IO.Directory]::CreateDirectory((Split-Path -Parent $productionLog))
 $productionStarted = [DateTimeOffset]::UtcNow
 $productionOutput = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Produce -TargetRoot $windowsTarget -RunRecordPath $production 2>&1); $productionExit = $LASTEXITCODE
