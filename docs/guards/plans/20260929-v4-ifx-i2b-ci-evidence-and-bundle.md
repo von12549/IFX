@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B2 COMPLETE 2026-09-29; B3 awaits the operator decision; implementation needs a separate authorization`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; the implementation amendment needs a separate authorization`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -127,3 +127,19 @@ Recommendation for B3: **D-B in two steps.**
 2. 0.5.0-b: relocate the V3-wrapping producers with a V3/V4 parity run.
 
 No bundle, Profile, module, remote, workflow or ruleset changed.
+## 8. B3 decision (2026-09-29)
+
+Operator statement: "A 接受，B 是 。授权推送".
+
+- **(a) Accepted: the pin split rule of design note 12, finding F3.**
+  - Pins stay only for governance authorities: ADRs, phase evidence, closeout records and release templates.
+  - Product, test and deployment sources, and whole trees, are evaluated on the current content.
+  - This changes what the certified 0.4.4 modules claim, so the successor modules need a new human review (C6d).
+- **(b) Chosen target: D-B in two steps.**
+  1. 0.5.0-a: the PR-gate rework — lock binding by producer contract, the pin split and the couplings.
+  2. 0.5.0-b: relocate the V3-wrapping producers into `v4-adoption/producers/`, with a V3/V4 parity run.
+- **Push:** B0–B2 were pushed as a fast-forward, `13cf8965..b5cee75f`.
+
+Next: an amendment to this Plan with the concrete 0.5.0-a module changes, harness successors (using the B1
+archive copy-back) and the C6 chain re-run. It is executed only after its own authorization. IFX-V4-005 needs
+its own IFX product Plan before any option builds and tests the solution in CI.

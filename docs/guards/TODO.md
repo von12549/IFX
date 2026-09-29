@@ -126,7 +126,7 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     - `ifx-c1-type-provenance` reads two `docs/guards/V3_ifx` authorities;
     - `ifx-c1-evaluated-reference` reads policies under `docs/guards/candidates`;
     - the G03/G05 modules read the V3-generated `layerguard-governance-input.json`.
-  - **I2-B B0–B2 done (2026-09-29), B3 operator decision open.** Plan
+  - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).
     - B2 found that four of the seven lock producers are V3 gates, so the proposal's ownership of
