@@ -38,13 +38,10 @@ Assert ($LASTEXITCODE -eq 0) "Native Linux checkout failed: $($clone -join ' ')"
 # can otherwise alter source and authority hashes despite the same commit.
 $sourceTracked = @(& git -c core.autocrlf=true -c core.filemode=false -C $SourceRoot status --porcelain --untracked-files=no)
 Assert ($LASTEXITCODE -eq 0 -and ($sourceTracked -join '').Trim().Length -eq 0) 'Bound Windows source has tracked changes.'
-$trackedPaths = @(& git -C $SourceRoot -c core.quotePath=false ls-files)
-Assert ($LASTEXITCODE -eq 0 -and $trackedPaths.Count -gt 4000) 'Bound Windows file inventory unavailable.'
-foreach ($relative in $trackedPaths) {
-    $sourceFile = Join-Path $SourceRoot $relative; $targetFile = Join-Path $TargetRoot $relative
-    [void][IO.Directory]::CreateDirectory((Split-Path -Parent $targetFile))
-    Copy-Item -LiteralPath $sourceFile -Destination $targetFile -Force
-}
+# The bytes are those of the Windows checkout that produced the evidence (production snapshot), not of SourceRoot:
+# a long-lived worktree can hold mixed line endings that a fresh checkout writes differently.
+$sourceCopy = Copy-IFX050ProductionSource -SnapshotRoot $ProductionSnapshotRoot -TargetRoot $TargetRoot
+Assert ([int]$sourceCopy.sourceFileCount -gt 4000) 'Bound Windows file inventory unavailable.'
 # Amendment A5 (I1): re-record the index of this throwaway checkout after the byte copy.
 $checkoutIndexSync = Sync-IFX116CheckoutIndex -TargetRoot $TargetRoot
 foreach ($relativeRoot in @('src', 'tests')) {

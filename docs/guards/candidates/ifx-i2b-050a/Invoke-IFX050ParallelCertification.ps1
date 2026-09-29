@@ -125,7 +125,7 @@ $productionStarted = [DateTimeOffset]::UtcNow
 $productionOutput = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Produce -TargetRoot $windowsTarget -RunRecordPath $production 2>&1); $productionExit = $LASTEXITCODE
 [IO.File]::WriteAllText($productionLog, (($productionOutput -join "`n") + "`n"), [Text.UTF8Encoding]::new($false))
 Assert ($productionExit -eq 0) "Evidence production failed; see $productionLog."
-$snapshotRoot = Join-Path $root 'production'; $snapshot = Export-IFX050Production -TargetRoot $windowsTarget -RunRecordPath $production -OutRoot $snapshotRoot
+$snapshotRoot = Join-Path $root 'production'; $snapshot = Export-IFX050Production -TargetRoot $windowsTarget -RunRecordPath $production -OutRoot $snapshotRoot -IncludeTrackedTree
 $productionEvidence = [ordered]@{ startedAt = $productionStarted.ToString('o'); completedAt = [DateTimeOffset]::UtcNow.ToString('o'); recordSha256 = Hash $production; snapshotManifestSha256 = [string]$snapshot.manifestSha256; snapshotFileCount = [int]$snapshot.fileCount }
 
 $windowsArgs = @('-NoLogo','-NoProfile','-NonInteractive','-File',$windowsRunner,

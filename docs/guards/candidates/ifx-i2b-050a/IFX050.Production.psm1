@@ -10,7 +10,10 @@ function Get-IFX050ProductionHash([string]$Path) { (Get-FileHash -LiteralPath $P
 
 function Export-IFX050Production {
     [CmdletBinding()]
-    param([Parameter(Mandatory)][string]$TargetRoot, [Parameter(Mandatory)][string]$RunRecordPath, [Parameter(Mandatory)][string]$OutRoot)
+    param([Parameter(Mandatory)][string]$TargetRoot, [Parameter(Mandatory)][string]$RunRecordPath, [Parameter(Mandatory)][string]$OutRoot,
+        # Also keep the exact bytes of every tracked file the production read (for a checkout on another platform,
+        # whose Git checkout would write other line endings than the producing checkout).
+        [switch]$IncludeTrackedTree)
     $target = [IO.Path]::GetFullPath($TargetRoot); $out = [IO.Path]::GetFullPath($OutRoot)
     if (Test-Path -LiteralPath $out) { throw "Production snapshot root must be absent: $out" }
     $record = Get-Content -LiteralPath $RunRecordPath -Raw | ConvertFrom-Json -Depth 20
@@ -32,8 +35,17 @@ function Export-IFX050Production {
         $dest = Join-Path $tree $relative; [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($dest)); [IO.File]::Copy($source, $dest)
         $files.Add([ordered]@{ path = $relative; sha256 = Get-IFX050ProductionHash $dest })
     }
+    $sourceFiles = [Collections.Generic.List[object]]::new()
+    if ($IncludeTrackedTree) {
+        if (@(& git -C $target status --porcelain --untracked-files=no).Count -ne 0) { throw 'The producing checkout has tracked changes.' }
+        foreach ($relative in @(& git -C $target -c core.quotePath=false ls-files)) {
+            $source = Join-Path $target $relative; if (-not [IO.File]::Exists($source)) { continue }
+            $dest = Join-Path $out "source/$relative"; [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($dest)); [IO.File]::Copy($source, $dest)
+            $sourceFiles.Add([ordered]@{ path = $relative; sha256 = Get-IFX050ProductionHash $dest })
+        }
+    }
     Copy-Item -LiteralPath $RunRecordPath -Destination (Join-Path $out 'production.json')
-    $manifest = [ordered]@{ formatVersion = 1; kind = 'ifx-050a-production-snapshot'; targetCommit = [string]$record.targetCommit; productionSha256 = Get-IFX050ProductionHash (Join-Path $out 'production.json'); fileCount = $files.Count; files = @($files.ToArray()) }
+    $manifest = [ordered]@{ formatVersion = 1; kind = 'ifx-050a-production-snapshot'; targetCommit = [string]$record.targetCommit; productionSha256 = Get-IFX050ProductionHash (Join-Path $out 'production.json'); fileCount = $files.Count; files = @($files.ToArray()); sourceFileCount = $sourceFiles.Count; sourceFiles = @($sourceFiles.ToArray()) }
     [IO.File]::WriteAllText((Join-Path $out 'manifest.json'), (($manifest | ConvertTo-Json -Depth 10).Replace("`r`n", "`n") + "`n"), [Text.UTF8Encoding]::new($false))
     [ordered]@{ path = $out; fileCount = $files.Count; manifestSha256 = Get-IFX050ProductionHash (Join-Path $out 'manifest.json') }
 }
@@ -59,4 +71,21 @@ function Import-IFX050Production {
     [ordered]@{ productionRecord = $record; fileCount = @($manifest.files).Count; targetCommit = [string]$manifest.targetCommit }
 }
 
-Export-ModuleMember -Function Export-IFX050Production, Import-IFX050Production
+function Copy-IFX050ProductionSource {
+    # Writes the producing checkout's tracked bytes (Export -IncludeTrackedTree) over a checkout of the same commit.
+    [CmdletBinding()]
+    param([Parameter(Mandatory)][string]$SnapshotRoot, [Parameter(Mandatory)][string]$TargetRoot)
+    $snapshot = [IO.Path]::GetFullPath($SnapshotRoot); $target = [IO.Path]::GetFullPath($TargetRoot)
+    $manifest = Get-Content -LiteralPath (Join-Path $snapshot 'manifest.json') -Raw | ConvertFrom-Json -Depth 10
+    if ([int]$manifest.sourceFileCount -lt 1) { throw 'The snapshot holds no tracked source bytes.' }
+    if (((& git -C $target rev-parse HEAD) | Out-String).Trim() -cne [string]$manifest.targetCommit) { throw 'The snapshot is not at the TargetRoot commit.' }
+    $tracked = @(& git -C $target -c core.quotePath=false ls-files | Sort-Object); $listed = @($manifest.sourceFiles | ForEach-Object path | Sort-Object)
+    if (($tracked -join "`n") -cne ($listed -join "`n")) { throw 'The snapshot source list differs from the tracked files of the TargetRoot.' }
+    foreach ($f in $manifest.sourceFiles) {
+        $source = Join-Path $snapshot "source/$($f.path)"; if ((Get-IFX050ProductionHash $source) -cne [string]$f.sha256) { throw "Snapshot source drift: $($f.path)" }
+        $dest = Join-Path $target $f.path; [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($dest)); [IO.File]::Copy($source, $dest, $true)
+    }
+    [ordered]@{ sourceFileCount = @($manifest.sourceFiles).Count; targetCommit = [string]$manifest.targetCommit }
+}
+
+Export-ModuleMember -Function Export-IFX050Production, Import-IFX050Production, Copy-IFX050ProductionSource
