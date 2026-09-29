@@ -14,6 +14,21 @@
       ],
       "status": "error",
       "category": "integrity-failure"
+    },
+    {
+      "id": "checklist-vacuous-tests",
+      "note": "A1-4 matrix Z/V: the lock claims one more test than the locked TRX results hold",
+      "edits": [
+        {
+          "staged": "locks/solution/evidence-lock.json",
+          "json": "$j.totalTests=[int]$j.totalTests+1",
+          "reseal": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "SOLUTION-LOCKED-QUALITY",
+      "code": "nonVacuousSolutionTests"
     }
   ]
 }

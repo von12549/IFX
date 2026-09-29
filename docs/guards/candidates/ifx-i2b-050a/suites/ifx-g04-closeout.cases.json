@@ -109,6 +109,20 @@
       ],
       "status": "error",
       "category": "prerequisite-missing"
+    },
+    {
+      "id": "evidence-phase8-empty",
+      "note": "A1-4 matrix V (I1 c6c4 supplemental recipe): the Phase 8 evidence record is emptied and delivered with a new bundle",
+      "edits": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase8-release-orchestration.md",
+          "write": ""
+        }
+      ],
+      "repin": true,
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-EVIDENCE"
     }
   ]
 }

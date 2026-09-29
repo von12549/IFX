@@ -8,6 +8,7 @@ $script:Repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $script:Base044 = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4'
 
 function Get-IFX050Sha256([string]$Path) { (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
+function Get-IFX050Sha256Text([string]$Text) { [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant() }
 
 function Write-IFX050Json([string]$Path, $Value) {
     [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($Path)))
@@ -129,6 +130,6 @@ function New-IFX050ModuleConfig {
     $config
 }
 
-Export-ModuleMember -Function Get-IFX050Sha256, Write-IFX050Json, Get-IFX050Spec, Get-IFX050SpecModule, Get-IFX050ModuleRoot,
+Export-ModuleMember -Function Get-IFX050Sha256, Get-IFX050Sha256Text, Write-IFX050Json, Get-IFX050Spec, Get-IFX050SpecModule, Get-IFX050ModuleRoot,
     Get-IFX050SourceModuleRoot, Copy-IFX050Module, Update-IFX050ModuleManifest, Get-IFX050BaseConfig, New-IFX050ModuleConfig,
     Get-IFX050PinSha256, Get-IFX050TreePin

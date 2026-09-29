@@ -84,6 +84,20 @@
       ],
       "status": "fail",
       "category": "findings-blocking"
+    },
+    {
+      "id": "evidence-phase1-empty",
+      "note": "A1-4 matrix V (I1 c6c4 supplemental recipe): the Phase 1 evidence record is emptied and delivered with a new bundle",
+      "edits": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase1-protocol-primitives.md",
+          "write": ""
+        }
+      ],
+      "repin": true,
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G05-PROTOCOL-EVIDENCE"
     }
   ]
 }

@@ -22,7 +22,11 @@ param(
     [string]$ExpectedPackageHash = 'a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825',
     [switch]$SkipHost,
     # Lock consumers: the record of the producer runs on CloneRoot (Invoke-IFX050EvidenceProducers.ps1 -Phase Produce).
-    [string]$ProductionRecord
+    [string]$ProductionRecord,
+    # Matrix capture (A1-4): run the adapter of a composed package and record every adapter call in the
+    # independent-matrix record format.
+    [string]$PackageRoot,
+    [string]$CapturePath
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -37,6 +41,13 @@ $packageRoot = $PSScriptRoot
 $moduleRoot = Get-IFX050ModuleRoot $ModuleId
 $manifestPath = Join-Path $moduleRoot 'module.json'
 $adapterPath = Join-Path $moduleRoot 'adapter.ps1'
+if ($PackageRoot) {
+    # The composed package's copy must be byte-identical to the specified successor.
+    $composedModule = Join-Path ([IO.Path]::GetFullPath($PackageRoot)) "modules/$ModuleId"
+    foreach ($f in @('module.json', 'adapter.ps1', 'policy.json', 'config.schema.json')) { if ([IO.File]::Exists((Join-Path $moduleRoot $f))) { Assert ((Get-IFX050Sha256 (Join-Path $composedModule $f)) -ceq (Get-IFX050Sha256 (Join-Path $moduleRoot $f))) "Composed module differs from the successor: $ModuleId/$f" } }
+    $packageRoot = [IO.Path]::GetFullPath($PackageRoot); $adapterPath = Join-Path $composedModule 'adapter.ps1'
+}
+$script:currentCaseId = 'none'
 $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json -AsHashtable -Depth 50
 $basePackage = Join-Path $BaseInstallRoot 'package'
 
@@ -77,11 +88,22 @@ function Invoke-Adapter {
     $env:V4_STAGE_INPUT_JSON = [ordered]@{ formatVersion = 1; stage = 'post'; targetRoot = $clone; packageRoot = $packageRoot; stateRoot = $state; evidenceRoot = $ev
         projectId = 'ifx'; runId = [guid]::NewGuid().ToString('N'); relativeRoots = $relativeRoots; config = $config } | ConvertTo-Json -Depth 60 -Compress
     $before = @(Invoke-CloneGit @('status', '--porcelain', '--untracked-files=all')) -join "`n"
+    $inputForCapture = $env:V4_STAGE_INPUT_JSON
     $output = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $adapterPath 2>&1)
     $exit = $LASTEXITCODE
     Remove-Item Env:V4_STAGE_INPUT_JSON
+    $after = @(Invoke-CloneGit @('status', '--porcelain', '--untracked-files=all')) -join "`n"
+    if ($CapturePath) {
+        # Fixture identity: the case and its edits (the run id and roots vary per call and are left out).
+        $stable = $inputForCapture | ConvertFrom-Json -AsHashtable -Depth 100; foreach ($k in @('runId', 'stateRoot', 'evidenceRoot')) { [void]$stable.Remove($k) }
+        $fixture = "$ModuleId|$($script:currentCaseId)|$(($stable | ConvertTo-Json -Depth 100 -Compress))|$before"
+        $record = [ordered]@{ moduleId = $ModuleId; requested = 'adapter.ps1'; executed = $adapterPath; targetRoot = "$clone#$($script:currentCaseId)"; stage = 'post'
+            inputSha256 = Get-IFX050Sha256Text $inputForCapture; fixtureSha256 = Get-IFX050Sha256Text $fixture; exitCode = $exit; targetBefore = $before; targetAfter = $after; output = ($output -join "`n") }
+        [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($CapturePath)))
+        [IO.File]::AppendAllText($CapturePath, (($record | ConvertTo-Json -Depth 100 -Compress) + "`n"), [Text.UTF8Encoding]::new($false))
+    }
     Assert ($exit -eq 0) "Adapter process failed ($exit): $($output -join "`n")"
-    Assert ((@(Invoke-CloneGit @('status', '--porcelain', '--untracked-files=all')) -join "`n") -ceq $before) 'The adapter changed the Target.'
+    Assert ($after -ceq $before) 'The adapter changed the Target.'
     $result = ($output -join "`n") | ConvertFrom-Json -Depth 100
     Assert (Test-Json -Json ($result | ConvertTo-Json -Depth 60 -Compress) -SchemaFile (Join-Path $moduleRoot 'result.schema.json') -ErrorAction Stop) 'Result schema failed.'
     $result
@@ -129,7 +151,7 @@ function Add-Waiver($Catalog, [string] $Category, [string] $Expires) {
 $script:junctions = [Collections.Generic.List[string]]::new()
 function Remove-Junctions {
     # A junction is removed as a link only (non-recursive), never through its target.
-    foreach ($j in $script:junctions) { if ([IO.Directory]::Exists($j)) { [IO.Directory]::Delete($j, $false) } }
+    foreach ($j in $script:junctions) { if ([IO.Directory]::Exists($j)) { if ($IsWindows) { [IO.Directory]::Delete($j, $false) } else { [IO.File]::Delete($j) } } }
     $script:junctions.Clear()
 }
 function Apply-Edit($Edit) {
@@ -144,7 +166,19 @@ function Apply-Edit($Edit) {
         if ($Edit.PSObject.Properties.Name -contains 'remove' -and $Edit.remove) { Assert ([IO.File]::Exists($full)) "Staged subject absent: $($Edit.staged)"; [IO.File]::Delete($full) }
         elseif ($Edit.PSObject.Properties.Name -contains 'append') { [IO.File]::AppendAllText($full, [string]$Edit.append) }
         elseif ($Edit.PSObject.Properties.Name -contains 'json') { $j = Get-Content -LiteralPath $full -Raw | ConvertFrom-Json -AsHashtable -Depth 100; & ([scriptblock]::Create([string]$Edit.json)); Write-IFX050Json $full $j }
+        elseif ($Edit.PSObject.Properties.Name -contains 'find') { $body = [IO.File]::ReadAllText($full); Assert ($body.Contains([string]$Edit.find)) "Staged edit subject absent in $($Edit.staged): $($Edit.find)"; [IO.File]::WriteAllText($full, $body.Replace([string]$Edit.find, [string]$Edit.replace), [Text.UTF8Encoding]::new($false)) }
         else { throw "Unknown staged edit: $($Edit.staged)" }
+        if ($Edit.PSObject.Properties.Name -contains 'relock' -and $Edit.relock) {
+            # A consistent evidence change (A1-4 matrix fixtures): the gate's lock records the edited file's new hash in
+            # the named field, or in its files[] entry ('files'), and is resealed, so the module's content checks decide.
+            $gateName = ([string]$Edit.staged).Split('/')[1]; $inner = ([string]$Edit.staged).Substring("locks/$gateName/".Length)
+            $lockFull = Join-Path $script:caseEvidence "locks/$gateName/evidence-lock.json"; $l = Get-Content -LiteralPath $lockFull -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+            if ([string]$Edit.relock -ceq 'files') { $hit = @($l.files | Where-Object { ([string]$_.path).EndsWith("/$inner", [StringComparison]::Ordinal) }); Assert ($hit.Count -eq 1) "relock: no single files[] entry for $inner"; $hit[0].sha256 = Hash $full }
+            else { Assert ($l.Contains([string]$Edit.relock)) "relock: lock field absent: $($Edit.relock)"; $l[[string]$Edit.relock] = Hash $full }
+            Write-IFX050Json $lockFull $l
+            $sha = Hash $lockFull
+            Update-Staging $script:caseEvidence { param($j) foreach ($g in $j.gates) { if ($g.gate -ceq $gateName) { $g.lockSha256 = $sha } } }.GetNewClosure()
+        }
         if ($Edit.PSObject.Properties.Name -contains 'reseal' -and $Edit.reseal) {
             $gateName = ([string]$Edit.staged).Split('/')[1]; $sha = Hash $full
             Update-Staging $script:caseEvidence { param($j) foreach ($g in $j.gates) { if ($g.gate -ceq $gateName) { $g.lockSha256 = $sha } } }.GetNewClosure()
@@ -175,7 +209,8 @@ function Apply-Edit($Edit) {
         $copy = Join-Path $runRoot ('junction-target-' + [guid]::NewGuid().ToString('N'))
         Copy-Item -LiteralPath $full -Destination $copy -Recurse
         Remove-Item -LiteralPath $full -Recurse -Force
-        [void](New-Item -ItemType Junction -Path $full -Target $copy)
+        # Linux has no junctions; the Linux leg uses a directory symbolic link, the same linked-path control.
+        [void](New-Item -ItemType $(if ($IsWindows) { 'Junction' } else { 'SymbolicLink' }) -Path $full -Target $copy)
         $script:junctions.Add($full)
         return
     }
@@ -274,6 +309,7 @@ function Get-RepinnedConfig($Case) {
 $results = [Collections.Generic.List[object]]::new()
 try {
     foreach ($case in $cases) {
+        $script:currentCaseId = [string]$case.id
         if ($lockGate) { $script:caseEvidence = Join-Path $runRoot "evidence-$($case.id)"; Stage-Evidence $script:caseEvidence }
         foreach ($e in $case.edits) { if ($e.PSObject.Properties.Name -contains 'harmless') { Add-HarmlessText ([string]$e.path) } else { Apply-Edit $e } }
         $savedConfig = $config

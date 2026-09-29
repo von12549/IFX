@@ -14,6 +14,21 @@
       ],
       "status": "error",
       "category": "integrity-failure"
+    },
+    {
+      "id": "checklist-vacuous-tests",
+      "note": "A1-4 matrix Z/V: the lock claims one more test than the locked run log reports",
+      "edits": [
+        {
+          "staged": "locks/frontend/evidence-lock.json",
+          "json": "$j.testCount=[int]$j.testCount+1",
+          "reseal": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "FRONTEND-LOCKED-QUALITY",
+      "code": "nonVacuousTestsAndBuild"
     }
   ]
 }

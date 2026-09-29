@@ -26,6 +26,21 @@
       ],
       "status": "error",
       "category": "integrity-failure"
+    },
+    {
+      "id": "checklist-report-failed",
+      "note": "A1-4 matrix Z/V: a consistently relocked assembly report records a failed run",
+      "edits": [
+        {
+          "staged": "locks/assembly/quality/assembly.json",
+          "json": "$j.status='fail'",
+          "relock": "reportSha256"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "ASSEMBLY-COMPILED-REFERENCES",
+      "code": "controlledAssemblyReport"
     }
   ]
 }

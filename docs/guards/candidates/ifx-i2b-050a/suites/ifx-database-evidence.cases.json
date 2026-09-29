@@ -34,6 +34,21 @@
       ],
       "status": "error",
       "category": "integrity-failure"
+    },
+    {
+      "id": "checklist-sql-matrix-failed",
+      "note": "A1-4 matrix Z/V: a consistently relocked verification summary records a failed SQL Server matrix",
+      "edits": [
+        {
+          "staged": "locks/database/specialized/database/verification-summary.json",
+          "json": "$j.checks.sqlServerMatrix=$false",
+          "relock": "files"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "DATABASE-LOCKED-EVIDENCE",
+      "code": "sqlServerMatrixPassed"
     }
   ]
 }

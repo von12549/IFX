@@ -165,12 +165,16 @@ if (-not $SkipHost) {
 }
 $targetTrackedAfter = @(& git -C $target status --porcelain --untracked-files=no) -join "`n"
 Assert ((Fingerprint (Join-Path $composed 'package')) -ceq $packageBefore -and $targetTrackedAfter -ceq $targetTrackedBefore) 'Package or tracked TargetRoot bytes changed.'
+$receiptObject = Get-Content $compositionReceipt -Raw | ConvertFrom-Json -Depth 100
+# The receipt without its timestamps and paths: two builds of the same inputs must agree (A1-5 determinism).
+$receiptProjection = [ordered]@{ formatVersion = $receiptObject.formatVersion; kind = $receiptObject.kind; status = $receiptObject.status; productVersion = $receiptObject.productVersion; packageHash = $receiptObject.packageHash; baseArchiveSha256 = $receiptObject.baseArchiveSha256; baseReceiptSha256 = $receiptObject.baseReceiptSha256; bundleManifestSha256 = $receiptObject.bundleManifestSha256; reviewRecordSha256 = $receiptObject.reviewRecordSha256; files = @($receiptObject.files) }
 $report = Join-Path (Full $EvidenceRoot) $runId; [void][IO.Directory]::CreateDirectory($report)
 Copy-Item -LiteralPath $bundle -Destination (Join-Path $report 'bundle') -Recurse
 Copy-Item -LiteralPath $reviewPath -Destination (Join-Path $report 'synthetic-review.json')
 Copy-Item -LiteralPath $compositionReceipt -Destination (Join-Path $report 'composition.receipt.json')
-Write-IFX050Json (Join-Path $report 'summary.json') ([ordered]@{ formatVersion = 1; status = $(if ($SkipHost) { 'partial' } else { 'pass' }); scope = 'ifx-050a-candidate-bundle'; hostValidated = [bool](-not $SkipHost); baseVersion = $ExpectedBaseVersion; bundleVersion = $CandidateVersion; targetCommit = $commit
+Write-IFX050Json (Join-Path $report 'summary.json') ([ordered]@{ formatVersion = 1; status = $(if ($SkipHost) { 'partial' } else { 'pass' }); scope = 'ifx-050a-candidate-bundle'; hostValidated = [bool](-not $SkipHost); baseVersion = $ExpectedBaseVersion; bundleVersion = $CandidateVersion; targetCommit = $commit; sourceCommit = $commit
+    workspaceEvidenceDeclared = ($null -ne $profile.workspaceEvidence); evidenceModel = 'staged-by-workflow'
     moduleSelections = 37; changedModules = 25; externalModules = 36; distinctClaims = 79; baselineRefs = @(); cases = @($cases.ToArray()); negativeCases = @($negativeCases.ToArray())
-    bundleManifestSha256 = Hash $manifestPath; profileSha256 = Hash $profilePath; ordinalInventorySha256 = Hash $inventoryFull; productionRecordSha256 = Hash (Full $ProductionRecord); compositionReceiptSha256 = Hash $compositionReceipt; composedPackageFingerprintSha256 = TextHash $packageBefore
+    bundleManifestSha256 = Hash $manifestPath; profileSha256 = Hash $profilePath; ordinalInventorySha256 = Hash $inventoryFull; productionRecordSha256 = Hash (Full $ProductionRecord); compositionReceiptSha256 = Hash $compositionReceipt; compositionReceiptProjectionSha256 = TextHash (($receiptProjection | ConvertTo-Json -Depth 100 -Compress)); composedPackageFingerprintSha256 = TextHash $packageBefore
     limitations = @('Synthetic composition is not Xiaolong Feng approval.', 'C6c dual-platform and independent negative certification remain required.', 'G04 PRE-READY and P10.3 deferrals remain open.') })
 Write-Output "IFX 0.5.0 candidate bundle passed: $report"

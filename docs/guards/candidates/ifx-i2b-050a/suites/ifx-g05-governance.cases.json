@@ -74,6 +74,20 @@
       ],
       "status": "pass",
       "category": "success"
+    },
+    {
+      "id": "zero-field-surfaces",
+      "note": "A1-4 matrix Z (I1 c6c4 supplemental recipe): the live G03 catalog classifies no field surface",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "json": "$j.fieldSurfaces=@()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G05-FIELD-GOVERNANCE",
+      "code": "allTargetLegacyAndEnvelopeFieldsAreClassified"
     }
   ]
 }

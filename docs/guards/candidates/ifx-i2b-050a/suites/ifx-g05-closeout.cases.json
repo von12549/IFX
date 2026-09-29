@@ -39,6 +39,21 @@
       ],
       "status": "error",
       "category": "prerequisite-missing"
+    },
+    {
+      "id": "handoff-01-empty",
+      "note": "A1-4 matrix Z/V (I1 c6c4 supplemental recipe): the Plan 01 handoff is emptied and delivered with a new bundle",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+          "write": ""
+        }
+      ],
+      "repin": true,
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G05-HANDOFF",
+      "code": "fourOwnershipPreservingHandoffsExist"
     }
   ]
 }
