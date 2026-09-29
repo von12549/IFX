@@ -120,7 +120,7 @@ if (-not $SkipPrGate) {
         $state = Join-Path $work "pr-state-$Name"; [void][IO.Directory]::CreateDirectory($state)
         $raw = @(& dotnet (Join-Path $composed 'host/v4-guards.dll') stage run --stage post --package-root (Join-Path $composed 'package') --target-root $Target --state-root $state --evidence-root $ev --profile ifx_profile 2>&1) -join "`n"; $exit = $LASTEXITCODE
         $result = $raw | ConvertFrom-Json -Depth 100
-        [IO.File]::WriteAllText((Join-Path $root "pr-gate/$Name/post.json"), $raw + "`n", [Text.UTF8Encoding]::new($false))
+        $postPath = Join-Path $root "pr-gate/$Name/post.json"; [void][IO.Directory]::CreateDirectory((Split-Path -Parent $postPath)); [IO.File]::WriteAllText($postPath, $raw + "`n", [Text.UTF8Encoding]::new($false))
         [pscustomobject]@{ exit = $exit; result = $result }
     }
     function PrCase([string]$Id, [string]$Target, [string]$Record, [string]$Status, [string]$Category, [string]$Rule, [string]$StageTarget) {
