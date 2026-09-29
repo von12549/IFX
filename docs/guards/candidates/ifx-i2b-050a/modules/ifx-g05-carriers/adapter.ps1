@@ -1,5 +1,12 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+function Get-PinSha256([string]$Path) {
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF, so the pin
+    # does not depend on the checkout; binary files are hashed by their raw bytes.
+    if ([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png', '.jpg', '.jpeg', '.gif', '.ico', '.pdf', '.zip', '.dll', '.exe')) { return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant() }
+    $text = [IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($text))).ToLowerInvariant()
+}
 $detector = 'ifx-g05-carriers'
 $claims = @('IFX.C4.G05_CONTRACT_CARRIER','IFX.C4.G05_EVENT_CARRIER')
 $rules = @('G05-CONTRACT-CARRIER','G05-EVENT-CARRIER')
@@ -80,7 +87,7 @@ $locks=@(foreach($pa in @($policy.authorities)){
     else{
         $liveRelative=[string]$pa.path;$liveFull=[IO.Path]::GetFullPath((Join-Path $target $liveRelative))
         $liveSafe=-not [IO.Path]::IsPathRooted($liveRelative) -and $liveRelative -notmatch '(^|[\\/])\.\.([\\/]|$)' -and (Is-Under $liveFull $target) -and [IO.File]::Exists($liveFull) -and ((Get-Item -LiteralPath $liveFull -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0
-        [ordered]@{id=[string]$pa.id;sha256=$(if($liveSafe){(Get-FileHash -Algorithm SHA256 -LiteralPath $liveFull).Hash.ToLowerInvariant()}else{'0'*64})}
+        [ordered]@{id=[string]$pa.id;sha256=$(if($liveSafe){(Get-PinSha256 $liveFull)}else{'0'*64})}
     }
 })
 if($locks.Count -ne 13){Stop-Adapter 'invalid-input' 'Authority lock count mismatch.'}
@@ -92,7 +99,7 @@ for ($i=0;$i -lt 13;$i++) {
     if (-not (Is-Under $full $target)) { Stop-Adapter 'unsafe-path' "Authority escapes TargetRoot: $relative" }
     Assert-NoLink $full $target
     if (-not [IO.File]::Exists($full)) { Stop-Adapter 'prerequisite-missing' "Missing authority: $relative" }
-    if ((Hash $full) -cne [string]$lock.sha256) { Stop-Adapter 'integrity-failure' "Stale authority: $relative" }
+    if ((Get-PinSha256 $full) -cne [string]$lock.sha256) { Stop-Adapter 'integrity-failure' "Stale authority: $relative" }
     $body=[IO.File]::ReadAllText($full);$texts[[string]$authority.id]=$body
     if ($authority.kind -ceq 'json' -and -not [string]::IsNullOrWhiteSpace($body)) {
         try { $documents[[string]$authority.id]=$body | ConvertFrom-Json -AsHashtable -Depth 100 } catch { Stop-Adapter 'integrity-failure' "Malformed JSON authority: $relative" }

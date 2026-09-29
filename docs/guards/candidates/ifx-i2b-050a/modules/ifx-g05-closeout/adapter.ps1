@@ -1,4 +1,11 @@
 Set-StrictMode -Version Latest;$ErrorActionPreference='Stop'
+function Get-PinSha256([string]$Path) {
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF, so the pin
+    # does not depend on the checkout; binary files are hashed by their raw bytes.
+    if ([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png', '.jpg', '.jpeg', '.gif', '.ico', '.pdf', '.zip', '.dll', '.exe')) { return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant() }
+    $text = [IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($text))).ToLowerInvariant()
+}
 $detector='ifx-g05-closeout';$claims=@('IFX.C4.G05_REPLAY','IFX.C4.G05_DOCUMENTATION','IFX.C4.G05_HANDOFF');$rules=@('G05-REPLAY','G05-DOCUMENTATION','G05-HANDOFF');$kinds=@('replay-source','documentation','handoff');$matched=@(0,0,0);$findings=[Collections.Generic.List[object]]::new()
 function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
 function Hash-Text([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
@@ -27,14 +34,14 @@ $locks=@(foreach($pa in @($policy.authorities)){
     else{
         $liveRelative=[string]$pa.path;$liveFull=[IO.Path]::GetFullPath((Join-Path $target $liveRelative))
         $liveSafe=-not [IO.Path]::IsPathRooted($liveRelative) -and $liveRelative -notmatch '(^|[\\/])\.\.([\\/]|$)' -and (Is-Under $liveFull $target) -and [IO.File]::Exists($liveFull) -and ((Get-Item -LiteralPath $liveFull -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0
-        [ordered]@{id=[string]$pa.id;sha256=$(if($liveSafe){(Get-FileHash -Algorithm SHA256 -LiteralPath $liveFull).Hash.ToLowerInvariant()}else{'0'*64})}
+        [ordered]@{id=[string]$pa.id;sha256=$(if($liveSafe){(Get-PinSha256 $liveFull)}else{'0'*64})}
     }
 })
 if($locks.Count -ne 20){Stop-Adapter 'invalid-input' 'Authority lock count mismatch.'};$texts=@{}
-for($i=0;$i -lt 20;$i++){$authority=$policy.authorities[$i];$lock=$locks[$i];$relative=[string]$authority.path;if($authority.id -cne $lock.id -or [string]$lock.sha256 -cnotmatch '^[a-f0-9]{64}$' -or [IO.Path]::IsPathRooted($relative) -or $relative -match '(^|[\\/])\.\.([\\/]|$)'){Stop-Adapter 'invalid-input' "Authority lock mismatch: $i"};$full=[IO.Path]::GetFullPath((Join-Path $target $relative));if(-not(Is-Under $full $target)){Stop-Adapter 'unsafe-path' "Authority escapes TargetRoot: $relative"};Assert-NoLink $full $target;if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing authority: $relative"};if((Hash $full) -cne [string]$lock.sha256){Stop-Adapter 'integrity-failure' "Stale authority: $relative"};$texts[[string]$authority.id]=[IO.File]::ReadAllText($full)}
+for($i=0;$i -lt 20;$i++){$authority=$policy.authorities[$i];$lock=$locks[$i];$relative=[string]$authority.path;if($authority.id -cne $lock.id -or [string]$lock.sha256 -cnotmatch '^[a-f0-9]{64}$' -or [IO.Path]::IsPathRooted($relative) -or $relative -match '(^|[\\/])\.\.([\\/]|$)'){Stop-Adapter 'invalid-input' "Authority lock mismatch: $i"};$full=[IO.Path]::GetFullPath((Join-Path $target $relative));if(-not(Is-Under $full $target)){Stop-Adapter 'unsafe-path' "Authority escapes TargetRoot: $relative"};Assert-NoLink $full $target;if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing authority: $relative"};if((Get-PinSha256 $full) -cne [string]$lock.sha256){Stop-Adapter 'integrity-failure' "Stale authority: $relative"};$texts[[string]$authority.id]=[IO.File]::ReadAllText($full)}
 $diagramRoot=[IO.Path]::GetFullPath((Join-Path $target ([string]$policy.diagramRoot)));if(-not(Is-Under $diagramRoot $target) -or -not [IO.Directory]::Exists($diagramRoot)){Stop-Adapter 'prerequisite-missing' 'Diagram root missing.'};Assert-NoLink $diagramRoot $target
 $diagrams=@(Get-ChildItem -LiteralPath $diagramRoot -File -Force|Where-Object Extension -in '.mmd','.svg','.png'|Sort-Object Name);foreach($file in $diagrams){Assert-NoLink $file.FullName $target}
-$diagramLines=@($diagrams|ForEach-Object{"$($_.Name)|$(Hash $_.FullName)"}) -join "`n";if((Hash-Text $diagramLines) -cne [string]$inputObject.config.diagramTreeSha256){Stop-Adapter 'integrity-failure' 'Diagram set lock drift.'}
+$diagramLines=@($diagrams|ForEach-Object{"$($_.Name)|$(Get-PinSha256 $_.FullName)"}) -join "`n";if((Hash-Text $diagramLines) -cne [string]$inputObject.config.diagramTreeSha256){Stop-Adapter 'integrity-failure' 'Diagram set lock drift.'}
 try{$failure=$texts.failurePolicy|ConvertFrom-Json -AsHashtable -Depth 50;$report=$texts.documentationReport|ConvertFrom-Json -AsHashtable -Depth 30;$closeout=$texts.closeoutStatus|ConvertFrom-Json -AsHashtable -Depth 50;$open=$texts.openItems|ConvertFrom-Json -AsHashtable -Depth 50;$ops=$texts.opsEvidence|ConvertFrom-Json -AsHashtable -Depth 30}catch{Stop-Adapter 'integrity-failure' 'Closeout JSON authority malformed.'}
 $failureTests=$texts.failureTests;$adapter=@($failure.compatibilityAdapters)[0]
 $classes=@('Diagnostic','Client','Business','Transient','Permanent','Security');$order=@('eventType','eventVersion','eventId','producer','tenant','correlation','causation');$reasonCodes=@('event_type_invalid','event_version_unsupported','event_id_invalid','event_producer_denied','event_tenant_invalid','event_correlation_invalid','event_causation_invalid')

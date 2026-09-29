@@ -1,5 +1,12 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
+function Get-PinSha256([string]$Path) {
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF, so the pin
+    # does not depend on the checkout; binary files are hashed by their raw bytes.
+    if ([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png', '.jpg', '.jpeg', '.gif', '.ico', '.pdf', '.zip', '.dll', '.exe')) { return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant() }
+    $text = [IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($text))).ToLowerInvariant()
+}
 $detector='ifx-g04-closeout'
 $claims=@('IFX.C3.G04_EVIDENCE','IFX.C3.G04_DOCUMENTATION','IFX.C3.G04_CLOSEOUT','IFX.C3.G04_INBOUND_CLOSEOUT')
 $rules=@('G04-EVIDENCE','G04-DOCUMENTATION','G04-CLOSEOUT','G04-INBOUND-CLOSEOUT')
@@ -29,7 +36,7 @@ function Read-Authority([string]$Root,[string]$Relative,[string]$ExpectedHash){
     Assert-NoLink $full $Root
     if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing authority: $Relative"}
     # 0.5.0-a: only governance authorities are pinned (ExpectedHash); live sources are read as they are.
-    if($ExpectedHash -and (Get-FileHash -Algorithm SHA256 -LiteralPath $full).Hash.ToLowerInvariant() -cne $ExpectedHash){Stop-Adapter 'integrity-failure' "Stale governance authority: $Relative"}
+    if($ExpectedHash -and (Get-PinSha256 $full) -cne $ExpectedHash){Stop-Adapter 'integrity-failure' "Stale governance authority: $Relative"}
     return $full
 }
 if([string]::IsNullOrWhiteSpace($env:V4_STAGE_INPUT_JSON)){Stop-Adapter 'invalid-input' 'V4_STAGE_INPUT_JSON is required.'}

@@ -72,11 +72,29 @@ function Get-IFX050BaseConfig([string]$ModuleId) {
     $row[0].config
 }
 
+function Get-IFX050PinSha256([string]$Path) {
+    # Ruling R5: a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF (as the modules'
+    # Get-PinSha256); binary files are hashed by their raw bytes.
+    if ([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png', '.jpg', '.jpeg', '.gif', '.ico', '.pdf', '.zip', '.dll', '.exe')) { return Get-IFX050Sha256 $Path }
+    $text = [IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")
+    [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($text))).ToLowerInvariant()
+}
+
+function Get-IFX050TreePin([string]$ModuleId, [string]$Field, [string]$Root) {
+    # The kept tree fingerprints, with each module's own line format and the R5 file hash.
+    if ($ModuleId -ceq 'ifx-g05-closeout' -and $Field -ceq 'diagramTreeSha256') {
+        $files = @(Get-ChildItem -LiteralPath $Root -File -Force | Where-Object Extension -in '.mmd', '.svg', '.png' | Sort-Object Name)
+        $lines = @($files | ForEach-Object { "$($_.Name)|$(Get-IFX050PinSha256 $_.FullName)" }) -join "`n"
+        return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($lines))).ToLowerInvariant()
+    }
+    throw "No tree pin rule for $ModuleId.$Field"
+}
+
 function New-IFX050ModuleConfig {
     # The 0.5.0-a config: the 0.4.4 config without the removed fields and authority entries, with the policy hash of
-    # the successor. Kept (governance) values are carried over unchanged, so a governance file that changed since the
-    # 0.4.4 Target commit is reported by the module rather than silently re-pinned.
-    [CmdletBinding()] param([Parameter(Mandatory)][string]$ModuleId)
+    # the successor. Kept (governance) pins are computed from the Target content with the R5 hash, as the 0.5.0
+    # Profile computes them from the Target commit.
+    [CmdletBinding()] param([Parameter(Mandatory)][string]$ModuleId, [Parameter(Mandatory)][string]$TargetRoot)
     $spec = Get-IFX050SpecModule $ModuleId
     $config = Get-IFX050BaseConfig $ModuleId
     $removeFields = @($spec.profileConfig.remove | Where-Object { $_ -notmatch '^authorityHashes\[' })
@@ -93,8 +111,24 @@ function New-IFX050ModuleConfig {
     }
     $policy = Join-Path (Get-IFX050ModuleRoot $ModuleId) 'policy.json'
     if (Test-Path -LiteralPath $policy) { $config.policySha256 = Get-IFX050Sha256 $policy }
+    foreach ($b in @($spec.bindings | Where-Object { $_.action -ceq 'keep-pin' })) {
+        $full = Join-Path $TargetRoot ([string]$b.path)
+        $isTree = $b.PSObject.Properties.Name -contains 'tree' -and $b.tree
+        $value = if ($isTree) { Get-IFX050TreePin $ModuleId ([string]$b.field) $full } elseif ([IO.File]::Exists($full)) { Get-IFX050PinSha256 $full } else { throw "Kept governance file is missing in the Target: $($b.path)" }
+        if ($b.field -match '^authorityHashes\[(.+)\]$') {
+            $key = $Matches[1]; $all = @($config.authorityHashes); $set = 0
+            for ($i = 0; $i -lt $all.Count; $i++) {
+                if (($all[$i].Contains('id') -and [string]$all[$i].id -ceq $key) -or (-not $all[$i].Contains('id') -and [string]$all[$i].path -ceq [string]$b.path)) { $all[$i].sha256 = $value; $set++ }
+            }
+            if ($set -ne 1) { throw "Kept authority entry not found once: $ModuleId.$($b.field)" }
+        } else {
+            if (-not $config.Contains([string]$b.field)) { throw "Kept field absent: $ModuleId.$($b.field)" }
+            $config[[string]$b.field] = $value
+        }
+    }
     $config
 }
 
 Export-ModuleMember -Function Get-IFX050Sha256, Write-IFX050Json, Get-IFX050Spec, Get-IFX050SpecModule, Get-IFX050ModuleRoot,
-    Get-IFX050SourceModuleRoot, Copy-IFX050Module, Update-IFX050ModuleManifest, Get-IFX050BaseConfig, New-IFX050ModuleConfig
+    Get-IFX050SourceModuleRoot, Copy-IFX050Module, Update-IFX050ModuleManifest, Get-IFX050BaseConfig, New-IFX050ModuleConfig,
+    Get-IFX050PinSha256, Get-IFX050TreePin

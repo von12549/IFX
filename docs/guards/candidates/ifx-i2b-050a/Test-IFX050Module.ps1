@@ -42,14 +42,14 @@ Assert (Test-Json -LiteralPath $manifestPath -SchemaFile (Join-Path $basePackage
 Assert ($manifest.id -ceq $ModuleId -and $manifest.version -ceq [string]$spec.newVersion) "Module identity or version drift: $($manifest.version)"
 Assert ((Hash $adapterPath) -ceq $manifest.adapter.sha256 -and (Hash (Join-Path $packageRoot $manifest.dependencyLock.path)) -ceq $manifest.dependencyLock.sha256) 'Adapter or dependency-lock hash drift.'
 foreach ($a in $manifest.authorities) { Assert ((Hash (Join-Path $packageRoot $a.path)) -ceq $a.sha256) "Module authority drift: $($a.id)" }
-$config = New-IFX050ModuleConfig $ModuleId
-Assert (Test-Json -Json ($config | ConvertTo-Json -Depth 50 -Compress) -SchemaFile (Join-Path $moduleRoot 'config.schema.json') -ErrorAction Stop) 'Config schema failed.'
 
 # 2. The Target clone.
 $clone = [IO.Path]::GetFullPath($CloneRoot)
 Assert ([IO.Directory]::Exists((Join-Path $clone '.git'))) "CloneRoot is not a Git clone: $clone"
 $head = ([string]@(Invoke-CloneGit @('rev-parse', 'HEAD'))[0]).Trim()
 Assert (@(Invoke-CloneGit @('status', '--porcelain', '--untracked-files=all')).Count -eq 0) 'CloneRoot must be clean.'
+$config = New-IFX050ModuleConfig $ModuleId -TargetRoot $clone
+Assert (Test-Json -Json ($config | ConvertTo-Json -Depth 50 -Compress) -SchemaFile (Join-Path $moduleRoot 'config.schema.json') -ErrorAction Stop) 'Config schema failed.'
 $profile044 = Get-Content -LiteralPath 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.4.4/package/profiles/catalog/ifx_profile/profile.json' -Raw | ConvertFrom-Json -Depth 100
 $relativeRoots = @($profile044.projectIdentity.relativeRoots)
 $evidence = [IO.Path]::GetFullPath($EvidenceRoot)
@@ -124,6 +124,10 @@ function Apply-Edit($Edit) {
         $source = Get-Content -LiteralPath $full -Raw | ConvertFrom-Json -Depth 100
         & ([scriptblock]::Create([string]$Edit.jsonObject))
         [IO.File]::WriteAllText($full, (($source | ConvertTo-Json -Depth 100).Replace("`r`n", "`n") + "`n"), [Text.UTF8Encoding]::new($false))
+        return
+    }
+    if ($Edit.PSObject.Properties.Name -contains 'mkdir' -and $Edit.mkdir) {
+        [void][IO.Directory]::CreateDirectory((Join-Path $clone ([string]$Edit.path)))
         return
     }
     if ($Edit.PSObject.Properties.Name -contains 'removeDir' -and $Edit.removeDir) {
@@ -203,7 +207,7 @@ function Get-RepinnedConfig($Case) {
     $hits = 0
     foreach ($e in @($Case.edits | Where-Object { $_.PSObject.Properties.Name -contains 'path' })) {
         $full = Join-Path $clone ([string]$e.path)
-        $value = if ([IO.File]::Exists($full)) { Hash $full } else { '0' * 64 }
+        $value = if ([IO.File]::Exists($full)) { Get-IFX050PinSha256 $full } else { '0' * 64 }
         foreach ($b in @($spec.bindings | Where-Object { $_.action -ceq 'keep-pin' -and $_.path -ceq [string]$e.path })) {
             if ($b.field -match '^authorityHashes\[(.+)\]$') {
                 $key = $Matches[1]

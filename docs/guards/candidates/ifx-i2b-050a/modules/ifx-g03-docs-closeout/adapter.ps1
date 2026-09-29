@@ -1,4 +1,11 @@
 $ErrorActionPreference = 'Stop'
+function Get-PinSha256([string]$Path) {
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF, so the pin
+    # does not depend on the checkout; binary files are hashed by their raw bytes.
+    if ([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png', '.jpg', '.jpeg', '.gif', '.ico', '.pdf', '.zip', '.dll', '.exe')) { return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant() }
+    $text = [IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($text))).ToLowerInvariant()
+}
 $detector = 'ifx-g03-docs-closeout'
 $claims = @('IFX.C2.G03_DOCUMENTATION','IFX.C2.G03_LEGACY_DEADLINE','IFX.C2.G03_CLOSEOUT_READINESS')
 $rules = @('G03-DOCUMENTATION','G03-LEGACY-DEADLINE','G03-CLOSEOUT-READINESS')
@@ -35,7 +42,7 @@ function Resolve-Target([string] $Relative) {
 function Read-Text([string] $Relative, [string] $ExpectedHash) {
     $path = Resolve-Target $Relative
     if (-not [IO.File]::Exists($path)) { Stop-Adapter 'prerequisite-missing' "Missing G03 input: $Relative" }
-    if ($ExpectedHash -and (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() -cne $ExpectedHash) { Stop-Adapter 'integrity-failure' "G03 governance input hash drift: $Relative" }
+    if ($ExpectedHash -and (Get-PinSha256 $path) -cne $ExpectedHash) { Stop-Adapter 'integrity-failure' "G03 governance input hash drift: $Relative" }
     return [IO.File]::ReadAllText($path)
 }
 function Check-Links([int] $Index, [string] $Relative, [string] $Body) {

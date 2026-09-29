@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-plan04-tenant","rules":[{"ruleId":"PLAN04-TENANT","claimId":"IFX.C4A.PLAN04_TENANT","stage":"post","detectors":["ifx-plan04-tenant"],"evidenceKinds":["tenant-source","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1}]}

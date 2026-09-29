@@ -1,5 +1,12 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+function Get-PinSha256([string]$Path) {
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF, so the pin
+    # does not depend on the checkout; binary files are hashed by their raw bytes.
+    if ([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png', '.jpg', '.jpeg', '.gif', '.ico', '.pdf', '.zip', '.dll', '.exe')) { return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant() }
+    $text = [IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($text))).ToLowerInvariant()
+}
 $detector='ifx-g04-runtime'
 $families=@('role','startup','worker','drain','health','backpressure','inbound')
 $claims=@('IFX.C3.G04_ROLE','IFX.C3.G04_STARTUP','IFX.C3.G04_WORKER','IFX.C3.G04_DRAIN','IFX.C3.G04_HEALTH','IFX.C3.G04_BACKPRESSURE','IFX.C3.G04_INBOUND')
@@ -35,7 +42,7 @@ function Read-Authority([string]$Root,[string]$Relative,[string]$ExpectedHash){
     if(-not(Is-Under $full $Root)){Stop-Adapter 'integrity-failure' "Authority escapes TargetRoot: $Relative"}
     Assert-NoLink $full $Root
     if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing authority: $Relative"}
-    if($ExpectedHash -and (Get-FileHash -Algorithm SHA256 -LiteralPath $full).Hash.ToLowerInvariant() -cne $ExpectedHash){Stop-Adapter 'integrity-failure' "Stale governance authority: $Relative"}
+    if($ExpectedHash -and (Get-PinSha256 $full) -cne $ExpectedHash){Stop-Adapter 'integrity-failure' "Stale governance authority: $Relative"}
     return [IO.File]::ReadAllText($full)
 }
 function Regex-Match([string]$Value,[string]$Pattern){

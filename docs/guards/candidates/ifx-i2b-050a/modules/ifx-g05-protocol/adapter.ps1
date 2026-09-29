@@ -1,5 +1,12 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+function Get-PinSha256([string]$Path) {
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF, so the pin
+    # does not depend on the checkout; binary files are hashed by their raw bytes.
+    if ([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png', '.jpg', '.jpeg', '.gif', '.ico', '.pdf', '.zip', '.dll', '.exe')) { return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant() }
+    $text = [IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($text))).ToLowerInvariant()
+}
 $detector='ifx-g05-protocol'
 $families=@('dependency','shape','evidence')
 $claims=@('IFX.C4.G05_PROTOCOL_DEPENDENCIES','IFX.C4.G05_PROTOCOL_SHAPES','IFX.C4.G05_PROTOCOL_EVIDENCE')
@@ -34,7 +41,7 @@ function Read-Authority([string]$Root,[string]$Relative,[string]$ExpectedHash){
     if(-not(Is-Under $full $Root)){Stop-Adapter 'integrity-failure' "Authority escapes TargetRoot: $Relative"}
     Assert-NoLink $full $Root
     if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing authority: $Relative"}
-    if((Get-FileHash -Algorithm SHA256 -LiteralPath $full).Hash.ToLowerInvariant() -cne $ExpectedHash){Stop-Adapter 'integrity-failure' "Stale authority: $Relative"}
+    if((Get-PinSha256 $full) -cne $ExpectedHash){Stop-Adapter 'integrity-failure' "Stale authority: $Relative"}
     return [IO.File]::ReadAllText($full)
 }
 function Regex-Match([string]$Value,[string]$Pattern){
@@ -83,7 +90,7 @@ $locks=@(foreach($pa in @($policy.authorities)){
     else{
         $liveRelative=[string]$pa.path;$liveFull=[IO.Path]::GetFullPath((Join-Path $targetRoot $liveRelative))
         $liveSafe=-not [IO.Path]::IsPathRooted($liveRelative) -and $liveRelative -notmatch '(^|[\\/])\.\.([\\/]|$)' -and (Is-Under $liveFull $targetRoot) -and [IO.File]::Exists($liveFull) -and ((Get-Item -LiteralPath $liveFull -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0
-        [ordered]@{id=[string]$pa.id;sha256=$(if($liveSafe){(Get-FileHash -Algorithm SHA256 -LiteralPath $liveFull).Hash.ToLowerInvariant()}else{'0'*64})}
+        [ordered]@{id=[string]$pa.id;sha256=$(if($liveSafe){(Get-PinSha256 $liveFull)}else{'0'*64})}
     }
 })
 if($locks.Count -ne 15){Stop-Adapter 'invalid-input' 'Authority lock count mismatch.'}

@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-plan04-projection","rules":[{"ruleId":"PLAN04-PROJECTION","claimId":"IFX.C4A.PLAN04_PROJECTION","stage":"post","detectors":["ifx-plan04-projection"],"evidenceKinds":["projection-source","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1}]}

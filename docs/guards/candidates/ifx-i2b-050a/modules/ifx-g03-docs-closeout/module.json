@@ -10,7 +10,7 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-g03-docs-closeout/adapter.ps1",
-    "sha256": "f629e307c7da5e018c024802a508e7e3e1d27fdf54a82147266accf902b1671f"
+    "sha256": "dd709de4720842542fa5cb29e2dea3f2eda4bbbcd842ac84c499c731b73e0550"
   },
   "prerequisites": [
     {

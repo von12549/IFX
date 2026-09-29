@@ -10,7 +10,7 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-g05-inventory/adapter.ps1",
-    "sha256": "e3c71821d10ed4dd87810d0e5c5e675f14c7b522db58c19c17c3a4ead2c9bd35"
+    "sha256": "6ca66683535eb92442d8706729881b6990afd31cf79df8273c4bfa718bf1362f"
   },
   "prerequisites": [
     {

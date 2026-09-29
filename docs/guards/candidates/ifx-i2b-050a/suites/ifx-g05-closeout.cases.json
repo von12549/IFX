@@ -18,7 +18,7 @@
     },
     {
       "id": "zero-diagrams",
-      "configSet": "$d=@(Get-ChildItem -LiteralPath (Join-Path $clone 'docs/architecture/review/gates/G05/diagrams') -File -Force | Where-Object Extension -in '.mmd','.svg','.png' | Sort-Object Name); $lines=@($d | ForEach-Object { \"$($_.Name)|$((Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash.ToLowerInvariant())\" }) -join \"`n\"; $c.diagramTreeSha256=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($lines))).ToLowerInvariant()",
+      "configSet": "$c.diagramTreeSha256 = Get-IFX050TreePin 'ifx-g05-closeout' 'diagramTreeSha256' (Join-Path $clone 'docs/architecture/review/gates/G05/diagrams')",
       "edits": [
         {
           "root": "docs/architecture/review/gates/G05/diagrams",

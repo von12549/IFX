@@ -10,7 +10,7 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-plan05-security/adapter.ps1",
-    "sha256": "f2995dbf7f503691253662a3bf53342569274abe4e3e8fd6024d4648780a20f8"
+    "sha256": "8103c72373656e16a797520df244c3433af6dae27e6cfe681d7b4b8229a2d87c"
   },
   "prerequisites": [
     {

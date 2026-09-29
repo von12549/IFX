@@ -1,5 +1,12 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+function Get-PinSha256([string]$Path) {
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF, so the pin
+    # does not depend on the checkout; binary files are hashed by their raw bytes.
+    if ([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png', '.jpg', '.jpeg', '.gif', '.ico', '.pdf', '.zip', '.dll', '.exe')) { return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant() }
+    $text = [IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($text))).ToLowerInvariant()
+}
 $detector = 'ifx-g05-inventory'
 $rule = 'G05-INVENTORY'
 $claim = 'IFX.C4.G05_INVENTORY'
@@ -83,7 +90,7 @@ for ($i=0; $i -lt 4; $i++) {
     if (-not (Is-Under $full $target)) { Stop-Adapter 'unsafe-path' "Authority escapes TargetRoot: $relative" }
     Assert-NoLink $full $target
     if (-not [IO.File]::Exists($full)) { Stop-Adapter 'prerequisite-missing' "Missing authority: $relative" }
-    if ((Hash-File $full) -cne [string]$locks[$i].sha256) { Stop-Adapter 'integrity-failure' "Stale authority: $relative" }
+    if ((Get-PinSha256 $full) -cne [string]$locks[$i].sha256) { Stop-Adapter 'integrity-failure' "Stale authority: $relative" }
     $authorities += $full
 }
 try { $historic = Get-Content -LiteralPath $authorities[0] -Raw | ConvertFrom-Json -AsHashtable -Depth 100 } catch { Stop-Adapter 'integrity-failure' 'Historical inventory is malformed.' }

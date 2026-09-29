@@ -10,7 +10,7 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-g05-execution-http/adapter.ps1",
-    "sha256": "910083c766b5b7114b5834d27f23b88dc5646bdc792d7c20e8ac41dc81f0bbf6"
+    "sha256": "99a0925e97cbeaa02017a3a5b23c30ffa277863065cb3b0216308fbf49fa2c17"
   },
   "prerequisites": [
     {
