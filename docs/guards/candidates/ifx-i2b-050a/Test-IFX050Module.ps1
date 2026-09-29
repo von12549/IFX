@@ -72,6 +72,7 @@ function Invoke-Adapter {
     $result
 }
 function Restore-Clone {
+    Remove-Junctions
     [void](Invoke-CloneGit @('checkout', '--quiet', '--', '.'))
     [void](Invoke-CloneGit @('clean', '-fdq'))
     Assert (@(Invoke-CloneGit @('status', '--porcelain', '--untracked-files=all')).Count -eq 0) 'CloneRoot could not be restored.'
@@ -103,7 +104,44 @@ function Add-HarmlessText([string]$Relative) {
     }
     [IO.File]::AppendAllText($full, $suffix)
 }
+function Add-Waiver($Catalog, [string] $Category, [string] $Expires) {
+    # Transcribed from the 0.4.4 G03 governance-core suite (used by jsonObject edits).
+    $Catalog.waivers = @([pscustomobject]@{
+        id = 'W-TEST'; owner = 'xiaolong-feng'; reason = 'test'; risk = 'test'; createdAt = '2026-09-01'
+        expiresAt = $Expires; removalCondition = 'remove'; linkedPlanItem = 'test'; category = $Category
+    })
+}
+$script:junctions = [Collections.Generic.List[string]]::new()
+function Remove-Junctions {
+    # A junction is removed as a link only (non-recursive), never through its target.
+    foreach ($j in $script:junctions) { if ([IO.Directory]::Exists($j)) { [IO.Directory]::Delete($j, $false) } }
+    $script:junctions.Clear()
+}
 function Apply-Edit($Edit) {
+    if ($Edit.PSObject.Properties.Name -contains 'jsonObject') {
+        # A 0.4.4 suite mutation over the parsed document ($source), written back as that suite wrote it.
+        $full = Join-Path $clone ([string]$Edit.path)
+        $source = Get-Content -LiteralPath $full -Raw | ConvertFrom-Json -Depth 100
+        & ([scriptblock]::Create([string]$Edit.jsonObject))
+        [IO.File]::WriteAllText($full, (($source | ConvertTo-Json -Depth 100).Replace("`r`n", "`n") + "`n"), [Text.UTF8Encoding]::new($false))
+        return
+    }
+    if ($Edit.PSObject.Properties.Name -contains 'removeDir' -and $Edit.removeDir) {
+        $full = [IO.Path]::GetFullPath((Join-Path $clone ([string]$Edit.path)))
+        Assert ($full.StartsWith($clone + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) -and [IO.Directory]::Exists($full)) "removeDir subject invalid: $($Edit.path)"
+        Remove-Item -LiteralPath $full -Recurse -Force
+        return
+    }
+    if ($Edit.PSObject.Properties.Name -contains 'junction' -and $Edit.junction) {
+        # Replaces a directory with a junction to a copy of it under the run root (the linked-path control).
+        $full = [IO.Path]::GetFullPath((Join-Path $clone ([string]$Edit.path)))
+        $copy = Join-Path $runRoot ('junction-target-' + [guid]::NewGuid().ToString('N'))
+        Copy-Item -LiteralPath $full -Destination $copy -Recurse
+        Remove-Item -LiteralPath $full -Recurse -Force
+        [void](New-Item -ItemType Junction -Path $full -Target $copy)
+        $script:junctions.Add($full)
+        return
+    }
     if ($Edit.PSObject.Properties.Name -contains 'root') {
         # A multi-file edit: every file under root matching filter (and pathMatch) that contains find.
         $hits = 0
@@ -155,23 +193,28 @@ foreach ($b in @($spec.bindings | Where-Object { $_.action -ceq 'keep-pin' })) {
     $cases.Add([pscustomobject]@{ id = "governance-$n"; kind = 'governance'; binding = $b.field; edits = @([pscustomobject]@{ path = $file; harmless = $true }); status = 'error'; category = 'integrity-failure' })
 }
 Assert ($catalog.formatVersion -eq 1 -and $catalog.moduleId -ceq $ModuleId -and @($catalog.cases).Count -ge 1) 'Case catalog identity drift.'
-foreach ($c in $catalog.cases) { $cases.Add([pscustomobject]@{ id = $c.id; kind = 'rule'; edits = @($c.edits); status = $c.status; category = $c.category; rule = $(if ($c.PSObject.Properties.Name -contains 'rule') { $c.rule } else { $null }); repin = ($c.PSObject.Properties.Name -contains 'repin' -and $c.repin); configSet = $(if ($c.PSObject.Properties.Name -contains 'configSet') { [string]$c.configSet } else { $null }) }) }
+foreach ($c in $catalog.cases) { $cases.Add([pscustomobject]@{ id = $c.id; kind = 'rule'; edits = @($c.edits); status = $c.status; category = $c.category; rule = $(if ($c.PSObject.Properties.Name -contains 'rule') { $c.rule } else { $null }); repin = ($c.PSObject.Properties.Name -contains 'repin' -and $c.repin); configSet = $(if ($c.PSObject.Properties.Name -contains 'configSet') { [string]$c.configSet } else { $null }); code = $(if ($c.PSObject.Properties.Name -contains 'code') { [string]$c.code } else { $null }) }) }
 $policyForRepin = Get-Content -LiteralPath (Join-Path $moduleRoot 'policy.json') -Raw | ConvertFrom-Json -Depth 100
 function Get-RepinnedConfig($Case) {
-    # A governance change is delivered with a new bundle: the kept Profile hash of each edited governance authority is
-    # recomputed, so the module's content checks (not the pin) decide the outcome.
-    # Edits of live files in the same case need no repin; at least one edited file must be a kept authority.
+    # A governance change is delivered with a new bundle: the kept Profile binding of each edited governance file is
+    # recomputed from the change specification (authority entries and named fields), so the module's content checks
+    # decide the outcome. Edits of live files in the same case need no repin; at least one edit must hit a kept pin.
     $copy = $config | ConvertTo-Json -Depth 60 | ConvertFrom-Json -AsHashtable -Depth 60
     $hits = 0
     foreach ($e in @($Case.edits | Where-Object { $_.PSObject.Properties.Name -contains 'path' })) {
         $full = Join-Path $clone ([string]$e.path)
-        if ($copy.Contains('authorityHashes') -and $policyForRepin.PSObject.Properties.Name -contains 'authorities') {
-            foreach ($a in @($policyForRepin.authorities | Where-Object { $_.path -ceq [string]$e.path })) {
-                foreach ($lock in @($copy.authorityHashes | Where-Object { $_.Contains('id') -and $_.id -ceq [string]$a.id })) { $lock.sha256 = $(if ([IO.File]::Exists($full)) { Hash $full } else { '0' * 64 }); $hits++ }
-            }
+        $value = if ([IO.File]::Exists($full)) { Hash $full } else { '0' * 64 }
+        foreach ($b in @($spec.bindings | Where-Object { $_.action -ceq 'keep-pin' -and $_.path -ceq [string]$e.path })) {
+            if ($b.field -match '^authorityHashes\[(.+)\]$') {
+                $key = $Matches[1]
+                $all = @($copy.authorityHashes)
+                for ($i = 0; $i -lt $all.Count; $i++) {
+                    if (($all[$i].Contains('id') -and [string]$all[$i].id -ceq $key) -or (-not $all[$i].Contains('id') -and [string]$i -ceq $key)) { $all[$i].sha256 = $value; $hits++ }
+                }
+            } elseif ($copy.Contains([string]$b.field)) { $copy[[string]$b.field] = $value; $hits++ }
         }
     }
-    Assert ($hits -gt 0) "repin: no edited file is a kept governance authority ($($Case.id))"
+    Assert ($hits -gt 0) "repin: no edited file is a kept governance binding ($($Case.id))"
     $copy
 }
 
@@ -189,6 +232,7 @@ try {
         }
         try { $result = Invoke-Adapter } finally { $config = $savedConfig }
         $ok = $result.status -ceq $case.status -and $result.exitCategory -ceq $case.category
+        if ($ok -and $case.kind -ceq 'rule' -and $case.PSObject.Properties.Name -contains 'code' -and $case.code) { $ok = @($result.findings | Where-Object { [string]$_.subject -ceq [string]$case.code -or ([string]$_.subject).StartsWith([string]$case.code + ':', [StringComparison]::Ordinal) }).Count -ge 1 }
         if ($ok -and $case.kind -in @('rule', 'benign') -and $null -ne $case.rule) { $ok = @($result.findings | Where-Object { $_.ruleId -ceq $case.rule }).Count -ge 1 }
         if ($ok -and $case.status -ceq 'pass') { $ok = @($result.coverage | Where-Object { $_.matched -lt $_.minimum }).Count -eq 0 }
         if ($ok -and $case.kind -ceq 'clean') { $again = Invoke-Adapter; $ok = ($again | ConvertTo-Json -Depth 60 -Compress) -ceq ($result | ConvertTo-Json -Depth 60 -Compress) }

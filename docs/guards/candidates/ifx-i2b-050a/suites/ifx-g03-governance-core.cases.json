@@ -1,0 +1,266 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-governance-core",
+  "source": "ifx-gate-coverage-c2b1 fixtures/cases.json and suite (0.4.4); catalog and projection are live (R1, R2)",
+  "benignExpectations": [
+    {
+      "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G03-PROJECTION",
+      "reason": "the committed projection docs/architecture/review/gates/G03/generated/layerguard-governance-input.json records the catalog SHA-256; a catalog change without a regenerated projection is projection drift (R2)"
+    }
+  ],
+  "cases": [
+    {
+      "id": "zero-owners",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.owners = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-owner"
+    },
+    {
+      "id": "zero-protocols",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols = @(); $source.infrastructureProtocols = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-protocol"
+    },
+    {
+      "id": "unknown-owner",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.modules[0].owner = 'unknown'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "owner-reference"
+    },
+    {
+      "id": "self-backup",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.modules[0].backupOwner = $source.modules[0].owner"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "backup-owner-reference"
+    },
+    {
+      "id": "missing-consumer",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].consumers = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "missing-consumer"
+    },
+    {
+      "id": "unknown-provider",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].provider = 'unknown'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "module-reference"
+    },
+    {
+      "id": "unknown-consumer",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].consumers = @('unknown')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "consumer-reference"
+    },
+    {
+      "id": "sync-cycle",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols += [pscustomobject]@{ identity = 'transaction.test-cycle.v1'; kind = 'sync'; provider = 'transaction'; owner = 'xiaolong-feng'; consumers = @('crm-authorization-adapter') }"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "sync-cycle"
+    },
+    {
+      "id": "primitive-admission",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.sharedPrimitives[0].admissionBasis = 'free-form'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "primitive-admission"
+    },
+    {
+      "id": "contract-allowlist",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.contractDependencyPolicy.default = 'any'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "contract-allowlist"
+    },
+    {
+      "id": "waiver-unwaivable",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "Add-Waiver $source 'C4-exposure' '2026-09-30'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "waiver-unwaivable"
+    },
+    {
+      "id": "waiver-expired",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "Add-Waiver $source 'temporary-tool-gap' '2026-09-01'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "waiver-expired"
+    },
+    {
+      "id": "projection-drift",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "jsonObject": "$source.contractRoles.consumerAdapter = 'OtherAdapter'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "projection-drift"
+    },
+    {
+      "id": "missing-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "missing-projection",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "missing-codeowners",
+      "edits": [
+        {
+          "path": ".github/CODEOWNERS",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "malformed-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "write": "{"
+        }
+      ],
+      "status": "error",
+      "category": "invalid-input"
+    },
+    {
+      "id": "missing-waiver-policy",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.PSObject.Properties.Remove('waiverPolicy')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "required-node"
+    },
+    {
+      "id": "missing-projection-key",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "jsonObject": "$source.PSObject.Properties.Remove('providerContracts')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "projection-drift"
+    },
+    {
+      "id": "linked-path",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/generated",
+          "junction": true
+        }
+      ],
+      "status": "error",
+      "category": "unsafe-path"
+    },
+    {
+      "id": "catalog-with-projection",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "harmless": true
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "json": "$j.catalogSha256=(Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $clone 'docs/architecture/review/gates/G03/contract-event-catalog.yaml')).Hash.ToLowerInvariant()"
+        }
+      ],
+      "status": "pass",
+      "category": "success"
+    }
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-snapshots",
+  "source": "ifx-gate-coverage-c2c2 fixtures/cases.json and suite (0.4.4); catalog and snapshots are live (R1)",
+  "cases": [
+    {
+      "id": "generated-ignored",
+      "edits": [
+        {
+          "path": "src/Modules/Fake/obj/Poison.cs",
+          "write": "public interface Poison { Task<int> PingAsync(); }"
+        }
+      ],
+      "status": "pass",
+      "category": "success"
+    },
+    {
+      "id": "signature-drift",
+      "edits": [
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs",
+          "find": "Task<",
+          "replace": "Task<Drift"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "snapshot-drift"
+    },
+    {
+      "id": "api-field-drift",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+          "jsonObject": "$source.protocols[0].fields[0].name = 'tampered'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "snapshot-drift"
+    },
+    {
+      "id": "serialization-field-drift",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+          "jsonObject": "$source.schemas[0].fields[0].name = 'tampered'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "snapshot-drift"
+    },
+    {
+      "id": "catalog-lifecycle-drift",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].lifecycle = 'Drift'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "snapshot-drift"
+    },
+    {
+      "id": "missing-sync-source",
+      "edits": [
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs",
+          "write": "// declaration intentionally absent"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "source-signature-missing"
+    },
+    {
+      "id": "zero-source",
+      "edits": [
+        {
+          "root": "src",
+          "filter": "*.cs",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-source"
+    },
+    {
+      "id": "zero-protocol",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-subject"
+    },
+    {
+      "id": "zero-sync",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols = @($source.protocols | Where-Object kind -eq 'event')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-subject"
+    },
+    {
+      "id": "missing-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "missing-api",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "missing-serialization",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "malformed-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "write": "{"
+        }
+      ],
+      "status": "error",
+      "category": "invalid-input"
+    },
+    {
+      "id": "malformed-api",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+          "write": "{"
+        }
+      ],
+      "status": "error",
+      "category": "invalid-input"
+    },
+    {
+      "id": "malformed-serialization",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+          "write": "{"
+        }
+      ],
+      "status": "error",
+      "category": "invalid-input"
+    }
+  ]
+}

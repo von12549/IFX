@@ -269,7 +269,28 @@ Module dispositions:
   4. G03;
   5. Plan04;
   6. the lock consumers and the staging script.
+- Batch results so far, all on a fresh IFX clone with the 1.1.6 Host:
+  - G04: 3 modules; interim recorded runs 013–015.
+  - G05 and Plan05: 7 modules; interim runs 016–022.
+  - G03: 4 of 5 modules pass. `ifx-g03-docs-closeout` is blocked by finding F-A1-1.
+  - The formal recorded pass of every suite runs from the final A1-3 commit.
+- Two live-to-live content bindings were found and kept as content checks:
+  - the G04 release manifest names the hashes of eight deployment files;
+  - the G03 projection records the catalog hash (R2).
 
+  A lone edit of a bound file now blocks (G04-MANIFEST, G03-PROJECTION or G05-FIELD-GOVERNANCE). An edit together
+  with its binding passes.
+- **Finding F-A1-1 — governance pins hash checkout bytes.**
+  - 0.4.4 pins governance files by the SHA-256 of the lab working tree bytes.
+  - Of the 99 distinct governance files 0.5.0-a keeps pinned:
+    - 78 are CRLF in the Windows working tree, so a Linux checkout writes different bytes;
+    - 3 have mixed line endings (the G03 closeout and the zh/en governance documents), so their pins match only the
+      lab checkout and even a fresh Windows clone differs.
+  - With UTF-8 text hashed after CRLF→LF normalization, all 99 match between the lab tree and a fresh clone. The
+    database inventory contract already uses this rule (`utf8-lf-sha256`).
+- **Ruling R5 needed.** Governance pins compare the UTF-8/LF-normalized SHA-256 for text files and the raw SHA-256 for
+  binary files. The 0.5.0 Profile computes them from the Target commit's content, not from a working tree. This
+  changes every kept pin and the pin helper of the 20 pinning modules.
 ### 9.5 Out of scope for A1
 
 - the producer relocation (0.5.0-b);
