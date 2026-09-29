@@ -70,9 +70,9 @@ function Invoke-NegativeCases([string]$Good, [string]$Prefix) {
     $c = Clone-Out $Good "$Prefix-deep-content"
     # Rewrite one archived non-report file and re-hash the archive: only -Deep sees the listing mismatch.
     $x = Join-Path $c 'x'; [void][IO.Directory]::CreateDirectory($x)
-    $null = & tar -xzf (Join-Path $c 'native-results.tar.gz') -C $x; if ($LASTEXITCODE -ne 0) { throw 'extract failed' }
+    $null = & (Get-IFXI2BTar) -xzf (Join-Path $c 'native-results.tar.gz') -C $x; if ($LASTEXITCODE -ne 0) { throw 'extract failed' }
     [IO.File]::AppendAllText((Join-Path $x 'matrix/captures/c01/case-001.json'), 'x')
-    $null = & tar -czf (Join-Path $c 'native-results.tar.gz') -C $x .; if ($LASTEXITCODE -ne 0) { throw 'repack failed' }
+    $null = & (Get-IFXI2BTar) -czf (Join-Path $c 'native-results.tar.gz') -C $x .; if ($LASTEXITCODE -ne 0) { throw 'repack failed' }
     Remove-Item -LiteralPath $x -Recurse -Force
     $sha = Hash (Join-Path $c 'native-results.tar.gz'); Update-Manifest $c { param($m) $m.archive.sha256 = $sha }
     Case "$Prefix-rehashed-archive-content-change-deep-rejected" $true { Test-IFXI2BNativeArchive -OutRoot $c -Deep }
@@ -120,7 +120,7 @@ if ($Phase -ceq 'Linux') {
         if ($mm.status -cne 'fail' -or @($mm.diagnostics).Count -ne 1) { throw 'missing root not recorded as fail' }
     }
     if ($m.status -ceq 'pass') { Invoke-NegativeCases $good 'linux' }
-    Write-Json (Join-Path $OutRoot 'linux/controls.json') ([ordered]@{ formatVersion = 1; phase = 'linux'; tar = (& tar --version | Select-Object -First 1); cases = @($cases.ToArray()) })
+    Write-Json (Join-Path $OutRoot 'linux/controls.json') ([ordered]@{ formatVersion = 1; phase = 'linux'; tar = (& (Get-IFXI2BTar) --version | Select-Object -First 1); cases = @($cases.ToArray()) })
     $failed = @($cases | Where-Object { -not $_.pass })
     "linux controls: $($cases.Count) cases, $($failed.Count) failed"
     if ($failed.Count -gt 0) { $failed | ForEach-Object { "FAIL $($_.name): $($_.diagnostic)" }; exit 1 }
@@ -154,7 +154,7 @@ Write-Json (Join-Path $out 'summary.json') ([ordered]@{
     sourceCommit = (& git -C $SourceRoot rev-parse HEAD).Trim()
     module = [ordered]@{ path = 'docs/guards/candidates/ifx-i2b/IFXI2B.NativeArchive.psm1'; sha256 = Hash (Join-Path $PSScriptRoot 'IFXI2B.NativeArchive.psm1') }
     linuxImage = $LinuxImage; linuxImageDigest = $imageId; linuxExitCode = $linuxExit
-    windowsTar = ((& tar --version) | Select-Object -First 1)
+    windowsTar = ((& (Get-IFXI2BTar) --version) | Select-Object -First 1)
     caseCount = $allCases.Count; failedCount = $failed.Count; cases = $allCases
 })
 "copy-back controls: $($allCases.Count) cases, $($failed.Count) failed, status $status"

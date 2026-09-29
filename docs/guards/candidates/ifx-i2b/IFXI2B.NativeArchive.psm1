@@ -7,6 +7,12 @@
 # historical harness.
 Set-StrictMode -Version Latest
 
+function Get-IFXI2BTar {
+    # Windows: the system bsdtar. A GNU tar found first on PATH (Git for Windows) reads "D:\..." as a remote
+    # host "D:" and fails. Linux: GNU tar from the pinned image.
+    if ($IsWindows) { $tar = Join-Path $env:SystemRoot 'System32/tar.exe'; if (-not (Test-Path -LiteralPath $tar)) { throw "System tar is missing: $tar" }; return $tar }
+    return '/usr/bin/tar'
+}
 function Get-IFXI2BSha256([string]$Path) { (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
 
 function Get-IFXI2BTreeListing {
@@ -37,7 +43,7 @@ function ConvertTo-IFXI2BListingText([object[]]$Listing) {
 function Get-IFXI2BArchiveEntries([string]$ArchivePath) {
     # Regular-file entries of the gzip tar, relative, without a leading "./". GNU tar (Linux) and bsdtar
     # (Windows) both list directories with a trailing slash.
-    $lines = @(& tar -tzf $ArchivePath 2>&1)
+    $lines = @(& (Get-IFXI2BTar) -tzf $ArchivePath 2>&1)
     if ($LASTEXITCODE -ne 0) { throw "tar listing failed ($LASTEXITCODE): $(@($lines | Select-Object -Last 3) -join '; ')" }
     $entries = @($lines | ForEach-Object { [string]$_ } | Where-Object { -not $_.EndsWith('/') } | ForEach-Object { if ($_.StartsWith('./')) { $_.Substring(2) } else { $_ } } | Where-Object { $_ -cne '' -and $_ -cne '.' })
     $sorted = [Collections.Generic.List[string]]::new([string[]]$entries)
@@ -77,7 +83,7 @@ function Copy-IFXI2BNativeResults {
         $tarArgs = @('--sort=name', '--format=pax', '--numeric-owner', '-czf', $stagingArchive, '-C', $native)
         foreach ($e in $Exclude) { $tarArgs += "--exclude=./$e" }
         $tarArgs += '.'
-        $tarOut = @(& tar @tarArgs 2>&1)
+        $tarOut = @(& (Get-IFXI2BTar) @tarArgs 2>&1)
         if ($LASTEXITCODE -ne 0) { throw "tar create failed ($LASTEXITCODE): $($tarOut -join '; ')" }
         $timings.archiveSeconds = [math]::Round($t.Elapsed.TotalSeconds, 3)
 
@@ -164,9 +170,9 @@ function Test-IFXI2BNativeArchive {
     [void][IO.Directory]::CreateDirectory($scratch)
     try {
         $present = @($m.reports | Where-Object { $_.present })
-        if ($Deep) { $x = @(& tar -xzf $archive -C $scratch 2>&1); if ($LASTEXITCODE -ne 0) { throw "Archive extraction failed: $($x -join '; ')" } }
+        if ($Deep) { $x = @(& (Get-IFXI2BTar) -xzf $archive -C $scratch 2>&1); if ($LASTEXITCODE -ne 0) { throw "Archive extraction failed: $($x -join '; ')" } }
         elseif ($present.Count -gt 0) {
-            $x = @(& tar -xzf $archive -C $scratch @($present | ForEach-Object { "./$($_.path)" }) 2>&1); if ($LASTEXITCODE -ne 0) { throw "Report extraction failed: $($x -join '; ')" }
+            $x = @(& (Get-IFXI2BTar) -xzf $archive -C $scratch @($present | ForEach-Object { "./$($_.path)" }) 2>&1); if ($LASTEXITCODE -ne 0) { throw "Report extraction failed: $($x -join '; ')" }
         }
         foreach ($r in $present) {
             if (-not $byPath.ContainsKey($r.path)) { throw "Report is not in the listing: $($r.path)" }
@@ -186,4 +192,4 @@ function Test-IFXI2BNativeArchive {
     [ordered]@{ archiveSha256 = $m.archive.sha256; files = $listing.Count; reports = $present.Count; deep = [bool]$Deep }
 }
 
-Export-ModuleMember -Function Copy-IFXI2BNativeResults, Test-IFXI2BNativeArchive, Get-IFXI2BTreeListing
+Export-ModuleMember -Function Copy-IFXI2BNativeResults, Test-IFXI2BNativeArchive, Get-IFXI2BTreeListing, Get-IFXI2BTar

@@ -34,7 +34,7 @@ if ($Phase -ceq 'Linux') {
     $native = '/native/bench/linux'
     [void][IO.Directory]::CreateDirectory($native)
     $t = [Diagnostics.Stopwatch]::StartNew()
-    $x = @(& tar -xf /in/replica.tar -C $native 2>&1); if ($LASTEXITCODE -ne 0) { throw "Replica extraction failed: $($x -join '; ')" }
+    $x = @(& (Get-IFXI2BTar) -xf /in/replica.tar -C $native 2>&1); if ($LASTEXITCODE -ne 0) { throw "Replica extraction failed: $($x -join '; ')" }
     $unpackSeconds = [math]::Round($t.Elapsed.TotalSeconds, 3)
     $files = Count-Files $native
     $bytes = [long]((Get-ChildItem -LiteralPath $native -File -Recurse -Force | Measure-Object Length -Sum).Sum)
@@ -75,7 +75,7 @@ $sourceListing = Get-IFXI2BTreeListing -Root $source -Exclude $exclude
 $sourceListingSeconds = [math]::Round($t.Elapsed.TotalSeconds, 3)
 $in = Join-Path $bench 'in'; [void][IO.Directory]::CreateDirectory($in)
 $t.Restart()
-$x = @(& tar -cf (Join-Path $in 'replica.tar') -C $source @replicaItems 2>&1); if ($LASTEXITCODE -ne 0) { throw "Replica pack failed: $($x -join '; ')" }
+$x = @(& (Get-IFXI2BTar) -cf (Join-Path $in 'replica.tar') -C $source @replicaItems 2>&1); if ($LASTEXITCODE -ne 0) { throw "Replica pack failed: $($x -join '; ')" }
 $packSeconds = [math]::Round($t.Elapsed.TotalSeconds, 3)
 $out = Join-Path $bench 'out'; [void][IO.Directory]::CreateDirectory($out)
 
