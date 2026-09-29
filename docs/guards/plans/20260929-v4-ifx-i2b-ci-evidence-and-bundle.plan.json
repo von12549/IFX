@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "title": "IFX I2-B: CI evidence design and successor bundle (IFX-V4-006 first)",
+  "goal": "Fix the slow C6c Linux copy-back (IFX-V4-006), study how the seven evidence producers can run in CI without pinned local locks and without circular V3 ownership, and bring a recommended option to an operator decision before any bundle change.",
+  "acceptanceCriteria": [
+    "The archive copy-back is byte-faithful and faster, with passing harness controls.",
+    "The design note covers all seven producers and all 13 context-ownership rows and recommends one option.",
+    "No bundle, Profile, module, remote, workflow or ruleset change before the B3 decision."
+  ],
+  "plannedPaths": [
+    "artifacts/guards/p10-ifx-i2b",
+    "docs/guards/TODO.md",
+    "docs/guards/candidates/ifx-i2b",
+    "docs/guards/plans/20260929-v4-ifx-i2b-ci-evidence-and-bundle.md",
+    "docs/guards/plans/20260929-v4-ifx-i2b-ci-evidence-and-bundle.plan.json",
+    "docs/guards/v4-adoption/plans/12-ci-evidence-design.md"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "Re-attesting V3-produced evidence could be mistaken for V4 ownership.",
+    "Copy-back changes could drop evidence."
+  ],
+  "decisions": [
+    "IFX-V4-006 is fixed before any new C6c run.",
+    "Options D-A, D-B and D-C are compared before choosing."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "harness-controls",
+    "copyback-benchmark"
+  ],
+  "dependencies": [
+    "20260929-v4-ifx-i2-p10-gate-successor"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
