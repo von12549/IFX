@@ -1,0 +1,2507 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-change-spec",
+  "plan": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "amendment": "A1",
+  "step": "A1-2",
+  "base": {
+    "install": "v4-guards-1.1.6-ifx-0.4.4",
+    "profileVersion": "0.4.4",
+    "profileSha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51"
+  },
+  "target": {
+    "profileVersion": "0.5.0",
+    "moduleSourceRoot": "docs/guards/candidates/ifx-i2b-050a/modules"
+  },
+  "rulings": {
+    "R1": "registries are live",
+    "R2": "G03 core regenerates the projection",
+    "R3": "lab tree candidates/ifx-i2b-050a",
+    "R4": "IFX-V4-005 fixed first under its own Plan"
+  },
+  "lockLayout": {
+    "root": "EvidenceRoot",
+    "lock": "locks/<gate>/evidence-lock.json",
+    "evidence": "locks/<gate>/<files listed in the lock>",
+    "staged": "locks/type/assembly-manifest.json and locks/type/assemblies/*.dll (read by ifx-c1-type-provenance and architecture-conformance)",
+    "verification": [
+      "producer id",
+      "producer script SHA-256 pinned in the module policy",
+      "targetCommit equals TargetRoot HEAD",
+      "freshness window unchanged",
+      "source-tree fingerprint",
+      "every listed evidence file hash",
+      "lineage between locks"
+    ],
+    "failureCategories": {
+      "missing": "prerequisite-missing",
+      "inconsistent": "integrity-failure"
+    }
+  },
+  "profileChanges": {
+    "workspaceEvidenceRemoveRoots": [
+      "docs/guards/V3_ifx/stages/post/gates/specialized"
+    ],
+    "otherCouplings": [
+      "the generated producer pins and reads docs/guards/V3/.../SourceFiles.cs (lineage only; replaced in 0.5.0-b with the producers)",
+      "the frontend producer sets a fixed Windows PATH (replaced in 0.5.0-b)"
+    ]
+  },
+  "summary": {
+    "modules": 37,
+    "pre": 10,
+    "post": 27,
+    "changed": 25,
+    "unchanged": [
+      "ifx-domain-reference",
+      "ifx-package-reference",
+      "ifx-ring-graph",
+      "ifx-ownership-graph",
+      "ifx-provider-cycle",
+      "ifx-embedded-adapter",
+      "ifx-source-policy",
+      "ifx-project-name",
+      "ifx-reference-cycle",
+      "ifx-injection",
+      "architecture-conformance",
+      "ifx-history-integrity"
+    ],
+    "lockBinding": 6,
+    "pinSplit": 20,
+    "coupling": 6,
+    "bindingsKept": 104,
+    "bindingsDropped": 126
+  },
+  "suiteRule": "Every changed module adds: (a) a benign edit of each formerly pinned live file still passes; (b) a rule-breaking edit of a live input still blocks with the module rule; (c) an edited governance file is still integrity-failure. A check that no longer blocks under (b) depended on the hash alone and is rewritten before A1-4.",
+  "modules": [
+    {
+      "id": "ifx-domain-reference",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-package-reference",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-ring-graph",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-ownership-graph",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-provider-cycle",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-embedded-adapter",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-source-policy",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-project-name",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-reference-cycle",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "ifx-injection",
+      "stage": "pre",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "unchanged Pre module; evaluates the current source (I2-A)"
+    },
+    {
+      "id": "architecture-conformance",
+      "stage": "post",
+      "version": "1.0.1",
+      "newVersion": "1.0.1",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": null
+    },
+    {
+      "id": "ifx-c1-type-provenance",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "lock-binding",
+        "coupling"
+      ],
+      "profileConfig": {
+        "remove": [
+          "evidenceLockPath",
+          "evidenceLockSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": {
+        "gate": "type",
+        "producerId": "ifx-c1-r1b-controlled-v1",
+        "script": "docs/guards/candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+        "freshness": "PT1H",
+        "staged": [
+          "assembly-manifest.json",
+          "assemblies/*.dll"
+        ]
+      },
+      "couplings": [
+        {
+          "kind": "v3-coupling",
+          "detail": "adapter reads docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json and docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+          "action": "embed the rule and policy content in the module package; the policy pins their hashes"
+        }
+      ],
+      "checkBasis": null
+    },
+    {
+      "id": "ifx-c1-evaluated-reference",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "lock-binding",
+        "coupling"
+      ],
+      "profileConfig": {
+        "remove": [
+          "evidenceLockPath",
+          "evidenceLockSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": {
+        "gate": "graph",
+        "producerId": "ifx-c1-r2b-controlled-v1",
+        "script": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+        "freshness": "PT1H"
+      },
+      "couplings": [
+        {
+          "kind": "lab-coupling",
+          "detail": "adapter reads docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+          "action": "embed the policy content in the module package; the policy pins its hash"
+        },
+        {
+          "kind": "lab-coupling",
+          "detail": "adapter reads docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+          "action": "embed the policy content in the module package; the policy pins its hash"
+        }
+      ],
+      "checkBasis": null
+    },
+    {
+      "id": "ifx-g03-governance-core",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split",
+        "coupling"
+      ],
+      "profileConfig": {
+        "remove": [
+          "catalogSha256",
+          "projectionSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [
+        {
+          "field": "catalogSha256",
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "tree": false,
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        },
+        {
+          "field": "projectionSha256",
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "tree": false,
+          "class": "v3-coupling",
+          "action": "drop-pin-regenerated-in-g03-core"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [
+        {
+          "kind": "v3-coupling",
+          "detail": "Profile field projectionSha256 binds docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "action": "drop-pin-regenerated-in-g03-core"
+        }
+      ],
+      "checkBasis": "content: rebuilds the governance projection from the catalog and compares it with the committed projection (projection-drift); ownership routes read from CODEOWNERS"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "catalogSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [
+        {
+          "field": "catalogSha256",
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "tree": false,
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: catalog lifecycle, field-governance, legacy-surface and change-control rules on the catalog"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "catalogSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [
+        {
+          "field": "catalogSha256",
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "tree": false,
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: re-inventories contract and event sources and reconciles them with the catalog (field-source-drift)"
+    },
+    {
+      "id": "ifx-g03-snapshots",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "catalogSha256",
+          "apiSnapshotSha256",
+          "serializationSnapshotSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [
+        {
+          "field": "catalogSha256",
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "tree": false,
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        },
+        {
+          "field": "apiSnapshotSha256",
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+          "tree": false,
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        },
+        {
+          "field": "serializationSnapshotSha256",
+          "path": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+          "tree": false,
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: regenerates the sync-API and serialization snapshots and compares them with the committed snapshots (snapshot-drift)"
+    },
+    {
+      "id": "ifx-g03-docs-closeout",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "catalogSha256"
+        ],
+        "keep": [
+          "zhSha256",
+          "enSha256",
+          "closeoutSha256",
+          "g03PlanSha256",
+          "layerPlanSha256"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "catalogSha256",
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "tree": false,
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        },
+        {
+          "field": "zhSha256",
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+          "tree": false,
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "enSha256",
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+          "tree": false,
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "closeoutSha256",
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+          "tree": false,
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "g03PlanSha256",
+          "path": "docs/architecture/review/plans/00-G03-contract-event-governance.md",
+          "tree": false,
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "layerPlanSha256",
+          "path": "docs/architecture/review/plans/03-layerguard-alignment.md",
+          "tree": false,
+          "class": "governance",
+          "action": "keep-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: protocol tables in the zh/en documents must equal the catalog; readiness block recomputed from catalog and plans; messaging project existence"
+    },
+    {
+      "id": "ifx-g04-manifests",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[runtime-release]",
+          "authorityHashes[module-manifest]",
+          "authorityHashes[module-schema]",
+          "authorityHashes[deployment-units]",
+          "authorityHashes[infrastructure-compatibility]",
+          "authorityHashes[schema-release]",
+          "authorityHashes[migration-manifest]",
+          "authorityHashes[release-orchestration]",
+          "authorityHashes[release-evidence-template]",
+          "authorityHashes[backpressure-policy]",
+          "authorityHashes[failure-matrix]",
+          "authorityHashes[dependency-criticality]",
+          "authorityHashes[host-project]",
+          "authorityHashes[source-program]",
+          "authorityHashes[source-health]",
+          "authorityHashes[source-background-jobs]",
+          "authorityHashes[compose]",
+          "authorityHashes[compose-nas]"
+        ],
+        "keep": [
+          "authorityHashes[g04-adr]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[runtime-release]",
+          "path": "deployment/g04/release-runtime-manifest.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[module-manifest]",
+          "path": "deployment/g04/module-manifest.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[module-schema]",
+          "path": "deployment/g04/module-manifest.schema.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[deployment-units]",
+          "path": "deployment/g04/deployment-unit-catalog.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[infrastructure-compatibility]",
+          "path": "deployment/g04/infrastructure-compatibility-matrix.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[schema-release]",
+          "path": "deployment/release-manifest.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[migration-manifest]",
+          "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[release-orchestration]",
+          "path": "deployment/g04/release-orchestration.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[release-evidence-template]",
+          "path": "deployment/g04/release-evidence-template.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[backpressure-policy]",
+          "path": "deployment/g04/backpressure-policy.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[failure-matrix]",
+          "path": "deployment/g04/failure-matrix.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[dependency-criticality]",
+          "path": "deployment/g04/dependency-criticality-catalog.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[host-project]",
+          "path": "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[g04-adr]",
+          "path": "docs/architecture/review/gates/G04/ADR-G04-001-deployment-runtime-boundary.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[source-program]",
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[source-health]",
+          "path": "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[source-background-jobs]",
+          "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[compose]",
+          "path": "docker-compose.yml",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[compose-nas]",
+          "path": "docker-compose.nas.yml",
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: inventory, manifest, orchestration and failure-policy predicates over deployment and runtime manifests"
+    },
+    {
+      "id": "ifx-g04-runtime",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[program]",
+          "authorityHashes[runtimeResolver]",
+          "authorityHashes[backgroundJobs]",
+          "authorityHashes[compose]",
+          "authorityHashes[monitor]",
+          "authorityHashes[contracts]",
+          "authorityHashes[leaseTests]",
+          "authorityHashes[criticalWorker]",
+          "authorityHashes[drainCoordinator]",
+          "authorityHashes[drainOptions]",
+          "authorityHashes[healthConfig]",
+          "authorityHashes[snapshotStore]",
+          "authorityHashes[backpressurePolicy]",
+          "authorityHashes[backpressureImpl]",
+          "authorityHashes[backpressureTests]",
+          "authorityHashes[receiver]",
+          "authorityHashes[sender]",
+          "authorityHashes[registration]",
+          "authorityHashes[inboundTests]"
+        ],
+        "keep": [
+          "authorityHashes[dependencyReview]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[program]",
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[runtimeResolver]",
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeProfileResolver.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[backgroundJobs]",
+          "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[compose]",
+          "path": "docker-compose.yml",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[monitor]",
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/StartupDependencyMonitor.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[dependencyReview]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase3-dependency-review.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[contracts]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RuntimeContracts.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[leaseTests]",
+          "path": "tests/IFX.DatabaseBoundary.Tests/G04DispatcherLeaseConformanceTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[criticalWorker]",
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/CriticalWorkerBackgroundService.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[drainCoordinator]",
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[drainOptions]",
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainOptions.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[healthConfig]",
+          "path": "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[snapshotStore]",
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/HealthSnapshotStore.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[backpressurePolicy]",
+          "path": "deployment/g04/backpressure-policy.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[backpressureImpl]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessageBackpressurePolicy.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[backpressureTests]",
+          "path": "tests/IFX.IntegrationTests/Runtime/MessageBackpressurePolicyTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[receiver]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RawIntegrationEventReceiver.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[sender]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/InProcessIntegrationEventTransport.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[registration]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessagingServiceCollectionExtensions.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[inboundTests]",
+          "path": "tests/IFX.IntegrationTests/Runtime/InboundIntegrationEventTransportAdapterTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: 47 regex predicates over Program.cs, runtime, drain, health, backpressure and inbound sources"
+    },
+    {
+      "id": "ifx-g04-closeout",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[releaseTemplate]"
+        ],
+        "keep": [
+          "authorityHashes[phase0]",
+          "authorityHashes[leaseEvidence]",
+          "authorityHashes[phase5]",
+          "authorityHashes[phase6]",
+          "authorityHashes[recoveryRunbook]",
+          "authorityHashes[phase7]",
+          "authorityHashes[phase8]",
+          "authorityHashes[failureRunbook]",
+          "authorityHashes[phase9]",
+          "authorityHashes[phase10]",
+          "authorityHashes[phase11]",
+          "authorityHashes[phase12Handoff]",
+          "authorityHashes[zh]",
+          "authorityHashes[en]",
+          "authorityHashes[architectureIndex]",
+          "authorityHashes[prerequisites]",
+          "authorityHashes[downstreamG02]",
+          "authorityHashes[downstreamPlan01]",
+          "authorityHashes[downstreamPlan02]",
+          "authorityHashes[downstreamLayerGuard]",
+          "authorityHashes[g04Status]",
+          "authorityHashes[g04Plan]",
+          "authorityHashes[inboundStatus]",
+          "authorityHashes[readiness]",
+          "authorityHashes[diagram-consumer-first-release-mmd]",
+          "authorityHashes[diagram-consumer-first-release-svg]",
+          "authorityHashes[diagram-consumer-first-release-png]",
+          "authorityHashes[diagram-deployment-boundary-mmd]",
+          "authorityHashes[diagram-deployment-boundary-svg]",
+          "authorityHashes[diagram-deployment-boundary-png]",
+          "authorityHashes[diagram-dispatcher-backpressure-mmd]",
+          "authorityHashes[diagram-dispatcher-backpressure-svg]",
+          "authorityHashes[diagram-dispatcher-backpressure-png]",
+          "authorityHashes[diagram-failure-rollback-mmd]",
+          "authorityHashes[diagram-failure-rollback-svg]",
+          "authorityHashes[diagram-failure-rollback-png]",
+          "authorityHashes[diagram-runtime-topology-mmd]",
+          "authorityHashes[diagram-runtime-topology-svg]",
+          "authorityHashes[diagram-runtime-topology-png]",
+          "authorityHashes[diagram-startup-health-drain-mmd]",
+          "authorityHashes[diagram-startup-health-drain-svg]",
+          "authorityHashes[diagram-startup-health-drain-png]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[phase0]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase0-baseline.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[leaseEvidence]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase4-lease-conformance.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase5]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase6]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase6-health-conformance.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[recoveryRunbook]",
+          "path": "docs/architecture/review/gates/G04/backpressure-recovery-runbook.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase7]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase7-backpressure-conformance.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[releaseTemplate]",
+          "path": "deployment/g04/release-evidence-template.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[phase8]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase8-release-orchestration.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[failureRunbook]",
+          "path": "docs/architecture/review/gates/G04/failure-rollback-runbook.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase9]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase9-failure-safety.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase10]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase10-automated-acceptance.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase11]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase11-documentation.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase12Handoff]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase12-handoff.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[zh]",
+          "path": "docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[en]",
+          "path": "docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[architectureIndex]",
+          "path": "docs/architecture/review/README.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[prerequisites]",
+          "path": "docs/architecture/review/plans/00-prerequisites.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[downstreamG02]",
+          "path": "docs/architecture/review/plans/00-G02-database-boundary.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[downstreamPlan01]",
+          "path": "docs/architecture/review/plans/01-contracts-adapters-refactor.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[downstreamPlan02]",
+          "path": "docs/architecture/review/plans/02-reliable-integration-events.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[downstreamLayerGuard]",
+          "path": "docs/architecture/review/plans/03-layerguard-alignment.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[g04Status]",
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase12-status.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[g04Plan]",
+          "path": "docs/architecture/review/plans/00-G04-deployment-runtime-boundary.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[inboundStatus]",
+          "path": "docs/architecture/review/evidence/plan02/P02-C1-status.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[readiness]",
+          "path": "docs/architecture/review/evidence/final-closure/readiness.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-consumer-first-release-mmd]",
+          "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.mmd",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-consumer-first-release-svg]",
+          "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.svg",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-consumer-first-release-png]",
+          "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.png",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-deployment-boundary-mmd]",
+          "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.mmd",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-deployment-boundary-svg]",
+          "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.svg",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-deployment-boundary-png]",
+          "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.png",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-dispatcher-backpressure-mmd]",
+          "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.mmd",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-dispatcher-backpressure-svg]",
+          "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.svg",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-dispatcher-backpressure-png]",
+          "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.png",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-failure-rollback-mmd]",
+          "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.mmd",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-failure-rollback-svg]",
+          "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.svg",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-failure-rollback-png]",
+          "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.png",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-runtime-topology-mmd]",
+          "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.mmd",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-runtime-topology-svg]",
+          "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.svg",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-runtime-topology-png]",
+          "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.png",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-startup-health-drain-mmd]",
+          "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.mmd",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-startup-health-drain-svg]",
+          "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.svg",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[diagram-startup-health-drain-png]",
+          "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.png",
+          "class": "governance",
+          "action": "keep-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "mostly existence checks over governance evidence (pins kept); one live file"
+    },
+    {
+      "id": "ifx-plan04-extraction",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "fixtureTreeSha256"
+        ],
+        "keep": [
+          "extractionPolicySha256",
+          "schemaSha256"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "extractionPolicySha256",
+          "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+          "tree": false,
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "schemaSha256",
+          "path": "docs/architecture/review/policies/plan04/extraction-decision-record.schema.json",
+          "tree": false,
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "fixtureTreeSha256",
+          "path": "tests/Architecture/Plan04/Fixtures",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: schema, gates, state machine and fixture checks over the extraction policy (governance) and fixtures (live)"
+    },
+    {
+      "id": "ifx-plan04-tenant",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "registrySha256",
+          "sourceTreeSha256",
+          "fixtureTreeSha256"
+        ],
+        "keep": [
+          "tenantPolicySha256"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "tenantPolicySha256",
+          "path": "docs/architecture/review/policies/plan04/tenant-query-policy.json",
+          "tree": false,
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "registrySha256",
+          "path": "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json",
+          "tree": false,
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        },
+        {
+          "field": "sourceTreeSha256",
+          "path": "src",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "fixtureTreeSha256",
+          "path": "tests/Architecture/Plan04/Fixtures",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: tenant predicates over src and the bypass registry; negative fixtures"
+    },
+    {
+      "id": "ifx-plan04-projection",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[registry]",
+          "authorityHashes[catalog]",
+          "authorityHashes[holdingHandler]",
+          "authorityHashes[holdingInbox]",
+          "authorityHashes[transactionHandler]",
+          "authorityHashes[classHandler]",
+          "sourceTreeSha256",
+          "fixtureTreeSha256"
+        ],
+        "keep": [
+          "authorityHashes[projectionPolicy]",
+          "authorityHashes[schema]",
+          "authorityHashes[graph]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[projectionPolicy]",
+          "path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[schema]",
+          "path": "docs/architecture/review/policies/plan04/projection-registration.schema.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[registry]",
+          "path": "docs/architecture/review/policies/plan04/projection-registry.json",
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        },
+        {
+          "field": "authorityHashes[catalog]",
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        },
+        {
+          "field": "authorityHashes[graph]",
+          "path": "docs/architecture/review/evidence/plan04/module-boundary-dependency-graph.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[holdingHandler]",
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[holdingInbox]",
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboxConfiguration.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[transactionHandler]",
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyTransactionProcessedCommand.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[classHandler]",
+          "path": "src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyClassStatusChangedCommand.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "sourceTreeSha256",
+          "path": "src/Modules",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "fixtureTreeSha256",
+          "path": "tests/Architecture/Plan04/Fixtures",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: projection registry, schema and module-edge checks over src/Modules; negative fixtures"
+    },
+    {
+      "id": "ifx-plan04-abstractions",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split",
+        "coupling"
+      ],
+      "profileConfig": {
+        "remove": [
+          "solutionSha256",
+          "projectNamePolicySha256",
+          "referencePolicySha256",
+          "inventorySha256",
+          "fixtureTreeSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [
+        {
+          "field": "solutionSha256",
+          "path": "IFX.sln",
+          "tree": false,
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "projectNamePolicySha256",
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/policy.json",
+          "tree": false,
+          "class": "lab-coupling",
+          "action": "embed-in-module"
+        },
+        {
+          "field": "referencePolicySha256",
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+          "tree": false,
+          "class": "lab-coupling",
+          "action": "embed-in-module"
+        },
+        {
+          "field": "inventorySha256",
+          "path": "src, tests",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "fixtureTreeSha256",
+          "path": "tests/Architecture/Plan04/Fixtures",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [
+        {
+          "kind": "lab-coupling",
+          "detail": "Profile field projectNamePolicySha256 binds docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/policy.json",
+          "action": "embed-in-module"
+        },
+        {
+          "kind": "lab-coupling",
+          "detail": "Profile field referencePolicySha256 binds docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+          "action": "embed-in-module"
+        }
+      ],
+      "checkBasis": "content: legacy Abstractions absence over the solution, src and tests; reads the project-name and reference policies (lab coupling, to embed)"
+    },
+    {
+      "id": "ifx-database-evidence",
+      "stage": "post",
+      "version": "0.2.0",
+      "newVersion": "0.3.0",
+      "disposition": [
+        "lock-binding",
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "evidenceLockPath",
+          "evidenceLockSha256",
+          "authorityHashes[migrationCatalog]",
+          "authorityHashes[releaseManifest]",
+          "authorityHashes[safetyPolicy]"
+        ],
+        "keep": []
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[migrationCatalog]",
+          "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[releaseManifest]",
+          "path": "deployment/release-manifest.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[safetyPolicy]",
+          "path": "deployment/migration-safety-policy.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": {
+        "gate": "database",
+        "producerId": "ifx-c4b-controlled-v2",
+        "script": "docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1",
+        "freshness": "PT24H"
+      },
+      "couplings": [],
+      "checkBasis": "lock consumer; the three live authorities are compared with the hashes recorded in the lock at the same commit instead of Profile pins"
+    },
+    {
+      "id": "ifx-g05-inventory",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "sourceTreeSha256"
+        ],
+        "keep": [
+          "authorityHashes[0]",
+          "authorityHashes[1]",
+          "authorityHashes[2]",
+          "authorityHashes[3]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[0]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-context-inventory.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[1]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase0-baseline.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[2]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase0-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[3]",
+          "path": ".claude/Plans/20260908-g05-context-sensitive-data-boundary.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "sourceTreeSha256",
+          "path": "src",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: surface counts over every src/**/*.cs; historical inventory and phase-0 documents are governance"
+    },
+    {
+      "id": "ifx-g05-protocol",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split",
+        "coupling"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[contextProject]",
+          "authorityHashes[messagingProject]",
+          "authorityHashes[identifiers]",
+          "authorityHashes[scopes]",
+          "authorityHashes[references]",
+          "authorityHashes[contractContext]",
+          "authorityHashes[eventEnvelope]",
+          "authorityHashes[eventIdentifier]",
+          "authorityHashes[eventSchema]",
+          "authorityHashes[integrationEvent]",
+          "authorityHashes[g03Governance]",
+          "authorityHashes[protocolTests]"
+        ],
+        "keep": [
+          "authorityHashes[protocolPolicy]",
+          "authorityHashes[phase1Evidence]",
+          "authorityHashes[phase1Layerguard]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[contextProject]",
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[messagingProject]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[identifiers]",
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextIdentifiers.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[scopes]",
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ExecutionScope.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[references]",
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextReferences.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[contractContext]",
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[eventEnvelope]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventEnvelopeV1.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[eventIdentifier]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventIdentifier.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[eventSchema]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventSchemaIdentity.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[integrationEvent]",
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IIntegrationEventV1.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[protocolPolicy]",
+          "path": "docs/architecture/review/gates/G05/context-protocol-v1.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[g03Governance]",
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "class": "v3-coupling",
+          "action": "drop-pin-regenerated-in-g03-core"
+        },
+        {
+          "field": "authorityHashes[protocolTests]",
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/EventEnvelopeV1Tests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[phase1Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase1-protocol-primitives.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase1Layerguard]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase1-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [
+        {
+          "kind": "v3-coupling",
+          "detail": "Profile field authorityHashes[g03Governance] binds docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "action": "drop-pin-regenerated-in-g03-core"
+        }
+      ],
+      "checkBasis": "content: regex predicates over protocol contracts and tests; reads the G03 projection (checked by G03 core under R2)"
+    },
+    {
+      "id": "ifx-g05-execution-http",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[appAccessor]",
+          "authorityHashes[appSnapshot]",
+          "authorityHashes[runtimeAccessor]",
+          "authorityHashes[program]",
+          "authorityHashes[currentUser]",
+          "authorityHashes[httpFacts]",
+          "authorityHashes[tenantSelection]",
+          "authorityHashes[executionTests]",
+          "authorityHashes[authFactTests]",
+          "authorityHashes[correlation]",
+          "authorityHashes[trace]",
+          "authorityHashes[httpContext]",
+          "authorityHashes[exception]",
+          "authorityHashes[appSettings]",
+          "authorityHashes[httpTests]",
+          "presentationSha256"
+        ],
+        "keep": [
+          "authorityHashes[sourcePolicy]",
+          "authorityHashes[phase2Evidence]",
+          "authorityHashes[phase2Layer]",
+          "authorityHashes[phase3Evidence]",
+          "authorityHashes[phase3Layer]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[appAccessor]",
+          "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/IExecutionContextAccessor.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[appSnapshot]",
+          "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/ExecutionContextSnapshot.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[runtimeAccessor]",
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[program]",
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[currentUser]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/CurrentUser.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[httpFacts]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[tenantSelection]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/ExecutionTenantSelection.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[sourcePolicy]",
+          "path": "docs/architecture/review/gates/G05/execution-context-sources.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[executionTests]",
+          "path": "tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[authFactTests]",
+          "path": "tests/IFX.Modules.IAM.Infrastructure.Tests/Authorization/HttpContextFactTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[phase2Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase2Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[correlation]",
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpCorrelationMiddleware.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[trace]",
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpTraceContextMiddleware.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[httpContext]",
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpExecutionContextMiddleware.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[exception]",
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[appSettings]",
+          "path": "src/ApiHost/IFX.ApiHost/appsettings.json",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[httpTests]",
+          "path": "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[phase3Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase3-http-boundary.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase3Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase3-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "presentationSha256",
+          "path": "src/Modules",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: regex predicates over execution and HTTP sources and the presentation source set"
+    },
+    {
+      "id": "ifx-g05-carriers",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[contractTests]",
+          "authorityHashes[contractContext]",
+          "authorityHashes[eventTests]"
+        ],
+        "keep": [
+          "authorityHashes[contractPolicy]",
+          "authorityHashes[contractHandoff]",
+          "authorityHashes[phase4Evidence]",
+          "authorityHashes[phase4Layer]",
+          "authorityHashes[eventPolicy]",
+          "authorityHashes[eventSchema]",
+          "authorityHashes[eventGolden]",
+          "authorityHashes[eventHandoff]",
+          "authorityHashes[phase5Evidence]",
+          "authorityHashes[phase5Layer]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[contractPolicy]",
+          "path": "docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[contractTests]",
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/ContractContextConformanceTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[contractContext]",
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[contractHandoff]",
+          "path": "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase4Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase4-contract-context.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase4Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[eventPolicy]",
+          "path": "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[eventSchema]",
+          "path": "docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[eventGolden]",
+          "path": "docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[eventTests]",
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/EventPropagationConformanceTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[eventHandoff]",
+          "path": "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase5Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase5-event-propagation.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase5Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: regex predicates over contract and event carriers and tests"
+    },
+    {
+      "id": "ifx-g05-governance",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split",
+        "coupling"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[catalog]",
+          "authorityHashes[layerGuard]",
+          "authorityHashes[redactor]",
+          "authorityHashes[sink]",
+          "authorityHashes[factory]",
+          "authorityHashes[program]",
+          "authorityHashes[requestLogging]",
+          "authorityHashes[exception]",
+          "authorityHashes[observabilityTests]",
+          "authorityHashes[httpBoundaryTests]",
+          "authorityHashes[loginEvent]",
+          "authorityHashes[loginConfig]",
+          "authorityHashes[authSnapshot]",
+          "authorityHashes[tokenMigration]",
+          "authorityHashes[noOpEmail]",
+          "authorityHashes[sendGrid]",
+          "authorityHashes[oidc]",
+          "authorityHashes[endToEndTests]",
+          "transactionHandlersSha256"
+        ],
+        "keep": [
+          "authorityHashes[catalogReport]",
+          "authorityHashes[phase6Evidence]",
+          "authorityHashes[phase6Layer]",
+          "authorityHashes[observabilityPolicy]",
+          "authorityHashes[phase7Evidence]",
+          "authorityHashes[phase7Layer]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[catalog]",
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "class": "live-registry",
+          "action": "drop-pin-reconcile"
+        },
+        {
+          "field": "authorityHashes[catalogReport]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-catalog-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[layerGuard]",
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "class": "v3-coupling",
+          "action": "drop-pin-regenerated-in-g03-core"
+        },
+        {
+          "field": "authorityHashes[phase6Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-field-classification.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase6Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[observabilityPolicy]",
+          "path": "docs/architecture/review/gates/G05/observability-security-policy.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[redactor]",
+          "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Observability/SensitiveTelemetryRedactor.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[sink]",
+          "path": "src/ApiHost/IFX.ApiHost/Observability/SensitiveLogEventSink.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[factory]",
+          "path": "src/ApiHost/IFX.ApiHost/Observability/SensitiveTelemetryRedactorFactory.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[program]",
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[requestLogging]",
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/RequestLoggingMiddleware.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[exception]",
+          "path": "src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[observabilityTests]",
+          "path": "tests/IFX.IntegrationTests/Observability/SensitiveObservabilityTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[httpBoundaryTests]",
+          "path": "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[loginEvent]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/LoginEvent.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[loginConfig]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Identity/Configurations/LoginEventConfiguration.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[authSnapshot]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[tokenMigration]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[noOpEmail]",
+          "path": "src/Platform/Notifications/IFX.Platform.Notifications.Composition/NoOpEmailService.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[sendGrid]",
+          "path": "src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/SendGridEmailService.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[oidc]",
+          "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/OidcProtocolService.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[endToEndTests]",
+          "path": "tests/IFX.IntegrationTests/Middleware/ExceptionHandlingHttpEndToEndTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[phase7Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase7-observability-security.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase7Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase7-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "transactionHandlersSha256",
+          "path": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [
+        {
+          "kind": "v3-coupling",
+          "detail": "Profile field authorityHashes[layerGuard] binds docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "action": "drop-pin-regenerated-in-g03-core"
+        }
+      ],
+      "checkBasis": "content: field-governance and observability predicates; transaction handler source set; reads the G03 projection (R2)"
+    },
+    {
+      "id": "ifx-g05-closeout",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[failureTests]"
+        ],
+        "keep": [
+          "authorityHashes[failurePolicy]",
+          "authorityHashes[phase8Evidence]",
+          "authorityHashes[phase8Layer]",
+          "authorityHashes[zhDesign]",
+          "authorityHashes[enDesign]",
+          "authorityHashes[documentationReport]",
+          "authorityHashes[phase10Evidence]",
+          "authorityHashes[phase10Layer]",
+          "authorityHashes[closeoutStatus]",
+          "authorityHashes[openItems]",
+          "authorityHashes[opsEvidence]",
+          "authorityHashes[g05Plan]",
+          "authorityHashes[prerequisitePlan]",
+          "authorityHashes[handoff01]",
+          "authorityHashes[handoff02]",
+          "authorityHashes[handoff03]",
+          "authorityHashes[handoff04]",
+          "authorityHashes[phase11Evidence]",
+          "authorityHashes[phase11Layer]",
+          "diagramTreeSha256"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[failurePolicy]",
+          "path": "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[failureTests]",
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/FailureReplayCompatibilityConformanceTests.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[phase8Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase8-failure-replay-compatibility.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase8Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase8-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[zhDesign]",
+          "path": "docs/architecture/review/gates/G05/context-sensitive-data-boundary.zh-CN.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[enDesign]",
+          "path": "docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[documentationReport]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase10-documentation-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase10Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase10-documentation.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase10Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase10-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[closeoutStatus]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase11-status.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[openItems]",
+          "path": "docs/architecture/review/gates/G05/open-items-v1.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[opsEvidence]",
+          "path": "docs/architecture/review/gates/G05/ops-evidence-map-v1.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[g05Plan]",
+          "path": "docs/architecture/review/plans/00-G05-context-sensitive-data-boundary.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[prerequisitePlan]",
+          "path": "docs/architecture/review/plans/00-prerequisites.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[handoff01]",
+          "path": "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[handoff02]",
+          "path": "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[handoff03]",
+          "path": "docs/architecture/review/gates/G05/handoffs/plan03-layerguard-handoff.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[handoff04]",
+          "path": "docs/architecture/review/gates/G05/handoffs/g04-runtime-handoff.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase11Evidence]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase11-handoff.md",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "authorityHashes[phase11Layer]",
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase11-layerguard-report.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "diagramTreeSha256",
+          "path": "docs/architecture/review/gates/G05/diagrams",
+          "tree": true,
+          "class": "governance",
+          "action": "keep-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "mostly governance documents and diagrams (pins kept); one live test file"
+    },
+    {
+      "id": "ifx-plan05-security",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "pin-split"
+      ],
+      "profileConfig": {
+        "remove": [
+          "authorityHashes[identityRegistration]",
+          "authorityHashes[verifiedFacts]",
+          "authorityHashes[httpIdentity]",
+          "authorityHashes[permission]",
+          "authorityHashes[resourceAdapter]",
+          "authorityHashes[program]",
+          "authorityHashes[handler]",
+          "sourceTreeSha256"
+        ],
+        "keep": [
+          "authorityHashes[compatibility]"
+        ]
+      },
+      "bindings": [
+        {
+          "field": "authorityHashes[identityRegistration]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[verifiedFacts]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/VerifiedIdentityFacts.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[httpIdentity]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[permission]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/PermissionChecker.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[resourceAdapter]",
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Inbound/ResourceAuthorizationInboundAdapter.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[program]",
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[handler]",
+          "path": "src/ApiHost/IFX.ApiHost/Authorization/PermissionAuthorizationHandler.cs",
+          "class": "live-source",
+          "action": "drop-pin"
+        },
+        {
+          "field": "authorityHashes[compatibility]",
+          "path": "docs/architecture/review/evidence/plan05/compatibility-identifiers.json",
+          "class": "governance",
+          "action": "keep-pin"
+        },
+        {
+          "field": "sourceTreeSha256",
+          "path": "src",
+          "tree": true,
+          "class": "live-source",
+          "action": "drop-pin"
+        }
+      ],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": "content: identity and authorization predicates over src; retired paths must be absent"
+    },
+    {
+      "id": "ifx-solution-evidence",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "lock-binding"
+      ],
+      "profileConfig": {
+        "remove": [
+          "evidenceLockPath",
+          "evidenceLockSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": {
+        "gate": "solution",
+        "producerId": "ifx-c5b-controlled-v1",
+        "script": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
+        "freshness": "PT24H"
+      },
+      "couplings": [],
+      "checkBasis": null
+    },
+    {
+      "id": "ifx-assembly-evidence",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "lock-binding"
+      ],
+      "profileConfig": {
+        "remove": [
+          "evidenceLockPath",
+          "evidenceLockSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": {
+        "gate": "assembly",
+        "producerId": "ifx-c5c-controlled-v1",
+        "script": "docs/guards/candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1",
+        "freshness": "PT24H"
+      },
+      "couplings": [],
+      "checkBasis": null
+    },
+    {
+      "id": "ifx-frontend-evidence",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.2.0",
+      "disposition": [
+        "lock-binding"
+      ],
+      "profileConfig": {
+        "remove": [
+          "evidenceLockPath",
+          "evidenceLockSha256"
+        ],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": {
+        "gate": "frontend",
+        "producerId": "ifx-c5d-controlled-v1",
+        "script": "docs/guards/candidates/ifx-gate-coverage-c5d/Invoke-IFXFrontendEvidenceProducer.ps1",
+        "freshness": "PT24H"
+      },
+      "couplings": [],
+      "checkBasis": null
+    },
+    {
+      "id": "ifx-history-integrity",
+      "stage": "post",
+      "version": "0.1.0",
+      "newVersion": "0.1.0",
+      "disposition": [
+        "unchanged"
+      ],
+      "profileConfig": {
+        "remove": [],
+        "keep": []
+      },
+      "bindings": [],
+      "lockBinding": null,
+      "couplings": [],
+      "checkBasis": null
+    }
+  ]
+}
