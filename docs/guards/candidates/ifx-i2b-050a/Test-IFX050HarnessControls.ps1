@@ -102,9 +102,12 @@ Case 'wrong-version-rejected' $true { Get-IFX116ReleaseInstaller -ArchivePath $B
 # PR-gate cases on the composed candidate.
 $prCases = [Collections.Generic.List[object]]::new()
 if (-not $SkipPrGate) {
-    $bundle = [IO.Path]::GetFullPath($BundleRoot); $composed = Join-Path $work 'composed'; $receipt = Join-Path $work 'composition.receipt.json'
+    # The bundle may sit under the repository (the Target); composition rejects overlapping roots, so it is copied out.
+    $bundle = Join-Path $work 'bundle'; Copy-Item -LiteralPath ([IO.Path]::GetFullPath($BundleRoot)) -Destination $bundle -Recurse
+    $reviewCopy = Join-Path $work 'synthetic-review.json'; Copy-Item -LiteralPath ([IO.Path]::GetFullPath($ReviewRecordPath)) -Destination $reviewCopy
+    $composed = Join-Path $work 'composed'; $receipt = Join-Path $work 'composition.receipt.json'
     foreach ($d in @('compose-state', 'compose-evidence')) { [void][IO.Directory]::CreateDirectory((Join-Path $work $d)) }
-    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $BaseInstallRoot 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $BaseInstallRoot -BaseReceiptPath $BaseReceiptPath -BaseArchivePath (Join-Path $repo 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip') -BundleRoot $bundle -ReviewRecordPath $ReviewRecordPath -OutputInstallRoot $composed -CompositionReceiptPath $receipt -TargetRoot $repo -StateRoot (Join-Path $work 'compose-state') -EvidenceRoot (Join-Path $work 'compose-evidence') -AllowSyntheticFixture 2>&1)
+    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $BaseInstallRoot 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $BaseInstallRoot -BaseReceiptPath $BaseReceiptPath -BaseArchivePath (Join-Path $repo 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip') -BundleRoot $bundle -ReviewRecordPath $reviewCopy -OutputInstallRoot $composed -CompositionReceiptPath $receipt -TargetRoot $repo -StateRoot (Join-Path $work 'compose-state') -EvidenceRoot (Join-Path $work 'compose-evidence') -AllowSyntheticFixture 2>&1)
     Assert ($LASTEXITCODE -eq 0) "Candidate composition failed: $($o -join ' ')"
     $producers = Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1'
     function New-PrCommit([string]$Name, [scriptblock]$Edit) {
