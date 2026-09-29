@@ -83,7 +83,7 @@ function Select-TreeFile([string]$Roots) {
         if ([IO.File]::Exists($full)) { return $r }
         if (-not [IO.Directory]::Exists($full)) { continue }
         $files = [Collections.Generic.List[string]]::new()
-        foreach ($f in (Get-ChildItem -LiteralPath $full -File -Recurse -Force | Where-Object { $_.Extension -in @('.cs', '.json', '.md', '.yaml', '.yml', '.csproj') -and $_.FullName -notmatch '[\\/](bin|obj|node_modules)[\\/]' })) {
+        foreach ($f in (Get-ChildItem -LiteralPath $full -File -Recurse -Force | Where-Object { $_.Extension -in @('.cs', '.json', '.md', '.yaml', '.yml', '.csproj', '.mmd', '.svg') -and $_.FullName -notmatch '[\\/](bin|obj|node_modules)[\\/]' })) {
             $files.Add([IO.Path]::GetRelativePath($clone, $f.FullName).Replace('\', '/'))
         }
         $files.Sort([StringComparer]::Ordinal)
@@ -97,12 +97,25 @@ function Add-HarmlessText([string]$Relative) {
     $suffix = switch -regex ($Relative) {
         '\.(cs|ts|tsx|js)$' { "`n// ifx-050a harmless edit`n" }
         '\.(md|csproj|props|targets|xml)$' { "`n<!-- ifx-050a harmless edit -->`n" }
-        '(\.ya?ml|CODEOWNERS|\.sln)$' { "`n# ifx-050a harmless edit`n" }
+        # YAML files here may hold JSON (the G03 catalog is read as JSON), so they only gain a trailing newline.
+        '(CODEOWNERS|\.sln)$' { "`n# ifx-050a harmless edit`n" }
         default { "`n" }
     }
     [IO.File]::AppendAllText($full, $suffix)
 }
 function Apply-Edit($Edit) {
+    if ($Edit.PSObject.Properties.Name -contains 'root') {
+        # A multi-file edit: every file under root matching filter (and pathMatch) that contains find.
+        $hits = 0
+        $except = @(if ($Edit.PSObject.Properties.Name -contains 'except') { @($Edit.except) })
+        foreach ($f in @(Get-ChildItem -LiteralPath (Join-Path $clone ([string]$Edit.root)) -Recurse -File -Filter ([string]$Edit.filter) | Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' -and (-not ($Edit.PSObject.Properties.Name -contains 'pathMatch') -or $_.FullName -match [string]$Edit.pathMatch) -and $except -notcontains [IO.Path]::GetRelativePath($clone, $_.FullName).Replace('\', '/') })) {
+            if ($Edit.PSObject.Properties.Name -contains 'remove' -and $Edit.remove) { Remove-Item -LiteralPath $f.FullName; $hits++; continue }
+            $body = [IO.File]::ReadAllText($f.FullName)
+            if ($body.Contains([string]$Edit.find)) { [IO.File]::WriteAllText($f.FullName, $body.Replace([string]$Edit.find, [string]$Edit.replace), [Text.UTF8Encoding]::new($false)); $hits++ }
+        }
+        Assert ($hits -gt 0) "Multi-file edit matched nothing under $($Edit.root)"
+        return
+    }
     $full = Join-Path $clone ([string]$Edit.path)
     if ($Edit.PSObject.Properties.Name -contains 'remove' -and $Edit.remove) { Assert ([IO.File]::Exists($full)) "Edit subject absent: $($Edit.path)"; Remove-Item -LiteralPath $full; return }
     if ($Edit.PSObject.Properties.Name -contains 'write') { [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($full)); [IO.File]::WriteAllText($full, [string]$Edit.write, [Text.UTF8Encoding]::new($false)); return }
@@ -142,22 +155,23 @@ foreach ($b in @($spec.bindings | Where-Object { $_.action -ceq 'keep-pin' })) {
     $cases.Add([pscustomobject]@{ id = "governance-$n"; kind = 'governance'; binding = $b.field; edits = @([pscustomobject]@{ path = $file; harmless = $true }); status = 'error'; category = 'integrity-failure' })
 }
 Assert ($catalog.formatVersion -eq 1 -and $catalog.moduleId -ceq $ModuleId -and @($catalog.cases).Count -ge 1) 'Case catalog identity drift.'
-foreach ($c in $catalog.cases) { $cases.Add([pscustomobject]@{ id = $c.id; kind = 'rule'; edits = @($c.edits); status = $c.status; category = $c.category; rule = $(if ($c.PSObject.Properties.Name -contains 'rule') { $c.rule } else { $null }); repin = ($c.PSObject.Properties.Name -contains 'repin' -and $c.repin) }) }
+foreach ($c in $catalog.cases) { $cases.Add([pscustomobject]@{ id = $c.id; kind = 'rule'; edits = @($c.edits); status = $c.status; category = $c.category; rule = $(if ($c.PSObject.Properties.Name -contains 'rule') { $c.rule } else { $null }); repin = ($c.PSObject.Properties.Name -contains 'repin' -and $c.repin); configSet = $(if ($c.PSObject.Properties.Name -contains 'configSet') { [string]$c.configSet } else { $null }) }) }
 $policyForRepin = Get-Content -LiteralPath (Join-Path $moduleRoot 'policy.json') -Raw | ConvertFrom-Json -Depth 100
 function Get-RepinnedConfig($Case) {
     # A governance change is delivered with a new bundle: the kept Profile hash of each edited governance authority is
     # recomputed, so the module's content checks (not the pin) decide the outcome.
+    # Edits of live files in the same case need no repin; at least one edited file must be a kept authority.
     $copy = $config | ConvertTo-Json -Depth 60 | ConvertFrom-Json -AsHashtable -Depth 60
-    foreach ($e in @($Case.edits)) {
+    $hits = 0
+    foreach ($e in @($Case.edits | Where-Object { $_.PSObject.Properties.Name -contains 'path' })) {
         $full = Join-Path $clone ([string]$e.path)
-        $hit = $false
         if ($copy.Contains('authorityHashes') -and $policyForRepin.PSObject.Properties.Name -contains 'authorities') {
             foreach ($a in @($policyForRepin.authorities | Where-Object { $_.path -ceq [string]$e.path })) {
-                foreach ($lock in @($copy.authorityHashes | Where-Object { $_.id -ceq [string]$a.id })) { $lock.sha256 = $(if ([IO.File]::Exists($full)) { Hash $full } else { '0' * 64 }); $hit = $true }
+                foreach ($lock in @($copy.authorityHashes | Where-Object { $_.Contains('id') -and $_.id -ceq [string]$a.id })) { $lock.sha256 = $(if ([IO.File]::Exists($full)) { Hash $full } else { '0' * 64 }); $hits++ }
             }
         }
-        Assert $hit "repin: no kept authority binds $($e.path)"
     }
+    Assert ($hits -gt 0) "repin: no edited file is a kept governance authority ($($Case.id))"
     $copy
 }
 
@@ -167,13 +181,19 @@ try {
         foreach ($e in $case.edits) { if ($e.PSObject.Properties.Name -contains 'harmless') { Add-HarmlessText ([string]$e.path) } else { Apply-Edit $e } }
         $savedConfig = $config
         if ($case.PSObject.Properties.Name -contains 'repin' -and $case.repin) { $config = Get-RepinnedConfig $case }
+        if ($case.PSObject.Properties.Name -contains 'configSet' -and $case.configSet) {
+            # A governance tree update delivered with a new bundle: the expression recomputes a kept Profile field ($c).
+            $c = $config | ConvertTo-Json -Depth 60 | ConvertFrom-Json -AsHashtable -Depth 60
+            & ([scriptblock]::Create([string]$case.configSet))
+            $config = $c
+        }
         try { $result = Invoke-Adapter } finally { $config = $savedConfig }
         $ok = $result.status -ceq $case.status -and $result.exitCategory -ceq $case.category
         if ($ok -and $case.kind -in @('rule', 'benign') -and $null -ne $case.rule) { $ok = @($result.findings | Where-Object { $_.ruleId -ceq $case.rule }).Count -ge 1 }
         if ($ok -and $case.status -ceq 'pass') { $ok = @($result.coverage | Where-Object { $_.matched -lt $_.minimum }).Count -eq 0 }
         if ($ok -and $case.kind -ceq 'clean') { $again = Invoke-Adapter; $ok = ($again | ConvertTo-Json -Depth 60 -Compress) -ceq ($result | ConvertTo-Json -Depth 60 -Compress) }
         $results.Add([ordered]@{ id = $case.id; kind = $case.kind; binding = $(if ($case.PSObject.Properties.Name -contains 'binding') { $case.binding } else { $null })
-            edited = @($case.edits | ForEach-Object { $_.path }); expected = "$($case.status)/$($case.category)"; actual = "$($result.status)/$($result.exitCategory)"
+            edited = @($case.edits | ForEach-Object { if ($_.PSObject.Properties.Name -contains 'path') { $_.path } else { "$($_.root)/**/$($_.filter)" } }); expected = "$($case.status)/$($case.category)"; actual = "$($result.status)/$($result.exitCategory)"
             findings = @($result.findings | ForEach-Object { "$($_.ruleId):$($_.subject)" } | Select-Object -First 5)
             message = $(if ($result.PSObject.Properties.Name -contains 'message') { $result.message } else { $null }); pass = $ok })
         Restore-Clone

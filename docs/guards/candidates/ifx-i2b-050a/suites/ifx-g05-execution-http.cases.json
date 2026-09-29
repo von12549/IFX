@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-execution-http",
+  "source": "ifx-gate-coverage-c4p2/fixtures/cases.json and its suite (0.4.4); stale-runtime is covered by the generated benign cases",
+  "cases": [
+    {
+      "id": "bad-middleware-order",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "find": "UseMiddleware<HttpTraceContextMiddleware>",
+          "replace": "UseMiddleware<WrongTraceMiddleware>"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "bad-source-policy",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/execution-context-sources.json",
+          "json": "$j.sources=@()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "route-zero",
+      "edits": [
+        {
+          "root": "src/Modules",
+          "filter": "*.cs",
+          "pathMatch": "\\.Presentation",
+          "find": "MapGroup(",
+          "replace": "NoGroup("
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-runtime",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "zero-execution",
+      "repin": true,
+      "edits": [
+        {
+          "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/IExecutionContextAccessor.cs",
+          "write": ""
+        },
+        {
+          "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/ExecutionContextSnapshot.cs",
+          "write": ""
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs",
+          "write": ""
+        },
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/CurrentUser.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/ExecutionTenantSelection.cs",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/execution-context-sources.json",
+          "write": ""
+        },
+        {
+          "path": "tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs",
+          "write": ""
+        },
+        {
+          "path": "tests/IFX.Modules.IAM.Infrastructure.Tests/Authorization/HttpContextFactTests.cs",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json",
+          "write": ""
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    }
+  ]
+}

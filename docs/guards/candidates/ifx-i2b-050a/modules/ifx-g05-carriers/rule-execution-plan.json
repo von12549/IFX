@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-carriers",
+  "rules": [
+    {"ruleId":"G05-CONTRACT-CARRIER","claimId":"IFX.C4.G05_CONTRACT_CARRIER","stage":"post","detectors":["ifx-g05-carriers"],"evidenceKinds":["carrier-conformance","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1},
+    {"ruleId":"G05-EVENT-CARRIER","claimId":"IFX.C4.G05_EVENT_CARRIER","stage":"post","detectors":["ifx-g05-carriers"],"evidenceKinds":["carrier-conformance","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1}
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-protocol",
+  "source": "ifx-gate-coverage-c4p1/fixtures/cases.json and its suite (0.4.4); stale-authority is covered by the generated benign cases",
+  "cases": [
+    {
+      "id": "framework-leak",
+      "edits": [
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextIdentifiers.cs",
+          "append": "\nusing Microsoft.AspNetCore.Http;\n"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "invalid-version",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/context-protocol-v1.json",
+          "find": "\"version\": 1",
+          "replace": "\"version\": 2"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/EventEnvelopeV1Tests.cs",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "zero-subject",
+      "edits": [
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextIdentifiers.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ExecutionScope.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextReferences.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventEnvelopeV1.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventIdentifier.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventSchemaIdentity.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IIntegrationEventV1.cs",
+          "write": ""
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    }
+  ]
+}

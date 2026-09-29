@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-closeout",
+  "source": "ifx-gate-coverage-c4p8p11 suite (0.4.4); the stale case is covered by the generated cases",
+  "cases": [
+    {
+      "id": "false-durability",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+          "find": "pre-active-fake-carrier-conformance",
+          "replace": "active-durable"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "zero-diagrams",
+      "configSet": "$d=@(Get-ChildItem -LiteralPath (Join-Path $clone 'docs/architecture/review/gates/G05/diagrams') -File -Force | Where-Object Extension -in '.mmd','.svg','.png' | Sort-Object Name); $lines=@($d | ForEach-Object { \"$($_.Name)|$((Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash.ToLowerInvariant())\" }) -join \"`n\"; $c.diagramTreeSha256=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($lines))).ToLowerInvariant()",
+      "edits": [
+        {
+          "root": "docs/architecture/review/gates/G05/diagrams",
+          "filter": "*",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

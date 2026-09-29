@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-g05-protocol/result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "status",
+    "exitCategory",
+    "findings",
+    "coverage"
+  ],
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail",
+        "error"
+      ]
+    },
+    "exitCategory": {
+      "enum": [
+        "success",
+        "findings-blocking",
+        "invalid-input",
+        "unsafe-path",
+        "integrity-failure",
+        "prerequisite-missing"
+      ]
+    },
+    "message": {
+      "type": "string"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ruleId",
+          "subject",
+          "evidenceKind",
+          "detectorId",
+          "severity"
+        ],
+        "properties": {
+          "ruleId": {
+            "enum": [
+              "G05-PROTOCOL-DEPS",
+              "G05-PROTOCOL-SHAPES",
+              "G05-PROTOCOL-EVIDENCE"
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidenceKind": {
+            "enum": [
+              "runtime-source",
+              "coverage"
+            ]
+          },
+          "detectorId": {
+            "const": "ifx-g05-protocol"
+          },
+          "severity": {
+            "const": "blocking"
+          }
+        }
+      }
+    },
+    "coverage": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claimId",
+          "matched",
+          "minimum"
+        ],
+        "properties": {
+          "claimId": {
+            "enum": [
+              "IFX.C4.G05_PROTOCOL_DEPENDENCIES",
+              "IFX.C4.G05_PROTOCOL_SHAPES",
+              "IFX.C4.G05_PROTOCOL_EVIDENCE"
+            ]
+          },
+          "matched": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minimum": {
+            "const": 1
+          }
+        }
+      }
+    }
+  }
+}

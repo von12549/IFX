@@ -1,0 +1,8 @@
+{
+  "formatVersion":1,
+  "moduleId":"ifx-g05-governance",
+  "rules":[
+    {"ruleId":"G05-FIELD-GOVERNANCE","claimId":"IFX.C4.G05_FIELD_GOVERNANCE","stage":"post","detectors":["ifx-g05-governance"],"evidenceKinds":["field-catalog","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1},
+    {"ruleId":"G05-OBSERVABILITY","claimId":"IFX.C4.G05_OBSERVABILITY","stage":"post","detectors":["ifx-g05-governance"],"evidenceKinds":["observability-source","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1}
+  ]
+}

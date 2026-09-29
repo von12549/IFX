@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-inventory",
+  "rules": [
+    {
+      "ruleId": "G05-INVENTORY",
+      "claimId": "IFX.C4.G05_INVENTORY",
+      "stage": "post",
+      "detectors": ["ifx-g05-inventory"],
+      "evidenceKinds": ["source-location", "historical-authority", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

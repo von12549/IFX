@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g05-protocol",
+  "version": "0.2.0",
+  "compatibleApi": "1.x",
+  "supportedPlatforms": [
+    "linux-x64",
+    "win-x64"
+  ],
+  "adapter": {
+    "kind": "powershell",
+    "path": "modules/ifx-g05-protocol/adapter.ps1",
+    "sha256": "4bce824823587205446f3d83ca839c54e13184a9d995df26c4302e99f3d1faf4"
+  },
+  "prerequisites": [
+    {
+      "runtime": "pwsh",
+      "versionRange": ">=7.4"
+    }
+  ],
+  "stages": [
+    "post"
+  ],
+  "capabilities": {
+    "readRoots": [
+      "PackageRoot",
+      "TargetRoot"
+    ],
+    "writeRoots": [],
+    "processes": [
+      "pwsh"
+    ],
+    "network": false,
+    "timeoutSeconds": 60
+  },
+  "configSchema": "modules/ifx-g05-protocol/config.schema.json",
+  "resultSchema": "modules/ifx-g05-protocol/result.schema.json",
+  "dependencyLock": {
+    "path": "modules/ifx-g05-protocol/dependencies.lock.json",
+    "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6"
+  },
+  "authorities": [
+    {
+      "id": "ifx-policy",
+      "path": "modules/ifx-g05-protocol/policy.json",
+      "sha256": "173a91325a4ab060e3e78228acbbebc8c23eab0d449512616619ac57e9514488"
+    },
+    {
+      "id": "rule-execution-plan",
+      "path": "modules/ifx-g05-protocol/rule-execution-plan.json",
+      "sha256": "e83cc3a4c9600ab85d29107dfd3ee32f04e4a02c04387a0a93b023b1feae3b86"
+    },
+    {
+      "id": "module-result",
+      "path": "modules/ifx-g05-protocol/result.schema.json",
+      "sha256": "1e3b63c627ff716a76ce866ef5772009d4e9eb053fe1ae10531fd8a4bc428e20"
+    }
+  ]
+}
