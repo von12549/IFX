@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-assembly-evidence-050a",
+  "lockBinding": "staged-evidence",
+  "gate": "assembly",
+  "authorityHashes": {
+    "assembly": "0493e8018d5310d0a730895b2f7866592c07e1bdf93533adcca5cdb7e570f675",
+    "domainPolicy": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+  },
+  "allowedDomainReferences": [
+    "IFX.BuildingBlocks.Domain"
+  ],
+  "assemblies": [
+    {
+      "id": "IFX.Modules.CRM.Domain",
+      "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Release/net8.0/IFX.Modules.CRM.Domain.dll"
+    },
+    {
+      "id": "IFX.Modules.Holdings.Domain",
+      "path": "src/Modules/Holdings/IFX.Modules.Holdings.Domain/bin/Release/net8.0/IFX.Modules.Holdings.Domain.dll"
+    },
+    {
+      "id": "IFX.Modules.IAM.Domain",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/bin/Release/net8.0/IFX.Modules.IAM.Domain.dll"
+    },
+    {
+      "id": "IFX.Modules.Registry.Domain",
+      "path": "src/Modules/Registry/IFX.Modules.Registry.Domain/bin/Release/net8.0/IFX.Modules.Registry.Domain.dll"
+    },
+    {
+      "id": "IFX.Modules.Transaction.Domain",
+      "path": "src/Modules/Transaction/IFX.Modules.Transaction.Domain/bin/Release/net8.0/IFX.Modules.Transaction.Domain.dll"
+    }
+  ],
+  "producer": {
+    "id": "ifx-c5c-controlled-v1",
+    "script": "docs/guards/candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1",
+    "scriptSha256": "fac0a78e16e7eec5a18b684ad006b8512ce1b7f6657024b8e220282ea78669e4"
+  }
+}

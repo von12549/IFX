@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-database-evidence-050a",
+  "lockBinding": "staged-evidence",
+  "gate": "database",
+  "authorities": [
+    {
+      "id": "migrationCatalog",
+      "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json"
+    },
+    {
+      "id": "releaseManifest",
+      "path": "deployment/release-manifest.json"
+    },
+    {
+      "id": "safetyPolicy",
+      "path": "deployment/migration-safety-policy.json"
+    }
+  ],
+  "checkIds": [
+    "controlledExecutionPassed",
+    "evidenceFreshAndLocked",
+    "migrationSafetyPassed",
+    "pendingModelChecksPassed",
+    "releaseArtifactsComplete",
+    "migratorPublishPassed",
+    "boundaryTestsPassed",
+    "sqlServerMatrixPassed",
+    "migrationSourcesMatch"
+  ],
+  "producer": {
+    "id": "ifx-c4b-controlled-v2",
+    "script": "docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1",
+    "scriptSha256": "3ad9117f1731b823899dc2032d438e629ae177b2cb494d51c9704fa40ae03f81"
+  }
+}

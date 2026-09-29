@@ -8,7 +8,8 @@
 # - governance-*: an edit of each file whose pin 0.5.0-a keeps is still integrity-failure;
 # - the module's rule-breaking edits (suites/<id>.cases.json, taken from the 0.4.4 suite) still block.
 # A synthetic single-module bundle is then composed on the published 1.1.6 base, and the installed Host runs Post on
-# the clean clone.
+# the clean clone. A lock consumer gets a fresh EvidenceRoot per case, staged from the recorded producer runs, and the
+# generated lock cases (missing, forged, tampered, other commit, expired).
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$ModuleId,
@@ -19,7 +20,9 @@ param(
     [string]$BaseArchivePath = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
     [string]$ExpectedPackageHash = 'a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825',
-    [switch]$SkipHost
+    [switch]$SkipHost,
+    # Lock consumers: the record of the producer runs on CloneRoot (Invoke-IFX050EvidenceProducers.ps1 -Phase Produce).
+    [string]$ProductionRecord
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -56,8 +59,20 @@ $evidence = [IO.Path]::GetFullPath($EvidenceRoot)
 $runRoot = Join-Path $evidence ("$ModuleId-" + [guid]::NewGuid().ToString('N'))
 [void][IO.Directory]::CreateDirectory($runRoot)
 
+$lockGate = if ($spec.disposition -contains 'lock-binding') { [string]$spec.lockBinding.gate } else { $null }
+if ($lockGate) { Assert ($ProductionRecord -and (Test-Path -LiteralPath $ProductionRecord)) 'A lock consumer needs -ProductionRecord.' }
+$script:caseEvidence = $null
+function Stage-Evidence([string]$Dir) {
+    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Stage -TargetRoot $clone -RunRecordPath $ProductionRecord -EvidenceRoot $Dir 2>&1)
+    Assert ($LASTEXITCODE -eq 0) "Staging failed: $($o -join '; ')"
+}
+function Update-Staging([string]$Dir, [scriptblock]$Change) {
+    $p = Join-Path $Dir 'locks/staging.json'; $j = Get-Content -LiteralPath $p -Raw | ConvertFrom-Json -AsHashtable -Depth 30
+    & $Change $j
+    Write-IFX050Json $p $j
+}
 function Invoke-Adapter {
-    $state = Join-Path $runRoot 'state'; $ev = Join-Path $runRoot 'evidence'
+    $state = Join-Path $runRoot 'state'; $ev = if ($script:caseEvidence) { $script:caseEvidence } else { Join-Path $runRoot 'evidence' }
     [void][IO.Directory]::CreateDirectory($state); [void][IO.Directory]::CreateDirectory($ev)
     $env:V4_STAGE_INPUT_JSON = [ordered]@{ formatVersion = 1; stage = 'post'; targetRoot = $clone; packageRoot = $packageRoot; stateRoot = $state; evidenceRoot = $ev
         projectId = 'ifx'; runId = [guid]::NewGuid().ToString('N'); relativeRoots = $relativeRoots; config = $config } | ConvertTo-Json -Depth 60 -Compress
@@ -118,6 +133,24 @@ function Remove-Junctions {
     $script:junctions.Clear()
 }
 function Apply-Edit($Edit) {
+    if ($Edit.PSObject.Properties.Name -contains 'staging') {
+        # Changes locks/staging.json ($j) of the case's staged EvidenceRoot.
+        Update-Staging $script:caseEvidence ([scriptblock]::Create([string]$Edit.staging))
+        return
+    }
+    if ($Edit.PSObject.Properties.Name -contains 'staged') {
+        # Edits a staged evidence file; reseal records the new lock hash in staging.json, so deeper checks decide.
+        $full = Join-Path $script:caseEvidence ([string]$Edit.staged)
+        if ($Edit.PSObject.Properties.Name -contains 'remove' -and $Edit.remove) { Assert ([IO.File]::Exists($full)) "Staged subject absent: $($Edit.staged)"; [IO.File]::Delete($full) }
+        elseif ($Edit.PSObject.Properties.Name -contains 'append') { [IO.File]::AppendAllText($full, [string]$Edit.append) }
+        elseif ($Edit.PSObject.Properties.Name -contains 'json') { $j = Get-Content -LiteralPath $full -Raw | ConvertFrom-Json -AsHashtable -Depth 100; & ([scriptblock]::Create([string]$Edit.json)); Write-IFX050Json $full $j }
+        else { throw "Unknown staged edit: $($Edit.staged)" }
+        if ($Edit.PSObject.Properties.Name -contains 'reseal' -and $Edit.reseal) {
+            $gateName = ([string]$Edit.staged).Split('/')[1]; $sha = Hash $full
+            Update-Staging $script:caseEvidence { param($j) foreach ($g in $j.gates) { if ($g.gate -ceq $gateName) { $g.lockSha256 = $sha } } }.GetNewClosure()
+        }
+        return
+    }
     if ($Edit.PSObject.Properties.Name -contains 'jsonObject') {
         # A 0.4.4 suite mutation over the parsed document ($source), written back as that suite wrote it.
         $full = Join-Path $clone ([string]$Edit.path)
@@ -189,7 +222,7 @@ foreach ($b in @($spec.bindings | Where-Object { $_.action -cne 'keep-pin' })) {
     $n++; $file = Select-TreeFile ([string]$b.path)
     $o = if ($overrides.ContainsKey($file)) { $overrides[$file] } else { $null }
     $cases.Add([pscustomobject]@{ id = "benign-$n"; kind = 'benign'; binding = $b.field; edits = @([pscustomobject]@{ path = $file; harmless = $true })
-        status = $(if ($o) { $o.status } else { 'pass' }); category = $(if ($o) { $o.category } else { 'success' }); rule = $(if ($o) { $o.rule } else { $null }) })
+        status = $(if ($o) { $o.status } else { 'pass' }); category = $(if ($o) { $o.category } else { 'success' }); rule = $(if ($o -and $o.PSObject.Properties.Name -contains 'rule') { $o.rule } else { $null }) })
 }
 $n = 0
 foreach ($b in @($spec.bindings | Where-Object { $_.action -ceq 'keep-pin' })) {
@@ -198,6 +231,22 @@ foreach ($b in @($spec.bindings | Where-Object { $_.action -ceq 'keep-pin' })) {
 }
 Assert ($catalog.formatVersion -eq 1 -and $catalog.moduleId -ceq $ModuleId -and @($catalog.cases).Count -ge 1) 'Case catalog identity drift.'
 foreach ($c in $catalog.cases) { $cases.Add([pscustomobject]@{ id = $c.id; kind = 'rule'; edits = @($c.edits); status = $c.status; category = $c.category; rule = $(if ($c.PSObject.Properties.Name -contains 'rule') { $c.rule } else { $null }); repin = ($c.PSObject.Properties.Name -contains 'repin' -and $c.repin); configSet = $(if ($c.PSObject.Properties.Name -contains 'configSet') { [string]$c.configSet } else { $null }); code = $(if ($c.PSObject.Properties.Name -contains 'code') { [string]$c.code } else { $null }) }) }
+if ($lockGate) {
+    # Generated lock cases: every lock consumer rejects missing, forged, tampered, foreign-commit and expired evidence.
+    $lock = "locks/$lockGate/evidence-lock.json"
+    $evidenceFile = @{ solution = 'quality/summary.json'; assembly = 'quality/assembly.json'; frontend = 'quality/summary.json'; database = 'specialized/summary.json'; type = 'assembly-manifest.json' }
+    $expire = if ($lockGate -in @('type', 'graph')) { '$j.createdAt=[DateTimeOffset]::UtcNow.AddHours(-2).ToString(''o'');$j.expiresAt=[DateTimeOffset]::UtcNow.AddHours(-1).ToString(''o'')' } else { '$j.startedAt=[DateTimeOffset]::UtcNow.AddHours(-26).ToString(''o'');$j.completedAt=[DateTimeOffset]::UtcNow.AddHours(-25).ToString(''o'')' }
+    $generated = @(
+        ,@('lock-missing-staging', @([pscustomobject]@{ staged = 'locks/staging.json'; remove = $true }), 'error', 'prerequisite-missing')
+        ,@('lock-missing', @([pscustomobject]@{ staged = $lock; remove = $true }), 'error', 'prerequisite-missing')
+        ,@('lock-forged-producer', @([pscustomobject]@{ staging = "foreach(`$x in `$j.gates){if(`$x.gate -ceq '$lockGate'){`$x.producer.scriptSha256='0'*64}}" }), 'error', 'integrity-failure')
+        ,@('lock-tampered', @([pscustomobject]@{ staged = $lock; append = ' ' }), 'error', 'integrity-failure')
+        ,@('lock-other-commit', @([pscustomobject]@{ staged = $lock; json = '$j.targetCommit=''0''*40'; reseal = $true }), 'error', 'integrity-failure')
+        ,@('lock-expired', @([pscustomobject]@{ staged = $lock; json = $expire; reseal = $true }), 'error', 'integrity-failure')
+    )
+    if ($evidenceFile.ContainsKey($lockGate)) { $generated += ,@('lock-tampered-evidence', @([pscustomobject]@{ staged = "locks/$lockGate/$($evidenceFile[$lockGate])"; append = ' ' }), 'error', 'integrity-failure') }
+    foreach ($g in $generated) { $cases.Add([pscustomobject]@{ id = $g[0]; kind = 'lock'; edits = @($g[1]); status = $g[2]; category = $g[3] }) }
+}
 $policyForRepin = Get-Content -LiteralPath (Join-Path $moduleRoot 'policy.json') -Raw | ConvertFrom-Json -Depth 100
 function Get-RepinnedConfig($Case) {
     # A governance change is delivered with a new bundle: the kept Profile binding of each edited governance file is
@@ -225,6 +274,7 @@ function Get-RepinnedConfig($Case) {
 $results = [Collections.Generic.List[object]]::new()
 try {
     foreach ($case in $cases) {
+        if ($lockGate) { $script:caseEvidence = Join-Path $runRoot "evidence-$($case.id)"; Stage-Evidence $script:caseEvidence }
         foreach ($e in $case.edits) { if ($e.PSObject.Properties.Name -contains 'harmless') { Add-HarmlessText ([string]$e.path) } else { Apply-Edit $e } }
         $savedConfig = $config
         if ($case.PSObject.Properties.Name -contains 'repin' -and $case.repin) { $config = Get-RepinnedConfig $case }
@@ -241,7 +291,7 @@ try {
         if ($ok -and $case.status -ceq 'pass') { $ok = @($result.coverage | Where-Object { $_.matched -lt $_.minimum }).Count -eq 0 }
         if ($ok -and $case.kind -ceq 'clean') { $again = Invoke-Adapter; $ok = ($again | ConvertTo-Json -Depth 60 -Compress) -ceq ($result | ConvertTo-Json -Depth 60 -Compress) }
         $results.Add([ordered]@{ id = $case.id; kind = $case.kind; binding = $(if ($case.PSObject.Properties.Name -contains 'binding') { $case.binding } else { $null })
-            edited = @($case.edits | ForEach-Object { if ($_.PSObject.Properties.Name -contains 'path') { $_.path } else { "$($_.root)/**/$($_.filter)" } }); expected = "$($case.status)/$($case.category)"; actual = "$($result.status)/$($result.exitCategory)"
+            edited = @($case.edits | ForEach-Object { $n = $_.PSObject.Properties.Name; if ($n -contains 'path') { $_.path } elseif ($n -contains 'root') { "$($_.root)/**/$($_.filter)" } elseif ($n -contains 'staged') { "EvidenceRoot/$($_.staged)" } else { 'EvidenceRoot/locks/staging.json' } }); expected = "$($case.status)/$($case.category)"; actual = "$($result.status)/$($result.exitCategory)"
             findings = @($result.findings | ForEach-Object { "$($_.ruleId):$($_.subject)" } | Select-Object -First 5)
             message = $(if ($result.PSObject.Properties.Name -contains 'message') { $result.message } else { $null }); pass = $ok })
         Restore-Clone
@@ -281,6 +331,7 @@ if (-not $SkipHost) {
     $out = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $basePackage 'core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $BaseInstallRoot -BaseReceiptPath $BaseReceiptPath -BaseArchivePath $BaseArchivePath -BundleRoot $bundleRoot -ReviewRecordPath $review -OutputInstallRoot $composed -CompositionReceiptPath $receipt -TargetRoot $clone -StateRoot $cState -EvidenceRoot $cEvidence -AllowSyntheticFixture 2>&1)
     Assert ($LASTEXITCODE -eq 0) "Composition failed: $($out -join "`n")"
     $hState = Join-Path $runRoot 'host-state'; $hEvidence = Join-Path $runRoot 'host-evidence'; [void][IO.Directory]::CreateDirectory($hState); [void][IO.Directory]::CreateDirectory($hEvidence)
+    if ($lockGate) { Stage-Evidence $hEvidence }
     $hOut = @(& dotnet (Join-Path $composed 'host/v4-guards.dll') stage run --stage post --package-root (Join-Path $composed 'package') --target-root $clone --state-root $hState --evidence-root $hEvidence --profile $profileId 2>&1)
     $hResult = ($hOut -join "`n") | ConvertFrom-Json -Depth 100
     Assert (@(Invoke-CloneGit @('status', '--porcelain', '--untracked-files=all')).Count -eq 0) 'Host Post changed the Target.'

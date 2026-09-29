@@ -107,7 +107,7 @@ function New-IFX050ModuleConfig {
             $key = if ($all[$i].Contains('id')) { [string]$all[$i].id } else { [string]$i }
             if ($removeAuthorities -notcontains $key) { $kept.Add($all[$i]) }
         }
-        $config.authorityHashes = @($kept.ToArray())
+        if ($kept.Count -eq 0) { $config.Remove('authorityHashes') } else { $config.authorityHashes = @($kept.ToArray()) }
     }
     $policy = Join-Path (Get-IFX050ModuleRoot $ModuleId) 'policy.json'
     if (Test-Path -LiteralPath $policy) { $config.policySha256 = Get-IFX050Sha256 $policy }

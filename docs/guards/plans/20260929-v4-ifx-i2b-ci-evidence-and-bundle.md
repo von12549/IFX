@@ -298,6 +298,37 @@ Module dispositions:
 - Batch 5 (Plan04) passes:
   - extraction 8, tenant 9, projection 16 and abstractions 11 cases;
   - `ifx-plan04-abstractions` packages the two V4 policies it read from `docs/guards/candidates`.
+- Batch 6 (the six lock consumers) passes, all on staged evidence from `Invoke-IFX050EvidenceProducers.ps1`:
+
+  | Module | Cases |
+  | --- | --- |
+  | `ifx-solution-evidence` | 10 |
+  | `ifx-assembly-evidence` | 11 |
+  | `ifx-frontend-evidence` | 10 |
+  | `ifx-database-evidence` | 13 |
+  | `ifx-c1-evaluated-reference` | 10 |
+  | `ifx-c1-type-provenance` | 12 |
+
+  - The Produce phase runs the seven producers.
+  - The Stage phase copies each run to `EvidenceRoot/locks/<gate>/`, writes `locks/staging.json` with the producer
+    script's R5 hash, and places the type run's manifest and DLLs at the EvidenceRoot root for
+    `architecture-conformance`.
+  - The consumers resolve paths under a staged run prefix into the staged directory. They require the pinned
+    producer (id, script, R5 script hash; for type and graph also the hash of the policy their 0.4.4 producer
+    reads), then keep every 0.4.4 lock check.
+  - `ifx-c1-type-provenance` packages the two V3_ifx files it read; `ifx-c1-evaluated-reference` packages its two
+    policies.
+  - Every consumer rejects:
+    - a missing manifest or lock;
+    - a forged producer;
+    - a tampered lock or evidence file;
+    - another commit;
+    - an expired lock;
+    - a gate mismatch.
+  - Lineage tampering, and a source or input changed after production, are rejected where they apply.
+- All 25 changed modules pass on fresh IFX clones. Next: the formal recorded pass of all 25 suites from the final
+  A1-3 commit.
+
 ### 9.5 Out of scope for A1
 
 - the producer relocation (0.5.0-b);
