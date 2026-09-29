@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-linux-native-archive-copyback",
+  "status": "pass",
+  "nativeRoot": "/native/linux",
+  "outRoot": "/out/linux",
+  "excluded": [
+    "native-checkout"
+  ],
+  "diagnostics": [],
+  "archive": {
+    "path": "native-results.tar.gz",
+    "format": "tar (pax, sorted, gzip)",
+    "bytes": 2970363162,
+    "sha256": "1ad95157bac8b81efd64d4c883695c6e2552265f26ea8cd4832533025584838b",
+    "fileEntries": 59592
+  },
+  "listing": {
+    "path": "native-listing.txt",
+    "files": 59592,
+    "bytes": 4063973089,
+    "sha256": "a88a41de10f938e46bfb36a482eafbbdaefb846065fc295fedaa7224093ffc76",
+    "lineFormat": "<sha256> <bytes> <path>"
+  },
+  "reports": [
+    {
+      "path": "matrix/case-manifest.json",
+      "present": true,
+      "bytes": 149985,
+      "sha256": "f2d177ee4a97d12b286ac8901fa368412cf14967994f3b0894d1cdfab345b7c8"
+    },
+    {
+      "path": "matrix/matrix-contract-summary.json",
+      "present": true,
+      "bytes": 767,
+      "sha256": "402386b879847b359d54f536c97814aa3054e5b42368b5929f0fb4aa3ebd0a7b"
+    },
+    {
+      "path": "matrix/summary.json",
+      "present": true,
+      "bytes": 24617,
+      "sha256": "813e9141c6d85b0576bc25ab369875e6fba2325d65e22d1e1ba7300f1bc1ddca"
+    },
+    {
+      "path": "native-links.json",
+      "present": true,
+      "bytes": 1358,
+      "sha256": "e0da334c0e37ebfcaf2e5f723d7bc10c8e722763b7e495728eb2dd38a1bd8321"
+    },
+    {
+      "path": "positive.json",
+      "present": true,
+      "bytes": 1956,
+      "sha256": "0f73e837b708bcb431e72b55b36194598975ccac70342eb60d07b99dfe0c33e2"
+    },
+    {
+      "path": "summary.json",
+      "present": true,
+      "bytes": 775,
+      "sha256": "1b27cebaf8fd744785f8d0b90ee87953f67b02a8d180d8eff2c315cf2a062ef4"
+    }
+  ],
+  "timings": {
+    "listSeconds": 18.142,
+    "archiveSeconds": 88.592,
+    "verifyNativeSeconds": 20.069,
+    "copyArchiveSeconds": 114.165,
+    "copyReportsSeconds": 0.843,
+    "totalSeconds": 242.826
+  }
+}

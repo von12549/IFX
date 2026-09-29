@@ -1,0 +1,87 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "ifx-050a-candidate-bundle",
+  "hostValidated": true,
+  "baseVersion": "1.1.6",
+  "bundleVersion": "0.5.0",
+  "targetCommit": "a35a07487afeaaf170576bc2151d83e09c09d3f0",
+  "sourceCommit": "a35a07487afeaaf170576bc2151d83e09c09d3f0",
+  "workspaceEvidenceDeclared": true,
+  "evidenceModel": "staged-by-workflow",
+  "moduleSelections": 37,
+  "changedModules": 25,
+  "externalModules": 36,
+  "distinctClaims": 79,
+  "baselineRefs": [],
+  "cases": [
+    {
+      "id": "direct-pre",
+      "status": "pass",
+      "moduleCount": 10,
+      "claimCount": 22,
+      "stages": [
+        "pre"
+      ]
+    },
+    {
+      "id": "direct-post",
+      "status": "pass",
+      "moduleCount": 27,
+      "claimCount": 57,
+      "stages": [
+        "post"
+      ]
+    },
+    {
+      "id": "dependency-post",
+      "status": "pass",
+      "moduleCount": 37,
+      "claimCount": 79,
+      "stages": [
+        "bootstrap",
+        "analysis",
+        "pre",
+        "post"
+      ]
+    }
+  ],
+  "negativeCases": [
+    {
+      "id": "manifest-tamper",
+      "status": "blocked",
+      "phase": "composition"
+    },
+    {
+      "id": "baseline-injection",
+      "status": "blocked",
+      "phase": "composition"
+    },
+    {
+      "id": "missing-staged-evidence",
+      "status": "blocked",
+      "phase": "host",
+      "category": "prerequisite-missing",
+      "lockConsumers": [
+        "ifx-c1-type-provenance",
+        "ifx-c1-evaluated-reference",
+        "ifx-database-evidence",
+        "ifx-solution-evidence",
+        "ifx-assembly-evidence",
+        "ifx-frontend-evidence"
+      ]
+    }
+  ],
+  "bundleManifestSha256": "8f0f62c25228a6fffc7158b6c754ecdacd1b28a467465791cd9069e6caa04e84",
+  "profileSha256": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e",
+  "ordinalInventorySha256": "c9671250c8cc3f4395636e8bad4dc5c709aacd55ffa23ecf321c5c68c7215361",
+  "productionRecordSha256": "03748a3904921c510173cef3999fc4bc3b8b9b0222903b62d43555402f67ca73",
+  "compositionReceiptSha256": "e3c1896f995f5dfa6323063188e4884e77a7501bf05cb73524a85efba64ee0d8",
+  "compositionReceiptProjectionSha256": "18cadfe9c0148dc5e7abbb6114ae9af68830ed153c9bbe10695d6d308f35068d",
+  "composedPackageFingerprintSha256": "b033d4de5c26e9e8bbe37613ec4b5070f31b260ca03032cdf4a2ee6b7b2760c0",
+  "limitations": [
+    "Synthetic composition is not Xiaolong Feng approval.",
+    "C6c dual-platform and independent negative certification remain required.",
+    "G04 PRE-READY and P10.3 deferrals remain open."
+  ]
+}

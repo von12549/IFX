@@ -1,0 +1,98 @@
+{
+  "formatVersion": 2,
+  "status": "pass",
+  "scope": "ifx-windows-product-certification",
+  "sourceCommit": "a35a07487afeaaf170576bc2151d83e09c09d3f0",
+  "productCertification": {
+    "targetProduct": "IFX",
+    "deploymentPlatform": "windows-server",
+    "status": "pass",
+    "blockingRequirements": [
+      "windows-full",
+      "certification-controls"
+    ],
+    "reasonCodes": []
+  },
+  "portabilityAssessment": {
+    "platform": "linux-x64",
+    "blocking": false,
+    "status": "pass",
+    "semanticProjection": "equal",
+    "reasonCodes": [],
+    "processExitCode": 0,
+    "provenCoreCases": 191,
+    "diagnostics": [],
+    "report": {
+      "path": "linux/summary.json",
+      "sha256": "1b27cebaf8fd744785f8d0b90ee87953f67b02a8d180d8eff2c315cf2a062ef4"
+    },
+    "matrixReport": {
+      "path": "linux/matrix/summary.json",
+      "sha256": "813e9141c6d85b0576bc25ab369875e6fba2325d65e22d1e1ba7300f1bc1ddca"
+    },
+    "caseManifest": {
+      "path": "linux/matrix/case-manifest.json",
+      "sha256": "f2d177ee4a97d12b286ac8901fa368412cf14967994f3b0894d1cdfab345b7c8"
+    },
+    "failureEvidence": [],
+    "copyBack": {
+      "archiveSha256": "1ad95157bac8b81efd64d4c883695c6e2552265f26ea8cd4832533025584838b",
+      "files": 59592,
+      "reports": 6,
+      "deep": false
+    }
+  },
+  "v4PackageReleaseCertification": "not-adjudicated",
+  "execution": {
+    "linuxImage": "ifx-c6c-sdk:10.0.303",
+    "linuxImageDigest": "sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773",
+    "inspectedLinuxImageDigest": "sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773",
+    "network": "none"
+  },
+  "production": {
+    "startedAt": "2026-09-29T09:40:43.4644177+00:00",
+    "completedAt": "2026-09-29T09:45:43.4396645+00:00",
+    "recordSha256": "b3c6a3dcc11ec9198a154ddcfd6dcb9fc6ecac24822ffd9aa22deb60c718e493",
+    "snapshotManifestSha256": "62bf418ca903c2f83fb227ccf9d233776dcbfd946c166439629a4bd92bfa5c65",
+    "snapshotFileCount": 862
+  },
+  "windows": {
+    "reportSha256": "305cefb87230fa12886897e57aab0e127a9ba3c0b788fa239be6db7c4241bd64",
+    "caseManifestSha256": "25ea338c94db187ea04cafe2cd0d5fe882a841e004ddba4fce7c2bee4167008c",
+    "provenCoreCases": 191
+  },
+  "controls": {
+    "reportSha256": "4a2e255a0416aebe57434ae550159e9127f2fb0504c76e04f27f73d9e0910186",
+    "capabilityVariantCount": 180,
+    "lockControlCount": 42
+  },
+  "processes": [
+    {
+      "name": "windows-matrix",
+      "startedAt": "2026-09-29T09:45:43.4508577+00:00",
+      "completedAt": "2026-09-29T10:04:15.5568925+00:00",
+      "elapsedSeconds": 1112.128,
+      "exitCode": 0,
+      "stdoutSha256": "66a5fbb2453eae454745c2a9f340516d18da08624c313de515e0fe569a36b0cf",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "controls",
+      "startedAt": "2026-09-29T09:45:43.4622183+00:00",
+      "completedAt": "2026-09-29T10:06:42.7246889+00:00",
+      "elapsedSeconds": 1259.288,
+      "exitCode": 0,
+      "stdoutSha256": "557517fc69e36f9830d101f508bea933a432c57cdd0e92f71dc96135cfeabae3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "linux",
+      "startedAt": "2026-09-29T09:45:43.4688116+00:00",
+      "completedAt": "2026-09-29T10:07:12.8591952+00:00",
+      "elapsedSeconds": 1289.417,
+      "exitCode": 0,
+      "stdoutSha256": "deb78482bc6e93a16618201dec5221a1315bc37585fa1b86dbf2bf6a8a48b9fb",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

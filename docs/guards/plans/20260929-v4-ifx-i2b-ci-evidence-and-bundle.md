@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R4 taken 2026-09-29; A1-6 C6c and A1-10 push need authorization`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 and A1-4 complete; A1-6 C6c needs authorization and IFX-V4-005 first`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -334,6 +334,54 @@ Module dispositions:
   - Records: `artifacts/guards/p10-ifx-i2b/a1-suites/` (`index.json` with the harness and specification hashes, one
     summary per module, the production record).
   - Next: A1-4, the harness successors.
+- **A1-4 complete (2026-09-29).** Harness successors under `candidates/ifx-i2b-050a/` (README, section "Harness
+  successors"); commits `83a6cb6e`, `d1062c55`, `d245c891`, `31a5ae79`, `83fa809e`, `50e77de6`, `25531643`,
+  `a35a0748`, `e13ac68c`.
+  - **Matrix.** `matrix-contract-050.json` and `fixture-spec-050.json` are derived from the I1 files; the verifier
+    re-derives both and compares them. Reclassifying the A1-3 captures showed 15 gaps in the changed modules. Ten
+    catalog cases close them: fixed-checklist zero and violation fixtures for the four checklist evidence
+    modules, two evaluated-graph edges, and the I1 supplemental recipes for G04/G05 evidence, handoff and field
+    governance. The runner gains staged `find`/`replace` and `relock` edits for them.
+  - **Independent matrix.** The 25 successor suites run in capture mode against the composed candidate on one
+    Target clone with one production (lock consumers first). The 11 unchanged suites go through the I1 wrapper.
+    `Test-IFX050SupplementalFixtures.ps1` keeps the 15 unchanged supplemental fixtures.
+  - **Certification controls.** The 180 capability controls and the root controls are kept. 42 staged-evidence
+    controls replace the Profile lock controls: current, missing staging, forged producer, altered lock, stale,
+    wrong commit, and a Target change after production, for each of the six consumers.
+  - **Production transfer** (`IFX050.Production.psm1`). The C6c produces once on a Windows clone. The controls
+    and the Linux leg import a snapshot of it: run directories, the DLLs the locks bind, and the producing
+    checkout's tracked bytes.
+  - **C6c runners.** Parallel certification, readiness (no lock gate: the candidate binds no lock), single C6c,
+    the C6c entry with the R4 gate (`Status: COMPLETE` of the IFX-V4-005 Plan), and the chain with
+    `-ReadinessOnly`.
+  - **Harness controls** (at `e13ac68c`): 12 Windows, 4 PR-gate and 10 Linux controls pass. The PR-gate cases use
+    synthetic PR commits on clean clones, with the producers re-run at each commit:
+    - a benign `src` comment passes Post (27 modules, no finding);
+    - a rule-breaking `src` edit (backpressure decision code) blocks with G04-BACKPRESSURE;
+    - a governance edit (`open-items-v1.json`) fails closed with `integrity-failure`;
+    - evidence produced for another commit is rejected.
+  - **Trial** at `a35a0748` (not the A1-6 C6c):
+    - the readiness chain passes: inventory, handshake (11 inherit, 1 base, 25 requalified), production,
+      candidates A and B identical on all five determinism fields, focused qualification, readiness;
+    - parallel certification passes: Windows matrix 191/191; controls 180 + 42; Linux 191/191, semantic
+      projection equal.
+    - Records: `artifacts/guards/p10-ifx-i2b/a1-harness/` (`index.json`). Evidence
+      `I2B-ci-evidence/a1-4-trials` (SHA256SUMS `3c5ff13c…`).
+  - Findings fixed on the way:
+    - clones under the temp directory need `core.longpaths`;
+    - a snapshot import must make the DLLs newer than the checkout (stale check);
+    - the Linux checkout must take the producing checkout's bytes, because the long-lived worktree holds a
+      mixed-EOL test file that a fresh clone writes as CRLF;
+    - the harness read the 0.4.4 Profile and authority map from `D:`; they are now byte copies in `baseline-044/`;
+    - the accepted 0.4.4 suites leave directory links in the Linux evidence; they are recorded in
+      `native-links.json` and replaced before the archive copy-back;
+    - a candidate under the repository must be copied out before composition.
+  - IFX-V4-005 failed again during the PR-gate controls (solution producer, drain test): the fifth recorded
+    failure. It stays a prerequisite of A1-6 (R4).
+  - Known limit: the `zero-source` catalog cases delete ignored build outputs in the Target clone; the matrix runs
+    the lock consumers first, so no later suite needs them.
+  - Next: IFX-V4-005 under its own Plan (authorization), then A1-5 readiness on that commit and the A1-6 C6c
+    (authorization).
 
 ### 9.5 Out of scope for A1
 
