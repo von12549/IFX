@@ -1,0 +1,378 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-b2-post-bindings",
+  "profile": {
+    "path": "package/profiles/catalog/ifx_profile/profile.json",
+    "version": "0.4.4",
+    "sha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51"
+  },
+  "workspaceEvidenceRoots": [
+    "src",
+    "tests/IFX.DatabaseBoundary.Tests",
+    "tools/IFX.DatabaseInventory",
+    "docs/guards/V3_ifx/stages/post/gates/specialized"
+  ],
+  "summary": {
+    "preModules": 10,
+    "postModules": 27,
+    "postWithLock": 6,
+    "postWithBindings": 20,
+    "postBindings": 230,
+    "postWithTreeFingerprint": 7,
+    "postWithNeither": [
+      "architecture-conformance",
+      "ifx-history-integrity"
+    ]
+  },
+  "modules": [
+    {
+      "module": "ifx-domain-reference",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-package-reference",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-ring-graph",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-ownership-graph",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-provider-cycle",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-embedded-adapter",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-source-policy",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-project-name",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-reference-cycle",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-injection",
+      "stage": "pre",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "architecture-conformance",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-c1-type-provenance",
+      "stage": "post",
+      "evidenceLock": true,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-c1-evaluated-reference",
+      "stage": "post",
+      "evidenceLock": true,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g03-governance-core",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 2,
+      "bindings": 2,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g03-catalog-semantics",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 1,
+      "bindings": 1,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g03-source-reconciliation",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 1,
+      "bindings": 1,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g03-snapshots",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 3,
+      "bindings": 3,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g03-docs-closeout",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 6,
+      "bindings": 6,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g04-manifests",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 19,
+      "hashFields": 0,
+      "bindings": 19,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g04-runtime",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 20,
+      "hashFields": 0,
+      "bindings": 20,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g04-closeout",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 43,
+      "hashFields": 0,
+      "bindings": 43,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-plan04-extraction",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 3,
+      "bindings": 3,
+      "treeFingerprints": [
+        "fixtureTreeSha256"
+      ]
+    },
+    {
+      "module": "ifx-plan04-tenant",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 4,
+      "bindings": 4,
+      "treeFingerprints": [
+        "sourceTreeSha256",
+        "fixtureTreeSha256"
+      ]
+    },
+    {
+      "module": "ifx-plan04-projection",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 9,
+      "hashFields": 2,
+      "bindings": 11,
+      "treeFingerprints": [
+        "sourceTreeSha256",
+        "fixtureTreeSha256"
+      ]
+    },
+    {
+      "module": "ifx-plan04-abstractions",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 5,
+      "bindings": 5,
+      "treeFingerprints": [
+        "fixtureTreeSha256"
+      ]
+    },
+    {
+      "module": "ifx-database-evidence",
+      "stage": "post",
+      "evidenceLock": true,
+      "authorityHashes": 3,
+      "hashFields": 0,
+      "bindings": 3,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g05-inventory",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 4,
+      "hashFields": 1,
+      "bindings": 5,
+      "treeFingerprints": [
+        "sourceTreeSha256"
+      ]
+    },
+    {
+      "module": "ifx-g05-protocol",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 15,
+      "hashFields": 0,
+      "bindings": 15,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g05-execution-http",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 20,
+      "hashFields": 1,
+      "bindings": 21,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g05-carriers",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 13,
+      "hashFields": 0,
+      "bindings": 13,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g05-governance",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 24,
+      "hashFields": 1,
+      "bindings": 25,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-g05-closeout",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 20,
+      "hashFields": 1,
+      "bindings": 21,
+      "treeFingerprints": [
+        "diagramTreeSha256"
+      ]
+    },
+    {
+      "module": "ifx-plan05-security",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 8,
+      "hashFields": 1,
+      "bindings": 9,
+      "treeFingerprints": [
+        "sourceTreeSha256"
+      ]
+    },
+    {
+      "module": "ifx-solution-evidence",
+      "stage": "post",
+      "evidenceLock": true,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-assembly-evidence",
+      "stage": "post",
+      "evidenceLock": true,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-frontend-evidence",
+      "stage": "post",
+      "evidenceLock": true,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    },
+    {
+      "module": "ifx-history-integrity",
+      "stage": "post",
+      "evidenceLock": false,
+      "authorityHashes": 0,
+      "hashFields": 0,
+      "bindings": 0,
+      "treeFingerprints": []
+    }
+  ]
+}

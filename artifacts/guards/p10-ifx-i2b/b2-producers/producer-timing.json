@@ -1,0 +1,137 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-b2-producer-timing",
+  "status": "pass",
+  "sourceCommit": "64b23dde68c0663a2486faf28be5a4333434f8f6",
+  "cloneRoot": "C:\\Users\\von12\\i2b-prod",
+  "cloneSeconds": 2.1,
+  "cache": "warm (developer NuGet global packages and npm cache)",
+  "tools": {
+    "dotnet": "10.0.303",
+    "node": "v24.12.0",
+    "npm": "11.6.2",
+    "pwsh": "7.6.6"
+  },
+  "producers": [
+    {
+      "id": "solution",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "status": "pass",
+      "exitCode": 0,
+      "seconds": 960.7,
+      "lockPath": "artifacts/guards/p10-ifx-c5b/solution-runs/1d95ee2f489d4cdda562da79619672b1/evidence-lock.json",
+      "lockSha256": "0e55f91a95a071356b874061efd0a3f058a27fee41fa36f0d1e02f410b03f35f",
+      "stdout": {
+        "path": "producer-logs/solution.stdout.txt",
+        "sha256": "14fae270d3cdd31a3762c1f0839ff98a1718c9a577373084a48215bd0d48a082"
+      },
+      "stderr": {
+        "path": "producer-logs/solution.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "assembly",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1",
+      "status": "pass",
+      "exitCode": 0,
+      "seconds": 2.6,
+      "lockPath": "artifacts/guards/p10-ifx-c5c/assembly-runs/93780c30902a4830a762e62d92122caa/evidence-lock.json",
+      "lockSha256": "143d1cfa7fceb8ff93f711cb1f13c8519abaadba691c75fd3f2ce5bae2a5a7f4",
+      "stdout": {
+        "path": "producer-logs/assembly.stdout.txt",
+        "sha256": "616152f3e7f4049c3d0e55fc4fb01b3b00c0daca7db84a5f7df06c2b087635e2"
+      },
+      "stderr": {
+        "path": "producer-logs/assembly.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "frontend",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c5d/Invoke-IFXFrontendEvidenceProducer.ps1",
+      "status": "pass",
+      "exitCode": 0,
+      "seconds": 48.5,
+      "lockPath": "artifacts/guards/p10-ifx-c5d/frontend-runs/b2b81c4023c54be9b04173094f83fbc3/evidence-lock.json",
+      "lockSha256": "f6d57948cac2d2531d6b1b936f62bd4784e5601c1a4785cda3d5aeb6feec9f0d",
+      "stdout": {
+        "path": "producer-logs/frontend.stdout.txt",
+        "sha256": "125ff0d20127a9be7b19f9446a1071bb3d05e4a6057f1fa8b2dbd8e38b9f85a1"
+      },
+      "stderr": {
+        "path": "producer-logs/frontend.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "database",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1",
+      "status": "pass",
+      "exitCode": 0,
+      "seconds": 935.9,
+      "lockPath": "artifacts/guards/p10-ifx-c4b/database-runs/93d60f67a9ba4db0a888cbaef46bce5c/evidence-lock.json",
+      "lockSha256": "bb72428a16828f59a852c4c7a3dd1e33a27fd0a02734bdb4e1c855d9b8ee9081",
+      "stdout": {
+        "path": "producer-logs/database.stdout.txt",
+        "sha256": "cca68a91328debf0e83d7b451a150ff49561d129c0392957d679bb0141d9adee"
+      },
+      "stderr": {
+        "path": "producer-logs/database.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "graph",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "status": "pass",
+      "exitCode": 0,
+      "seconds": 23.9,
+      "lockPath": "artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/9adc789292be413aa7054419a4fa5a1e/evidence-lock.json",
+      "lockSha256": "90e76fcff7f3b8c16f0df8a00918faf3d1e9a62b9a6cd38bfbf8004dbe7675c8",
+      "stdout": {
+        "path": "producer-logs/graph.stdout.txt",
+        "sha256": "98787ceb04268b4f62d4d678d7fa3348e59e09b071c36a0f6e8b87b4baf0c019"
+      },
+      "stderr": {
+        "path": "producer-logs/graph.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "generated",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c1r2c/Test-IFXGeneratedInputDisposition.ps1",
+      "status": "pass",
+      "exitCode": 0,
+      "seconds": 918.3,
+      "lockPath": "artifacts/guards/p10-ifx-i2b/generated-runs/bd59cdde85f74e98a52bcc519ec7b494/evidence-lock.json",
+      "lockSha256": "fe7b5fd88b3280ace178c4f29b59d0f24b69ff370594fcb9a1e2bd3640f6e57e",
+      "stdout": {
+        "path": "producer-logs/generated.stdout.txt",
+        "sha256": "cc127f6af075c27265a806c8ebdd549e0833ca3a7ef70f9064d94dfd5be20a73"
+      },
+      "stderr": {
+        "path": "producer-logs/generated.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "id": "type",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+      "status": "pass",
+      "exitCode": 0,
+      "seconds": 1.3,
+      "lockPath": "artifacts/guards/p10-ifx-c1-r1b/type-runs/5530f781f03c43748e8498fb500f1e68/evidence-lock.json",
+      "lockSha256": "bc968a1b91d0969a2800f2dcd29d3fd05e614edbed882d7d618e2317fb8b482d",
+      "stdout": {
+        "path": "producer-logs/type.stdout.txt",
+        "sha256": "629d44a11fb21f149a88f812b453fbebd9ae3379b8eedef6f195a3f56b591e57"
+      },
+      "stderr": {
+        "path": "producer-logs/type.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "totalProducerSeconds": 2891.2
+}

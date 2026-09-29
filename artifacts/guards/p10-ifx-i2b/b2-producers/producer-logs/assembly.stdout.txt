@@ -1,0 +1,5 @@
+IFX assembly guard passed: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c5c\assembly-runs\93780c30902a4830a762e62d92122caa\quality\assembly.json
+IFX quality checks passed: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c5c\assembly-runs\93780c30902a4830a762e62d92122caa\quality\summary.json
+IFX guardrails passed: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c5c\assembly-runs\93780c30902a4830a762e62d92122caa\summary-quality.json
+Assembly evidence lock: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c5c\assembly-runs\93780c30902a4830a762e62d92122caa\evidence-lock.json
+SHA256: 143d1cfa7fceb8ff93f711cb1f13c8519abaadba691c75fd3f2ce5bae2a5a7f4

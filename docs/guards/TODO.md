@@ -126,9 +126,15 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     - `ifx-c1-type-provenance` reads two `docs/guards/V3_ifx` authorities;
     - `ifx-c1-evaluated-reference` reads policies under `docs/guards/candidates`;
     - the G03/G05 modules read the V3-generated `layerguard-governance-input.json`.
-  - **I2-B, still open:** CI evidence design and bundle 0.5.0. The Profile must not pin commit-bound,
-    expiring local locks. The workflow must produce its own evidence. The three couplings above must go.
-    IFX-V4-006 is fixed first.
+  - **I2-B B0–B2 done (2026-09-29), B3 operator decision open.** Plan
+    `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
+    - B1 fixed IFX-V4-006 (archive copy-back).
+    - B2 found that four of the seven lock producers are V3 gates, so the proposal's ownership of
+      `v3-quality-*` and `v3-specialized-database` is circular.
+    - B2 also found IFX-V4-007: the 0.4.4 Post attests one commit and cannot serve as a PR gate.
+    - Recommended: option D-B in two steps inside a 0.5.0 bundle line.
+      1. PR-gate rework: lock binding by producer contract, the pin split and the couplings.
+      2. Relocate the V3-wrapping producers into `v4-adoption/producers/`.
 
 - [x] **IFX-V4-002 — Linux timeout of `ifx-database-evidence` (Guard checklist O20) — COMPLETE (2026-09-29, I1)**
 
@@ -189,11 +195,30 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
 
   `tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs` waits at most 1 s for idle after
   releasing the operation. Under load it fails (4 of 126 recorded C5b solution-evidence runs, including
-  I1 S5 attempt 3), and the solution-evidence producer then issues no lock. Make the test deterministic,
+  I1 S5 attempt 3, and again in I2-B B2 producer-timing attempt 1), and the solution-evidence producer then
+  issues no lock. It must be fixed before V4 builds and tests the solution in CI (design note 12). Make the test deterministic,
   for example with a longer bound or an explicit completion signal, under an IFX product Plan.
 
-- [ ] **IFX-V4-006 — Slow C6c Linux result copy-back**
+- [x] **IFX-V4-006 — Slow C6c Linux result copy-back — FIXED IN THE HARNESS (2026-09-29, I2-B B1)**
 
   The I1 Linux certification copies about 65k matrix files back over the 9p bind mount. The copy took about
-  90 minutes of the 2-hour S5 run. A later harness revision should archive the native results into a single
-  file inside the container and copy that archive back.
+  90 minutes of the 2-hour S5 run.
+
+  `candidates/ifx-i2b/IFXI2B.NativeArchive.psm1` replaces the per-file copy:
+  - it packs the native results into one sorted gzip tar inside the container;
+  - it copies back only that archive, a path/size/SHA-256 listing and the small reports the runners read;
+  - `Test-IFXI2BNativeArchive` re-checks the copy on either platform.
+
+  Controls: 26/26 on Linux and Windows tar. They include a truncated archive, a forged report and a changed
+  archived file. Benchmark: `artifacts/guards/p10-ifx-i2b/b1-copyback/benchmark.json`. The next C6c harness
+  uses the module.
+
+- [ ] **IFX-V4-007 — Bundle 0.4.4 Post attests one commit and is not a PR gate (found in I2-B B2)**
+
+  Twenty of the 27 Post modules bind the exact content of target files: 230 hash bindings. They include
+  `Program.cs`, deployment and compose files, and a fingerprint of every `src/**/*.cs` file. On any
+  difference the adapter stops with `integrity-failure`, so any PR that edits C# under `src` fails V4 Post.
+
+  The successor bundle must keep pins only for governance authorities and evaluate live sources on the
+  current content (design note 12, finding F3). Record:
+  `artifacts/guards/p10-ifx-i2b/b2-design/post-bindings.json`.

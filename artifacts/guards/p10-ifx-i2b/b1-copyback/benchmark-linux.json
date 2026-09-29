@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "nativeRoot": "/native/bench/linux",
+  "nativeFileSystem": "overlayfs",
+  "outFileSystem": "v9fs",
+  "replicaFiles": 69945,
+  "replicaBytes": 816554881,
+  "unpackSeconds": 18.607,
+  "archiveCopyBackSeconds": 27.488,
+  "perFileCopyBackSeconds": 5696.511,
+  "perFileOutputFiles": 69946
+}

@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B2 authorized 2026-09-29 ("授权 B0–B2"); B3 is an operator decision; implementation needs a separate authorization`
+Status: `ACTIVE — B0–B2 COMPLETE 2026-09-29; B3 awaits the operator decision; implementation needs a separate authorization`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -89,3 +89,41 @@ changes.
 - `docs/guards/v4-adoption/plans/12-ci-evidence-design.md`
 - `artifacts/guards/p10-ifx-i2b`
 - `docs/guards/TODO.md`
+
+## 7. Outcome of B0–B2 (2026-09-29)
+
+Evidence: `D:\IFX-Root\v4-todo-008-evidence\I2B-ci-evidence` (`commands.jsonl`, `logs/`, `SHA256SUMS`).
+
+- **Command sequence numbers:** the benchmark (`003-b1-benchmark`) ran concurrently with runs 003–006, so two
+  runs carry sequence 003. Their log files are distinct.
+- **Tracked records:** `artifacts/guards/p10-ifx-i2b/`.
+
+| Step | Result | Record |
+| --- | --- | --- |
+| B0 | Plan pair committed `52d8cef4` after `plan validate` | — |
+| B1 | `candidates/ifx-i2b/IFXI2B.NativeArchive.psm1` (`d20b774c`, tar pin `647c4bcb`). Controls 26/26 on the Linux image and Windows tar (run 002). Benchmark on a replica of the I1 Linux results: 69,945 files, 817 MB, 9p out mount. **Per-file copy 5,696.5 s; archive copy-back 27.5 s (207×).** The listing equals the source, and the Windows deep re-check passes | `b1-copyback/controls-summary.json`, `benchmark.json` |
+| B2 | Producer timing on a fresh clone passes in attempt 2: solution 960.7 s, database 935.9 s, generated 918.3 s, frontend 48.5 s, graph 23.9 s, assembly 2.6 s, type 1.3 s. Post-binding inventory; V3 CI job timings; design note `v4-adoption/plans/12-ci-evidence-design.md` | `b2-producers/producer-timing.json`, `b2-design/post-bindings.json`, `b2-design/v3-ci-timing.json` |
+
+Attempts kept:
+
+- **B1 controls attempt 1 (run 001).** Launched from Git Bash, `tar` resolved to Git's GNU tar, which reads
+  `D:\…` as a remote host. Fixed by pinning `System32\tar.exe` in `647c4bcb`.
+- **B2 producer attempt 1 (run 005, `b2-producers/attempt1-flaky-drain-test/`).** It failed on IFX-V4-005.
+
+Findings beyond the Plan (design note 12):
+
+- **F3 / IFX-V4-007.** Twenty of the 27 Post modules pin 230 target hashes, including the whole `src/**/*.cs`
+  tree. The 0.4.4 Post attests commit `44536a6a` and fails any PR that edits `src`.
+- **F5.** The Host refuses network-capable modules, so restore and audits must be workflow steps.
+  `architecture-conformance` and `ifx-c1-type-provenance` need the type run's manifest staged into EvidenceRoot.
+- **Couplings.** Three V3 couplings beyond I2-A:
+  - the generated producer's V3 scanner source;
+  - `workspaceEvidence` including `V3_ifx/…/specialized`;
+  - LayerGuard baselines.
+
+Recommendation for B3: **D-B in two steps.**
+
+1. 0.5.0-a: the PR-gate rework — lock binding by producer contract, the pin split and the couplings.
+2. 0.5.0-b: relocate the V3-wrapping producers with a V3/V4 parity run.
+
+No bundle, Profile, module, remote, workflow or ruleset changed.

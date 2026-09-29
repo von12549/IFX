@@ -1,0 +1,2 @@
+Frontend evidence lock: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c5d\frontend-runs\b2b81c4023c54be9b04173094f83fbc3\evidence-lock.json
+SHA256: f6d57948cac2d2531d6b1b936f62bd4784e5601c1a4785cda3d5aeb6feec9f0d

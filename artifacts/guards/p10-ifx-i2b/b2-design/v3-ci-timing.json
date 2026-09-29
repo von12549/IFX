@@ -1,0 +1,102 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-b2-v3-ci-timing",
+  "repository": "von12549/IFX",
+  "runId": 35590883598,
+  "headSha": "732f8d65b34f4e746727b42752d9cc17453408d6",
+  "headBranch": "codex/plan06-final-doc-clarity",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "v3-architecture",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:50:37Z",
+      "completedAt": "2026-09-21T10:58:30Z",
+      "minutes": 7.9
+    },
+    {
+      "name": "v3-cross-platform-ubuntu-latest",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:50:37Z",
+      "completedAt": "2026-09-21T10:56:46Z",
+      "minutes": 6.2
+    },
+    {
+      "name": "v3-cross-platform-windows-latest",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:50:37Z",
+      "completedAt": "2026-09-21T10:52:49Z",
+      "minutes": 2.2
+    },
+    {
+      "name": "v3-historical-integrity",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:50:37Z",
+      "completedAt": "2026-09-21T10:50:52Z",
+      "minutes": 0.2
+    },
+    {
+      "name": "v3-pre-diff",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:50:37Z",
+      "completedAt": "2026-09-21T10:51:25Z",
+      "minutes": 0.8
+    },
+    {
+      "name": "v3-quality-assembly",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:54:41Z",
+      "completedAt": "2026-09-21T10:55:07Z",
+      "minutes": 0.4
+    },
+    {
+      "name": "v3-quality-frontend",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:51:13Z",
+      "completedAt": "2026-09-21T10:52:00Z",
+      "minutes": 0.8
+    },
+    {
+      "name": "v3-quality-solution",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:50:37Z",
+      "completedAt": "2026-09-21T10:54:39Z",
+      "minutes": 4.0
+    },
+    {
+      "name": "v3-specialized-database",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:58:32Z",
+      "completedAt": "2026-09-21T11:01:54Z",
+      "minutes": 3.4
+    },
+    {
+      "name": "v3-specialized-g03",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:58:32Z",
+      "completedAt": "2026-09-21T10:59:17Z",
+      "minutes": 0.8
+    },
+    {
+      "name": "v3-specialized-g04",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:58:32Z",
+      "completedAt": "2026-09-21T10:59:03Z",
+      "minutes": 0.5
+    },
+    {
+      "name": "v3-specialized-g05",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:58:35Z",
+      "completedAt": "2026-09-21T10:59:14Z",
+      "minutes": 0.6
+    },
+    {
+      "name": "v3-specialized-plan04",
+      "conclusion": "success",
+      "startedAt": "2026-09-21T10:58:32Z",
+      "completedAt": "2026-09-21T10:59:02Z",
+      "minutes": 0.5
+    }
+  ]
+}

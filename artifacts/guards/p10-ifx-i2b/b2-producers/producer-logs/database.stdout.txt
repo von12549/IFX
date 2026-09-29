@@ -1,0 +1,289 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  IFX.BuildingBlocks.Domain -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Domain\bin\Release\net8.0\IFX.BuildingBlocks.Domain.dll
+  IFX.BuildingBlocks.Security -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Security\bin\Release\net8.0\IFX.BuildingBlocks.Security.dll
+  IFX.Platform.Authentication.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Authentication\IFX.Platform.Authentication.Contracts\bin\Release\net8.0\IFX.Platform.Authentication.Contracts.dll
+  IFX.Platform.Messaging.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Contracts\bin\Release\net8.0\IFX.Platform.Messaging.Contracts.dll
+  IFX.Platform.Authorization.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Authorization\IFX.Platform.Authorization.Contracts\bin\Release\net8.0\IFX.Platform.Authorization.Contracts.dll
+  IFX.Platform.Context.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Context\IFX.Platform.Context.Contracts\bin\Release\net8.0\IFX.Platform.Context.Contracts.dll
+  IFX.Modules.Holdings.Domain -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Domain\bin\Release\net8.0\IFX.Modules.Holdings.Domain.dll
+  IFX.Modules.CRM.Domain -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Domain\bin\Release\net8.0\IFX.Modules.CRM.Domain.dll
+  IFX.Modules.Registry.Domain -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Domain\bin\Release\net8.0\IFX.Modules.Registry.Domain.dll
+  IFX.Modules.Registry.Contracts -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Contracts\bin\Release\net8.0\IFX.Modules.Registry.Contracts.dll
+  IFX.Modules.CRM.Contracts -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Contracts\bin\Release\net8.0\IFX.Modules.CRM.Contracts.dll
+  IFX.Modules.IAM.Domain -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Domain\bin\Release\net8.0\IFX.Modules.IAM.Domain.dll
+  IFX.BuildingBlocks.Application -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Application\bin\Release\net8.0\IFX.BuildingBlocks.Application.dll
+  IFX.Modules.IAM.Contracts -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Contracts\bin\Release\net8.0\IFX.Modules.IAM.Contracts.dll
+  IFX.Modules.Transaction.Domain -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Domain\bin\Release\net8.0\IFX.Modules.Transaction.Domain.dll
+  IFX.Modules.Transaction.Contracts -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Contracts\bin\Release\net8.0\IFX.Modules.Transaction.Contracts.dll
+  IFX.Platform.Context.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Context\IFX.Platform.Context.Runtime\bin\Release\net8.0\IFX.Platform.Context.Runtime.dll
+  IFX.Modules.Transaction.Application -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Application\bin\Release\net8.0\IFX.Modules.Transaction.Application.dll
+  IFX.Platform.Messaging.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Runtime\bin\Release\net8.0\IFX.Platform.Messaging.Runtime.dll
+  IFX.BuildingBlocks.EntityFrameworkCore -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\bin\Release\net8.0\IFX.BuildingBlocks.EntityFrameworkCore.dll
+  IFX.Modules.Registry.Application -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Application\bin\Release\net8.0\IFX.Modules.Registry.Application.dll
+  IFX.Modules.CRM.Application -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Application\bin\Release\net8.0\IFX.Modules.CRM.Application.dll
+  IFX.Modules.Holdings.Application -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Application\bin\Release\net8.0\IFX.Modules.Holdings.Application.dll
+  IFX.Modules.IAM.Application -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Application\bin\Release\net8.0\IFX.Modules.IAM.Application.dll
+  IFX.Modules.IAM.Client -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Client\bin\Release\net8.0\IFX.Modules.IAM.Client.dll
+  IFX.Modules.Transaction.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Infrastructure\bin\Release\net8.0\IFX.Modules.Transaction.Infrastructure.dll
+  IFX.Modules.Holdings.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Infrastructure\bin\Release\net8.0\IFX.Modules.Holdings.Infrastructure.dll
+  IFX.Modules.CRM.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\bin\Release\net8.0\IFX.Modules.CRM.Infrastructure.dll
+  IFX.Modules.IAM.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Infrastructure\bin\Release\net8.0\IFX.Modules.IAM.Infrastructure.dll
+  IFX.Modules.Registry.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Infrastructure\bin\Release\net8.0\IFX.Modules.Registry.Infrastructure.dll
+  IFX.DatabaseMigrator -> C:\Users\von12\i2b-prod\src\DatabaseMigrator\IFX.DatabaseMigrator\bin\Release\net8.0\IFX.DatabaseMigrator.dll
+  IFX.DatabaseBoundary.Tests -> C:\Users\von12\i2b-prod\tests\IFX.DatabaseBoundary.Tests\bin\Release\net8.0\IFX.DatabaseBoundary.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.53
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  IFX.Platform.Messaging.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Contracts\bin\Release\net8.0\IFX.Platform.Messaging.Contracts.dll
+  IFX.BuildingBlocks.Domain -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Domain\bin\Release\net8.0\IFX.BuildingBlocks.Domain.dll
+  IFX.BuildingBlocks.Security -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Security\bin\Release\net8.0\IFX.BuildingBlocks.Security.dll
+  IFX.Platform.Authentication.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Authentication\IFX.Platform.Authentication.Contracts\bin\Release\net8.0\IFX.Platform.Authentication.Contracts.dll
+  IFX.Platform.Authorization.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Authorization\IFX.Platform.Authorization.Contracts\bin\Release\net8.0\IFX.Platform.Authorization.Contracts.dll
+  IFX.Platform.Context.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Context\IFX.Platform.Context.Contracts\bin\Release\net8.0\IFX.Platform.Context.Contracts.dll
+  IFX.Modules.Registry.Domain -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Domain\bin\Release\net8.0\IFX.Modules.Registry.Domain.dll
+  IFX.Modules.Transaction.Contracts -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Contracts\bin\Release\net8.0\IFX.Modules.Transaction.Contracts.dll
+  IFX.Modules.Registry.Contracts -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Contracts\bin\Release\net8.0\IFX.Modules.Registry.Contracts.dll
+  IFX.Modules.Transaction.Domain -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Domain\bin\Release\net8.0\IFX.Modules.Transaction.Domain.dll
+  IFX.Modules.Holdings.Domain -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Domain\bin\Release\net8.0\IFX.Modules.Holdings.Domain.dll
+  IFX.Modules.CRM.Contracts -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Contracts\bin\Release\net8.0\IFX.Modules.CRM.Contracts.dll
+  IFX.Modules.IAM.Domain -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Domain\bin\Release\net8.0\IFX.Modules.IAM.Domain.dll
+  IFX.BuildingBlocks.Application -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Application\bin\Release\net8.0\IFX.BuildingBlocks.Application.dll
+  IFX.Modules.CRM.Domain -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Domain\bin\Release\net8.0\IFX.Modules.CRM.Domain.dll
+  IFX.Modules.IAM.Contracts -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Contracts\bin\Release\net8.0\IFX.Modules.IAM.Contracts.dll
+  IFX.Platform.Context.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Context\IFX.Platform.Context.Runtime\bin\Release\net8.0\IFX.Platform.Context.Runtime.dll
+  IFX.Platform.Messaging.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Runtime\bin\Release\net8.0\IFX.Platform.Messaging.Runtime.dll
+  IFX.BuildingBlocks.EntityFrameworkCore -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\bin\Release\net8.0\IFX.BuildingBlocks.EntityFrameworkCore.dll
+  IFX.Modules.Transaction.Application -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Application\bin\Release\net8.0\IFX.Modules.Transaction.Application.dll
+  IFX.Modules.Holdings.Application -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Application\bin\Release\net8.0\IFX.Modules.Holdings.Application.dll
+  IFX.Modules.IAM.Application -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Application\bin\Release\net8.0\IFX.Modules.IAM.Application.dll
+  IFX.Modules.CRM.Application -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Application\bin\Release\net8.0\IFX.Modules.CRM.Application.dll
+  IFX.Modules.Registry.Application -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Application\bin\Release\net8.0\IFX.Modules.Registry.Application.dll
+  IFX.Modules.IAM.Client -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Client\bin\Release\net8.0\IFX.Modules.IAM.Client.dll
+  IFX.Modules.IAM.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Infrastructure\bin\Release\net8.0\IFX.Modules.IAM.Infrastructure.dll
+  IFX.Modules.Registry.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Infrastructure\bin\Release\net8.0\IFX.Modules.Registry.Infrastructure.dll
+  IFX.Modules.Transaction.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Infrastructure\bin\Release\net8.0\IFX.Modules.Transaction.Infrastructure.dll
+  IFX.Modules.Holdings.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Infrastructure\bin\Release\net8.0\IFX.Modules.Holdings.Infrastructure.dll
+  IFX.Modules.CRM.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\bin\Release\net8.0\IFX.Modules.CRM.Infrastructure.dll
+  IFX.DatabaseInventory -> C:\Users\von12\i2b-prod\tools\IFX.DatabaseInventory\bin\Release\net8.0\IFX.DatabaseInventory.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.79
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  IFX.Platform.Authentication.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Authentication\IFX.Platform.Authentication.Contracts\bin\Release\net8.0\IFX.Platform.Authentication.Contracts.dll
+  IFX.Platform.Notifications.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Notifications\IFX.Platform.Notifications.Contracts\bin\Release\net8.0\IFX.Platform.Notifications.Contracts.dll
+  IFX.BuildingBlocks.Composition -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Composition\bin\Release\net8.0\IFX.BuildingBlocks.Composition.dll
+  IFX.Platform.Context.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Context\IFX.Platform.Context.Contracts\bin\Release\net8.0\IFX.Platform.Context.Contracts.dll
+  IFX.BuildingBlocks.Domain -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Domain\bin\Release\net8.0\IFX.BuildingBlocks.Domain.dll
+  IFX.Platform.Authorization.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Authorization\IFX.Platform.Authorization.Contracts\bin\Release\net8.0\IFX.Platform.Authorization.Contracts.dll
+  IFX.Platform.Shared -> C:\Users\von12\i2b-prod\src\Platform\IFX.Platform.Shared\bin\Release\net8.0\IFX.Platform.Shared.dll
+  IFX.BuildingBlocks.Application -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Application\bin\Release\net8.0\IFX.BuildingBlocks.Application.dll
+  IFX.Platform.Authentication.Infrastructure.Auth0 -> C:\Users\von12\i2b-prod\src\Platform\Authentication\IFX.Platform.Authentication.Infrastructure.Auth0\bin\Release\net8.0\IFX.Platform.Authentication.Infrastructure.Auth0.dll
+  IFX.Modules.IAM.Contracts -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Contracts\bin\Release\net8.0\IFX.Modules.IAM.Contracts.dll
+  IFX.Platform.Messaging.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Contracts\bin\Release\net8.0\IFX.Platform.Messaging.Contracts.dll
+  IFX.BuildingBlocks.Security -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Security\bin\Release\net8.0\IFX.BuildingBlocks.Security.dll
+  IFX.Platform.Authentication.Infrastructure.Cognito -> C:\Users\von12\i2b-prod\src\Platform\Authentication\IFX.Platform.Authentication.Infrastructure.Cognito\bin\Release\net8.0\IFX.Platform.Authentication.Infrastructure.Cognito.dll
+  IFX.Platform.Authorization.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Authorization\IFX.Platform.Authorization.Runtime\bin\Release\net8.0\IFX.Platform.Authorization.Runtime.dll
+  IFX.Platform.Messaging.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Runtime\bin\Release\net8.0\IFX.Platform.Messaging.Runtime.dll
+  IFX.BuildingBlocks.EntityFrameworkCore -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\bin\Release\net8.0\IFX.BuildingBlocks.EntityFrameworkCore.dll
+  IFX.Platform.Context.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Context\IFX.Platform.Context.Runtime\bin\Release\net8.0\IFX.Platform.Context.Runtime.dll
+  IFX.Platform.Authentication.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Authentication\IFX.Platform.Authentication.Runtime\bin\Release\net8.0\IFX.Platform.Authentication.Runtime.dll
+  IFX.Modules.Holdings.Domain -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Domain\bin\Release\net8.0\IFX.Modules.Holdings.Domain.dll
+  IFX.Modules.Transaction.Contracts -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Contracts\bin\Release\net8.0\IFX.Modules.Transaction.Contracts.dll
+  IFX.Modules.Registry.Domain -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Domain\bin\Release\net8.0\IFX.Modules.Registry.Domain.dll
+  IFX.Modules.Registry.Contracts -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Contracts\bin\Release\net8.0\IFX.Modules.Registry.Contracts.dll
+  IFX.Modules.CRM.Contracts -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Contracts\bin\Release\net8.0\IFX.Modules.CRM.Contracts.dll
+  IFX.Modules.CRM.Domain -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Domain\bin\Release\net8.0\IFX.Modules.CRM.Domain.dll
+  IFX.Platform.Notifications.Infrastructure.SendGrid -> C:\Users\von12\i2b-prod\src\Platform\Notifications\IFX.Platform.Notifications.Infrastructure.SendGrid\bin\Release\net8.0\IFX.Platform.Notifications.Infrastructure.SendGrid.dll
+  IFX.Modules.IAM.Domain -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Domain\bin\Release\net8.0\IFX.Modules.IAM.Domain.dll
+  IFX.Modules.IAM.Client -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Client\bin\Release\net8.0\IFX.Modules.IAM.Client.dll
+  IFX.Modules.Holdings.Application -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Application\bin\Release\net8.0\IFX.Modules.Holdings.Application.dll
+  IFX.Platform.Messaging.Composition -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Composition\bin\Release\net8.0\IFX.Platform.Messaging.Composition.dll
+  IFX.Platform.Authentication.Composition -> C:\Users\von12\i2b-prod\src\Platform\Authentication\IFX.Platform.Authentication.Composition\bin\Release\net8.0\IFX.Platform.Authentication.Composition.dll
+  IFX.Modules.Registry.Application -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Application\bin\Release\net8.0\IFX.Modules.Registry.Application.dll
+  IFX.Platform.BackgroundJobs.Contracts -> C:\Users\von12\i2b-prod\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Contracts\bin\Release\net8.0\IFX.Platform.BackgroundJobs.Contracts.dll
+  IFX.Modules.Holdings.Presentation -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Presentation\bin\Release\net8.0\IFX.Modules.Holdings.Presentation.dll
+  IFX.Modules.Holdings.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Infrastructure\bin\Release\net8.0\IFX.Modules.Holdings.Infrastructure.dll
+  IFX.Modules.IAM.Application -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Application\bin\Release\net8.0\IFX.Modules.IAM.Application.dll
+  IFX.Modules.Transaction.Domain -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Domain\bin\Release\net8.0\IFX.Modules.Transaction.Domain.dll
+  IFX.Modules.CRM.Application -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Application\bin\Release\net8.0\IFX.Modules.CRM.Application.dll
+  IFX.Modules.Registry.Presentation -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Presentation\bin\Release\net8.0\IFX.Modules.Registry.Presentation.dll
+  IFX.Modules.Registry.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Infrastructure\bin\Release\net8.0\IFX.Modules.Registry.Infrastructure.dll
+  IFX.Platform.BackgroundJobs.Infrastructure.Hangfire -> C:\Users\von12\i2b-prod\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\bin\Release\net8.0\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.dll
+  IFX.Modules.IAM.Presentation -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Presentation\bin\Release\net8.0\IFX.Modules.IAM.Presentation.dll
+  IFX.Platform.BackgroundJobs.Composition -> C:\Users\von12\i2b-prod\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Composition\bin\Release\net8.0\IFX.Platform.BackgroundJobs.Composition.dll
+  IFX.Modules.Registry.Composition -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Composition\bin\Release\net8.0\IFX.Modules.Registry.Composition.dll
+  IFX.Modules.IAM.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Infrastructure\bin\Release\net8.0\IFX.Modules.IAM.Infrastructure.dll
+  IFX.Modules.Holdings.Composition -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Composition\bin\Release\net8.0\IFX.Modules.Holdings.Composition.dll
+  IFX.Modules.CRM.Presentation -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Presentation\bin\Release\net8.0\IFX.Modules.CRM.Presentation.dll
+  IFX.Platform.Notifications.Composition -> C:\Users\von12\i2b-prod\src\Platform\Notifications\IFX.Platform.Notifications.Composition\bin\Release\net8.0\IFX.Platform.Notifications.Composition.dll
+  IFX.Platform.Authorization.Infrastructure.Opa -> C:\Users\von12\i2b-prod\src\Platform\Authorization\IFX.Platform.Authorization.Infrastructure.Opa\bin\Release\net8.0\IFX.Platform.Authorization.Infrastructure.Opa.dll
+  IFX.Modules.Transaction.Application -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Application\bin\Release\net8.0\IFX.Modules.Transaction.Application.dll
+  IFX.Modules.CRM.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\bin\Release\net8.0\IFX.Modules.CRM.Infrastructure.dll
+  IFX.Platform.Authorization.Composition -> C:\Users\von12\i2b-prod\src\Platform\Authorization\IFX.Platform.Authorization.Composition\bin\Release\net8.0\IFX.Platform.Authorization.Composition.dll
+  IFX.Modules.Transaction.Presentation -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Presentation\bin\Release\net8.0\IFX.Modules.Transaction.Presentation.dll
+  IFX.Modules.Transaction.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Infrastructure\bin\Release\net8.0\IFX.Modules.Transaction.Infrastructure.dll
+  IFX.Modules.IAM.Composition -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Composition\bin\Release\net8.0\IFX.Modules.IAM.Composition.dll
+  IFX.Modules.CRM.Composition -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Composition\bin\Release\net8.0\IFX.Modules.CRM.Composition.dll
+  IFX.Modules.Transaction.Composition -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Composition\bin\Release\net8.0\IFX.Modules.Transaction.Composition.dll
+  IFX.ApiHost -> C:\Users\von12\i2b-prod\src\ApiHost\IFX.ApiHost\bin\Release\net8.0\IFX.ApiHost.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.21
+Database inventory generated: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c4b\database-runs\93d60f67a9ba4db0a888cbaef46bce5c\specialized\database\G02-database-inventory.json
+Migration manifest generated: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c4b\database-runs\93d60f67a9ba4db0a888cbaef46bce5c\specialized\database\G02-migration-manifest.json
+Modules: 5; entities: 50; migrations: 19; schema violations: 0
+Migration safety policy passed. Report: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c4b\database-runs\93d60f67a9ba4db0a888cbaef46bce5c\specialized\database\migration-safety.json
+[11:24:30 INF] Starting Auth API
+[11:24:30 INF] [Auth] Registering module services...
+[11:24:30 INF] [Auth] Identity provider: hmac:ephemeral-v1:7ff7be1516934c25b0f6765a
+[11:24:30 INF] [Auth] Module services registered successfully
+[11:24:30 INF] [CRM] Registering module services...
+[11:24:30 INF] [CRM] Module services registered successfully
+[11:24:30 INF] [Registry] Registering module services...
+[11:24:30 INF] [Registry] Module services registered successfully
+[11:24:30 INF] [Holdings] Registering module services...
+[11:24:30 INF] [Holdings] Module services registered successfully
+[11:24:30 INF] [Transaction] Registering module services...
+[11:24:30 INF] [Transaction] Module services registered successfully
+No changes have been made to the model since the last migration.
+[11:24:32 INF] Starting Auth API
+[11:24:32 INF] [Auth] Registering module services...
+[11:24:32 INF] [Auth] Identity provider: hmac:ephemeral-v1:7112d6cf0045d1ca079d9c20
+[11:24:32 INF] [Auth] Module services registered successfully
+[11:24:32 INF] [CRM] Registering module services...
+[11:24:32 INF] [CRM] Module services registered successfully
+[11:24:32 INF] [Registry] Registering module services...
+[11:24:32 INF] [Registry] Module services registered successfully
+[11:24:32 INF] [Holdings] Registering module services...
+[11:24:32 INF] [Holdings] Module services registered successfully
+[11:24:32 INF] [Transaction] Registering module services...
+[11:24:32 INF] [Transaction] Module services registered successfully
+No changes have been made to the model since the last migration.
+[11:24:33 INF] Starting Auth API
+[11:24:33 INF] [Auth] Registering module services...
+[11:24:33 INF] [Auth] Identity provider: hmac:ephemeral-v1:a4f59b6ddb6f7d9aecc4bd8e
+[11:24:33 INF] [Auth] Module services registered successfully
+[11:24:33 INF] [CRM] Registering module services...
+[11:24:33 INF] [CRM] Module services registered successfully
+[11:24:33 INF] [Registry] Registering module services...
+[11:24:33 INF] [Registry] Module services registered successfully
+[11:24:33 INF] [Holdings] Registering module services...
+[11:24:33 INF] [Holdings] Module services registered successfully
+[11:24:33 INF] [Transaction] Registering module services...
+[11:24:33 INF] [Transaction] Module services registered successfully
+No changes have been made to the model since the last migration.
+[11:24:35 INF] Starting Auth API
+[11:24:35 INF] [Auth] Registering module services...
+[11:24:35 INF] [Auth] Identity provider: hmac:ephemeral-v1:9be691f38e2f9b435fcbc559
+[11:24:35 INF] [Auth] Module services registered successfully
+[11:24:35 INF] [CRM] Registering module services...
+[11:24:35 INF] [CRM] Module services registered successfully
+[11:24:35 INF] [Registry] Registering module services...
+[11:24:35 INF] [Registry] Module services registered successfully
+[11:24:35 INF] [Holdings] Registering module services...
+[11:24:35 INF] [Holdings] Module services registered successfully
+[11:24:35 INF] [Transaction] Registering module services...
+[11:24:35 INF] [Transaction] Module services registered successfully
+No changes have been made to the model since the last migration.
+[11:24:37 INF] Starting Auth API
+[11:24:37 INF] [Auth] Registering module services...
+[11:24:37 INF] [Auth] Identity provider: hmac:ephemeral-v1:e01bcbcad36dbc09e53ea8a4
+[11:24:37 INF] [Auth] Module services registered successfully
+[11:24:37 INF] [CRM] Registering module services...
+[11:24:37 INF] [CRM] Module services registered successfully
+[11:24:37 INF] [Registry] Registering module services...
+[11:24:37 INF] [Registry] Module services registered successfully
+[11:24:37 INF] [Holdings] Registering module services...
+[11:24:37 INF] [Holdings] Module services registered successfully
+[11:24:37 INF] [Transaction] Registering module services...
+[11:24:37 INF] [Transaction] Module services registered successfully
+No changes have been made to the model since the last migration.
+All five module DbContexts match their latest model snapshots.
+{
+  "ReleaseVersion": "plan05-s5",
+  "MigrationCatalogSha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6",
+  "Scripts": [
+    {
+      "Module": "Auth",
+      "File": "10-auth.idempotent.sql",
+      "Sha256": "0df5689c7ea3a70850c607dca310cdf804abcc07428e50c70d97742a9612d1f7"
+    },
+    {
+      "Module": "CRM",
+      "File": "20-crm.idempotent.sql",
+      "Sha256": "da8ecc2a159b917d6454d52e85f711eb5878fa9454d48719f3d00b0fcb1b1d09"
+    },
+    {
+      "Module": "Registry",
+      "File": "30-registry.idempotent.sql",
+      "Sha256": "0cf31b4163acf4d2f54038947b71fe8a62c0a615ccf7e579a5f53ccc4da448f9"
+    },
+    {
+      "Module": "Holdings",
+      "File": "40-holdings.idempotent.sql",
+      "Sha256": "3d72e7234159ffa87585e0de4a51b3bfb17514508d73e8598605a395eb58dbaa"
+    },
+    {
+      "Module": "Transaction",
+      "File": "50-transaction.idempotent.sql",
+      "Sha256": "b94c687f6c539c1ad4bba866b1adedf2c323273c12edb11a56ec51ece638de6a"
+    }
+  ]
+}
+  IFX.Platform.Authorization.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Authorization\IFX.Platform.Authorization.Contracts\bin\Release\net8.0\IFX.Platform.Authorization.Contracts.dll
+  IFX.Platform.Context.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Context\IFX.Platform.Context.Contracts\bin\Release\net8.0\IFX.Platform.Context.Contracts.dll
+  IFX.BuildingBlocks.Domain -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Domain\bin\Release\net8.0\IFX.BuildingBlocks.Domain.dll
+  IFX.BuildingBlocks.Application -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Application\bin\Release\net8.0\IFX.BuildingBlocks.Application.dll
+  IFX.Modules.CRM.Contracts -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Contracts\bin\Release\net8.0\IFX.Modules.CRM.Contracts.dll
+  IFX.BuildingBlocks.Security -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.Security\bin\Release\net8.0\IFX.BuildingBlocks.Security.dll
+  IFX.Platform.Messaging.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Contracts\bin\Release\net8.0\IFX.Platform.Messaging.Contracts.dll
+  IFX.Platform.Authentication.Contracts -> C:\Users\von12\i2b-prod\src\Platform\Authentication\IFX.Platform.Authentication.Contracts\bin\Release\net8.0\IFX.Platform.Authentication.Contracts.dll
+  IFX.Modules.IAM.Contracts -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Contracts\bin\Release\net8.0\IFX.Modules.IAM.Contracts.dll
+  IFX.Modules.CRM.Domain -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Domain\bin\Release\net8.0\IFX.Modules.CRM.Domain.dll
+  IFX.BuildingBlocks.EntityFrameworkCore -> C:\Users\von12\i2b-prod\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\bin\Release\net8.0\IFX.BuildingBlocks.EntityFrameworkCore.dll
+  IFX.Modules.Registry.Domain -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Domain\bin\Release\net8.0\IFX.Modules.Registry.Domain.dll
+  IFX.Modules.Holdings.Domain -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Domain\bin\Release\net8.0\IFX.Modules.Holdings.Domain.dll
+  IFX.Modules.Transaction.Domain -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Domain\bin\Release\net8.0\IFX.Modules.Transaction.Domain.dll
+  IFX.Modules.IAM.Domain -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Domain\bin\Release\net8.0\IFX.Modules.IAM.Domain.dll
+  IFX.Modules.Transaction.Contracts -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Contracts\bin\Release\net8.0\IFX.Modules.Transaction.Contracts.dll
+  IFX.Platform.Messaging.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Messaging\IFX.Platform.Messaging.Runtime\bin\Release\net8.0\IFX.Platform.Messaging.Runtime.dll
+  IFX.Platform.Context.Runtime -> C:\Users\von12\i2b-prod\src\Platform\Context\IFX.Platform.Context.Runtime\bin\Release\net8.0\IFX.Platform.Context.Runtime.dll
+  IFX.Modules.Registry.Contracts -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Contracts\bin\Release\net8.0\IFX.Modules.Registry.Contracts.dll
+  IFX.Modules.Holdings.Application -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Application\bin\Release\net8.0\IFX.Modules.Holdings.Application.dll
+  IFX.Modules.Registry.Application -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Application\bin\Release\net8.0\IFX.Modules.Registry.Application.dll
+  IFX.Modules.IAM.Client -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Client\bin\Release\net8.0\IFX.Modules.IAM.Client.dll
+  IFX.Modules.CRM.Application -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Application\bin\Release\net8.0\IFX.Modules.CRM.Application.dll
+  IFX.Modules.Transaction.Application -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Application\bin\Release\net8.0\IFX.Modules.Transaction.Application.dll
+  IFX.Modules.IAM.Application -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Application\bin\Release\net8.0\IFX.Modules.IAM.Application.dll
+  IFX.Modules.Holdings.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Holdings\IFX.Modules.Holdings.Infrastructure\bin\Release\net8.0\IFX.Modules.Holdings.Infrastructure.dll
+  IFX.Modules.Registry.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Registry\IFX.Modules.Registry.Infrastructure\bin\Release\net8.0\IFX.Modules.Registry.Infrastructure.dll
+  IFX.Modules.CRM.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\bin\Release\net8.0\IFX.Modules.CRM.Infrastructure.dll
+  IFX.Modules.IAM.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\IAM\IFX.Modules.IAM.Infrastructure\bin\Release\net8.0\IFX.Modules.IAM.Infrastructure.dll
+  IFX.Modules.Transaction.Infrastructure -> C:\Users\von12\i2b-prod\src\Modules\Transaction\IFX.Modules.Transaction.Infrastructure\bin\Release\net8.0\IFX.Modules.Transaction.Infrastructure.dll
+  IFX.DatabaseMigrator -> C:\Users\von12\i2b-prod\src\DatabaseMigrator\IFX.DatabaseMigrator\bin\Release\net8.0\IFX.DatabaseMigrator.dll
+  IFX.DatabaseMigrator -> C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c4b\database-runs\93d60f67a9ba4db0a888cbaef46bce5c\specialized\database\publish\
+Test run for C:\Users\von12\i2b-prod\tests\IFX.DatabaseBoundary.Tests\bin\Release\net8.0\IFX.DatabaseBoundary.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   109, Skipped:     0, Total:   109, Duration: 34 s - IFX.DatabaseBoundary.Tests.dll (net8.0)
+Test run for C:\Users\von12\i2b-prod\tests\IFX.DatabaseBoundary.Tests\bin\Release\net8.0\IFX.DatabaseBoundary.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    13, Skipped:     0, Total:    13, Duration: 26 s - IFX.DatabaseBoundary.Tests.dll (net8.0)
+IFX specialized guards passed: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c4b\database-runs\93d60f67a9ba4db0a888cbaef46bce5c\specialized\summary.json
+IFX guardrails passed: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c4b\database-runs\93d60f67a9ba4db0a888cbaef46bce5c\summary-specialized.json
+Database evidence lock: C:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c4b\database-runs\93d60f67a9ba4db0a888cbaef46bce5c\evidence-lock.json
+SHA256: bb72428a16828f59a852c4c7a3dd1e33a27fd0a02734bdb4e1c855d9b8ee9081

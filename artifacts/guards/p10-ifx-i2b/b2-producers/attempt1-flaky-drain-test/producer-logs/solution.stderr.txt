@@ -1,0 +1,18 @@
+[xUnit.net 00:00:04.42]     IFX.IntegrationTests.Runtime.RuntimeDrainCoordinatorTests.BeginDrain_AtomicallyRejectsNewWork_AndWaitsForExistingWork [FAIL]
+[31;1mException: [0mC:\Users\von12\i2b-prod\docs\guards\V3_ifx\stages\post\gates\quality\Invoke-IFXQuality.ps1:67[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m  67 | [0m . tatus -ne 'pass') { [36;1mthrow "IFX quality checks failed: $summaryPath"[0m }[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mIFX quality checks failed:[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m[31;1m[36;1m     | [31;1mC:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c5b\solution-runs\c7550fcbf92e4fa9875d7449e80548f5\quality\summary.json[0m
+[31;1mException: [0mC:\Users\von12\i2b-prod\docs\guards\V3_ifx\commands\Invoke-IFXGuardrails.ps1:249[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m 249 | [0m . ry.status -ne 'pass') { [36;1mthrow "IFX guardrails failed: $summaryPath"[0m }[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mIFX guardrails failed:[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m[31;1m[36;1m     | [31;1mC:\Users\von12\i2b-prod\artifacts\guards\p10-ifx-c5b\solution-runs\c7550fcbf92e4fa9875d7449e80548f5\summary-quality.json[0m
+[31;1mException: [0mC:\Users\von12\i2b-prod\docs\guards\candidates\ifx-gate-coverage-c5b\Invoke-IFXSolutionEvidenceProducer.ps1:28[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m  28 | [0m . CODE -ne 0){[36;1mthrow 'V3 Solution Quality failed; no passing lock issued[0m .[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mV3 Solution Quality failed; no passing lock issued.[0m

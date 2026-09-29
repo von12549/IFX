@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-b2-producer-timing",
+  "status": "fail",
+  "sourceCommit": "64b23dde68c0663a2486faf28be5a4333434f8f6",
+  "cloneRoot": "C:\\Users\\von12\\i2b-prod",
+  "cloneSeconds": 2.6,
+  "cache": "warm (developer NuGet global packages and npm cache)",
+  "tools": {
+    "dotnet": "10.0.303",
+    "node": "v24.12.0",
+    "npm": "11.6.2",
+    "pwsh": "7.6.6"
+  },
+  "producers": [
+    {
+      "id": "solution",
+      "script": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "status": "fail",
+      "exitCode": 1,
+      "seconds": 989.5,
+      "lockPath": "artifacts/guards/p10-ifx-c5b/solution-runs/c7550fcbf92e4fa9875d7449e80548f5/evidence-lock.json",
+      "lockSha256": null,
+      "stdout": {
+        "path": "producer-logs/solution.stdout.txt",
+        "sha256": "74ce73e94a02c0f50f9ffb8420fc4e9b6b8395fd4d0c2d96dabf788e66129229"
+      },
+      "stderr": {
+        "path": "producer-logs/solution.stderr.txt",
+        "sha256": "751f8cc74694a2a59a3555c135f72fc9745cd4c3b3fa8dfb93d5f39bb60a241b"
+      }
+    },
+    {
+      "id": "assembly",
+      "status": "not-run"
+    },
+    {
+      "id": "frontend",
+      "status": "not-run"
+    },
+    {
+      "id": "database",
+      "status": "not-run"
+    },
+    {
+      "id": "graph",
+      "status": "not-run"
+    },
+    {
+      "id": "generated",
+      "status": "not-run"
+    },
+    {
+      "id": "type",
+      "status": "not-run"
+    }
+  ],
+  "totalProducerSeconds": 989.5
+}

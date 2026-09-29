@@ -1,0 +1,63 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-linux-native-archive-copyback",
+  "status": "pass",
+  "nativeRoot": "/native/bench/linux",
+  "outRoot": "/out/archive",
+  "excluded": [],
+  "diagnostics": [],
+  "archive": {
+    "path": "native-results.tar.gz",
+    "format": "tar (pax, sorted, gzip)",
+    "bytes": 166266737,
+    "sha256": "343c938ccd64efbf005fc7ea5119aa95f8382079022ff527d1bc410463b4bfb5",
+    "fileEntries": 69945
+  },
+  "listing": {
+    "path": "native-listing.txt",
+    "files": 69945,
+    "bytes": 816554881,
+    "sha256": "c8d98a53d6a525ebb93a33a15d3038f3dd2ac7aeda283503d095661510f36b5a",
+    "lineFormat": "<sha256> <bytes> <path>"
+  },
+  "reports": [
+    {
+      "path": "matrix/case-manifest.json",
+      "present": true,
+      "bytes": 140776,
+      "sha256": "3c7761510cfa23621e4571874e6f3f8f8e2b78c13f52411a023fbef285d27494"
+    },
+    {
+      "path": "matrix/matrix-contract-summary.json",
+      "present": true,
+      "bytes": 708,
+      "sha256": "69f105f4436a5175f474b1dc08cb49ae8dd056fd4229ef9b4a55e23f822d1b91"
+    },
+    {
+      "path": "matrix/summary.json",
+      "present": true,
+      "bytes": 29025,
+      "sha256": "93bba4002d9fbd3783707f69bbb1c6530e851402750d22d02adac09f840bd5d8"
+    },
+    {
+      "path": "positive.json",
+      "present": true,
+      "bytes": 1775,
+      "sha256": "ce76a8a140857d021b0aeafd3ab78b00a58a64f0bb43f25c7d1267680409f803"
+    },
+    {
+      "path": "summary.json",
+      "present": true,
+      "bytes": 769,
+      "sha256": "d22e706c5df7133efcde434747f2132e776964ded6e9a73d00a35f21ad131093"
+    }
+  ],
+  "timings": {
+    "listSeconds": 6.351,
+    "archiveSeconds": 9.139,
+    "verifyNativeSeconds": 4.157,
+    "copyArchiveSeconds": 6.398,
+    "copyReportsSeconds": 0.703,
+    "totalSeconds": 27.442
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-b1-copyback-benchmark",
+  "status": "pass",
+  "sourceCommit": "64b23dde68c0663a2486faf28be5a4333434f8f6",
+  "module": {
+    "path": "docs/guards/candidates/ifx-i2b/IFXI2B.NativeArchive.psm1",
+    "sha256": "9f45674e5257f94de434c70b6322ce67fa311462044b3e76f8401ec27d874119"
+  },
+  "linuxImage": "ifx-c6c-sdk:10.0.303",
+  "linuxImageDigest": "sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773",
+  "replica": {
+    "source": "D:/IFX-Root/IFX/artifacts/guards/p10-ifx-116/c6c-full/linux",
+    "items": [
+      "matrix",
+      "positive.json",
+      "summary.json",
+      "work"
+    ],
+    "files": 69945,
+    "bytes": 816554881,
+    "nativeFileSystem": "overlayfs",
+    "outFileSystem": "v9fs"
+  },
+  "seconds": {
+    "perFileCopyBack": 5696.511,
+    "archiveCopyBack": 27.488,
+    "archivePhases": {
+      "listSeconds": 6.351,
+      "archiveSeconds": 9.139,
+      "verifyNativeSeconds": 4.157,
+      "copyArchiveSeconds": 6.398,
+      "copyReportsSeconds": 0.703,
+      "totalSeconds": 27.442
+    },
+    "windowsDeepVerify": 174.739,
+    "speedup": 207.2,
+    "replicaSourceListing": 151.804,
+    "replicaPack": 7.517,
+    "replicaUnpack": 18.607,
+    "container": 5999.182
+  },
+  "archive": {
+    "path": "native-results.tar.gz",
+    "format": "tar (pax, sorted, gzip)",
+    "bytes": 166266737,
+    "sha256": "343c938ccd64efbf005fc7ea5119aa95f8382079022ff527d1bc410463b4bfb5",
+    "fileEntries": 69945
+  },
+  "listing": {
+    "path": "native-listing.txt",
+    "files": 69945,
+    "bytes": 816554881,
+    "sha256": "c8d98a53d6a525ebb93a33a15d3038f3dd2ac7aeda283503d095661510f36b5a",
+    "lineFormat": "<sha256> <bytes> <path>"
+  },
+  "archiveListingEqualsReplicaSource": true,
+  "windowsDeepVerify": {
+    "archiveSha256": "343c938ccd64efbf005fc7ea5119aa95f8382079022ff527d1bc410463b4bfb5",
+    "files": 69945,
+    "reports": 5,
+    "deep": true
+  },
+  "perFileOutputFiles": 69946
+}

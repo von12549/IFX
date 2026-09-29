@@ -1,0 +1,200 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-b1-copyback-controls",
+  "status": "pass",
+  "sourceCommit": "647c4bcbeba57f26a21922fce52e6a395b5131b8",
+  "module": {
+    "path": "docs/guards/candidates/ifx-i2b/IFXI2B.NativeArchive.psm1",
+    "sha256": "9f45674e5257f94de434c70b6322ce67fa311462044b3e76f8401ec27d874119"
+  },
+  "linuxImage": "ifx-c6c-sdk:10.0.303",
+  "linuxImageDigest": "sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773",
+  "linuxExitCode": 0,
+  "windowsTar": "bsdtar 3.8.8 - libarchive 3.8.8 zlib/1.2.13.1-motley liblzma/5.8.1 bz2lib/1.0.8 libzstd/1.5.7 cng/2.0 libb2/bundled ",
+  "caseCount": 26,
+  "failedCount": 0,
+  "cases": [
+    {
+      "name": "linux-copyback-pass",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-listing-equals-native-tree",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-excluded-checkout-not-archived",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-reports-byte-identical",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-bulk-files-not-copied-individually",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-absent-report-recorded",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-staging-archive-removed",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-missing-native-root-records-fail-without-throw",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-verify-deep",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "linux-truncated-archive-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Archive hash differs from the manifest."
+    },
+    {
+      "name": "linux-truncated-archive-with-matching-manifest-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "tar listing failed (2): gzip: stdin: unexpected end of file; /usr/bin/tar: Child returned status 1; /usr/bin/tar: Error is not recoverable: exiting now"
+    },
+    {
+      "name": "linux-listing-missing-archived-file-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Archive entries differ from the listing (archive 46, listing 45)."
+    },
+    {
+      "name": "linux-copied-report-tampered-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Copied report differs from the manifest or listing: summary.json"
+    },
+    {
+      "name": "linux-report-forgery-against-archive-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Copied report differs from its archived bytes: summary.json"
+    },
+    {
+      "name": "linux-copied-report-missing-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Copied report is missing: matrix/case-manifest.json"
+    },
+    {
+      "name": "linux-rehashed-archive-content-change-deep-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Archived file differs from the listing: matrix/captures/c01/case-001.json"
+    },
+    {
+      "name": "linux-failed-copyback-manifest-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Copy-back did not pass: "
+    },
+    {
+      "name": "windows-verify-deep",
+      "expected": "accept",
+      "actual": "accept",
+      "pass": true,
+      "diagnostic": null
+    },
+    {
+      "name": "windows-truncated-archive-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Archive hash differs from the manifest."
+    },
+    {
+      "name": "windows-truncated-archive-with-matching-manifest-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "tar listing failed (1): tar.exe: Error opening archive: truncated gzip input"
+    },
+    {
+      "name": "windows-listing-missing-archived-file-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Archive entries differ from the listing (archive 46, listing 45)."
+    },
+    {
+      "name": "windows-copied-report-tampered-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Copied report differs from the manifest or listing: summary.json"
+    },
+    {
+      "name": "windows-report-forgery-against-archive-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Copied report differs from its archived bytes: summary.json"
+    },
+    {
+      "name": "windows-copied-report-missing-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Copied report is missing: matrix/case-manifest.json"
+    },
+    {
+      "name": "windows-rehashed-archive-content-change-deep-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Archived file differs from the listing: matrix/captures/c01/case-001.json"
+    },
+    {
+      "name": "windows-failed-copyback-manifest-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "pass": true,
+      "diagnostic": "Copy-back did not pass: "
+    }
+  ]
+}
