@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-g04-closeout/config.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["enabledClaims", "policySha256", "authorityHashes"],
+  "properties": {
+    "enabledClaims": { "type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true,
+      "items": { "enum": ["IFX.C3.G04_EVIDENCE", "IFX.C3.G04_DOCUMENTATION", "IFX.C3.G04_CLOSEOUT", "IFX.C3.G04_INBOUND_CLOSEOUT"] } },
+    "policySha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "authorityHashes": { "type": "array", "minItems": 42, "maxItems": 42, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": { "id": { "type": "string", "minLength": 1 }, "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" } }
+    } }
+  }
+}

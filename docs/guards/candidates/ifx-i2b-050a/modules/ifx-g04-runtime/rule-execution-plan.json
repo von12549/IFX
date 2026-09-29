@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g04-runtime",
+  "rules": [
+    { "ruleId": "G04-ROLE", "claimId": "IFX.C3.G04_ROLE", "stage": "post", "detectors": ["ifx-g04-runtime"], "evidenceKinds": ["runtime-source", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-STARTUP", "claimId": "IFX.C3.G04_STARTUP", "stage": "post", "detectors": ["ifx-g04-runtime"], "evidenceKinds": ["runtime-source", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-WORKER", "claimId": "IFX.C3.G04_WORKER", "stage": "post", "detectors": ["ifx-g04-runtime"], "evidenceKinds": ["runtime-source", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-DRAIN", "claimId": "IFX.C3.G04_DRAIN", "stage": "post", "detectors": ["ifx-g04-runtime"], "evidenceKinds": ["runtime-source", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-HEALTH", "claimId": "IFX.C3.G04_HEALTH", "stage": "post", "detectors": ["ifx-g04-runtime"], "evidenceKinds": ["runtime-source", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-BACKPRESSURE", "claimId": "IFX.C3.G04_BACKPRESSURE", "stage": "post", "detectors": ["ifx-g04-runtime"], "evidenceKinds": ["runtime-source", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-INBOUND", "claimId": "IFX.C3.G04_INBOUND", "stage": "post", "detectors": ["ifx-g04-runtime"], "evidenceKinds": ["runtime-source", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

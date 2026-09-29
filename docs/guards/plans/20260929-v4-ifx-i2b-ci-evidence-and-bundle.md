@@ -257,6 +257,19 @@ Module dispositions:
 - R3: the lab tree `candidates/ifx-i2b-050a`.
 - R4: IFX-V4-005 is fixed first, under its own IFX product Plan.
 
+### 9.6 Progress
+
+- A1-0: committed `89fa7ede`.
+- A1-2: change specification `candidates/ifx-i2b-050a/change-spec.json` committed `1797d554`.
+  **Accepted by the operator on 2026-09-29 ("审阅完毕，同意变更").**
+- A1-3 is delivered in batches, each committed after its suites pass:
+  1. the shared suite runner;
+  2. G04;
+  3. G05 and Plan05;
+  4. G03;
+  5. Plan04;
+  6. the lock consumers and the staging script.
+
 ### 9.5 Out of scope for A1
 
 - the producer relocation (0.5.0-b);

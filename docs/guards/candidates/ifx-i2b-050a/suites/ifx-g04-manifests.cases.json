@@ -1,0 +1,235 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g04-manifests",
+  "source": "ifx-gate-coverage-c3b/fixtures/cases.json and tests/Test-IFXG04Manifests.ps1 (0.4.4); stale-release is replaced by the generated benign cases",
+  "benignExpectations": [
+    {
+      "path": "deployment/g04/module-manifest.json",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-MANIFEST",
+      "reason": "deployment/g04/release-runtime-manifest.json binds this file by hash (bindings.moduleManifest); a lone edit leaves a stale release binding"
+    },
+    {
+      "path": "deployment/g04/deployment-unit-catalog.json",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-MANIFEST",
+      "reason": "deployment/g04/release-runtime-manifest.json binds this file by hash (bindings.deploymentUnitCatalog); a lone edit leaves a stale release binding"
+    },
+    {
+      "path": "deployment/g04/infrastructure-compatibility-matrix.json",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-MANIFEST",
+      "reason": "deployment/g04/release-runtime-manifest.json binds this file by hash (bindings.infrastructureCompatibility); a lone edit leaves a stale release binding"
+    },
+    {
+      "path": "deployment/release-manifest.json",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-MANIFEST",
+      "reason": "deployment/g04/release-runtime-manifest.json binds this file by hash (bindings.schemaReleaseManifest); a lone edit leaves a stale release binding"
+    },
+    {
+      "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-MANIFEST",
+      "reason": "deployment/g04/release-runtime-manifest.json binds this file by hash (bindings.migrationManifest); a lone edit leaves a stale release binding"
+    },
+    {
+      "path": "deployment/g04/release-orchestration.json",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-MANIFEST",
+      "reason": "deployment/g04/release-runtime-manifest.json binds this file by hash (bindings.releaseOrchestration); a lone edit leaves a stale release binding"
+    },
+    {
+      "path": "deployment/g04/backpressure-policy.json",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-MANIFEST",
+      "reason": "deployment/g04/release-runtime-manifest.json binds this file by hash (bindings.backpressurePolicy); a lone edit leaves a stale release binding"
+    },
+    {
+      "path": "deployment/g04/failure-matrix.json",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-MANIFEST",
+      "reason": "deployment/g04/release-runtime-manifest.json binds this file by hash (bindings.failureMatrix); a lone edit leaves a stale release binding"
+    }
+  ],
+  "cases": [
+    {
+      "id": "missing-release",
+      "edits": [
+        {
+          "path": "deployment/g04/release-runtime-manifest.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "malformed-release",
+      "edits": [
+        {
+          "path": "deployment/g04/release-runtime-manifest.json",
+          "write": "{"
+        }
+      ],
+      "status": "error",
+      "category": "integrity-failure"
+    },
+    {
+      "id": "zero-modules",
+      "edits": [
+        {
+          "path": "deployment/g04/module-manifest.json",
+          "json": "$j.modules=@()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "duplicate-module",
+      "edits": [
+        {
+          "path": "deployment/g04/module-manifest.json",
+          "json": "$j.modules=@($j.modules)+@($j.modules[0])"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "zero-units",
+      "edits": [
+        {
+          "path": "deployment/g04/deployment-unit-catalog.json",
+          "json": "$j.units=@()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "split-artifact",
+      "edits": [
+        {
+          "path": "deployment/g04/deployment-unit-catalog.json",
+          "json": "(@($j.units | Where-Object unitId -eq 'ifx-worker'))[0].artifact='different-host'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "wrong-binding-hash",
+      "edits": [
+        {
+          "path": "deployment/g04/release-runtime-manifest.json",
+          "json": "$j.bindings.moduleManifest.sha256='0'*64"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-binding",
+      "edits": [
+        {
+          "path": "deployment/g04/release-runtime-manifest.json",
+          "json": "[void]$j.bindings.Remove('failureMatrix')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "schema-contract",
+      "edits": [
+        {
+          "path": "deployment/g04/release-runtime-manifest.json",
+          "json": "$j.schemaCompatibility.policy='unsafe'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "bad-stage-order",
+      "edits": [
+        {
+          "path": "deployment/g04/release-orchestration.json",
+          "json": "$j.stages=@($j.stages | Sort-Object stageId -Descending)"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "bad-threshold",
+      "edits": [
+        {
+          "path": "deployment/g04/backpressure-policy.json",
+          "json": "$j.thresholds.warningCount=99999"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "auto-down",
+      "edits": [
+        {
+          "path": "deployment/g04/failure-matrix.json",
+          "json": "foreach($s in $j.scenarios){$s.prohibitions=@($s.prohibitions | Where-Object { $_ -ne 'automatic-down' })}"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "zero-scenarios",
+      "edits": [
+        {
+          "path": "deployment/g04/failure-matrix.json",
+          "json": "$j.scenarios=@()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-business-module",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "find": "AddCrmModule",
+          "replace": "AddMissingModule"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "bound-file-rebound",
+      "edits": [
+        {
+          "path": "deployment/g04/module-manifest.json",
+          "harmless": true
+        },
+        {
+          "path": "deployment/g04/release-runtime-manifest.json",
+          "json": "$j.bindings.moduleManifest.sha256=(Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $clone 'deployment/g04/module-manifest.json')).Hash.ToLowerInvariant()"
+        }
+      ],
+      "status": "pass",
+      "category": "success"
+    }
+  ]
+}
