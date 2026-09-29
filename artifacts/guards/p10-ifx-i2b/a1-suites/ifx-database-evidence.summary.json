@@ -1,0 +1,195 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-database-evidence",
+  "version": "0.3.0",
+  "adapterSha256": "e4467c60f79a4f41301ab84528a9fe8a24a7bec634958ecbe8b89caa09ff63e8",
+  "policySha256": "2fa862a30bf420d781ba22272656f1e48b4023f6ad3b5a2c7e4d279d102a8acc",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "1d05f23b56b9cd211e1395384cfd214f23ff69e4379844f61d48c46400161d2d",
+  "counts": {
+    "total": 13,
+    "clean": 1,
+    "benign": 3,
+    "governance": 0,
+    "rule": 1,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4.DATABASE_EVIDENCE",
+        "matched": 9,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "eb394eed2bee45a5ee6a0de5510723b1edef4188042ac151597bf92c4fa87f4e"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[migrationCatalog]",
+      "edited": [
+        "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Database authority contract failed.",
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "authorityHashes[releaseManifest]",
+      "edited": [
+        "deployment/release-manifest.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Evidence authority drift: releaseManifest",
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "authorityHashes[safetyPolicy]",
+      "edited": [
+        "deployment/migration-safety-policy.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Evidence authority drift: safetyPolicy",
+      "pass": true
+    },
+    {
+      "id": "lock-gate-mismatch",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/database/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Incomplete Database evidence lock.",
+      "pass": true
+    },
+    {
+      "id": "lock-missing-staging",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Staged evidence manifest is missing.",
+      "pass": true
+    },
+    {
+      "id": "lock-missing",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/database/evidence-lock.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing evidence: artifacts/guards/p10-ifx-c4b/database-runs/efc3bd43a872439caf2ed8a7d02cd1ea/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-forged-producer",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Staged evidence was not produced by the pinned producer: database",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/database/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale evidence: artifacts/guards/p10-ifx-c4b/database-runs/efc3bd43a872439caf2ed8a7d02cd1ea/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-other-commit",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/database/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Database lock target commit differs from TargetRoot HEAD.",
+      "pass": true
+    },
+    {
+      "id": "lock-expired",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/database/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Database evidence is stale or future-dated.",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered-evidence",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/database/specialized/summary.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale evidence: artifacts/guards/p10-ifx-c4b/database-runs/efc3bd43a872439caf2ed8a7d02cd1ea/specialized/summary.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

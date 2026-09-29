@@ -1,0 +1,774 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g03-catalog-semantics",
+  "version": "0.2.0",
+  "adapterSha256": "54b8e8de3e35da1b7fad912cb2e3439c6b4093a47d51fc6c0a443bb23e456e99",
+  "policySha256": "253ce1aa65d4eaf0de630e755b4997e9316e30562465dd79381ba767f65afafc",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "69a80a5e07f0637205f58f925ab6889c554733acfabf1a630e9e3b3fbb458c65",
+  "counts": {
+    "total": 48,
+    "clean": 1,
+    "benign": 1,
+    "governance": 0,
+    "rule": 45,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C2.G03_PROTOCOL_LIFECYCLE",
+        "matched": 1,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_FIELD_GOVERNANCE",
+        "matched": 1,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_LEGACY_SURFACE",
+        "matched": 1,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_CHANGE_CONTROL",
+        "matched": 1,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "1c0f53449ec96112e89bc1a9a9470a2456407fb68e8fa0ce06ec9a53e3d78c27"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "catalogSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-protocol",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:zero-protocol:protocols",
+        "G03-LEGACY-SURFACE:protocol-reference:publicSurface.crm.reader.account-kyc.targetIdentity",
+        "G03-LEGACY-SURFACE:protocol-reference:publicSurface.registry.reader.class-open.targetIdentity",
+        "G03-LEGACY-SURFACE:protocol-reference:publicSurface.registry.event.class-status-changed.targetIdentity",
+        "G03-LEGACY-SURFACE:protocol-reference:publicSurface.transaction.event.processed.targetIdentity"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-surface",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:zero-public-surface:publicSurface"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-change",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CHANGE-CONTROL:zero-change-record:changeRecords"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-field",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:zero-field-governance:fieldSurfaces/sensitiveUsePolicies",
+        "G03-FIELD-GOVERNANCE:field-surface-missing:fieldSurfaces.crm.dto.investor-summary",
+        "G03-FIELD-GOVERNANCE:field-surface-missing:fieldSurfaces.crm.dto.party-summary",
+        "G03-FIELD-GOVERNANCE:field-surface-missing:fieldSurfaces.crm.event.account-created",
+        "G03-FIELD-GOVERNANCE:field-surface-missing:fieldSurfaces.crm.event.investor-created"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-node",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:required-node:fieldGovernance"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "policy-node",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:policy-node:sourcePolicy.identity"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "reviewer-policy",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:reviewer-policy:approvalPolicy.reviewers.New"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "approval-policy",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:approval-policy:approvalPolicy"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "identity-format",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:identity-format:protocols.Bad.Identity.v1.identity",
+        "G03-LEGACY-SURFACE:protocol-reference:publicSurface.crm.reader.account-kyc.targetIdentity",
+        "G03-FIELD-GOVERNANCE:field-surface-missing:fieldSurfaces.Bad.Identity.v1",
+        "G03-FIELD-GOVERNANCE:field-surface-empty:fieldSurfaces.crm.account-compliance.v1.fields",
+        "G03-FIELD-GOVERNANCE:field-exception-reference:fieldExceptions.G05-C3-001.fieldRefs"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "lifecycle",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:lifecycle:protocols.crm.account-compliance.v1.lifecycle"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "active-admission",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:active-admission:protocols.crm.account-compliance.v1.admissionEvidence.source"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "protocol-metadata",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:protocol-metadata:protocols.crm.account-compliance.v1.businessUse"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "protocol-evidence",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:protocol-evidence:protocols.crm.account-compliance.v1"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "infrastructure-owner",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:infrastructure-owner:infrastructureProtocols.authentication.identity-protocol.v1"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "infrastructure-boundary",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROTOCOL-LIFECYCLE:infrastructure-sensitive-boundary:infrastructureProtocols.authentication.identity-protocol.v1"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "infrastructure-field",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:infrastructure-field:infrastructureProtocols.authentication.identity-protocol.v1.fields.password"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-lifecycle",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:legacy-lifecycle:publicSurface.crm.reader.lifecycle"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-retirement",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:legacy-retirement-evidence:publicSurface.crm.reader.migrationEvidence"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-disposition",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:legacy-disposition:publicSurface.crm.reader.disposition"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-expiry",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:legacy-expiry:publicSurface.crm.reader.expiresAt"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-metadata",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:legacy-metadata:publicSurface.crm.reader.linkedPlan"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "replacement-target",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:replacement-target:publicSurface.crm.reader.targetIdentity"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-protocol-reference",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:protocol-reference:publicSurface.crm.reader.targetIdentity"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "duplicate-surface",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-SURFACE:duplicate-id:publicSurface.crm.reader"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "classification-policy",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:classification-policy:fieldGovernance.C3"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "c4-denylist",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:c4-denylist:fieldGovernance.c4Denylist.private key"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "secret-forbidden",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:secret-forbidden:protocols.crm.account-compliance.v1.fields.investmentAccountId",
+        "G03-FIELD-GOVERNANCE:secret-forbidden:fieldSurfaces.crm.account-compliance.v1.fields.investmentAccountId"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-classification",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-classification:protocols.crm.account-compliance.v1.fields.investmentAccountId",
+        "G03-FIELD-GOVERNANCE:field-classification:fieldSurfaces.crm.account-compliance.v1.fields.investmentAccountId"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-metadata",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-metadata:protocols.crm.account-compliance.v1.fields.investmentAccountId.purpose",
+        "G03-FIELD-GOVERNANCE:field-metadata:fieldSurfaces.crm.account-compliance.v1.fields.investmentAccountId"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-surface-missing",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-surface-missing:fieldSurfaces.crm.account-compliance.v1",
+        "G03-FIELD-GOVERNANCE:field-exception-reference:fieldExceptions.G05-C3-001.fieldRefs",
+        "G03-FIELD-GOVERNANCE:sensitive-use-reference:sensitiveUsePolicies.compliance-decision.fieldRefs"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-surface-empty",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-surface-empty:protocols.crm.account-compliance.v1.fields",
+        "G03-FIELD-GOVERNANCE:field-surface-empty:fieldSurfaces.crm.account-compliance.v1.fields",
+        "G03-FIELD-GOVERNANCE:field-exception-reference:fieldExceptions.G05-C3-001.fieldRefs",
+        "G03-FIELD-GOVERNANCE:sensitive-use-reference:sensitiveUsePolicies.compliance-decision.fieldRefs"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-surface-metadata",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-surface-metadata:fieldSurfaces.crm.account-compliance.v1"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-exception",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-exception:protocols.crm.account-compliance.v1.fields.isApproved.exceptionRef",
+        "G03-FIELD-GOVERNANCE:field-exception:fieldSurfaces.crm.account-compliance.v1.fields.isApproved.exceptionRef",
+        "G03-FIELD-GOVERNANCE:field-exception-reference:crm.account-compliance.v1/isApproved"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-exception-reference",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-exception-reference:crm.account-compliance.v1/isApproved",
+        "G03-FIELD-GOVERNANCE:field-exception-reference:fieldExceptions.G05-C3-001.fieldRefs"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-exception-metadata",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-exception-metadata:fieldExceptions.G05-C3-001.approverRole"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-exception-approval",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-exception-approval:fieldExceptions.G05-C3-001.approvalEvidence"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-exception-expired",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:field-exception-expired:fieldExceptions.G05-C3-001.expiresAt"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "sensitive-use-metadata",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:sensitive-use-metadata:sensitiveUsePolicies.financial-position-projection.encryption"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "sensitive-use-reference",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:sensitive-use-reference:sensitiveUsePolicies.financial-position-projection.fieldRefs"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "minimization-evidence",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-FIELD-GOVERNANCE:minimization-evidence:migrationRecommendations"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "change-record-metadata",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CHANGE-CONTROL:change-record-metadata:changeRecords.G03-CR-001.summary"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "change-record-consumer",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CHANGE-CONTROL:change-record-consumer:changeRecords.G03-CR-001.affectedConsumers"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "change-record-protocol",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CHANGE-CONTROL:protocol-reference:changeRecords.G03-CR-001.identity"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-catalog",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "G03 catalog is missing.",
+      "pass": true
+    },
+    {
+      "id": "malformed-catalog",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "error/invalid-input",
+      "actual": "error/invalid-input",
+      "findings": [],
+      "message": "G03 catalog must be JSON-compatible YAML.",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,378 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g05-closeout",
+  "version": "0.2.0",
+  "adapterSha256": "b2cb37faa2c64b85f8844967a05a03aa33a67e2eb347fbc30ea7dc8eacbb1594",
+  "policySha256": "d0ceca9e0c04fc0e4b9e1b677f3ae1f4752df2bca8b24c0f7df66239aeaeda44",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "16078d059ba6a0201fd15b5c3a95d1e4ba23c350b88f64aab300f1ab02b20adb",
+  "counts": {
+    "total": 26,
+    "clean": 1,
+    "benign": 1,
+    "governance": 20,
+    "rule": 3,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4.G05_REPLAY",
+        "matched": 11,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C4.G05_DOCUMENTATION",
+        "matched": 10,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C4.G05_HANDOFF",
+        "matched": 8,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "20ecd721086f8bf4d30aaa3773b3179f1f32cd8569854410b2b625763c603440"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[failureTests]",
+      "edited": [
+        "tests/IFX.Platform.ProtocolContracts.Tests/FailureReplayCompatibilityConformanceTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[failurePolicy]",
+      "edited": [
+        "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "authorityHashes[phase8Evidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase8-failure-replay-compatibility.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase8-failure-replay-compatibility.md",
+      "pass": true
+    },
+    {
+      "id": "governance-3",
+      "kind": "governance",
+      "binding": "authorityHashes[phase8Layer]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase8-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase8-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "governance-4",
+      "kind": "governance",
+      "binding": "authorityHashes[zhDesign]",
+      "edited": [
+        "docs/architecture/review/gates/G05/context-sensitive-data-boundary.zh-CN.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/context-sensitive-data-boundary.zh-CN.md",
+      "pass": true
+    },
+    {
+      "id": "governance-5",
+      "kind": "governance",
+      "binding": "authorityHashes[enDesign]",
+      "edited": [
+        "docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md",
+      "pass": true
+    },
+    {
+      "id": "governance-6",
+      "kind": "governance",
+      "binding": "authorityHashes[documentationReport]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase10-documentation-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase10-documentation-report.json",
+      "pass": true
+    },
+    {
+      "id": "governance-7",
+      "kind": "governance",
+      "binding": "authorityHashes[phase10Evidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase10-documentation.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase10-documentation.md",
+      "pass": true
+    },
+    {
+      "id": "governance-8",
+      "kind": "governance",
+      "binding": "authorityHashes[phase10Layer]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase10-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase10-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "governance-9",
+      "kind": "governance",
+      "binding": "authorityHashes[closeoutStatus]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase11-status.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase11-status.json",
+      "pass": true
+    },
+    {
+      "id": "governance-10",
+      "kind": "governance",
+      "binding": "authorityHashes[openItems]",
+      "edited": [
+        "docs/architecture/review/gates/G05/open-items-v1.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/open-items-v1.json",
+      "pass": true
+    },
+    {
+      "id": "governance-11",
+      "kind": "governance",
+      "binding": "authorityHashes[opsEvidence]",
+      "edited": [
+        "docs/architecture/review/gates/G05/ops-evidence-map-v1.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/ops-evidence-map-v1.json",
+      "pass": true
+    },
+    {
+      "id": "governance-12",
+      "kind": "governance",
+      "binding": "authorityHashes[g05Plan]",
+      "edited": [
+        "docs/architecture/review/plans/00-G05-context-sensitive-data-boundary.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/plans/00-G05-context-sensitive-data-boundary.md",
+      "pass": true
+    },
+    {
+      "id": "governance-13",
+      "kind": "governance",
+      "binding": "authorityHashes[prerequisitePlan]",
+      "edited": [
+        "docs/architecture/review/plans/00-prerequisites.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/plans/00-prerequisites.md",
+      "pass": true
+    },
+    {
+      "id": "governance-14",
+      "kind": "governance",
+      "binding": "authorityHashes[handoff01]",
+      "edited": [
+        "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+      "pass": true
+    },
+    {
+      "id": "governance-15",
+      "kind": "governance",
+      "binding": "authorityHashes[handoff02]",
+      "edited": [
+        "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+      "pass": true
+    },
+    {
+      "id": "governance-16",
+      "kind": "governance",
+      "binding": "authorityHashes[handoff03]",
+      "edited": [
+        "docs/architecture/review/gates/G05/handoffs/plan03-layerguard-handoff.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/handoffs/plan03-layerguard-handoff.md",
+      "pass": true
+    },
+    {
+      "id": "governance-17",
+      "kind": "governance",
+      "binding": "authorityHashes[handoff04]",
+      "edited": [
+        "docs/architecture/review/gates/G05/handoffs/g04-runtime-handoff.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/handoffs/g04-runtime-handoff.md",
+      "pass": true
+    },
+    {
+      "id": "governance-18",
+      "kind": "governance",
+      "binding": "authorityHashes[phase11Evidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase11-handoff.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase11-handoff.md",
+      "pass": true
+    },
+    {
+      "id": "governance-19",
+      "kind": "governance",
+      "binding": "authorityHashes[phase11Layer]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase11-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase11-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "governance-20",
+      "kind": "governance",
+      "binding": "diagramTreeSha256",
+      "edited": [
+        "docs/architecture/review/gates/G05/diagrams/current-context-boundary.mmd"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Diagram set lock drift.",
+      "pass": true
+    },
+    {
+      "id": "false-durability",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-REPLAY:realFailureDurabilityNotMisrepresented"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-diagrams",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/diagrams/**/*"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-DOCUMENTATION:contextTrustAndFlowDiagramsAreRendered"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-authority",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

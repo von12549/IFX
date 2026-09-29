@@ -1,0 +1,488 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g04-runtime",
+  "version": "0.2.0",
+  "adapterSha256": "6649d9e8d69c44b4f739f7237434141c95ca0fda45dd9125feb62e7c006a6dc5",
+  "policySha256": "80e29eb5738b1b39ce3a74c43a113cf2a105a2ba51ae3509714f0973e69c05ed",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "ccb1b1f53d8acc99dd6a3f6ebfcb628fd3e164e7407ee46eac439c99dd4f7a7d",
+  "counts": {
+    "total": 32,
+    "clean": 1,
+    "benign": 19,
+    "governance": 1,
+    "rule": 10,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C3.G04_ROLE",
+        "matched": 6,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_STARTUP",
+        "matched": 8,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_WORKER",
+        "matched": 7,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_DRAIN",
+        "matched": 5,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_HEALTH",
+        "matched": 7,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_BACKPRESSURE",
+        "matched": 5,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_INBOUND",
+        "matched": 9,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "25fa9c5bd33fa67ddce0fa12b4df5630e9bedb9bcbdfee10e246352351fd2f74"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[program]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "authorityHashes[runtimeResolver]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/RuntimeProfileResolver.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "authorityHashes[backgroundJobs]",
+      "edited": [
+        "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-4",
+      "kind": "benign",
+      "binding": "authorityHashes[compose]",
+      "edited": [
+        "docker-compose.yml"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-5",
+      "kind": "benign",
+      "binding": "authorityHashes[monitor]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/StartupDependencyMonitor.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-6",
+      "kind": "benign",
+      "binding": "authorityHashes[contracts]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RuntimeContracts.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-7",
+      "kind": "benign",
+      "binding": "authorityHashes[leaseTests]",
+      "edited": [
+        "tests/IFX.DatabaseBoundary.Tests/G04DispatcherLeaseConformanceTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-8",
+      "kind": "benign",
+      "binding": "authorityHashes[criticalWorker]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/CriticalWorkerBackgroundService.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-9",
+      "kind": "benign",
+      "binding": "authorityHashes[drainCoordinator]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-10",
+      "kind": "benign",
+      "binding": "authorityHashes[drainOptions]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainOptions.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-11",
+      "kind": "benign",
+      "binding": "authorityHashes[healthConfig]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-12",
+      "kind": "benign",
+      "binding": "authorityHashes[snapshotStore]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/HealthSnapshotStore.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-13",
+      "kind": "benign",
+      "binding": "authorityHashes[backpressurePolicy]",
+      "edited": [
+        "deployment/g04/backpressure-policy.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-14",
+      "kind": "benign",
+      "binding": "authorityHashes[backpressureImpl]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessageBackpressurePolicy.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-15",
+      "kind": "benign",
+      "binding": "authorityHashes[backpressureTests]",
+      "edited": [
+        "tests/IFX.IntegrationTests/Runtime/MessageBackpressurePolicyTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-16",
+      "kind": "benign",
+      "binding": "authorityHashes[receiver]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RawIntegrationEventReceiver.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-17",
+      "kind": "benign",
+      "binding": "authorityHashes[sender]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/InProcessIntegrationEventTransport.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-18",
+      "kind": "benign",
+      "binding": "authorityHashes[registration]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessagingServiceCollectionExtensions.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-19",
+      "kind": "benign",
+      "binding": "authorityHashes[inboundTests]",
+      "edited": [
+        "tests/IFX.IntegrationTests/Runtime/InboundIntegrationEventTransportAdapterTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[dependencyReview]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase3-dependency-review.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase3-dependency-review.md",
+      "pass": true
+    },
+    {
+      "id": "missing-program",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: src/ApiHost/IFX.ApiHost/Program.cs",
+      "pass": true
+    },
+    {
+      "id": "missing-role",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-ROLE:apiEndpointMappingIsRoleGated"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-startup",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-STARTUP:platformRegisteredBeforeModules"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-worker",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-WORKER:uniqueRuntimeIdentityCreated"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-drain",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-DRAIN:newWorkRejectedAtomically"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-health",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-HEALTH:readyProbeUsesLifecycle"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-backpressure",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessageBackpressurePolicy.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-BACKPRESSURE:retrySemanticsStable"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-metrics",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/backpressure-policy.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-BACKPRESSURE:backlogMetricContractComplete"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-inbound",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RawIntegrationEventReceiver.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-INBOUND:contextValidatedBeforeHandler"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-inbound-tests",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "tests/IFX.IntegrationTests/Runtime/InboundIntegrationEventTransportAdapterTests.cs"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: tests/IFX.IntegrationTests/Runtime/InboundIntegrationEventTransportAdapterTests.cs",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

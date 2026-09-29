@@ -1,0 +1,397 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g03-docs-closeout",
+  "version": "0.2.0",
+  "adapterSha256": "dd709de4720842542fa5cb29e2dea3f2eda4bbbcd842ac84c499c731b73e0550",
+  "policySha256": "3c9f293e33860fb19384b9035726aeba56d95d8d06d2203ce4c682389bcc2228",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "348de688ac6d7b2b393c956414f9432baf04261d9308cb03b90e772db85a3a89",
+  "counts": {
+    "total": 25,
+    "clean": 1,
+    "benign": 1,
+    "governance": 5,
+    "rule": 17,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C2.G03_DOCUMENTATION",
+        "matched": 2,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_LEGACY_DEADLINE",
+        "matched": 46,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_CLOSEOUT_READINESS",
+        "matched": 1,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "76d31001c36cd628b07c80406b0241b749ae9abceaa04b08e2d2f78f1ca9ee13"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "catalogSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "zhSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "G03 governance input hash drift: docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "enSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-governance.en.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "G03 governance input hash drift: docs/architecture/review/gates/G03/contract-event-governance.en.md",
+      "pass": true
+    },
+    {
+      "id": "governance-3",
+      "kind": "governance",
+      "binding": "closeoutSha256",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "G03 governance input hash drift: docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+      "pass": true
+    },
+    {
+      "id": "governance-4",
+      "kind": "governance",
+      "binding": "g03PlanSha256",
+      "edited": [
+        "docs/architecture/review/plans/00-G03-contract-event-governance.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "G03 governance input hash drift: docs/architecture/review/plans/00-G03-contract-event-governance.md",
+      "pass": true
+    },
+    {
+      "id": "governance-5",
+      "kind": "governance",
+      "binding": "layerPlanSha256",
+      "edited": [
+        "docs/architecture/review/plans/03-layerguard-alignment.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "G03 governance input hash drift: docs/architecture/review/plans/03-layerguard-alignment.md",
+      "pass": true
+    },
+    {
+      "id": "doc-identity-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-governance.en.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-DOCUMENTATION:protocol-table-drift:docs/architecture/review/gates/G03/contract-event-governance.en.md"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-document",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-governance.en.md"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing G03 input: docs/architecture/review/gates/G03/contract-event-governance.en.md",
+      "pass": true
+    },
+    {
+      "id": "missing-diagram",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/diagrams/provider-consumer.svg"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-DOCUMENTATION:broken-link:docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md->diagrams/provider-consumer.svg",
+        "G03-DOCUMENTATION:broken-link:docs/architecture/review/gates/G03/contract-event-governance.en.md->diagrams/provider-consumer.svg",
+        "G03-DOCUMENTATION:missing-diagram:docs/architecture/review/gates/G03/diagrams/provider-consumer.svg"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "bad-png",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/diagrams/provider-consumer.png"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-DOCUMENTATION:invalid-png:docs/architecture/review/gates/G03/diagrams/provider-consumer.png"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "broken-link",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-DOCUMENTATION:broken-link:docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md->missing-local-target.md"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-overdue",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-DEADLINE:overdue-legacy:crm.reader"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-deadline-exceeded",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-DEADLINE:deadline-exceeded:crm.reader"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-disposition",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-DEADLINE:missing-disposition:crm.reader"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "false-ready",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CLOSEOUT-READINESS:readiness-drift:docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-readiness",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CLOSEOUT-READINESS:readiness-missing:docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-blocker-owner",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CLOSEOUT-READINESS:blocker-metadata:protocols-not-active"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-blocker-revisit",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CLOSEOUT-READINESS:blocker-metadata:behavior-tests-pending"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-handoff",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/handoffs/plan01-contracts-handoff.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CLOSEOUT-READINESS:missing-handoff:docs/architecture/review/gates/G03/handoffs/plan01-contracts-handoff.md",
+        "G03-CLOSEOUT-READINESS:broken-link:docs/architecture/review/evidence/gates/G03/G03-closeout.md->../../../gates/G03/handoffs/plan01-contracts-handoff.md"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "broken-handoff-link",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/handoffs/plan01-contracts-handoff.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-CLOSEOUT-READINESS:broken-link:docs/architecture/review/gates/G03/handoffs/plan01-contracts-handoff.md->missing-local-target.md"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-protocol",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-DOCUMENTATION:zero-protocol:catalog",
+        "G03-DOCUMENTATION:protocol-table-drift:docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+        "G03-DOCUMENTATION:protocol-table-drift:docs/architecture/review/gates/G03/contract-event-governance.en.md",
+        "G03-CLOSEOUT-READINESS:blocker-set-drift:docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-legacy",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-LEGACY-DEADLINE:zero-legacy:catalog"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-closeout",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing G03 input: docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

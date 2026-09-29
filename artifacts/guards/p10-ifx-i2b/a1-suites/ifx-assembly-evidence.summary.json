@@ -1,0 +1,169 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-assembly-evidence",
+  "version": "0.2.0",
+  "adapterSha256": "53578e22f196a7723ed5dc2ca523ef483e2fbf086ee25203933d90887c0cbe87",
+  "policySha256": "e7a60914100729bddd0b61b3dc8f5892c0511155da98aafa255c348d34a9ee6a",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "5bf1b3d3fad7818e45835398842f9d95fdbd63b9b54f82c29ca638b3ac51389f",
+  "counts": {
+    "total": 11,
+    "clean": 1,
+    "benign": 0,
+    "governance": 0,
+    "rule": 2,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C5.ASSEMBLY_QUALITY",
+        "matched": 7,
+        "minimum": 7
+      }
+    ],
+    "receiptSha256": "c26b6c2efb4776e4c97aa46e81ee71051a4792e4ca42766394f34ecac236b6d8"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "lock-gate-mismatch",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/assembly/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Incomplete Assembly lock.",
+      "pass": true
+    },
+    {
+      "id": "lineage-solution-tampered",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/solution/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered input: artifacts/guards/p10-ifx-c5b/solution-runs/2bf810e0b20042fb955a1bda7de2655e/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-missing-staging",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Staged evidence manifest is missing.",
+      "pass": true
+    },
+    {
+      "id": "lock-missing",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/assembly/evidence-lock.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing input: artifacts/guards/p10-ifx-c5c/assembly-runs/e974ea98cf42418aade1566a9818f437/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-forged-producer",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Staged evidence was not produced by the pinned producer: assembly",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/assembly/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered input: artifacts/guards/p10-ifx-c5c/assembly-runs/e974ea98cf42418aade1566a9818f437/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-other-commit",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/assembly/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Assembly lock target commit differs from TargetRoot HEAD.",
+      "pass": true
+    },
+    {
+      "id": "lock-expired",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/assembly/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Assembly evidence stale or future-dated.",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered-evidence",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/assembly/quality/assembly.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered input: artifacts/guards/p10-ifx-c5c/assembly-runs/e974ea98cf42418aade1566a9818f437/quality/assembly.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

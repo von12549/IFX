@@ -1,0 +1,418 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g05-execution-http",
+  "version": "0.2.0",
+  "adapterSha256": "99a0925e97cbeaa02017a3a5b23c30ffa277863065cb3b0216308fbf49fa2c17",
+  "policySha256": "c1fe0eafaba2ae21e9e17523482f3d858114690ec73ff61c8368ef86891d6b28",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "5dd53faed147645ff26c31227a732c00f3eea1e730fa06e2006ad8afb1c11507",
+  "counts": {
+    "total": 28,
+    "clean": 1,
+    "benign": 16,
+    "governance": 5,
+    "rule": 5,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4.G05_EXECUTION",
+        "matched": 9,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C4.G05_HTTP",
+        "matched": 10,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "6e92bb64892b1a3c1275c798cbd2e42cf2aa3f1a0ec5464101558acd56a51449"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[appAccessor]",
+      "edited": [
+        "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/IExecutionContextAccessor.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "authorityHashes[appSnapshot]",
+      "edited": [
+        "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/ExecutionContextSnapshot.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "authorityHashes[runtimeAccessor]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-4",
+      "kind": "benign",
+      "binding": "authorityHashes[program]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-5",
+      "kind": "benign",
+      "binding": "authorityHashes[currentUser]",
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/CurrentUser.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-6",
+      "kind": "benign",
+      "binding": "authorityHashes[httpFacts]",
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-7",
+      "kind": "benign",
+      "binding": "authorityHashes[tenantSelection]",
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/ExecutionTenantSelection.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-8",
+      "kind": "benign",
+      "binding": "authorityHashes[executionTests]",
+      "edited": [
+        "tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-9",
+      "kind": "benign",
+      "binding": "authorityHashes[authFactTests]",
+      "edited": [
+        "tests/IFX.Modules.IAM.Infrastructure.Tests/Authorization/HttpContextFactTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-10",
+      "kind": "benign",
+      "binding": "authorityHashes[correlation]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Middleware/HttpCorrelationMiddleware.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-11",
+      "kind": "benign",
+      "binding": "authorityHashes[trace]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Middleware/HttpTraceContextMiddleware.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-12",
+      "kind": "benign",
+      "binding": "authorityHashes[httpContext]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Middleware/HttpExecutionContextMiddleware.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-13",
+      "kind": "benign",
+      "binding": "authorityHashes[exception]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-14",
+      "kind": "benign",
+      "binding": "authorityHashes[appSettings]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/appsettings.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-15",
+      "kind": "benign",
+      "binding": "authorityHashes[httpTests]",
+      "edited": [
+        "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-16",
+      "kind": "benign",
+      "binding": "presentationSha256",
+      "edited": [
+        "src/Modules/CRM/IFX.Modules.CRM.Application/AccountCompliance/AccountComplianceUseCase.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[sourcePolicy]",
+      "edited": [
+        "docs/architecture/review/gates/G05/execution-context-sources.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/execution-context-sources.json",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "authorityHashes[phase2Evidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md",
+      "pass": true
+    },
+    {
+      "id": "governance-3",
+      "kind": "governance",
+      "binding": "authorityHashes[phase2Layer]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "governance-4",
+      "kind": "governance",
+      "binding": "authorityHashes[phase3Evidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase3-http-boundary.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase3-http-boundary.md",
+      "pass": true
+    },
+    {
+      "id": "governance-5",
+      "kind": "governance",
+      "binding": "authorityHashes[phase3Layer]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase3-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase3-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "bad-middleware-order",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-HTTP:httpMiddlewareOrderIsDeterministic"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "bad-source-policy",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/execution-context-sources.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-EXECUTION:fiveExecutionSourcesHaveFailClosedRules"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "route-zero",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/**/*.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-HTTP:allModuleRouteGroupsDeclareScopeMetadata"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-runtime",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs",
+      "pass": true
+    },
+    {
+      "id": "zero-execution",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/IExecutionContextAccessor.cs",
+        "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/ExecutionContextSnapshot.cs",
+        "src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs",
+        "src/ApiHost/IFX.ApiHost/Program.cs",
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/CurrentUser.cs",
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/ExecutionTenantSelection.cs",
+        "docs/architecture/review/gates/G05/execution-context-sources.json",
+        "tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs",
+        "tests/IFX.Modules.IAM.Infrastructure.Tests/Authorization/HttpContextFactTests.cs",
+        "docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md",
+        "docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-EXECUTION:applicationContextPortIsTransportNeutral",
+        "G05-EXECUTION:runtimeAccessorHasBoundedAsyncLocalLifetime",
+        "G05-EXECUTION:rootCompositionOwnsUniqueImplementation",
+        "G05-EXECUTION:currentUserHttpResponsibilitiesAreSplit",
+        "G05-EXECUTION:fiveExecutionSourcesHaveFailClosedRules"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

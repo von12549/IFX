@@ -1,0 +1,134 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-plan04-extraction",
+  "version": "0.2.0",
+  "adapterSha256": "7c9ddf2abc9c12e3e96a62add60364a4e684ef9698e735857197a62f78a44784",
+  "policySha256": "c449d70465f714cedcf29f81534dcabc222ba47ac3ed78f6c96b012a9de910b9",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "722a3a9cef6dfe9b1732243c73fd10c5117cf90263d62385129cb74e3db88c85",
+  "counts": {
+    "total": 8,
+    "clean": 1,
+    "benign": 1,
+    "governance": 2,
+    "rule": 3,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4A.PLAN04_EXTRACTION",
+        "matched": 9,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "2cef92e7bc5fabe8b9ceaaaf9ebd8d861187541a0d06ed6e944992c9d09fb7bb"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "fixtureTreeSha256",
+      "edited": [
+        "tests/Architecture/Plan04/Fixtures/abstractions-negative-directory-project.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "extractionPolicySha256",
+      "edited": [
+        "docs/architecture/review/policies/plan04/microservice-extraction-policy.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "schemaSha256",
+      "edited": [
+        "docs/architecture/review/policies/plan04/extraction-decision-record.schema.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/policies/plan04/extraction-decision-record.schema.json",
+      "pass": true
+    },
+    {
+      "id": "microservice-default",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/policies/plan04/microservice-extraction-policy.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN04-EXTRACTION:defaultRemainsModularMonolith"
+      ],
+      "message": "[{\"name\":\"extraction-negative-invalid-transition.json\",\"passed\":true,\"positive\":false,\"expected\":[\"hard-gates-incomplete\",\"invalid-state-transition\",\"scores-incomplete\"],\"actual\":[\"hard-gates-incomplete\",\"invalid-state-transition\",\"scores-incomplete\"]},{\"name\":\"extraction-negative-missing-owner.json\",\"passed\":true,\"positive\":false,\"expected\":[\"hard-gates-incomplete\",\"owner-missing\",\"scores-incomplete\",\"transition-approvals-incomplete\"],\"actual\":[\"hard-gates-incomplete\",\"owner-missing\",\"scores-incomplete\",\"transition-approvals-incomplete\"]},{\"name\":\"extraction-negative-no-rollback.json\",\"passed\":true,\"positive\":false,\"expected\":[\"application-evidence-incomplete\",\"transition-approvals-incomplete\"],\"actual\":[\"application-evidence-incomplete\",\"transition-approvals-incomplete\"]},{\"name\":\"extraction-negative-shared-acid.json\",\"passed\":true,\"positive\":false,\"expected\":[\"hard-gate-failed\",\"score-cannot-override-hard-gate\",\"transition-approvals-incomplete\"],\"actual\":[\"hard-gate-failed\",\"score-cannot-override-hard-gate\",\"transition-approvals-incomplete\"]},{\"name\":\"extraction-valid-candidate.json\",\"passed\":true,\"positive\":true,\"expected\":[],\"actual\":[]}]",
+      "pass": true
+    },
+    {
+      "id": "zero-fixtures",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "tests/Architecture/Plan04/Fixtures/**/extraction-*.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN04-EXTRACTION:positiveAndNegativeFixturesPass"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-authority",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/policies/plan04/extraction-decision-record.schema.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: docs/architecture/review/policies/plan04/extraction-decision-record.schema.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

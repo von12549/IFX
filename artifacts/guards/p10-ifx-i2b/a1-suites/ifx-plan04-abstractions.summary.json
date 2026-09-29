@@ -1,0 +1,174 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-plan04-abstractions",
+  "version": "0.2.0",
+  "adapterSha256": "8fa48f691cbed0c058e451e4ccf67aa8b07e1efb2e512421f2aa227fb93e3855",
+  "policySha256": "05b4e25bd9a66a3e526dea749b23ff67c991e192385e677dea0df53725f1dc9a",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "b25c6ff31241659bb78fb3be8d1e17a7b75727d457620b99690dbb459ed54fc1",
+  "counts": {
+    "total": 11,
+    "clean": 1,
+    "benign": 5,
+    "governance": 0,
+    "rule": 4,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4A.PLAN04_ABSTRACTIONS",
+        "matched": 11,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "be2e2195ca49492896de475c08327f6d640f1da71b057598be4d3bbaa0bc330c"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "solutionSha256",
+      "edited": [
+        "IFX.sln"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "projectNamePolicySha256",
+      "edited": [
+        "docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/policy.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "referencePolicySha256",
+      "edited": [
+        "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-4",
+      "kind": "benign",
+      "binding": "inventorySha256",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Authentication/DynamicJwtBearerEvents.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-5",
+      "kind": "benign",
+      "binding": "fixtureTreeSha256",
+      "edited": [
+        "tests/Architecture/Plan04/Fixtures/abstractions-negative-directory-project.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "ignored-generated-directory",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/CRM/node_modules/IFX.Modules.CRM.Abstractions/Ignored.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "legacy-directory",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/CRM/IFX.Modules.CRM.Abstractions"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN04-ABSTRACTIONS:noLegacyAbstractionsDirectories"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-source",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/**/*",
+        "tests/**/*"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN04-ABSTRACTIONS:zero-subject"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-solution",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "IFX.sln"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: IFX.sln",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

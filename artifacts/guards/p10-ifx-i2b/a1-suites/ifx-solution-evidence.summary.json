@@ -1,0 +1,156 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-solution-evidence",
+  "version": "0.2.0",
+  "adapterSha256": "cf0773a41549fcda67e6d5ec7b3e5aaa02e25236f8c2ba8bece5d65fd8af02f1",
+  "policySha256": "edc9fe4869f9243c1b7d17537411e1596ce33fc1e7319f9505fde311ecddb37a",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "82a788a44058281615dbee088aaf282118403440865480e39964ee0c4f0c74f2",
+  "counts": {
+    "total": 10,
+    "clean": 1,
+    "benign": 0,
+    "governance": 0,
+    "rule": 1,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C5.SOLUTION_QUALITY",
+        "matched": 4,
+        "minimum": 4
+      }
+    ],
+    "receiptSha256": "8e7270026fca3ece9ca39bf79fa399c5e3b027a333819eeb116198604e010221"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "lock-gate-mismatch",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/solution/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Incomplete Solution lock.",
+      "pass": true
+    },
+    {
+      "id": "lock-missing-staging",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Staged evidence manifest is missing.",
+      "pass": true
+    },
+    {
+      "id": "lock-missing",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/solution/evidence-lock.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing evidence: artifacts/guards/p10-ifx-c5b/solution-runs/2bf810e0b20042fb955a1bda7de2655e/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-forged-producer",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Staged evidence was not produced by the pinned producer: solution",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/solution/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered evidence: artifacts/guards/p10-ifx-c5b/solution-runs/2bf810e0b20042fb955a1bda7de2655e/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-other-commit",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/solution/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Solution lock target commit differs from TargetRoot HEAD.",
+      "pass": true
+    },
+    {
+      "id": "lock-expired",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/solution/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Solution evidence stale or future-dated.",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered-evidence",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/solution/quality/summary.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered evidence: artifacts/guards/p10-ifx-c5b/solution-runs/2bf810e0b20042fb955a1bda7de2655e/quality/summary.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

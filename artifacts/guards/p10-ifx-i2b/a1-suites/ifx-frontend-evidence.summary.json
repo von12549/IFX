@@ -1,0 +1,156 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-frontend-evidence",
+  "version": "0.2.0",
+  "adapterSha256": "61a02c963d4dad7a2294d04c7abcb1e86d5b7aa46e72e6f1fcadc3f9f18d2a1e",
+  "policySha256": "c56c1635c0fc5459a092c7df1226e213cd969e1ea4c8b84043fa5506b28a66a9",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "26ad8e6f69de8c4bc2a93987fc18ce4c0e6e8e1954334c713108cb24939836da",
+  "counts": {
+    "total": 10,
+    "clean": 1,
+    "benign": 0,
+    "governance": 0,
+    "rule": 1,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C5.FRONTEND_QUALITY",
+        "matched": 5,
+        "minimum": 5
+      }
+    ],
+    "receiptSha256": "4cfd7701b2e2aaefa6e649a6a35cc18eed8035caed69ccc22d2d6830a8537026"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "lock-gate-mismatch",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/frontend/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Incomplete Frontend lock.",
+      "pass": true
+    },
+    {
+      "id": "lock-missing-staging",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Staged evidence manifest is missing.",
+      "pass": true
+    },
+    {
+      "id": "lock-missing",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/frontend/evidence-lock.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing evidence: artifacts/guards/p10-ifx-c5d/frontend-runs/cfe8568836534ae38d0c176efb62e8e3/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-forged-producer",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Staged evidence was not produced by the pinned producer: frontend",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/frontend/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered evidence: artifacts/guards/p10-ifx-c5d/frontend-runs/cfe8568836534ae38d0c176efb62e8e3/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-other-commit",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/frontend/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Frontend lock target commit differs from TargetRoot HEAD.",
+      "pass": true
+    },
+    {
+      "id": "lock-expired",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/frontend/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Frontend evidence stale or future-dated.",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered-evidence",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/frontend/quality/summary.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered evidence: artifacts/guards/p10-ifx-c5d/frontend-runs/cfe8568836534ae38d0c176efb62e8e3/quality/summary.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

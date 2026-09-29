@@ -1,0 +1,431 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g03-governance-core",
+  "version": "0.2.0",
+  "adapterSha256": "0dc300f1a2d857b119aef8c021fce75e86ad2d603340fdd37e64fe462bb91955",
+  "policySha256": "45df816f4c104ee038675514855a4ecf8c61851bac140d0980d26225d39d0dcc",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "9a30499450ec8a97fa173c41734eb1b5748f281860ffa892bddf6c475ae76cde",
+  "counts": {
+    "total": 25,
+    "clean": 1,
+    "benign": 2,
+    "governance": 0,
+    "rule": 21,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C2.G03_OWNERSHIP",
+        "matched": 1,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_PROVIDER_GRAPH",
+        "matched": 1,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_WAIVER_POLICY",
+        "matched": 1,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_PROJECTION",
+        "matched": 1,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "8ae2457a99e626989ce5432936be84c5830700c0fa683e3d24e8f9af69b4441b"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "catalogSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROJECTION:projection-drift:catalogSha256"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "projectionSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-owners",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-OWNERSHIP:zero-owner:owners",
+        "G03-OWNERSHIP:backup-owner-reference:approvalPolicy.backupOwner",
+        "G03-OWNERSHIP:owner-reference:modules.auth.owner",
+        "G03-OWNERSHIP:backup-owner-reference:modules.auth.backupOwner",
+        "G03-OWNERSHIP:owner-reference:modules.crm.owner"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-protocols",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROVIDER-GRAPH:zero-protocol:protocols",
+        "G03-PROVIDER-GRAPH:zero-edge:protocols",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:providerContracts",
+        "G03-PROJECTION:projection-drift:adapterEdges"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "unknown-owner",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-OWNERSHIP:owner-reference:modules.auth.owner",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:moduleOwnership"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "self-backup",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-OWNERSHIP:backup-owner-reference:modules.auth.backupOwner",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:moduleOwnership"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-consumer",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROVIDER-GRAPH:missing-consumer:protocols.crm.account-compliance.v1.consumers",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:providerContracts",
+        "G03-PROJECTION:projection-drift:adapterEdges"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "unknown-provider",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROVIDER-GRAPH:module-reference:protocols.crm.account-compliance.v1.provider",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:providerContracts",
+        "G03-PROJECTION:projection-drift:adapterEdges"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "unknown-consumer",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROVIDER-GRAPH:consumer-reference:protocols.crm.account-compliance.v1.consumers",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:providerContracts",
+        "G03-PROJECTION:projection-drift:adapterEdges"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "sync-cycle",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROVIDER-GRAPH:sync-cycle:protocols",
+        "G03-PROVIDER-GRAPH:mixed-cycle:protocols",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:providerContracts",
+        "G03-PROJECTION:projection-drift:adapterEdges"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "primitive-admission",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROVIDER-GRAPH:primitive-admission:sharedPrimitives.context.identifiers.v1.admissionBasis",
+        "G03-PROJECTION:projection-drift:catalogSha256"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "contract-allowlist",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROVIDER-GRAPH:contract-allowlist:contractDependencyPolicy",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:contractDependencyPolicy"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "waiver-unwaivable",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-WAIVER-POLICY:waiver-unwaivable:waivers.W-TEST.category",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:waivers"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "waiver-expired",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-WAIVER-POLICY:waiver-expired:waivers.W-TEST.expiresAt",
+        "G03-PROJECTION:projection-drift:catalogSha256",
+        "G03-PROJECTION:projection-drift:waivers"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "projection-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROJECTION:projection-drift:contractRoles"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-catalog",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "G03 catalog is missing.",
+      "pass": true
+    },
+    {
+      "id": "missing-projection",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "G03 projection is missing.",
+      "pass": true
+    },
+    {
+      "id": "missing-codeowners",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        ".github/CODEOWNERS"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "CODEOWNERS is missing.",
+      "pass": true
+    },
+    {
+      "id": "malformed-catalog",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "error/invalid-input",
+      "actual": "error/invalid-input",
+      "findings": [],
+      "message": "G03 catalog or projection is not JSON-compatible YAML/JSON.",
+      "pass": true
+    },
+    {
+      "id": "missing-waiver-policy",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-OWNERSHIP:required-node:waiverPolicy"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-projection-key",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-PROJECTION:projection-drift:providerContracts"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "linked-path",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/generated"
+      ],
+      "expected": "error/unsafe-path",
+      "actual": "error/unsafe-path",
+      "findings": [],
+      "message": "Governance input crosses a link: D:\\IFX-Root\\guard-runtime\\i2b-050a\\ifx-clone\\docs\\architecture\\review\\gates\\G03\\generated\\layerguard-governance-input.json",
+      "pass": true
+    },
+    {
+      "id": "catalog-with-projection",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+        "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

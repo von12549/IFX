@@ -1,0 +1,164 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g05-inventory",
+  "version": "0.2.0",
+  "adapterSha256": "6ca66683535eb92442d8706729881b6990afd31cf79df8273c4bfa718bf1362f",
+  "policySha256": "045c62b11261a15b7e4b04de35d9d5524f267c99bb9729e1ca3c9c2c32e31ea3",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "855bf10d2b19f533a2d0e6353a01932cf7ae609b238967cbb2f9e9af3734d899",
+  "counts": {
+    "total": 10,
+    "clean": 1,
+    "benign": 1,
+    "governance": 4,
+    "rule": 3,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4.G05_INVENTORY",
+        "matched": 1031,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "adde569ce620893f17d6818afe0d25e5c4bd586258777ec5a4c19e1b2a2a0f88"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "sourceTreeSha256",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Authentication/DynamicJwtBearerEvents.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[0]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-context-inventory.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-context-inventory.json",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "authorityHashes[1]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase0-baseline.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase0-baseline.md",
+      "pass": true
+    },
+    {
+      "id": "governance-3",
+      "kind": "governance",
+      "binding": "authorityHashes[2]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase0-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase0-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "governance-4",
+      "kind": "governance",
+      "binding": "authorityHashes[3]",
+      "edited": [
+        ".claude/Plans/20260908-g05-context-sensitive-data-boundary.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: .claude/Plans/20260908-g05-context-sensitive-data-boundary.md",
+      "pass": true
+    },
+    {
+      "id": "no-outbox",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/**/*.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-INVENTORY:durableMessagingCapabilitiesRecordedTruthfully"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-source",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/**/*.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-INVENTORY:sourceInventoryNonEmpty",
+        "G05-INVENTORY:httpAndTenantSurfacesRecorded",
+        "G05-INVENTORY:protocolAndEventSurfacesRecorded",
+        "G05-INVENTORY:loggingAndErrorSurfacesRecorded",
+        "G05-INVENTORY:durableMessagingCapabilitiesRecordedTruthfully"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-authority",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-context-inventory.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: docs/architecture/review/evidence/gates/G05/G05-context-inventory.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

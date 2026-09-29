@@ -1,0 +1,216 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-plan05-security",
+  "version": "0.2.0",
+  "adapterSha256": "8103c72373656e16a797520df244c3433af6dae27e6cfe681d7b4b8229a2d87c",
+  "policySha256": "8b679ffca13b0d89265a6e5fb09901314a807259c467e7e4cd7ace69512687a2",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "6babcd18508635c097e9d11bcb98b0efabb3ac6c37733cd2f3823add3cf68d37",
+  "counts": {
+    "total": 14,
+    "clean": 1,
+    "benign": 8,
+    "governance": 1,
+    "rule": 3,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4.PLAN05_SECURITY",
+        "matched": 13,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "2df0934f5c03cfa2d7999bd8bc3482d1e1cf20949ad7d0d2bce964e71f7e3e8f"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[identityRegistration]",
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "authorityHashes[verifiedFacts]",
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/VerifiedIdentityFacts.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "authorityHashes[httpIdentity]",
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-4",
+      "kind": "benign",
+      "binding": "authorityHashes[permission]",
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/PermissionChecker.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-5",
+      "kind": "benign",
+      "binding": "authorityHashes[resourceAdapter]",
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Inbound/ResourceAuthorizationInboundAdapter.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-6",
+      "kind": "benign",
+      "binding": "authorityHashes[program]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-7",
+      "kind": "benign",
+      "binding": "authorityHashes[handler]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Authorization/PermissionAuthorizationHandler.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-8",
+      "kind": "benign",
+      "binding": "sourceTreeSha256",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Authentication/DynamicJwtBearerEvents.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[compatibility]",
+      "edited": [
+        "docs/architecture/review/evidence/plan05/compatibility-identifiers.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/plan05/compatibility-identifiers.json",
+      "pass": true
+    },
+    {
+      "id": "impure-contract",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/IFX.Platform.Authentication.Contracts.csproj"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN05-SECURITY-BOUNDARY:AuthenticationContractsArePure"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-platform-source",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/**/*.cs",
+        "src/**/*.csproj"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN05-SECURITY-BOUNDARY:AuthenticationContractsArePure",
+        "PLAN05-SECURITY-BOUNDARY:AuthenticationRuntimeHasNoBusinessOrHttpDependency",
+        "PLAN05-SECURITY-BOUNDARY:AuthorizationContractsArePure",
+        "PLAN05-SECURITY-BOUNDARY:AuthorizationRuntimeHasNoBusinessOrHttpDependency"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-authority",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

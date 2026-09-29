@@ -1,0 +1,277 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g03-source-reconciliation",
+  "version": "0.2.0",
+  "adapterSha256": "5deb7c7eee69c8eb9e999dd3ab16070272f7fa909f537581af21e6d217f2069b",
+  "policySha256": "2979ffd9e234a1fd32e10af8afe83be483fe4050402aed394695c40c24254f9e",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "c2a9949aef1470a796c3d79523b5d7ea8940cd4b26ba7ca3a3af9f8569789d95",
+  "counts": {
+    "total": 16,
+    "clean": 1,
+    "benign": 1,
+    "governance": 0,
+    "rule": 13,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C2.G03_SOURCE_INVENTORY",
+        "matched": 1,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_SOURCE_RECONCILIATION",
+        "matched": 1,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_FIELD_SOURCE",
+        "matched": 1,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "b465febf17e963bebe7f9dbbcacd6a3a9cee6023dfb384277b384010520a79b6"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "catalogSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "generated-ignored",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/Fake/obj/Poison.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "new-abstraction",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/CRM/IFX.Modules.CRM.Abstractions/IFX.Modules.CRM.Abstractions.csproj",
+        "src/Modules/CRM/IFX.Modules.CRM.Abstractions/DTOs/NewLegacyDto.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-INVENTORY:exact-count:abstractionProjects=1",
+        "G03-SOURCE-INVENTORY:exact-count:dtos=1",
+        "G03-SOURCE-RECONCILIATION:unregistered-source:IFX.Modules.CRM.Abstractions|NewLegacyDto|"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "extra-reader",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/CRM/IFX.Modules.Extra.Contracts/IFX.Modules.Extra.Contracts.csproj",
+        "src/Modules/CRM/IFX.Modules.Extra.Contracts/IExtraContract.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-INVENTORY:exact-count:readers=5"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-event",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/Events/V1/TransactionProcessedV1.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-INVENTORY:exact-count:integrationEvents=1",
+        "G03-SOURCE-RECONCILIATION:protocol-source-missing:protocols.ifx.transaction.transaction-processed.v1"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "member-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-RECONCILIATION:protocol-member-missing:protocols.crm.account-compliance.v1"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "consumer-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-RECONCILIATION:protocol-consumer-missing:protocols.crm.account-compliance.v1.holdings-application"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "pending-legacy",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-RECONCILIATION:pending-legacy-count:publicSurface=1",
+        "G03-SOURCE-RECONCILIATION:missing-source:IFX.Modules.CRM.Abstractions|ICrmReader|"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-source-missing",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-RECONCILIATION:pending-legacy-count:publicSurface=1",
+        "G03-SOURCE-RECONCILIATION:missing-source:IFX.Modules.CRM.Abstractions|InvestorSummaryDto|",
+        "G03-FIELD-SOURCE:field-source-missing:fieldSurfaces.crm.dto.investor-summary"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "field-source-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+        "src/Modules/CRM/IFX.Modules.CRM.Abstractions/DTOs/InvestorSummaryDto.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-RECONCILIATION:pending-legacy-count:publicSurface=1",
+        "G03-SOURCE-RECONCILIATION:missing-source:IFX.Modules.CRM.Abstractions|InvestorSummaryDto|",
+        "G03-FIELD-SOURCE:field-source-drift:fieldSurfaces.crm.dto.investor-summary"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-source",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/**/*.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SOURCE-INVENTORY:zero-source:src",
+        "G03-SOURCE-INVENTORY:exact-count:readers=0",
+        "G03-SOURCE-INVENTORY:exact-count:readerMethods=0",
+        "G03-SOURCE-INVENTORY:exact-count:integrationEvents=0",
+        "G03-SOURCE-INVENTORY:exact-count:messagingAbstractionTypes=0"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-src",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "TargetRoot/src is missing.",
+      "pass": true
+    },
+    {
+      "id": "missing-catalog",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "G03 catalog is missing.",
+      "pass": true
+    },
+    {
+      "id": "malformed-catalog",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "error/invalid-input",
+      "actual": "error/invalid-input",
+      "findings": [],
+      "message": "G03 catalog is malformed.",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

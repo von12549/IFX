@@ -1,0 +1,147 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-plan04-tenant",
+  "version": "0.2.0",
+  "adapterSha256": "093b20d6eec426697bd444e8cf8532906b2b77f912c3afc383ddb85d9e1b3cbd",
+  "policySha256": "e246325cbe0c3be6c27bf5593168816374f8d4e9fd1052193a4daa039789c0b7",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "2fda1c938072f511da13a15bed095dd3f4f9d28ddac635e0eb805457efeb0dd9",
+  "counts": {
+    "total": 9,
+    "clean": 1,
+    "benign": 3,
+    "governance": 1,
+    "rule": 3,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4A.PLAN04_TENANT",
+        "matched": 12,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "32c9369dc8bdfb5c893bf4da21b58032619014d107099323a82c91bc54d550ed"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "registrySha256",
+      "edited": [
+        "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "sourceTreeSha256",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Authentication/DynamicJwtBearerEvents.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "fixtureTreeSha256",
+      "edited": [
+        "tests/Architecture/Plan04/Fixtures/abstractions-negative-directory-project.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "tenantPolicySha256",
+      "edited": [
+        "docs/architecture/review/policies/plan04/tenant-query-policy.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/policies/plan04/tenant-query-policy.json",
+      "pass": true
+    },
+    {
+      "id": "unguarded-tenant",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Repositories/EfAdvisorInvestmentAccountLinkRepository.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN04-TENANT:tenantMethodsGuardedAndPredicated"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-source",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/**/*.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN04-TENANT:zero-subject"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-authority",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/policies/plan04/tenant-query-policy.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: docs/architecture/review/policies/plan04/tenant-query-policy.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

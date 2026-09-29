@@ -1,0 +1,238 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-plan04-projection",
+  "version": "0.2.0",
+  "adapterSha256": "eaf50b96be5b957793bc6b1f3f4c912f471683310622b201fc8b6826376e83eb",
+  "policySha256": "60fd60b8345154864669041b94c2c00badaf78d759524c16c9153f94e8bd32d4",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "da70bab78cf6d97bddf549d340eed58544d0c8bcefa7aac99e055b06f8ac16a8",
+  "counts": {
+    "total": 16,
+    "clean": 1,
+    "benign": 8,
+    "governance": 3,
+    "rule": 3,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4A.PLAN04_PROJECTION",
+        "matched": 13,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "634337cb6c64539e8dc95183ab46a760eed72d1946b373ac3959ab654deed908"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[registry]",
+      "edited": [
+        "docs/architecture/review/policies/plan04/projection-registry.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "authorityHashes[catalog]",
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "authorityHashes[holdingHandler]",
+      "edited": [
+        "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-4",
+      "kind": "benign",
+      "binding": "authorityHashes[holdingInbox]",
+      "edited": [
+        "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboxConfiguration.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-5",
+      "kind": "benign",
+      "binding": "authorityHashes[transactionHandler]",
+      "edited": [
+        "src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyTransactionProcessedCommand.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-6",
+      "kind": "benign",
+      "binding": "authorityHashes[classHandler]",
+      "edited": [
+        "src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyClassStatusChangedCommand.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-7",
+      "kind": "benign",
+      "binding": "sourceTreeSha256",
+      "edited": [
+        "src/Modules/CRM/IFX.Modules.CRM.Application/AccountCompliance/AccountComplianceUseCase.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-8",
+      "kind": "benign",
+      "binding": "fixtureTreeSha256",
+      "edited": [
+        "tests/Architecture/Plan04/Fixtures/abstractions-negative-directory-project.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[projectionPolicy]",
+      "edited": [
+        "docs/architecture/review/policies/plan04/cross-module-projection-policy.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "authorityHashes[schema]",
+      "edited": [
+        "docs/architecture/review/policies/plan04/projection-registration.schema.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/policies/plan04/projection-registration.schema.json",
+      "pass": true
+    },
+    {
+      "id": "governance-3",
+      "kind": "governance",
+      "binding": "authorityHashes[graph]",
+      "edited": [
+        "docs/architecture/review/evidence/plan04/module-boundary-dependency-graph.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/plan04/module-boundary-dependency-graph.json",
+      "pass": true
+    },
+    {
+      "id": "false-approved-consumer",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/policies/plan04/projection-registry.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN04-PROJECTION:approvedConsumerInventoryIsExplicitlyEmpty"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-source",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/**/*.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "PLAN04-PROJECTION:zero-subject"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-authority",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/policies/plan04/cross-module-projection-policy.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

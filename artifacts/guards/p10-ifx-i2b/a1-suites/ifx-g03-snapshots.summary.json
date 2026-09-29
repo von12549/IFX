@@ -1,0 +1,316 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g03-snapshots",
+  "version": "0.2.0",
+  "adapterSha256": "12f34d83885128ae8b2c5afedc6f6f33acbb394f3487f9cfd21a428da4ae7818",
+  "policySha256": "19bc796f283cafe823b2893790dcb2450619d3a9bfa7581bcb391bc53eab44a4",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "9c2a92579e29f1a62506dd2b253f7fd1f1566f503b774eb3ffa50721a1f8cf21",
+  "counts": {
+    "total": 20,
+    "clean": 1,
+    "benign": 3,
+    "governance": 0,
+    "rule": 15,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C2.G03_SYNC_API_SNAPSHOT",
+        "matched": 4,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C2.G03_SERIALIZATION_SNAPSHOT",
+        "matched": 6,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "3c9ef78a14bdcb9a0bf1677f3edc91d321dd70981c0311ac9002d26ff59bdc56"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "catalogSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "apiSnapshotSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "serializationSnapshotSha256",
+      "edited": [
+        "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "generated-ignored",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/Fake/obj/Poison.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "signature-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SYNC-API-SNAPSHOT:snapshot-drift:sync-api"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "api-field-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SYNC-API-SNAPSHOT:snapshot-drift:sync-api"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "serialization-field-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SERIALIZATION-SNAPSHOT:snapshot-drift:serialization"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "catalog-lifecycle-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SYNC-API-SNAPSHOT:snapshot-drift:sync-api",
+        "G03-SERIALIZATION-SNAPSHOT:snapshot-drift:serialization"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-sync-source",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SYNC-API-SNAPSHOT:source-signature-missing:crm.account-compliance.v1",
+        "G03-SYNC-API-SNAPSHOT:source-signature-missing:crm.account-compliance.v1",
+        "G03-SYNC-API-SNAPSHOT:snapshot-drift:sync-api"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-source",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/**/*.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SYNC-API-SNAPSHOT:zero-source:src",
+        "G03-SYNC-API-SNAPSHOT:source-signature-missing:auth.resource-authorization.v1",
+        "G03-SYNC-API-SNAPSHOT:source-signature-missing:authorization.policy-evaluation.v1",
+        "G03-SYNC-API-SNAPSHOT:source-signature-missing:crm.account-compliance.v1",
+        "G03-SYNC-API-SNAPSHOT:source-signature-missing:registry.class-subscription-availability.v1"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-protocol",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SYNC-API-SNAPSHOT:zero-subject:catalog",
+        "G03-SERIALIZATION-SNAPSHOT:zero-subject:catalog"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-sync",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G03-SYNC-API-SNAPSHOT:zero-subject:catalog",
+        "G03-SERIALIZATION-SNAPSHOT:zero-subject:catalog"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-catalog",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing G03 input: docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "pass": true
+    },
+    {
+      "id": "missing-api",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing G03 input: docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+      "pass": true
+    },
+    {
+      "id": "missing-serialization",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing G03 input: docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+      "pass": true
+    },
+    {
+      "id": "malformed-catalog",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      ],
+      "expected": "error/invalid-input",
+      "actual": "error/invalid-input",
+      "findings": [],
+      "message": "Malformed G03 input: docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "pass": true
+    },
+    {
+      "id": "malformed-api",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json"
+      ],
+      "expected": "error/invalid-input",
+      "actual": "error/invalid-input",
+      "findings": [],
+      "message": "Malformed G03 input: docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+      "pass": true
+    },
+    {
+      "id": "malformed-serialization",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json"
+      ],
+      "expected": "error/invalid-input",
+      "actual": "error/invalid-input",
+      "findings": [],
+      "message": "Malformed G03 input: docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

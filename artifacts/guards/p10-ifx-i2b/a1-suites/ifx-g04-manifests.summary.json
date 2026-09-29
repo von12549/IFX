@@ -1,0 +1,573 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g04-manifests",
+  "version": "0.2.0",
+  "adapterSha256": "54b9eae0436601f30ebf13eb215ab9c75665728a1e86e4f3ccd162f28195c096",
+  "policySha256": "a131c16c947af00291f6d405a3816e9a4d50249dfbdb9fd11ce7b958fe068842",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "b838e711424b029c469478b07685713ad677697e47e26b1ebb8d342b719f4bd7",
+  "counts": {
+    "total": 36,
+    "clean": 1,
+    "benign": 18,
+    "governance": 1,
+    "rule": 15,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C3.G04_INVENTORY",
+        "matched": 18,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_MANIFEST",
+        "matched": 23,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_ORCHESTRATION",
+        "matched": 9,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_FAILURE_POLICY",
+        "matched": 9,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "8ccf19b052a33ec7dde9b89463a26e1231a6d713f3ba669967e4138db2147fe9"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[runtime-release]",
+      "edited": [
+        "deployment/g04/release-runtime-manifest.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "authorityHashes[module-manifest]",
+      "edited": [
+        "deployment/g04/module-manifest.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:moduleManifest"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "authorityHashes[module-schema]",
+      "edited": [
+        "deployment/g04/module-manifest.schema.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-4",
+      "kind": "benign",
+      "binding": "authorityHashes[deployment-units]",
+      "edited": [
+        "deployment/g04/deployment-unit-catalog.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:deploymentUnitCatalog"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-5",
+      "kind": "benign",
+      "binding": "authorityHashes[infrastructure-compatibility]",
+      "edited": [
+        "deployment/g04/infrastructure-compatibility-matrix.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:infrastructureCompatibility"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-6",
+      "kind": "benign",
+      "binding": "authorityHashes[schema-release]",
+      "edited": [
+        "deployment/release-manifest.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:schemaReleaseManifest"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-7",
+      "kind": "benign",
+      "binding": "authorityHashes[migration-manifest]",
+      "edited": [
+        "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:migrationManifest"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-8",
+      "kind": "benign",
+      "binding": "authorityHashes[release-orchestration]",
+      "edited": [
+        "deployment/g04/release-orchestration.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:releaseOrchestration"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-9",
+      "kind": "benign",
+      "binding": "authorityHashes[release-evidence-template]",
+      "edited": [
+        "deployment/g04/release-evidence-template.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-10",
+      "kind": "benign",
+      "binding": "authorityHashes[backpressure-policy]",
+      "edited": [
+        "deployment/g04/backpressure-policy.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:backpressurePolicy"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-11",
+      "kind": "benign",
+      "binding": "authorityHashes[failure-matrix]",
+      "edited": [
+        "deployment/g04/failure-matrix.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:failureMatrix"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-12",
+      "kind": "benign",
+      "binding": "authorityHashes[dependency-criticality]",
+      "edited": [
+        "deployment/g04/dependency-criticality-catalog.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-13",
+      "kind": "benign",
+      "binding": "authorityHashes[host-project]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-14",
+      "kind": "benign",
+      "binding": "authorityHashes[source-program]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-15",
+      "kind": "benign",
+      "binding": "authorityHashes[source-health]",
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-16",
+      "kind": "benign",
+      "binding": "authorityHashes[source-background-jobs]",
+      "edited": [
+        "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-17",
+      "kind": "benign",
+      "binding": "authorityHashes[compose]",
+      "edited": [
+        "docker-compose.yml"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-18",
+      "kind": "benign",
+      "binding": "authorityHashes[compose-nas]",
+      "edited": [
+        "docker-compose.nas.yml"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[g04-adr]",
+      "edited": [
+        "docs/architecture/review/gates/G04/ADR-G04-001-deployment-runtime-boundary.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/ADR-G04-001-deployment-runtime-boundary.md",
+      "pass": true
+    },
+    {
+      "id": "missing-release",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/release-runtime-manifest.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: deployment/g04/release-runtime-manifest.json",
+      "pass": true
+    },
+    {
+      "id": "malformed-release",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/release-runtime-manifest.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Malformed JSON: runtime-release",
+      "pass": true
+    },
+    {
+      "id": "zero-modules",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/module-manifest.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:module-set",
+        "G04-MANIFEST:endpoint-identity",
+        "G04-MANIFEST:release-required-modules",
+        "G04-MANIFEST:binding:moduleManifest",
+        "G04-MANIFEST:module-schema"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "duplicate-module",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/module-manifest.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:module-set",
+        "G04-MANIFEST:endpoint-identity",
+        "G04-MANIFEST:release-required-modules",
+        "G04-MANIFEST:binding:moduleManifest",
+        "G04-MANIFEST:module-schema"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-units",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/deployment-unit-catalog.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:deployment-unit-set",
+        "G04-MANIFEST:api-worker-artifact",
+        "G04-MANIFEST:binding:deploymentUnitCatalog"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "split-artifact",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/deployment-unit-catalog.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:api-worker-artifact",
+        "G04-MANIFEST:binding:deploymentUnitCatalog"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "wrong-binding-hash",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/release-runtime-manifest.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:moduleManifest"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-binding",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/release-runtime-manifest.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding-key-set",
+        "G04-MANIFEST:binding:failureMatrix"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "schema-contract",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/release-runtime-manifest.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:schema-compatibility"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "bad-stage-order",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/release-orchestration.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:releaseOrchestration",
+        "G04-ORCHESTRATION:release-stage-order",
+        "G04-ORCHESTRATION:stage-dependency:worker-consumer",
+        "G04-ORCHESTRATION:stage-dependency:schema-validation",
+        "G04-ORCHESTRATION:stage-dependency:scheduler"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "bad-threshold",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/backpressure-policy.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:backpressurePolicy",
+        "G04-MANIFEST:backpressure-threshold-order"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "auto-down",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/failure-matrix.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:failureMatrix",
+        "G04-FAILURE-POLICY:automatic-down-prohibited"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-scenarios",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/failure-matrix.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-MANIFEST:binding:failureMatrix",
+        "G04-FAILURE-POLICY:failure-scenario-set",
+        "G04-FAILURE-POLICY:automatic-down-prohibited",
+        "G04-FAILURE-POLICY:transport-preserves-truth",
+        "G04-FAILURE-POLICY:v2-worker-retention"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-business-module",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/ApiHost/IFX.ApiHost/Program.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-INVENTORY:business-modules",
+        "G04-INVENTORY:business-module-count"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "bound-file-rebound",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "deployment/g04/module-manifest.json",
+        "deployment/g04/release-runtime-manifest.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

@@ -326,8 +326,14 @@ Module dispositions:
     - an expired lock;
     - a gate mismatch.
   - Lineage tampering, and a source or input changed after production, are rejected where they apply.
-- All 25 changed modules pass on fresh IFX clones. Next: the formal recorded pass of all 25 suites from the final
-  A1-3 commit.
+- **A1-3 complete (2026-09-29).**
+  - Formal recorded pass from harness commit `f8a5f28b` on a fresh IFX clone at `1797d554`, evidence runs 024–049:
+    - evidence produced once (run 024);
+    - the six lock consumers first, then the other 19.
+  - **All 25 modules pass: 516 cases, 0 failed, and 25 installed-Host Post runs pass on the 1.1.6 base.**
+  - Records: `artifacts/guards/p10-ifx-i2b/a1-suites/` (`index.json` with the harness and specification hashes, one
+    summary per module, the production record).
+  - Next: A1-4, the harness successors.
 
 ### 9.5 Out of scope for A1
 

@@ -1,0 +1,329 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g05-protocol",
+  "version": "0.2.0",
+  "adapterSha256": "57dbd81195e0568a1965f0c0092664e677dbb88678755d8350a096b14f85739f",
+  "policySha256": "173a91325a4ab060e3e78228acbbebc8c23eab0d449512616619ac57e9514488",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "39a594b5c2953c6b09f4a2ce87f718aec7d950dddfe586fd83ebd7536047c079",
+  "counts": {
+    "total": 21,
+    "clean": 1,
+    "benign": 12,
+    "governance": 3,
+    "rule": 4,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4.G05_PROTOCOL_DEPENDENCIES",
+        "matched": 2,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C4.G05_PROTOCOL_SHAPES",
+        "matched": 6,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C4.G05_PROTOCOL_EVIDENCE",
+        "matched": 3,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "b2163813bb891d60ea13ea4f701939f61a0c59885ad34dbadad5812e25b3c206"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[contextProject]",
+      "edited": [
+        "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "authorityHashes[messagingProject]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "authorityHashes[identifiers]",
+      "edited": [
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContextIdentifiers.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-4",
+      "kind": "benign",
+      "binding": "authorityHashes[scopes]",
+      "edited": [
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ExecutionScope.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-5",
+      "kind": "benign",
+      "binding": "authorityHashes[references]",
+      "edited": [
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContextReferences.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-6",
+      "kind": "benign",
+      "binding": "authorityHashes[contractContext]",
+      "edited": [
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-7",
+      "kind": "benign",
+      "binding": "authorityHashes[eventEnvelope]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventEnvelopeV1.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-8",
+      "kind": "benign",
+      "binding": "authorityHashes[eventIdentifier]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventIdentifier.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-9",
+      "kind": "benign",
+      "binding": "authorityHashes[eventSchema]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventSchemaIdentity.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-10",
+      "kind": "benign",
+      "binding": "authorityHashes[integrationEvent]",
+      "edited": [
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IIntegrationEventV1.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-11",
+      "kind": "benign",
+      "binding": "authorityHashes[g03Governance]",
+      "edited": [
+        "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-12",
+      "kind": "benign",
+      "binding": "authorityHashes[protocolTests]",
+      "edited": [
+        "tests/IFX.Platform.ProtocolContracts.Tests/EventEnvelopeV1Tests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[protocolPolicy]",
+      "edited": [
+        "docs/architecture/review/gates/G05/context-protocol-v1.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/context-protocol-v1.json",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "authorityHashes[phase1Evidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase1-protocol-primitives.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase1-protocol-primitives.md",
+      "pass": true
+    },
+    {
+      "id": "governance-3",
+      "kind": "governance",
+      "binding": "authorityHashes[phase1Layerguard]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase1-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase1-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "framework-leak",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContextIdentifiers.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-PROTOCOL-DEPS:noFrameworkOrTransportLeak"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "invalid-version",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/context-protocol-v1.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-PROTOCOL-SHAPES:contractContextIsVersionedBclShape",
+        "G05-PROTOCOL-SHAPES:eventEnvelopeIsVersionedBclShape"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-authority",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "tests/IFX.Platform.ProtocolContracts.Tests/EventEnvelopeV1Tests.cs"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: tests/IFX.Platform.ProtocolContracts.Tests/EventEnvelopeV1Tests.cs",
+      "pass": true
+    },
+    {
+      "id": "zero-subject",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj",
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContextIdentifiers.cs",
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ExecutionScope.cs",
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContextReferences.cs",
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventEnvelopeV1.cs",
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventIdentifier.cs",
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventSchemaIdentity.cs",
+        "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IIntegrationEventV1.cs"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-PROTOCOL-SHAPES:contextStrongIdentifiersExist",
+        "G05-PROTOCOL-SHAPES:explicitScopesExist",
+        "G05-PROTOCOL-SHAPES:minimumReferencesExist",
+        "G05-PROTOCOL-SHAPES:contractContextIsVersionedBclShape",
+        "G05-PROTOCOL-SHAPES:eventEnvelopeIsVersionedBclShape"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

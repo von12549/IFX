@@ -1,0 +1,300 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g05-carriers",
+  "version": "0.2.0",
+  "adapterSha256": "ae11bb14d4760b4863e6b793e5ac3e16b25ff425cc08ffbf12c2556acc492f91",
+  "policySha256": "ae565aa07dbd3799da0581d6e27b5dc6507701fc6e9274289a6ee8a325808f6b",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "20f23459bb06db882e573e10f9839aed8c535fbf3821a661f1e4fbc177924614",
+  "counts": {
+    "total": 19,
+    "clean": 1,
+    "benign": 3,
+    "governance": 10,
+    "rule": 4,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C4.G05_CONTRACT_CARRIER",
+        "matched": 9,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C4.G05_EVENT_CARRIER",
+        "matched": 10,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "8a9e93e07df56e30f22593d01482cef551037b287ebb62e5305335bb9236b0b3"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[contractTests]",
+      "edited": [
+        "tests/IFX.Platform.ProtocolContracts.Tests/ContractContextConformanceTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-2",
+      "kind": "benign",
+      "binding": "authorityHashes[contractContext]",
+      "edited": [
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-3",
+      "kind": "benign",
+      "binding": "authorityHashes[eventTests]",
+      "edited": [
+        "tests/IFX.Platform.ProtocolContracts.Tests/EventPropagationConformanceTests.cs"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[contractPolicy]",
+      "edited": [
+        "docs/architecture/review/gates/G05/contract-context-conformance-v1.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "authorityHashes[contractHandoff]",
+      "edited": [
+        "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+      "pass": true
+    },
+    {
+      "id": "governance-3",
+      "kind": "governance",
+      "binding": "authorityHashes[phase4Evidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase4-contract-context.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase4-contract-context.md",
+      "pass": true
+    },
+    {
+      "id": "governance-4",
+      "kind": "governance",
+      "binding": "authorityHashes[phase4Layer]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "governance-5",
+      "kind": "governance",
+      "binding": "authorityHashes[eventPolicy]",
+      "edited": [
+        "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/event-propagation-conformance-v1.json",
+      "pass": true
+    },
+    {
+      "id": "governance-6",
+      "kind": "governance",
+      "binding": "authorityHashes[eventSchema]",
+      "edited": [
+        "docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json",
+      "pass": true
+    },
+    {
+      "id": "governance-7",
+      "kind": "governance",
+      "binding": "authorityHashes[eventGolden]",
+      "edited": [
+        "docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json",
+      "pass": true
+    },
+    {
+      "id": "governance-8",
+      "kind": "governance",
+      "binding": "authorityHashes[eventHandoff]",
+      "edited": [
+        "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+      "pass": true
+    },
+    {
+      "id": "governance-9",
+      "kind": "governance",
+      "binding": "authorityHashes[phase5Evidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase5-event-propagation.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase5-event-propagation.md",
+      "pass": true
+    },
+    {
+      "id": "governance-10",
+      "kind": "governance",
+      "binding": "authorityHashes[phase5Layer]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale authority: docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json",
+      "pass": true
+    },
+    {
+      "id": "bad-contract",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/contract-context-conformance-v1.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-CONTRACT-CARRIER:realContractCarrierNotMisrepresented"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "bad-event",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-EVENT-CARRIER:realMessagingDurabilityNotMisrepresented"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-subject",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+        "tests/IFX.Platform.ProtocolContracts.Tests/ContractContextConformanceTests.cs",
+        "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+        "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+        "docs/architecture/review/evidence/gates/G05/G05-phase4-contract-context.md",
+        "docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json",
+        "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json",
+        "docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json",
+        "docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json",
+        "tests/IFX.Platform.ProtocolContracts.Tests/EventPropagationConformanceTests.cs",
+        "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+        "docs/architecture/review/evidence/gates/G05/G05-phase5-event-propagation.md",
+        "docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G05-CONTRACT-CARRIER:consumerContextConstructionIsExplicit",
+        "G05-CONTRACT-CARRIER:providerValidationOrderIsFixed",
+        "G05-CONTRACT-CARRIER:contractFailureResultsAreStable",
+        "G05-CONTRACT-CARRIER:fakeCarriersShareOneApplicationPort",
+        "G05-CONTRACT-CARRIER:contractContextCarriesNoCallerAuthorization"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-authority",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G05/contract-context-conformance-v1.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

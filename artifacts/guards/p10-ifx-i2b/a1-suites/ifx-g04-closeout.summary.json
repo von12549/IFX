@@ -1,0 +1,760 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-g04-closeout",
+  "version": "0.2.0",
+  "adapterSha256": "138e557d1e731355014a908830d8d78ceedace413dd77367753a7d7222ad07bb",
+  "policySha256": "efef4e8aa6bdbc4cf957b6de0a86568041a24b0146dcef948f39eeb966119d8b",
+  "targetCommit": "1797d5541226aa03b9b0aab149475b6e45d79ad9",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "31ea1c25fc22779a9c37c8c8ba0addc303c2742385405c66b81457bd4a2089ad",
+  "counts": {
+    "total": 54,
+    "clean": 1,
+    "benign": 1,
+    "governance": 42,
+    "rule": 9,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C3.G04_EVIDENCE",
+        "matched": 13,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_DOCUMENTATION",
+        "matched": 24,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_CLOSEOUT",
+        "matched": 21,
+        "minimum": 1
+      },
+      {
+        "claimId": "IFX.C3.G04_INBOUND_CLOSEOUT",
+        "matched": 3,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "f7491bb7bca6cdd4a73e76a970a6ede81ee34d568c62c070430b58aaf3a06208"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "benign-1",
+      "kind": "benign",
+      "binding": "authorityHashes[releaseTemplate]",
+      "edited": [
+        "deployment/g04/release-evidence-template.json"
+      ],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "governance-1",
+      "kind": "governance",
+      "binding": "authorityHashes[phase0]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase0-baseline.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase0-baseline.md",
+      "pass": true
+    },
+    {
+      "id": "governance-2",
+      "kind": "governance",
+      "binding": "authorityHashes[leaseEvidence]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase4-lease-conformance.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase4-lease-conformance.md",
+      "pass": true
+    },
+    {
+      "id": "governance-3",
+      "kind": "governance",
+      "binding": "authorityHashes[phase5]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md",
+      "pass": true
+    },
+    {
+      "id": "governance-4",
+      "kind": "governance",
+      "binding": "authorityHashes[phase6]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase6-health-conformance.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase6-health-conformance.md",
+      "pass": true
+    },
+    {
+      "id": "governance-5",
+      "kind": "governance",
+      "binding": "authorityHashes[recoveryRunbook]",
+      "edited": [
+        "docs/architecture/review/gates/G04/backpressure-recovery-runbook.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/backpressure-recovery-runbook.md",
+      "pass": true
+    },
+    {
+      "id": "governance-6",
+      "kind": "governance",
+      "binding": "authorityHashes[phase7]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase7-backpressure-conformance.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase7-backpressure-conformance.md",
+      "pass": true
+    },
+    {
+      "id": "governance-7",
+      "kind": "governance",
+      "binding": "authorityHashes[phase8]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase8-release-orchestration.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase8-release-orchestration.md",
+      "pass": true
+    },
+    {
+      "id": "governance-8",
+      "kind": "governance",
+      "binding": "authorityHashes[failureRunbook]",
+      "edited": [
+        "docs/architecture/review/gates/G04/failure-rollback-runbook.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/failure-rollback-runbook.md",
+      "pass": true
+    },
+    {
+      "id": "governance-9",
+      "kind": "governance",
+      "binding": "authorityHashes[phase9]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase9-failure-safety.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase9-failure-safety.md",
+      "pass": true
+    },
+    {
+      "id": "governance-10",
+      "kind": "governance",
+      "binding": "authorityHashes[phase10]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase10-automated-acceptance.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase10-automated-acceptance.md",
+      "pass": true
+    },
+    {
+      "id": "governance-11",
+      "kind": "governance",
+      "binding": "authorityHashes[phase11]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase11-documentation.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase11-documentation.md",
+      "pass": true
+    },
+    {
+      "id": "governance-12",
+      "kind": "governance",
+      "binding": "authorityHashes[phase12Handoff]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase12-handoff.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase12-handoff.md",
+      "pass": true
+    },
+    {
+      "id": "governance-13",
+      "kind": "governance",
+      "binding": "authorityHashes[zh]",
+      "edited": [
+        "docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md",
+      "pass": true
+    },
+    {
+      "id": "governance-14",
+      "kind": "governance",
+      "binding": "authorityHashes[en]",
+      "edited": [
+        "docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md",
+      "pass": true
+    },
+    {
+      "id": "governance-15",
+      "kind": "governance",
+      "binding": "authorityHashes[architectureIndex]",
+      "edited": [
+        "docs/architecture/review/README.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/README.md",
+      "pass": true
+    },
+    {
+      "id": "governance-16",
+      "kind": "governance",
+      "binding": "authorityHashes[prerequisites]",
+      "edited": [
+        "docs/architecture/review/plans/00-prerequisites.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/plans/00-prerequisites.md",
+      "pass": true
+    },
+    {
+      "id": "governance-17",
+      "kind": "governance",
+      "binding": "authorityHashes[downstreamG02]",
+      "edited": [
+        "docs/architecture/review/plans/00-G02-database-boundary.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/plans/00-G02-database-boundary.md",
+      "pass": true
+    },
+    {
+      "id": "governance-18",
+      "kind": "governance",
+      "binding": "authorityHashes[downstreamPlan01]",
+      "edited": [
+        "docs/architecture/review/plans/01-contracts-adapters-refactor.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/plans/01-contracts-adapters-refactor.md",
+      "pass": true
+    },
+    {
+      "id": "governance-19",
+      "kind": "governance",
+      "binding": "authorityHashes[downstreamPlan02]",
+      "edited": [
+        "docs/architecture/review/plans/02-reliable-integration-events.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/plans/02-reliable-integration-events.md",
+      "pass": true
+    },
+    {
+      "id": "governance-20",
+      "kind": "governance",
+      "binding": "authorityHashes[downstreamLayerGuard]",
+      "edited": [
+        "docs/architecture/review/plans/03-layerguard-alignment.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/plans/03-layerguard-alignment.md",
+      "pass": true
+    },
+    {
+      "id": "governance-21",
+      "kind": "governance",
+      "binding": "authorityHashes[g04Status]",
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase12-status.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/gates/G04/G04-phase12-status.json",
+      "pass": true
+    },
+    {
+      "id": "governance-22",
+      "kind": "governance",
+      "binding": "authorityHashes[g04Plan]",
+      "edited": [
+        "docs/architecture/review/plans/00-G04-deployment-runtime-boundary.md"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/plans/00-G04-deployment-runtime-boundary.md",
+      "pass": true
+    },
+    {
+      "id": "governance-23",
+      "kind": "governance",
+      "binding": "authorityHashes[inboundStatus]",
+      "edited": [
+        "docs/architecture/review/evidence/plan02/P02-C1-status.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/plan02/P02-C1-status.json",
+      "pass": true
+    },
+    {
+      "id": "governance-24",
+      "kind": "governance",
+      "binding": "authorityHashes[readiness]",
+      "edited": [
+        "docs/architecture/review/evidence/final-closure/readiness.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/evidence/final-closure/readiness.json",
+      "pass": true
+    },
+    {
+      "id": "governance-25",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-consumer-first-release-mmd]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/consumer-first-release.mmd"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/consumer-first-release.mmd",
+      "pass": true
+    },
+    {
+      "id": "governance-26",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-consumer-first-release-svg]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/consumer-first-release.svg"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/consumer-first-release.svg",
+      "pass": true
+    },
+    {
+      "id": "governance-27",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-consumer-first-release-png]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/consumer-first-release.png"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/consumer-first-release.png",
+      "pass": true
+    },
+    {
+      "id": "governance-28",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-deployment-boundary-mmd]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/deployment-boundary.mmd"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/deployment-boundary.mmd",
+      "pass": true
+    },
+    {
+      "id": "governance-29",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-deployment-boundary-svg]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/deployment-boundary.svg"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/deployment-boundary.svg",
+      "pass": true
+    },
+    {
+      "id": "governance-30",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-deployment-boundary-png]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/deployment-boundary.png"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/deployment-boundary.png",
+      "pass": true
+    },
+    {
+      "id": "governance-31",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-dispatcher-backpressure-mmd]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.mmd"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.mmd",
+      "pass": true
+    },
+    {
+      "id": "governance-32",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-dispatcher-backpressure-svg]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.svg"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.svg",
+      "pass": true
+    },
+    {
+      "id": "governance-33",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-dispatcher-backpressure-png]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.png"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.png",
+      "pass": true
+    },
+    {
+      "id": "governance-34",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-failure-rollback-mmd]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/failure-rollback.mmd"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/failure-rollback.mmd",
+      "pass": true
+    },
+    {
+      "id": "governance-35",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-failure-rollback-svg]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/failure-rollback.svg"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/failure-rollback.svg",
+      "pass": true
+    },
+    {
+      "id": "governance-36",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-failure-rollback-png]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/failure-rollback.png"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/failure-rollback.png",
+      "pass": true
+    },
+    {
+      "id": "governance-37",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-runtime-topology-mmd]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/runtime-topology.mmd"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/runtime-topology.mmd",
+      "pass": true
+    },
+    {
+      "id": "governance-38",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-runtime-topology-svg]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/runtime-topology.svg"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/runtime-topology.svg",
+      "pass": true
+    },
+    {
+      "id": "governance-39",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-runtime-topology-png]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/runtime-topology.png"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/runtime-topology.png",
+      "pass": true
+    },
+    {
+      "id": "governance-40",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-startup-health-drain-mmd]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/startup-health-drain.mmd"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/startup-health-drain.mmd",
+      "pass": true
+    },
+    {
+      "id": "governance-41",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-startup-health-drain-svg]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/startup-health-drain.svg"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/startup-health-drain.svg",
+      "pass": true
+    },
+    {
+      "id": "governance-42",
+      "kind": "governance",
+      "binding": "authorityHashes[diagram-startup-health-drain-png]",
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/startup-health-drain.png"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Stale governance authority: docs/architecture/review/gates/G04/diagrams/startup-health-drain.png",
+      "pass": true
+    },
+    {
+      "id": "missing-document",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md",
+      "pass": true
+    },
+    {
+      "id": "zero-diagram",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G04/diagrams/consumer-first-release.mmd"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-DOCUMENTATION:documentationValidated"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "decision-drift",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-DOCUMENTATION:documentationValidated"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "false-ready",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase12-status.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-CLOSEOUT:closeoutValidated",
+        "G04-CLOSEOUT:closeoutRemainsPreReady",
+        "G04-CLOSEOUT:closeoutApprovalNotClaimed"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "zero-blockers",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase12-status.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-CLOSEOUT:closeoutValidated",
+        "G04-CLOSEOUT:zero-subject"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-owner",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase12-status.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-CLOSEOUT:closeoutValidated"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-plan02-slice",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/final-closure/readiness.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-INBOUND-CLOSEOUT:readinessAdvancedOnlyOneSlice"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "invalid-inbound-count",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/plan02/P02-C1-status.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "G04-INBOUND-CLOSEOUT:evidenceRecorded"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "missing-phase5",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing authority: docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}
