@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 review packet ready, operator decision pending`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 next (local)`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -612,3 +612,7 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
   added or removed; ceilings identical; Profile: version, five `policySha256` values, the relocated
   `workspaceEvidence` root), `file-inventory.json`, `module-ceilings.json`; the A2-1..A2-8 evidence is bound by hash.
   Evidence: evrun 090.
+- **A2-9 accepted (2026-09-30).** The operator accepted the exact packet `f65fa234…` ("接受"). Records in
+  `a2-051/c6d-review-051/`: `c6d-decision.json` (`c6d-exact-bundle-human-review-accepted`) and
+  `production-extension-review.json` (id `20260930-ifx-0-5-1-production-review`, 36 module ceilings, valid against the
+  1.1.6 schema). Next: A2-10 locally.
