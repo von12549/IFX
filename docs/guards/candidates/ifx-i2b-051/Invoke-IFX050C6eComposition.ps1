@@ -1,5 +1,6 @@
-# IFX I2-B amendment A1 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A1-8a: the C6e composition of
-# V4 Guards 1.1.6 + ifx_profile 0.5.0 with the accepted production review record; successor of
+# IFX I2-B amendment A2 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A2-10a: the C6e composition of
+# V4 Guards 1.1.6 + ifx_profile 0.5.1 with the accepted production review record (the A1-8a runner of
+# candidates/ifx-i2b-050a with the 0.5.1 roots, identities and step labels); successor of
 # candidates/ifx-rebind-116/Invoke-IFX116S7Preparation.ps1 and Invoke-IFX116S7HostRuns.ps1 (unchanged).
 # Two clean clones detached at the certified commit: the clean one also gets one evidence production, staged the way
 # the trusted-base workflow will stage it. Installed-Host runs: clean Pre passes; a deliberate import fault blocks
@@ -63,11 +64,11 @@ $bundle = [IO.Path]::GetFullPath($BundleRoot); $manifestFile = Full-File (Join-P
 $c6dFile = Full-File $C6dDecisionPath 'C6d decision'; $reviewFile = Full-File $ReviewRecordPath 'Production review'; $packetFile = Full-File $ReviewPacketPath 'Review packet'
 $base = Join-Path $runtime 'releases/v4-guards-1.1.6'; $baseReceipt = Full-File (Join-Path $runtime 'receipts/v4-guards-1.1.6.install.json') 'Base receipt'
 $archive = Full-File $(if ([IO.Path]::IsPathFullyQualified($BaseArchivePath)) { $BaseArchivePath } else { Join-Path $repo $BaseArchivePath }) 'Base archive'
-$install = Absent (Join-Path $runtime 'releases/v4-guards-1.1.6-ifx-0.5.0') 'Composed installation'
-$receipt = Absent (Join-Path $runtime 'receipts/v4-guards-1.1.6-ifx-0.5.0.compose.json') 'Composition receipt'
-$state = Absent (Join-Path $runtime 'state/ifx-a18-050') 'StateRoot'; $evidence = Absent (Join-Path $runtime 'evidence/ifx-a18-050') 'EvidenceRoot'
-$clean = Absent (Join-Path $runtime 'fixtures/ifx-a18-clean-050') 'Clean worktree'; $violating = Absent (Join-Path $runtime 'fixtures/ifx-a18-violating-050') 'Violating worktree'
-$evidenceOutput = Absent $EvidenceOutputRoot 'A1-8a evidence output'; $decisionFull = Absent $DecisionPath 'A1-8a decision'
+$install = Absent (Join-Path $runtime 'releases/v4-guards-1.1.6-ifx-0.5.1') 'Composed installation'
+$receipt = Absent (Join-Path $runtime 'receipts/v4-guards-1.1.6-ifx-0.5.1.compose.json') 'Composition receipt'
+$state = Absent (Join-Path $runtime 'state/ifx-a210-051') 'StateRoot'; $evidence = Absent (Join-Path $runtime 'evidence/ifx-a210-051') 'EvidenceRoot'
+$clean = Absent (Join-Path $runtime 'fixtures/ifx-a210-clean-051') 'Clean worktree'; $violating = Absent (Join-Path $runtime 'fixtures/ifx-a210-violating-051') 'Violating worktree'
+$evidenceOutput = Absent $EvidenceOutputRoot 'A2-10a evidence output'; $decisionFull = Absent $DecisionPath 'A2-10a decision'
 $roots = @($bundle, $base, $install, $state, $evidence, $clean, $violating, $evidenceOutput)
 for ($i = 0; $i -lt $roots.Count; $i++) { for ($j = $i + 1; $j -lt $roots.Count; $j++) { if ((Is-Under $roots[$i] $roots[$j]) -or (Is-Under $roots[$j] $roots[$i])) { Fail "Overlapping roots: $($roots[$i]) / $($roots[$j])" } } }
 
@@ -78,7 +79,7 @@ foreach ($k in $expected.Keys) { if ($ids[$k] -cne $expected[$k]) { Fail "$k SHA
 $c6d = Read-Json $c6dFile; $review = Read-Json $reviewFile; $packet = Read-Json $packetFile; $manifest = Read-Json $manifestFile
 if ($c6d.status -cne 'pass' -or $c6d.decision -cne 'c6d-exact-bundle-human-review-accepted' -or $c6d.targetCommit -cne $ExpectedTargetCommit -or $packet.targetCommit -cne $ExpectedTargetCommit -or
     $review.scope -cne 'production' -or $review.decision -cne 'accepted' -or $review.acceptedBy.authorityId -cne 'xiaolong-feng' -or $review.bundleManifestSha256 -cne $ids.bundleManifest -or
-    $manifest.baseVersion -cne '1.1.6' -or $manifest.version -cne '0.5.1' -or $c6d.acceptedEvidence.productionReviewRecord.sha256 -cne $ids.reviewRecord) { Fail 'Accepted A1-7 production identity is invalid.' }
+    $manifest.baseVersion -cne '1.1.6' -or $manifest.version -cne '0.5.1' -or $c6d.acceptedEvidence.productionReviewRecord.sha256 -cne $ids.reviewRecord) { Fail 'Accepted A2-9 production identity is invalid.' }
 $verifier = Join-Path $base 'package/core/distribution/Test-V4ComposedInstallation.ps1'; $composer = Join-Path $base 'package/core/distribution/Compose-V4Extension.ps1'
 $baseText = @(& $verifier -InstallRoot $base -ReceiptPath $baseReceipt 2>&1); if ($LASTEXITCODE -ne 0) { Fail "Base verification failed: $($baseText -join ' ')" }
 $baseProof = ($baseText -join "`n") | ConvertFrom-Json -AsHashtable -Depth 100
@@ -92,8 +93,8 @@ foreach ($wt in @($clean, $violating)) {
     if ($code -eq 0) { $o += @(& git -C $wt -c advice.detachedHead=false checkout --quiet --detach $ExpectedTargetCommit 2>&1); $code = $LASTEXITCODE }
     Write-Log (Join-Path $evidenceOutput "$([IO.Path]::GetFileName($wt))-clone.log") $o; if ($code -ne 0) { Fail "Target clone failed: $wt" }
 }
-$faultRelative = 'src/Modules/CRM/IFX.Modules.CRM.Domain/A18Fault.cs'
-[IO.File]::WriteAllText((Join-Path $violating $faultRelative), "using IFX.Modules.CRM.Contracts;`n`nnamespace IFX.Modules.CRM.Domain;`n`ninternal sealed class A18Fault;`n", [Text.UTF8Encoding]::new($false))
+$faultRelative = 'src/Modules/CRM/IFX.Modules.CRM.Domain/A210Fault.cs'
+[IO.File]::WriteAllText((Join-Path $violating $faultRelative), "using IFX.Modules.CRM.Contracts;`n`nnamespace IFX.Modules.CRM.Domain;`n`ninternal sealed class A210Fault;`n", [Text.UTF8Encoding]::new($false))
 $cleanFacts = Git-Facts $clean; $violatingFacts = Git-Facts $violating
 if ($cleanFacts.head -cne $ExpectedTargetCommit -or $violatingFacts.head -cne $ExpectedTargetCommit -or -not $cleanFacts.detached -or -not $violatingFacts.detached -or
     @($cleanFacts.status).Count -ne 0 -or (@($violatingFacts.status) -join '|') -cne "?? $faultRelative") { Fail 'Worktrees are not the expected clean and single-fault checkouts.' }
@@ -184,10 +185,10 @@ $verification = Join-Path $evidenceOutput 'host-verification.json'
 Write-Json $verification ([ordered]@{ formatVersion = 1; status = $status; verification = 'installed-host-and-host-query-match'
     installedRuntime = [ordered]@{ installRoot = $install; packageHash = $c.packageHash; profileId = 'ifx_profile'; profileVersion = [string]$profile.version; profileSha256 = $profileSha }
     cases = $cases; checks = $checks; preInventories = $pre; postInventories = $post; unstagedPostFailedModules = @($u.failedModules) })
-Write-Json $decisionFull ([ordered]@{ formatVersion = 1; status = $status; decision = $(if ($status -ceq 'pass') { 'a1-8a-composition-accepted' } else { 'a1-8a-composition-stopped' })
-    planId = '20260929-v4-ifx-i2b-ci-evidence-and-bundle'; step = 'A1-8a'; targetCommit = $ExpectedTargetCommit; identities = $ids; baseProof = $baseProof; compositionProof = $compositionProof
+Write-Json $decisionFull ([ordered]@{ formatVersion = 1; status = $status; decision = $(if ($status -ceq 'pass') { 'a2-10a-composition-accepted' } else { 'a2-10a-composition-stopped' })
+    planId = '20260929-v4-ifx-i2b-ci-evidence-and-bundle'; step = 'A2-10a'; targetCommit = $ExpectedTargetCommit; identities = $ids; baseProof = $baseProof; compositionProof = $compositionProof
     composition = [ordered]@{ installRoot = $install; receipt = [ordered]@{ path = $receipt; sha256 = Hash $receipt }; packageHash = $c.packageHash; bundleManifestSha256 = $ids.bundleManifest; reviewRecordSha256 = $ids.reviewRecord }
     production = [ordered]@{ path = $production; sha256 = Hash $production }; hostVerificationSha256 = Hash $verification; checks = $checks
     boundary = [ordered]@{ installedWebUi = 'deferred-to-p10-gate-successor'; p10GatePassed = $false; activated = $false; cutover = $false; workflowInstalled = $false } })
-Write-Output "IFX 0.5.0-a C6e composition (A1-8a) $status`: $decisionFull"
+Write-Output "IFX 0.5.1 C6e composition (A2-10a) $status`: $decisionFull"
 if ($status -cne 'pass') { exit 1 }
