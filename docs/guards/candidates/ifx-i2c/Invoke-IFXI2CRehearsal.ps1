@@ -235,7 +235,7 @@ try {
         remainingAuthorizationRecords = $remainingRecords
         finalBlobMismatches = $blobMismatches
         checkedPaths = @($finalOwner.Keys)
-        pass = (($topLevel -join ',') -ceq 'V3,V3_ifx,plans,v4-adoption') -and (($adoption -join ',') -ceq 'README.md') -and $remainingRecords.Count -eq 0 -and $blobMismatches.Count -eq 0
+        pass = ($topLevel.Count -eq 4 -and [Collections.Generic.HashSet[string]]::new([string[]]@($topLevel), [StringComparer]::Ordinal).SetEquals([string[]]@('plans', 'V3', 'V3_ifx', 'v4-adoption'))) -and (($adoption -join ',') -ceq 'README.md') -and $remainingRecords.Count -eq 0 -and $blobMismatches.Count -eq 0
     }
     $unexpected = @($steps | Where-Object { -not $_.asExpected })
     $failed = $unexpected.Count -gt 0 -or -not $finalState.pass
