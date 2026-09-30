@@ -1,0 +1,174 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-a1-0-5-0-a-receipt",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "amendment": "A1",
+  "createdAt": "2026-09-30T09:13:23.688538+00:00",
+  "predecessor": {
+    "receipt": {
+      "path": "docs/guards/v4-adoption/migration/ifx-i1-rebinding-1-1-6-receipt.json",
+      "sha256": "1074b85c267ee5a14062ce1e215bf0a7efb1abbdd0f9442cd89bcb589ca045fa"
+    },
+    "tuple": "V4 Guards 1.1.6 + ifx_profile 0.4.4",
+    "status": "historical; still the accepted in-repo consumer tuple until 0.5.0 is published and activated"
+  },
+  "release": {
+    "repository": "https://github.com/von12549/Guard",
+    "tag": "v4-guards-v1.1.6",
+    "commit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "archiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "installedPackageHash": "a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825",
+    "installReceiptSha256": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497"
+  },
+  "candidate": {
+    "id": "ifx-profile-candidate",
+    "version": "0.5.0",
+    "evidenceModel": "staged-by-workflow",
+    "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+    "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+    "profileSha256": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e",
+    "productionReviewSha256": "3dec187b175d7161f1dfc9571962ca0946b1b71c637ec5e020fe8ea5c5d3e801",
+    "composedPackageHash": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+    "compositionReceiptSha256": "dc0e2aafb2862a8acd89a70375962198c84f2d528ea630494d3a97e64fa64c53",
+    "changeSpec": {
+      "path": "docs/guards/candidates/ifx-i2b-050a/change-spec.json",
+      "sha256": "c1dc29b38bff4839f8fc670c47efac886e5f7b31f794541ac8e2e8b574fe85f0"
+    },
+    "checkChanges": {
+      "path": "docs/guards/candidates/ifx-i2b-050a/check-changes.json",
+      "sha256": "5382fd2e82e7b5b1251f632b4000939737b034eeeb680b5196b1cb549c456b57"
+    },
+    "identityFile": {
+      "path": "docs/guards/candidates/ifx-i2b-050a/a18-identity.json",
+      "sha256": "e5ae6a9c813142a71a58a40d7aeb3cd0c13adb8bbe12c8d59560613fe4d328df"
+    }
+  },
+  "validation": {
+    "a1_3ModuleSuites": {
+      "path": "artifacts/guards/p10-ifx-i2b/a1-suites/index.json",
+      "sha256": "fc978e364c0e6d2331dc8610614175cfae99fb3eb66419c3acc6d55c1581a7ba"
+    },
+    "a1_4Harness": {
+      "path": "artifacts/guards/p10-ifx-i2b/a1-harness/index.json",
+      "sha256": "b48c3fe03d4ca8788e573a2e5b4c345a93c759db4e77fb68cdb5e3c2a9dbac8e"
+    },
+    "ifxV4_005Plan": {
+      "path": "docs/guards/plans/20260930-ifx-v4-005-drain-wait-race.md",
+      "fixCommit": "739fc279",
+      "status": "COMPLETE"
+    },
+    "a1_5Readiness": {
+      "path": "artifacts/guards/p10-ifx-i2b/a1-readiness/index.json",
+      "sha256": "ab62719245b7df60af84ef7400483556c6b55028cc6894bdaf9316a756074649"
+    },
+    "a1_6C6c": {
+      "decision": {
+        "path": "artifacts/guards/p10-ifx-i2b/c6c-decision.json",
+        "sha256": "315a825135d64dc80315774a63be87fd541d19fe6fc3ff6a46be455171bfee2a"
+      },
+      "summary": {
+        "path": "artifacts/guards/p10-ifx-i2b/c6c-full/summary.json",
+        "sha256": "cd15b99af6aeac73805ecec5166c8e4a7881c315f26c4de097f9ab792a05eb04"
+      },
+      "windows": {
+        "path": "artifacts/guards/p10-ifx-i2b/c6c-full/windows/summary.json",
+        "sha256": "bb2eca3f0784bb1946a6036440ef58dd0e932ab9b8664e1c236345be3927b0aa"
+      },
+      "linux": {
+        "path": "artifacts/guards/p10-ifx-i2b/c6c-full/linux/summary.json",
+        "sha256": "586cc7e01e7025820d2a086bae51aa3279b622eab39a74ee6bb164b5020cb0f8"
+      },
+      "chain": {
+        "path": "artifacts/guards/p10-ifx-i2b/a1-chain.json",
+        "sha256": "e8b653f25cfd49af1d9b6b0ac7dfe6f5e68b6688e39f3cedf2bb3b62571fa595"
+      }
+    },
+    "a1_7HumanReview": {
+      "decision": {
+        "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/c6d-decision.json",
+        "sha256": "57a1037004d78747223894a064e2a3b55ed6e923e6f6274eac3238384d53cc57"
+      },
+      "packet": {
+        "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/review-packet.json",
+        "sha256": "9d1e95d0b20d5ec3458b49dfb5732e278202a3ed46bfb5507c72f84446d0e683"
+      },
+      "productionReviewRecord": {
+        "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/production-extension-review.json",
+        "sha256": "3dec187b175d7161f1dfc9571962ca0946b1b71c637ec5e020fe8ea5c5d3e801"
+      }
+    },
+    "a1_8aComposition": {
+      "path": "artifacts/guards/p10-ifx-i2b/a1-8a-decision.json",
+      "sha256": "6bbe11b78cb094335dec321171e41a5a179ccac64d37f31363bbac0d4edf92fa"
+    },
+    "a1_8aPreservedAttempts": [
+      "artifacts/guards/p10-ifx-i2b/a18-c6e-attempt1-worktree-git-file",
+      "artifacts/guards/p10-ifx-i2b/a18-c6e-attempt2-compose-roots",
+      {
+        "path": "artifacts/guards/p10-ifx-i2b/a18-c6e-attempt3-unstaged-expectation/a1-8a-decision.json",
+        "sha256": "4392901468aea5d2580b942a7ba116c6d2537d75f40e43d36d2b55bf862d59dd"
+      }
+    ],
+    "a1_8bParity": {
+      "p10_2Decision": {
+        "path": "artifacts/guards/p10-ifx-i2b/p10-2-parity-050/p10-2-decision.json",
+        "sha256": "12a0b200efa770fd610da7bb2e124d59f53bd4d5ba571c4d9e7c0bdbbf8b6099"
+      },
+      "againstPredecessor": {
+        "path": "artifacts/guards/p10-ifx-i2b/p10-2-parity-050/parity-against-044.json",
+        "sha256": "57b0e588a04c0df59ed0111ca7ed0aba33b4eb53dd2c4d18f58a64c208363fa6"
+      }
+    },
+    "a1_8cRehearsal": {
+      "decision": {
+        "path": "artifacts/guards/p10-ifx-i2b/p10-3-successor-050/rehearsal/p10-3-successor-decision.json",
+        "sha256": "fab31b2bb91da93dcf12ec98c86b28a9f714cb10be84862e761c611ea28211b8"
+      },
+      "remoteSnapshot": {
+        "path": "artifacts/guards/p10-ifx-i2b/p10-3-successor-050/remote-snapshot.json",
+        "sha256": "a4c0ed2ce747c6c9ba33ab0041f2dd2662e986ec63f9f03154a66d44ccefad39"
+      }
+    },
+    "a1_9LocalVerification": {
+      "path": "D:/IFX-Root/v4-todo-008-evidence/I2B-ci-evidence/a1-9-verification.json",
+      "sha256": "e99f3f74136a2d02e560aeed6a875bb92311118554bad2a6c4c48549535fbc37",
+      "status": "pass",
+      "head": "2a42fe13d0632b48c1e4bf88fd41f653ac25cc16",
+      "checks": {
+        "worktreeClean": true,
+        "v3V3ifxGithubByteIdentical": true,
+        "gitFsck": true,
+        "planValidate": true,
+        "v3IfxValidate": true,
+        "plannedPaths": true
+      }
+    }
+  },
+  "backlog": {
+    "closed": [
+      "IFX-V4-005 (drain wait race; Plan 20260930-ifx-v4-005-drain-wait-race, 739fc279)"
+    ],
+    "progressed": [
+      "IFX-V4-001 (P10.GATE successor): 0.5.0-a certified, reviewed and composed; the specimen binds it",
+      "IFX-V4-007 (0.4.4 Post is a snapshot attestation): 0.5.0-a removes the live pins; the item stays open until the workflow is installed"
+    ],
+    "opened": []
+  },
+  "booleans": {
+    "candidateCertified": true,
+    "humanReviewAccepted": true,
+    "composedLocally": true,
+    "bundlePublished": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "activated": false,
+    "p10GatePassed": false,
+    "ifxCutover": false,
+    "v3Retired": false,
+    "v3WrappingProducersRelocated": false
+  },
+  "next": [
+    "A1-10: push the A1 commits (authorization)",
+    "0.5.0-b: relocate the four V3-wrapping producers"
+  ]
+}

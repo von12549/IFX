@@ -28,6 +28,7 @@ IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 | `migration/v4-todo-008-ifx-rebinding-receipt.json` | T7 handoff decision and receipt |
 | `migration/v4-todo-008-ifx-cleanup-receipt.json` | T8 cleanup receipt: deleted and retained inventories, rollback commit |
 | `migration/ifx-i1-rebinding-1-1-6-receipt.json` | I1 receipt: 1.1.6 + 0.4.4 identities, S1–S9 decisions, closed and opened backlog items, T8 coupling correction |
+| `migration/ifx-i2b-a1-0-5-0-a-receipt.json` | I2-B A1 receipt: 0.5.0-a candidate identities, A1-3 to A1-9 records, backlog, booleans (not published or active) |
 
 The files 06–09 were moved here with `git mv` from `docs/guards/v4/plans/` and
 `docs/guards/v4/integrations/github/`; their history is intact (`git log --follow`). The accepted P10.1–P10.3

@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); A1-8 complete (local); A1-9 next`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); A1-8 and A1-9 complete (local); A1-10 push needs authorization`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -444,6 +444,12 @@ Module dispositions:
     `fab31b2b…`.
   - Identity file `candidates/ifx-i2b-050a/a18-identity.json`. Evidence: evrun 054–061 in `I2B-ci-evidence`.
   - Next: A1-9 local verification, then A1-10 push (authorization).
+- **A1-9 complete (2026-09-30).** Local verification at `2a42fe13` passes: clean worktree; V3, V3_ifx and `.github`
+  byte-identical to `07f41683`, `13cf8965` and `b5cee75f`; `git fsck --full --strict` (dangling objects only);
+  `plan validate` (1.1.6 Host) and V3_ifx `Validate` pass for this Plan and the IFX-V4-005 Plan; all 412 paths
+  changed since `b5cee75f` are planned. Record `I2B-ci-evidence/a1-9-verification.json` (evrun 063). Receipt
+  `v4-adoption/migration/ifx-i2b-a1-0-5-0-a-receipt.json`.
+  - Next: A1-10, push the A1 commits (authorization); then 0.5.0-b.
 
 ### 9.5 Out of scope for A1
 

@@ -130,7 +130,8 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     trial C6c Windows 191/191, controls 180 + 42, Linux 191/191 semantic equal; harness controls with PR-gate
     cases pass) complete 2026-09-29.** IFX-V4-005 fixed; A1-5 readiness passed at `739fc279`; A1-6 C6c passed at `c0d927eb` (Windows 191/191,
     controls 180 + 42, Linux 191/191 semantic equal; 2026-09-30). A1-7 review packet `c6d-review-050` accepted; A1-8 (C6e composition, parity against 0.4.4, P10.3 successor
-    rehearsal) complete. Next: A1-9 verification and the A1-10 push (authorization).
+    rehearsal) and A1-9 verification complete; receipt `v4-adoption/migration/ifx-i2b-a1-0-5-0-a-receipt.json`.
+    Next: the A1-10 push (authorization), then 0.5.0-b.
   - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).
