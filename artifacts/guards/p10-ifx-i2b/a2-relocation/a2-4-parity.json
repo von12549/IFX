@@ -1,0 +1,270 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-051-producer-parity",
+  "step": "A2-4",
+  "status": "pass",
+  "commit": "4166427f65f5f8745d1449c0be9621831015189b",
+  "workRoot": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3",
+  "rule": "semantic equality with zero listed differences (R11); identity changes are listed apart",
+  "runs": [
+    {
+      "side": "v3",
+      "gate": "solution",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/p10-ifx-c5b/solution-runs/bc4367a022b94443b5ad98e62cfcc1a5",
+      "lock": "artifacts/guards/p10-ifx-c5b/solution-runs/bc4367a022b94443b5ad98e62cfcc1a5/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v3-solution.log",
+      "reused": true
+    },
+    {
+      "side": "v3",
+      "gate": "assembly",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/p10-ifx-c5c/assembly-runs/7a93d033adbc4989a0e6e3fce86b25c0",
+      "lock": "artifacts/guards/p10-ifx-c5c/assembly-runs/7a93d033adbc4989a0e6e3fce86b25c0/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v3-assembly.log",
+      "reused": true
+    },
+    {
+      "side": "v3",
+      "gate": "type",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/p10-ifx-c1-r1b/type-runs/79d87a628df946b2ad9d9db82660560b",
+      "lock": "artifacts/guards/p10-ifx-c1-r1b/type-runs/79d87a628df946b2ad9d9db82660560b/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v3-type.log",
+      "reused": true
+    },
+    {
+      "side": "v3",
+      "gate": "frontend",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/p10-ifx-c5d/frontend-runs/49ce22d782f54f589f61169770b721de",
+      "lock": "artifacts/guards/p10-ifx-c5d/frontend-runs/49ce22d782f54f589f61169770b721de/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v3-frontend.log",
+      "reused": true
+    },
+    {
+      "side": "v3",
+      "gate": "database",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/p10-ifx-c4b/database-runs/101f3c1536f644c1b99b8cf9c839fbe3",
+      "lock": "artifacts/guards/p10-ifx-c4b/database-runs/101f3c1536f644c1b99b8cf9c839fbe3/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v3-database.log",
+      "reused": true
+    },
+    {
+      "side": "v4",
+      "gate": "solution",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/v4a-producers/solution-runs/3b1446cf86274b57af2ca72b4939c903",
+      "lock": "artifacts/guards/v4a-producers/solution-runs/3b1446cf86274b57af2ca72b4939c903/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v4-solution.log",
+      "reused": true
+    },
+    {
+      "side": "v4",
+      "gate": "assembly",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/v4a-producers/assembly-runs/90127af8508e40c3bddce0b7bab319ca",
+      "lock": "artifacts/guards/v4a-producers/assembly-runs/90127af8508e40c3bddce0b7bab319ca/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v4-assembly.log",
+      "reused": true
+    },
+    {
+      "side": "v4",
+      "gate": "type",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/v4a-producers/type-runs/7253963a374d4f509214d34a668b4ddb",
+      "lock": "artifacts/guards/v4a-producers/type-runs/7253963a374d4f509214d34a668b4ddb/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v4-type.log",
+      "reused": true
+    },
+    {
+      "side": "v4",
+      "gate": "frontend",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/v4a-producers/frontend-runs/75e6ee6f41814b9e80f8448be7e14f65",
+      "lock": "artifacts/guards/v4a-producers/frontend-runs/75e6ee6f41814b9e80f8448be7e14f65/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v4-frontend.log",
+      "reused": true
+    },
+    {
+      "side": "v4",
+      "gate": "database",
+      "exitCode": 0,
+      "seconds": null,
+      "run": "artifacts/guards/v4a-producers/database-runs/1a71dd83b6d64633ac368553efbf6311",
+      "lock": "artifacts/guards/v4a-producers/database-runs/1a71dd83b6d64633ac368553efbf6311/evidence-lock.json",
+      "log": "C:\\Users\\von12\\AppData\\Local\\Temp\\ifx051-p-0c92e3\\logs\\positive-v4-database.log",
+      "reused": true
+    }
+  ],
+  "positive": {
+    "solution": {
+      "differences": [],
+      "identityChanges": [
+        {
+          "gate": "solution",
+          "field": "facade file summary-quality.json",
+          "v3": "written by Invoke-IFXGuardrails.ps1",
+          "v4": "not written"
+        },
+        {
+          "gate": "solution",
+          "field": "producer",
+          "v3": "ifx-c5b-controlled-v1",
+          "v4": "ifx-v4a-solution-v1"
+        },
+        {
+          "gate": "solution",
+          "field": "authorityHashes",
+          "v3": {
+            "quality": "e46cef8dbc215f753a052371c3c7bbeb2bdcf3b0deb2e1885aaa1742a1dfd9cd",
+            "audit": "bd4a3620ef602320ccf31c99935aa91abd6e7bb7343c8dd169f769bdc470bec8"
+          },
+          "v4": {
+            "quality": "7bf5c682f25d28238fc1907696cd2cf76d125f5531357963e1b30bc603240211",
+            "audit": "81721869ecf5c6c2fd53397fa292185687aea53a2f9bd2b28be8c1edb2f82ed6"
+          }
+        }
+      ]
+    },
+    "assembly": {
+      "differences": [],
+      "identityChanges": [
+        {
+          "gate": "assembly",
+          "field": "facade file summary-quality.json",
+          "v3": "written by Invoke-IFXGuardrails.ps1",
+          "v4": "not written"
+        },
+        {
+          "gate": "assembly",
+          "field": "producer",
+          "v3": "ifx-c5c-controlled-v1",
+          "v4": "ifx-v4a-assembly-v1"
+        },
+        {
+          "gate": "assembly",
+          "field": "authorityHashes",
+          "v3": {
+            "assembly": "0493e8018d5310d0a730895b2f7866592c07e1bdf93533adcca5cdb7e570f675",
+            "domainPolicy": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+          },
+          "v4": {
+            "assembly": "02ddff83c67aa5f22ac2375f54d4da6d26557d07aa739e4de8029384ade743a2",
+            "domainPolicy": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+          }
+        }
+      ]
+    },
+    "type": {
+      "differences": [],
+      "identityChanges": [
+        {
+          "gate": "type",
+          "field": "producer",
+          "v3": "ifx-c1-r1b-controlled-v1",
+          "v4": "ifx-v4a-type-v1"
+        }
+      ]
+    },
+    "frontend": {
+      "differences": [],
+      "identityChanges": [
+        {
+          "gate": "frontend",
+          "field": "facade file summary-quality.json",
+          "v3": "written by Invoke-IFXGuardrails.ps1",
+          "v4": "not written"
+        },
+        {
+          "gate": "frontend",
+          "field": "producer",
+          "v3": "ifx-c5d-controlled-v1",
+          "v4": "ifx-v4a-frontend-v1"
+        },
+        {
+          "gate": "frontend",
+          "field": "authorityHashes",
+          "v3": {
+            "quality": "e46cef8dbc215f753a052371c3c7bbeb2bdcf3b0deb2e1885aaa1742a1dfd9cd",
+            "packageJson": "8c4e911c067e0e7fbd01a3926696dcb23d5d718ce3cc20c6641b89e09f737932",
+            "packageLock": "8a41aecb9cb2541e3c0d5d2e19876068e7f580d55381a9f9df9a5737acba7ccf"
+          },
+          "v4": {
+            "quality": "7bf5c682f25d28238fc1907696cd2cf76d125f5531357963e1b30bc603240211",
+            "packageJson": "8c4e911c067e0e7fbd01a3926696dcb23d5d718ce3cc20c6641b89e09f737932",
+            "packageLock": "8a41aecb9cb2541e3c0d5d2e19876068e7f580d55381a9f9df9a5737acba7ccf"
+          }
+        }
+      ]
+    },
+    "database": {
+      "differences": [],
+      "identityChanges": [
+        {
+          "gate": "database",
+          "field": "facade file summary-specialized.json",
+          "v3": "written by Invoke-IFXGuardrails.ps1",
+          "v4": "not written"
+        },
+        {
+          "gate": "database",
+          "field": "producer",
+          "v3": "ifx-c4b-controlled-v2",
+          "v4": "ifx-v4a-database-v1"
+        },
+        {
+          "gate": "database",
+          "field": "sourceInventoryId",
+          "v3": "ifx-database-source-inventory-v2",
+          "v4": "ifx-database-source-inventory-v3"
+        },
+        {
+          "gate": "database",
+          "field": "sourceFiles relocated root",
+          "v3": 36,
+          "v4": 8
+        }
+      ]
+    }
+  },
+  "negative": {
+    "frontend": {
+      "mutation": "add src/Frontend/IFX.FrontEnd/src/a2ParityLintFault.ts",
+      "v3ExitCode": 1,
+      "v4ExitCode": 1,
+      "v3FailedChecks": "{\"id\":\"Frontend\",\"message\":\"Frontend lint failed with exit code 1.\",\"status\":\"fail\"}",
+      "v4FailedChecks": "{\"id\":\"Frontend\",\"message\":\"Frontend lint failed with exit code 1.\",\"status\":\"fail\"}",
+      "sameFailure": true
+    },
+    "database": {
+      "mutation": "edit deployment/migration-safety-policy.json",
+      "v3ExitCode": 1,
+      "v4ExitCode": 1,
+      "v3FailedChecks": "{\"id\":\"Database\",\"message\":\"Migration safety policy failed. Report: <run><run>specialized/database/migration-safety.json\",\"output\":\"database\",\"status\":\"fail\"}",
+      "v4FailedChecks": "{\"id\":\"Database\",\"message\":\"Migration safety policy failed. Report: <run><run>specialized/database/migration-safety.json\",\"output\":\"database\",\"status\":\"fail\"}",
+      "sameFailure": true
+    },
+    "solution": {
+      "mutation": "add tests/IFX.IntegrationTests/A2ParityFailingTest.cs",
+      "v3ExitCode": 1,
+      "v4ExitCode": 1,
+      "v3FailedChecks": "{\"id\":\"Solution\",\"message\":\"Solution tests failed with exit code 1.\",\"status\":\"fail\"}",
+      "v4FailedChecks": "{\"id\":\"Solution\",\"message\":\"Solution tests failed with exit code 1.\",\"status\":\"fail\"}",
+      "sameFailure": true
+    }
+  },
+  "semanticDifferenceCount": 0,
+  "negativeMismatchCount": 0
+}
