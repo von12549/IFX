@@ -121,6 +121,7 @@ Each script names its I1 predecessor (`candidates/ifx-rebind-116`, unchanged) in
 | Linux leg | `Test-IFX050DualPlatformCandidate.ps1`, `Invoke-IFX050LinuxCertification.ps1` | Imports the production snapshot; archive copy-back (`IFXI2B.NativeArchive.psm1`) |
 | C6c | `Invoke-IFX050ParallelCertification.ps1`, `Test-IFX050C6cReadiness.ps1`, `Invoke-IFX050SingleC6c.ps1`, `Invoke-IFX050C6c.ps1`, `Invoke-IFX050C6Chain.ps1` | One production before the parallel legs; no lock readiness gate; R4 gate on IFX-V4-005 |
 | Harness controls | `Test-IFX050HarnessControls.ps1` | Adds the PR-gate cases and the contract, specification and snapshot rejections |
+| C6d review packet (A1-7) | `Export-IFX050C6dReviewPacket.ps1` | Adds, per module, what "pass" means (change spec, check changes, lock policy, C6c cases), the 0.4.4 comparison and the open limits, and writes `review.md` for the human reviewer |
 
 The matrix needs 191 core cases. The 25 changed modules prove 131 of them from their suites. To close the gaps
 found by reclassifying the A1-3 captures, the catalogs gained 10 cases: fixed-checklist zero and violation fixtures
