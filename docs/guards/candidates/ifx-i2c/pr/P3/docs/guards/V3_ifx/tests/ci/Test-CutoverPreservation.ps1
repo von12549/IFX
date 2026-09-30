@@ -1,0 +1,59 @@
+# Stage-oriented test group: CI.
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+$package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { $package = [IO.Path]::GetFullPath((Join-Path $package '..')) }
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { throw 'Cannot resolve the IFX guard package root.' }
+$root = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
+$required = @(
+    'mcp/LayerGuard/LayerGuard.slnx',
+    'mcp/LayerGuard/baselines/b0.5.json',
+    'mcp/LayerGuard/baselines/b1.json',
+    'mcp/LayerGuard/baselines/b2.json',
+    'mcp/LayerGuard/baselines/b3.json',
+    'mcp/LayerGuard/baselines/b4.json',
+    'mcp/LayerGuard/baselines/plan05.json',
+    'mcp/LayerGuard/baselines/plan06.json',
+    'mcp/LayerGuard/baselines/plan07.json',
+    'docs/guards/V3',
+    'docs/guards/V3_ifx',
+    'docs/guards/plans/05-v3-ifx-ci-cutover-and-legacy-cleanup.md',
+    'docs/guards/V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json',
+    'docs/architecture/review/gates/G03/contract-event-catalog.yaml',
+    'deployment/g04/release-runtime-manifest.json',
+    'docs/architecture/review/gates/G05/context-protocol-v1.json'
+)
+$missing = @($required | Where-Object { -not (Test-Path -LiteralPath (Join-Path $root $_)) })
+if ($missing.Count -gt 0) { throw "Cutover preservation paths are missing: $($missing -join ', ')" }
+$baselines = @(Get-ChildItem -LiteralPath (Join-Path $root 'mcp/LayerGuard/baselines') -Filter '*.json' -File)
+if ($baselines.Count -ne 8) { throw "Expected eight preserved LayerGuard baselines, found $($baselines.Count)." }
+$deletionManifest = Get-Content -Raw -LiteralPath (Join-Path $root 'docs/guards/V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json') | ConvertFrom-Json
+$remaining = @($deletionManifest.deletedPaths | Where-Object { Test-Path -LiteralPath (Join-Path $root $_) })
+if ($remaining.Count -gt 0) { throw "Retired guard paths remain: $($remaining -join ', ')" }
+if (Test-Path -LiteralPath (Join-Path $root 'docs/guards/V3_backup')) { throw 'V3_backup must remain retired after Plan 06 P10.5.' }
+$system = Get-Content -Raw -LiteralPath (Join-Path $root 'docs/guards/V3_ifx/guard-system.json') | ConvertFrom-Json
+$retiredCompatibilityPaths = @(
+    'docs/guards/V3/scripts/Invoke-V3.ps1',
+    'docs/guards/V3/scripts/Invoke-V3Setup.ps1',
+    'docs/guards/V3/scripts/Invoke-V3Docs.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1',
+    'docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-V3.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1'
+)
+$restoredCompatibilityPaths = @($retiredCompatibilityPaths | Where-Object { Test-Path -LiteralPath (Join-Path $root $_) })
+if ($restoredCompatibilityPaths.Count -gt 0) { throw "Retired compatibility paths remain: $($restoredCompatibilityPaths -join ', ')" }
+if (@($system.compatibility.entries).Count -ne 0) { throw 'Plan 06 P11.5 requires the compatibility registry to be empty.' }
+$topLevel = @(Get-ChildItem -LiteralPath (Join-Path $root 'docs/guards') -Force | ForEach-Object Name | Sort-Object)
+# Decision 20261001-v4-ifx-i2c-v4-adoption-admission admits exactly one V4 adoption entry; every other entry still fails.
+$expectedTopLevel = @('plans', 'V3', 'V3_ifx', 'v4-adoption') | Sort-Object
+if (@(Compare-Object -CaseSensitive $expectedTopLevel $topLevel).Count -ne 0) {
+    throw "docs/guards top level contains an unexpected entry: $($topLevel -join ', ')"
+}
+$v3Workflow = Get-Content -Raw -LiteralPath (Join-Path $root '.github/workflows/v3-ifx-guardrails.yml')
+foreach ($trigger in @('pull_request', 'push', 'workflow_dispatch')) {
+    if ($v3Workflow -notmatch "(?m)^  ${trigger}:") { throw "V3 workflow is missing its $trigger trigger." }
+}
+Write-Host "Cutover preservation passed: $($required.Count) required paths, $($baselines.Count) historical baselines, $($deletionManifest.deletedPaths.Count) prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired, one V4 adoption entry admitted and one V3 workflow active."

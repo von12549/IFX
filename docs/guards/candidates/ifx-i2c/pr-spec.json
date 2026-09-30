@@ -1,0 +1,103 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-pr-spec",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "sourceCommit": "5f6008ee066eb948e94f1d2590f038d4581468e8",
+  "initialTarget": "57647c9ae75c25666d825477c7a1ea11073468c5",
+  "targetBranch": "codex/guards-principles-plan",
+  "authorizationDirectory": "docs/guards/V3_ifx/stages/diff/authorizations",
+  "sets": [
+    {
+      "id": "P1",
+      "branch": "codex/i2c-p1-drain-wait-fix",
+      "plan": "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json",
+      "copy": [
+        "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+        "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs"
+      ],
+      "authored": [
+        "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md",
+        "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json"
+      ],
+      "authorizations": [],
+      "message": "fix(apihost): report idle when the drain wait loses the race to its timeout (IFX-V4-005)"
+    },
+    {
+      "id": "P2",
+      "branch": "codex/i2c-p2-g03-documentation",
+      "plan": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+      "copy": [
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+        "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+        "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+        "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+        "docs/guards/V3_ifx/shared/policy-config.json",
+        "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs"
+      ],
+      "authored": [
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md",
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json"
+      ],
+      "authorizations": [
+        {
+          "id": "i2c-g03-documentation-trusted-base",
+          "operation": "change-trusted-base",
+          "parityContract": "The decision-history registry of policy-config.json gains exactly one entry, 20260924-v4-ifx-c2d-g03-current-documentation; every other registered policy, role, schema, format and monotonicity declaration is unchanged, so every verdict on the fixed corpus is unchanged.",
+          "decisionPaths": [
+            "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+          ]
+        },
+        {
+          "id": "i2c-g03-documentation-policy",
+          "operation": "weaken-policy",
+          "decisionPaths": [
+            "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+          ]
+        }
+      ],
+      "message": "docs(g03): reconcile the governance documents with the current catalog; scope the retired-Auth scan"
+    },
+    {
+      "id": "P3",
+      "branch": "codex/i2c-p3-v4-adoption-admission",
+      "plan": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+      "copy": [],
+      "authored": [
+        "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+        "docs/guards/V3_ifx/shared/policy-config.json",
+        "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md",
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+        "docs/guards/v4-adoption/README.md"
+      ],
+      "authorizations": [
+        {
+          "id": "i2c-v4-adoption-admission-trusted-base",
+          "operation": "change-trusted-base",
+          "parityContract": "Every cutover-preservation assertion is unchanged except the top-level docs/guards allowlist, which admits exactly one additional entry, v4-adoption, compared case-sensitively; any other, differently cased or missing entry still fails. The decision-history registry of policy-config.json gains exactly one entry, 20261001-v4-ifx-i2c-v4-adoption-admission; nothing else in policy-config.json changes.",
+          "decisionPaths": [
+            "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json"
+          ]
+        },
+        {
+          "id": "i2c-v4-adoption-admission-policy",
+          "operation": "weaken-policy",
+          "decisionPaths": [
+            "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+            "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json"
+          ]
+        }
+      ],
+      "message": "guards(v3): admit docs/guards/v4-adoption as the one V4 adoption entry"
+    }
+  ]
+}

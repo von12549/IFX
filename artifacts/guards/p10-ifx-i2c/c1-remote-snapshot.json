@@ -1,0 +1,224 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-remote-snapshot",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "step": "C1",
+  "capturedAtUtc": "2026-09-30T14:38:57.4646701Z",
+  "method": "GET-only GitHub API reads and one git fetch",
+  "localHead": "48c174e323343a4a37036c7b7584bcadad453768",
+  "heads": {
+    "main": "ecb03726a6c67208d25e7988695c53f6326d77c0",
+    "codex/guards-principles-plan": "57647c9ae75c25666d825477c7a1ea11073468c5",
+    "codex/v4-development-base": "5f6008ee066eb948e94f1d2590f038d4581468e8"
+  },
+  "linear": {
+    "mainAncestorOfTarget": true,
+    "targetAncestorOfDevelopment": true,
+    "counts": {
+      "mainToTarget": 569,
+      "targetToDevelopment": 359
+    }
+  },
+  "target": {
+    "branch": "codex/guards-principles-plan",
+    "commit": "57647c9ae75c25666d825477c7a1ea11073468c5",
+    "parents": [
+      "34b1e9551323be1eb093ae653d3706152818735d",
+      "732f8d65b34f4e746727b42752d9cc17453408d6"
+    ],
+    "pullRequest": 107,
+    "pullRequestHead": "732f8d65b34f4e746727b42752d9cc17453408d6",
+    "lastRequiredCheckCompletedAt": "2026-09-21T11:01:54.0000000Z",
+    "checks": [
+      {
+        "name": "v3-architecture",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:58:30.0000000Z"
+      },
+      {
+        "name": "v3-cross-platform-ubuntu-latest",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:56:46.0000000Z"
+      },
+      {
+        "name": "v3-cross-platform-windows-latest",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:52:49.0000000Z"
+      },
+      {
+        "name": "v3-historical-integrity",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:50:52.0000000Z"
+      },
+      {
+        "name": "v3-pre-diff",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:51:25.0000000Z"
+      },
+      {
+        "name": "v3-quality-assembly",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:55:07.0000000Z"
+      },
+      {
+        "name": "v3-quality-frontend",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:52:00.0000000Z"
+      },
+      {
+        "name": "v3-quality-solution",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:54:39.0000000Z"
+      },
+      {
+        "name": "v3-specialized-database",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T11:01:54.0000000Z"
+      },
+      {
+        "name": "v3-specialized-g03",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:59:17.0000000Z"
+      },
+      {
+        "name": "v3-specialized-g04",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:59:03.0000000Z"
+      },
+      {
+        "name": "v3-specialized-g05",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:59:14.0000000Z"
+      },
+      {
+        "name": "v3-specialized-plan04",
+        "conclusion": "SUCCESS",
+        "completedAt": "2026-09-21T10:59:02.0000000Z"
+      }
+    ],
+    "branchWorkflowRunCount": 0
+  },
+  "repositorySettings": {
+    "default_branch": "main",
+    "visibility": "public",
+    "allow_merge_commit": true,
+    "allow_squash_merge": true,
+    "allow_rebase_merge": true,
+    "delete_branch_on_merge": false
+  },
+  "ruleset": {
+    "id": 23459908,
+    "canonicalSha256": "857a51aaf9590758aa37ab0daf234695ba6e3a434644e598026d741b2c7d6f4a",
+    "updatedAt": "2026-09-17T13:47:29.776+10:00",
+    "configuration": {
+      "id": 23459908,
+      "name": "IFX V3 Required Checks",
+      "target": "branch",
+      "source_type": "Repository",
+      "source": "von12549/IFX",
+      "enforcement": "active",
+      "conditions": {
+        "ref_name": {
+          "exclude": [],
+          "include": [
+            "~DEFAULT_BRANCH",
+            "refs/heads/codex/guards-principles-plan"
+          ]
+        }
+      },
+      "rules": [
+        {
+          "type": "deletion"
+        },
+        {
+          "type": "non_fast_forward"
+        },
+        {
+          "type": "pull_request",
+          "parameters": {
+            "required_approving_review_count": 0,
+            "dismiss_stale_reviews_on_push": false,
+            "required_reviewers": [],
+            "require_code_owner_review": false,
+            "require_last_push_approval": false,
+            "required_review_thread_resolution": true,
+            "require_extra_approval_for_unattributed_changes": false,
+            "allowed_merge_methods": [
+              "merge",
+              "squash",
+              "rebase"
+            ]
+          }
+        },
+        {
+          "type": "required_status_checks",
+          "parameters": {
+            "strict_required_status_checks_policy": true,
+            "do_not_enforce_on_create": false,
+            "required_status_checks": [
+              {
+                "context": "v3-pre-diff",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-architecture",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-quality-solution",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-quality-assembly",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-quality-frontend",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-specialized-g03",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-specialized-g04",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-specialized-g05",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-specialized-plan04",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-specialized-database",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-historical-integrity",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-cross-platform-ubuntu-latest",
+                "integration_id": 15368
+              },
+              {
+                "context": "v3-cross-platform-windows-latest",
+                "integration_id": 15368
+              }
+            ]
+          }
+        }
+      ],
+      "bypass_actors": []
+    }
+  },
+  "openPullRequests": 0,
+  "rollbackAnchor": {
+    "mainBeforePromotion": "ecb03726a6c67208d25e7988695c53f6326d77c0"
+  },
+  "failures": [],
+  "status": "pass"
+}

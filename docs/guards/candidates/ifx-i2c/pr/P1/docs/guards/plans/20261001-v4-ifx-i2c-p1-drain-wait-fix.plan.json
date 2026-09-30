@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20261001-v4-ifx-i2c-p1-drain-wait-fix",
+  "title": "Report idle when the drain wait loses the race to its own timeout (IFX-V4-005)",
+  "goal": "Bring the reviewed IFX-V4-005 fix to the protected history: RuntimeDrainCoordinator.WaitForIdleAsync reports idle when the runtime became idle before the timeout was observed, and the drain test waits long enough under load.",
+  "acceptanceCriteria": [
+    "WaitForIdleAsync returns true when idle completed before the timeout cancellation was observed, and still returns false on a real timeout.",
+    "Caller cancellation still propagates as OperationCanceledException.",
+    "The positive drain test bound is 30 s and a parallel-load idle test is added.",
+    "The two files are byte-identical to the reviewed development-branch commit 739fc279.",
+    "All 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json",
+    "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+    "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs"
+  ],
+  "areaIds": [
+    "ApiHost",
+    "GuardDocs",
+    "Tests"
+  ],
+  "ruleIds": [
+    "ARCH.SEMANTIC"
+  ],
+  "validationCommands": [
+    "ifx-layerguard",
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json"
+  ]
+}
