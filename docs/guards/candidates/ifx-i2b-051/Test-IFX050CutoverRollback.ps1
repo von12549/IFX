@@ -1,15 +1,14 @@
-# IFX I2-B amendment A1 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A1-8c: P10.3 successor rehearsal for
-# V4 Guards 1.1.6 from von12549/Guard + ifx_profile 0.5.0. Successor of ifx-rebind-116/Test-IFX116CutoverRollback.ps1
-# (unchanged). It re-proves the accepted P10.3 design rules against the successor proposal and specimen, adds the
-# 0.5.0-a evidence-model rules (producers and staging from the trusted base, staging before Pre and Post, evidence
-# always uploaded, V3-wrapping producers declared as re-attested until 0.5.0-b) and executes the T7 and I1 negative
-# controls plus five evidence-model controls. Aggregate mode is the future trusted-base aggregate of the specimen.
+# IFX I2-B amendment A2 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A2-10c: P10.3 successor rehearsal for
+# V4 Guards 1.1.6 from von12549/Guard + ifx_profile 0.5.1. Successor of candidates/ifx-i2b-050a/Test-IFX050CutoverRollback.ps1
+# (unchanged). The design rules and the 0.5.0-a evidence-model rules stay; the ownership rule changes with the producer
+# relocation: no consumed producer runs a V3 gate or reads docs/guards/V3 or V3_ifx, every producer and context is
+# attested v4-native, and the re-attestation marker of 0.5.0-a may not return. Aggregate mode is unchanged.
 [CmdletBinding()]
 param(
     [ValidateSet('Validate','Aggregate')][string] $Mode = 'Validate',
     [string] $RepositoryRoot = (Resolve-Path (Join-Path $PSScriptRoot '../../../..')).Path,
-    [string] $IdentityPath = 'docs/guards/candidates/ifx-i2b-051/a18-identity.json',
-    [string] $EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/p10-3-successor-050/rehearsal',
+    [string] $IdentityPath = 'docs/guards/candidates/ifx-i2b-051/a210-identity.json',
+    [string] $EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/p10-3-successor-051/rehearsal',
     [ValidateSet('success','failure','cancelled','skipped')][string] $ContractResult = 'success',
     [ValidateSet('success','failure','cancelled','skipped')][string] $WindowsResult = 'success'
 )
@@ -61,7 +60,7 @@ Assert-True (-not (Test-Path -LiteralPath $evidence)) "EvidenceRoot must be abse
 $identity = Get-Content -Raw -LiteralPath (Full $IdentityPath) | ConvertFrom-Json -AsHashtable -Depth 100
 
 # Entry identities: every A1 record must match the committed identity file.
-foreach ($name in @('c6cDecision','windowsFull','c6dDecision','c6eDecision','p10_2Decision','parityAgainst044','remoteSnapshot')) {
+foreach ($name in @('c6cDecision','windowsFull','c6dDecision','c6eDecision','p10_2Decision','parityAgainst050','hostOutcomesAgainst050','remoteSnapshot')) {
     $entry = $identity.records[$name]
     Assert-True ($null -ne $entry) "Identity file lacks record: $name"
     $path = Full ([string]$entry.path)
@@ -81,7 +80,8 @@ $c6c = Get-Content -Raw -LiteralPath (Full $identity.records.c6cDecision.path) |
 $windows = Get-Content -Raw -LiteralPath (Full $identity.records.windowsFull.path) | ConvertFrom-Json -Depth 100
 $s6 = Get-Content -Raw -LiteralPath (Full $identity.records.c6dDecision.path) | ConvertFrom-Json -Depth 100
 $s7 = Get-Content -Raw -LiteralPath (Full $identity.records.c6eDecision.path) | ConvertFrom-Json -Depth 100
-$parity044 = Get-Content -Raw -LiteralPath (Full $identity.records.parityAgainst044.path) | ConvertFrom-Json -Depth 100
+$parity044 = Get-Content -Raw -LiteralPath (Full $identity.records.parityAgainst050.path) | ConvertFrom-Json -Depth 100
+$hostOutcomes = Get-Content -Raw -LiteralPath (Full $identity.records.hostOutcomesAgainst050.path) | ConvertFrom-Json -Depth 100
 $p10 = Get-Content -Raw -LiteralPath (Full $identity.records.p10_2Decision.path) | ConvertFrom-Json -Depth 100
 $remote = Get-Content -Raw -LiteralPath (Full $identity.records.remoteSnapshot.path) | ConvertFrom-Json -Depth 100
 $required = Get-Content -Raw -LiteralPath $paths.requiredChecks | ConvertFrom-Json -Depth 100
@@ -90,9 +90,10 @@ $releaseAssets = @($remote.guardRelease.assets)
 Assert-True ($c6c.status -ceq 'pass' -and $c6c.baseVersion -ceq '1.1.6' -and $c6c.candidateVersion -ceq '0.5.1') 'C6c decision identity mismatch.'
 Assert-True ($windows.status -ceq 'pass' -and $windows.platform -ceq 'windows' -and $windows.baseVersion -ceq '1.1.6' -and $windows.bundleVersion -ceq '0.5.1') 'Windows-full identity mismatch.'
 Assert-True ($s6.status -ceq 'pass' -and $s6.decision -ceq 'c6d-exact-bundle-human-review-accepted' -and $s6.candidateVersion -ceq '0.5.1') 'A1-7 human review is not accepted.'
-Assert-True ($s7.status -ceq 'pass' -and $s7.decision -ceq 'a1-8a-composition-accepted' -and $s7.checks.stagedPostPass -and $s7.checks.unstagedPostFailsClosed) 'A1-8a composition is not accepted.'
+Assert-True ($s7.status -ceq 'pass' -and $s7.decision -ceq 'a2-10a-composition-accepted' -and $s7.checks.stagedPostPass -and $s7.checks.unstagedPostFailsClosed) 'A2-10a composition is not accepted.'
 Assert-True ($p10.status -ceq 'pass' -and $p10.decision -ceq 'p10-2-parity-accepted' -and $p10.gapCount -eq 0) 'P10.2 parity is not zero-gap accepted.'
-Assert-True ($parity044.status -ceq 'pass' -and $parity044.p10_2Replay.equalToPredecessor -and @($parity044.independentMatrix.outcomeGaps).Count -eq 0) 'Parity against 0.4.4 did not pass.'
+Assert-True ($parity044.status -ceq 'pass' -and $parity044.p10_2Replay.equalToPredecessor -and @($parity044.independentMatrix.outcomeGaps).Count -eq 0) 'Parity against 0.5.0 did not pass.'
+Assert-True ($hostOutcomes.status -ceq 'pass') 'Installed-Host outcomes differ from 0.5.0.'
 Assert-True ($remote.status -ceq 'pass' -and $remote.mode -ceq 'github-get-only') 'Remote snapshot is not a passing GET-only capture.'
 Assert-True ($remote.ruleset.id -eq 23459908 -and $remote.ruleset.enforcement -ceq 'active' -and $remote.ruleset.strict) 'Live IFX ruleset boundary mismatch.'
 
@@ -162,19 +163,19 @@ function Test-Design($Proposal, [string] $Workflow, [bool] $CoreSourcePresent, $
     Assert-True ($Workflow -match '-Phase Stage -TargetRoot \$env:GITHUB_WORKSPACE -RunRecordPath "\$env:RUNNER_TEMP/v4-ifx-production\.json" -EvidenceRoot \$env:V4_IFX_EVIDENCE') 'Staging does not target the Host EvidenceRoot.'
     Assert-True ($produce -lt $stage -and $stage -lt $preRun -and $preRun -lt $postRun) 'Evidence is not produced and staged before Pre and Post.'
     Assert-True ($Workflow -match '(?ms)if:\s+always\(\)\s*\r?\n\s+with:\s*\r?\n\s+name:\s+v4-ifx-evidence-\$\{\{ github\.sha \}\}\s*\r?\n\s+path:\s*\|\s*\r?\n\s+\$\{\{ runner\.temp \}\}/v4-ifx-evidence\s*\r?\n\s+\$\{\{ runner\.temp \}\}/v4-ifx-production\.json') 'Staged evidence and the production record are not always uploaded.'
-    # Ownership: a family whose producer runs a V3 gate is declared as re-attesting that producer until 0.5.0-b.
-    $contextOf = @{ solution = 'v3-quality-solution'; assembly = 'v3-quality-assembly'; frontend = 'v3-quality-frontend'; database = 'v3-specialized-database' }
+    # Ownership after the relocation (A2): no consumed producer runs a V3 gate or reads V3/V3_ifx, so every producer and every
+    # context is attested v4-native and the 0.5.0-a re-attestation marker may not return anywhere in the proposal.
+    $v3Read = [regex]'(?i)docs[\\/]+guards[\\/]+(V3_ifx|V3)[\\/]'
     foreach ($producer in @($model.producers)) {
-        $expectedAttestation = if ([bool]$producer.wrapsV3Gate) { 're-attests-v3-producer-until-0.5.0-b' } else { 'v4-native-producer' }
-        Assert-True ([string]$producer.attestation -ceq $expectedAttestation) "Producer attestation is wrong: $($producer.gate)"
-        if ($contextOf.ContainsKey([string]$producer.gate)) {
-            $row = @($Proposal.contextOwnership | Where-Object v3Context -CEQ $contextOf[[string]$producer.gate])
-            Assert-True ($row.Count -eq 1 -and (([string]$row[0].attestation -ceq 're-attests-v3-producer-until-0.5.0-b') -eq [bool]$producer.wrapsV3Gate)) "Context ownership hides the V3 producer: $($producer.gate)"
-        }
+        Assert-True (-not [bool]$producer.wrapsV3Gate -and [string]$producer.attestation -ceq 'v4-native-producer') "Producer is not v4-native: $($producer.gate)"
+        $script = Full ([string]$producer.script)
+        Assert-True ([IO.File]::Exists($script)) "Producer script is missing: $($producer.script)"
+        $body = @([IO.File]::ReadAllLines($script) | Where-Object { -not $_.StartsWith('# Relocated from docs/guards/', [StringComparison]::Ordinal) }) -join "`n"
+        Assert-True (-not $v3Read.IsMatch($body)) "Producer reads V3 or V3_ifx: $($producer.gate)"
     }
-    Assert-True (@($model.producers | Where-Object { [bool]$_.wrapsV3Gate }).Count -eq 4) 'Four V3-wrapping producers must stay declared until 0.5.0-b.'
-    Assert-True (@($Proposal.detectorOwnership | Where-Object status -ceq 'v4-owner-re-attests-v3-producer').Count -eq 2) 'Detector ownership must declare the re-attested evidence families.'
-    Assert-True (([string](Get-EnvValue $Workflow 'IFX_BUNDLE_BASE_PATH')).EndsWith('/0.5.0') -and $Proposal.identity.ifxProfileVersion -ceq '0.5.1') 'Specimen does not bind the 0.5.0 bundle.'
+    Assert-True (@($Proposal.contextOwnership | Where-Object { [string]$_.attestation -like '*re-attests*' }).Count -eq 0) 'A context is still declared as re-attesting a V3 producer.'
+    Assert-True (@($Proposal.detectorOwnership | Where-Object { [string]$_.status -like '*re-attests*' }).Count -eq 0) 'A detector family is still declared as re-attesting a V3 producer.'
+    Assert-True (([string](Get-EnvValue $Workflow 'IFX_BUNDLE_BASE_PATH')).EndsWith('/0.5.1') -and $Proposal.identity.ifxProfileVersion -ceq '0.5.1') 'Specimen does not bind the 0.5.1 bundle.'
     # Premature cleanup: docs/guards/v4 may be absent only after the authorized T8 cleanup, proven by the
     # T8 cleanup receipt binding an existing cleanup commit (V4-TODO-008 T8 amendment of this control).
     if ($CoreSourcePresent) {
@@ -209,7 +210,8 @@ $controls = @(
     @{ id = 'staging-from-candidate'; proposal = $null; workflow = $workflowText.Replace('-File "$env:RUNNER_TEMP/ifx-trusted-base/$env:IFX_EVIDENCE_PRODUCERS" -Phase Stage', '-File "./$env:IFX_EVIDENCE_PRODUCERS" -Phase Stage') },
     @{ id = 'post-before-staging'; proposal = $null; workflow = [regex]::Replace($workflowText, '(?ms)(      - name: Stage IFX evidence into EvidenceRoot.*?)(      - name: Run trusted IFX Pre.*?)(      - uses: actions/upload-artifact@v4\s*\r?\n\s+if: always\(\))', '$2$1$3') },
     @{ id = 'evidence-upload-missing'; proposal = $null; workflow = [regex]::Replace($workflowText, '(?m)^\s+\$\{\{ runner\.temp \}\}/v4-ifx-production\.json\s*\r?\n', '') },
-    @{ id = 'ownership-hides-v3-producer'; proposal = (Mutate-Json { param($p) @($p.contextOwnership | Where-Object v3Context -CEQ 'v3-quality-solution')[0].attestation = 'v4-native' }); workflow = $workflowText }
+    @{ id = 'producer-reads-v3'; proposal = (Mutate-Json { param($p) @($p.evidenceModel.producers | Where-Object gate -CEQ 'solution')[0].script = 'docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1' }); workflow = $workflowText },
+    @{ id = 're-attestation-returns'; proposal = (Mutate-Json { param($p) @($p.contextOwnership | Where-Object v3Context -CEQ 'v3-specialized-database')[0].attestation = 're-attests-v3-producer-until-0.5.0-b' }); workflow = $workflowText }
 )
 $controlResults = [Collections.Generic.List[object]]::new()
 foreach ($control in $controls) {
@@ -223,7 +225,7 @@ foreach ($control in $controls) {
 }
 $proposal = $proposalText | ConvertFrom-Json -Depth 100
 foreach ($declaredControl in @($proposal.negativeControls)) { Assert-True ($declaredControl.expected -ceq 'rejected') "Declared control is not a rejection: $($declaredControl.id)" }
-Assert-True (Same-UniqueSet @($controls | ForEach-Object { $_.id }) @($proposal.negativeControls | Where-Object { $_.executedBy -cin @('t7-successor-rehearsal','i1-successor-rehearsal','a18-successor-rehearsal') } | ForEach-Object id)) 'Executed controls differ from the proposal declaration.'
+Assert-True (Same-UniqueSet @($controls | ForEach-Object { $_.id }) @($proposal.negativeControls | Where-Object { $_.executedBy -cin @('t7-successor-rehearsal','i1-successor-rehearsal','a18-successor-rehearsal','a210-successor-rehearsal') } | ForEach-Object id)) 'Executed controls differ from the proposal declaration.'
 
 $protected = [ordered]@{
     baseInstall = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6'
@@ -248,13 +250,13 @@ foreach ($name in $protected.Keys) { $post[$name] = Get-TreeDigest $protected[$n
 Write-Json (Join-Path $evidence 'post-inventories.json') ([ordered]@{ formatVersion = 1; roots = $post })
 Write-Json (Join-Path $evidence 'p10-3-successor-decision.json') ([ordered]@{
     formatVersion = 1; status = 'pass'; decision = 'p10-3-successor-design-and-local-rehearsal-accepted'
-    planId = '20260929-v4-ifx-i2b-ci-evidence-and-bundle'; step = 'A1-8c'
-    supersedes = [ordered]@{ decision = 'p10-3-successor-design-and-local-rehearsal-accepted'; sha256 = 'b5882ec7d89f0124e10cfad72b7212466dfb802e98ed94c1c8731084f803cb0a'; tuple = 'V4 Guards 1.1.6 + ifx_profile 0.4.4'; status = 'historical' }
-    evidenceModel = [ordered]@{ model = [string]$proposal.evidenceModel.model; stagingScriptSource = [string]$proposal.evidenceModel.stagingScriptSource; reAttestedV3Producers = @($proposal.evidenceModel.producers | Where-Object { [bool]$_.wrapsV3Gate } | ForEach-Object gate) }
+    planId = '20260929-v4-ifx-i2b-ci-evidence-and-bundle'; step = 'A2-10c'
+    supersedes = [ordered]@{ decision = 'p10-3-successor-design-and-local-rehearsal-accepted'; sha256 = 'fab31b2bb91da93dcf12ec98c86b28a9f714cb10be84862e761c611ea28211b8'; tuple = 'V4 Guards 1.1.6 + ifx_profile 0.5.0'; status = 'historical' }
+    evidenceModel = [ordered]@{ model = [string]$proposal.evidenceModel.model; stagingScriptSource = [string]$proposal.evidenceModel.stagingScriptSource; reAttestedV3Producers = @($proposal.evidenceModel.producers | Where-Object { [bool]$_.wrapsV3Gate } | ForEach-Object gate); v4NativeProducers = @($proposal.evidenceModel.producers | ForEach-Object gate) }
     identity = $proposal.identity
     remote = [ordered]@{ ifxDevelopmentCommit = $remote.developmentBranch.remoteCommit; rulesetId = $remote.ruleset.id; requiredContextCount = @($remote.ruleset.requiredContexts).Count; guardReleaseTag = $remote.guardRelease.tag; remoteMutationPerformed = $false }
     proof = [ordered]@{ contextOwnershipRows = @($proposal.contextOwnership).Count; detectorOwnershipRows = @($proposal.detectorOwnership).Count; executedNegativeControls = $controlResults.Count; protectedRootsUnchanged = $true }
     activationBlockers = @($proposal.activationPrerequisites)
     boundary = [ordered]@{ p10_3SuccessorDesignComplete = $true; p10GatePassed = $false; workflowInstalled = $false; rulesetChanged = $false; activated = $false; ifxCutover = $false; ifxCoreSourceRemoved = (-not $corePresent); cleanupReceiptSha256 = $(if ($null -ne $cleanupReceipt) { (Get-FileHash -Algorithm SHA256 -LiteralPath $cleanupReceiptPath).Hash.ToLowerInvariant() } else { $null }); v3Retired = $false }
 })
-Write-Output "A1-8c P10.3 successor rehearsal PASS: $evidence"
+Write-Output "A2-10c P10.3 successor rehearsal PASS: $evidence"

@@ -1,6 +1,6 @@
-# INACTIVE P10.3 SUCCESSOR SPECIMEN. IFX I2-B A1-8 binds V4 Guards 1.1.6 from von12549/Guard + ifx_profile 0.5.0
-# (successor of the I1 specimen). Evidence is produced and staged by this workflow (0.5.0-a); four producers
-# still run V3 gates, which 0.5.0-b relocates.
+# INACTIVE P10.3 SUCCESSOR SPECIMEN. IFX I2-B A2-10 binds V4 Guards 1.1.6 from von12549/Guard + ifx_profile 0.5.1
+# (successor of the A1-8 specimen). Evidence is produced and staged by this workflow; the producers live in
+# docs/guards/v4-adoption/producers and run no V3 gate.
 # A later exact Plan must install this as .github/workflows/v4-ifx-guardrails.yml.
 name: V4 IFX Guardrails
 
@@ -21,11 +21,11 @@ env:
   V4_RELEASE_TAG: v4-guards-v1.1.6
   V4_ARCHIVE_NAME: v4-guards-1.1.6.zip
   V4_ARCHIVE_SHA256: 92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8
-  IFX_BUNDLE_BASE_PATH: docs/guards/v4-adoption/extensions/ifx/0.5.0
-  IFX_BUNDLE_MANIFEST_SHA256: 086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284
-  IFX_PRODUCTION_REVIEW_SHA256: 3dec187b175d7161f1dfc9571962ca0946b1b71c637ec5e020fe8ea5c5d3e801
-  IFX_TARGET_COMMIT: c0d927eb7d81256d10194b894e20d4ad92333ad9
-  IFX_EVIDENCE_PRODUCERS: docs/guards/candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1
+  IFX_BUNDLE_BASE_PATH: docs/guards/v4-adoption/extensions/ifx/0.5.1
+  IFX_BUNDLE_MANIFEST_SHA256: b7a6751612f2279809b07988916112b499c52e7b1b36ae175c68924bd979e5e7
+  IFX_PRODUCTION_REVIEW_SHA256: 077edb6c2dc83baad0ade959adfe45de1dc36c878ff7676f4f0774b761a16387
+  IFX_TARGET_COMMIT: 351b504bd6549a8e9cede9ab34571986f6188c49
+  IFX_EVIDENCE_PRODUCERS: docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1
 
 jobs:
   v4-ifx-contract:
@@ -68,7 +68,7 @@ jobs:
           if ((Get-FileHash -Algorithm SHA256 -LiteralPath $review).Hash.ToLowerInvariant() -cne $env:IFX_PRODUCTION_REVIEW_SHA256) {
             throw 'IFX production review hash mismatch.'
           }
-          Copy-Item -LiteralPath $trusted -Destination (Join-Path $input 'ifx-0.5.0') -Recurse
+          Copy-Item -LiteralPath $trusted -Destination (Join-Path $input 'ifx-0.5.1') -Recurse
       - uses: actions/upload-artifact@v4
         with:
           name: v4-ifx-inputs-${{ github.sha }}
@@ -118,13 +118,13 @@ jobs:
           Expand-Archive -LiteralPath $archive -DestinationPath $expanded
           pwsh -NoProfile -File (Join-Path $expanded 'package/core/distribution/Install-V4Distribution.ps1') -Mode Install -InstallRoot $base -ReceiptPath $baseReceipt -ArchivePath $archive
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          $bundleBase = Join-Path $input 'ifx-0.5.0'
+          $bundleBase = Join-Path $input 'ifx-0.5.1'
           pwsh -NoProfile -File (Join-Path $base 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $base -BaseReceiptPath $baseReceipt -BaseArchivePath $archive -BundleRoot (Join-Path $bundleBase 'bundle') -ReviewRecordPath (Join-Path $bundleBase 'production-extension-review.json') -OutputInstallRoot $composed -CompositionReceiptPath $composeReceipt -TargetRoot $env:GITHUB_WORKSPACE -StateRoot $state -EvidenceRoot $evidence
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "V4_IFX_COMPOSED=$composed" >> $env:GITHUB_ENV
           "V4_IFX_STATE=$state" >> $env:GITHUB_ENV
           "V4_IFX_EVIDENCE=$evidence" >> $env:GITHUB_ENV
-      - name: Produce IFX evidence at the PR head (0.5.0-a re-attests the V3 producers)
+      - name: Produce IFX evidence at the PR head (relocated V4 producers)
         shell: pwsh
         run: |
           # The staging script comes from the trusted base; the producer scripts it runs are verified by the lock
@@ -179,5 +179,5 @@ jobs:
           CONTRACT_RESULT: ${{ needs.v4-ifx-contract.result }}
           WINDOWS_RESULT: ${{ needs.v4-ifx-windows.result }}
         run: |
-          pwsh -NoProfile -File "$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-050a/Test-IFX050CutoverRollback.ps1" -Mode Aggregate -ContractResult $env:CONTRACT_RESULT -WindowsResult $env:WINDOWS_RESULT
+          pwsh -NoProfile -File "$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1" -Mode Aggregate -ContractResult $env:CONTRACT_RESULT -WindowsResult $env:WINDOWS_RESULT
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

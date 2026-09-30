@@ -29,6 +29,41 @@
   "roots": {
     "composedInstall": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.5.1",
     "cleanTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a210-clean-051",
-    "violatingTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a210-violating-051"
+    "violatingTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a210-violating-051",
+    "bundle": "artifacts/guards/p10-ifx-i2b/a2-051/formal-candidate-a/cddff38a8d04481298b7882ab038e322/bundle"
+  },
+  "records": {
+    "c6cDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6c-decision.json",
+      "sha256": "309af8b25cb6630718f12f8bba0ab0fd754ef06884d06d11b58c6de4d1c96e7d"
+    },
+    "windowsFull": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6c-full/windows/summary.json",
+      "sha256": "e5af6ead399ffbee077bae25cdb0d605f15e66bd7c74b9d1bf30de0566ceb91e"
+    },
+    "c6dDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6d-review-051/c6d-decision.json",
+      "sha256": "b841e92b46795cef1058cbdfd480177a9a7556c50d7e50ad49366418bbb2dd14"
+    },
+    "c6eDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/a2-10a-decision.json",
+      "sha256": "2e3a6454c07d303e6de39ab0c85590798b5890f1f2fefcdea4dadb942d9e1e1e"
+    },
+    "p10_2Decision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/p10-2-parity-051/p10-2-decision.json",
+      "sha256": "aec12ba111ad579cd46f5c5ccf972129f25086e64d4bd6b3cdb0c5c73128b358"
+    },
+    "parityAgainst050": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/p10-2-parity-051/parity-against-050.json",
+      "sha256": "b25107b98a2e0766618ec195d30b5ce00561468f35b3ffe5a7e27804d609dd20"
+    },
+    "hostOutcomesAgainst050": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/p10-2-parity-051/host-outcomes-against-050.json",
+      "sha256": "814e51991547ef97fd59f1be89c4e97fa5a180a45b0f2090e320264888c18654"
+    },
+    "remoteSnapshot": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/p10-3-successor-051/remote-snapshot.json",
+      "sha256": "ccbabf409693f311224f5485cc51f0fd968ba352a2770a7284599a2882b6683b"
+    }
   }
 }

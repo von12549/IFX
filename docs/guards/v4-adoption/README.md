@@ -5,8 +5,9 @@ product. The product source, releases and trusted-base CI live in the standalone
 [`von12549/Guard`](https://github.com/von12549/Guard) (canonical since V4-TODO-008 T7, 2026-09-28).
 
 IFX consumes V4 Guards **1.1.6** with `ifx_profile` **0.4.4** since I1 (2026-09-29, Plan
-`20260928-v4-ifx-i1-rebind-1-1-6`). Its successor, `ifx_profile` **0.5.0** (evidence produced in CI, I2-B
-amendment A1), is certified, human-reviewed and composed locally; the inactive specimen and proposal bind it.
+`20260928-v4-ifx-i1-rebind-1-1-6`). Its successors, `ifx_profile` **0.5.0** (evidence produced in CI, I2-B
+amendment A1) and **0.5.1** (producers relocated out of V3, amendment A2), are certified, human-reviewed and
+composed locally; the inactive specimen and proposal bind 0.5.1.
 IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 [`../TODO.md`](../TODO.md).
 
@@ -22,8 +23,10 @@ IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 | `plans/10-p10-3-successor-standalone-1-1-5.md` | T7 successor: V4 Guards 1.1.5 from `von12549/Guard` + `ifx_profile` 0.4.3 (historical) |
 | `plans/11-p10-3-successor-1-1-6.md` | I1 successor: V4 Guards 1.1.6 + `ifx_profile` 0.4.4; Linux C6c passes (IFX-V4-002/003/004) (historical) |
 | `plans/12-ci-evidence-design.md` | I2-B design note: evidence produced in CI, the pin split and the two-step 0.5.0 rework |
-| `plans/13-p10-3-successor-0-5-0.md` | I2-B A1-8 successor: V4 Guards 1.1.6 + `ifx_profile` 0.5.0; producer, staging and upload steps; four producers re-attest V3 until 0.5.0-b |
-| `integrations/github/ifx-cutover-proposal.json` | Inactive cutover proposal, bound to the A1-8 successor identities (0.5.0) |
+| `plans/13-p10-3-successor-0-5-0.md` | I2-B A1-8 successor: V4 Guards 1.1.6 + `ifx_profile` 0.5.0; producer, staging and upload steps; four producers re-attest V3 until 0.5.0-b (historical) |
+| `plans/14-p10-3-successor-0-5-1.md` | I2-B A2-10 successor: V4 Guards 1.1.6 + `ifx_profile` 0.5.1; producers relocated to `producers/`, no V3 re-attestation |
+| `producers/` | The V4-owned evidence producers (I2-B A2): relocated V3 gate logic and lab producers, with `origins.json` |
+| `integrations/github/ifx-cutover-proposal.json` | Inactive cutover proposal, bound to the A2-10 successor identities (0.5.1) |
 | `integrations/github/proposed-v4-ifx-guardrails.yml` | Inactive workflow specimen; fetches V4 only from `von12549/Guard`, pins the archive SHA-256, and produces, stages and uploads the IFX evidence |
 | `migration/v4-todo-008-ifx-rebinding-receipt.json` | T7 handoff decision and receipt |
 | `migration/v4-todo-008-ifx-cleanup-receipt.json` | T8 cleanup receipt: deleted and retained inventories, rollback commit |

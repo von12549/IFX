@@ -17,3 +17,4 @@ producers themselves live in `docs/guards/v4-adoption/producers/` (ruling R6).
 | A2-5 | `Compare-IFX051SuiteOutcomes.ps1` | The five changed suites on relocated-producer evidence against the A1-3 records (record `a2-relocation/a2-5-suites/index.json`) |
 | A2-6 | `matrix-contract-050.json`, `fixture-spec-050.json` | Regenerated from the 0.5.1 inventory |
 | A2-9 | `Export-IFX051C6dReviewPacket.ps1` | C6d review packet of 0.5.1 against the accepted 0.5.0 packet: only the five moved consumers and the Profile may change; producer changes listed; relocation evidence bound |
+| A2-10 | `Invoke-IFX050C6eComposition.ps1`, `Invoke-IFX050P102Parity.ps1`, `Compare-IFX050MatrixParity.ps1`, `Compare-IFX051HostOutcomes.ps1`, `Test-IFX050CutoverRollback.ps1`, `a210-identity.json` | C6e composition of 1.1.6 + 0.5.1, parity against 0.5.0, and the P10.3 successor rehearsal with the v4-native ownership rule |

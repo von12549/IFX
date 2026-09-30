@@ -74,5 +74,5 @@ Write-IFX050Json $output ([ordered]@{ formatVersion = 1; status = $status; step 
         rule = 'case IDs, kinds, rules, claims, expected and actual outcomes equal; only the first finding subject or evidence kind may differ, and each difference is listed' }
     p10_2Replay = [ordered]@{ predecessor = [ordered]@{ path = $PredecessorParityMatrixPath; sha256 = $PredecessorParityMatrixSha256 }; current = [ordered]@{ path = $ParityMatrixPath; sha256 = (Get-IFX050Sha256 $newMatrixFile) }
         rowsKey = $rowKey; caseCount = @($newMatrix.cases).Count; gapCount = [int]$newMatrix.gapCount; strengtheningCount = [int]$newMatrix.strengtheningCount; strengtheningsIdentical = $strengtheningsEqual; semanticRowDifferences = @($rowDiffs); equalToPredecessor = $p102Equal } })
-Write-Output "A1-8b parity against 0.4.4 $status`: gaps=$($gaps.Count), first-finding changes=$($subjectChanges.Count), P10.2 row differences=$($rowDiffs.Count)"
+Write-Output "A2-10b parity against 0.5.0 $status`: gaps=$($gaps.Count), first-finding changes=$($subjectChanges.Count), P10.2 row differences=$($rowDiffs.Count)"
 if ($status -cne 'pass') { exit 1 }
