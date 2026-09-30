@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "id": "20260930-ifx-v4-005-drain-wait-race",
+  "title": "IFX-V4-005: drain wait reports a timeout although the runtime is already idle",
+  "goal": "Make RuntimeDrainCoordinator.WaitForIdleAsync report idle when the runtime became idle before the timeout was observed, and make the drain tests independent of thread-pool scheduling, so that CI solution evidence is not lost to a race.",
+  "acceptanceCriteria": [
+    "WaitForIdleAsync returns true when idle completed before the timeout is observed and false only while work is still in flight.",
+    "The drain tests pass 200 consecutive times under parallel load; the solution build and all tests pass.",
+    "The 47 G04 runtime predicates still hold."
+  ],
+  "plannedPaths": [
+    "docs/guards/TODO.md",
+    "docs/guards/plans/20260930-ifx-v4-005-drain-wait-race.md",
+    "docs/guards/plans/20260930-ifx-v4-005-drain-wait-race.plan.json",
+    "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+    "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs"
+  ],
+  "areas": [
+    "Backend",
+    "GuardDocs"
+  ],
+  "risks": [
+    "A real drain timeout could be masked if the idle check were wrong; the existing timeout test keeps the false case covered."
+  ],
+  "decisions": [
+    "Fix the product race rather than add retries in the evidence harness (I2-B ruling R4)."
+  ],
+  "validationCommands": [
+    "dotnet build IFX.sln -c Release",
+    "dotnet test IFX.sln -c Release",
+    "drain-tests-200x-under-load",
+    "plan-validate"
+  ],
+  "dependencies": [
+    "20260929-v4-ifx-i2b-ci-evidence-and-bundle"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
