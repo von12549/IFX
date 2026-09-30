@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 human review next`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 review packet ready, operator decision pending`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -410,6 +410,13 @@ Module dispositions:
     `c6c-decision.json`, `a1-chain.json`, `c6c-full/**` reports, readiness and chain inputs, `chain/*.log`.
     Evidence: evrun 051 in `I2B-ci-evidence`.
   - Next: A1-7, the C6d review packet and the human review of the changed claims (operator acceptance).
+- **A1-7 packet ready (2026-09-30); human decision pending.** `Export-IFX050C6dReviewPacket.ps1` (`b797b565`, fix
+  `777d4764`) wrote `artifacts/guards/p10-ifx-i2b/c6d-review-050/`: `review.md` for the reader, `review-packet.json`
+  (sha256 `9d1e95d0…`), `claim-changes.json` (per module: what "pass" means, dropped and kept pins, lock checks,
+  couplings, check changes, C6c cases), `predecessor-comparison.json` (0.4.4 -> 0.5.0: 25 module versions, 103
+  package files changed, 6 embedded policies added, none removed; four lock consumers gain EvidenceRoot reads only),
+  `file-inventory.json` (262 files) and `module-ceilings.json` (36 modules). Evidence: evrun 053 (052 hung on the
+  `$input` automatic variable and was stopped; fixed in `777d4764`).
 
 ### 9.5 Out of scope for A1
 

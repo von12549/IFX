@@ -1,0 +1,105 @@
+{
+  "formatVersion": 1,
+  "status": "ready-for-designated-human-review",
+  "scope": "c6d-exact-bundle-review",
+  "step": "A1-7",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "reviewDecision": "pending",
+  "acceptedBy": null,
+  "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.5.0",
+  "bundle": {
+    "id": "ifx-profile-candidate",
+    "manifestPath": "artifacts/guards/p10-ifx-i2b/formal-candidate-a/40bd4b845f2c4dec81efbb36481810cc/bundle/bundle-manifest.json",
+    "manifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "profileCount": 1,
+    "moduleCount": 36,
+    "fileCount": 262
+  },
+  "inputs": {
+    "ordinalInventory": {
+      "path": "artifacts/guards/p10-ifx-i2b/formal-inventory/41f92d76d22047fd80b883f3b74470b0/ordinal-inventory.json",
+      "sha256": "8eba1e8557380f4b0aab36ad8116e95db32297d83fbc9fa6ec56c4f13fe2707d"
+    },
+    "changeSpec": {
+      "path": "docs/guards/candidates/ifx-i2b-050a/change-spec.json",
+      "sha256": "c1dc29b38bff4839f8fc670c47efac886e5f7b31f794541ac8e2e8b574fe85f0"
+    },
+    "checkChanges": {
+      "path": "docs/guards/candidates/ifx-i2b-050a/check-changes.json",
+      "sha256": "5382fd2e82e7b5b1251f632b4000939737b034eeeb680b5196b1cb549c456b57"
+    },
+    "windowsCaseManifest": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6c-full/windows/case-manifest.json",
+      "sha256": "8b76e2490d389ec5205d7d27712ad3e5fa89072df21b6af58928b8acc8a84892"
+    }
+  },
+  "outputs": {
+    "review": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/review.md",
+      "sha256": "910771e083f5a882fa5fd9fc6457556894108ff96df90f77def95c907b8c8b68"
+    },
+    "claimChanges": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/claim-changes.json",
+      "sha256": "d03f26d24ec89e2ff6285d3e2f0a2de1f80cffc090d27faabf76a842594465ff"
+    },
+    "predecessorComparison": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/predecessor-comparison.json",
+      "sha256": "a9fdb8b39981108eb5a2b8d1e63be0ff77f3395cfb37148e3b881d01c2cc0fe8"
+    },
+    "fileInventory": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/file-inventory.json",
+      "sha256": "c2f7df23d23cd637fa4eb1f2385606c79c0a1f3dc489bcdb2fa8dd919afc459c"
+    },
+    "moduleCeilings": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/module-ceilings.json",
+      "sha256": "c3fba003bdc86a53cced16a4315840789d16d2afcd3ef369a0ea5c05f102d943"
+    }
+  },
+  "certification": {
+    "decision": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6c-decision.json",
+      "sha256": "315a825135d64dc80315774a63be87fd541d19fe6fc3ff6a46be455171bfee2a"
+    },
+    "summary": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6c-full/summary.json",
+      "sha256": "cd15b99af6aeac73805ecec5166c8e4a7881c315f26c4de097f9ab792a05eb04"
+    },
+    "windowsProductCertification": "pass",
+    "windowsCoreCases": 191,
+    "controls": {
+      "capability": 180,
+      "stagedEvidence": 42
+    },
+    "linuxPortability": {
+      "blocking": false,
+      "status": "pass",
+      "semanticProjection": "equal",
+      "coreCases": 191
+    }
+  },
+  "openLimits": [
+    "Evidence model staged-by-workflow: Post no longer builds or tests; six lock consumers pass only when the workflow ran the pinned producers at the same commit. The CI workflow with producer, staging and upload steps is not installed yet (A1-8 rehearsal, then I2-C/D).",
+    "Four of the six producers still wrap V3 gates (Invoke-IFXGuardrails -Mode Quality/Specialized); the Profile keeps the V3_ifx specialized root as workspace evidence for the database producer. Both move in 0.5.0-b.",
+    "The generated producer pins and reads docs/guards/V3/.../SourceFiles.cs for lineage, and the frontend producer sets a fixed Windows PATH; both are replaced in 0.5.0-b.",
+    "Type and graph locks are fresh for one hour; CI must produce them right before Post.",
+    "Governance pins (104 kept) make any edit of those documents integrity-failure until a new bundle is reviewed; 126 live pins were dropped.",
+    "Linux is a non-blocking portability assessment; product certification is Windows (windows-full and certification-controls).",
+    "The candidate's synthetic review fixture is a test input, not acceptance; the production review record is written only after this human review.",
+    "IFX-V4-005 is fixed in the product; its new load test does not force the race (a deterministic test would need an injected TimeProvider).",
+    "Harness limit: the zero-source catalog cases delete ignored build outputs in the matrix Target clone; the lock consumers run first."
+  ],
+  "requiredAuthority": {
+    "authorityType": "human-review",
+    "authorityId": "xiaolong-feng",
+    "candidateHostVerdictAllowed": false
+  },
+  "decisionBoundary": {
+    "startAuthorizationIsAcceptance": false,
+    "syntheticReviewIsAcceptance": false,
+    "c6eAuthorized": false,
+    "instruction": "Review the exact packet and explicitly accept or reject it. Do not compose (A1-8) before acceptance."
+  }
+}

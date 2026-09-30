@@ -1,0 +1,704 @@
+{
+  "formatVersion": 1,
+  "predecessorVersion": "0.4.4",
+  "predecessorManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+  "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+  "moduleVersionChanges": [
+    {
+      "moduleId": "ifx-c1-type-provenance",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-c1-evaluated-reference",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g03-governance-core",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g03-catalog-semantics",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g03-source-reconciliation",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g03-snapshots",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g03-docs-closeout",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g04-manifests",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g04-runtime",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g04-closeout",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-plan04-extraction",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-plan04-tenant",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-plan04-projection",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-plan04-abstractions",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "from": "0.2.0",
+      "to": "0.3.0"
+    },
+    {
+      "moduleId": "ifx-g05-inventory",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g05-protocol",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g05-execution-http",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g05-carriers",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g05-governance",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-g05-closeout",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-plan05-security",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-solution-evidence",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-assembly-evidence",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    },
+    {
+      "moduleId": "ifx-frontend-evidence",
+      "from": "0.1.0",
+      "to": "0.2.0"
+    }
+  ],
+  "ceilingChanges": [
+    {
+      "moduleId": "ifx-c1-evaluated-reference",
+      "addedReadRoots": [
+        "EvidenceRoot"
+      ]
+    },
+    {
+      "moduleId": "ifx-solution-evidence",
+      "addedReadRoots": [
+        "EvidenceRoot"
+      ]
+    },
+    {
+      "moduleId": "ifx-assembly-evidence",
+      "addedReadRoots": [
+        "EvidenceRoot"
+      ]
+    },
+    {
+      "moduleId": "ifx-frontend-evidence",
+      "addedReadRoots": [
+        "EvidenceRoot"
+      ]
+    }
+  ],
+  "ceilingRule": "only EvidenceRoot read access added; writes, processes, network and timeouts identical",
+  "changedPackageFiles": [
+    {
+      "path": "modules/ifx-assembly-evidence/adapter.ps1",
+      "old": "e0431c7c23146646bc3c6a5e1c5515cd159bcb8059a430134c3ed004cc5609a9",
+      "new": "53578e22f196a7723ed5dc2ca523ef483e2fbf086ee25203933d90887c0cbe87"
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/config.schema.json",
+      "old": "0e24dfed94592f2ce2147bdf4508ab3272836aa17b20150153a0f69025a95b2d",
+      "new": "de52b3f405c3d73abaaf89bcde944a1b62302b0a57f1667a6b73db2b8bee357e"
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/module.json",
+      "old": "f66f0634aa78ea1ef471421a6b07fddc8e6e4220db7cadd70d41c72d2a960ecb",
+      "new": "42238f6c30b34a7ec029e3954b3865b58ce83f920621f6eaa04df22ca8cfbe1b"
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/policy.json",
+      "old": "f33a0d3fbe80dc8737777dcfedd17623c8c2837da13a4528ab94b8f0720f7b65",
+      "new": "e7a60914100729bddd0b61b3dc8f5892c0511155da98aafa255c348d34a9ee6a"
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/adapter.ps1",
+      "old": "8528e8cad6d7030854c5ed415c9007eb27907db4ed505c3c48da6d2758ba8b28",
+      "new": "6cd5a5c3194f7d27fb8d8ae3659314b5fb86e962d7c83ded2f4f48bd86fcb8f4"
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/config.schema.json",
+      "old": "68baf00004752e6dd149523bfdf8243d5446836d41820bd3dac968f29ec0aa43",
+      "new": "030e8b4a1d6fd1f74ae5c4877581bb91d58cd45e88307230622493107814e784"
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/module.json",
+      "old": "ff60ba96e98f142394f931ad0664eb6c1fb4b2afeadbc81f4084c482b9398ab2",
+      "new": "da354d2037390a55689045c7c1bb082efac1110a87e11cc132a59d63ceaab2b9"
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/policy.json",
+      "old": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec",
+      "new": "6bdc6e33adeea6bd30394bb1d5e3eedc09fb61b78dabadd584ec33be0d1eb4f4"
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/adapter.ps1",
+      "old": "9b85e628659aa3132311f74ca1fdf3cbc6aa8e766aa21335eae042d286a7530b",
+      "new": "b7568404a37e57acd1755ee21b5687a622c36440d8939ee40ad543cc34018538"
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/config.schema.json",
+      "old": "9d2e11623b0754a6462d023528d9edfed5c525070285e18008dfd7be350ffa2e",
+      "new": "8340ab6c8c88c748e3144178c316b616662a1392208aa0ab0bac4a2eba9f9c22"
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/module.json",
+      "old": "22bfa890ab9d0d8f690af874ac4272f1d7d99b737167ed4da7b728243a91ffa1",
+      "new": "81ae60c1390228c44d03ea1417dee115f2c986aa1e8c0ae095b434a30b79a4f3"
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/policy.json",
+      "old": "3277b19802afb20808f4d7693bf8638a1f520666db6bce87eb4e233b6d22b7c9",
+      "new": "10da9e5542512e9078c9c1c2481928c939c11a2e92169ab308fa4d4516d51402"
+    },
+    {
+      "path": "modules/ifx-database-evidence/adapter.ps1",
+      "old": "7c33611585554b04578b308bde7da9936a5f6d61b88e66b658c821fcf2ab23df",
+      "new": "e4467c60f79a4f41301ab84528a9fe8a24a7bec634958ecbe8b89caa09ff63e8"
+    },
+    {
+      "path": "modules/ifx-database-evidence/config.schema.json",
+      "old": "6cb6e7bcdca899342e7d8bc9fd09c1e3eab31752c23b5109b2fbbbdc2a0dd4de",
+      "new": "77050acd61f6828df55bdb72055f2f6b6a12b45ac619f5534a31f1a4a73544a3"
+    },
+    {
+      "path": "modules/ifx-database-evidence/module.json",
+      "old": "90390a5344dcb37774c9259cd6ed9447895a442e5dea3e3ee854b85583a17df7",
+      "new": "ffa456888e3086b7db8f39dbc51f9f544f090b647413c03fb16f25b686c5d741"
+    },
+    {
+      "path": "modules/ifx-database-evidence/policy.json",
+      "old": "556fdab48460f40996ce18891930924717f4417dcb7da03469a4b3d60ae95443",
+      "new": "2fa862a30bf420d781ba22272656f1e48b4023f6ad3b5a2c7e4d279d102a8acc"
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/adapter.ps1",
+      "old": "382e3e4b195b21faeda1a2ddd88d83b919988967bf8ab83607ac9820626550fc",
+      "new": "61a02c963d4dad7a2294d04c7abcb1e86d5b7aa46e72e6f1fcadc3f9f18d2a1e"
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/config.schema.json",
+      "old": "8bbe026df8430a61cc54f9b81d44cfa48619ef329c56203333ff7d4320ce4868",
+      "new": "c7df330cedf5ea59a50defde937f830504f98df596b2018e42b472523a020fb8"
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/module.json",
+      "old": "bf673c7d064780a35196c5c7fe53f39e179a0637a87f5e9dfed1867f37f941b6",
+      "new": "4486307f7c37755cb6d4f33cd1d65d5392aa376b4f9f8c079a5ad09205d096da"
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/policy.json",
+      "old": "8641608bd380d21d3781fca51dfa3d6e9a4dce5b5f1b0ed5a8ea8e640f6f55b5",
+      "new": "c56c1635c0fc5459a092c7df1226e213cd969e1ea4c8b84043fa5506b28a66a9"
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/adapter.ps1",
+      "old": "433cd038620882533d7688580d69667d2543dca060331e9b497e14f60e010b0d",
+      "new": "54b8e8de3e35da1b7fad912cb2e3439c6b4093a47d51fc6c0a443bb23e456e99"
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/config.schema.json",
+      "old": "e1b408b8177cc48e4ec6bdc623c14921a07e80002c5b65b72e0bcd757bbba5b9",
+      "new": "d1c19c14f30ca5e305a5573ad04e1a36cc1d786f983c63c055ef344732a8bd22"
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/module.json",
+      "old": "b0f99e54c26b80a19da6bbfd763763b750753ebec65c55e2ff737bcc7a2134ed",
+      "new": "35e50036e9f81d675e7cf2199e557f21e8b6122ac2296b214a9a6b7ad7ce2f7a"
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/policy.json",
+      "old": "79e2f830c060348826f9a6df49db9e35c0d4af1f5e7eeeae527b08261e211c7d",
+      "new": "253ce1aa65d4eaf0de630e755b4997e9316e30562465dd79381ba767f65afafc"
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/adapter.ps1",
+      "old": "1b2388e98f4e8e502430683f8fa5125ee0b19f52e06dc8ad630f3d8e3132412b",
+      "new": "dd709de4720842542fa5cb29e2dea3f2eda4bbbcd842ac84c499c731b73e0550"
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/config.schema.json",
+      "old": "81f6bbf8e37e3e584a717895cf7b9c149bfb495de68fde45a3d54a25a000299d",
+      "new": "1b74b03cbc2e8a0d95a9b6c266a26534b64f5f4b4752698c33131f9fbe1bccd4"
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/module.json",
+      "old": "968aab82ba1a4b3b74479de8e17dd973d5fe0efac11f54b6492265e895be8ba6",
+      "new": "7ae7501a4df17698815f54aba9a4e43328b3e33750f594fbc61c39fcdf160d63"
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/policy.json",
+      "old": "699bd116503cf03fbebc7404dbd75384b5ef7e3921e86b85a770c90c085cffee",
+      "new": "3c9f293e33860fb19384b9035726aeba56d95d8d06d2203ce4c682389bcc2228"
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/adapter.ps1",
+      "old": "6442264d2c10552a8b9a8f28f5b7caf9d54fcf725f0d8c842afa2d7ac2fa21a3",
+      "new": "0dc300f1a2d857b119aef8c021fce75e86ad2d603340fdd37e64fe462bb91955"
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/config.schema.json",
+      "old": "9bc8ad7404579370cc4ccf6f7d7526ec62ecc8811c4b9c2fd20562c5746d6f41",
+      "new": "3b8690c95925ca2553f063c0154661d5c2e283907694607ebb380c0f0eb7ed3d"
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/module.json",
+      "old": "a5e5e4805771feed560417667b15cd458eccb554d5bbf3c9d30b107dc9d78ed3",
+      "new": "f51ad98be057d4ec3e0695d877a0cba6ab99600f113fbbfbb1e018ea2b8e6b6c"
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/policy.json",
+      "old": "4a26edfa3d3d24f171262c1e357cb4165adcc8329f44db2acdad2be6e4f3b374",
+      "new": "45df816f4c104ee038675514855a4ecf8c61851bac140d0980d26225d39d0dcc"
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/adapter.ps1",
+      "old": "342bf042877499bfb3810d77d8c2a331939d9f340bfe507f238187cfac6d2bb4",
+      "new": "12f34d83885128ae8b2c5afedc6f6f33acbb394f3487f9cfd21a428da4ae7818"
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/config.schema.json",
+      "old": "e805e66708801cf3cbaf780f08fec2d298fc38b1d1ec96987cd9383ed11f5bc5",
+      "new": "9d2c0ffb0fa1f88bf9b1042ba06f757592851a1646d96a4a065992d25008a55e"
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/module.json",
+      "old": "8d8dc0cc15ebc203e4be55ee7bd60d5532bad7fea7d0dff7c764d8c1fdf7acfd",
+      "new": "fd5b94cc89725933c538c85cffe7228b91d1cd9e7a4d219c717e729ad7311162"
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/policy.json",
+      "old": "78779e8f03531c33c39cee3825a36acc2625a2c6498c667909621c125a415191",
+      "new": "19bc796f283cafe823b2893790dcb2450619d3a9bfa7581bcb391bc53eab44a4"
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/adapter.ps1",
+      "old": "d0b9309d0eca3346775f2484d7f2190bd4544f3d2177cb35afd3cd6ebde0b7c8",
+      "new": "5deb7c7eee69c8eb9e999dd3ab16070272f7fa909f537581af21e6d217f2069b"
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/config.schema.json",
+      "old": "9779f6b2d21a04ddc718cac0b4908bd4f3c7d142273967ff1f4c9eeed260b229",
+      "new": "034400d0169fbbb2f3528549d695184f201a14cf9ad243ab70427088bf21ec0c"
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/module.json",
+      "old": "31dfff043cdb2904e0d7539bdb17e0fcddd669330fdb78af47abd43833337aad",
+      "new": "5a31f2dbb9748da05376a30c0eddfc0b4c9dba2a27282e82f687786653c903b6"
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/policy.json",
+      "old": "1384c3559f9b61909a31780f42493cc49eda4f453da8f58c97e58ea0ee15d308",
+      "new": "2979ffd9e234a1fd32e10af8afe83be483fe4050402aed394695c40c24254f9e"
+    },
+    {
+      "path": "modules/ifx-g04-closeout/adapter.ps1",
+      "old": "79d53a70a052f745cdf84a52292e792d92ef25b0f5344b3c1ae27fac59abebe2",
+      "new": "138e557d1e731355014a908830d8d78ceedace413dd77367753a7d7222ad07bb"
+    },
+    {
+      "path": "modules/ifx-g04-closeout/config.schema.json",
+      "old": "d26f13c4eb24198bea24afaabdadb0a38b8e1672531a86c14f45a3666adf7002",
+      "new": "ff7f2a61479d0113fc29368badfa15ef66237255c974fce72a6529da18fec095"
+    },
+    {
+      "path": "modules/ifx-g04-closeout/module.json",
+      "old": "ab584536d2ad0387aa9fc1a901fdd91b7249122f063308c1e1281924ddc74613",
+      "new": "3e7ab6c7cd414c6795a166f13b73efc3915f959bc017d175ce791a94892f2559"
+    },
+    {
+      "path": "modules/ifx-g04-closeout/policy.json",
+      "old": "cc0db44bad61b3699dfcbc2582d948b697bd7122f7fd59e5e568d41ab077d93f",
+      "new": "efef4e8aa6bdbc4cf957b6de0a86568041a24b0146dcef948f39eeb966119d8b"
+    },
+    {
+      "path": "modules/ifx-g04-manifests/adapter.ps1",
+      "old": "ec9e4e593aa96440b54b555d9d013f49da00bc5987fe1c9db14628e83a00c1b9",
+      "new": "54b9eae0436601f30ebf13eb215ab9c75665728a1e86e4f3ccd162f28195c096"
+    },
+    {
+      "path": "modules/ifx-g04-manifests/config.schema.json",
+      "old": "52a935b6940fe8d2fa818cdc6aa45b7119ba1d3c4e0f694444b9c0d8c20d8ff8",
+      "new": "2f56dddb2812e7a6c310e98fb38e93e7b237efde9cfb2bf26a2679c83b9d23de"
+    },
+    {
+      "path": "modules/ifx-g04-manifests/module.json",
+      "old": "44896514de880e5a9fa84f5a5eaac6cf4a357d2d1060ee2cea541c0ec7d0a015",
+      "new": "9712fe0e5dca7fa019ae7064f076dd360f9931e924d12441b1bcf9a3d5cbaa0d"
+    },
+    {
+      "path": "modules/ifx-g04-manifests/policy.json",
+      "old": "7090ac64e4fcb4b529d8d8fe5404df44377b31bfc4f997db7207984b79ab2e98",
+      "new": "a131c16c947af00291f6d405a3816e9a4d50249dfbdb9fd11ce7b958fe068842"
+    },
+    {
+      "path": "modules/ifx-g04-runtime/adapter.ps1",
+      "old": "1db0e97cab02b3ee9b908adaa0e5f7ce259161532c6a4100d25de3d3e2681af4",
+      "new": "6649d9e8d69c44b4f739f7237434141c95ca0fda45dd9125feb62e7c006a6dc5"
+    },
+    {
+      "path": "modules/ifx-g04-runtime/config.schema.json",
+      "old": "bf44e62a1e9918d1dfd9b23d911347133b93df0678ee8949cca5c0f04626a3a6",
+      "new": "a11f26b5ac22db830c9dd1c4a51556a5e83b6027b5b1272d0fefafc13b1da4a0"
+    },
+    {
+      "path": "modules/ifx-g04-runtime/module.json",
+      "old": "e2d638cce78dbf58997ad009196fa8af7235747658493d43b104fcdc963df089",
+      "new": "8ddb5351970eeed583edaa4f4c8bb9166a8ad70f711bd7ebe0a31c662b22ad54"
+    },
+    {
+      "path": "modules/ifx-g04-runtime/policy.json",
+      "old": "003df03000fc56007574fc140fc77be405b8cb3a30ae8880106db248f7768589",
+      "new": "80e29eb5738b1b39ce3a74c43a113cf2a105a2ba51ae3509714f0973e69c05ed"
+    },
+    {
+      "path": "modules/ifx-g05-carriers/adapter.ps1",
+      "old": "0ee502506d2aeb48023337ac7267e57649dc4d413687dea1e3a57af16457d3cd",
+      "new": "ae11bb14d4760b4863e6b793e5ac3e16b25ff425cc08ffbf12c2556acc492f91"
+    },
+    {
+      "path": "modules/ifx-g05-carriers/config.schema.json",
+      "old": "7e5a7e192737b940fccb222f60a33392b267ea51a041757efe8f3032b58805a1",
+      "new": "10e05aea7e6306c6be074762b1cf2c9d7a6d053265aef8cf4171864725321868"
+    },
+    {
+      "path": "modules/ifx-g05-carriers/module.json",
+      "old": "45a2d44d5c2626613d416580b76ffd2947c0437ba4c8ede149dd74053de9e6da",
+      "new": "3db9a32d64d51a0e1da4786cb6923581cbd190a513b4382ac314f6018fc24e50"
+    },
+    {
+      "path": "modules/ifx-g05-carriers/policy.json",
+      "old": "6f722e09f2a78ab63d6a7a83a3a82e542a644d9a0650e09da257939c5be604c6",
+      "new": "ae565aa07dbd3799da0581d6e27b5dc6507701fc6e9274289a6ee8a325808f6b"
+    },
+    {
+      "path": "modules/ifx-g05-closeout/adapter.ps1",
+      "old": "8536ec30739fb0989c6f96fb0df4d6da77b832c2d99a91813866f065a6ecf4bb",
+      "new": "b2cb37faa2c64b85f8844967a05a03aa33a67e2eb347fbc30ea7dc8eacbb1594"
+    },
+    {
+      "path": "modules/ifx-g05-closeout/config.schema.json",
+      "old": "77c0996b3e1ae5485af41628923349024b61067287ae35661d3cc8ee256e66ce",
+      "new": "ebcb3f368dde246e5d7dcb3914c0f6c41a61b6592071f6df4795066257e763e2"
+    },
+    {
+      "path": "modules/ifx-g05-closeout/module.json",
+      "old": "9ef05149841154a48b77ea97f8648e695656533b5f778a5b1e4ab9a64aeea7b8",
+      "new": "0c8256a1ef2f945ec3bffa1ef979764872cd0bb6d7de11a7903ec480d94b47ca"
+    },
+    {
+      "path": "modules/ifx-g05-closeout/policy.json",
+      "old": "e284838dfe4e351175a57c7a331007bb3a53e2d7dd71e09b06c13badd08b33bb",
+      "new": "d0ceca9e0c04fc0e4b9e1b677f3ae1f4752df2bca8b24c0f7df66239aeaeda44"
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/adapter.ps1",
+      "old": "e88aa9e1fde2b3af11885663370cb62c3273b1039d0f26ba4b3e9f9279d07f9c",
+      "new": "99a0925e97cbeaa02017a3a5b23c30ffa277863065cb3b0216308fbf49fa2c17"
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/config.schema.json",
+      "old": "4d10c3f68ad2ea7fb2c0954c0c9b6d1d72d100a33611017f71a9f3e5259b1d5d",
+      "new": "f53d1282b3484982c1e48119b1be9bc12fd5f5c5cd62b3005444f21e26466dc9"
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/module.json",
+      "old": "1c3b3e6a66eb27c1a9346ba91f60429480339999847b73bf2878a5b7e7ec65c6",
+      "new": "66e865148d7dd4dce8aea4432edd29c530cdbe47dc18f099ed123d4e6d7c9458"
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/policy.json",
+      "old": "63e5199ad0c0855160cac127a4461024cd8a87efc1cfe66577a6b69bb9af6828",
+      "new": "c1fe0eafaba2ae21e9e17523482f3d858114690ec73ff61c8368ef86891d6b28"
+    },
+    {
+      "path": "modules/ifx-g05-governance/adapter.ps1",
+      "old": "e42d4daca69848ea8d2f0307bb99f3ffe708c2f37af2b2f52fb56428cf20236c",
+      "new": "24c26684b3209f54bcf25f61c02d279aa1679408d4aba3123cee5e32b1cba45a"
+    },
+    {
+      "path": "modules/ifx-g05-governance/config.schema.json",
+      "old": "d26a6bb73f8315a4354d2e35693d99e48911ed6b25401c43cb7fe2cc6ef02b13",
+      "new": "e55092459c934d3bd0eb2e1ebcd20e653b607f4c41408c2d8081e8d652c799cb"
+    },
+    {
+      "path": "modules/ifx-g05-governance/module.json",
+      "old": "a372b468e9b4e56c80f9d71179e598a91c6e4456e880f304a686ee5dd254ce6a",
+      "new": "f727e61612c4212007026d498289a72e1835b99f1984acb1cce4781052ec8bb6"
+    },
+    {
+      "path": "modules/ifx-g05-governance/policy.json",
+      "old": "bd760b7b01ead431979ecfcd2e6479f9cc8a18f638d8e62f64d0e7cb3b3bcb1c",
+      "new": "a69bac1f1488ea702d694d723d20b0588522319cd22425cf1e316bf93d8d3232"
+    },
+    {
+      "path": "modules/ifx-g05-inventory/adapter.ps1",
+      "old": "888315f9bce543d97226a628f9cf31f095d26f2424095dc5d1c321e1c873d8a7",
+      "new": "6ca66683535eb92442d8706729881b6990afd31cf79df8273c4bfa718bf1362f"
+    },
+    {
+      "path": "modules/ifx-g05-inventory/config.schema.json",
+      "old": "be465f0fc23bd955670d7258a544b195aaab31685ab04592edab6c240bd5c8b7",
+      "new": "d51356cae983072883de7e45541e391bd0f8c4a8f45f3bd0957154f5f20104e8"
+    },
+    {
+      "path": "modules/ifx-g05-inventory/module.json",
+      "old": "baa23080ca2367fd38183386da65d6eaaff53f0cb62a585f25884a1440bb9699",
+      "new": "f18cc9104fe766d6da04db4d0405193651eb4cfc23663634e0c4cae9513b023d"
+    },
+    {
+      "path": "modules/ifx-g05-inventory/policy.json",
+      "old": "8f152aed6e89c00023930108db4601bb9e7a590b3e2a17ced930c510a3e0a354",
+      "new": "045c62b11261a15b7e4b04de35d9d5524f267c99bb9729e1ca3c9c2c32e31ea3"
+    },
+    {
+      "path": "modules/ifx-g05-protocol/adapter.ps1",
+      "old": "3216902b4f30d44142dc59c7bbc83a6e587af4a117845385fd82e46ad02e9506",
+      "new": "57dbd81195e0568a1965f0c0092664e677dbb88678755d8350a096b14f85739f"
+    },
+    {
+      "path": "modules/ifx-g05-protocol/config.schema.json",
+      "old": "1207bb52e9f8d872d7239efe0df12a834ad75e79595c883e5131a7a522340b3e",
+      "new": "93c7345e9f9991e87d0979348cff1b1f3977548ede12735db60b4bfc9f59e4c8"
+    },
+    {
+      "path": "modules/ifx-g05-protocol/module.json",
+      "old": "5e2517fc9101703c22487eead1e18a4877848c05e27cabdadb1bf780d124247a",
+      "new": "641821c3909de797f8fae01156d2527b292e3650307d02a3a3a21649eae5b941"
+    },
+    {
+      "path": "modules/ifx-g05-protocol/policy.json",
+      "old": "72e63d4198419e66f75bcb8eca9dcc637bfa527829125110a4852428ef7cc324",
+      "new": "173a91325a4ab060e3e78228acbbebc8c23eab0d449512616619ac57e9514488"
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/adapter.ps1",
+      "old": "23062df73f3f88d24937aa262b1b9c602f9e70a185706e6a1b4817e321c66d38",
+      "new": "8fa48f691cbed0c058e451e4ccf67aa8b07e1efb2e512421f2aa227fb93e3855"
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/config.schema.json",
+      "old": "ad6700aaa87abc47abf1caa5f5d66a47323902f9db08fe716bad3a06974229ae",
+      "new": "f0291fcb8f7260db94965f899d71202cb9e7bc0fc7be8a9c3c4da8567071e53a"
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/module.json",
+      "old": "c6d3d9927a0a41fc98dbb223a8abb8614ca5e73e392ef286226ac254eb1e053c",
+      "new": "876b0eb225d00637b5149e56c8e32e2d3585f874a4b1f8ff6251af72b3a827a3"
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/policy.json",
+      "old": "5c3d9f30e692b6bdd52af38d28a216ebef1852f49588b06b3b9d82fe0c19c7b9",
+      "new": "05b4e25bd9a66a3e526dea749b23ff67c991e192385e677dea0df53725f1dc9a"
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/adapter.ps1",
+      "old": "8aab20efc321e37a3a31aec82d47253fca17b4a8ae610db16530503bf5f7773c",
+      "new": "7c9ddf2abc9c12e3e96a62add60364a4e684ef9698e735857197a62f78a44784"
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/config.schema.json",
+      "old": "f90e2b88c564001fe12b0d273766d356a393de2f9ae58344e7b8173e8eb23970",
+      "new": "55a8820784ff61820fe187d0347eed8fc9530eb009399f5aaba16a0fa405455a"
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/module.json",
+      "old": "5fab72d461bfa975a3fdaa4a1d89b4be18b0e9e9513a5049039340802c087143",
+      "new": "8a077496c71f6fee1af36ebdaef67c720774fa002669b20c1bac28ae14dcafe4"
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/policy.json",
+      "old": "69499f175f28a628b25847118aa1a436a9587c7422c6af2cfd0ac2075c03a329",
+      "new": "c449d70465f714cedcf29f81534dcabc222ba47ac3ed78f6c96b012a9de910b9"
+    },
+    {
+      "path": "modules/ifx-plan04-projection/adapter.ps1",
+      "old": "5da75db0ec4bc455877517f90bfadc5c5acca88f893c565ed53159ecac2dedd2",
+      "new": "eaf50b96be5b957793bc6b1f3f4c912f471683310622b201fc8b6826376e83eb"
+    },
+    {
+      "path": "modules/ifx-plan04-projection/config.schema.json",
+      "old": "1ea268bb6c16a8a26a08dccb0560a330544c7e7c5c0ab2de0e46b00c678dc036",
+      "new": "d87acbf8775037993f597d4ae7379d49fdb699c32fcfcbd21f21fd4c9ce1824c"
+    },
+    {
+      "path": "modules/ifx-plan04-projection/module.json",
+      "old": "d25bd8ef30782d228ed43a62842aaa12b31c0ffef4d25db6cda1fb7be3aa96e7",
+      "new": "d1db4270247cb7119bcb1c30c5241f9dbe6b39987a7526ab12b2b87979c9103a"
+    },
+    {
+      "path": "modules/ifx-plan04-projection/policy.json",
+      "old": "c8d496f36cdc35e559e482d0963b10d68601867598557d9d14d124ca810278ad",
+      "new": "60fd60b8345154864669041b94c2c00badaf78d759524c16c9153f94e8bd32d4"
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/adapter.ps1",
+      "old": "7130fa89e6601bb058830a2f7227fb3d6d67f87cf69e3687a8337c0feeb73948",
+      "new": "093b20d6eec426697bd444e8cf8532906b2b77f912c3afc383ddb85d9e1b3cbd"
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/config.schema.json",
+      "old": "4a2878facdd5a398d128cf6df8cfa93a6d8c03f4f62f3cb9f913e9240f682f69",
+      "new": "1b11f52252cb6d8827f7d4e3b4c5cf0a0babafa23faeebf0891a9472a8d712e4"
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/module.json",
+      "old": "a3433eb26640039193039f2fa29c28737f33e755729d4a5524ae49545241edb3",
+      "new": "b07951ab9f82f9b8346e7b326a72454e6ab21a5ce2983aa74152868fb9d4e994"
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/policy.json",
+      "old": "e3e618fbcf568dc157d5931655b6a19aa282b24c45d93bb92d058e2c8d39eecf",
+      "new": "e246325cbe0c3be6c27bf5593168816374f8d4e9fd1052193a4daa039789c0b7"
+    },
+    {
+      "path": "modules/ifx-plan05-security/adapter.ps1",
+      "old": "dec90efc0b3a12489646690c0310a707eb39a7b8f4f36bdd786e5ac9bb050367",
+      "new": "8103c72373656e16a797520df244c3433af6dae27e6cfe681d7b4b8229a2d87c"
+    },
+    {
+      "path": "modules/ifx-plan05-security/config.schema.json",
+      "old": "347f354e05a987e24f367975bd8a24b986bff5140c349bb81291669b77de300e",
+      "new": "c4fa58889c3f3e93979dae292c99b6539081a2845458456d4430b31c9ea7e5f4"
+    },
+    {
+      "path": "modules/ifx-plan05-security/module.json",
+      "old": "d4e40c15f39280ea8cb330d111579ee6c4d6130c61aa20dea560eeda33fa124a",
+      "new": "ae6ba27819eac2fff9130bd56f9415e18de195417c45d8a5f887edeb151936d7"
+    },
+    {
+      "path": "modules/ifx-plan05-security/policy.json",
+      "old": "3f5c20653f7539387ae3c7bf090ffc1f760a006746d063669c4bfa7fa9464449",
+      "new": "8b679ffca13b0d89265a6e5fb09901314a807259c467e7e4cd7ace69512687a2"
+    },
+    {
+      "path": "modules/ifx-solution-evidence/adapter.ps1",
+      "old": "9e40f29ca0053ae1f4be0e49f74c20ed710b6e013f194e2ed67457f686c6efa7",
+      "new": "cf0773a41549fcda67e6d5ec7b3e5aaa02e25236f8c2ba8bece5d65fd8af02f1"
+    },
+    {
+      "path": "modules/ifx-solution-evidence/config.schema.json",
+      "old": "c2a7e5b201a564a745bfb3e91c5c84194eee8c77a443d2fc23b16cf9a0164baa",
+      "new": "cdc270fd3d00d181b3916d78b4a1fd7d549ea9da973b69c72cf6ba93376ba596"
+    },
+    {
+      "path": "modules/ifx-solution-evidence/module.json",
+      "old": "51b4f7352f203b87d8f82bb7f4f1343b536b7d5195f97fa515e03e79f8dbfe0b",
+      "new": "1831d52945b3b77b8542990b41f0f5c308cf46b47e9f5e3c3d53f6629da418cc"
+    },
+    {
+      "path": "modules/ifx-solution-evidence/policy.json",
+      "old": "d46330a47b6d8a87a5330292c2bb471d65d71d9b14e66f7f81b96fa7fad10bca",
+      "new": "edc9fe4869f9243c1b7d17537411e1596ce33fc1e7319f9505fde311ecddb37a"
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/authority-map.json",
+      "old": "b623af9d686284da673e41a6aa28c631676769f4f8ee36915ec6b859c7c3bf0f",
+      "new": "8eba1e8557380f4b0aab36ad8116e95db32297d83fbc9fa6ec56c4f13fe2707d"
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/evidence-lineage.json",
+      "old": "f9087ff28a6397f3bdcb7c2a56bcf468134fe9d1c89455ef1b81265161708e02",
+      "new": "50be615caa964d186171134e9b0daf1f3d3e908c78df55adf7f0e84c2f36bbc5"
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/profile.json",
+      "old": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51",
+      "new": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e"
+    }
+  ],
+  "addedPackageFiles": [
+    {
+      "path": "modules/ifx-c1-evaluated-reference/embedded/ifx-ownership-graph-policy.json",
+      "sha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c"
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/embedded/ifx-reference-cycle-policy.json",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7"
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/embedded/layer-policy.json",
+      "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/embedded/type-rule.json",
+      "sha256": "d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b"
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/embedded/project-name-policy.json",
+      "sha256": "36e25d60c29547719638469aad7ef8fcab1f86e243067108feac24226ef74829"
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/embedded/reference-cycle-policy.json",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7"
+    }
+  ],
+  "removedPackageFiles": []
+}

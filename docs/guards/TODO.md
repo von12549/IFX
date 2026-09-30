@@ -129,7 +129,7 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
   - **I2-B amendment A1 (0.5.0-a): A1-3 (25 module successors, 516 suite cases) and A1-4 (harness successors;
     trial C6c Windows 191/191, controls 180 + 42, Linux 191/191 semantic equal; harness controls with PR-gate
     cases pass) complete 2026-09-29.** IFX-V4-005 fixed; A1-5 readiness passed at `739fc279`; A1-6 C6c passed at `c0d927eb` (Windows 191/191,
-    controls 180 + 42, Linux 191/191 semantic equal; 2026-09-30). Next: A1-7 human review.
+    controls 180 + 42, Linux 191/191 semantic equal; 2026-09-30). A1-7 review packet `c6d-review-050` ready; operator decision pending.
   - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).
