@@ -13,13 +13,16 @@
     "docs/guards/TODO.md",
     "docs/guards/candidates/ifx-i2b",
     "docs/guards/candidates/ifx-i2b-050a",
+    "docs/guards/candidates/ifx-i2b-051",
     "docs/guards/plans/20260929-v4-ifx-i2b-ci-evidence-and-bundle.md",
     "docs/guards/plans/20260929-v4-ifx-i2b-ci-evidence-and-bundle.plan.json",
     "docs/guards/v4-adoption/README.md",
     "docs/guards/v4-adoption/integrations/github",
     "docs/guards/v4-adoption/migration",
     "docs/guards/v4-adoption/plans/12-ci-evidence-design.md",
-    "docs/guards/v4-adoption/plans/13-p10-3-successor-0-5-0.md"
+    "docs/guards/v4-adoption/plans/13-p10-3-successor-0-5-0.md",
+    "docs/guards/v4-adoption/plans/14-p10-3-successor-0-5-1.md",
+    "docs/guards/v4-adoption/producers"
   ],
   "areas": [
     "GuardDocs"
@@ -27,13 +30,15 @@
   "risks": [
     "Re-attesting V3-produced evidence could be mistaken for V4 ownership.",
     "Copy-back changes could drop evidence.",
-    "Dropping a live pin could remove a check that depended only on the hash; the A1-2 change specification lists and rewrites such checks."
+    "Dropping a live pin could remove a check that depended only on the hash; the A1-2 change specification lists and rewrites such checks.",
+    "A2: two copies of the relocated V3 gate logic exist during coexistence; the V4 copy records its V3 origins and a control reports drift."
   ],
   "decisions": [
     "IFX-V4-006 is fixed before any new C6c run.",
     "Options D-A, D-B and D-C are compared before choosing.",
     "B3: pin split accepted; D-B in two steps (0.5.0-a PR-gate rework, 0.5.0-b producer relocation).",
-    "A1: 0.5.0 lock consumers read locks from EvidenceRoot and verify the producer contract; live pins are dropped, governance pins kept."
+    "A1: 0.5.0 lock consumers read locks from EvidenceRoot and verify the producer contract; live pins are dropped, governance pins kept.",
+    "A2: producers relocated to docs/guards/v4-adoption/producers (R6); V3 origins recorded with a drift control (R7); new producer ids ifx-v4a-* (R8); type producer embeds its V3 policy copies and the generated producer is not staged (R9); no fixed frontend PATH (R10); zero-difference semantic V3/V4 parity (R11); bundle 0.5.1."
   ],
   "validationCommands": [
     "plan-validate",
@@ -41,7 +46,8 @@
     "copyback-benchmark",
     "module-suites",
     "pr-gate-controls",
-    "c6c"
+    "c6c",
+    "producer-parity"
   ],
   "dependencies": [
     "20260929-v4-ifx-i2-p10-gate-successor"

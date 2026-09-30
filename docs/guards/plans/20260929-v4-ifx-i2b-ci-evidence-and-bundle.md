@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); A1-8 and A1-9 complete (local); A1-10 push needs authorization`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-7 authorized (local)`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -450,9 +450,111 @@ Module dispositions:
   changed since `b5cee75f` are planned. Record `I2B-ci-evidence/a1-9-verification.json` (evrun 063). Receipt
   `v4-adoption/migration/ifx-i2b-a1-0-5-0-a-receipt.json`.
   - Next: A1-10, push the A1 commits (authorization); then 0.5.0-b.
+- **A1-10 complete (2026-09-30).** Operator: "授权 A1-10 推送". Fast-forward push `ffe03be5..13502169` (12 commits),
+  verified. **Amendment A1 is complete.** Next: amendment A2 (§10).
 
 ### 9.5 Out of scope for A1
 
 - the producer relocation (0.5.0-b);
 - the workflow installation, the ruleset, 1A, the V3 allowlist, publishing (I2-D) and V3 retirement;
 - Guard product changes.
+
+## 10. Amendment A2 — bundle 0.5.1, the producer relocation (0.5.0-b)
+
+Status: `ACTIVE — rulings R6–R11 taken as recommended and A2-0 to A2-7 authorized for local execution (2026-09-30, "全部按推荐，并授权A2-0到A2-7本地执行"); A2-8 and A2-12 need their own authorization`
+
+A2 is the second D-B step chosen at B3. Four of the six evidence producers consumed by 0.5.0-a still run V3 gates
+through `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1`. The accepted proposal therefore says that V4
+"re-attests" `v3-quality-solution`, `v3-quality-assembly`, `v3-quality-frontend` and `v3-specialized-database`.
+A2 moves that gate logic into `docs/guards/v4-adoption/producers/`, so that no consumed producer reads anything
+under `docs/guards/V3_ifx`. The V3 originals stay unchanged while V3 is still required.
+
+The lock consumers pin the producer script hashes and the V3 gate script hashes (`authorityHashes`) in their
+policies, so the relocation changes module policies. As §9.2 recorded, A2 therefore issues bundle **0.5.1**
+with its own C6 chain and C6d review. What the modules claim does not change; only the producer identity does.
+
+### 10.1 Scope, from the current producers
+
+| Evidence gate | Producer today | V3 logic it runs | Other V3 or host coupling |
+| --- | --- | --- | --- |
+| solution | `ifx-c5b-controlled-v1` | `Invoke-IFXGuardrails -Mode Quality -QualityTarget Solution` → `Invoke-IFXQuality.ps1` (68 lines), `Invoke-IFXPackageAudit.ps1` (110) | the lock pins the hashes of both V3 scripts |
+| assembly | `ifx-c5c-controlled-v1` | `-QualityTarget Assembly` → `Invoke-IFXQuality.ps1`, `Invoke-IFXAssemblyGuard.ps1` (79) | the assembly guard reads the V3 policy `stages/post/policy/layerguard.json` from its own package |
+| frontend | `ifx-c5d-controlled-v1` | `-QualityTarget Frontend` → `Invoke-IFXQuality.ps1` | the producer sets a fixed Windows `PATH` |
+| database | `ifx-c4b-controlled-v2` | `-Mode Specialized -SpecializedGate Database` → the Database branch of `Invoke-IFXSpecialized.ps1` (88 lines), `Test-MigrationSafetyPolicy.ps1` (88), `Invoke-G02DatabaseInventory.ps1` (24), `Test-DatabasePendingModelChanges.ps1` (44), `New-DatabaseMigrationArtifacts.ps1` (25), `contracts/detector-result.schema.json` | the Profile's `workspaceEvidence` roots include `V3_ifx/stages/post/gates/specialized` |
+| type | `ifx-c1-r1b-controlled-v1` (V4-native) | — | reads `V3_ifx/.../rules/ARCH.BINARY.DOMAIN.CONTRACTS.json` and `.../policy/layerguard.json` |
+| graph | `ifx-c1-r2b-controlled-v1` (V4-native) | — | none |
+| generated | recorded for lineage only; no 0.5.0-a module consumes it | V3 scanner source | pins `docs/guards/V3/.../SourceFiles.cs` |
+
+About 540 lines of gate logic move, plus the two V3 policy files the assembly guard and the type producer read.
+Network steps (restore, NuGet and npm audits) stay workflow steps inside the producers, as in 0.5.0-a (F5).
+
+### 10.2 Steps
+
+| Step | Action | Gate |
+| --- | --- | --- |
+| A2-0 | Operator rulings R6–R11 (§10.3); commit this amendment and the fixed status of A1 | **Operator** |
+| A2-1 | **Relocation inventory** `candidates/ifx-i2b-051/relocation-inventory.json`: every V3 file each producer reaches (call graph, dot-sourced and `Join-Path $PSScriptRoot` reads, package-local policies), with its SHA-256 at the certified commit. A generator re-derives it; a control fails on any unlisted V3 read | Local commit |
+| A2-2 | **Byte-identical copy.** Copy the listed files into `v4-adoption/producers/<gate>/` unchanged, in their own commit, and record copy-equals-original for every file | Local commit; control |
+| A2-3 | **Adaptation**, in a separate commit so every edit is reviewable against the copy: replace `$PSScriptRoot`-relative repository discovery with an explicit `-TargetRoot`; read the copied policies from the producer package; new producer entry scripts with new producer ids (R8); remove the frontend `PATH` override (R10); the type producer reads its embedded rule and policy copies (R9). Static controls: no path under `V3_ifx` or `V3` in any consumed producer, case-insensitive; no read outside the producer package and TargetRoot | Local commit; controls |
+| A2-4 | **V3/V4 parity** on the same commit (R11): run each V3 gate and its relocated producer on the certified Target and compare the gate summaries and evidence semantically (paths and timestamps excluded). Negative parity: the existing catalog violation fixtures for the four consumers fail the same way under both. Every difference is listed and must be zero | Evidence; local commit |
+| A2-5 | **Module successors 0.5.1**: the lock consumers whose producer identity changes (solution, assembly, frontend, database, and type under R9) get new producer ids, script hashes and `authorityHashes`; versions bump (0.2.0 → 0.2.1, database 0.3.0 → 0.3.1). The Profile replaces the `V3_ifx` `workspaceEvidence` root with `v4-adoption/producers/database`. The staging script successor runs the relocated producers and drops the unconsumed generated producer (R9). Suites rerun for the changed modules | Local commits; suites pass |
+| A2-6 | Harness successors (bundle version, identities, change spec 0.5.0 → 0.5.1) and a trial of the C6 chain | Local commits |
+| A2-7 | Readiness on the post-A2-6 commit (`-ReadinessOnly`) | Local |
+| A2-8 | **Single C6c** for 0.5.1 | **Authorization** |
+| A2-9 | C6d review packet: the producer identity change only; **human review** | **Operator acceptance** |
+| A2-10 | C6e composition and installed-Host runs; parity against 0.5.0 (outcomes must be equal); P10.3 successor: the specimen and proposal drop `re-attests-v3-producer-until-0.5.0-b` for the four contexts, with a negative control that the attestation cannot return while any consumed producer reads `V3_ifx` | Local |
+| A2-11 | Local verification (as A1-9) and receipt | Local |
+| A2-12 | Push the A2 commits | **Authorization** |
+
+### 10.3 Operator rulings needed before A2-1
+
+- **R6 — location.** *Recommended:* `docs/guards/v4-adoption/producers/<gate>/`, inside the adoption package that
+  the V3 allowlist ruling 2B already admits. *Alternative:* a lab tree under `candidates/` first, moved later.
+- **R7 — two copies during coexistence.** V3 stays required until the coexistence window ends, so the V3 gates
+  and their V4 copies both exist. *Recommended:* the V4 copy records the hashes of the V3 originals it came from;
+  a harness control reports any later change to those originals as drift for review. The V3 originals are not
+  edited. *Alternative:* forbid V3 edits to the four gates by policy until V3 retirement.
+- **R8 — producer identity.** *Recommended:* new producer ids (`ifx-v4a-solution-v1`, `ifx-v4a-assembly-v1`,
+  `ifx-v4a-frontend-v1`, `ifx-v4a-database-v1`), so a lock names which producer made it. *Alternative:* keep the
+  ids and change only the script hashes.
+- **R9 — type and generated producers.** *Recommended:* the type producer reads embedded copies of its two V3
+  policy files (the type consumer embeds them already), and the staging script stops running the generated
+  producer, which no module consumes. Then no consumed producer path reaches V3.
+- **R10 — frontend toolchain.** *Recommended:* drop the fixed Windows `PATH`; the producer requires `node` and `npm`
+  on `PATH` and records their versions in the lock, as it does today. The workflow's `setup-node` provides them.
+- **R11 — parity standard.** *Recommended:* semantic equality of the gate summaries and evidence on the certified
+  commit, plus the catalog violation fixtures, with zero listed differences. A difference stops A2 for review.
+
+### 10.4 Acceptance for A2
+
+- No consumed producer reads a path under `docs/guards/V3` or `docs/guards/V3_ifx` (static control and the
+  relocation inventory).
+- V3/V4 parity has zero differences (A2-4).
+- The 0.5.1 C6c passes: Windows 191/191 and controls; Linux 191/191 with equal semantic projection.
+- The installed-Host outcomes for 0.5.1 equal those for 0.5.0 (A2-10).
+- The proposal owns the eleven contexts without `re-attests-v3-producer`, and the rehearsal rejects its return.
+- V3, V3_ifx and `.github` stay byte-identical.
+
+### 10.5 Planned paths (A2)
+
+- `docs/guards/v4-adoption/producers/**` (new)
+- `docs/guards/candidates/ifx-i2b-051/**` (lab tree: inventory, change spec, module successors, harness successors)
+- `artifacts/guards/p10-ifx-i2b/**` (records)
+- `docs/guards/v4-adoption/integrations/github/**`, `docs/guards/v4-adoption/plans/14-p10-3-successor-0-5-1.md`,
+  `docs/guards/v4-adoption/migration/**`, `docs/guards/v4-adoption/README.md`
+- this Plan pair and `docs/guards/TODO.md`
+
+### 10.6 Out of scope for A2
+
+- turning the build, test and inspection parts of the producers into V4 modules (a later phase);
+- proving the producers' runtime prerequisites on the hosted runner (for example SQL Server for the database
+  matrix); that belongs to installing and negative-testing the specimen;
+- the workflow installation, the ruleset, 1A, the V3 allowlist change, publishing (I2-D) and V3 retirement;
+- Guard product changes.
+
+### 10.7 Progress
+
+- **A2-0 (2026-09-30).** Rulings R6–R11 taken as recommended: producers under `v4-adoption/producers/<gate>/`;
+  the V4 copies record their V3 origins and a control reports drift; new producer ids `ifx-v4a-*`; the type
+  producer reads embedded policy copies and the generated producer is no longer staged; no fixed frontend `PATH`;
+  parity is semantic equality with zero differences. A2-0 to A2-7 authorized for local execution.
