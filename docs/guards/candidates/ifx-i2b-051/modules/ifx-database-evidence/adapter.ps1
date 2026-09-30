@@ -1,7 +1,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 # 0.5.0-a: evidence locks are staged into EvidenceRoot by the trusted workflow
-# (candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
+# (candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
 # producer run prefix (artifacts/guards/.../<run>/) to its staged directory, and records the producer that ran.
 function Get-IFX050StagedGate([string]$EvidenceRootValue,[string]$TargetRootValue,[string]$Gate,$Producer){
     if([string]::IsNullOrWhiteSpace($EvidenceRootValue) -or -not [IO.Path]::IsPathFullyQualified($EvidenceRootValue)){Stop-Adapter 'invalid-input' 'EvidenceRoot is required for staged evidence.'}
@@ -39,7 +39,7 @@ function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256)
 function Hash-Text([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
 function Hash-Normalized([string]$Path){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes([IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")))).ToLowerInvariant()}
 function Is-Excluded([string]$Relative,[string[]]$Names){$segments=$Relative.Replace('\','/').Split('/');foreach($segment in $segments){if($Names -ccontains $segment){return $true}};return $false}
-function Read-InventoryContract([string]$Path){$value=Get-Content $Path -Raw|ConvertFrom-Json -Depth 20;if($value.formatVersion -ne 1 -or $value.id -cne 'ifx-database-source-inventory-v2' -or (@($value.extensions)-join '|') -cne '.cs|.csproj|.json|.ps1' -or $value.pathOrder -cne 'ordinal' -or $value.contentHash -cne 'utf8-lf-sha256' -or $value.trackedAtProduction -ne $true){Stop-Adapter 'integrity-failure' 'Database source inventory contract drift.'};return $value}
+function Read-InventoryContract([string]$Path){$value=Get-Content $Path -Raw|ConvertFrom-Json -Depth 20;if($value.formatVersion -ne 1 -or $value.id -cne 'ifx-database-source-inventory-v3' -or (@($value.extensions)-join '|') -cne '.cs|.csproj|.json|.ps1' -or $value.pathOrder -cne 'ordinal' -or $value.contentHash -cne 'utf8-lf-sha256' -or $value.trackedAtProduction -ne $true){Stop-Adapter 'integrity-failure' 'Database source inventory contract drift.'};return $value}
 function Source-Entries([string]$Root,$Contract){
     if($null-ne$script:workspaceEvidence){
         $rows=[Collections.Generic.List[object]]::new();$seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
@@ -119,7 +119,7 @@ if($sourceManifest.formatVersion -ne 1 -or $release.formatVersion -ne 1 -or $saf
 # 0.5.0-a: the three live authorities are compared below with the hashes the lock recorded at the same commit.
 $staged=Get-IFX050StagedGate ([string]$inputObject.evidenceRoot) $target 'database' $policy.producer;$lockFile=Resolve-File ([string]$staged.lockPath) ([string]$staged.lockSha256)
 try{$lock=Get-Content $lockFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed evidence lock.'}
-if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Database' -or $lock.producer -cne 'ifx-c4b-controlled-v2' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or @($lock.files).Count -lt 10 -or $lock.sourceInventoryId -cne $inventoryContract.id -or $lock.sourceInventorySha256 -cne (Hash $inventoryContractPath)){Stop-Adapter 'integrity-failure' 'Incomplete Database evidence lock.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Database' -or $lock.producer -cne 'ifx-v4a-database-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or @($lock.files).Count -lt 10 -or $lock.sourceInventoryId -cne $inventoryContract.id -or $lock.sourceInventorySha256 -cne (Hash $inventoryContractPath)){Stop-Adapter 'integrity-failure' 'Incomplete Database evidence lock.'}
 if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Database lock target commit differs from TargetRoot HEAD.'}
 $sourceEntries=@(Source-Entries $target $inventoryContract);$sourceLines=@($sourceEntries|ForEach-Object{"$($_.path)|$($_.sha256)"});$lockedLines=@($lock.sourceFiles|ForEach-Object{"$($_.path)|$($_.sha256)"});if($sourceLines.Count -lt 19 -or $lock.sourceFileCount -ne $sourceLines.Count -or @($lock.sourceFiles).Count -ne $sourceLines.Count -or ($lockedLines -join "`n") -cne ($sourceLines -join "`n") -or [string]$lock.sourceTreeSha256 -cne (Hash-Text ($sourceLines -join "`n"))){Stop-Adapter 'integrity-failure' 'Database source tree changed after evidence generation.'}
 try{$started=Parse-Time $lock.startedAt;$completed=Parse-Time $lock.completedAt}catch{Stop-Adapter 'integrity-failure' 'Invalid evidence time.'}

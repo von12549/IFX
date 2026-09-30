@@ -4,7 +4,7 @@
   "lockBinding": "staged-evidence",
   "gate": "assembly",
   "authorityHashes": {
-    "assembly": "0493e8018d5310d0a730895b2f7866592c07e1bdf93533adcca5cdb7e570f675",
+    "assembly": "02ddff83c67aa5f22ac2375f54d4da6d26557d07aa739e4de8029384ade743a2",
     "domainPolicy": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
   },
   "allowedDomainReferences": [
@@ -33,8 +33,8 @@
     }
   ],
   "producer": {
-    "id": "ifx-c5c-controlled-v1",
-    "script": "docs/guards/candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1",
-    "scriptSha256": "fac0a78e16e7eec5a18b684ad006b8512ce1b7f6657024b8e220282ea78669e4"
+    "id": "ifx-v4a-assembly-v1",
+    "script": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+    "scriptSha256": "93db2ffad756bf3103ad3717b442c808cd40e58c1bcc380ea1560c2a4d94d6d7"
   }
 }

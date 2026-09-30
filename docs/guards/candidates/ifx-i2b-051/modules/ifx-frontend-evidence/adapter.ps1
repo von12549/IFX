@@ -1,7 +1,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 # 0.5.0-a: evidence locks are staged into EvidenceRoot by the trusted workflow
-# (candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
+# (candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
 # producer run prefix (artifacts/guards/.../<run>/) to its staged directory, and records the producer that ran.
 function Get-IFX050StagedGate([string]$EvidenceRootValue,[string]$TargetRootValue,[string]$Gate,$Producer){
     if([string]::IsNullOrWhiteSpace($EvidenceRootValue) -or -not [IO.Path]::IsPathFullyQualified($EvidenceRootValue)){Stop-Adapter 'invalid-input' 'EvidenceRoot is required for staged evidence.'}
@@ -93,14 +93,14 @@ try{$policy=Get-Content $policyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 10
 if($policy.formatVersion -ne 1 -or $policy.id -cne 'ifx-frontend-evidence-050a' -or $policy.lockBinding -cne 'staged-evidence' -or $policy.gate -cne 'frontend' -or @($policy.checkIds).Count -ne 5){Stop-Adapter 'integrity-failure' 'Frontend policy shape drift.'}
 $staged=Get-IFX050StagedGate ([string]$inputObject.evidenceRoot) $target 'frontend' $policy.producer;$lockFile=Resolve-Locked ([string]$staged.lockPath) ([string]$staged.lockSha256)
 try{$lock=Get-Content $lockFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Frontend lock.'}
-if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Frontend' -or $lock.producer -cne 'ifx-c5d-controlled-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.testCount -lt 1 -or $lock.testFileCount -lt 1 -or @($lock.files).Count -ne 4){Stop-Adapter 'integrity-failure' 'Incomplete Frontend lock.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Frontend' -or $lock.producer -cne 'ifx-v4a-frontend-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.testCount -lt 1 -or $lock.testFileCount -lt 1 -or @($lock.files).Count -ne 4){Stop-Adapter 'integrity-failure' 'Incomplete Frontend lock.'}
 if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Frontend lock target commit differs from TargetRoot HEAD.'}
 if($lock.authorityHashes.quality -cne $policy.authorityHashes.quality -or $lock.authorityHashes.packageJson -cne $policy.authorityHashes.packageJson -or $lock.authorityHashes.packageLock -cne $policy.authorityHashes.packageLock){Stop-Adapter 'integrity-failure' 'Frontend authority drift.'}
 try{$started=Parse-Time $lock.startedAt;$completed=Parse-Time $lock.completedAt}catch{Stop-Adapter 'integrity-failure' 'Invalid Frontend time.'}
 $now=[DateTimeOffset]::UtcNow;if($completed -lt $started -or $completed -gt $now.AddMinutes(5) -or $completed -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'Frontend evidence stale or future-dated.'}
 $source=@(Source-Lines $target);if($source.Count -lt 20 -or $source.Count -ne $lock.sourceFileCount -or (Text-Hash ($source -join "`n")) -cne $lock.sourceTreeSha256){Stop-Adapter 'integrity-failure' 'Frontend source tree drift.'}
 if((Hash (Join-Path $target 'src/Frontend/IFX.FrontEnd/package.json')) -cne $policy.authorityHashes.packageJson -or (Hash (Join-Path $target 'src/Frontend/IFX.FrontEnd/package-lock.json')) -cne $policy.authorityHashes.packageLock){Stop-Adapter 'integrity-failure' 'Frontend package authority changed.'}
-$prefix=[string]$lock.evidencePrefix;if($prefix -cnotmatch '^artifacts/guards/p10-ifx-c5d/frontend-runs/[a-f0-9]{32}/$'){Stop-Adapter 'unsafe-path' 'Uncontrolled Frontend evidence prefix.'}
+$prefix=[string]$lock.evidencePrefix;if($prefix -cnotmatch '^artifacts/guards/v4a-producers/frontend-runs/[a-f0-9]{32}/$'){Stop-Adapter 'unsafe-path' 'Uncontrolled Frontend evidence prefix.'}
 $expected=@(($prefix+'quality/summary.json'),($prefix+'quality/npm-audit-production.json'),($prefix+'quality/npm-audit.json'),($prefix+'frontend-run.log'))
 if((@($lock.files|ForEach-Object path|Sort-Object)-join '|') -cne (@($expected|Sort-Object)-join '|')){Stop-Adapter 'integrity-failure' 'Frontend evidence file set drift.'}
 $files=@{};foreach($entry in $lock.files){$files[[string]$entry.path]=Resolve-Locked ([string]$entry.path) ([string]$entry.sha256)}

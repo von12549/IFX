@@ -1,7 +1,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 # 0.5.0-a: evidence locks are staged into EvidenceRoot by the trusted workflow
-# (candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
+# (candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
 # producer run prefix (artifacts/guards/.../<run>/) to its staged directory, and records the producer that ran.
 function Get-IFX050StagedGate([string]$EvidenceRootValue,[string]$TargetRootValue,[string]$Gate,$Producer){
     if([string]::IsNullOrWhiteSpace($EvidenceRootValue) -or -not [IO.Path]::IsPathFullyQualified($EvidenceRootValue)){Stop-Adapter 'invalid-input' 'EvidenceRoot is required for staged evidence.'}
@@ -93,7 +93,7 @@ try{$policy=Get-Content $policyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 10
 if($policy.formatVersion -ne 1 -or $policy.id -cne 'ifx-assembly-evidence-050a' -or $policy.lockBinding -cne 'staged-evidence' -or $policy.gate -cne 'assembly' -or @($policy.assemblies).Count -ne 5 -or (@($policy.allowedDomainReferences)-join '|') -cne 'IFX.BuildingBlocks.Domain'){Stop-Adapter 'integrity-failure' 'Assembly policy shape drift.'}
 $staged=Get-IFX050StagedGate ([string]$inputObject.evidenceRoot) $target 'assembly' $policy.producer;$lockFile=Resolve-Locked ([string]$staged.lockPath) ([string]$staged.lockSha256)
 try{$lock=Get-Content $lockFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Assembly lock.'}
-if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Assembly' -or $lock.producer -cne 'ifx-c5c-controlled-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or @($lock.assemblies).Count -ne 5){Stop-Adapter 'integrity-failure' 'Incomplete Assembly lock.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Assembly' -or $lock.producer -cne 'ifx-v4a-assembly-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or @($lock.assemblies).Count -ne 5){Stop-Adapter 'integrity-failure' 'Incomplete Assembly lock.'}
 if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Assembly lock target commit differs from TargetRoot HEAD.'}
 if($lock.authorityHashes.assembly -cne $policy.authorityHashes.assembly -or $lock.authorityHashes.domainPolicy -cne $policy.authorityHashes.domainPolicy){Stop-Adapter 'integrity-failure' 'Assembly authority drift.'}
 try{$started=Parse-Time $lock.startedAt;$completed=Parse-Time $lock.completedAt}catch{Stop-Adapter 'integrity-failure' 'Invalid Assembly time.'}
@@ -101,8 +101,8 @@ $now=[DateTimeOffset]::UtcNow;if($completed -lt $started -or $completed -gt $now
 $source=@(Tree-Lines $target);if($source.Count -lt 81 -or $source.Count -ne $lock.sourceFileCount -or (Text-Hash ($source -join "`n")) -cne $lock.sourceTreeSha256){Stop-Adapter 'integrity-failure' 'Assembly source tree drift.'}
 $solutionFile=Resolve-Locked ([string]$lock.solutionLockPath) ([string]$lock.solutionLockSha256)
 try{$solution=Get-Content $solutionFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$solutionCompleted=Parse-Time $solution.completedAt}catch{Stop-Adapter 'integrity-failure' 'Malformed Solution build provenance.'}
-$solutionOkay=$solution.gate -ceq 'Solution' -and $solution.producer -ceq 'ifx-c5b-controlled-v1' -and $solution.result -ceq 'passed' -and $solution.targetCommit -ceq $targetCommit -and $solution.sourceTreeSha256 -ceq $lock.sourceTreeSha256 -and $solution.sourceFileCount -eq $lock.sourceFileCount -and $solutionCompleted -ge $now.AddHours(-24) -and $solutionCompleted -le $completed
-$prefix=[string]$lock.evidencePrefix;if($prefix -cnotmatch '^artifacts/guards/p10-ifx-c5c/assembly-runs/[a-f0-9]{32}/$'){Stop-Adapter 'unsafe-path' 'Uncontrolled Assembly evidence prefix.'}
+$solutionOkay=$solution.gate -ceq 'Solution' -and $solution.producer -ceq 'ifx-v4a-solution-v1' -and $solution.result -ceq 'passed' -and $solution.targetCommit -ceq $targetCommit -and $solution.sourceTreeSha256 -ceq $lock.sourceTreeSha256 -and $solution.sourceFileCount -eq $lock.sourceFileCount -and $solutionCompleted -ge $now.AddHours(-24) -and $solutionCompleted -le $completed
+$prefix=[string]$lock.evidencePrefix;if($prefix -cnotmatch '^artifacts/guards/v4a-producers/assembly-runs/[a-f0-9]{32}/$'){Stop-Adapter 'unsafe-path' 'Uncontrolled Assembly evidence prefix.'}
 $reportFile=Resolve-Locked ($prefix+'quality/assembly.json') ([string]$lock.reportSha256)
 $summaryFile=Resolve-Locked ($prefix+'quality/summary.json') ([string]$lock.summarySha256)
 try{$report=Get-Content $reportFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$summary=Get-Content $summaryFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Assembly report.'}

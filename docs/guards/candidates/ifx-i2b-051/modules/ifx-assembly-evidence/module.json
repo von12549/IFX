@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "id": "ifx-assembly-evidence",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "compatibleApi": "1.x",
   "supportedPlatforms": [
     "linux-x64",
@@ -10,7 +10,7 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-assembly-evidence/adapter.ps1",
-    "sha256": "53578e22f196a7723ed5dc2ca523ef483e2fbf086ee25203933d90887c0cbe87"
+    "sha256": "32c64f372eeeed3765af2f80fba974068ad5e4e20fb60e37aaf285bd25e7fc8a"
   },
   "prerequisites": [
     {
@@ -44,7 +44,7 @@
     {
       "id": "ifx-policy",
       "path": "modules/ifx-assembly-evidence/policy.json",
-      "sha256": "e7a60914100729bddd0b61b3dc8f5892c0511155da98aafa255c348d34a9ee6a"
+      "sha256": "4eab694326f4c6ded709e35aa4e7180bdcbede1e0f6ed21f053f8018842e65d7"
     },
     {
       "id": "rule-execution-plan",

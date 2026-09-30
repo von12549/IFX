@@ -1,7 +1,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 # 0.5.0-a: evidence locks are staged into EvidenceRoot by the trusted workflow
-# (candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
+# (candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
 # producer run prefix (artifacts/guards/.../<run>/) to its staged directory, and records the producer that ran.
 function Get-IFX050StagedGate([string]$EvidenceRootValue,[string]$TargetRootValue,[string]$Gate,$Producer){
     if([string]::IsNullOrWhiteSpace($EvidenceRootValue) -or -not [IO.Path]::IsPathFullyQualified($EvidenceRootValue)){Stop-Adapter 'invalid-input' 'EvidenceRoot is required for staged evidence.'}
@@ -131,11 +131,11 @@ if(-not [IO.File]::Exists($policyPath) -or (Hash $policyPath) -cne [string]$inpu
 try{$policy=Get-Content $policyPath -Raw|ConvertFrom-Json -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed type provenance policy.'}
 if($policy.formatVersion -ne 1 -or $policy.id -cne 'ifx-c1-type-provenance-050a' -or $policy.lockBinding -cne 'staged-evidence' -or $policy.gate -cne 'type' -or $policy.baseVersion -cne '1.1.3' -or $policy.configuration -cne 'Release' -or $policy.targetFramework -cne 'net8.0' -or $policy.maximumAgeSeconds -ne 3600 -or @($policy.assemblies).Count -ne 4){Stop-Adapter 'integrity-failure' 'Type provenance policy shape drift.'}
 $staged=Get-IFX050StagedGate ([string]$inputObject.evidenceRoot) $target 'type' $policy.producer;$lockRelative=[string]$staged.lockPath
-if($lockRelative -cnotmatch '^artifacts/guards/p10-ifx-c1-r1b/type-runs/[a-f0-9]{32}/evidence-lock\.json$'){Stop-Adapter 'invalid-input' 'Uncontrolled type evidence path.'}
+if($lockRelative -cnotmatch '^artifacts/guards/v4a-producers/type-runs/[a-f0-9]{32}/evidence-lock\.json$'){Stop-Adapter 'invalid-input' 'Uncontrolled type evidence path.'}
 $lockPath=Resolve-Input $lockRelative ([string]$staged.lockSha256)
 try{$lock=Get-Content $lockPath -Raw|ConvertFrom-Json -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed type evidence lock.'}
 $prefix=$lockRelative.Substring(0,$lockRelative.Length-'evidence-lock.json'.Length)
-if($lock.formatVersion -ne 1 -or $lock.gate -cne 'C1CompiledTypeProvenance' -or $lock.producer -cne 'ifx-c1-r1b-controlled-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.configuration -cne $policy.configuration -or $lock.targetFramework -cne $policy.targetFramework -or @($lock.assemblies).Count -ne 4 -or $lock.policySha256 -cne [string]$policy.producer.policySha256 -or $lock.v3TypeRuleSha256 -cne $policy.v3TypeRuleSha256 -or $lock.v3LayerPolicySha256 -cne $policy.v3LayerPolicySha256){Stop-Adapter 'integrity-failure' 'Type evidence lock shape or authority drift.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'C1CompiledTypeProvenance' -or $lock.producer -cne 'ifx-v4a-type-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.configuration -cne $policy.configuration -or $lock.targetFramework -cne $policy.targetFramework -or @($lock.assemblies).Count -ne 4 -or $lock.policySha256 -cne [string]$policy.producer.policySha256 -or $lock.v3TypeRuleSha256 -cne $policy.v3TypeRuleSha256 -or $lock.v3LayerPolicySha256 -cne $policy.v3LayerPolicySha256){Stop-Adapter 'integrity-failure' 'Type evidence lock shape or authority drift.'}
 if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Type lock target commit differs from TargetRoot HEAD.'}
 $now=[DateTimeOffset]::UtcNow;$created=Parse-Time $lock.createdAt;$expires=Parse-Time $lock.expiresAt
 if($created -gt $now.AddMinutes(5) -or $created -lt $now.AddSeconds(-[int]$policy.maximumAgeSeconds) -or $expires -le $now -or $expires -gt $created.AddSeconds([int]$policy.maximumAgeSeconds)){Stop-Adapter 'integrity-failure' 'Type evidence stale or future-dated.'}
@@ -144,13 +144,13 @@ $v3Rule=Join-Path $PSScriptRoot 'embedded/type-rule.json';if(-not [IO.File]::Exi
 $v3Policy=Join-Path $PSScriptRoot 'embedded/layer-policy.json';if(-not [IO.File]::Exists($v3Policy) -or (Hash $v3Policy) -cne [string]$policy.v3LayerPolicySha256){Stop-Adapter 'integrity-failure' 'Packaged layer policy drift.'}
 $source=@(Tree-Lines $target)
 if($source.Count -ne $lock.sourceFileCount -or (Text-Hash ($source -join "`n")) -cne $lock.sourceTreeSha256){Stop-Adapter 'integrity-failure' 'Source tree differs from type evidence.'}
-if($lock.solutionLockPath -cnotmatch '^artifacts/guards/p10-ifx-c5b/solution-runs/[a-f0-9]{32}/evidence-lock\.json$' -or $lock.assemblyLockPath -cnotmatch '^artifacts/guards/p10-ifx-c5c/assembly-runs/[a-f0-9]{32}/evidence-lock\.json$'){Stop-Adapter 'invalid-input' 'Uncontrolled C5 lineage path.'}
+if($lock.solutionLockPath -cnotmatch '^artifacts/guards/v4a-producers/solution-runs/[a-f0-9]{32}/evidence-lock\.json$' -or $lock.assemblyLockPath -cnotmatch '^artifacts/guards/v4a-producers/assembly-runs/[a-f0-9]{32}/evidence-lock\.json$'){Stop-Adapter 'invalid-input' 'Uncontrolled C5 lineage path.'}
 $solutionPath=Resolve-Input ([string]$lock.solutionLockPath) ([string]$lock.solutionLockSha256)
 $assemblyPath=Resolve-Input ([string]$lock.assemblyLockPath) ([string]$lock.assemblyLockSha256)
 try{$solution=Get-Content $solutionPath -Raw|ConvertFrom-Json -Depth 100;$assembly=Get-Content $assemblyPath -Raw|ConvertFrom-Json -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed C5 lineage lock.'}
-if($solution.gate -cne 'Solution' -or $solution.result -cne 'passed' -or $solution.producer -cne 'ifx-c5b-controlled-v1' -or $solution.targetCommit -cne $targetCommit -or $solution.sourceTreeSha256 -cne $lock.sourceTreeSha256 -or $solution.sourceFileCount -ne $lock.sourceFileCount -or $solution.projectCount -ne 81 -or $solution.totalTests -lt 1 -or (Parse-Time $solution.completedAt) -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'C5b lineage is invalid or stale.'}
+if($solution.gate -cne 'Solution' -or $solution.result -cne 'passed' -or $solution.producer -cne 'ifx-v4a-solution-v1' -or $solution.targetCommit -cne $targetCommit -or $solution.sourceTreeSha256 -cne $lock.sourceTreeSha256 -or $solution.sourceFileCount -ne $lock.sourceFileCount -or $solution.projectCount -ne 81 -or $solution.totalTests -lt 1 -or (Parse-Time $solution.completedAt) -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'C5b lineage is invalid or stale.'}
 $script:matched++
-if($assembly.gate -cne 'Assembly' -or $assembly.result -cne 'passed' -or $assembly.producer -cne 'ifx-c5c-controlled-v1' -or $assembly.targetCommit -cne $targetCommit -or $assembly.sourceTreeSha256 -cne $lock.sourceTreeSha256 -or $assembly.solutionLockPath -cne $lock.solutionLockPath -or $assembly.solutionLockSha256 -cne $lock.solutionLockSha256 -or (Parse-Time $assembly.completedAt) -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'C5c lineage is invalid or stale.'}
+if($assembly.gate -cne 'Assembly' -or $assembly.result -cne 'passed' -or $assembly.producer -cne 'ifx-v4a-assembly-v1' -or $assembly.targetCommit -cne $targetCommit -or $assembly.sourceTreeSha256 -cne $lock.sourceTreeSha256 -or $assembly.solutionLockPath -cne $lock.solutionLockPath -or $assembly.solutionLockSha256 -cne $lock.solutionLockSha256 -or (Parse-Time $assembly.completedAt) -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'C5c lineage is invalid or stale.'}
 $script:matched++
 if($lock.manifestPath -cne ($prefix+'assembly-manifest.json')){Stop-Adapter 'integrity-failure' 'Manifest path drift.'}
 $manifestPath=Resolve-Input ([string]$lock.manifestPath) ([string]$lock.manifestSha256)

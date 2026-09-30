@@ -6,8 +6,8 @@
 #   computed from the Target); the 12 unchanged modules keep their 0.4.4 config.
 # - The Profile pins no evidence lock. evidence-lineage.json records the staged-evidence model and the pinned
 #   producers instead.
-# - workspaceEvidence keeps docs/guards/V3_ifx/stages/post/gates/specialized while the database producer is the V3
-#   gate (its source inventory hashes those scripts); the root goes with the producer relocation in 0.5.0-b.
+# - 0.5.1 (A2): workspaceEvidence replaces docs/guards/V3_ifx/stages/post/gates/specialized with the relocated
+#   database producer docs/guards/v4-adoption/producers/database (change-spec profileChanges).
 # - The installed Host runs Pre, Post and Post with dependencies on the Target with evidence staged from
 #   -ProductionRecord (Invoke-IFX050EvidenceProducers.ps1), and three negative variants.
 [CmdletBinding()]
@@ -64,7 +64,10 @@ foreach ($selection in $profile044.moduleSelections) {
     $selections.Add([ordered]@{ id = $selection.id; versionRange = $selection.versionRange; config = (New-IFX050ModuleConfig $selection.id -TargetRoot $target) })
 }
 Assert ($changedIds.Count -eq 25) 'Changed module count drift.'
-$profile = [ordered]@{ formatVersion = 1; id = 'ifx_profile'; version = $CandidateVersion; projectIdentity = $profile044.projectIdentity; moduleSelections = @($selections.ToArray()); stageConfiguration = $profile044.stageConfiguration; rules = $profile044.rules; baselineRefs = @(); workspaceEvidence = $profile044.workspaceEvidence }
+$workspaceEvidence = $profile044.workspaceEvidence | ConvertTo-Json -Depth 20 | ConvertFrom-Json -Depth 20
+$workspaceEvidence.relativeRoots = @(@($workspaceEvidence.relativeRoots | Where-Object { $_ -notin @($spec.profileChanges.workspaceEvidenceRemoveRoots) }) + @($spec.profileChanges.workspaceEvidenceAddRoots))
+Assert (@($workspaceEvidence.relativeRoots | Where-Object { $_ -match '(?i)docs/guards/V3' }).Count -eq 0) 'workspaceEvidence still names a V3 root.'
+$profile = [ordered]@{ formatVersion = 1; id = 'ifx_profile'; version = $CandidateVersion; projectIdentity = $profile044.projectIdentity; moduleSelections = @($selections.ToArray()); stageConfiguration = $profile044.stageConfiguration; rules = $profile044.rules; baselineRefs = @(); workspaceEvidence = $workspaceEvidence }
 
 $runId = [guid]::NewGuid().ToString('N'); $runRoot = Join-Path ([IO.Path]::GetTempPath()) "ifx-050-bundle-$runId"
 $bundle = Join-Path $runRoot 'bundle'; $package = Join-Path $bundle 'package'; [void][IO.Directory]::CreateDirectory((Join-Path $package 'modules'))

@@ -28,9 +28,9 @@
     }
   ],
   "producer": {
-    "id": "ifx-c1-r1b-controlled-v1",
-    "script": "docs/guards/candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
-    "scriptSha256": "6aa962850da2bd5c0fc3540fbc041e08e20b5b86f606cb35b8212085755f458a",
+    "id": "ifx-v4a-type-v1",
+    "script": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+    "scriptSha256": "e1f5be72ca05c4e61ca6663f39415430b2ca99d6767dd316ff8cc08d915f1f77",
     "policySha256": "3277b19802afb20808f4d7693bf8638a1f520666db6bce87eb4e233b6d22b7c9"
   }
 }

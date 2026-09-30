@@ -1,23 +1,29 @@
 {
   "formatVersion": 1,
-  "kind": "ifx-050a-change-spec",
+  "kind": "ifx-051-change-spec",
   "plan": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
-  "amendment": "A1",
-  "step": "A1-2",
+  "amendment": "A2",
+  "step": "A2-5",
   "base": {
     "install": "v4-guards-1.1.6-ifx-0.4.4",
     "profileVersion": "0.4.4",
     "profileSha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51"
   },
   "target": {
-    "profileVersion": "0.5.0",
+    "profileVersion": "0.5.1",
     "moduleSourceRoot": "docs/guards/candidates/ifx-i2b-051/modules"
   },
   "rulings": {
     "R1": "registries are live",
     "R2": "G03 core regenerates the projection",
-    "R3": "lab tree candidates/ifx-i2b-051",
-    "R4": "IFX-V4-005 fixed first under its own Plan"
+    "R3": "lab tree candidates/ifx-i2b-050a (A1); candidates/ifx-i2b-051 for A2",
+    "R4": "IFX-V4-005 fixed first under its own Plan",
+    "R6": "producers relocated to docs/guards/v4-adoption/producers/<gate>",
+    "R7": "the V4 copies record their V3 origins; a control reports origin drift",
+    "R8": "new producer ids ifx-v4a-solution-v1, ifx-v4a-assembly-v1, ifx-v4a-frontend-v1, ifx-v4a-database-v1, ifx-v4a-type-v1",
+    "R9": "the type producer reads embedded policy copies; the generated producer is not staged",
+    "R10": "no fixed frontend PATH",
+    "R11": "V3/V4 producer parity: semantic equality with zero differences"
   },
   "lockLayout": {
     "root": "EvidenceRoot",
@@ -43,8 +49,10 @@
       "docs/guards/V3_ifx/stages/post/gates/specialized"
     ],
     "otherCouplings": [
-      "the generated producer pins and reads docs/guards/V3/.../SourceFiles.cs (lineage only; replaced in 0.5.0-b with the producers)",
-      "the frontend producer sets a fixed Windows PATH (replaced in 0.5.0-b)"
+      "resolved in 0.5.1: the generated producer is not staged; the frontend producer no longer sets a fixed PATH"
+    ],
+    "workspaceEvidenceAddRoots": [
+      "docs/guards/v4-adoption/producers/database"
     ]
   },
   "summary": {
@@ -70,7 +78,14 @@
     "pinSplit": 20,
     "coupling": 6,
     "bindingsKept": 104,
-    "bindingsDropped": 126
+    "bindingsDropped": 126,
+    "a2Changed": [
+      "ifx-assembly-evidence",
+      "ifx-c1-type-provenance",
+      "ifx-database-evidence",
+      "ifx-frontend-evidence",
+      "ifx-solution-evidence"
+    ]
   },
   "suiteRule": "Every changed module adds: (a) a benign edit of each formerly pinned live file still passes; (b) a rule-breaking edit of a live input still blocks with the module rule; (c) an edited governance file is still integrity-failure. A check that no longer blocks under (b) depended on the hash alone and is rewritten before A1-4.",
   "modules": [
@@ -265,7 +280,7 @@
       "id": "ifx-c1-type-provenance",
       "stage": "post",
       "version": "0.1.0",
-      "newVersion": "0.2.0",
+      "newVersion": "0.2.1",
       "disposition": [
         "lock-binding",
         "coupling"
@@ -280,8 +295,8 @@
       "bindings": [],
       "lockBinding": {
         "gate": "type",
-        "producerId": "ifx-c1-r1b-controlled-v1",
-        "script": "docs/guards/candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+        "producerId": "ifx-v4a-type-v1",
+        "script": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
         "freshness": "PT1H",
         "staged": [
           "assembly-manifest.json",
@@ -295,7 +310,9 @@
           "action": "embed the rule and policy content in the module package; the policy pins their hashes"
         }
       ],
-      "checkBasis": null
+      "checkBasis": null,
+      "predecessorVersion": "0.2.0",
+      "a2Change": "producer relocated (R6-R10): producer id, script and authority hashes only; checks and claims unchanged"
     },
     {
       "id": "ifx-c1-evaluated-reference",
@@ -1445,7 +1462,7 @@
       "id": "ifx-database-evidence",
       "stage": "post",
       "version": "0.2.0",
-      "newVersion": "0.3.0",
+      "newVersion": "0.3.1",
       "disposition": [
         "lock-binding",
         "pin-split"
@@ -1482,12 +1499,14 @@
       ],
       "lockBinding": {
         "gate": "database",
-        "producerId": "ifx-c4b-controlled-v2",
-        "script": "docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1",
+        "producerId": "ifx-v4a-database-v1",
+        "script": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
         "freshness": "PT24H"
       },
       "couplings": [],
-      "checkBasis": "lock consumer; the three live authorities are compared with the hashes recorded in the lock at the same commit instead of Profile pins"
+      "checkBasis": "lock consumer; the three live authorities are compared with the hashes recorded in the lock at the same commit instead of Profile pins",
+      "predecessorVersion": "0.3.0",
+      "a2Change": "producer relocated (R6-R10): producer id, script and authority hashes only; checks and claims unchanged"
     },
     {
       "id": "ifx-g05-inventory",
@@ -2415,7 +2434,7 @@
       "id": "ifx-solution-evidence",
       "stage": "post",
       "version": "0.1.0",
-      "newVersion": "0.2.0",
+      "newVersion": "0.2.1",
       "disposition": [
         "lock-binding"
       ],
@@ -2429,18 +2448,20 @@
       "bindings": [],
       "lockBinding": {
         "gate": "solution",
-        "producerId": "ifx-c5b-controlled-v1",
-        "script": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
+        "producerId": "ifx-v4a-solution-v1",
+        "script": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
         "freshness": "PT24H"
       },
       "couplings": [],
-      "checkBasis": null
+      "checkBasis": null,
+      "predecessorVersion": "0.2.0",
+      "a2Change": "producer relocated (R6-R10): producer id, script and authority hashes only; checks and claims unchanged"
     },
     {
       "id": "ifx-assembly-evidence",
       "stage": "post",
       "version": "0.1.0",
-      "newVersion": "0.2.0",
+      "newVersion": "0.2.1",
       "disposition": [
         "lock-binding"
       ],
@@ -2454,18 +2475,20 @@
       "bindings": [],
       "lockBinding": {
         "gate": "assembly",
-        "producerId": "ifx-c5c-controlled-v1",
-        "script": "docs/guards/candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1",
+        "producerId": "ifx-v4a-assembly-v1",
+        "script": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
         "freshness": "PT24H"
       },
       "couplings": [],
-      "checkBasis": null
+      "checkBasis": null,
+      "predecessorVersion": "0.2.0",
+      "a2Change": "producer relocated (R6-R10): producer id, script and authority hashes only; checks and claims unchanged"
     },
     {
       "id": "ifx-frontend-evidence",
       "stage": "post",
       "version": "0.1.0",
-      "newVersion": "0.2.0",
+      "newVersion": "0.2.1",
       "disposition": [
         "lock-binding"
       ],
@@ -2479,12 +2502,14 @@
       "bindings": [],
       "lockBinding": {
         "gate": "frontend",
-        "producerId": "ifx-c5d-controlled-v1",
-        "script": "docs/guards/candidates/ifx-gate-coverage-c5d/Invoke-IFXFrontendEvidenceProducer.ps1",
+        "producerId": "ifx-v4a-frontend-v1",
+        "script": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
         "freshness": "PT24H"
       },
       "couplings": [],
-      "checkBasis": null
+      "checkBasis": null,
+      "predecessorVersion": "0.2.0",
+      "a2Change": "producer relocated (R6-R10): producer id, script and authority hashes only; checks and claims unchanged"
     },
     {
       "id": "ifx-history-integrity",
@@ -2503,5 +2528,10 @@
       "couplings": [],
       "checkBasis": null
     }
-  ]
+  ],
+  "predecessorSpec": {
+    "path": "docs/guards/candidates/ifx-i2b-050a/change-spec.json",
+    "version": "0.5.0",
+    "rule": "Every module keeps its 0.5.0-a disposition against 0.4.4; the five lock consumers below change only their producer identity (A2)."
+  }
 }

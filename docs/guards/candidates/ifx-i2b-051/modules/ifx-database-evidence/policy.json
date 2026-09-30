@@ -29,8 +29,8 @@
     "migrationSourcesMatch"
   ],
   "producer": {
-    "id": "ifx-c4b-controlled-v2",
-    "script": "docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1",
-    "scriptSha256": "3ad9117f1731b823899dc2032d438e629ae177b2cb494d51c9704fa40ae03f81"
+    "id": "ifx-v4a-database-v1",
+    "script": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+    "scriptSha256": "9ebebca93155edb88c0d2bf13825f04077174caf38f18ef4c4de4bf56205a11a"
   }
 }

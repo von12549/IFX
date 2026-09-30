@@ -5,8 +5,8 @@
   "gate": "solution",
   "expectedProjectCount": 81,
   "authorityHashes": {
-    "quality": "e46cef8dbc215f753a052371c3c7bbeb2bdcf3b0deb2e1885aaa1742a1dfd9cd",
-    "audit": "bd4a3620ef602320ccf31c99935aa91abd6e7bb7343c8dd169f769bdc470bec8"
+    "quality": "7bf5c682f25d28238fc1907696cd2cf76d125f5531357963e1b30bc603240211",
+    "audit": "81721869ecf5c6c2fd53397fa292185687aea53a2f9bd2b28be8c1edb2f82ed6"
   },
   "checkIds": [
     "controlledSolutionPassed",
@@ -15,8 +15,8 @@
     "freshLockedSource"
   ],
   "producer": {
-    "id": "ifx-c5b-controlled-v1",
-    "script": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
-    "scriptSha256": "606dc351853c79d67b19af8673dbb8a7fd2f4ae4c636e2f509583f29a652d163"
+    "id": "ifx-v4a-solution-v1",
+    "script": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+    "scriptSha256": "2e71d5967a62323fee8f5d0a1eb33bc1d8aa6a1ddf6a3e1c1e7133e4d4063068"
   }
 }

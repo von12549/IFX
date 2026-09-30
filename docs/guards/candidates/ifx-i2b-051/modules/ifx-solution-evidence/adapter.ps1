@@ -1,7 +1,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 # 0.5.0-a: evidence locks are staged into EvidenceRoot by the trusted workflow
-# (candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
+# (candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
 # producer run prefix (artifacts/guards/.../<run>/) to its staged directory, and records the producer that ran.
 function Get-IFX050StagedGate([string]$EvidenceRootValue,[string]$TargetRootValue,[string]$Gate,$Producer){
     if([string]::IsNullOrWhiteSpace($EvidenceRootValue) -or -not [IO.Path]::IsPathFullyQualified($EvidenceRootValue)){Stop-Adapter 'invalid-input' 'EvidenceRoot is required for staged evidence.'}
@@ -109,7 +109,7 @@ try{$policy=Get-Content $policyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 10
 if($policy.formatVersion -ne 1 -or $policy.id -cne 'ifx-solution-evidence-050a' -or $policy.lockBinding -cne 'staged-evidence' -or $policy.gate -cne 'solution' -or $policy.expectedProjectCount -ne 81 -or @($policy.checkIds).Count -ne 4){Stop-Adapter 'integrity-failure' 'Solution policy shape drift.'}
 $staged=Get-IFX050StagedGate ([string]$inputObject.evidenceRoot) $target 'solution' $policy.producer;$lockFile=Resolve-Locked ([string]$staged.lockPath) ([string]$staged.lockSha256)
 try{$lock=Get-Content $lockFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Solution lock.'}
-if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Solution' -or $lock.producer -cne 'ifx-c5b-controlled-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.projectCount -ne 81 -or $lock.testRunCount -lt 1 -or $lock.totalTests -lt 1){Stop-Adapter 'integrity-failure' 'Incomplete Solution lock.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Solution' -or $lock.producer -cne 'ifx-v4a-solution-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.projectCount -ne 81 -or $lock.testRunCount -lt 1 -or $lock.totalTests -lt 1){Stop-Adapter 'integrity-failure' 'Incomplete Solution lock.'}
 if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Solution lock target commit differs from TargetRoot HEAD.'}
 if($lock.authorityHashes.quality -cne $policy.authorityHashes.quality -or $lock.authorityHashes.audit -cne $policy.authorityHashes.audit){Stop-Adapter 'integrity-failure' 'Quality authority drift.'}
 try{$started=Parse-Time $lock.startedAt;$completed=Parse-Time $lock.completedAt}catch{Stop-Adapter 'integrity-failure' 'Invalid Solution evidence time.'}
@@ -118,7 +118,7 @@ if($completed -lt $started -or $completed -gt $now.AddMinutes(5) -or $completed 
 $sourceLines=@(Tree-Lines $target)
 if($sourceLines.Count -lt 81 -or $sourceLines.Count -ne $lock.sourceFileCount -or (Text-Hash ($sourceLines -join "`n")) -cne $lock.sourceTreeSha256){Stop-Adapter 'integrity-failure' 'Solution source tree drift.'}
 $prefix=[string]$lock.evidencePrefix
-if($prefix -cnotmatch '^artifacts/guards/p10-ifx-c5b/solution-runs/[a-f0-9]{32}/$'){Stop-Adapter 'unsafe-path' 'Uncontrolled Solution evidence prefix.'}
+if($prefix -cnotmatch '^artifacts/guards/v4a-producers/solution-runs/[a-f0-9]{32}/$'){Stop-Adapter 'unsafe-path' 'Uncontrolled Solution evidence prefix.'}
 $evidence=@{};$seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
 foreach($entry in $lock.files){
     $relative=[string]$entry.path
@@ -127,7 +127,7 @@ foreach($entry in $lock.files){
 }
 $summaryPath=$prefix+'quality/summary.json';$auditPath=$prefix+'quality/nuget-audit.json'
 if(-not $evidence.ContainsKey($summaryPath) -or -not $evidence.ContainsKey($auditPath)){Stop-Adapter 'prerequisite-missing' 'Summary or NuGet audit not locked.'}
-$trxPaths=@($evidence.Keys|Where-Object{$_ -cmatch '^artifacts/guards/p10-ifx-c5b/solution-runs/[a-f0-9]{32}/quality/solution-test-results/[^/]+\.trx$'})
+$trxPaths=@($evidence.Keys|Where-Object{$_ -cmatch '^artifacts/guards/v4a-producers/solution-runs/[a-f0-9]{32}/quality/solution-test-results/[^/]+\.trx$'})
 if($trxPaths.Count -ne $lock.testRunCount -or $evidence.Count -ne $trxPaths.Count+2){Stop-Adapter 'integrity-failure' 'TRX evidence count drift.'}
 try{$summary=Get-Content $evidence[$summaryPath] -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$audit=Get-Content $evidence[$auditPath] -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed quality summary or audit.'}
 $total=0;$testPass=$true

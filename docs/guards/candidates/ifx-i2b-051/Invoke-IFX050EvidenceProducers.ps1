@@ -1,5 +1,7 @@
-# IFX I2-B amendment A1 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle): produce and stage the 0.5.0-a evidence
-# locks. -Phase Produce runs the seven 0.4.4 producers on the Target in C6 chain order (the one-hour locks last) and
+# IFX I2-B amendment A2 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle): produce and stage the 0.5.1 evidence locks;
+# successor of candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1 (unchanged). The solution, assembly, frontend,
+# database and type producers are the relocated ones in docs/guards/v4-adoption/producers (rulings R6-R9); the graph
+# producer is unchanged. -Phase Produce runs the six consumed producers on the Target in C6 chain order (the one-hour locks last) and
 # records their lock paths; -Phase Stage copies each consumed run into EvidenceRoot/locks/<gate>/ and writes
 # EvidenceRoot/locks/staging.json, which the 0.5.0-a lock consumers read instead of a Profile lock path and hash.
 # The type run's assembly-manifest.json and DLLs are also staged at the EvidenceRoot root, where the built-in
@@ -25,15 +27,15 @@ function Write-Json([string]$Path, $Value) {
 }
 $target = [IO.Path]::GetFullPath($TargetRoot)
 if (-not [IO.Directory]::Exists((Join-Path $target '.git'))) { throw "TargetRoot is not a Git checkout: $target" }
-$candidates = 'docs/guards/candidates'
+$candidates = 'docs/guards/candidates'; $relocated = 'docs/guards/v4-adoption/producers'
 # Gate -> producer, in C6 chain order. 'generated' is recorded for lineage; no 0.5.0-a module consumes it.
 $producers = [ordered]@{
-    solution = [ordered]@{ id = 'ifx-c5b-controlled-v1'; script = "$candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1"; prefix = 'artifacts/guards/p10-ifx-c5b/solution-runs/' }
-    assembly = [ordered]@{ id = 'ifx-c5c-controlled-v1'; script = "$candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1"; prefix = 'artifacts/guards/p10-ifx-c5c/assembly-runs/' }
-    frontend = [ordered]@{ id = 'ifx-c5d-controlled-v1'; script = "$candidates/ifx-gate-coverage-c5d/Invoke-IFXFrontendEvidenceProducer.ps1"; prefix = 'artifacts/guards/p10-ifx-c5d/frontend-runs/' }
-    database = [ordered]@{ id = 'ifx-c4b-controlled-v2'; script = "$candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1"; prefix = 'artifacts/guards/p10-ifx-c4b/database-runs/' }
+    solution = [ordered]@{ id = 'ifx-v4a-solution-v1'; script = "$relocated/solution/Invoke-IFXSolutionEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/solution-runs/' }
+    assembly = [ordered]@{ id = 'ifx-v4a-assembly-v1'; script = "$relocated/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/assembly-runs/' }
+    frontend = [ordered]@{ id = 'ifx-v4a-frontend-v1'; script = "$relocated/frontend/Invoke-IFXFrontendEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/frontend-runs/' }
+    database = [ordered]@{ id = 'ifx-v4a-database-v1'; script = "$relocated/database/Invoke-IFXDatabaseEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/database-runs/' }
     graph = [ordered]@{ id = 'ifx-c1-r2b-controlled-v1'; script = "$candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1"; prefix = 'artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/' }
-    type = [ordered]@{ id = 'ifx-c1-r1b-controlled-v1'; script = "$candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1"; prefix = 'artifacts/guards/p10-ifx-c1-r1b/type-runs/' }
+    type = [ordered]@{ id = 'ifx-v4a-type-v1'; script = "$relocated/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/type-runs/' }
 }
 
 if ($Phase -ceq 'Produce') {
