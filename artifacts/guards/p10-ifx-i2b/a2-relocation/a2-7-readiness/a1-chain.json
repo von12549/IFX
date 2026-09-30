@@ -1,0 +1,106 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "step": "A2-7",
+  "targetCommit": "c9317b3850c1eb100e62ad0e5c96b09d47d4f42e",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.5.1",
+  "startedAt": "2026-09-30T12:18:27.4937936+00:00",
+  "completedAt": "2026-09-30T12:31:40.3898947+00:00",
+  "elapsedSeconds": 792.896,
+  "failure": null,
+  "steps": [
+    {
+      "id": "inventory",
+      "script": "docs/guards/candidates/ifx-i2b-051/Test-IFX050ModuleInventory.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-30T12:18:27.4971286+00:00",
+      "completedAt": "2026-09-30T12:18:29.0935221+00:00",
+      "elapsedSeconds": 1.596,
+      "log": "artifacts/guards/p10-ifx-i2b/a2-051/chain/inventory.log",
+      "logSha256": "0a8ad6c5a9e8ae41de21ad13f0c3a1ee8e3e3bcdaaacfb600561d13b263d1ceb"
+    },
+    {
+      "id": "contract",
+      "script": "docs/guards/candidates/ifx-i2b-051/Test-IFX050ContractCompatibility.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-30T12:18:29.1374092+00:00",
+      "completedAt": "2026-09-30T12:18:31.0924737+00:00",
+      "elapsedSeconds": 1.955,
+      "log": "artifacts/guards/p10-ifx-i2b/a2-051/chain/contract.log",
+      "logSha256": "74bc8d2aaea8b265209c1f07933f5d13a70cfdb57af9d7470471d94fa42e4982"
+    },
+    {
+      "id": "production",
+      "script": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-30T12:18:35.5059128+00:00",
+      "completedAt": "2026-09-30T12:25:38.3497786+00:00",
+      "elapsedSeconds": 422.844,
+      "log": "artifacts/guards/p10-ifx-i2b/a2-051/chain/production.log",
+      "logSha256": "bceac59d157186852b578427011160068422dfba9863d4fff0b27292715e745c"
+    },
+    {
+      "id": "candidate-a",
+      "script": "docs/guards/candidates/ifx-i2b-051/New-IFX050DraftBundle.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-30T12:25:38.3576489+00:00",
+      "completedAt": "2026-09-30T12:29:38.0285740+00:00",
+      "elapsedSeconds": 239.671,
+      "log": "artifacts/guards/p10-ifx-i2b/a2-051/chain/candidate-a.log",
+      "logSha256": "2ca614e35cdc050472787c7718ff0aad2f819e88a3a3d355e3903e45e75d87fc"
+    },
+    {
+      "id": "candidate-b",
+      "script": "docs/guards/candidates/ifx-i2b-051/New-IFX050DraftBundle.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-30T12:29:38.0353027+00:00",
+      "completedAt": "2026-09-30T12:30:24.1883819+00:00",
+      "elapsedSeconds": 46.153,
+      "log": "artifacts/guards/p10-ifx-i2b/a2-051/chain/candidate-b.log",
+      "logSha256": "7cebbc60b140c24b902e94c48a6bbbae19d1f8731ba4cbaff14f986bdc3be307"
+    },
+    {
+      "id": "focused",
+      "script": "docs/guards/candidates/ifx-i2b-051/Test-IFX050FocusedQualification.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-30T12:30:24.1982760+00:00",
+      "completedAt": "2026-09-30T12:31:38.4086029+00:00",
+      "elapsedSeconds": 74.21,
+      "log": "artifacts/guards/p10-ifx-i2b/a2-051/chain/focused.log",
+      "logSha256": "9ebad64f0a227a6ef1a038f16e5fe3eabf8db51e5e3b4b5d4bc39d99c9eab019"
+    },
+    {
+      "id": "readiness",
+      "script": "docs/guards/candidates/ifx-i2b-051/Test-IFX050C6cReadiness.ps1",
+      "exitCode": 0,
+      "startedAt": "2026-09-30T12:31:38.4313906+00:00",
+      "completedAt": "2026-09-30T12:31:40.3826174+00:00",
+      "elapsedSeconds": 1.951,
+      "log": "artifacts/guards/p10-ifx-i2b/a2-051/chain/readiness.log",
+      "logSha256": "2731aa2175446a09a7ac521cd5657c01f30e4a404d00e2eeb2a9335e69905a29"
+    }
+  ],
+  "outputs": {
+    "inventory": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/formal-inventory/a91e7db4ead84aacaa8c56a233358a2a/ordinal-inventory.json",
+      "sha256": "dc37d4314ea8f6de2de8d6d83e783537229585efd2d6a5794bf0198892a63ee3"
+    },
+    "contract": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/contract-preflight/ab19e71a321b4de392e14db0a5ae6c3c/summary.json",
+      "sha256": "48e55bda4e2ced592d7fcd0bc8c6731ccf0ce68780a9d6e799b54302c549f052"
+    },
+    "production": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/chain-production/production.json",
+      "sha256": "92cf2be23293410d8593b80c21c40dfcf09377c4362593527b1948901361a972"
+    },
+    "candidateA": "artifacts/guards/p10-ifx-i2b/a2-051/formal-candidate-a/48ba9e85e2cb498c95ddda50658c781e",
+    "candidateB": "artifacts/guards/p10-ifx-i2b/a2-051/formal-candidate-b/4e5eb5c7d2fa43e3a8f8682f5fdea3a5",
+    "bundleManifestSha256": "4e0e19da2c87d62a414628b7a5393352f4fdbac9369b8774e2840efc10041f56",
+    "focused": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/focused-qualification-050/e93c9be69dce441db129f4b7df08ab7c/summary.json",
+      "sha256": "210f9c5c9abbd2a9e100ec62acf3ef8c166893fb6df2f13f19fff72a7b831c3e"
+    },
+    "decision": null
+  }
+}

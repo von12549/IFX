@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-7 authorized (local)`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-7 complete (local); A2-8 C6c needs authorization`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -587,3 +587,10 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
   controls 12 Windows, 4 PR-gate and the Linux controls pass. Two trial attempts stopped on harness faults and are
   kept. Records `a2-relocation/a2-6-trial/index.json`.
   - Next: A2-7, readiness on the committed state (`-ReadinessOnly`, evidence root `a2-051`).
+- **A2-7 (2026-09-30).** `Invoke-IFX050C6Chain.ps1 -ReadinessOnly` (0.5.1 harness) at `c9317b38` passes in 793 s:
+  handshake 11 inherit, 1 base, 25 requalified (merged suite index); one production with the relocated producers
+  (423 s); candidates A and B equal on the bundle manifest (`4e0e19da…`), Profile, inventory, production record,
+  composition receipt projection and composed package fingerprint; focused qualification (7 consumers); readiness
+  `readiness-only-full-c6c-not-authorized`. Records `a2-relocation/a2-7-readiness/index.json`; evrun 088.
+  - Next: A2-8, the single 0.5.1 C6c (authorization). As in A1-6, the A2-7 run trees under `a2-051` are moved aside
+    first because the chain requires absent outputs.

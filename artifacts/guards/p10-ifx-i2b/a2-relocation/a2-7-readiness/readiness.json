@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "ifx-050a-c6c-readiness",
+  "targetCommit": "c9317b3850c1eb100e62ad0e5c96b09d47d4f42e",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.5.1",
+  "checkedAt": "2026-09-30T12:31:40.3123841+00:00",
+  "inventory": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\a2-051\\formal-inventory\\a91e7db4ead84aacaa8c56a233358a2a\\ordinal-inventory.json",
+    "sha256": "dc37d4314ea8f6de2de8d6d83e783537229585efd2d6a5794bf0198892a63ee3"
+  },
+  "primaryCandidate": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\a2-051\\formal-candidate-a\\48ba9e85e2cb498c95ddda50658c781e\\summary.json",
+    "sha256": "dbeb26f7170556a0a006815234e9d1e676f12f8d899ebda942abbdc7baa0f964"
+  },
+  "secondCandidate": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\a2-051\\formal-candidate-b\\4e5eb5c7d2fa43e3a8f8682f5fdea3a5\\summary.json",
+    "sha256": "6731eb4df97e8615c8ed4433030282a6bce651702cf176e3266ad9cff6c54f0d"
+  },
+  "contractSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\a2-051\\contract-preflight\\ab19e71a321b4de392e14db0a5ae6c3c\\summary.json",
+    "sha256": "48e55bda4e2ced592d7fcd0bc8c6731ccf0ce68780a9d6e799b54302c549f052"
+  },
+  "focusedSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\a2-051\\focused-qualification-050\\e93c9be69dce441db129f4b7df08ab7c\\summary.json",
+    "sha256": "210f9c5c9abbd2a9e100ec62acf3ef8c166893fb6df2f13f19fff72a7b831c3e"
+  },
+  "matrixContract": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\a2-051\\readiness\\matrix-contract.json",
+    "sha256": "8ab97792e2a080e769ac133fe8a575dae9c64879ffa0eb8f923f6c1c374f0cbf",
+    "inventoryProjectionSha256": "c94a5e91e4ddd8c83cf8c5e1ec340053048383ff9b0a1e2553a180d4da3b9aa7"
+  },
+  "evidence": "produced-by-the-c6c",
+  "preservedC6cEvidence": [
+    {
+      "path": "artifacts/guards/p10-ifx-116/c6c-attempt.json",
+      "sha256": "5da180bce8d7e569166ab899e7892183fbc55ccbaee3f38a677555a2f6bb4459"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/c6c-decision.json",
+      "sha256": "504968ff40e94b65d941b47c156633d09c8e3e09d1e8e4300c7b57acca8cf9bd"
+    },
+    {
+      "path": "artifacts/guards/p10-ifx-116/c6c-full/summary.json",
+      "sha256": "3427ede969104350626909e10928152032542b3ab813ab3df65122796257ec6a"
+    }
+  ],
+  "authorization": "readiness-only-full-c6c-not-authorized"
+}

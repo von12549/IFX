@@ -1,0 +1,87 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-051-a2-7-readiness-records",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A2-7",
+  "targetCommit": "c9317b3850c1eb100e62ad0e5c96b09d47d4f42e",
+  "candidateVersion": "0.5.1",
+  "baseVersion": "1.1.6",
+  "chainStatus": "pass",
+  "elapsedSeconds": 792.896,
+  "bundleManifestSha256": "4e0e19da2c87d62a414628b7a5393352f4fdbac9369b8774e2840efc10041f56",
+  "note": "Formal A2-7 readiness (chain -ReadinessOnly). The full run trees stay in the ignored artifacts/guards/p10-ifx-i2b/a2-051.",
+  "files": [
+    {
+      "path": "a1-chain.json",
+      "sha256": "f3e7a60cf3606e41b315617b2d82839acb9eb273268d9e4a8a796118c0ad6ace"
+    },
+    {
+      "path": "readiness.json",
+      "sha256": "b803a8718dd67868183416c909d49aec5aae3a11504f878959a9519cea20480a"
+    },
+    {
+      "path": "readiness-matrix-contract.json",
+      "sha256": "8ab97792e2a080e769ac133fe8a575dae9c64879ffa0eb8f923f6c1c374f0cbf"
+    },
+    {
+      "path": "inventory-summary.json",
+      "sha256": "417b78a5b003d55e800f5dd739b7d44f487e697f8366bbfd00ca88b41cebb6cc"
+    },
+    {
+      "path": "ordinal-inventory.json",
+      "sha256": "dc37d4314ea8f6de2de8d6d83e783537229585efd2d6a5794bf0198892a63ee3"
+    },
+    {
+      "path": "contract-summary.json",
+      "sha256": "48e55bda4e2ced592d7fcd0bc8c6731ccf0ce68780a9d6e799b54302c549f052"
+    },
+    {
+      "path": "inheritance-matrix.json",
+      "sha256": "77afff6cfbd8011d0217916e1686313c0fc292867231e302991eb0cae3672756"
+    },
+    {
+      "path": "candidate-a-summary.json",
+      "sha256": "dbeb26f7170556a0a006815234e9d1e676f12f8d899ebda942abbdc7baa0f964"
+    },
+    {
+      "path": "candidate-b-summary.json",
+      "sha256": "6731eb4df97e8615c8ed4433030282a6bce651702cf176e3266ad9cff6c54f0d"
+    },
+    {
+      "path": "focused-summary.json",
+      "sha256": "210f9c5c9abbd2a9e100ec62acf3ef8c166893fb6df2f13f19fff72a7b831c3e"
+    },
+    {
+      "path": "production.json",
+      "sha256": "92cf2be23293410d8593b80c21c40dfcf09377c4362593527b1948901361a972"
+    },
+    {
+      "path": "logs/candidate-a.log",
+      "sha256": "2ca614e35cdc050472787c7718ff0aad2f819e88a3a3d355e3903e45e75d87fc"
+    },
+    {
+      "path": "logs/candidate-b.log",
+      "sha256": "7cebbc60b140c24b902e94c48a6bbbae19d1f8731ba4cbaff14f986bdc3be307"
+    },
+    {
+      "path": "logs/contract.log",
+      "sha256": "74bc8d2aaea8b265209c1f07933f5d13a70cfdb57af9d7470471d94fa42e4982"
+    },
+    {
+      "path": "logs/focused.log",
+      "sha256": "9ebad64f0a227a6ef1a038f16e5fe3eabf8db51e5e3b4b5d4bc39d99c9eab019"
+    },
+    {
+      "path": "logs/inventory.log",
+      "sha256": "0a8ad6c5a9e8ae41de21ad13f0c3a1ee8e3e3bcdaaacfb600561d13b263d1ceb"
+    },
+    {
+      "path": "logs/production.log",
+      "sha256": "bceac59d157186852b578427011160068422dfba9863d4fff0b27292715e745c"
+    },
+    {
+      "path": "logs/readiness.log",
+      "sha256": "2731aa2175446a09a7ac521cd5657c01f30e4a404d00e2eeb2a9335e69905a29"
+    }
+  ]
+}

@@ -132,7 +132,8 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     controls 180 + 42, Linux 191/191 semantic equal; 2026-09-30). A1-7 review packet `c6d-review-050` accepted; A1-8 (C6e composition, parity against 0.4.4, P10.3 successor
     rehearsal) and A1-9 verification complete; receipt `v4-adoption/migration/ifx-i2b-a1-0-5-0-a-receipt.json`.
     A1-10 pushed (`13502169`). Amendment A2 (0.5.0-b, bundle 0.5.1: producer relocation): A2-1 to A2-6 done
-    locally (V3/V4 producer parity zero differences; trial C6c pass); A2-7 readiness next.
+    locally (V3/V4 producer parity zero differences; trial C6c pass); A2-7 readiness passed at `c9317b38`.
+    Next: the A2-8 C6c (authorization).
   - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).
