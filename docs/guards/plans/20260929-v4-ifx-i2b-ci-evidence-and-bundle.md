@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 review packet next`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 review packet ready, operator decision pending`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -606,3 +606,9 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
   - decision `phase-1-complete-stop-for-human-review` (`a2-051/c6c-decision.json`, sha256 `309af8b2…`).
   - Records at their natural paths under `artifacts/guards/p10-ifx-i2b/a2-051/`. Evidence: evrun 089.
   - Next: A2-9, the C6d review packet (the producer identity change) and the human review.
+- **A2-9 packet ready (2026-09-30); human decision pending.** `Export-IFX051C6dReviewPacket.ps1` (`2a835d47`) wrote
+  `a2-051/c6d-review-051/` against the accepted 0.5.0 packet: `review.md`, `review-packet.json` (sha256 `f65fa234…`),
+  `predecessor-comparison.json` (19 changed package files, all in the five moved consumers or the IFX Profile; none
+  added or removed; ceilings identical; Profile: version, five `policySha256` values, the relocated
+  `workspaceEvidence` root), `file-inventory.json`, `module-ceilings.json`; the A2-1..A2-8 evidence is bound by hash.
+  Evidence: evrun 090.

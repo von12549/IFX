@@ -1,0 +1,134 @@
+{
+  "formatVersion": 1,
+  "status": "ready-for-designated-human-review",
+  "scope": "c6d-exact-bundle-review",
+  "step": "A2-9",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "reviewDecision": "pending",
+  "acceptedBy": null,
+  "targetCommit": "351b504bd6549a8e9cede9ab34571986f6188c49",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.5.1",
+  "bundle": {
+    "id": "ifx-profile-candidate",
+    "manifestPath": "artifacts/guards/p10-ifx-i2b/a2-051/formal-candidate-a/cddff38a8d04481298b7882ab038e322/bundle/bundle-manifest.json",
+    "manifestSha256": "b7a6751612f2279809b07988916112b499c52e7b1b36ae175c68924bd979e5e7",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "profileCount": 1,
+    "moduleCount": 36,
+    "fileCount": 262
+  },
+  "predecessor": {
+    "version": "0.5.0",
+    "manifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+    "decision": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/c6d-decision.json",
+      "sha256": "57a1037004d78747223894a064e2a3b55ed6e923e6f6274eac3238384d53cc57"
+    },
+    "packet": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/review-packet.json",
+      "sha256": "9d1e95d0b20d5ec3458b49dfb5732e278202a3ed46bfb5507c72f84446d0e683"
+    },
+    "claimsCarriedForward": true
+  },
+  "outputs": {
+    "review": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6d-review-051/review.md",
+      "sha256": "697285c7f978a242b634fc24758e9ea882d888d18da1c09ed5c255d480485f6d"
+    },
+    "predecessorComparison": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6d-review-051/predecessor-comparison.json",
+      "sha256": "da2d134e22116aecf930be56bf3087d0c144d32fac37980496dc7e2a2c2f1474"
+    },
+    "fileInventory": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6d-review-051/file-inventory.json",
+      "sha256": "8cfacb785bf460d78af61a8ca387d4f58c0c94df99df9f5364162142e9e7d8da"
+    },
+    "moduleCeilings": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6d-review-051/module-ceilings.json",
+      "sha256": "b959bf3b0f31c2778724f484be2695a0d3a7f91fe1e0a5baf1fd26c47db7e233"
+    }
+  },
+  "relocationEvidence": {
+    "relocationSpec": {
+      "path": "docs/guards/candidates/ifx-i2b-051/relocation-spec.json",
+      "sha256": "baf24b514369e984928da867e45fdb6efbb072ce29e2132061af8cdf3dbf0c88"
+    },
+    "relocationInventory": {
+      "path": "docs/guards/candidates/ifx-i2b-051/relocation-inventory.json",
+      "sha256": "dfba41bc6a495eb964a7b44bfe2261eafe01559ccc550d592b6df535cc1f8045"
+    },
+    "origins": {
+      "path": "docs/guards/v4-adoption/producers/origins.json",
+      "sha256": "d3160e51868b3018b0bd522f74f4c62d56b48d58cb3bfd01fb1390031ddaa897"
+    },
+    "producerControls": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-relocation/a2-3-controls.json",
+      "sha256": "88accc6325f8b874c80cfc2dfe5a098d24e76c0889dee165ebdfce2b73db974d"
+    },
+    "producerParity": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-relocation/a2-4-parity.json",
+      "sha256": "3a1d765af9c3bb7619c0059efe3f3cf265ee3d4fd1b2c7950af39938662ae35d"
+    },
+    "suiteOutcomes": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-relocation/a2-5-suites/index.json",
+      "sha256": "e33252954f047e5bf9e860a1946435f2c8e480696015cff02c264d6f3a7e24eb"
+    },
+    "suiteIndex": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-relocation/suite-index-051.json",
+      "sha256": "18af1c901cd6b01a6a86437b6763b57fba48616aaf695de15832853c791d17db"
+    },
+    "trial": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-relocation/a2-6-trial/index.json",
+      "sha256": "e46b47eaaf517a66cba241283dbfb90e476ddf6d253160491ff8f06255583ef4"
+    },
+    "readiness": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-relocation/a2-7-readiness/index.json",
+      "sha256": "904d1c6971c4d99714652f7ca6f14e44cbeccac78564ec5ee8d4dea324c12a4b"
+    },
+    "changeSpec": {
+      "path": "docs/guards/candidates/ifx-i2b-051/change-spec.json",
+      "sha256": "c7bcee9f6b43ac273eb23fddaae877f6610d6fb19ab5b22a79b48080aafe332e"
+    }
+  },
+  "certification": {
+    "decision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6c-decision.json",
+      "sha256": "309af8b25cb6630718f12f8bba0ab0fd754ef06884d06d11b58c6de4d1c96e7d"
+    },
+    "summary": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6c-full/summary.json",
+      "sha256": "3a59cb279338bae7ff76cb32cc974b66da576712651034abf990dead23f33610"
+    },
+    "windowsCoreCases": 191,
+    "controls": {
+      "capability": 180,
+      "stagedEvidence": 42
+    },
+    "linuxPortability": {
+      "blocking": false,
+      "status": "pass",
+      "semanticProjection": "equal",
+      "coreCases": 191
+    }
+  },
+  "openLimits": [
+    "The V3 originals of the relocated gate logic stay in docs/guards/V3_ifx and keep running in V3 CI during coexistence. Copy-IFX051Producers.ps1 -Check reports any later change to them as drift for review; it does not sync.",
+    "The CI workflow with producer, staging and upload steps is still not installed; the hosted runner's prerequisites for the producers (for example SQL Server for the database matrix) are proved only when the specimen is installed and negative-tested.",
+    "Five G03 module policies still name V3_ifx specialized scripts as provenance metadata (sourceScripts); their adapters never read them. Outside A2.",
+    "The graph producer stays in the lab tree (candidates/ifx-gate-coverage-c1r2b); it reads nothing under V3.",
+    "Linux remains a non-blocking portability assessment; the synthetic review fixture is a test input, not acceptance.",
+    "V3 retirement, the ruleset, publishing and P10.GATE remain separate decisions."
+  ],
+  "requiredAuthority": {
+    "authorityType": "human-review",
+    "authorityId": "xiaolong-feng",
+    "candidateHostVerdictAllowed": false
+  },
+  "decisionBoundary": {
+    "startAuthorizationIsAcceptance": false,
+    "syntheticReviewIsAcceptance": false,
+    "c6eAuthorized": false,
+    "instruction": "Review the exact packet and explicitly accept or reject it. Do not compose (A2-10) before acceptance."
+  }
+}
