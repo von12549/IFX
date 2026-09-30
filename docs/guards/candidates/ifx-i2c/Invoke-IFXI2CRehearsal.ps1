@@ -134,7 +134,7 @@ function Invoke-TwoPr([string] $Set, [string] $Base, [string] $Tag) {
         $run = Invoke-Trusted $tree 'New-IFXTrustedBaseAuthorization.ps1' $generatorArguments
         if ($run.ExitCode -ne 0) { throw "Authorization generator failed for $($authorization.id): $($run.Output)" }
         [void][IO.Directory]::CreateDirectory($recordsOut)
-        [IO.File]::Copy((Join-Path $recordDirectory "$($authorization.id).json"), (Join-Path $recordsOut "$($authorization.id).json"), $true)
+        [IO.File]::WriteAllText((Join-Path $recordsOut "$($authorization.id).json"), [IO.File]::ReadAllText((Join-Path $recordDirectory "$($authorization.id).json")).Replace("`r`n", "`n"), [Text.UTF8Encoding]::new($false))
     }
     # authorization PR
     $authorizationHead = Build-Head $Set $Base 'authorization' -Records $recordDirectory -Label "$Tag-authorization"
@@ -209,19 +209,32 @@ try {
     Add-Step 'p3-replay-diff' 'A second PR cannot consume the record that P3 already consumed.' $target3 $replay 1 (Invoke-Trusted $mergedTree 'Invoke-IFXTrustedBase.ps1' @('-HeadRoot', $clone, '-BaseSha', $target3, '-Mode', 'Diff', '-PlanPath', 'docs/guards/plans/20261001-v4-ifx-i2c-replay.plan.json', '-BaseRef', $target3, '-HeadRef', $replay, '-GateId', 'v3-pre-diff')) 'not in the base commit'
 
     # ---- final state of the simulated target
-    $topLevel = @(CloneGit @('ls-tree', '--name-only', "${target3}:docs/guards") | ForEach-Object { ([string]$_).Trim() } | Sort-Object -CaseSensitive)
-    $adoption = @(CloneGit @('ls-tree', '-r', '--name-only', "${target3}:docs/guards/v4-adoption") | ForEach-Object { ([string]$_).Trim() })
-    $remainingRecords = @(CloneGit @('ls-tree', '--name-only', "${target3}:$authorizationDirectory") | ForEach-Object { ([string]$_).Trim() } | Where-Object { $_ -like '*.json' })
-    $blobMismatches = @(foreach ($entry in @($spec.sets)) { foreach ($path in @($entry.copy)) {
-                $want = (Invoke-IFXI2CGit $repositoryPath @('rev-parse', "$($spec.sourceCommit):$path"))[0].Trim()
-                $have = (CloneGit @('rev-parse', "${target3}:$path"))[0].Trim()
-                if ($want -cne $have) { $path } } })
+    $treeLines = CloneGit @('ls-tree', '--name-only', "${target3}:docs/guards")
+    $topLevel = @(foreach ($line in $treeLines) { ([string]$line).Trim() }) | Sort-Object -CaseSensitive
+    $adoptionLines = CloneGit @('ls-tree', '-r', '--name-only', "${target3}:docs/guards/v4-adoption")
+    $adoption = @(foreach ($line in $adoptionLines) { ([string]$line).Trim() })
+    $recordLines = CloneGit @('ls-tree', '--name-only', "${target3}:$authorizationDirectory")
+    $remainingRecords = @(foreach ($line in $recordLines) { $name = ([string]$line).Trim(); if ($name -like '*.json') { $name } })
+    # Each path must end in the blob of the last set that writes it: copied paths equal the development branch, authored
+    # paths (P3's policy-config.json supersedes P2's copy) equal their authored file.
+    $finalOwner = [ordered]@{}
+    foreach ($entry in @($spec.sets)) {
+        foreach ($path in @($entry.copy)) { $finalOwner[$path] = [ordered]@{ kind = 'copy'; set = $entry.id } }
+        foreach ($path in @($entry.authored)) { $finalOwner[$path] = [ordered]@{ kind = 'authored'; set = $entry.id } }
+    }
+    $blobMismatches = @(foreach ($path in $finalOwner.Keys) {
+            $owner = $finalOwner[$path]
+            $want = if ($owner.kind -ceq 'copy') { (Invoke-IFXI2CGit $repositoryPath @('rev-parse', "$($spec.sourceCommit):$path"))[0].Trim() }
+            else { (CloneGit @('hash-object', "--path=$path", (Join-Path $PSScriptRoot "pr/$($owner.set)/$path")))[0].Trim() }
+            $have = (CloneGit @('rev-parse', "${target3}:$path"))[0].Trim()
+            if ($want -cne $have) { $path } })
     $finalState = [ordered]@{
         target = $target3
         docsGuardsTopLevel = $topLevel
         v4AdoptionFiles = $adoption
         remainingAuthorizationRecords = $remainingRecords
-        copiedBlobMismatches = $blobMismatches
+        finalBlobMismatches = $blobMismatches
+        checkedPaths = @($finalOwner.Keys)
         pass = (($topLevel -join ',') -ceq 'V3,V3_ifx,plans,v4-adoption') -and (($adoption -join ',') -ceq 'README.md') -and $remainingRecords.Count -eq 0 -and $blobMismatches.Count -eq 0
     }
     $unexpected = @($steps | Where-Object { -not $_.asExpected })

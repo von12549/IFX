@@ -65,8 +65,10 @@ if ($Kind -eq 'authorization') {
     foreach ($path in $records) {
         $from = Join-Path ([IO.Path]::GetFullPath($RecordsDirectory)) ([IO.Path]::GetFileName($path))
         Assert-IFXI2C ([IO.File]::Exists($from)) "Generated record is missing: $from"
-        [IO.File]::Copy($from, (Join-Path $clonePath $path), $true)
-        $generated += [ordered]@{ path = $path; file = $from }
+        # The V3 generator writes platform line endings; docs/guards is eol=lf, so the record is committed with LF.
+        $text = [IO.File]::ReadAllText($from).Replace("`r`n", "`n")
+        [IO.File]::WriteAllText((Join-Path $clonePath $path), $text, [Text.UTF8Encoding]::new($false))
+        $generated += [ordered]@{ path = $path; file = (Join-Path $clonePath $path) }
     }
 }
 [void](CloneGit @('add', '-A'))
