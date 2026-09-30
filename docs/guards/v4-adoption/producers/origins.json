@@ -1,0 +1,212 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-051-producer-origins",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A2-2",
+  "originCommit": "337ccd5c887fe31c1dbf4bbbc5f76aad57d1ea3d",
+  "inventorySha256": "dfba41bc6a495eb964a7b44bfe2261eafe01559ccc550d592b6df535cc1f8045",
+  "rule": "Each file below was copied byte for byte from its origin at originCommit. The V3 originals stay in use while V3 is required; Copy-IFX051Producers.ps1 -Check reports any later origin change as drift for review (ruling R7).",
+  "files": [
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1",
+      "destination": "docs/guards/v4-adoption/producers/quality/Invoke-IFXQuality.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "solution",
+        "assembly",
+        "frontend"
+      ],
+      "sha256": "e46cef8dbc215f753a052371c3c7bbeb2bdcf3b0deb2e1885aaa1742a1dfd9cd",
+      "lfSha256": "e46cef8dbc215f753a052371c3c7bbeb2bdcf3b0deb2e1885aaa1742a1dfd9cd",
+      "gitBlob": "75204dbeae89a3df3c8b489e232b6d03c110f4c6"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1",
+      "destination": "docs/guards/v4-adoption/producers/quality/Invoke-IFXPackageAudit.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "solution"
+      ],
+      "sha256": "bd4a3620ef602320ccf31c99935aa91abd6e7bb7343c8dd169f769bdc470bec8",
+      "lfSha256": "bd4a3620ef602320ccf31c99935aa91abd6e7bb7343c8dd169f769bdc470bec8",
+      "gitBlob": "21450d9897a84f563cd825fe4f7a8d9c9f93c292"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+      "destination": "docs/guards/v4-adoption/producers/quality/Invoke-IFXAssemblyGuard.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "assembly"
+      ],
+      "sha256": "0493e8018d5310d0a730895b2f7866592c07e1bdf93533adcca5cdb7e570f675",
+      "lfSha256": "0493e8018d5310d0a730895b2f7866592c07e1bdf93533adcca5cdb7e570f675",
+      "gitBlob": "dde947de2fe2e8ef51780e57721d648a6e4ea38d"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+      "destination": "docs/guards/v4-adoption/producers/policy/layerguard.json",
+      "kind": "v3-policy",
+      "gates": [
+        "assembly",
+        "type"
+      ],
+      "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+      "lfSha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+      "gitBlob": "50e5bb5187423acb7d56377de8b2816b3d063ef1"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "destination": "docs/guards/v4-adoption/producers/policy/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "kind": "v3-policy",
+      "gates": [
+        "type"
+      ],
+      "sha256": "d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b",
+      "lfSha256": "d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b",
+      "gitBlob": "5e062090994c7ebca968f3bbb65afd58a879d671"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1",
+      "destination": "docs/guards/v4-adoption/producers/database/Invoke-IFXSpecialized.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ],
+      "sha256": "49d27e1895a594acb7e8ee25e86b30458f6b4d0e56bccb61eefdee80dbd2e1b8",
+      "lfSha256": "49d27e1895a594acb7e8ee25e86b30458f6b4d0e56bccb61eefdee80dbd2e1b8",
+      "gitBlob": "08292b35c269dbcee1671c0e7db4b104db356ce6"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+      "destination": "docs/guards/v4-adoption/producers/database/scripts/Test-MigrationSafetyPolicy.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ],
+      "sha256": "8ffe82d98a69267b429566a618ec1a7632e115ca92b2c39f525509dc83e3e038",
+      "lfSha256": "8ffe82d98a69267b429566a618ec1a7632e115ca92b2c39f525509dc83e3e038",
+      "gitBlob": "ff3aeb5047fe6aa1703321370de2445f874d7b68"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G02DatabaseInventory.ps1",
+      "destination": "docs/guards/v4-adoption/producers/database/scripts/Invoke-G02DatabaseInventory.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ],
+      "sha256": "f7344472eeed4a39b90cddd285ee53ee373ac03210fda9e82216b0ffec2025f8",
+      "lfSha256": "f7344472eeed4a39b90cddd285ee53ee373ac03210fda9e82216b0ffec2025f8",
+      "gitBlob": "e1d5557a4796952908d244e6c12908b9c5d9c67a"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+      "destination": "docs/guards/v4-adoption/producers/database/scripts/Test-DatabasePendingModelChanges.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ],
+      "sha256": "546ce85125bcd35122fa7d7c114613d7e645c0d7088fd2bc7a1d95dad96e5a80",
+      "lfSha256": "546ce85125bcd35122fa7d7c114613d7e645c0d7088fd2bc7a1d95dad96e5a80",
+      "gitBlob": "997ab9f8611986fe6049d97698d2c950acb6783c"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/New-DatabaseMigrationArtifacts.ps1",
+      "destination": "docs/guards/v4-adoption/producers/database/scripts/New-DatabaseMigrationArtifacts.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ],
+      "sha256": "7e5f46c3cea9ffdf0f249d457df4fcfe709284738d4dd23b47f4df502fd0e963",
+      "lfSha256": "7e5f46c3cea9ffdf0f249d457df4fcfe709284738d4dd23b47f4df502fd0e963",
+      "gitBlob": "a0718b78afffe2a8a8a31e33a1fca358731d595f"
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/detector-result.schema.json",
+      "destination": "docs/guards/v4-adoption/producers/database/contracts/detector-result.schema.json",
+      "kind": "v3-contract",
+      "gates": [
+        "database"
+      ],
+      "sha256": "e2bd581202e14ce66bdcb16c4c9cd26957b5d4295811f23fc093ed1af2f6dacb",
+      "lfSha256": "e2bd581202e14ce66bdcb16c4c9cd26957b5d4295811f23fc093ed1af2f6dacb",
+      "gitBlob": "912b24d8d32acd17abb05c55f661f6f6c557ce90"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "destination": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "solution"
+      ],
+      "sha256": "606dc351853c79d67b19af8673dbb8a7fd2f4ae4c636e2f509583f29a652d163",
+      "lfSha256": "606dc351853c79d67b19af8673dbb8a7fd2f4ae4c636e2f509583f29a652d163",
+      "gitBlob": "a8b031389aa0fca9d8673521d916c9b1e40cfc23"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1",
+      "destination": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "assembly"
+      ],
+      "sha256": "fac0a78e16e7eec5a18b684ad006b8512ce1b7f6657024b8e220282ea78669e4",
+      "lfSha256": "fac0a78e16e7eec5a18b684ad006b8512ce1b7f6657024b8e220282ea78669e4",
+      "gitBlob": "9fbc98cfc4bfd42b425c5c3037ee7ac22e1fbac6"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c5d/Invoke-IFXFrontendEvidenceProducer.ps1",
+      "destination": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "frontend"
+      ],
+      "sha256": "3ad56346e17f5ac7a0ff7f25552301037fadedc7afa325f8171eea0683e32edd",
+      "lfSha256": "3ad56346e17f5ac7a0ff7f25552301037fadedc7afa325f8171eea0683e32edd",
+      "gitBlob": "221ab4a1695af801b69ebdd4e6d4b092386e0ea0"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1",
+      "destination": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "database"
+      ],
+      "sha256": "3ad9117f1731b823899dc2032d438e629ae177b2cb494d51c9704fa40ae03f81",
+      "lfSha256": "3ad9117f1731b823899dc2032d438e629ae177b2cb494d51c9704fa40ae03f81",
+      "gitBlob": "ab6e2973abe254075cf67b02292302692646f2b1"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c4b/modules/ifx-database-evidence/source-inventory.json",
+      "destination": "docs/guards/v4-adoption/producers/database/source-inventory.json",
+      "kind": "lab-contract",
+      "gates": [
+        "database"
+      ],
+      "sha256": "db094bb06d94e333cae348ccf60486359aa972cad8b0462a054bb5e5e451c222",
+      "lfSha256": "db094bb06d94e333cae348ccf60486359aa972cad8b0462a054bb5e5e451c222",
+      "gitBlob": "99bb738bd4340e8d8fc5a5ce14a2b1242952e758"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+      "destination": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "type"
+      ],
+      "sha256": "6aa962850da2bd5c0fc3540fbc041e08e20b5b86f606cb35b8212085755f458a",
+      "lfSha256": "6aa962850da2bd5c0fc3540fbc041e08e20b5b86f606cb35b8212085755f458a",
+      "gitBlob": "fffbe2ad7c2325d2c02e93549ab8faefa71cc9ed"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r1b/modules/ifx-c1-type-provenance/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/type/type-policy.json",
+      "kind": "lab-contract",
+      "gates": [
+        "type"
+      ],
+      "sha256": "3277b19802afb20808f4d7693bf8638a1f520666db6bce87eb4e233b6d22b7c9",
+      "lfSha256": "3277b19802afb20808f4d7693bf8638a1f520666db6bce87eb4e233b6d22b7c9",
+      "gitBlob": "d148b77aaf31458bf4e62bdbce549ca0d8831ada"
+    }
+  ]
+}
