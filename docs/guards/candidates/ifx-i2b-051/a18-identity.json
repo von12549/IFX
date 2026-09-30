@@ -1,0 +1,65 @@
+{
+  "formatVersion": 1,
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A1-8",
+  "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+  "guardReleaseCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+  "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+  "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+  "profileSha256": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e",
+  "productionReviewSha256": "3dec187b175d7161f1dfc9571962ca0946b1b71c637ec5e020fe8ea5c5d3e801",
+  "packageSha256": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+  "compositionReceiptSha256": "dc0e2aafb2862a8acd89a70375962198c84f2d528ea630494d3a97e64fa64c53",
+  "c6eDecision": "6bbe11b78cb094335dec321171e41a5a179ccac64d37f31363bbac0d4edf92fa",
+  "v3Inventory": "c910ec9c49d86f335f465483cd62723352b757db04f3adf3de6ed45a13218003",
+  "v3Policy": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+  "v3TrustedComponents": "2213db9f5d217bca12144b667d1af5fcfabf1ca707186dedadefaa75d62202be",
+  "package": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+  "receipt": "dc0e2aafb2862a8acd89a70375962198c84f2d528ea630494d3a97e64fa64c53",
+  "bundleManifest": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+  "profile": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e",
+  "caseManifest": "8b76e2490d389ec5205d7d27712ad3e5fa89072df21b6af58928b8acc8a84892",
+  "c6cSummary": "bb2eca3f0784bb1946a6036440ef58dd0e932ab9b8664e1c236345be3927b0aa",
+  "v3InventoryDerivation": {
+    "acceptedIdentity": "docs/guards/candidates/ifx-rebind-116/i1-identity.json",
+    "fileCount": 562,
+    "changedFromAccepted": [],
+    "reason": "docs/guards/V3 and V3_ifx unchanged between 44536a6a and the A1-6 target commit"
+  },
+  "roots": {
+    "composedInstall": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.5.0",
+    "cleanTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a18-clean-050",
+    "violatingTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a18-violating-050",
+    "bundle": "artifacts/guards/p10-ifx-i2b/formal-candidate-a/40bd4b845f2c4dec81efbb36481810cc/bundle"
+  },
+  "records": {
+    "c6cDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6c-decision.json",
+      "sha256": "315a825135d64dc80315774a63be87fd541d19fe6fc3ff6a46be455171bfee2a"
+    },
+    "windowsFull": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6c-full/windows/summary.json",
+      "sha256": "bb2eca3f0784bb1946a6036440ef58dd0e932ab9b8664e1c236345be3927b0aa"
+    },
+    "c6dDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/c6d-decision.json",
+      "sha256": "57a1037004d78747223894a064e2a3b55ed6e923e6f6274eac3238384d53cc57"
+    },
+    "c6eDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a1-8a-decision.json",
+      "sha256": "6bbe11b78cb094335dec321171e41a5a179ccac64d37f31363bbac0d4edf92fa"
+    },
+    "p10_2Decision": {
+      "path": "artifacts/guards/p10-ifx-i2b/p10-2-parity-050/p10-2-decision.json",
+      "sha256": "12a0b200efa770fd610da7bb2e124d59f53bd4d5ba571c4d9e7c0bdbbf8b6099"
+    },
+    "parityAgainst044": {
+      "path": "artifacts/guards/p10-ifx-i2b/p10-2-parity-050/parity-against-044.json",
+      "sha256": "57b0e588a04c0df59ed0111ca7ed0aba33b4eb53dd2c4d18f58a64c208363fa6"
+    },
+    "remoteSnapshot": {
+      "path": "artifacts/guards/p10-ifx-i2b/p10-3-successor-050/remote-snapshot.json",
+      "sha256": "a4c0ed2ce747c6c9ba33ab0041f2dd2662e986ec63f9f03154a66d44ccefad39"
+    }
+  }
+}

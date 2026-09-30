@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-c1-type-provenance-050a",
+  "lockBinding": "staged-evidence",
+  "gate": "type",
+  "v3TypeRuleSha256": "d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b",
+  "v3LayerPolicySha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+  "baseVersion": "1.1.3",
+  "configuration": "Release",
+  "targetFramework": "net8.0",
+  "maximumAgeSeconds": 3600,
+  "assemblies": [
+    {
+      "name": "IFX.Modules.CRM.Domain",
+      "sourcePath": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Release/net8.0/IFX.Modules.CRM.Domain.dll"
+    },
+    {
+      "name": "IFX.Modules.CRM.Contracts",
+      "sourcePath": "src/Modules/CRM/IFX.Modules.CRM.Contracts/bin/Release/net8.0/IFX.Modules.CRM.Contracts.dll"
+    },
+    {
+      "name": "IFX.BuildingBlocks.Domain",
+      "sourcePath": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Release/net8.0/IFX.BuildingBlocks.Domain.dll"
+    },
+    {
+      "name": "IFX.Platform.Context.Contracts",
+      "sourcePath": "src/Modules/CRM/IFX.Modules.CRM.Contracts/bin/Release/net8.0/IFX.Platform.Context.Contracts.dll"
+    }
+  ],
+  "producer": {
+    "id": "ifx-c1-r1b-controlled-v1",
+    "script": "docs/guards/candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+    "scriptSha256": "6aa962850da2bd5c0fc3540fbc041e08e20b5b86f606cb35b8212085755f458a",
+    "policySha256": "3277b19802afb20808f4d7693bf8638a1f520666db6bce87eb4e233b6d22b7c9"
+  }
+}

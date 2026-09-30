@@ -1,0 +1,545 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-catalog-semantics",
+  "source": "ifx-gate-coverage-c2b2 fixtures/cases.json and suite (0.4.4); the catalog is live (R1)",
+  "cases": [
+    {
+      "id": "zero-protocol",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-protocol"
+    },
+    {
+      "id": "zero-surface",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-public-surface"
+    },
+    {
+      "id": "zero-change",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.changeRecords = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-change-record"
+    },
+    {
+      "id": "zero-field",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldSurfaces = @(); $source.sensitiveUsePolicies = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-field-governance"
+    },
+    {
+      "id": "missing-node",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldGovernance = $null"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "required-node"
+    },
+    {
+      "id": "policy-node",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.sourcePolicy.identity = $null"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "policy-node"
+    },
+    {
+      "id": "reviewer-policy",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.approvalPolicy.reviewers.New = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "reviewer-policy"
+    },
+    {
+      "id": "approval-policy",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.approvalPolicy.externalConfirmation = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "approval-policy"
+    },
+    {
+      "id": "identity-format",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].identity = 'Bad.Identity.v1'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "identity-format"
+    },
+    {
+      "id": "lifecycle",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].lifecycle = 'Invalid'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "lifecycle"
+    },
+    {
+      "id": "active-admission",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].admissionEvidence.source = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "active-admission"
+    },
+    {
+      "id": "protocol-metadata",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].businessUse = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "protocol-metadata"
+    },
+    {
+      "id": "protocol-evidence",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].tests = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "protocol-evidence"
+    },
+    {
+      "id": "infrastructure-owner",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.infrastructureProtocols[0].provider = 'unknown'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "infrastructure-owner"
+    },
+    {
+      "id": "infrastructure-boundary",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.infrastructureProtocols[0].durable = $true"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "infrastructure-sensitive-boundary"
+    },
+    {
+      "id": "infrastructure-field",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.infrastructureProtocols[0].fields[0].purpose = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "infrastructure-field"
+    },
+    {
+      "id": "legacy-lifecycle",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].lifecycle = 'Invalid'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "legacy-lifecycle"
+    },
+    {
+      "id": "legacy-retirement",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].migrationEvidence = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "legacy-retirement-evidence"
+    },
+    {
+      "id": "legacy-disposition",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].disposition = 'Invalid'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "legacy-disposition"
+    },
+    {
+      "id": "legacy-expiry",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].expiresAt = '2027-01-01'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "legacy-expiry"
+    },
+    {
+      "id": "legacy-metadata",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].linkedPlan = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "legacy-metadata"
+    },
+    {
+      "id": "replacement-target",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0] | Add-Member -NotePropertyName member -NotePropertyValue 'Test' -Force; $source.publicSurface[0] | Add-Member -NotePropertyName targetIdentity -NotePropertyValue '' -Force"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "replacement-target"
+    },
+    {
+      "id": "legacy-protocol-reference",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0] | Add-Member -NotePropertyName targetIdentity -NotePropertyValue 'unknown.v1' -Force"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "protocol-reference"
+    },
+    {
+      "id": "duplicate-surface",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface = @($source.publicSurface) + @($source.publicSurface[0])"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "duplicate-id"
+    },
+    {
+      "id": "classification-policy",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldGovernance.classifications.C3 = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "classification-policy"
+    },
+    {
+      "id": "c4-denylist",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldGovernance.c4Denylist = @($source.fieldGovernance.c4Denylist | Where-Object { $_ -ne 'private key' })"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "c4-denylist"
+    },
+    {
+      "id": "secret-forbidden",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].fields[0].classification = 'C4'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "secret-forbidden"
+    },
+    {
+      "id": "field-classification",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].fields[0].classification = 'X'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-classification"
+    },
+    {
+      "id": "field-metadata",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].fields[0].purpose = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-metadata"
+    },
+    {
+      "id": "field-surface-missing",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldSurfaces = @($source.fieldSurfaces | Where-Object id -ne $source.protocols[0].identity)"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-surface-missing"
+    },
+    {
+      "id": "field-surface-empty",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].fields = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-surface-empty"
+    },
+    {
+      "id": "field-surface-metadata",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldSurfaces[0].consumers = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-surface-metadata"
+    },
+    {
+      "id": "field-exception",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].fields[2].exceptionRef = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-exception"
+    },
+    {
+      "id": "field-exception-reference",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldExceptions[0].fieldRefs = @('unknown/field')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-exception-reference"
+    },
+    {
+      "id": "field-exception-metadata",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldExceptions[0].approverRole = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-exception-metadata"
+    },
+    {
+      "id": "field-exception-approval",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldExceptions[0].approvalEvidence = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-exception-approval"
+    },
+    {
+      "id": "field-exception-expired",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.fieldExceptions[0].expiresAt = '2026-09-01'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-exception-expired"
+    },
+    {
+      "id": "sensitive-use-metadata",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.sensitiveUsePolicies[0].encryption = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "sensitive-use-metadata"
+    },
+    {
+      "id": "sensitive-use-reference",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.sensitiveUsePolicies[0].fieldRefs = @('unknown/field')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "sensitive-use-reference"
+    },
+    {
+      "id": "minimization-evidence",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.eventMinimizationReviews = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "minimization-evidence"
+    },
+    {
+      "id": "change-record-metadata",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.changeRecords[0].summary = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "change-record-metadata"
+    },
+    {
+      "id": "change-record-consumer",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.changeRecords[0].affectedConsumers = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "change-record-consumer"
+    },
+    {
+      "id": "change-record-protocol",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.changeRecords[0].identity = 'unknown.v1'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "protocol-reference"
+    },
+    {
+      "id": "missing-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "malformed-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "write": "{"
+        }
+      ],
+      "status": "error",
+      "category": "invalid-input"
+    }
+  ]
+}

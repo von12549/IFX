@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-protocol",
+  "rules": [
+    {
+      "ruleId": "G05-PROTOCOL-DEPS",
+      "claimId": "IFX.C4.G05_PROTOCOL_DEPENDENCIES",
+      "stage": "post",
+      "detectors": [
+        "ifx-g05-protocol"
+      ],
+      "evidenceKinds": [
+        "runtime-source",
+        "coverage"
+      ],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    },
+    {
+      "ruleId": "G05-PROTOCOL-SHAPES",
+      "claimId": "IFX.C4.G05_PROTOCOL_SHAPES",
+      "stage": "post",
+      "detectors": [
+        "ifx-g05-protocol"
+      ],
+      "evidenceKinds": [
+        "runtime-source",
+        "coverage"
+      ],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    },
+    {
+      "ruleId": "G05-PROTOCOL-EVIDENCE",
+      "claimId": "IFX.C4.G05_PROTOCOL_EVIDENCE",
+      "stage": "post",
+      "detectors": [
+        "ifx-g05-protocol"
+      ],
+      "evidenceKinds": [
+        "runtime-source",
+        "coverage"
+      ],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

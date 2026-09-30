@@ -1,0 +1,272 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g04-closeout-050a",
+  "pinPolicy": "governance-only",
+  "families": [
+    "evidence",
+    "documentation",
+    "closeout",
+    "inbound"
+  ],
+  "authorities": [
+    {
+      "id": "phase0",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase0-baseline.md",
+      "pinned": true
+    },
+    {
+      "id": "leaseEvidence",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase4-lease-conformance.md",
+      "pinned": true
+    },
+    {
+      "id": "phase5",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md",
+      "pinned": true
+    },
+    {
+      "id": "phase6",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase6-health-conformance.md",
+      "pinned": true
+    },
+    {
+      "id": "recoveryRunbook",
+      "path": "docs/architecture/review/gates/G04/backpressure-recovery-runbook.md",
+      "pinned": true
+    },
+    {
+      "id": "phase7",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase7-backpressure-conformance.md",
+      "pinned": true
+    },
+    {
+      "id": "releaseTemplate",
+      "path": "deployment/g04/release-evidence-template.json",
+      "pinned": false
+    },
+    {
+      "id": "phase8",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase8-release-orchestration.md",
+      "pinned": true
+    },
+    {
+      "id": "failureRunbook",
+      "path": "docs/architecture/review/gates/G04/failure-rollback-runbook.md",
+      "pinned": true
+    },
+    {
+      "id": "phase9",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase9-failure-safety.md",
+      "pinned": true
+    },
+    {
+      "id": "phase10",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase10-automated-acceptance.md",
+      "pinned": true
+    },
+    {
+      "id": "phase11",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase11-documentation.md",
+      "pinned": true
+    },
+    {
+      "id": "phase12Handoff",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase12-handoff.md",
+      "pinned": true
+    },
+    {
+      "id": "zh",
+      "path": "docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md",
+      "pinned": true
+    },
+    {
+      "id": "en",
+      "path": "docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md",
+      "pinned": true
+    },
+    {
+      "id": "architectureIndex",
+      "path": "docs/architecture/review/README.md",
+      "pinned": true
+    },
+    {
+      "id": "prerequisites",
+      "path": "docs/architecture/review/plans/00-prerequisites.md",
+      "pinned": true
+    },
+    {
+      "id": "downstreamG02",
+      "path": "docs/architecture/review/plans/00-G02-database-boundary.md",
+      "pinned": true
+    },
+    {
+      "id": "downstreamPlan01",
+      "path": "docs/architecture/review/plans/01-contracts-adapters-refactor.md",
+      "pinned": true
+    },
+    {
+      "id": "downstreamPlan02",
+      "path": "docs/architecture/review/plans/02-reliable-integration-events.md",
+      "pinned": true
+    },
+    {
+      "id": "downstreamLayerGuard",
+      "path": "docs/architecture/review/plans/03-layerguard-alignment.md",
+      "pinned": true
+    },
+    {
+      "id": "g04Status",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase12-status.json",
+      "pinned": true
+    },
+    {
+      "id": "g04Plan",
+      "path": "docs/architecture/review/plans/00-G04-deployment-runtime-boundary.md",
+      "pinned": true
+    },
+    {
+      "id": "inboundStatus",
+      "path": "docs/architecture/review/evidence/plan02/P02-C1-status.json",
+      "pinned": true
+    },
+    {
+      "id": "readiness",
+      "path": "docs/architecture/review/evidence/final-closure/readiness.json",
+      "pinned": true
+    },
+    {
+      "id": "diagram-consumer-first-release-mmd",
+      "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.mmd",
+      "pinned": true
+    },
+    {
+      "id": "diagram-consumer-first-release-svg",
+      "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.svg",
+      "pinned": true
+    },
+    {
+      "id": "diagram-consumer-first-release-png",
+      "path": "docs/architecture/review/gates/G04/diagrams/consumer-first-release.png",
+      "pinned": true
+    },
+    {
+      "id": "diagram-deployment-boundary-mmd",
+      "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.mmd",
+      "pinned": true
+    },
+    {
+      "id": "diagram-deployment-boundary-svg",
+      "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.svg",
+      "pinned": true
+    },
+    {
+      "id": "diagram-deployment-boundary-png",
+      "path": "docs/architecture/review/gates/G04/diagrams/deployment-boundary.png",
+      "pinned": true
+    },
+    {
+      "id": "diagram-dispatcher-backpressure-mmd",
+      "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.mmd",
+      "pinned": true
+    },
+    {
+      "id": "diagram-dispatcher-backpressure-svg",
+      "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.svg",
+      "pinned": true
+    },
+    {
+      "id": "diagram-dispatcher-backpressure-png",
+      "path": "docs/architecture/review/gates/G04/diagrams/dispatcher-backpressure.png",
+      "pinned": true
+    },
+    {
+      "id": "diagram-failure-rollback-mmd",
+      "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.mmd",
+      "pinned": true
+    },
+    {
+      "id": "diagram-failure-rollback-svg",
+      "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.svg",
+      "pinned": true
+    },
+    {
+      "id": "diagram-failure-rollback-png",
+      "path": "docs/architecture/review/gates/G04/diagrams/failure-rollback.png",
+      "pinned": true
+    },
+    {
+      "id": "diagram-runtime-topology-mmd",
+      "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.mmd",
+      "pinned": true
+    },
+    {
+      "id": "diagram-runtime-topology-svg",
+      "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.svg",
+      "pinned": true
+    },
+    {
+      "id": "diagram-runtime-topology-png",
+      "path": "docs/architecture/review/gates/G04/diagrams/runtime-topology.png",
+      "pinned": true
+    },
+    {
+      "id": "diagram-startup-health-drain-mmd",
+      "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.mmd",
+      "pinned": true
+    },
+    {
+      "id": "diagram-startup-health-drain-svg",
+      "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.svg",
+      "pinned": true
+    },
+    {
+      "id": "diagram-startup-health-drain-png",
+      "path": "docs/architecture/review/gates/G04/diagrams/startup-health-drain.png",
+      "pinned": true
+    }
+  ],
+  "activeCheckIds": [
+    "phaseBaselineExists",
+    "leaseConformanceDocumented",
+    "phase5EvidenceExists",
+    "phase6EvidenceExists",
+    "recoveryRunbookExists",
+    "phase7EvidenceExists",
+    "phase8EvidenceTemplateExists",
+    "phase8EvidenceExists",
+    "failureRunbookExists",
+    "phase9EvidenceExists",
+    "phase10EvidenceExists",
+    "documentationValidated",
+    "phase11EvidenceExists",
+    "closeoutValidated",
+    "closeoutRemainsPreReady",
+    "closeoutApprovalNotClaimed",
+    "phase12EvidenceExists",
+    "checklistClosed",
+    "evidenceRecorded",
+    "readinessAdvancedOnlyOneSlice"
+  ],
+  "deferredCheckIds": [
+    "g04CiWorkflowExists",
+    "ciUsesDedicatedArchitectureAndSolutionJobs",
+    "specializedDoesNotRepeatArchitectureOrSolution"
+  ],
+  "blockerDependencies": [
+    "Plan 02 E3",
+    "Plan 02 E4",
+    "Plan 02 E6",
+    "Gate 05",
+    "Plan 03 B2/B3/B4 strict closure",
+    "Production-like release rehearsal",
+    "Final approval"
+  ],
+  "diagramBases": [
+    "consumer-first-release",
+    "deployment-boundary",
+    "dispatcher-backpressure",
+    "failure-rollback",
+    "runtime-topology",
+    "startup-health-drain"
+  ]
+}

@@ -1,0 +1,142 @@
+Set-StrictMode -Version Latest
+$ErrorActionPreference='Stop'
+# 0.5.0-a: evidence locks are staged into EvidenceRoot by the trusted workflow
+# (candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
+# producer run prefix (artifacts/guards/.../<run>/) to its staged directory, and records the producer that ran.
+function Get-IFX050StagedGate([string]$EvidenceRootValue,[string]$TargetRootValue,[string]$Gate,$Producer){
+    if([string]::IsNullOrWhiteSpace($EvidenceRootValue) -or -not [IO.Path]::IsPathFullyQualified($EvidenceRootValue)){Stop-Adapter 'invalid-input' 'EvidenceRoot is required for staged evidence.'}
+    $root=[IO.Path]::GetFullPath($EvidenceRootValue).TrimEnd([IO.Path]::DirectorySeparatorChar);$targetFull=[IO.Path]::GetFullPath($TargetRootValue).TrimEnd([IO.Path]::DirectorySeparatorChar)
+    if(-not [IO.Directory]::Exists($root)){Stop-Adapter 'prerequisite-missing' 'EvidenceRoot is missing.'}
+    $a=[IO.Path]::GetRelativePath($targetFull,$root);$b=[IO.Path]::GetRelativePath($root,$targetFull)
+    if(-not($a -eq '..' -or $a.StartsWith('..'+[IO.Path]::DirectorySeparatorChar) -or [IO.Path]::IsPathRooted($a)) -or -not($b -eq '..' -or $b.StartsWith('..'+[IO.Path]::DirectorySeparatorChar) -or [IO.Path]::IsPathRooted($b))){Stop-Adapter 'unsafe-path' 'EvidenceRoot must be separate from TargetRoot.'}
+    $locks=Join-Path $root 'locks';$manifest=Join-Path $locks 'staging.json'
+    foreach($p in @($locks,$manifest)){if(([IO.File]::Exists($p) -or [IO.Directory]::Exists($p)) -and ((Get-Item -LiteralPath $p -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0){Stop-Adapter 'unsafe-path' 'Staged evidence crosses a link.'}}
+    if(-not [IO.File]::Exists($manifest)){Stop-Adapter 'prerequisite-missing' 'Staged evidence manifest is missing.'}
+    try{$staging=Get-Content -LiteralPath $manifest -Raw|ConvertFrom-Json -Depth 20}catch{Stop-Adapter 'integrity-failure' 'Staged evidence manifest is malformed.'}
+    if($staging.formatVersion -ne 1 -or $staging.kind -cne 'ifx-050a-evidence-staging'){Stop-Adapter 'integrity-failure' 'Staged evidence manifest identity drift.'}
+    $script:stagedRoots=[Collections.Generic.List[object]]::new()
+    foreach($g in @($staging.gates)){
+        $prefix=[string]$g.prefix;$dir=[string]$g.stagedRoot
+        if($prefix -cnotmatch '^artifacts/guards/[A-Za-z0-9._/-]+/$' -or $prefix -match '(^|/)\.\.(/|$)' -or $dir -cnotmatch '^locks/[a-z]+$'){Stop-Adapter 'integrity-failure' 'Staged evidence entry is unsafe.'}
+        $script:stagedRoots.Add([pscustomobject]@{gate=[string]$g.gate;prefix=$prefix;root=[IO.Path]::GetFullPath((Join-Path $root $dir))})
+    }
+    $own=@($staging.gates|Where-Object{[string]$_.gate -ceq $Gate})
+    if($own.Count -ne 1){Stop-Adapter 'prerequisite-missing' "Staged evidence for gate $Gate is missing."}
+    $o=$own[0]
+    if([string]$o.producer.id -cne [string]$Producer.id -or [string]$o.producer.script -cne [string]$Producer.script -or [string]$o.producer.scriptSha256 -cne [string]$Producer.scriptSha256){Stop-Adapter 'integrity-failure' "Staged evidence was not produced by the pinned producer: $Gate"}
+    if([string]$o.lockPath -cne ([string]$o.prefix+'evidence-lock.json') -or [string]$o.lockSha256 -cnotmatch '^[a-f0-9]{64}$'){Stop-Adapter 'integrity-failure' 'Staged lock entry is invalid.'}
+    return $o
+}
+function Map-StagedPath([string]$Relative){
+    if($null -eq $script:stagedRoots){return $null}
+    foreach($s in $script:stagedRoots){if($Relative.StartsWith($s.prefix,[StringComparison]::Ordinal)){return [pscustomobject]@{root=$s.root;full=[IO.Path]::GetFullPath((Join-Path $s.root $Relative.Substring($s.prefix.Length)))}}}
+    return $null
+}
+$script:stagedRoots=$null
+$claim='IFX.C5.SOLUTION_QUALITY';$rule='SOLUTION-LOCKED-QUALITY';$detector='ifx-solution-evidence'
+$findings=[Collections.Generic.List[object]]::new();$matched=0
+function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function Text-Hash([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
+function Parse-Time($Value){if($Value -is [DateTime]){return [DateTimeOffset]$Value};return [DateTimeOffset]::Parse([string]$Value,[Globalization.CultureInfo]::InvariantCulture)}
+function Tree-Lines([string]$Root){
+    $files=@(foreach($relative in @('src','tests','tools')){
+        $folder=Join-Path $Root $relative
+        if(-not [IO.Directory]::Exists($folder)){return @()}
+        Get-ChildItem -LiteralPath $folder -File -Recurse -Force |
+            Where-Object { $_.Extension -in '.cs','.csproj','.props','.targets' -and $_.FullName -notmatch '[\\/](bin|obj|node_modules|dist)[\\/]' }
+    })
+    $solution=Join-Path $Root 'IFX.sln';if(-not [IO.File]::Exists($solution)){return @()}
+    $files+=Get-Item -LiteralPath $solution
+    return @($files|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"})
+}
+function Emit([string]$Status,[string]$Category,[string]$Message=''){
+    $result=[ordered]@{formatVersion=1;status=$Status;exitCategory=$Category;findings=@($findings.ToArray());coverage=@([ordered]@{claimId=$claim;matched=[int]$matched;minimum=4})}
+    if($Message){$result.message=$Message}
+    [Console]::Out.WriteLine(($result|ConvertTo-Json -Depth 50 -Compress))
+}
+function Stop-Adapter([string]$Category,[string]$Message){Emit 'error' $Category $Message;exit 0}
+function Resolve-TargetCommit([string]$Root){
+    $marker=Join-Path $Root '.git';$gitDir=$null
+    if([IO.Directory]::Exists($marker)){$gitDir=$marker}
+    elseif([IO.File]::Exists($marker)){
+        $pointer=[IO.File]::ReadAllText($marker).Trim()
+        if($pointer -cnotmatch '^gitdir:\s*(.+)$'){Stop-Adapter 'integrity-failure' 'Malformed TargetRoot Git pointer.'}
+        $gitDirValue=$Matches[1].Trim();$gitDir=if([IO.Path]::IsPathFullyQualified($gitDirValue)){[IO.Path]::GetFullPath($gitDirValue)}else{[IO.Path]::GetFullPath((Join-Path $Root $gitDirValue))}
+    }else{Stop-Adapter 'prerequisite-missing' 'TargetRoot Git metadata missing.'}
+    if(-not [IO.Directory]::Exists($gitDir)){Stop-Adapter 'prerequisite-missing' 'TargetRoot Git directory missing.'}
+    $headPath=Join-Path $gitDir 'HEAD';if(-not [IO.File]::Exists($headPath)){Stop-Adapter 'prerequisite-missing' 'TargetRoot Git HEAD missing.'}
+    $head=[IO.File]::ReadAllText($headPath).Trim()
+    if($head -cmatch '^[a-f0-9]{40}$'){return $head}
+    if($head -cnotmatch '^ref:\s*(refs/[A-Za-z0-9._/-]+)$'){Stop-Adapter 'integrity-failure' 'Malformed TargetRoot Git HEAD.'}
+    $reference=$Matches[1]
+    if($reference -match '(^|/)\.\.(/|$)'){Stop-Adapter 'integrity-failure' 'Unsafe TargetRoot Git reference.'}
+    $roots=[Collections.Generic.List[string]]::new();$roots.Add($gitDir)
+    $commonMarker=Join-Path $gitDir 'commondir'
+    if([IO.File]::Exists($commonMarker)){
+        $commonValue=[IO.File]::ReadAllText($commonMarker).Trim();$commonDir=if([IO.Path]::IsPathFullyQualified($commonValue)){[IO.Path]::GetFullPath($commonValue)}else{[IO.Path]::GetFullPath((Join-Path $gitDir $commonValue))}
+        if([IO.Directory]::Exists($commonDir) -and -not $roots.Contains($commonDir)){$roots.Add($commonDir)}
+    }
+    foreach($rootPath in $roots){
+        $loose=Join-Path $rootPath ($reference.Replace('/',[IO.Path]::DirectorySeparatorChar));if([IO.File]::Exists($loose)){$value=[IO.File]::ReadAllText($loose).Trim();if($value -cmatch '^[a-f0-9]{40}$'){return $value}}
+        $packed=Join-Path $rootPath 'packed-refs';if([IO.File]::Exists($packed)){foreach($line in [IO.File]::ReadLines($packed)){if($line.StartsWith('#') -or $line.StartsWith('^')){continue};$parts=$line.Split(' ',[StringSplitOptions]::RemoveEmptyEntries);if($parts.Count -ge 2 -and $parts[1] -ceq $reference -and $parts[0] -cmatch '^[a-f0-9]{40}$'){return $parts[0]}}}
+    }
+    Stop-Adapter 'integrity-failure' 'TargetRoot Git reference cannot be resolved.'
+}
+function Record([string]$Subject,[string]$Kind,[bool]$Pass){$script:matched++;if(-not $Pass){$findings.Add([ordered]@{ruleId=$rule;subject=$Subject;evidenceKind=$Kind;detectorId=$detector;severity='blocking'})}}
+function Is-Under([string]$Path,[string]$Root){$relative=[IO.Path]::GetRelativePath($Root,$Path);$relative -ne '..' -and -not [IO.Path]::IsPathRooted($relative) -and -not $relative.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)}
+function Resolve-Locked([string]$Relative,[string]$Expected){
+    if([string]::IsNullOrWhiteSpace($Relative) -or [IO.Path]::IsPathRooted($Relative) -or $Relative -match '(^|[\\/])\.\.([\\/]|$)' -or $Expected -cnotmatch '^[a-f0-9]{64}$'){Stop-Adapter 'invalid-input' 'Invalid evidence path or hash.'}
+    $base=$target;$mapped=Map-StagedPath $Relative;if($null -ne $mapped){$base=$mapped.root;$full=$mapped.full}else{$full=[IO.Path]::GetFullPath((Join-Path $target $Relative))};if(-not(Is-Under $full $base)){Stop-Adapter 'unsafe-path' 'Evidence escapes TargetRoot.'}
+    $cursor=$full
+    while(Is-Under $cursor $base){
+        if([IO.File]::Exists($cursor) -or [IO.Directory]::Exists($cursor)){$item=Get-Item -LiteralPath $cursor -Force;if(($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $item.LinkTarget){Stop-Adapter 'unsafe-path' "Linked evidence: $Relative"}}
+        if($cursor -ceq $base){break};$cursor=[IO.Path]::GetDirectoryName($cursor)
+    }
+    if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing evidence: $Relative"}
+    if((Hash $full) -cne $Expected){Stop-Adapter 'integrity-failure' "Altered evidence: $Relative"}
+    return $full
+}
+if([string]::IsNullOrWhiteSpace($env:V4_STAGE_INPUT_JSON)){Stop-Adapter 'invalid-input' 'Stage input required.'}
+try{$inputObject=$env:V4_STAGE_INPUT_JSON|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'invalid-input' 'Malformed stage input.'}
+if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($inputObject.config.enabledClaims)-join '|') -cne $claim -or @($inputObject.relativeRoots) -notcontains 'src' -or @($inputObject.relativeRoots) -notcontains 'tests'){Stop-Adapter 'invalid-input' 'Stage or claim selection invalid.'}
+if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'invalid-input' 'TargetRoot must be absolute.'}
+$target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot)
+if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot missing.'}
+$targetCommit=Resolve-TargetCommit $target
+$policyFile=Join-Path $PSScriptRoot 'policy.json'
+if(-not [IO.File]::Exists($policyFile) -or (Hash $policyFile) -cne [string]$inputObject.config.policySha256){Stop-Adapter 'integrity-failure' 'Solution policy drift.'}
+try{$policy=Get-Content $policyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Solution policy.'}
+if($policy.formatVersion -ne 1 -or $policy.id -cne 'ifx-solution-evidence-050a' -or $policy.lockBinding -cne 'staged-evidence' -or $policy.gate -cne 'solution' -or $policy.expectedProjectCount -ne 81 -or @($policy.checkIds).Count -ne 4){Stop-Adapter 'integrity-failure' 'Solution policy shape drift.'}
+$staged=Get-IFX050StagedGate ([string]$inputObject.evidenceRoot) $target 'solution' $policy.producer;$lockFile=Resolve-Locked ([string]$staged.lockPath) ([string]$staged.lockSha256)
+try{$lock=Get-Content $lockFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Solution lock.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Solution' -or $lock.producer -cne 'ifx-c5b-controlled-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.projectCount -ne 81 -or $lock.testRunCount -lt 1 -or $lock.totalTests -lt 1){Stop-Adapter 'integrity-failure' 'Incomplete Solution lock.'}
+if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Solution lock target commit differs from TargetRoot HEAD.'}
+if($lock.authorityHashes.quality -cne $policy.authorityHashes.quality -or $lock.authorityHashes.audit -cne $policy.authorityHashes.audit){Stop-Adapter 'integrity-failure' 'Quality authority drift.'}
+try{$started=Parse-Time $lock.startedAt;$completed=Parse-Time $lock.completedAt}catch{Stop-Adapter 'integrity-failure' 'Invalid Solution evidence time.'}
+$now=[DateTimeOffset]::UtcNow
+if($completed -lt $started -or $completed -gt $now.AddMinutes(5) -or $completed -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'Solution evidence stale or future-dated.'}
+$sourceLines=@(Tree-Lines $target)
+if($sourceLines.Count -lt 81 -or $sourceLines.Count -ne $lock.sourceFileCount -or (Text-Hash ($sourceLines -join "`n")) -cne $lock.sourceTreeSha256){Stop-Adapter 'integrity-failure' 'Solution source tree drift.'}
+$prefix=[string]$lock.evidencePrefix
+if($prefix -cnotmatch '^artifacts/guards/p10-ifx-c5b/solution-runs/[a-f0-9]{32}/$'){Stop-Adapter 'unsafe-path' 'Uncontrolled Solution evidence prefix.'}
+$evidence=@{};$seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+foreach($entry in $lock.files){
+    $relative=[string]$entry.path
+    if(-not $relative.StartsWith($prefix+'quality/',[StringComparison]::Ordinal) -or -not $seen.Add($relative)){Stop-Adapter 'integrity-failure' 'Duplicate or out-of-scope evidence.'}
+    $evidence[$relative]=Resolve-Locked $relative ([string]$entry.sha256)
+}
+$summaryPath=$prefix+'quality/summary.json';$auditPath=$prefix+'quality/nuget-audit.json'
+if(-not $evidence.ContainsKey($summaryPath) -or -not $evidence.ContainsKey($auditPath)){Stop-Adapter 'prerequisite-missing' 'Summary or NuGet audit not locked.'}
+$trxPaths=@($evidence.Keys|Where-Object{$_ -cmatch '^artifacts/guards/p10-ifx-c5b/solution-runs/[a-f0-9]{32}/quality/solution-test-results/[^/]+\.trx$'})
+if($trxPaths.Count -ne $lock.testRunCount -or $evidence.Count -ne $trxPaths.Count+2){Stop-Adapter 'integrity-failure' 'TRX evidence count drift.'}
+try{$summary=Get-Content $evidence[$summaryPath] -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$audit=Get-Content $evidence[$auditPath] -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed quality summary or audit.'}
+$total=0;$testPass=$true
+foreach($path in $trxPaths){
+    try{[xml]$xml=Get-Content -LiteralPath $evidence[$path] -Raw;$counters=$xml.SelectSingleNode("//*[local-name()='Counters']");if($null -eq $counters -or [int]$counters.total -lt 1 -or [int]$counters.failed -ne 0 -or [int]$counters.error -ne 0){$testPass=$false}else{$total+=[int]$counters.total}}catch{$testPass=$false}
+}
+Record 'controlledSolutionPassed' 'quality-summary' ($summary.status -ceq 'pass' -and @($summary.checks|Where-Object{$_.id -ceq 'Solution' -and $_.status -ceq 'pass'}).Count -eq 1)
+Record 'nugetDirectTransitiveAudit' 'nuget-audit' ($audit.status -ceq 'pass' -and $audit.projectCount -eq 81 -and @($audit.audit.projects).Count -eq 81 -and $audit.auditMode -ceq 'all' -and @($audit.findings).Count -eq 0 -and @($audit.blockingSeverities) -contains 'high' -and @($audit.blockingSeverities) -contains 'critical')
+Record 'nonVacuousSolutionTests' 'test-results' ($testPass -and $trxPaths.Count -gt 0 -and $total -eq $lock.totalTests -and $total -gt 0)
+Record 'freshLockedSource' 'source-inventory' $true
+if((@($policy.checkIds)-join '|') -cne (@('controlledSolutionPassed','nugetDirectTransitiveAudit','nonVacuousSolutionTests','freshLockedSource')-join '|')){Stop-Adapter 'integrity-failure' 'Solution check mapping drift.'}
+if($findings.Count -gt 0){Emit 'fail' 'findings-blocking'}else{Emit 'pass' 'success'}

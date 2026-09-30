@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-frontend-evidence","rules":[{"ruleId":"FRONTEND-LOCKED-QUALITY","claimId":"IFX.C5.FRONTEND_QUALITY","stage":"post","detectors":["ifx-frontend-evidence"],"evidenceKinds":["quality-summary","npm-production-audit","npm-full-audit","frontend-run-log","source-inventory"],"severity":"blocking","baseline":null,"minimumMatches":5}]}

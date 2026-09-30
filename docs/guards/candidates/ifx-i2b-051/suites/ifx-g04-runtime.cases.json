@@ -1,0 +1,133 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g04-runtime",
+  "source": "ifx-gate-coverage-c3c/fixtures/cases.json and tests/Test-IFXG04Runtime.ps1 (0.4.4); stale-program is replaced by the generated benign cases",
+  "cases": [
+    {
+      "id": "missing-program",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "missing-role",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "find": "if (runtimeProfile.Capabilities.Api)",
+          "replace": "if (false)"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-ROLE"
+    },
+    {
+      "id": "zero-startup",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "find": "builder.Services.AddReliableMessaging(",
+          "replace": "builder.Services.AddNoMessaging("
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-STARTUP"
+    },
+    {
+      "id": "missing-worker",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+          "find": "RuntimeInstanceIdentity.Create",
+          "replace": "MissingIdentity.Create"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-WORKER"
+    },
+    {
+      "id": "missing-drain",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+          "find": "TryBeginOperation",
+          "replace": "MissingOperation"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-DRAIN"
+    },
+    {
+      "id": "missing-health",
+      "edits": [
+        {
+          "path": "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs",
+          "find": "\"/health/ready\"",
+          "replace": "\"/health/absent\""
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-HEALTH"
+    },
+    {
+      "id": "missing-backpressure",
+      "edits": [
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessageBackpressurePolicy.cs",
+          "find": "G04-BACKPRESSURE-RETRY",
+          "replace": "NO-RETRY"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-BACKPRESSURE"
+    },
+    {
+      "id": "zero-metrics",
+      "edits": [
+        {
+          "path": "deployment/g04/backpressure-policy.json",
+          "find": "\"requiredDimensions\": [",
+          "replace": "\"requiredDimensions\": [], \"retiredDimensions\": ["
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-BACKPRESSURE"
+    },
+    {
+      "id": "missing-inbound",
+      "edits": [
+        {
+          "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RawIntegrationEventReceiver.cs",
+          "find": "G05-EVENT-CONTEXT-INVALID",
+          "replace": "NO-EVENT-CONTEXT"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G04-INBOUND"
+    },
+    {
+      "id": "missing-inbound-tests",
+      "edits": [
+        {
+          "path": "tests/IFX.IntegrationTests/Runtime/InboundIntegrationEventTransportAdapterTests.cs",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

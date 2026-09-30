@@ -1,0 +1,172 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-source-reconciliation",
+  "source": "ifx-gate-coverage-c2c1 fixtures/cases.json and suite (0.4.4); the catalog is live (R1)",
+  "cases": [
+    {
+      "id": "generated-ignored",
+      "edits": [
+        {
+          "path": "src/Modules/Fake/obj/Poison.cs",
+          "write": "public record Poison();"
+        }
+      ],
+      "status": "pass",
+      "category": "success"
+    },
+    {
+      "id": "new-abstraction",
+      "edits": [
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/IFX.Modules.CRM.Abstractions.csproj",
+          "write": "<Project Sdk=\"Microsoft.NET.Sdk\" />"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/DTOs/NewLegacyDto.cs",
+          "write": "public record NewLegacyDto(Guid Id);"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "unregistered-source"
+    },
+    {
+      "id": "extra-reader",
+      "edits": [
+        {
+          "path": "src/Modules/CRM/IFX.Modules.Extra.Contracts/IFX.Modules.Extra.Contracts.csproj",
+          "write": "<Project Sdk=\"Microsoft.NET.Sdk\" />"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.Extra.Contracts/IExtraContract.cs",
+          "write": "public interface IExtraContract {\n    Task<int> PingAsync();\n}"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "exact-count"
+    },
+    {
+      "id": "missing-event",
+      "edits": [
+        {
+          "path": "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/Events/V1/TransactionProcessedV1.cs",
+          "write": "// declaration intentionally absent"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "protocol-source-missing"
+    },
+    {
+      "id": "member-drift",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].source.member = 'MissingAsync'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "protocol-member-missing"
+    },
+    {
+      "id": "consumer-drift",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols[0].consumers = @('holdings-application')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "protocol-consumer-missing"
+    },
+    {
+      "id": "pending-legacy",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].lifecycle = 'LegacyPendingMigration'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "missing-source"
+    },
+    {
+      "id": "field-source-missing",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "($source.publicSurface | Where-Object id -eq 'crm.dto.investor-summary').lifecycle = 'LegacyPendingMigration'"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-source-missing"
+    },
+    {
+      "id": "field-source-drift",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "($source.publicSurface | Where-Object id -eq 'crm.dto.investor-summary').lifecycle = 'LegacyPendingMigration'"
+        },
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/DTOs/InvestorSummaryDto.cs",
+          "write": "public record InvestorSummaryDto(Guid Other);"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "field-source-drift"
+    },
+    {
+      "id": "zero-source",
+      "edits": [
+        {
+          "root": "src",
+          "filter": "*.cs",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-source"
+    },
+    {
+      "id": "missing-src",
+      "edits": [
+        {
+          "path": "src",
+          "removeDir": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "missing-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "malformed-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "write": "{"
+        }
+      ],
+      "status": "error",
+      "category": "invalid-input"
+    }
+  ]
+}

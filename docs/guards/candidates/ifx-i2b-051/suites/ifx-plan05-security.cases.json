@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-plan05-security",
+  "source": "ifx-gate-coverage-c4s suite (0.4.4); the stale case is covered by the generated cases; zero keeps only the authority files, as the 0.4.4 target without sources did",
+  "cases": [
+    {
+      "id": "impure-contract",
+      "edits": [
+        {
+          "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/IFX.Platform.Authentication.Contracts.csproj",
+          "append": "\n<PackageReference Include=\"Forbidden\" />\n"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "zero-platform-source",
+      "edits": [
+        {
+          "root": "src",
+          "filter": "*.cs",
+          "remove": true,
+          "except": [
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs",
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/VerifiedIdentityFacts.cs",
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/PermissionChecker.cs",
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Inbound/ResourceAuthorizationInboundAdapter.cs",
+            "src/ApiHost/IFX.ApiHost/Program.cs",
+            "src/ApiHost/IFX.ApiHost/Authorization/PermissionAuthorizationHandler.cs",
+            "docs/architecture/review/evidence/plan05/compatibility-identifiers.json"
+          ]
+        },
+        {
+          "root": "src",
+          "filter": "*.csproj",
+          "remove": true,
+          "except": [
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs",
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/VerifiedIdentityFacts.cs",
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/PermissionChecker.cs",
+            "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Inbound/ResourceAuthorizationInboundAdapter.cs",
+            "src/ApiHost/IFX.ApiHost/Program.cs",
+            "src/ApiHost/IFX.ApiHost/Authorization/PermissionAuthorizationHandler.cs",
+            "docs/architecture/review/evidence/plan05/compatibility-identifiers.json"
+          ]
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

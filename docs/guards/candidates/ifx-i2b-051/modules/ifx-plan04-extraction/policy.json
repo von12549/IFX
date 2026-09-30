@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-plan04-extraction-050a",
+  "pinPolicy": "governance-only",
+  "policyPath": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+  "schemaPath": "docs/architecture/review/policies/plan04/extraction-decision-record.schema.json",
+  "fixtureRoot": "tests/Architecture/Plan04/Fixtures",
+  "checkIds": [
+    "schemaDeclaresRequiredRecord",
+    "exactHardGates",
+    "exactEvidenceDimensions",
+    "scoreCannotOverrideHardGate",
+    "exactStateMachine",
+    "approvedStateRequiredBeforeExecution",
+    "completeApplicationEvidenceRequired",
+    "positiveAndNegativeFixturesPass",
+    "defaultRemainsModularMonolith"
+  ]
+}

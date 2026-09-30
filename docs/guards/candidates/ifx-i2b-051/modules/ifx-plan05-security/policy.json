@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-plan05-security-050a",
+  "pinPolicy": "governance-only",
+  "sourceRoot": "src",
+  "authorities": [
+    {
+      "id": "identityRegistration",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/DependencyInjection.cs",
+      "pinned": false
+    },
+    {
+      "id": "verifiedFacts",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/VerifiedIdentityFacts.cs",
+      "pinned": false
+    },
+    {
+      "id": "httpIdentity",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs",
+      "pinned": false
+    },
+    {
+      "id": "permission",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/PermissionChecker.cs",
+      "pinned": false
+    },
+    {
+      "id": "resourceAdapter",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Inbound/ResourceAuthorizationInboundAdapter.cs",
+      "pinned": false
+    },
+    {
+      "id": "program",
+      "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+      "pinned": false
+    },
+    {
+      "id": "handler",
+      "path": "src/ApiHost/IFX.ApiHost/Authorization/PermissionAuthorizationHandler.cs",
+      "pinned": false
+    },
+    {
+      "id": "compatibility",
+      "path": "docs/architecture/review/evidence/plan05/compatibility-identifiers.json",
+      "pinned": true
+    }
+  ],
+  "retiredPaths": [
+    "src/Modules/IAM/IFX.Modules.IAM.Application/Access/Abac/Resolver/IAbacPolicyCache.cs",
+    "src/ApiHost/IFX.ApiHost/Configuration/OpaConfiguration.cs"
+  ],
+  "checkIds": [
+    "positiveAndNegativeDetectors",
+    "AuthenticationContractsArePure",
+    "AuthenticationRuntimeHasNoBusinessOrHttpDependency",
+    "AuthorizationContractsArePure",
+    "AuthorizationRuntimeHasNoBusinessOrHttpDependency",
+    "verifiedIdentityIsTheProductionSource",
+    "membershipFactsAreCurrentAndTenantBound",
+    "workerActorRequiresTrustedUserIdentity",
+    "internalAuthorizationRequiresExplicitContext",
+    "httpUsesIamDecision",
+    "hostUsesIamComposition",
+    "retiredTransitionTypesAreAbsent",
+    "legacyTypeNamesHaveExactCompatibilityEntries"
+  ]
+}

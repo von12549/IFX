@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-plan04-tenant",
+  "source": "ifx-gate-coverage-c4a2 suite (0.4.4); zero-source removes every src/**/*.cs, as the 0.4.4 target without sources had none",
+  "cases": [
+    {
+      "id": "unguarded-tenant",
+      "edits": [
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Repositories/EfAdvisorInvestmentAccountLinkRepository.cs",
+          "find": "TenantQueryGuard.Require(tenantId)",
+          "replace": "Guid.Empty"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "tenantMethodsGuardedAndPredicated"
+    },
+    {
+      "id": "zero-source",
+      "edits": [
+        {
+          "root": "src",
+          "filter": "*.cs",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-subject"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "docs/architecture/review/policies/plan04/tenant-query-policy.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

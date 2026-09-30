@@ -1,0 +1,60 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-assembly-evidence",
+  "version": "0.2.0",
+  "compatibleApi": "1.x",
+  "supportedPlatforms": [
+    "linux-x64",
+    "win-x64"
+  ],
+  "adapter": {
+    "kind": "powershell",
+    "path": "modules/ifx-assembly-evidence/adapter.ps1",
+    "sha256": "53578e22f196a7723ed5dc2ca523ef483e2fbf086ee25203933d90887c0cbe87"
+  },
+  "prerequisites": [
+    {
+      "runtime": "pwsh",
+      "versionRange": ">=7.4"
+    }
+  ],
+  "stages": [
+    "post"
+  ],
+  "capabilities": {
+    "readRoots": [
+      "PackageRoot",
+      "TargetRoot",
+      "EvidenceRoot"
+    ],
+    "writeRoots": [],
+    "processes": [
+      "pwsh"
+    ],
+    "network": false,
+    "timeoutSeconds": 180
+  },
+  "configSchema": "modules/ifx-assembly-evidence/config.schema.json",
+  "resultSchema": "modules/ifx-assembly-evidence/result.schema.json",
+  "dependencyLock": {
+    "path": "modules/ifx-assembly-evidence/dependencies.lock.json",
+    "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0"
+  },
+  "authorities": [
+    {
+      "id": "ifx-policy",
+      "path": "modules/ifx-assembly-evidence/policy.json",
+      "sha256": "e7a60914100729bddd0b61b3dc8f5892c0511155da98aafa255c348d34a9ee6a"
+    },
+    {
+      "id": "rule-execution-plan",
+      "path": "modules/ifx-assembly-evidence/rule-execution-plan.json",
+      "sha256": "955d274d03a44d8aac8f589982ae763689463e86fbe9e09ec6fd31fe68074955"
+    },
+    {
+      "id": "module-result",
+      "path": "modules/ifx-assembly-evidence/result.schema.json",
+      "sha256": "ec04db82c4cd3fcb9aae422e36b9560c15d9f17bc40e7398826564af96cc900c"
+    }
+  ]
+}

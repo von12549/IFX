@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-c1-evaluated-reference-050a",
+  "lockBinding": "staged-evidence",
+  "gate": "graph",
+  "baseVersion": "1.1.3",
+  "sdk": "10.0.303",
+  "configuration": "Release",
+  "targetFramework": "net8.0",
+  "projectCount": 58,
+  "maximumAgeSeconds": 3600,
+  "sourcePolicies": [
+    {
+      "path": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+      "embedded": "embedded/ifx-reference-cycle-policy.json"
+    },
+    {
+      "path": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+      "sha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c",
+      "embedded": "embedded/ifx-ownership-graph-policy.json"
+    }
+  ],
+  "producer": {
+    "id": "ifx-c1-r2b-controlled-v1",
+    "script": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+    "scriptSha256": "d6057dc41a65e997f0985a7fc84476223488666566396d60d616f0d83d5ebebc",
+    "policySha256": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec"
+  }
+}
