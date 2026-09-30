@@ -1,0 +1,15 @@
+Change scope records-and-plans: All 4 changed path(s) are formal plan documents, authorization records or decision records. Report: <work>\h\artifacts\guards\v3-ifx\trusted-base\change-scope-validate.json
+
+Domain authority candidates passed (0 changed): <work>\h\artifacts\guards\v3-ifx\trusted-base\domain-authorities-validate.json
+
+IFX policy projection Apply passed (12 files; changed: 0).
+
+V3 profile valid: ifx
+IFX policy projection Check passed (12 files; changed: 0).
+IFX gate inputs are present and locally bound.
+Generated Markdown matches 20 authority-derived documents.
+CI contract passed (local): 13 checks match required-checks.json
+Manifest check passed: 6 stages, 19 commands, 17 trusted components, 13 gates.
+IFX guardrails passed: <work>\h\artifacts\guards\v3-ifx\summary-validate.json
+
+Trusted base run passed: <work>\h\artifacts\guards\v3-ifx\trusted-base\summary-validate.json

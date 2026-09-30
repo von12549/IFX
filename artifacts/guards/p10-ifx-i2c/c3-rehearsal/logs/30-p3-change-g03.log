@@ -1,0 +1,25 @@
+Change scope full: 3 changed path(s) are gate inputs or unrecognized: docs/guards/V3_ifx/shared/policy-config.json, docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1, docs/guards/v4-adoption/README.md. Report: <work>\h\artifacts\guards\v3-ifx\trusted-base\change-scope-specialized.json
+
+Domain authority candidates passed (0 changed): <work>\h\artifacts\guards\v3-ifx\trusted-base\domain-authorities-specialized.json
+
+IFX policy projection Apply passed (12 files; changed: 0).
+
+G03 contract/event inventory written: <work>\h\artifacts\guards\v3-ifx\specialized\g03\G03-contract-event-inventory.json
+G03 contract/event inventory written: <work>\h\artifacts\guards\v3-ifx\specialized\g03\G03-contract-event-inventory.json
+G03 catalog validation passed: <work>\h\docs\architecture\review\gates\G03\contract-event-catalog.yaml
+G03 contract/event inventory written: <temp>\g03-inventory-e48c01367ed744d09c6340c57f624044.json
+G03 source reconciliation passed: <work>\h\artifacts\guards\v3-ifx\specialized\g03\G03-phase9-source-reconciliation.json
+G03 contract/event inventory written: <temp>\g03-snapshot-a6c50ba42a6c41d08d5349dc25d56082.json
+G03 compatibility snapshots generated.
+G03 contract/event inventory written: <temp>\g03-snapshot-c851a32501fe4a80ad5c48b1a1add8e9.json
+G03 compatibility snapshots generated.
+G03 LayerGuard governance input generated: <work>\h\artifacts\guards\v3-ifx\specialized\g03\layerguard-governance-input.generated.json
+G03 LayerGuard governance input generated: <work>\h\artifacts\guards\v3-ifx\specialized\g03\layerguard-governance-input.generated.json
+G03 LayerGuard governance handoff passed: <work>\h\artifacts\guards\v3-ifx\specialized\g03\G03-phase9-layerguard-handoff-report.json
+G03 documentation validation passed. Report: <work>\h\artifacts\guards\v3-ifx\specialized\g03\G03-phase9-documentation-report.json
+G03 closeout readiness audit passed with status 'pre-ready'. Report: <work>\h\artifacts\guards\v3-ifx\specialized\g03\G03-phase9-status.json
+G03 Phase 9 guard passed. Report: <work>\h\artifacts\guards\v3-ifx\specialized\g03\guard.json
+IFX specialized guards passed: <work>\h\artifacts\guards\v3-ifx\specialized\summary.json
+IFX guardrails passed: <work>\h\artifacts\guards\v3-ifx\summary-specialized.json
+
+Trusted base run passed: <work>\h\artifacts\guards\v3-ifx\trusted-base\summary-specialized-g03.json

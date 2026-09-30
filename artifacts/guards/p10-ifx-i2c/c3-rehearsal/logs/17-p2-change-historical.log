@@ -1,0 +1,4 @@
+IFX historical integrity passed: <work>\h\artifacts\guards\v3-ifx\history\summary.json
+IFX guardrails passed: <work>\h\artifacts\guards\v3-ifx\summary-historical-integrity.json
+
+Trusted base run passed: <work>\h\artifacts\guards\v3-ifx\trusted-base\summary-historicalintegrity.json

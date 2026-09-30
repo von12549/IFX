@@ -1,0 +1,19 @@
+Change scope records-and-plans: All 4 changed path(s) are formal plan documents, authorization records or decision records. Report: <work>\h\artifacts\guards\v3-ifx\trusted-base\change-scope-diff.json
+
+Protected change verification passed (no protected changes): <temp>\guard-gen-6eb03d4a\protected-changes.json
+
+Policy candidate validation passed (0 validation(s)): <work>\h\artifacts\guards\v3-ifx\trusted-base\policy-candidates-diff.json
+
+V3 generated .NET test project: <temp>\guard-gen-6eb03d4a\v3-ifx\gates\stage\Ifx.Guards.StageGate.Tests
+V3 generated project matches profile and templates.
+  Determining projects to restore...
+  Restored <temp>\guard-gen-6eb03d4a\v3-ifx\gates\stage\Ifx.Guards.StageGate.Tests\Ifx.Guards.StageGate.Tests.csproj (in 140 ms).
+  Ifx.Guards.StageGate.Tests -> <temp>\guard-gen-6eb03d4a\build\v3-ifx\stage-gate\bin\Ifx.Guards.StageGate.Tests\debug\Ifx.Guards.StageGate.Tests.dll
+Test run for <temp>\guard-gen-6eb03d4a\build\v3-ifx\stage-gate\bin\Ifx.Guards.StageGate.Tests\debug\Ifx.Guards.StageGate.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 144 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)
+V3 Diff matched declared Plan paths.
+IFX guardrails passed: <work>\h\artifacts\guards\v3-ifx\summary-diff.json
+
+Trusted base run passed: <work>\h\artifacts\guards\v3-ifx\trusted-base\summary-diff.json

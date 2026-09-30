@@ -1,0 +1,35 @@
+Change scope full: 1 changed path(s) are gate inputs or unrecognized: docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1. Report: <work>\h\artifacts\guards\v3-ifx\trusted-base\change-scope-diff.json
+
+FAIL Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1
+FAIL Authorization docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json is rejected: the record is not in the base commit (already consumed or revoked)
+Protected change verification failed: <temp>\guard-gen-4fd470d3\protected-changes.json
+
+Policy candidate validation passed (0 validation(s)): <work>\h\artifacts\guards\v3-ifx\trusted-base\policy-candidates-diff.json
+
+V3 generated .NET test project: <temp>\guard-gen-4fd470d3\v3-ifx\gates\stage\Ifx.Guards.StageGate.Tests
+V3 generated project matches profile and templates.
+  Determining projects to restore...
+  Restored <temp>\guard-gen-4fd470d3\v3-ifx\gates\stage\Ifx.Guards.StageGate.Tests\Ifx.Guards.StageGate.Tests.csproj (in 138 ms).
+  Ifx.Guards.StageGate.Tests -> <temp>\guard-gen-4fd470d3\build\v3-ifx\stage-gate\bin\Ifx.Guards.StageGate.Tests\debug\Ifx.Guards.StageGate.Tests.dll
+Test run for <temp>\guard-gen-4fd470d3\build\v3-ifx\stage-gate\bin\Ifx.Guards.StageGate.Tests\debug\Ifx.Guards.StageGate.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Failed Ifx.Guards.StageGate.Tests.GuardTests.DiffStaysWithinDeclaredPlan [142 ms]
+  Error Message:
+   Protected guard deletions: docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json
+  Stack Trace:
+     at Ifx.Guards.StageGate.Tests.GuardTests.DiffStaysWithinDeclaredPlan() in <temp>\guard-gen-4fd470d3\v3-ifx\gates\stage\Ifx.Guards.StageGate.Tests\Post\GuardTests.cs:line 188
+   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+
+Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 142 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)
+[xUnit.net 00:00:00.40]     Ifx.Guards.StageGate.Tests.GuardTests.DiffStaysWithinDeclaredPlan [FAIL]
+[31;1mException: [31;1mdotnet test failed with exit code 1[0m
+[31;1mException: [0m<temp>\guard-gen-4fd470d3\v3-ifx\docs\guards\V3_ifx\commands\Invoke-IFXGuardrails.ps1:249[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m 249 | [0m . ry.status -ne 'pass') { [36;1mthrow "IFX guardrails failed: $summaryPath"[0m }[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mIFX guardrails failed: <work>\h\artifacts\guards\v3-ifx\summary-diff.json[0m
+
+FAIL protected-changes: Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1 | Authorization docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json is rejected: the record is not in the base commit (already consumed or revoked)
+FAIL guardrails: Base guardrails returned exit code 1.
+Trusted base run failed: <work>\h\artifacts\guards\v3-ifx\trusted-base\summary-diff.json

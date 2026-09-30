@@ -1,0 +1,5 @@
+[31;1mException: [0m<work>\h\docs\guards\V3_ifx\tests\ci\Test-CutoverPreservation.ps1:53[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m  53 | [0m     [36;1mthrow "docs/guards top level contains an unexpected entry: $($top[0m .[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mdocs/guards top level contains an unexpected entry: plans, V3, V3_ifx, V4-Adoption[0m

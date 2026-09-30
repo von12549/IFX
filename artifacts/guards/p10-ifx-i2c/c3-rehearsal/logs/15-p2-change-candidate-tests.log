@@ -1,0 +1,191 @@
+IFX Pre positive and negative tests passed.
+IFX assembly guard positive, forbidden, missing, zero-match and stale tests passed.
+IFX policy projection Check passed (12 files; changed: 0).
+IFX policy projection Preview passed (12 files; changed: 1): <work>\h\artifacts\guards\v3-ifx\authority-fixture-242b7de21cca469bb4b5e70b63380112\policy-preview.json
+IFX policy projection Apply passed (12 files; changed: 1).
+IFX policy projection Check passed (12 files; changed: 0).
+IFX authority projection Preview is read-only, Check rejects drift and the single declared maintenance entry point restores deterministic content.
+IFX specialized result/fixture contracts and missing-authority failure passed.
+IFX history manifest Check passed: <work>\h\docs\guards\V3_ifx\stages\post\gates\historical-integrity\manifest.json
+IFX history manifest Preview passed (current): <work>\h\artifacts\guards\v3-ifx\history-fixture-69642cbb07e54b68ba30bbe7db2d77b5\preview.json
+IFX history manifest Apply passed: <work>\h\artifacts\guards\v3-ifx\history-fixture-69642cbb07e54b68ba30bbe7db2d77b5\applied.json
+IFX history manifest Check passed: <work>\h\artifacts\guards\v3-ifx\history-fixture-69642cbb07e54b68ba30bbe7db2d77b5\applied.json
+IFX historical integrity passed: <work>\h\artifacts\guards\v3-ifx\history-fixture-69642cbb07e54b68ba30bbe7db2d77b5\positive.json
+IFX historical integrity positive, tamper and dangling-reference tests passed.
+Cutover preservation passed: 16 required paths, 8 historical baselines, 103 prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired and one V3 workflow active.
+IFX isolated positive, read-only Generate, source and project-set Check negatives, rule-ID drift negative, L2.2 negative, and external-binding negative tests passed. Evidence: <work>\h\artifacts\guards\v3-ifx-package-test-260e5bcb6c22480296bd8b49b0c53334
+PASS current workflow matches required-checks.json
+PASS matching ruleset passes
+PASS renamed workflow check fails
+PASS undeclared workflow job fails
+PASS wrong required count fails
+PASS trigger declaration mismatch fails
+PASS unknown trigger fails
+PASS non-blocking job fails
+PASS matrix expansion change fails
+PASS pull-request job without condition fails
+PASS missing push trigger fails
+PASS tab-indented YAML fails structural parse
+PASS ruleset missing a required context fails
+PASS ruleset extra context fails
+PASS ruleset without strict fails
+PASS inactive ruleset fails
+PASS check without its trusted base gate fails
+PASS matrix check without its trusted base gate fails
+PASS first verdict executable outside base fails
+PASS workflow internal script entry fails
+PASS head dispatcher run in place fails
+PASS job without the base worktree fails
+PASS aggregate plan selector removal fails
+PASS missing concurrency fails
+PASS keeping superseded runs fails
+PASS undeclared schedule fails
+PASS missing package cache fails
+PASS package cache not keyed by the reviewed locks fails
+PASS Windows smoke without the locked build baseline fails
+PASS Ubuntu full suite without trusted-base candidates fails
+PASS Windows smoke selected without an OS guard fails
+PASS full Windows certification option removal fails
+PASS missing change scope classification fails
+PASS head candidate work without the scope guard fails
+PASS classification outside the trusted base fails
+PASS a classification step in another mode fails
+PASS a classification step that blocks the run fails
+PASS an undeclared classification implementation fails
+PASS an undeclared inheriting check fails
+PASS cost control declaration behavior
+PASS trusted base activation declaration behavior
+PASS candidate suite is explicit
+PASS smoke coverage is CrossPlatform-only
+PASS TCB candidate SHA is explicit
+PASS trusted-base SHA is explicit
+IFX CI contract tests passed.
+V3 deployment lifecycle tests passed.
+PASS current manifests pass
+PASS stage declaring a command-owned field fails
+PASS command declaring a stage-owned field fails
+PASS stage referencing an unknown command fails
+PASS command claiming an unlisted stage fails
+PASS missing gate for a required check fails
+PASS duplicate gate fails
+PASS gate that is not a required check fails
+PASS invalid trust contract type fails schema
+PASS verdict-chain script outside TCB fails
+PASS manifest removing itself from protection fails
+PASS overlapping components fail
+PASS planned component claiming paths fails
+PASS workflow script added outside TCB fails
+PASS IFX command redirecting to a forked V3 runner fails
+PASS IFX Diff without explicit overlay protection fails
+PASS stage listed without manifest fails
+PASS compatibility entry for a missing path fails
+PASS engine script reading an unregistered authority fails
+PASS detector reading an undeclared authority fails
+PASS declared authority that detectors do not read fails
+PASS head authority sourced from base fails
+PASS derived projection sourced as head candidate fails
+PASS unknown authority reference fails
+PASS projection consumed without its authority fails
+PASS gate without trust inputs fails schema
+PASS pointer role matching nothing fails
+PASS unknown authority role fails schema
+PASS unregistered projection source fails
+PASS wildcard pointer without an array key fails
+PASS array key that is not unique fails
+PASS invalid Diff protection configuration fails
+PASS missing Diff protection configuration fails
+PASS unregistered policy file fails
+PASS schema field without a monotonicity declaration fails
+PASS policy registry claiming a derived projection fails
+PASS policy registry claiming an authorization record fails
+IFX manifest tests passed.
+PASS assembly profile validates
+PASS optional ArchUnitNET project generates
+PASS generated bytes match
+PASS compliant compiled architecture passes
+PASS project-only negative regenerates
+PASS unused forbidden ProjectReference still fails project detector
+PASS restore independent project rule
+PASS compiled forbidden dependency fails
+PASS misplaced interface implementation fails
+PASS zero-match rule regenerates
+PASS zero source matches fail closed
+PASS missing-assembly manifest regenerates
+PASS missing expected assembly fails closed
+PASS remove optional detector cleanly
+PASS project-only generation remains exact
+PASS project-only profile still passes
+V3 ArchUnitNET synthetic integration tests passed.
+PASS ambiguous decision-history layouts fail closed
+PASS missing decision-history layout fails closed
+PASS ambiguous contract layouts fail closed
+PASS missing contract layout fails closed
+Fixture base d3fe621c2bce97efd90441f95db088ec02645d56 at <temp>\ifxtb-3f1ac213\b
+PASS head MSBuild injection does not reach the trusted architecture build
+PASS trusted guard build output stays outside the head checkout
+IFX trusted base architecture isolation test passed.
+PASS ambiguous decision-history layouts fail closed
+PASS missing decision-history layout fails closed
+PASS ambiguous contract layouts fail closed
+PASS missing contract layout fails closed
+Fixture base 1a8d157742c2926f4849370692dc374054534a7e at <temp>\ifxtb-8d0a032d\b
+PASS schema-valid head policy paths remain base-owned policy obligations during relocation
+PASS trusted Diff accepts the deletion of the exactly consumed authorization
+PASS Diff summary reports the verified consumption
+PASS candidate verification accepts the consuming change
+PASS trusted Diff accepts an authorized protected deletion
+PASS a caller-supplied report does not reach the trusted Diff
+PASS a revocation-only change passes (D22)
+PASS Diff summary reports the revocation
+PASS a revocation mixed with another change fails
+PASS a change that differs from the authorization keeps the deletion blocked
+PASS consumption does not exempt another protected deletion
+PASS renaming the consumed authorization fails
+PASS authorized directory move passes
+PASS authorized case-only rename passes
+PASS a case-only rename consumed as a move fails
+PASS an undeclared case-only rename fails
+PASS an extra file under the move destination fails
+PASS a delete authorization does not cover a case-only rename
+PASS a deletion whose source changed after authorization fails
+PASS an obligation covered by two authorizations fails
+PASS a weaken-policy authorization without a matching policy change fails
+PASS an authorization that exists only in head fails
+PASS a protected deletion that keeps its authorization fails
+PASS an unused path authorization fails
+PASS a second pull request consuming the same authorization fails
+PASS changing an authorization record fails
+PASS adding a schema-invalid authorization fails
+PASS a gitlink in the protected scope fails
+PASS trusted Diff accepts an authorized editable policy change
+PASS Diff summary reports the weaken-policy consumption and candidate validation
+PASS an editable policy change without weaken-policy fails
+PASS a formatting-only policy change needs only TCB authorization
+PASS a policy change beyond the authorized pointers fails
+PASS an authorized added policy file passes
+PASS an unregistered policy file fails
+PASS candidate registry classifies new layout only through the normal weaken-policy gate
+PASS candidate registry exact path is not treated as an unregistered escape
+PASS narrowing candidate roots cannot hide an unregistered base-scope file
+PASS a .gitattributes change without weaken-policy fails
+PASS an authorized .gitattributes change passes
+PASS a trust/meta change with only change-trusted-base fails
+PASS a trust/meta change with both authorizations passes
+PASS an unused weaken-policy authorization fails
+PASS head candidates of an authorized policy change pass
+PASS head policy uses its relocated registered schema
+PASS a policy change with stale profile views fails candidate validation
+PASS an invalid head profile fails candidate validation
+PASS a valid head history manifest passes candidate validation
+PASS a head history manifest that does not match head evidence fails
+PASS a derived projection edited without its authority fails
+PASS a schema field without a monotonicity declaration fails
+PASS a domain authority waiver without weaken-policy fails the verifier
+PASS the same waiver fails a Validate run for its explicit head
+PASS an authorized domain authority waiver passes the verifier
+PASS an authorized waiver passes Validate for its explicit head
+PASS Validate summary reports the coverage recomputed for the explicit head
+PASS an authorized waiver still fails closed without an explicit head
+PASS a checkout that differs from the explicit head fails
+IFX trusted base protected change authorization tests passed.
+IFX Architecture candidate tests passed.

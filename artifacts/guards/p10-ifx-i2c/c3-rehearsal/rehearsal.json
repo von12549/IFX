@@ -1,0 +1,1286 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-rehearsal",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "step": "C3",
+  "status": "pass",
+  "createdAtUtc": "2026-09-30T18:04:59.0545849Z",
+  "repositoryHead": "e7fce33679617a754410dc1f354960f74dd07f72",
+  "specSha256": "228160f1ea3434977fe9c972eb79aa640afa59f6a69b269e6197cd23d21d5433",
+  "sourceCommit": "5f6008ee066eb948e94f1d2590f038d4581468e8",
+  "parity": "full fixed corpus",
+  "qualitySolution": true,
+  "notRunLocally": [
+    "v3-quality-assembly",
+    "v3-quality-frontend",
+    "v3-specialized-g04",
+    "v3-specialized-g05",
+    "v3-specialized-plan04",
+    "v3-specialized-database",
+    "v3-cross-platform-ubuntu-latest",
+    "v3-cross-platform-windows-latest (candidate suite)"
+  ],
+  "commits": {
+    "target": "57647c9ae75c25666d825477c7a1ea11073468c5",
+    "p1": "c1dfb93a8c76c6c93070b69a0fba45f8c31301c2",
+    "merged-p1": "65695f4d72e6eac6953402e28caf0730ce399c2b",
+    "p2-early": "8171ff18d6147c9ea124ab6869f9703f23b0dde7",
+    "p2-authorization": "e7ff7d74ac08d7d1436e0a72df86547126f55f10",
+    "merged-p2-authorization": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+    "p2-change": "8e7c569eb205129612150f26adf198722f4d7c3c",
+    "merged-p2-change": "f72026c3d5d84b88865f4a21814c64d00b28208d",
+    "p3-early": "75564c8cd0288277583c4a1fbadb7877faa9232a",
+    "p3-authorization": "26c347f720217cac5b83ca20cea8417046e2c65a",
+    "merged-p3-authorization": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+    "p3-change": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+    "merged-p3-change": "a65e2fec43db315b8daf0c2653fd99ee2ec86f5f",
+    "p3-replay": "3047054311cbc43255fc22fa7af8d9ae80472eeb"
+  },
+  "builds": {
+    "p1": {
+      "set": "P1",
+      "kind": "change",
+      "consumesRecords": false,
+      "branch": "rehearsal/p1",
+      "base": "57647c9ae75c25666d825477c7a1ea11073468c5",
+      "head": "c1dfb93a8c76c6c93070b69a0fba45f8c31301c2",
+      "changed": [
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json"
+        },
+        {
+          "status": "M",
+          "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs"
+        },
+        {
+          "status": "M",
+          "path": "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs"
+        }
+      ],
+      "blobs": {
+        "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs": {
+          "blob": "c9d089a8880a61e7e28c40903e004b364f47b93d",
+          "origin": "source-commit"
+        },
+        "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs": {
+          "blob": "47f140cb62f04348459472271df5fc77f8e1149d",
+          "origin": "source-commit"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md": {
+          "blob": "b805eb19b4405d350a7c26f0fea39e0a8c604dab",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json": {
+          "blob": "66f6560f8259d41dc52926df1b86ffca3e1ca6bc",
+          "origin": "authored"
+        }
+      }
+    },
+    "p2-early": {
+      "set": "P2",
+      "kind": "change",
+      "consumesRecords": false,
+      "branch": "rehearsal/p2-early",
+      "base": "65695f4d72e6eac6953402e28caf0730ce399c2b",
+      "head": "8171ff18d6147c9ea124ab6869f9703f23b0dde7",
+      "changed": [
+        {
+          "status": "M",
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.en.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/guards/V3_ifx/shared/policy-config.json"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json"
+        },
+        {
+          "status": "M",
+          "path": "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs"
+        }
+      ],
+      "blobs": {
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md": {
+          "blob": "0b31b74eb8e829b2c3a2f3dae3fd88575705bf49",
+          "origin": "source-commit"
+        },
+        "docs/architecture/review/gates/G03/contract-event-governance.en.md": {
+          "blob": "37b0be115a5a76297da8860b88096d64d8b9501a",
+          "origin": "source-commit"
+        },
+        "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md": {
+          "blob": "a9ee10f89de314bd3da51d302549e8092f6e551c",
+          "origin": "source-commit"
+        },
+        "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json": {
+          "blob": "379406abd72a581fd807200b4c9f53603a29e1f1",
+          "origin": "source-commit"
+        },
+        "docs/guards/V3_ifx/shared/policy-config.json": {
+          "blob": "91715aed0a952d3232ff03bf2bd86d8c132e6c42",
+          "origin": "source-commit"
+        },
+        "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs": {
+          "blob": "b473c4520ba82b98a1635eb666091daf5358a608",
+          "origin": "source-commit"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md": {
+          "blob": "57422d2aa815da9aa68a4e54a3ebf749209ba1a2",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json": {
+          "blob": "808b67dd3c73af80813c9749361030f5ca407b13",
+          "origin": "authored"
+        }
+      }
+    },
+    "p2-authorization": {
+      "set": "P2",
+      "kind": "authorization",
+      "consumesRecords": false,
+      "branch": "rehearsal/p2-authorization",
+      "base": "65695f4d72e6eac6953402e28caf0730ce399c2b",
+      "head": "e7ff7d74ac08d7d1436e0a72df86547126f55f10",
+      "changed": [
+        {
+          "status": "A",
+          "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-policy.json"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-trusted-base.json"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.plan.json"
+        }
+      ],
+      "blobs": {
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.md": {
+          "blob": "f5dc3e75dfc453a1906c5866abc246f4f4b2b7cf",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.plan.json": {
+          "blob": "e810d82bdfe8b25e53022a6ecbb42f92992f9f79",
+          "origin": "authored"
+        },
+        "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-trusted-base.json": {
+          "blob": "f5756d4e05a48fbee4346ce976074a78f730cfc2",
+          "origin": "generated"
+        },
+        "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-policy.json": {
+          "blob": "d69c08f6f63f52d4d0d823a5df85b6597415dcc6",
+          "origin": "generated"
+        }
+      }
+    },
+    "p2-change": {
+      "set": "P2",
+      "kind": "change",
+      "consumesRecords": true,
+      "branch": "rehearsal/p2-change",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "changed": [
+        {
+          "status": "M",
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.en.md"
+        },
+        {
+          "status": "M",
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/guards/V3_ifx/shared/policy-config.json"
+        },
+        {
+          "status": "D",
+          "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-policy.json"
+        },
+        {
+          "status": "D",
+          "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-trusted-base.json"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json"
+        },
+        {
+          "status": "M",
+          "path": "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs"
+        }
+      ],
+      "blobs": {
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md": {
+          "blob": "0b31b74eb8e829b2c3a2f3dae3fd88575705bf49",
+          "origin": "source-commit"
+        },
+        "docs/architecture/review/gates/G03/contract-event-governance.en.md": {
+          "blob": "37b0be115a5a76297da8860b88096d64d8b9501a",
+          "origin": "source-commit"
+        },
+        "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md": {
+          "blob": "a9ee10f89de314bd3da51d302549e8092f6e551c",
+          "origin": "source-commit"
+        },
+        "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json": {
+          "blob": "379406abd72a581fd807200b4c9f53603a29e1f1",
+          "origin": "source-commit"
+        },
+        "docs/guards/V3_ifx/shared/policy-config.json": {
+          "blob": "91715aed0a952d3232ff03bf2bd86d8c132e6c42",
+          "origin": "source-commit"
+        },
+        "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs": {
+          "blob": "b473c4520ba82b98a1635eb666091daf5358a608",
+          "origin": "source-commit"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md": {
+          "blob": "57422d2aa815da9aa68a4e54a3ebf749209ba1a2",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json": {
+          "blob": "808b67dd3c73af80813c9749361030f5ca407b13",
+          "origin": "authored"
+        }
+      }
+    },
+    "p3-early": {
+      "set": "P3",
+      "kind": "change",
+      "consumesRecords": false,
+      "branch": "rehearsal/p3-early",
+      "base": "f72026c3d5d84b88865f4a21814c64d00b28208d",
+      "head": "75564c8cd0288277583c4a1fbadb7877faa9232a",
+      "changed": [
+        {
+          "status": "A",
+          "path": "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/guards/V3_ifx/shared/policy-config.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/v4-adoption/README.md"
+        }
+      ],
+      "blobs": {
+        "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json": {
+          "blob": "a3539fb07c66e5f468b8b780b893c8b01918192e",
+          "origin": "authored"
+        },
+        "docs/guards/V3_ifx/shared/policy-config.json": {
+          "blob": "67e998e974acd32eaceae513d57620abb160288b",
+          "origin": "authored"
+        },
+        "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1": {
+          "blob": "b4567d63990814d5c4af3722e77c8c41c211e3a6",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md": {
+          "blob": "75628358b2742815a90a1a4cd71627102801cb00",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json": {
+          "blob": "5fbad50ae6dfab3159575a6eeae1270cf4995c76",
+          "origin": "authored"
+        },
+        "docs/guards/v4-adoption/README.md": {
+          "blob": "0971fb2743918288222205a3ed850721f3ea92aa",
+          "origin": "authored"
+        }
+      }
+    },
+    "p3-authorization": {
+      "set": "P3",
+      "kind": "authorization",
+      "consumesRecords": false,
+      "branch": "rehearsal/p3-authorization",
+      "base": "f72026c3d5d84b88865f4a21814c64d00b28208d",
+      "head": "26c347f720217cac5b83ca20cea8417046e2c65a",
+      "changed": [
+        {
+          "status": "A",
+          "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-policy.json"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.plan.json"
+        }
+      ],
+      "blobs": {
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.md": {
+          "blob": "9a0ac0e6c44ee0280a4a9e9abd79e3669c4d83a9",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.plan.json": {
+          "blob": "f15a0100bfdfcd37751f296bc5da647c8ed221bd",
+          "origin": "authored"
+        },
+        "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json": {
+          "blob": "47695aa1ead3f5de46cf7485def39ab068c57ca2",
+          "origin": "generated"
+        },
+        "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-policy.json": {
+          "blob": "bbdfc9c54f6608c3b597045be82094c311f063e0",
+          "origin": "generated"
+        }
+      }
+    },
+    "p3-change": {
+      "set": "P3",
+      "kind": "change",
+      "consumesRecords": true,
+      "branch": "rehearsal/p3-change",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "changed": [
+        {
+          "status": "A",
+          "path": "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/guards/V3_ifx/shared/policy-config.json"
+        },
+        {
+          "status": "D",
+          "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-policy.json"
+        },
+        {
+          "status": "D",
+          "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json"
+        },
+        {
+          "status": "M",
+          "path": "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json"
+        },
+        {
+          "status": "A",
+          "path": "docs/guards/v4-adoption/README.md"
+        }
+      ],
+      "blobs": {
+        "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json": {
+          "blob": "a3539fb07c66e5f468b8b780b893c8b01918192e",
+          "origin": "authored"
+        },
+        "docs/guards/V3_ifx/shared/policy-config.json": {
+          "blob": "67e998e974acd32eaceae513d57620abb160288b",
+          "origin": "authored"
+        },
+        "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1": {
+          "blob": "b4567d63990814d5c4af3722e77c8c41c211e3a6",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md": {
+          "blob": "75628358b2742815a90a1a4cd71627102801cb00",
+          "origin": "authored"
+        },
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json": {
+          "blob": "5fbad50ae6dfab3159575a6eeae1270cf4995c76",
+          "origin": "authored"
+        },
+        "docs/guards/v4-adoption/README.md": {
+          "blob": "0971fb2743918288222205a3ed850721f3ea92aa",
+          "origin": "authored"
+        }
+      }
+    }
+  },
+  "records": {
+    "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-policy.json": {
+      "sha256": "d82475ef50f5498c9e6be3514a7932d1cda0d7054f53da17ca8e87208613b44a",
+      "record": {
+        "formatVersion": 1,
+        "id": "i2c-g03-documentation-policy",
+        "operation": "weaken-policy",
+        "planPath": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+        "decisionPaths": [
+          "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+        ],
+        "changedPaths": [
+          "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+          "docs/guards/V3_ifx/shared/policy-config.json"
+        ],
+        "policies": [
+          {
+            "path": "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+            "baseSha256": null,
+            "headSha256": "366df940e3137a1e2a90da6720ec08da36eac5a8c5e559678258f4b1ebbe5ad9",
+            "schema": "docs/guards/V3/contracts/decision.schema.json",
+            "pointers": [
+              ""
+            ],
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "379406abd72a581fd807200b4c9f53603a29e1f1"
+            }
+          },
+          {
+            "path": "docs/guards/V3_ifx/shared/policy-config.json",
+            "baseSha256": "8a566d4385fc704747e73064a86b98a19217b390d3afe8960cfaa697317bb18e",
+            "headSha256": "9d876448da2c478185b763866c5701a521e9555039e114efd700f7095ad63e40",
+            "schema": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+            "pointers": [
+              "/entries/24/paths/41"
+            ],
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "91715aed0a952d3232ff03bf2bd86d8c132e6c42"
+            }
+          }
+        ]
+      }
+    },
+    "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-trusted-base.json": {
+      "sha256": "fa31ae3a53a550af7bc80edfe3f8f29b62632e35734dc14faafb2088cec39e0d",
+      "record": {
+        "formatVersion": 1,
+        "id": "i2c-g03-documentation-trusted-base",
+        "operation": "change-trusted-base",
+        "planPath": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+        "decisionPaths": [
+          "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+        ],
+        "changedPaths": [
+          "docs/guards/V3_ifx/shared/policy-config.json"
+        ],
+        "components": [
+          "tcb.manifest"
+        ],
+        "entries": [
+          {
+            "path": "docs/guards/V3_ifx/shared/policy-config.json",
+            "component": "tcb.manifest",
+            "base": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "b4a35ff242776d749333ad43fe87962e46b09413"
+            },
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "91715aed0a952d3232ff03bf2bd86d8c132e6c42"
+            }
+          }
+        ],
+        "validationSuite": [
+          "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+          "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
+        ],
+        "parityContract": "The decision-history registry of policy-config.json gains exactly one entry, 20260924-v4-ifx-c2d-g03-current-documentation; every other registered policy, role, schema, format and monotonicity declaration is unchanged, so every verdict on the fixed corpus is unchanged.",
+        "allowedBehaviorDifferences": []
+      }
+    },
+    "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-policy.json": {
+      "sha256": "cdee559c56fcf629f6cad4b9e900335e946b928bf4ae829f17eaac797f8608a0",
+      "record": {
+        "formatVersion": 1,
+        "id": "i2c-v4-adoption-admission-policy",
+        "operation": "weaken-policy",
+        "planPath": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+        "decisionPaths": [
+          "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json"
+        ],
+        "changedPaths": [
+          "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+          "docs/guards/V3_ifx/shared/policy-config.json"
+        ],
+        "policies": [
+          {
+            "path": "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+            "baseSha256": null,
+            "headSha256": "88080182639a780a2cfbe899a86a03bf2d178c2624b79a9cab8c0407252b6e0a",
+            "schema": "docs/guards/V3/contracts/decision.schema.json",
+            "pointers": [
+              ""
+            ],
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "a3539fb07c66e5f468b8b780b893c8b01918192e"
+            }
+          },
+          {
+            "path": "docs/guards/V3_ifx/shared/policy-config.json",
+            "baseSha256": "9d876448da2c478185b763866c5701a521e9555039e114efd700f7095ad63e40",
+            "headSha256": "df35197d4b53f7672ca1b00410e844c321662aee0d82d6f0200824b33c75d083",
+            "schema": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+            "pointers": [
+              "/entries/24/paths/42"
+            ],
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "67e998e974acd32eaceae513d57620abb160288b"
+            }
+          }
+        ]
+      }
+    },
+    "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json": {
+      "sha256": "a77e1b92f5ae0cbba049d737eb4a931e7ec689208a460d147fc14d9aa3180a4a",
+      "record": {
+        "formatVersion": 1,
+        "id": "i2c-v4-adoption-admission-trusted-base",
+        "operation": "change-trusted-base",
+        "planPath": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+        "decisionPaths": [
+          "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+          "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json"
+        ],
+        "changedPaths": [
+          "docs/guards/V3_ifx/shared/policy-config.json",
+          "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1"
+        ],
+        "components": [
+          "tcb.manifest",
+          "tcb.validation.package-tests"
+        ],
+        "entries": [
+          {
+            "path": "docs/guards/V3_ifx/shared/policy-config.json",
+            "component": "tcb.manifest",
+            "base": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "91715aed0a952d3232ff03bf2bd86d8c132e6c42"
+            },
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "67e998e974acd32eaceae513d57620abb160288b"
+            }
+          },
+          {
+            "path": "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+            "component": "tcb.validation.package-tests",
+            "base": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "88630b1449d34eccbb01b2ea3e9725d6a3077481"
+            },
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "b4567d63990814d5c4af3722e77c8c41c211e3a6"
+            }
+          }
+        ],
+        "validationSuite": [
+          "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+          "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+          "v3-architecture",
+          "v3-cross-platform-*"
+        ],
+        "parityContract": "Every cutover-preservation assertion is unchanged except the top-level docs/guards allowlist, which admits exactly one additional entry, v4-adoption, compared case-sensitively; any other, differently cased or missing entry still fails. The decision-history registry of policy-config.json gains exactly one entry, 20261001-v4-ifx-i2c-v4-adoption-admission; nothing else in policy-config.json changes.",
+        "allowedBehaviorDifferences": []
+      }
+    }
+  },
+  "steps": [
+    {
+      "id": "p1-diff",
+      "description": "P1 passes the trusted Diff with its formal plan.",
+      "base": "57647c9ae75c25666d825477c7a1ea11073468c5",
+      "head": "c1dfb93a8c76c6c93070b69a0fba45f8c31301c2",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/01-p1-diff.log",
+      "evidence": [
+        "Protected change verification passed (no protected changes): <temp>\\guard-gen-0bc273d1\\protected-changes.json",
+        "Policy candidate validation passed (0 validation(s)): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 140 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "p1-validate",
+      "description": "P1 passes Validate for its explicit head.",
+      "base": "57647c9ae75c25666d825477c7a1ea11073468c5",
+      "head": "c1dfb93a8c76c6c93070b69a0fba45f8c31301c2",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/02-p1-validate.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-validate.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "id": "p1-candidate-tests",
+      "description": "P1 head candidate package tests pass (includes Test-CutoverPreservation).",
+      "base": "57647c9ae75c25666d825477c7a1ea11073468c5",
+      "head": "c1dfb93a8c76c6c93070b69a0fba45f8c31301c2",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/03-p1-candidate-tests.log",
+      "evidence": [
+        "Cutover preservation passed: 16 required paths, 8 historical baselines, 103 prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired and one V3 workflow active."
+      ]
+    },
+    {
+      "id": "p1-architecture",
+      "description": "P1 passes the production architecture scan.",
+      "base": "57647c9ae75c25666d825477c7a1ea11073468c5",
+      "head": "c1dfb93a8c76c6c93070b69a0fba45f8c31301c2",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/04-p1-architecture.log",
+      "evidence": [
+        "Passed!  - Failed:     0, Passed:   184, Skipped:     0, Total:   184, Duration: 445 ms - Guards.ArchitectureConformance.Tests.dll (net10.0)",
+        "Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 5 s - LayerGuard.Ifx.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-architecture.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-architecture.json"
+      ]
+    },
+    {
+      "id": "p1-historical",
+      "description": "P1 passes Historical Integrity.",
+      "base": "57647c9ae75c25666d825477c7a1ea11073468c5",
+      "head": "c1dfb93a8c76c6c93070b69a0fba45f8c31301c2",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/05-p1-historical.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-historical-integrity.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-historicalintegrity.json"
+      ]
+    },
+    {
+      "id": "p1-quality-solution",
+      "description": "P1 passes solution quality (build and tests).",
+      "base": "57647c9ae75c25666d825477c7a1ea11073468c5",
+      "head": "c1dfb93a8c76c6c93070b69a0fba45f8c31301c2",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/06-p1-quality-solution.log",
+      "evidence": [
+        "Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 217 ms - IFX.Modules.IAM.Presentation.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:   108, Skipped:     0, Total:   108, Duration: 339 ms - IFX.Modules.IAM.Domain.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    11, Skipped:     0, Total:    11, Duration: 621 ms - IFX.Platform.BackgroundJobs.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:   266, Skipped:     0, Total:   266, Duration: 809 ms - IFX.Modules.IAM.Application.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    48, Skipped:     0, Total:    48, Duration: 186 ms - IFX.Modules.Registry.Domain.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    56, Skipped:     0, Total:    56, Duration: 252 ms - IFX.Modules.CRM.Domain.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    17, Skipped:     0, Total:    17, Duration: 660 ms - IFX.Platform.Notifications.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    17, Skipped:     0, Total:    17, Duration: 312 ms - IFX.Modules.Holdings.Domain.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    35, Skipped:     0, Total:    35, Duration: 847 ms - IFX.Modules.CRM.Application.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    44, Skipped:     0, Total:    44, Duration: 663 ms - IFX.Modules.Registry.Application.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    67, Skipped:     0, Total:    67, Duration: 4 s - IFX.Modules.IAM.Infrastructure.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    38, Skipped:     0, Total:    38, Duration: 222 ms - IFX.Modules.Transaction.Domain.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 591 ms - IFX.Modules.Holdings.Application.Tests.dll (net8.0)",
+        "Passed!  - Failed:     0, Passed:    12, Skipped:     0, Total:    12, Duration: 737 ms - IFX.BuildingBlocks.Application.Tests.dll (net8.0)"
+      ]
+    },
+    {
+      "id": "p2-early-diff",
+      "description": "P2 fails before its authorization PR merges.",
+      "base": "65695f4d72e6eac6953402e28caf0730ce399c2b",
+      "head": "8171ff18d6147c9ea124ab6869f9703f23b0dde7",
+      "expectedExit": 1,
+      "expectText": "Uncovered",
+      "exit": 1,
+      "asExpected": true,
+      "log": "logs/07-p2-early-diff.log",
+      "evidence": [
+        "FAIL Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json",
+        "FAIL Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+        "FAIL Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json",
+        "Protected change verification failed: <temp>\\guard-gen-b4e71972\\protected-changes.json",
+        "Policy candidate validation passed (3 validation(s)): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 141 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "FAIL protected-changes: Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json | Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json | Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json",
+        "Trusted base run failed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "p2-authorization-diff",
+      "description": "P2 authorization PR passes the trusted Diff.",
+      "base": "65695f4d72e6eac6953402e28caf0730ce399c2b",
+      "head": "e7ff7d74ac08d7d1436e0a72df86547126f55f10",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/08-p2-authorization-diff.log",
+      "evidence": [
+        "Protected change verification passed (no protected changes): <temp>\\guard-gen-39a34670\\protected-changes.json",
+        "Policy candidate validation passed (0 validation(s)): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 142 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "p2-authorization-candidates",
+      "description": "P2 authorization PR changes no trusted component.",
+      "base": "65695f4d72e6eac6953402e28caf0730ce399c2b",
+      "head": "e7ff7d74ac08d7d1436e0a72df86547126f55f10",
+      "expectedExit": 0,
+      "expectText": "no trusted component changes",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/09-p2-authorization-candidates.log",
+      "evidence": [
+        "Trusted component candidate check passed (no trusted component changes): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "id": "p2-authorization-validate",
+      "description": "P2 authorization PR passes Validate.",
+      "base": "65695f4d72e6eac6953402e28caf0730ce399c2b",
+      "head": "e7ff7d74ac08d7d1436e0a72df86547126f55f10",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/10-p2-authorization-validate.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-validate.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "id": "p2-change-diff",
+      "description": "P2 passes the trusted Diff with its formal plan.",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/11-p2-change-diff.log",
+      "evidence": [
+        "Protected change verification passed (3 obligation(s) covered by 2 authorization(s)): <temp>\\guard-gen-873ffac0\\protected-changes.json",
+        "Policy candidate validation passed (3 validation(s)): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 145 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "p2-change-candidates",
+      "description": "P2 trusted component change passes base-owned validation and parity.",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "expectedExit": 0,
+      "expectText": "authorized change of",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/12-p2-change-candidates.log",
+      "evidence": [
+        "Trusted component candidate check passed (authorized change of tcb.manifest): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "id": "p2-change-policy-candidates",
+      "description": "P2 head policy candidates pass base validation.",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "expectedExit": 0,
+      "expectText": "Policy candidate validation passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/13-p2-change-policy-candidates.log",
+      "evidence": [
+        "Policy candidate validation passed (3 validation(s)): <work>\\p2-change-policy-candidates.json"
+      ]
+    },
+    {
+      "id": "p2-change-validate",
+      "description": "P2 passes Validate for its explicit head.",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/14-p2-change-validate.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-validate.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "id": "p2-change-candidate-tests",
+      "description": "P2 head candidate package tests pass (includes Test-CutoverPreservation).",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/15-p2-change-candidate-tests.log",
+      "evidence": [
+        "Cutover preservation passed: 16 required paths, 8 historical baselines, 103 prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired and one V3 workflow active."
+      ]
+    },
+    {
+      "id": "p2-change-architecture",
+      "description": "P2 passes the production architecture scan.",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/16-p2-change-architecture.log",
+      "evidence": [
+        "Passed!  - Failed:     0, Passed:   184, Skipped:     0, Total:   184, Duration: 430 ms - Guards.ArchitectureConformance.Tests.dll (net10.0)",
+        "Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 6 s - LayerGuard.Ifx.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-architecture.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-architecture.json"
+      ]
+    },
+    {
+      "id": "p2-change-historical",
+      "description": "P2 passes Historical Integrity.",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/17-p2-change-historical.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-historical-integrity.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-historicalintegrity.json"
+      ]
+    },
+    {
+      "id": "p2-change-g03",
+      "description": "P2 passes the G03 specialized gate.",
+      "base": "908dbbc3c2c7bdb861a9ebbe8a8253b1aa0b12b3",
+      "head": "8e7c569eb205129612150f26adf198722f4d7c3c",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/18-p2-change-g03.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-specialized.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-specialized-g03.json"
+      ]
+    },
+    {
+      "id": "p3-early-diff",
+      "description": "P3 fails before its authorization PR merges.",
+      "base": "f72026c3d5d84b88865f4a21814c64d00b28208d",
+      "head": "75564c8cd0288277583c4a1fbadb7877faa9232a",
+      "expectedExit": 1,
+      "expectText": "Uncovered",
+      "exit": 1,
+      "asExpected": true,
+      "log": "logs/19-p3-early-diff.log",
+      "evidence": [
+        "FAIL Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json, docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+        "FAIL Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+        "FAIL Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json",
+        "Protected change verification failed: <temp>\\guard-gen-4253812a\\protected-changes.json",
+        "Policy candidate validation passed (3 validation(s)): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 141 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "FAIL protected-changes: Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json, docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1 | Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json | Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json",
+        "Trusted base run failed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "p3-authorization-diff",
+      "description": "P3 authorization PR passes the trusted Diff.",
+      "base": "f72026c3d5d84b88865f4a21814c64d00b28208d",
+      "head": "26c347f720217cac5b83ca20cea8417046e2c65a",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/20-p3-authorization-diff.log",
+      "evidence": [
+        "Protected change verification passed (no protected changes): <temp>\\guard-gen-6eb03d4a\\protected-changes.json",
+        "Policy candidate validation passed (0 validation(s)): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 144 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "p3-authorization-candidates",
+      "description": "P3 authorization PR changes no trusted component.",
+      "base": "f72026c3d5d84b88865f4a21814c64d00b28208d",
+      "head": "26c347f720217cac5b83ca20cea8417046e2c65a",
+      "expectedExit": 0,
+      "expectText": "no trusted component changes",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/21-p3-authorization-candidates.log",
+      "evidence": [
+        "Trusted component candidate check passed (no trusted component changes): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "id": "p3-authorization-validate",
+      "description": "P3 authorization PR passes Validate.",
+      "base": "f72026c3d5d84b88865f4a21814c64d00b28208d",
+      "head": "26c347f720217cac5b83ca20cea8417046e2c65a",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/22-p3-authorization-validate.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-validate.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "id": "p3-change-diff",
+      "description": "P3 passes the trusted Diff with its formal plan.",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/23-p3-change-diff.log",
+      "evidence": [
+        "Protected change verification passed (3 obligation(s) covered by 2 authorization(s)): <temp>\\guard-gen-adecfc83\\protected-changes.json",
+        "Policy candidate validation passed (3 validation(s)): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 141 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "p3-change-candidates",
+      "description": "P3 trusted component change passes base-owned validation and parity.",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "authorized change of",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/24-p3-change-candidates.log",
+      "evidence": [
+        "Trusted component candidate check passed (authorized change of tcb.manifest, tcb.validation.package-tests): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "id": "p3-change-policy-candidates",
+      "description": "P3 head policy candidates pass base validation.",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "Policy candidate validation passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/25-p3-change-policy-candidates.log",
+      "evidence": [
+        "Policy candidate validation passed (3 validation(s)): <work>\\p3-change-policy-candidates.json"
+      ]
+    },
+    {
+      "id": "p3-change-validate",
+      "description": "P3 passes Validate for its explicit head.",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/26-p3-change-validate.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-validate.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "id": "p3-change-candidate-tests",
+      "description": "P3 head candidate package tests pass (includes Test-CutoverPreservation).",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/27-p3-change-candidate-tests.log",
+      "evidence": [
+        "Cutover preservation passed: 16 required paths, 8 historical baselines, 103 prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired, one V4 adoption entry admitted and one V3 workflow active."
+      ]
+    },
+    {
+      "id": "p3-change-architecture",
+      "description": "P3 passes the production architecture scan.",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/28-p3-change-architecture.log",
+      "evidence": [
+        "Passed!  - Failed:     0, Passed:   184, Skipped:     0, Total:   184, Duration: 456 ms - Guards.ArchitectureConformance.Tests.dll (net10.0)",
+        "Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 6 s - LayerGuard.Ifx.Tests.dll (net10.0)",
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-architecture.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-architecture.json"
+      ]
+    },
+    {
+      "id": "p3-change-historical",
+      "description": "P3 passes Historical Integrity.",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/29-p3-change-historical.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-historical-integrity.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-historicalintegrity.json"
+      ]
+    },
+    {
+      "id": "p3-change-g03",
+      "description": "P3 passes the G03 specialized gate.",
+      "base": "64d490bbfcc9889b93d660c03434a7d6d9ac155d",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/30-p3-change-g03.log",
+      "evidence": [
+        "IFX guardrails passed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-specialized.json",
+        "Trusted base run passed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-specialized-g03.json"
+      ]
+    },
+    {
+      "id": "p3-allowlist-positive",
+      "description": "The new allowlist passes on the P3 head.",
+      "base": "",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 0,
+      "expectText": "Cutover preservation passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/31-p3-allowlist-positive.log",
+      "evidence": [
+        "Cutover preservation passed: 16 required paths, 8 historical baselines, 103 prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired, one V4 adoption entry admitted and one V3 workflow active."
+      ]
+    },
+    {
+      "id": "p3-allowlist-extra-entry",
+      "description": "An additional docs/guards entry fails.",
+      "base": "",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 1,
+      "expectText": "unexpected entry",
+      "exit": 1,
+      "asExpected": true,
+      "log": "logs/32-p3-allowlist-extra-entry.log",
+      "evidence": [
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m  53 | \u001b[0m     \u001b[36;1mthrow \"docs/guards top level contains an unexpected entry: $($top\u001b[0m .\u001b[0m",
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mdocs/guards top level contains an unexpected entry: candidates, plans, V3, V3_ifx, v4-adoption\u001b[0m"
+      ]
+    },
+    {
+      "id": "p3-allowlist-case",
+      "description": "A differently cased v4-adoption entry fails.",
+      "base": "",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 1,
+      "expectText": "unexpected entry",
+      "exit": 1,
+      "asExpected": true,
+      "log": "logs/33-p3-allowlist-case.log",
+      "evidence": [
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m  53 | \u001b[0m     \u001b[36;1mthrow \"docs/guards top level contains an unexpected entry: $($top\u001b[0m .\u001b[0m",
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mdocs/guards top level contains an unexpected entry: plans, V3, V3_ifx, V4-Adoption\u001b[0m"
+      ]
+    },
+    {
+      "id": "p3-allowlist-missing",
+      "description": "A missing v4-adoption entry fails.",
+      "base": "",
+      "head": "7c20e604e194cf038106c7fafb0b48ee87c5beb1",
+      "expectedExit": 1,
+      "expectText": "unexpected entry",
+      "exit": 1,
+      "asExpected": true,
+      "log": "logs/34-p3-allowlist-missing.log",
+      "evidence": [
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m  53 | \u001b[0m     \u001b[36;1mthrow \"docs/guards top level contains an unexpected entry: $($top\u001b[0m .\u001b[0m",
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mdocs/guards top level contains an unexpected entry: plans, V3, V3_ifx\u001b[0m"
+      ]
+    },
+    {
+      "id": "p3-base-test-rejects",
+      "description": "The unchanged base test rejects a v4-adoption entry.",
+      "base": "",
+      "head": "f72026c3d5d84b88865f4a21814c64d00b28208d",
+      "expectedExit": 1,
+      "expectText": "unexpected entry",
+      "exit": 1,
+      "asExpected": true,
+      "log": "logs/35-p3-base-test-rejects.log",
+      "evidence": [
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m  52 | \u001b[0m     \u001b[36;1mthrow \"docs/guards top level contains an unexpected entry: $($top\u001b[0m .\u001b[0m",
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mdocs/guards top level contains an unexpected entry: plans, V3, V3_ifx, v4-adoption\u001b[0m"
+      ]
+    },
+    {
+      "id": "p3-replay-diff",
+      "description": "A second PR cannot consume the record that P3 already consumed.",
+      "base": "a65e2fec43db315b8daf0c2653fd99ee2ec86f5f",
+      "head": "3047054311cbc43255fc22fa7af8d9ae80472eeb",
+      "expectedExit": 1,
+      "expectText": "not in the base commit",
+      "exit": 1,
+      "asExpected": true,
+      "log": "logs/36-p3-replay-diff.log",
+      "evidence": [
+        "FAIL Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+        "FAIL Authorization docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json is rejected: the record is not in the base commit (already consumed or revoked)",
+        "Protected change verification failed: <temp>\\guard-gen-4fd470d3\\protected-changes.json",
+        "Policy candidate validation passed (0 validation(s)): <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 142 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m 249 | \u001b[0m . ry.status -ne 'pass') { \u001b[36;1mthrow \"IFX guardrails failed: $summaryPath\"\u001b[0m }\u001b[0m",
+        "\u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mIFX guardrails failed: <work>\\h\\artifacts\\guards\\v3-ifx\\summary-diff.json\u001b[0m",
+        "FAIL protected-changes: Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1 | Authorization docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json is rejected: the record is not in the base commit (already consumed or revoked)",
+        "FAIL guardrails: Base guardrails returned exit code 1.",
+        "Trusted base run failed: <work>\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    }
+  ],
+  "unexpectedSteps": [],
+  "finalState": {
+    "target": "a65e2fec43db315b8daf0c2653fd99ee2ec86f5f",
+    "docsGuardsTopLevel": [
+      "plans",
+      "V3",
+      "V3_ifx",
+      "v4-adoption"
+    ],
+    "v4AdoptionFiles": [
+      "README.md"
+    ],
+    "remainingAuthorizationRecords": [],
+    "finalBlobMismatches": [],
+    "checkedPaths": [
+      "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+      "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json",
+      "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+      "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+      "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+      "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+      "docs/guards/V3_ifx/shared/policy-config.json",
+      "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+      "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+      "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+      "docs/guards/v4-adoption/README.md"
+    ],
+    "pass": true
+  },
+  "note": "Rehearsal commits are local and are never pushed; C5-C7 rebuild each head on the real target head and regenerate the records, which may differ from these only in base identities."
+}

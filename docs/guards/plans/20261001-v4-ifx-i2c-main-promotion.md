@@ -1,6 +1,6 @@
 # IFX I2-C — promote to `main` and admit `docs/guards/v4-adoption` (decisions 1A and 2B)
 
-Status: `ACTIVE — rulings RC1–RC6 taken as recommended and C0–C4 authorized for local execution (2026-10-01, "全部按推荐，并授权C0到C4本地执行"); every remote step C5–C12 needs its own authorization`
+Status: `ACTIVE — rulings RC1–RC6 taken as recommended and C0–C4 authorized for local execution (2026-10-01, "全部按推荐，并授权C0到C4本地执行"); C0–C3 complete; C4 review packet ready for the operator; every remote step C5–C12 needs its own authorization`
 
 Formal Plan ID: `20261001-v4-ifx-i2c-main-promotion`. Phase I2-C of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`. Phases I2-D to I2-G build on it.
@@ -188,3 +188,22 @@ Each of these stops I2-C. The evidence is kept, and nothing is retried silently.
 - The Linux blocking decision and the V3 Linux bridge; V3 retirement (I3).
 - Promoting the lab history or the historical V4 Plans to `main`. Under 2B the development branch stays the lab and
   evidence branch, referenced by commit.
+
+## 10. Progress
+
+- **C0 (2026-10-01).** Plan pair and status corrections committed (`48c174e3`).
+- **C1.** GET-only snapshot passes (`c1-remote-snapshot.json`, evrun 003; runs 001–002 failed on script defects of the
+  snapshot itself): every fact of §2 holds; ruleset canonical SHA-256 `857a51aa…`.
+- **C2.** `candidates/ifx-i2c/pr-spec.json`, the authored files under `pr/` and `New-IFXI2CPullRequestHeads.ps1`.
+  An unrecorded discovery run showed that P2 and P3 each need a `change-trusted-base` record (`policy-config.json` is a
+  trusted component; for P3 also the test) and a `weaken-policy` record (the decision history is `trust-meta-policy`),
+  so authorization pull requests P2a and P3a were added; P1 needs none.
+- **C3.** `Invoke-IFXI2CRehearsal.ps1` passes (evrun 007, `c3-rehearsal/rehearsal.json` `eee37e09…`): 36/36 steps as
+  expected with full parity and solution quality; both two-PR sequences (early change fails, authorization PR passes,
+  consuming change passes Diff, candidate parity, policy candidates, Validate, candidate tests, Architecture, Historical
+  Integrity and G03); allowlist controls (extra, differently cased and missing entries fail; the unchanged base test
+  rejects `v4-adoption`); a consumed record cannot be replayed; final `docs/guards` is exactly `plans`, `V3`, `V3_ifx`,
+  `v4-adoption`, with every path equal to its source. Trials 1–2 (evrun 004–005) and attempt 1 (evrun 006, all 36 steps
+  as expected but a wrong final-state string comparison) are kept under `artifacts/guards/p10-ifx-i2c-trials/`.
+  Fixes: generated records are committed with LF; final-state checks.
+- **C4.** Review packet `c4-review/review-packet.json` `897c7d68…` and `review.md` (evrun 008). Waiting for the operator.

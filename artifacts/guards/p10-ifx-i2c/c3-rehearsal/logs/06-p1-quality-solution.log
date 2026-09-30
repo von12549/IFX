@@ -1,0 +1,279 @@
+  Determining projects to restore...
+  Restored <work>\h\src\Modules\CRM\IFX.Modules.CRM.Domain\IFX.Modules.CRM.Domain.csproj (in 226 ms).
+  Restored <work>\h\src\Modules\CRM\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj (in 226 ms).
+  Restored <work>\h\src\Modules\IAM\IFX.Modules.IAM.Application\IFX.Modules.IAM.Application.csproj (in 246 ms).
+  Restored <work>\h\src\Modules\IAM\IFX.Modules.IAM.Presentation\IFX.Modules.IAM.Presentation.csproj (in 246 ms).
+  Restored <work>\h\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj (in 226 ms).
+  Restored <work>\h\src\Modules\CRM\IFX.Modules.CRM.Application\IFX.Modules.CRM.Application.csproj (in 3 ms).
+  Restored <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Presentation\IFX.Modules.Transaction.Presentation.csproj (in 247 ms).
+  Restored <work>\h\src\Platform\Authorization\IFX.Platform.Authorization.Composition\IFX.Platform.Authorization.Composition.csproj (in 226 ms).
+  Restored <work>\h\tests\IFX.Platform.Authentication.Tests\IFX.Platform.Authentication.Tests.csproj (in 23 ms).
+  Restored <work>\h\tests\IFX.Platform.Authorization.Tests\IFX.Platform.Authorization.Tests.csproj (in 24 ms).
+  Restored <work>\h\tests\IFX.Modules.Transaction.Domain.Tests\IFX.Modules.Transaction.Domain.Tests.csproj (in 23 ms).
+  Restored <work>\h\tests\IFX.Modules.Registry.Domain.Tests\IFX.Modules.Registry.Domain.Tests.csproj (in 2 ms).
+  Restored <work>\h\tests\IFX.Modules.Holdings.Domain.Tests\IFX.Modules.Holdings.Domain.Tests.csproj (in 2 ms).
+  Restored <work>\h\tests\IFX.Modules.Holdings.Application.Tests\IFX.Modules.Holdings.Application.Tests.csproj (in 4 ms).
+  Restored <work>\h\src\Platform\Notifications\IFX.Platform.Notifications.Infrastructure.SendGrid\IFX.Platform.Notifications.Infrastructure.SendGrid.csproj (in 3 ms).
+  Restored <work>\h\tests\IFX.BuildingBlocks.Application.Tests\IFX.BuildingBlocks.Application.Tests.csproj (in 13 ms).
+  Restored <work>\h\tests\IFX.Modules.CRM.Domain.Tests\IFX.Modules.CRM.Domain.Tests.csproj (in 2 ms).
+  Restored <work>\h\tests\IFX.BuildingBlocks.EntityFrameworkCore.Tests\IFX.BuildingBlocks.EntityFrameworkCore.Tests.csproj (in 35 ms).
+  Restored <work>\h\src\Modules\CRM\IFX.Modules.CRM.Composition\IFX.Modules.CRM.Composition.csproj (in 367 ms).
+  Restored <work>\h\src\Platform\Notifications\IFX.Platform.Notifications.Composition\IFX.Platform.Notifications.Composition.csproj (in 4 ms).
+  Restored <work>\h\src\DatabaseMigrator\IFX.DatabaseMigrator\IFX.DatabaseMigrator.csproj (in 382 ms).
+  Restored <work>\h\src\Platform\Notifications\IFX.Platform.Notifications.Contracts\IFX.Platform.Notifications.Contracts.csproj (in 3 ms).
+  Restored <work>\h\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\IFX.Modules.CRM.Infrastructure.csproj (in 379 ms).
+  Restored <work>\h\src\Platform\Messaging\IFX.Platform.Messaging.Runtime\IFX.Platform.Messaging.Runtime.csproj (in 3 ms).
+  Restored <work>\h\src\ApiHost\IFX.ApiHost\IFX.ApiHost.csproj (in 388 ms).
+  Restored <work>\h\src\Modules\Registry\IFX.Modules.Registry.Domain\IFX.Modules.Registry.Domain.csproj (in 10 ms).
+  Restored <work>\h\src\Modules\IAM\IFX.Modules.IAM.Domain\IFX.Modules.IAM.Domain.csproj (in 1 ms).
+  Restored <work>\h\src\Modules\Registry\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj (in 2 ms).
+  Restored <work>\h\src\Modules\IAM\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj (in 1 ms).
+  Restored <work>\h\src\Modules\Registry\IFX.Modules.Registry.Application\IFX.Modules.Registry.Application.csproj (in 3 ms).
+  Restored <work>\h\src\Modules\Registry\IFX.Modules.Registry.Composition\IFX.Modules.Registry.Composition.csproj (in 7 ms).
+  Restored <work>\h\src\Modules\Registry\IFX.Modules.Registry.Infrastructure\IFX.Modules.Registry.Infrastructure.csproj (in 15 ms).
+  Restored <work>\h\src\Modules\IAM\IFX.Modules.IAM.Infrastructure\IFX.Modules.IAM.Infrastructure.csproj (in 19 ms).
+  Restored <work>\h\src\Modules\IAM\IFX.Modules.IAM.Composition\IFX.Modules.IAM.Composition.csproj (in 13 ms).
+  Restored <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Composition\IFX.Modules.Holdings.Composition.csproj (in 6 ms).
+  Restored <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Presentation\IFX.Modules.Holdings.Presentation.csproj (in 3 ms).
+  Restored <work>\h\src\Modules\CRM\IFX.Modules.CRM.Presentation\IFX.Modules.CRM.Presentation.csproj (in 3 ms).
+  Restored <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj (in 2 ms).
+  Restored <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Infrastructure\IFX.Modules.Holdings.Infrastructure.csproj (in 7 ms).
+  Restored <work>\h\src\Modules\IAM\IFX.Modules.IAM.Client\IFX.Modules.IAM.Client.csproj (in 43 ms).
+  Restored <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Domain\IFX.Modules.Holdings.Domain.csproj (in 1 ms).
+  Restored <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Application\IFX.Modules.Holdings.Application.csproj (in 3 ms).
+  Restored <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.Domain\IFX.BuildingBlocks.Domain.csproj (in 2 ms).
+  Restored <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\IFX.BuildingBlocks.EntityFrameworkCore.csproj (in 3 ms).
+  Restored <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.Composition\IFX.BuildingBlocks.Composition.csproj (in 0.8 ms).
+  Restored <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.Application\IFX.BuildingBlocks.Application.csproj (in 1 ms).
+  Restored <work>\h\tools\IFX.DatabaseInventory\IFX.DatabaseInventory.csproj (in 12 ms).
+  Restored <work>\h\tests\IFX.Platform.BackgroundJobs.Tests\IFX.Platform.BackgroundJobs.Tests.csproj (in 321 ms).
+  Restored <work>\h\tests\IFX.Platform.Notifications.Tests\IFX.Platform.Notifications.Tests.csproj (in 331 ms).
+  Restored <work>\h\tests\IFX.Modules.Transaction.Application.Tests\IFX.Modules.Transaction.Application.Tests.csproj (in 295 ms).
+  Restored <work>\h\tests\IFX.Modules.Registry.Application.Tests\IFX.Modules.Registry.Application.Tests.csproj (in 67 ms).
+  Restored <work>\h\src\Platform\Messaging\IFX.Platform.Messaging.Contracts\IFX.Platform.Messaging.Contracts.csproj (in 5 ms).
+  Restored <work>\h\tests\IFX.Modules.IAM.Presentation.Tests\IFX.Modules.IAM.Presentation.Tests.csproj (in 64 ms).
+  Restored <work>\h\tests\IFX.Tests.Common\IFX.Tests.Common.csproj (in 11 ms).
+  Restored <work>\h\tests\IFX.Platform.ProtocolContracts.Tests\IFX.Platform.ProtocolContracts.Tests.csproj (in 3 ms).
+  Restored <work>\h\tests\IFX.Modules.IAM.Domain.Tests\IFX.Modules.IAM.Domain.Tests.csproj (in 62 ms).
+  Restored <work>\h\tests\IFX.Modules.IAM.Infrastructure.Tests\IFX.Modules.IAM.Infrastructure.Tests.csproj (in 64 ms).
+  Restored <work>\h\src\Platform\Context\IFX.Platform.Context.Runtime\IFX.Platform.Context.Runtime.csproj (in 3 ms).
+  Restored <work>\h\tests\IFX.Modules.IAM.Application.Tests\IFX.Modules.IAM.Application.Tests.csproj (in 606 ms).
+  Restored <work>\h\src\Platform\IFX.Platform.Shared\IFX.Platform.Shared.csproj (in 1 ms).
+  Restored <work>\h\src\Platform\Authorization\IFX.Platform.Authorization.Infrastructure.Opa\IFX.Platform.Authorization.Infrastructure.Opa.csproj (in 1 ms).
+  Restored <work>\h\src\Platform\Messaging\IFX.Platform.Messaging.Composition\IFX.Platform.Messaging.Composition.csproj (in 5 ms).
+  Restored <work>\h\src\Platform\Authorization\IFX.Platform.Authorization.Runtime\IFX.Platform.Authorization.Runtime.csproj (in 1 ms).
+  Restored <work>\h\tests\IFX.DatabaseBoundary.Tests\IFX.DatabaseBoundary.Tests.csproj (in 112 ms).
+  Restored <work>\h\src\Platform\Authorization\IFX.Platform.Authorization.Contracts\IFX.Platform.Authorization.Contracts.csproj (in 1 ms).
+  Restored <work>\h\src\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj (in 40 ms).
+  Restored <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Infrastructure.Cognito\IFX.Platform.Authentication.Infrastructure.Cognito.csproj (in 4 ms).
+  Restored <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Infrastructure.Auth0\IFX.Platform.Authentication.Infrastructure.Auth0.csproj (in 2 ms).
+  Restored <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Contracts\IFX.Platform.Authentication.Contracts.csproj (in 0.7 ms).
+  Restored <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Composition\IFX.Platform.Authentication.Composition.csproj (in 3 ms).
+  Restored <work>\h\tests\IFX.Modules.CRM.Application.Tests\IFX.Modules.CRM.Application.Tests.csproj (in 63 ms).
+  Restored <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Contracts\IFX.Modules.Transaction.Contracts.csproj (in 1 ms).
+  Restored <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Domain\IFX.Modules.Transaction.Domain.csproj (in 12 ms).
+  Restored <work>\h\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Contracts\IFX.Platform.BackgroundJobs.Contracts.csproj (in 17 ms).
+  Restored <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Runtime\IFX.Platform.Authentication.Runtime.csproj (in 38 ms).
+  Restored <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Application\IFX.Modules.Transaction.Application.csproj (in 3 ms).
+  Restored <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Composition\IFX.Modules.Transaction.Composition.csproj (in 17 ms).
+  Restored <work>\h\src\Modules\Registry\IFX.Modules.Registry.Presentation\IFX.Modules.Registry.Presentation.csproj (in 5 ms).
+  Restored <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Infrastructure\IFX.Modules.Transaction.Infrastructure.csproj (in 24 ms).
+  Restored <work>\h\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Composition\IFX.Platform.BackgroundJobs.Composition.csproj (in 6 ms).
+  Restored <work>\h\tests\IFX.IntegrationTests\IFX.IntegrationTests.csproj (in 396 ms).
+NuGet direct/transitive audit passed for 81 projects: <work>\h\artifacts\guards\v3-ifx\quality\nuget-audit.json
+  IFX.Platform.Context.Contracts -> <work>\h\src\Platform\Context\IFX.Platform.Context.Contracts\bin\Release\net8.0\IFX.Platform.Context.Contracts.dll
+  IFX.Platform.Shared -> <work>\h\src\Platform\IFX.Platform.Shared\bin\Release\net8.0\IFX.Platform.Shared.dll
+  IFX.Platform.Authentication.Contracts -> <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Contracts\bin\Release\net8.0\IFX.Platform.Authentication.Contracts.dll
+  IFX.Platform.Notifications.Contracts -> <work>\h\src\Platform\Notifications\IFX.Platform.Notifications.Contracts\bin\Release\net8.0\IFX.Platform.Notifications.Contracts.dll
+  IFX.BuildingBlocks.Application -> <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.Application\bin\Release\net8.0\IFX.BuildingBlocks.Application.dll
+  IFX.BuildingBlocks.Composition -> <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.Composition\bin\Release\net8.0\IFX.BuildingBlocks.Composition.dll
+  IFX.BuildingBlocks.Domain -> <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.Domain\bin\Release\net8.0\IFX.BuildingBlocks.Domain.dll
+  IFX.Platform.Authorization.Contracts -> <work>\h\src\Platform\Authorization\IFX.Platform.Authorization.Contracts\bin\Release\net8.0\IFX.Platform.Authorization.Contracts.dll
+  IFX.Platform.Messaging.Contracts -> <work>\h\src\Platform\Messaging\IFX.Platform.Messaging.Contracts\bin\Release\net8.0\IFX.Platform.Messaging.Contracts.dll
+  IFX.BuildingBlocks.Security -> <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.Security\bin\Release\net8.0\IFX.BuildingBlocks.Security.dll
+  IFX.Platform.BackgroundJobs.Contracts -> <work>\h\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Contracts\bin\Release\net8.0\IFX.Platform.BackgroundJobs.Contracts.dll
+  IFX.Platform.BackgroundJobs.Infrastructure.Hangfire -> <work>\h\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\bin\Release\net8.0\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.dll
+  IFX.Platform.Context.Runtime -> <work>\h\src\Platform\Context\IFX.Platform.Context.Runtime\bin\Release\net8.0\IFX.Platform.Context.Runtime.dll
+  IFX.Modules.Registry.Contracts -> <work>\h\src\Modules\Registry\IFX.Modules.Registry.Contracts\bin\Release\net8.0\IFX.Modules.Registry.Contracts.dll
+  IFX.Platform.Authentication.Infrastructure.Auth0 -> <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Infrastructure.Auth0\bin\Release\net8.0\IFX.Platform.Authentication.Infrastructure.Auth0.dll
+  IFX.Modules.IAM.Contracts -> <work>\h\src\Modules\IAM\IFX.Modules.IAM.Contracts\bin\Release\net8.0\IFX.Modules.IAM.Contracts.dll
+  IFX.Modules.CRM.Contracts -> <work>\h\src\Modules\CRM\IFX.Modules.CRM.Contracts\bin\Release\net8.0\IFX.Modules.CRM.Contracts.dll
+  IFX.Platform.Authentication.Infrastructure.Cognito -> <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Infrastructure.Cognito\bin\Release\net8.0\IFX.Platform.Authentication.Infrastructure.Cognito.dll
+  IFX.Platform.Messaging.Runtime -> <work>\h\src\Platform\Messaging\IFX.Platform.Messaging.Runtime\bin\Release\net8.0\IFX.Platform.Messaging.Runtime.dll
+  IFX.Modules.Registry.Domain -> <work>\h\src\Modules\Registry\IFX.Modules.Registry.Domain\bin\Release\net8.0\IFX.Modules.Registry.Domain.dll
+  IFX.Modules.Holdings.Domain -> <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Domain\bin\Release\net8.0\IFX.Modules.Holdings.Domain.dll
+  IFX.Platform.Authentication.Runtime -> <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Runtime\bin\Release\net8.0\IFX.Platform.Authentication.Runtime.dll
+  IFX.Modules.Transaction.Contracts -> <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Contracts\bin\Release\net8.0\IFX.Modules.Transaction.Contracts.dll
+  IFX.Platform.Notifications.Infrastructure.SendGrid -> <work>\h\src\Platform\Notifications\IFX.Platform.Notifications.Infrastructure.SendGrid\bin\Release\net8.0\IFX.Platform.Notifications.Infrastructure.SendGrid.dll
+  IFX.Modules.CRM.Domain -> <work>\h\src\Modules\CRM\IFX.Modules.CRM.Domain\bin\Release\net8.0\IFX.Modules.CRM.Domain.dll
+  IFX.BuildingBlocks.Application.Tests -> <work>\h\tests\IFX.BuildingBlocks.Application.Tests\bin\Release\net8.0\IFX.BuildingBlocks.Application.Tests.dll
+  IFX.Platform.Authorization.Runtime -> <work>\h\src\Platform\Authorization\IFX.Platform.Authorization.Runtime\bin\Release\net8.0\IFX.Platform.Authorization.Runtime.dll
+  IFX.BuildingBlocks.EntityFrameworkCore -> <work>\h\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\bin\Release\net8.0\IFX.BuildingBlocks.EntityFrameworkCore.dll
+  IFX.Modules.Registry.Application -> <work>\h\src\Modules\Registry\IFX.Modules.Registry.Application\bin\Release\net8.0\IFX.Modules.Registry.Application.dll
+  IFX.Modules.IAM.Client -> <work>\h\src\Modules\IAM\IFX.Modules.IAM.Client\bin\Release\net8.0\IFX.Modules.IAM.Client.dll
+  IFX.Modules.Holdings.Application -> <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Application\bin\Release\net8.0\IFX.Modules.Holdings.Application.dll
+  IFX.Platform.Notifications.Composition -> <work>\h\src\Platform\Notifications\IFX.Platform.Notifications.Composition\bin\Release\net8.0\IFX.Platform.Notifications.Composition.dll
+  IFX.Modules.CRM.Domain.Tests -> <work>\h\tests\IFX.Modules.CRM.Domain.Tests\bin\Release\net8.0\IFX.Modules.CRM.Domain.Tests.dll
+  IFX.Modules.CRM.Application -> <work>\h\src\Modules\CRM\IFX.Modules.CRM.Application\bin\Release\net8.0\IFX.Modules.CRM.Application.dll
+  IFX.Platform.Authentication.Composition -> <work>\h\src\Platform\Authentication\IFX.Platform.Authentication.Composition\bin\Release\net8.0\IFX.Platform.Authentication.Composition.dll
+  IFX.Platform.ProtocolContracts.Tests -> <work>\h\tests\IFX.Platform.ProtocolContracts.Tests\bin\Release\net8.0\IFX.Platform.ProtocolContracts.Tests.dll
+  IFX.Platform.BackgroundJobs.Composition -> <work>\h\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Composition\bin\Release\net8.0\IFX.Platform.BackgroundJobs.Composition.dll
+  IFX.Modules.Registry.Presentation -> <work>\h\src\Modules\Registry\IFX.Modules.Registry.Presentation\bin\Release\net8.0\IFX.Modules.Registry.Presentation.dll
+  IFX.Modules.Holdings.Domain.Tests -> <work>\h\tests\IFX.Modules.Holdings.Domain.Tests\bin\Release\net8.0\IFX.Modules.Holdings.Domain.Tests.dll
+  IFX.Platform.BackgroundJobs.Tests -> <work>\h\tests\IFX.Platform.BackgroundJobs.Tests\bin\Release\net8.0\IFX.Platform.BackgroundJobs.Tests.dll
+  IFX.Platform.Authentication.Tests -> <work>\h\tests\IFX.Platform.Authentication.Tests\bin\Release\net8.0\IFX.Platform.Authentication.Tests.dll
+  IFX.Modules.IAM.Domain -> <work>\h\src\Modules\IAM\IFX.Modules.IAM.Domain\bin\Release\net8.0\IFX.Modules.IAM.Domain.dll
+  IFX.Modules.CRM.Presentation -> <work>\h\src\Modules\CRM\IFX.Modules.CRM.Presentation\bin\Release\net8.0\IFX.Modules.CRM.Presentation.dll
+  IFX.Modules.Holdings.Application.Tests -> <work>\h\tests\IFX.Modules.Holdings.Application.Tests\bin\Release\net8.0\IFX.Modules.Holdings.Application.Tests.dll
+  IFX.Modules.Holdings.Presentation -> <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Presentation\bin\Release\net8.0\IFX.Modules.Holdings.Presentation.dll
+  IFX.Modules.CRM.Application.Tests -> <work>\h\tests\IFX.Modules.CRM.Application.Tests\bin\Release\net8.0\IFX.Modules.CRM.Application.Tests.dll
+  IFX.Modules.Registry.Application.Tests -> <work>\h\tests\IFX.Modules.Registry.Application.Tests\bin\Release\net8.0\IFX.Modules.Registry.Application.Tests.dll
+  IFX.Modules.Transaction.Domain -> <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Domain\bin\Release\net8.0\IFX.Modules.Transaction.Domain.dll
+  IFX.Platform.Notifications.Tests -> <work>\h\tests\IFX.Platform.Notifications.Tests\bin\Release\net8.0\IFX.Platform.Notifications.Tests.dll
+  IFX.Modules.Registry.Domain.Tests -> <work>\h\tests\IFX.Modules.Registry.Domain.Tests\bin\Release\net8.0\IFX.Modules.Registry.Domain.Tests.dll
+  IFX.Modules.Transaction.Application -> <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Application\bin\Release\net8.0\IFX.Modules.Transaction.Application.dll
+  IFX.Modules.IAM.Application -> <work>\h\src\Modules\IAM\IFX.Modules.IAM.Application\bin\Release\net8.0\IFX.Modules.IAM.Application.dll
+  IFX.Modules.Transaction.Domain.Tests -> <work>\h\tests\IFX.Modules.Transaction.Domain.Tests\bin\Release\net8.0\IFX.Modules.Transaction.Domain.Tests.dll
+  IFX.Platform.Authorization.Infrastructure.Opa -> <work>\h\src\Platform\Authorization\IFX.Platform.Authorization.Infrastructure.Opa\bin\Release\net8.0\IFX.Platform.Authorization.Infrastructure.Opa.dll
+  IFX.Modules.Transaction.Presentation -> <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Presentation\bin\Release\net8.0\IFX.Modules.Transaction.Presentation.dll
+  IFX.Modules.IAM.Presentation -> <work>\h\src\Modules\IAM\IFX.Modules.IAM.Presentation\bin\Release\net8.0\IFX.Modules.IAM.Presentation.dll
+  IFX.Tests.Common -> <work>\h\tests\IFX.Tests.Common\bin\Release\net8.0\IFX.Tests.Common.dll
+  IFX.Platform.Messaging.Composition -> <work>\h\src\Platform\Messaging\IFX.Platform.Messaging.Composition\bin\Release\net8.0\IFX.Platform.Messaging.Composition.dll
+  IFX.Modules.IAM.Infrastructure -> <work>\h\src\Modules\IAM\IFX.Modules.IAM.Infrastructure\bin\Release\net8.0\IFX.Modules.IAM.Infrastructure.dll
+  IFX.Modules.CRM.Infrastructure -> <work>\h\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\bin\Release\net8.0\IFX.Modules.CRM.Infrastructure.dll
+  IFX.Platform.Authorization.Composition -> <work>\h\src\Platform\Authorization\IFX.Platform.Authorization.Composition\bin\Release\net8.0\IFX.Platform.Authorization.Composition.dll
+  IFX.Platform.Authorization.Tests -> <work>\h\tests\IFX.Platform.Authorization.Tests\bin\Release\net8.0\IFX.Platform.Authorization.Tests.dll
+  IFX.Modules.Transaction.Application.Tests -> <work>\h\tests\IFX.Modules.Transaction.Application.Tests\bin\Release\net8.0\IFX.Modules.Transaction.Application.Tests.dll
+  IFX.Modules.Holdings.Infrastructure -> <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Infrastructure\bin\Release\net8.0\IFX.Modules.Holdings.Infrastructure.dll
+  IFX.Modules.Registry.Infrastructure -> <work>\h\src\Modules\Registry\IFX.Modules.Registry.Infrastructure\bin\Release\net8.0\IFX.Modules.Registry.Infrastructure.dll
+  IFX.BuildingBlocks.EntityFrameworkCore.Tests -> <work>\h\tests\IFX.BuildingBlocks.EntityFrameworkCore.Tests\bin\Release\net8.0\IFX.BuildingBlocks.EntityFrameworkCore.Tests.dll
+  IFX.Modules.IAM.Domain.Tests -> <work>\h\tests\IFX.Modules.IAM.Domain.Tests\bin\Release\net8.0\IFX.Modules.IAM.Domain.Tests.dll
+  IFX.Modules.IAM.Presentation.Tests -> <work>\h\tests\IFX.Modules.IAM.Presentation.Tests\bin\Release\net8.0\IFX.Modules.IAM.Presentation.Tests.dll
+  IFX.Modules.IAM.Application.Tests -> <work>\h\tests\IFX.Modules.IAM.Application.Tests\bin\Release\net8.0\IFX.Modules.IAM.Application.Tests.dll
+  IFX.Modules.Transaction.Infrastructure -> <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Infrastructure\bin\Release\net8.0\IFX.Modules.Transaction.Infrastructure.dll
+  IFX.Modules.Holdings.Composition -> <work>\h\src\Modules\Holdings\IFX.Modules.Holdings.Composition\bin\Release\net8.0\IFX.Modules.Holdings.Composition.dll
+  IFX.Modules.Registry.Composition -> <work>\h\src\Modules\Registry\IFX.Modules.Registry.Composition\bin\Release\net8.0\IFX.Modules.Registry.Composition.dll
+  IFX.Modules.IAM.Composition -> <work>\h\src\Modules\IAM\IFX.Modules.IAM.Composition\bin\Release\net8.0\IFX.Modules.IAM.Composition.dll
+  IFX.Modules.CRM.Composition -> <work>\h\src\Modules\CRM\IFX.Modules.CRM.Composition\bin\Release\net8.0\IFX.Modules.CRM.Composition.dll
+  IFX.DatabaseInventory -> <work>\h\tools\IFX.DatabaseInventory\bin\Release\net8.0\IFX.DatabaseInventory.dll
+  IFX.Modules.IAM.Infrastructure.Tests -> <work>\h\tests\IFX.Modules.IAM.Infrastructure.Tests\bin\Release\net8.0\IFX.Modules.IAM.Infrastructure.Tests.dll
+  IFX.DatabaseMigrator -> <work>\h\src\DatabaseMigrator\IFX.DatabaseMigrator\bin\Release\net8.0\IFX.DatabaseMigrator.dll
+  IFX.Modules.Transaction.Composition -> <work>\h\src\Modules\Transaction\IFX.Modules.Transaction.Composition\bin\Release\net8.0\IFX.Modules.Transaction.Composition.dll
+  IFX.DatabaseBoundary.Tests -> <work>\h\tests\IFX.DatabaseBoundary.Tests\bin\Release\net8.0\IFX.DatabaseBoundary.Tests.dll
+  IFX.ApiHost -> <work>\h\src\ApiHost\IFX.ApiHost\bin\Release\net8.0\IFX.ApiHost.dll
+  IFX.IntegrationTests -> <work>\h\tests\IFX.IntegrationTests\bin\Release\net8.0\IFX.IntegrationTests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:01:54.37
+Test run for <work>\h\tests\IFX.Modules.IAM.Presentation.Tests\bin\Release\net8.0\IFX.Modules.IAM.Presentation.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.Modules.IAM.Application.Tests\bin\Release\net8.0\IFX.Modules.IAM.Application.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.IntegrationTests\bin\Release\net8.0\IFX.IntegrationTests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.Modules.IAM.Domain.Tests\bin\Release\net8.0\IFX.Modules.IAM.Domain.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.Modules.IAM.Infrastructure.Tests\bin\Release\net8.0\IFX.Modules.IAM.Infrastructure.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.Platform.BackgroundJobs.Tests\bin\Release\net8.0\IFX.Platform.BackgroundJobs.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.Platform.Notifications.Tests\bin\Release\net8.0\IFX.Platform.Notifications.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+Test run for <work>\h\tests\IFX.Modules.CRM.Application.Tests\bin\Release\net8.0\IFX.Modules.CRM.Application.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.Modules.CRM.Domain.Tests\bin\Release\net8.0\IFX.Modules.CRM.Domain.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+Test run for <work>\h\tests\IFX.Modules.Registry.Domain.Tests\bin\Release\net8.0\IFX.Modules.Registry.Domain.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+Test run for <work>\h\tests\IFX.Modules.Registry.Application.Tests\bin\Release\net8.0\IFX.Modules.Registry.Application.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.Modules.Holdings.Domain.Tests\bin\Release\net8.0\IFX.Modules.Holdings.Domain.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033026.trx
+
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 217 ms - IFX.Modules.IAM.Presentation.Tests.dll (net8.0)
+Test run for <work>\h\tests\IFX.Modules.Transaction.Domain.Tests\bin\Release\net8.0\IFX.Modules.Transaction.Domain.Tests.dll (.NETCoreApp,Version=v8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033027.trx
+
+Passed!  - Failed:     0, Passed:   108, Skipped:     0, Total:   108, Duration: 339 ms - IFX.Modules.IAM.Domain.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033028.trx
+
+Passed!  - Failed:     0, Passed:    11, Skipped:     0, Total:    11, Duration: 621 ms - IFX.Platform.BackgroundJobs.Tests.dll (net8.0)
+Test run for <work>\h\tests\IFX.Modules.Transaction.Application.Tests\bin\Release\net8.0\IFX.Modules.Transaction.Application.Tests.dll (.NETCoreApp,Version=v8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033029.trx
+
+Passed!  - Failed:     0, Passed:   266, Skipped:     0, Total:   266, Duration: 809 ms - IFX.Modules.IAM.Application.Tests.dll (net8.0)
+A total of 1 test files matched the specified pattern.
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033030.trx
+
+Passed!  - Failed:     0, Passed:    48, Skipped:     0, Total:    48, Duration: 186 ms - IFX.Modules.Registry.Domain.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033031.trx
+
+Passed!  - Failed:     0, Passed:    56, Skipped:     0, Total:    56, Duration: 252 ms - IFX.Modules.CRM.Domain.Tests.dll (net8.0)
+Test run for <work>\h\tests\IFX.Modules.Holdings.Application.Tests\bin\Release\net8.0\IFX.Modules.Holdings.Application.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.BuildingBlocks.EntityFrameworkCore.Tests\bin\Release\net8.0\IFX.BuildingBlocks.EntityFrameworkCore.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.BuildingBlocks.Application.Tests\bin\Release\net8.0\IFX.BuildingBlocks.Application.Tests.dll (.NETCoreApp,Version=v8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033032.trx
+
+Passed!  - Failed:     0, Passed:    17, Skipped:     0, Total:    17, Duration: 660 ms - IFX.Platform.Notifications.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033033.trx
+
+Passed!  - Failed:     0, Passed:    17, Skipped:     0, Total:    17, Duration: 312 ms - IFX.Modules.Holdings.Domain.Tests.dll (net8.0)
+Test run for <work>\h\tests\IFX.DatabaseBoundary.Tests\bin\Release\net8.0\IFX.DatabaseBoundary.Tests.dll (.NETCoreApp,Version=v8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033034.trx
+
+Passed!  - Failed:     0, Passed:    35, Skipped:     0, Total:    35, Duration: 847 ms - IFX.Modules.CRM.Application.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033035.trx
+
+Passed!  - Failed:     0, Passed:    44, Skipped:     0, Total:    44, Duration: 663 ms - IFX.Modules.Registry.Application.Tests.dll (net8.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+Test run for <work>\h\tests\IFX.Platform.ProtocolContracts.Tests\bin\Release\net8.0\IFX.Platform.ProtocolContracts.Tests.dll (.NETCoreApp,Version=v8.0)
+Test run for <work>\h\tests\IFX.Platform.Authentication.Tests\bin\Release\net8.0\IFX.Platform.Authentication.Tests.dll (.NETCoreApp,Version=v8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033036.trx
+
+Passed!  - Failed:     0, Passed:    67, Skipped:     0, Total:    67, Duration: 4 s - IFX.Modules.IAM.Infrastructure.Tests.dll (net8.0)
+A total of 1 test files matched the specified pattern.
+Test run for <work>\h\tests\IFX.Platform.Authorization.Tests\bin\Release\net8.0\IFX.Platform.Authorization.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033037.trx
+
+Passed!  - Failed:     0, Passed:    38, Skipped:     0, Total:    38, Duration: 222 ms - IFX.Modules.Transaction.Domain.Tests.dll (net8.0)
+A total of 1 test files matched the specified pattern.
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033038.trx
+
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033039.trx
+
+Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 591 ms - IFX.Modules.Holdings.Application.Tests.dll (net8.0)
+Passed!  - Failed:     0, Passed:    12, Skipped:     0, Total:    12, Duration: 737 ms - IFX.BuildingBlocks.Application.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033040.trx
+
+Passed!  - Failed:     0, Passed:    51, Skipped:     0, Total:    51, Duration: 870 ms - IFX.Modules.Transaction.Application.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033041.trx
+
+Passed!  - Failed:     0, Passed:    85, Skipped:     0, Total:    85, Duration: 251 ms - IFX.Platform.ProtocolContracts.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033042.trx
+
+Passed!  - Failed:     0, Passed:    21, Skipped:     0, Total:    21, Duration: 440 ms - IFX.Platform.Authorization.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033043.trx
+
+Passed!  - Failed:     0, Passed:    20, Skipped:     0, Total:    20, Duration: 2 s - IFX.BuildingBlocks.EntityFrameworkCore.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033044.trx
+
+Passed!  - Failed:     0, Passed:    22, Skipped:     0, Total:    22, Duration: 2 s - IFX.Platform.Authentication.Tests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033048.trx
+
+Passed!  - Failed:     0, Passed:   213, Skipped:     0, Total:   213, Duration: 19 s - IFX.IntegrationTests.dll (net8.0)
+Results File: <work>\h\artifacts\guards\v3-ifx\quality\solution-test-results\solution_net8.0_20261001033137.trx
+
+Passed!  - Failed:     0, Passed:   122, Skipped:     0, Total:   122, Duration: 1 m 2 s - IFX.DatabaseBoundary.Tests.dll (net8.0)
+IFX quality checks passed: <work>\h\artifacts\guards\v3-ifx\quality\summary.json
+IFX guardrails passed: <work>\h\artifacts\guards\v3-ifx\summary-quality.json
+
+Trusted base run passed: <work>\h\artifacts\guards\v3-ifx\trusted-base\summary-quality-solution.json

@@ -1,0 +1,517 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-review-packet",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "step": "C4",
+  "createdAtUtc": "2026-09-30T18:05:20.1521793Z",
+  "repositoryHead": "e7fce33679617a754410dc1f354960f74dd07f72",
+  "plan": {
+    "path": "docs/guards/plans/20261001-v4-ifx-i2c-main-promotion.plan.json",
+    "sha256": "8d461dfa7409cc9ca609643f3503840bd80a95d0b3f5f2c3535bb870887fb0c1"
+  },
+  "snapshot": {
+    "path": "artifacts/guards/p10-ifx-i2c/c1-remote-snapshot.json",
+    "sha256": "9db7ba9d29202799f65aeab6d647c562108f1cf755f0719aa8f1592350cd5ebb"
+  },
+  "rehearsal": {
+    "path": "artifacts/guards/p10-ifx-i2c/c3-rehearsal/rehearsal.json",
+    "sha256": "eee37e09274a27f6d825d309b39498f54ef113aab745523e1273c5de53d31276"
+  },
+  "spec": {
+    "path": "docs/guards/candidates/ifx-i2c/pr-spec.json",
+    "sha256": "228160f1ea3434977fe9c972eb79aa640afa59f6a69b269e6197cd23d21d5433"
+  },
+  "rulesetCanonicalSha256": "857a51aaf9590758aa37ab0daf234695ba6e3a434644e598026d741b2c7d6f4a",
+  "target": "57647c9ae75c25666d825477c7a1ea11073468c5",
+  "mainBeforePromotion": "ecb03726a6c67208d25e7988695c53f6326d77c0",
+  "sourceCommit": "5f6008ee066eb948e94f1d2590f038d4581468e8",
+  "pullRequests": [
+    {
+      "id": "P1",
+      "branch": "codex/i2c-p1-drain-wait-fix",
+      "plan": "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json",
+      "copy": [
+        "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+        "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs"
+      ],
+      "authored": [
+        "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md",
+        "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json"
+      ],
+      "authorizations": []
+    },
+    {
+      "id": "P2",
+      "branch": "codex/i2c-p2-g03-documentation",
+      "plan": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+      "copy": [
+        "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+        "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+        "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+        "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+        "docs/guards/V3_ifx/shared/policy-config.json",
+        "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs"
+      ],
+      "authored": [
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md",
+        "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json"
+      ],
+      "authorizations": [
+        {
+          "id": "i2c-g03-documentation-trusted-base",
+          "operation": "change-trusted-base"
+        },
+        {
+          "id": "i2c-g03-documentation-policy",
+          "operation": "weaken-policy"
+        }
+      ]
+    },
+    {
+      "id": "P3",
+      "branch": "codex/i2c-p3-v4-adoption-admission",
+      "plan": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+      "copy": [],
+      "authored": [
+        "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+        "docs/guards/V3_ifx/shared/policy-config.json",
+        "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md",
+        "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+        "docs/guards/v4-adoption/README.md"
+      ],
+      "authorizations": [
+        {
+          "id": "i2c-v4-adoption-admission-trusted-base",
+          "operation": "change-trusted-base"
+        },
+        {
+          "id": "i2c-v4-adoption-admission-policy",
+          "operation": "weaken-policy"
+        }
+      ]
+    }
+  ],
+  "authoredFiles": {
+    "docs/guards/candidates/ifx-i2c/pr/P1/docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md": {
+      "set": "P1",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md",
+      "sha256": "80e84fc7ba60925dacc915cf166f96f696f78b03812ee00397b08acc342b71e2"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P1/docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json": {
+      "set": "P1",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json",
+      "sha256": "e3269697423095346110e23263be6943b56096ebc597bfb1e7935a7a9718e69c"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P2/docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md": {
+      "set": "P2",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md",
+      "sha256": "7c0911ede523010949398428cd9b0320b89757ef7b9d856836c4893082c7a650"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P2/docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json": {
+      "set": "P2",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+      "sha256": "6e0a5d071d3884f293f636a49f2058d23bcd1025b551567ea789f66ca657fef8"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P2a/docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.md": {
+      "set": "P2a",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.md",
+      "sha256": "accdbe3e5bb7b7dae1ad55feb096889dc675fd63411e36f880303fc317bcaba4"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P2a/docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.plan.json": {
+      "set": "P2a",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.plan.json",
+      "sha256": "3d910b0bb229e82cea03f0221c69967c3e5d8777cfb57257e37bb986cf4f3918"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P3/docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md": {
+      "set": "P3",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md",
+      "sha256": "5a1cfc7f194e2e52e90705cde985dc09e12250d62c18de87a67225ad1c783792"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P3/docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json": {
+      "set": "P3",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+      "sha256": "6b1c936df89d703ef1dee81c343bd9fc98e1277e247caa00059380b4e32753d8"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P3/docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json": {
+      "set": "P3",
+      "repositoryPath": "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+      "sha256": "88080182639a780a2cfbe899a86a03bf2d178c2624b79a9cab8c0407252b6e0a"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P3/docs/guards/V3_ifx/shared/policy-config.json": {
+      "set": "P3",
+      "repositoryPath": "docs/guards/V3_ifx/shared/policy-config.json",
+      "sha256": "df35197d4b53f7672ca1b00410e844c321662aee0d82d6f0200824b33c75d083"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P3/docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1": {
+      "set": "P3",
+      "repositoryPath": "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+      "sha256": "88e80bacadc185ed9f6440ed95ef9c95ff65ced8f2bbaaff6cdb4ac928832ae6"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P3/docs/guards/v4-adoption/README.md": {
+      "set": "P3",
+      "repositoryPath": "docs/guards/v4-adoption/README.md",
+      "sha256": "38df22f4155557b52a6097742ef798002b1fe39074e0c664c386612eadb79641"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P3a/docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.md": {
+      "set": "P3a",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.md",
+      "sha256": "e389c43f670d0503914c0223e719eacfcfdc6e6683e584c8155b0d705481d942"
+    },
+    "docs/guards/candidates/ifx-i2c/pr/P3a/docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.plan.json": {
+      "set": "P3a",
+      "repositoryPath": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.plan.json",
+      "sha256": "dd380dcf4c1452919543e16a3ae7fccad9868d42d3e98bab04780455a43df619"
+    }
+  },
+  "rehearsalSteps": [
+    {
+      "id": "p1-diff",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p1-validate",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p1-candidate-tests",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p1-architecture",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p1-historical",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p1-quality-solution",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-early-diff",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true
+    },
+    {
+      "id": "p2-authorization-diff",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-authorization-candidates",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-authorization-validate",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-change-diff",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-change-candidates",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-change-policy-candidates",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-change-validate",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-change-candidate-tests",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-change-architecture",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-change-historical",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p2-change-g03",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-early-diff",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true
+    },
+    {
+      "id": "p3-authorization-diff",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-authorization-candidates",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-authorization-validate",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-change-diff",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-change-candidates",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-change-policy-candidates",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-change-validate",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-change-candidate-tests",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-change-architecture",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-change-historical",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-change-g03",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-allowlist-positive",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "p3-allowlist-extra-entry",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true
+    },
+    {
+      "id": "p3-allowlist-case",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true
+    },
+    {
+      "id": "p3-allowlist-missing",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true
+    },
+    {
+      "id": "p3-base-test-rejects",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true
+    },
+    {
+      "id": "p3-replay-diff",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true
+    }
+  ],
+  "records": [
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-policy.json",
+      "sha256": "d82475ef50f5498c9e6be3514a7932d1cda0d7054f53da17ca8e87208613b44a",
+      "operation": "weaken-policy",
+      "changedPaths": [
+        "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+        "docs/guards/V3_ifx/shared/policy-config.json"
+      ],
+      "components": []
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-trusted-base.json",
+      "sha256": "fa31ae3a53a550af7bc80edfe3f8f29b62632e35734dc14faafb2088cec39e0d",
+      "operation": "change-trusted-base",
+      "changedPaths": [
+        "docs/guards/V3_ifx/shared/policy-config.json"
+      ],
+      "components": [
+        "tcb.manifest"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-policy.json",
+      "sha256": "cdee559c56fcf629f6cad4b9e900335e946b928bf4ae829f17eaac797f8608a0",
+      "operation": "weaken-policy",
+      "changedPaths": [
+        "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+        "docs/guards/V3_ifx/shared/policy-config.json"
+      ],
+      "components": []
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json",
+      "sha256": "a77e1b92f5ae0cbba049d737eb4a931e7ec689208a460d147fc14d9aa3180a4a",
+      "operation": "change-trusted-base",
+      "changedPaths": [
+        "docs/guards/V3_ifx/shared/policy-config.json",
+        "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1"
+      ],
+      "components": [
+        "tcb.manifest",
+        "tcb.validation.package-tests"
+      ]
+    }
+  ],
+  "finalState": {
+    "target": "a65e2fec43db315b8daf0c2653fd99ee2ec86f5f",
+    "docsGuardsTopLevel": [
+      "plans",
+      "V3",
+      "V3_ifx",
+      "v4-adoption"
+    ],
+    "v4AdoptionFiles": [
+      "README.md"
+    ],
+    "remainingAuthorizationRecords": [],
+    "finalBlobMismatches": [],
+    "checkedPaths": [
+      "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+      "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.md",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p1-drain-wait-fix.plan.json",
+      "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+      "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+      "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+      "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+      "docs/guards/V3_ifx/shared/policy-config.json",
+      "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+      "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+      "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md",
+      "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+      "docs/guards/v4-adoption/README.md"
+    ],
+    "pass": true
+  },
+  "notRunLocally": [
+    "v3-quality-assembly",
+    "v3-quality-frontend",
+    "v3-specialized-g04",
+    "v3-specialized-g05",
+    "v3-specialized-plan04",
+    "v3-specialized-database",
+    "v3-cross-platform-ubuntu-latest",
+    "v3-cross-platform-windows-latest (candidate suite)"
+  ],
+  "remoteSteps": [
+    {
+      "step": "C5",
+      "action": "P1: push codex/i2c-p1-drain-wait-fix, open PR to codex/guards-principles-plan",
+      "then": "merge (merge commit) after 13/13"
+    },
+    {
+      "step": "C6",
+      "action": "P2a: regenerate the two records on the then-current target head, push and open the authorization PR",
+      "then": "merge after 13/13; then P2: push and open the change PR consuming both records; merge after 13/13"
+    },
+    {
+      "step": "C7",
+      "action": "P3a: regenerate the two records, push and open the authorization PR",
+      "then": "merge after 13/13; then P3: push and open the change PR; merge after 13/13"
+    },
+    {
+      "step": "C8",
+      "action": "Set the default branch to codex/guards-principles-plan",
+      "then": "GET verify"
+    },
+    {
+      "step": "C9",
+      "action": "git push origin <target head>:refs/heads/main (fast-forward, no force)",
+      "then": "GET verify; irreversible"
+    },
+    {
+      "step": "C10",
+      "action": "Set the default branch back to main",
+      "then": "Invoke-IFXCiContract.ps1 -Remote; ruleset equals C1"
+    },
+    {
+      "step": "C12",
+      "action": "Push the development branch (after C11 records)",
+      "then": "GET verify"
+    }
+  ],
+  "questions": [
+    "Accept the three pull requests (P1, P2 with P2a, P3 with P3a), their V3 plans and the admission decision as prepared?",
+    "Accept the rehearsal as the local proof, with the listed contexts left to CI?",
+    "After acceptance, C5 (push and open P1) needs its own authorization."
+  ]
+}
