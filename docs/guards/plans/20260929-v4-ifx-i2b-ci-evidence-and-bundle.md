@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 complete (local); A2-11 next`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 and A2-11 complete (local); A2-12 push needs authorization`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -630,3 +630,10 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
     `89369390…`. Design note 14.
   - Identity file `candidates/ifx-i2b-051/a210-identity.json`. Evidence: evrun 091–096.
   - Next: A2-11 local verification and receipt, then A2-12 push (authorization).
+- **A2-11 (2026-10-01).** Local verification at `b8795000` passes: clean worktree; V3, V3_ifx and `.github`
+  byte-identical to `07f41683`, `13cf8965`, `b5cee75f` and `13502169`; `git fsck --full --strict`; `plan validate` and
+  V3_ifx `Validate` for this Plan and the IFX-V4-005 Plan; all 390 paths changed since `13502169` planned; producer
+  origins without drift; producer static controls pass; relocation inventory re-derived. Record
+  `I2B-ci-evidence/a2-11-verification.json` (evrun 098; run 097 executed an empty script and is void). Receipt
+  `v4-adoption/migration/ifx-i2b-a2-0-5-1-receipt.json`.
+  - Next: A2-12, push the A2 commits (authorization).
