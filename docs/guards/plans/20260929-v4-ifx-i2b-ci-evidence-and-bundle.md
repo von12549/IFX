@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 next (local)`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 complete (local); A2-11 next`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -616,3 +616,17 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
   `a2-051/c6d-review-051/`: `c6d-decision.json` (`c6d-exact-bundle-human-review-accepted`) and
   `production-extension-review.json` (id `20260930-ifx-0-5-1-production-review`, 36 module ceilings, valid against the
   1.1.6 schema). Next: A2-10 locally.
+- **A2-10 (2026-09-30, local).**
+  - **A2-10a C6e**: production composition `releases/v4-guards-1.1.6-ifx-0.5.1`, package `52364a8d…`, receipt
+    `3e9a3e9d…`, on two clean clones at `351b504b`; installed Host: clean Pre, the deliberate `A210Fault.cs`
+    (`IMPORT-DIRECTION`), Post on staged evidence (27 modules), the dependency run (37 modules) and the fail-closed
+    unstaged Post, all as expected; protected roots unchanged. Decision `a2-051/a2-10a-decision.json`, first attempt.
+  - **A2-10b parity against 0.5.0**: P10.2 replay 52/52, zero gaps, 15 strengthenings, row by row equal to the 0.5.0
+    replay; the 191 C6c cases equal the 0.5.0 matrix with no first-finding change; installed-Host outcomes 5/5 equal
+    to A1-8a (`a2-051/p10-2-parity-051/`).
+  - **A2-10c P10.3 successor**: specimen and proposal bind 0.5.1; every producer and context v4-native; rollback
+    anchor `13502169…` from a GET-only snapshot; the rehearsal adds the ownership rule (no producer reads V3/V3_ifx,
+    no re-attestation marker) and passes with 14 negative controls rejected; decision
+    `89369390…`. Design note 14.
+  - Identity file `candidates/ifx-i2b-051/a210-identity.json`. Evidence: evrun 091–096.
+  - Next: A2-11 local verification and receipt, then A2-12 push (authorization).

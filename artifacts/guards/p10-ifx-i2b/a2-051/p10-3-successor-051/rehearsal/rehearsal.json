@@ -1,0 +1,177 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "entryIdentities": "pass",
+  "remoteSnapshot": "pass",
+  "contextOwnershipRows": 13,
+  "detectorOwnershipRows": 9,
+  "states": [
+    "v3-active",
+    "coexistence",
+    "v4-primary-with-linux-bridge",
+    "rollback-restored"
+  ],
+  "transitions": [
+    "enter-coexistence",
+    "promote-v4-primary",
+    "rollback"
+  ],
+  "declaredNegativeControls": [
+    {
+      "id": "remove-v3-before-v4-proof",
+      "expected": "rejected"
+    },
+    {
+      "id": "remove-v4-before-v3-restore",
+      "expected": "rejected"
+    },
+    {
+      "id": "candidate-supplies-bundle",
+      "expected": "rejected"
+    },
+    {
+      "id": "aggregate-job-skipped",
+      "expected": "rejected"
+    },
+    {
+      "id": "unpublished-bundle-activation",
+      "expected": "rejected"
+    },
+    {
+      "id": "wrong-release-repository",
+      "expected": "rejected"
+    },
+    {
+      "id": "missing-release-asset",
+      "expected": "rejected"
+    },
+    {
+      "id": "archive-hash-drift",
+      "expected": "rejected"
+    },
+    {
+      "id": "missing-bundle",
+      "expected": "rejected"
+    },
+    {
+      "id": "source-path-fallback",
+      "expected": "rejected"
+    },
+    {
+      "id": "candidate-self-judgment",
+      "expected": "rejected"
+    },
+    {
+      "id": "premature-cleanup",
+      "expected": "rejected"
+    },
+    {
+      "id": "installer-from-target-source",
+      "expected": "rejected"
+    },
+    {
+      "id": "producer-step-missing",
+      "expected": "rejected"
+    },
+    {
+      "id": "staging-from-candidate",
+      "expected": "rejected"
+    },
+    {
+      "id": "post-before-staging",
+      "expected": "rejected"
+    },
+    {
+      "id": "evidence-upload-missing",
+      "expected": "rejected"
+    },
+    {
+      "id": "producer-reads-v3",
+      "expected": "rejected"
+    },
+    {
+      "id": "re-attestation-returns",
+      "expected": "rejected"
+    }
+  ],
+  "executedNegativeControls": [
+    {
+      "id": "wrong-release-repository",
+      "actual": "rejected",
+      "message": "Workflow fetches V4 from the current repository."
+    },
+    {
+      "id": "missing-release-asset",
+      "actual": "rejected",
+      "message": "Release asset is missing from the live Guard release: v4-guards-1.1.6-missing.zip"
+    },
+    {
+      "id": "archive-hash-drift",
+      "actual": "rejected",
+      "message": "Workflow does not bind identity: 92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8"
+    },
+    {
+      "id": "missing-bundle",
+      "actual": "rejected",
+      "message": "Missing-bundle refusal is absent."
+    },
+    {
+      "id": "source-path-fallback",
+      "actual": "rejected",
+      "message": "Bundle path falls back to docs/guards/v4."
+    },
+    {
+      "id": "candidate-self-judgment",
+      "actual": "rejected",
+      "message": "Aggregate is not evaluated from the trusted base."
+    },
+    {
+      "id": "installer-from-target-source",
+      "actual": "rejected",
+      "message": "Workflow references the old IFX product source path (any letter case)."
+    },
+    {
+      "id": "premature-cleanup",
+      "actual": "rejected",
+      "message": "Cleanup is premature: docs/guards/v4 is absent without the authorized T8 cleanup receipt."
+    },
+    {
+      "id": "producer-step-missing",
+      "actual": "rejected",
+      "message": "Producers or staging do not run from the trusted base."
+    },
+    {
+      "id": "staging-from-candidate",
+      "actual": "rejected",
+      "message": "Producers or staging do not run from the trusted base."
+    },
+    {
+      "id": "post-before-staging",
+      "actual": "rejected",
+      "message": "Evidence is not produced and staged before Pre and Post."
+    },
+    {
+      "id": "evidence-upload-missing",
+      "actual": "rejected",
+      "message": "Staged evidence and the production record are not always uploaded."
+    },
+    {
+      "id": "producer-reads-v3",
+      "actual": "rejected",
+      "message": "Producer reads V3 or V3_ifx: solution"
+    },
+    {
+      "id": "re-attestation-returns",
+      "actual": "rejected",
+      "message": "A context is still declared as re-attesting a V3 producer."
+    }
+  ],
+  "activationBlockers": [
+    "promote-reviewed-v3-workflow-and-p10-evidence-to-default-branch",
+    "publish-exact-ifx-0.5.1-bundle-by-separate-plan",
+    "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
+    "prove-producer-runtime-prerequisites-on-the-hosted-runner-when-installing-the-specimen",
+    "add-v4-ifx-required-to-ruleset-by-separate-plan",
+    "complete-coexistence-window-before-removing-any-v3-context"
+  ]
+}

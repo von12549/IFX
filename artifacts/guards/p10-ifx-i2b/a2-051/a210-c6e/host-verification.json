@@ -1,0 +1,203 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "verification": "installed-host-and-host-query-match",
+  "installedRuntime": {
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.5.1",
+    "packageHash": "52364a8d508e715416324c96d723268e9a13ff207bf301c406e8256feb71b7d2",
+    "profileId": "ifx_profile",
+    "profileVersion": "0.5.1",
+    "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761"
+  },
+  "cases": {
+    "pre-clean": {
+      "id": "pre-clean",
+      "stage": "pre",
+      "target": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-a210-clean-051",
+      "staged": false,
+      "withDependencies": false,
+      "hostExitCode": 0,
+      "status": "pass",
+      "exitCategory": "success",
+      "executedStages": [
+        "pre"
+      ],
+      "moduleCount": 10,
+      "passedModuleCount": 10,
+      "failedModules": [],
+      "findings": [],
+      "coverageClaimCount": 22,
+      "allCoverageNonVacuous": true,
+      "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
+      "packageHash": "52364a8d508e715416324c96d723268e9a13ff207bf301c406e8256feb71b7d2",
+      "stageResultSha256": "9029d26161000299dde30341d010b9c080f0bcd75c534c1c1c88644544e135f2",
+      "hostQueriesAgree": true
+    },
+    "pre-violating": {
+      "id": "pre-violating",
+      "stage": "pre",
+      "target": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-a210-violating-051",
+      "staged": false,
+      "withDependencies": false,
+      "hostExitCode": 16,
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "executedStages": [
+        "pre"
+      ],
+      "moduleCount": 10,
+      "passedModuleCount": 9,
+      "failedModules": [
+        {
+          "moduleId": "ifx-source-policy",
+          "status": "fail"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "IMPORT-DIRECTION",
+          "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/A210Fault.cs:1: IFX.Modules.CRM.Domain -> IFX.Modules.CRM.Contracts",
+          "evidenceKind": "source-import",
+          "detectorId": "ifx-source-policy",
+          "severity": "blocking"
+        }
+      ],
+      "coverageClaimCount": 22,
+      "allCoverageNonVacuous": true,
+      "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
+      "packageHash": "52364a8d508e715416324c96d723268e9a13ff207bf301c406e8256feb71b7d2",
+      "stageResultSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "hostQueriesAgree": true
+    },
+    "post-staged": {
+      "id": "post-staged",
+      "stage": "post",
+      "target": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-a210-clean-051",
+      "staged": true,
+      "withDependencies": false,
+      "hostExitCode": 0,
+      "status": "pass",
+      "exitCategory": "success",
+      "executedStages": [
+        "post"
+      ],
+      "moduleCount": 27,
+      "passedModuleCount": 27,
+      "failedModules": [],
+      "findings": [],
+      "coverageClaimCount": 57,
+      "allCoverageNonVacuous": true,
+      "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
+      "packageHash": "52364a8d508e715416324c96d723268e9a13ff207bf301c406e8256feb71b7d2",
+      "stageResultSha256": "3d9b2347ee6cf761add88f8e1b504138977d4f3bd6465239d087eefb5a2cfa9e",
+      "hostQueriesAgree": true
+    },
+    "dependency-post-staged": {
+      "id": "dependency-post-staged",
+      "stage": "post",
+      "target": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-a210-clean-051",
+      "staged": true,
+      "withDependencies": true,
+      "hostExitCode": 0,
+      "status": "pass",
+      "exitCategory": "success",
+      "executedStages": [
+        "bootstrap",
+        "analysis",
+        "pre",
+        "post"
+      ],
+      "moduleCount": 37,
+      "passedModuleCount": 37,
+      "failedModules": [],
+      "findings": [],
+      "coverageClaimCount": 79,
+      "allCoverageNonVacuous": true,
+      "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
+      "packageHash": "52364a8d508e715416324c96d723268e9a13ff207bf301c406e8256feb71b7d2",
+      "stageResultSha256": "8321e51b6a64128d70610b48fe8d7eaaee584a0d9cbe9af4c86733ae08666152"
+    },
+    "post-unstaged": {
+      "id": "post-unstaged",
+      "stage": "post",
+      "target": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-a210-clean-051",
+      "staged": false,
+      "withDependencies": false,
+      "hostExitCode": 15,
+      "status": "error",
+      "exitCategory": "prerequisite-missing",
+      "executedStages": [
+        "post"
+      ],
+      "moduleCount": 1,
+      "passedModuleCount": 0,
+      "failedModules": [
+        {
+          "moduleId": "architecture-conformance",
+          "status": "error"
+        }
+      ],
+      "findings": [
+        {
+          "ruleId": "V4.MODULE.ARCHITECTURE_CONFORMANCE",
+          "subject": "The explicit assembly manifest is missing.",
+          "evidenceKind": "runtime",
+          "detectorId": "architecture-conformance",
+          "severity": "blocking"
+        }
+      ],
+      "coverageClaimCount": 1,
+      "allCoverageNonVacuous": false,
+      "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
+      "packageHash": "52364a8d508e715416324c96d723268e9a13ff207bf301c406e8256feb71b7d2",
+      "stageResultSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "checks": {
+    "cleanPrePass": true,
+    "violatingPreBlocks": true,
+    "stagedPostPass": true,
+    "dependencyPostPass": true,
+    "unstagedPostFailsClosed": true,
+    "profileIdentity": true,
+    "hostQueriesAgree": true,
+    "protectedRootsUnchanged": true,
+    "gitFactsUnchanged": true
+  },
+  "preInventories": {
+    "baseInstallation": {
+      "fileCount": 141,
+      "sha256": "e01fe4eb046f64b0da8e1b2e8e3ae541fd9c5ad7277dad5132e965e296ef76e3"
+    },
+    "bundle": {
+      "fileCount": 263,
+      "sha256": "0d7aad3aa2aa1b13f9e313303242d2486f003ff61708f4dded15a1500219d19d"
+    },
+    "cleanTracked": "77f1673b7d9909c9a88fcd7463891192eca72a3c",
+    "violatingTarget": {
+      "fileCount": 5096,
+      "sha256": "3e5b1a402cd0df83a32424697557241dd4b6eacb61eae7397bf1be010a20e79d"
+    }
+  },
+  "postInventories": {
+    "baseInstallation": {
+      "fileCount": 141,
+      "sha256": "e01fe4eb046f64b0da8e1b2e8e3ae541fd9c5ad7277dad5132e965e296ef76e3"
+    },
+    "bundle": {
+      "fileCount": 263,
+      "sha256": "0d7aad3aa2aa1b13f9e313303242d2486f003ff61708f4dded15a1500219d19d"
+    },
+    "cleanTracked": "77f1673b7d9909c9a88fcd7463891192eca72a3c",
+    "violatingTarget": {
+      "fileCount": 5096,
+      "sha256": "3e5b1a402cd0df83a32424697557241dd4b6eacb61eae7397bf1be010a20e79d"
+    }
+  },
+  "unstagedPostFailedModules": [
+    {
+      "moduleId": "architecture-conformance",
+      "status": "error"
+    }
+  ]
+}

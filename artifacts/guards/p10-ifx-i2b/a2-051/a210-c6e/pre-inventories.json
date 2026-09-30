@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "roots": {
+    "baseInstallation": {
+      "fileCount": 141,
+      "sha256": "e01fe4eb046f64b0da8e1b2e8e3ae541fd9c5ad7277dad5132e965e296ef76e3"
+    },
+    "bundle": {
+      "fileCount": 263,
+      "sha256": "0d7aad3aa2aa1b13f9e313303242d2486f003ff61708f4dded15a1500219d19d"
+    },
+    "cleanTracked": "77f1673b7d9909c9a88fcd7463891192eca72a3c",
+    "violatingTarget": {
+      "fileCount": 5096,
+      "sha256": "3e5b1a402cd0df83a32424697557241dd4b6eacb61eae7397bf1be010a20e79d"
+    }
+  }
+}
