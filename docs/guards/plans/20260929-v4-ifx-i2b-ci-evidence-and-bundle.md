@@ -558,3 +558,32 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
   the V4 copies record their V3 origins and a control reports drift; new producer ids `ifx-v4a-*`; the type
   producer reads embedded policy copies and the generated producer is no longer staged; no fixed frontend `PATH`;
   parity is semantic equality with zero differences. A2-0 to A2-7 authorized for local execution.
+- **A2-1 (`337ccd5c`).** Relocation inventory `candidates/ifx-i2b-051/relocation-inventory.json`: 18 files (11 from
+  V3_ifx: 526 lines of gate code, two policies, one contract; the lab producer scripts and the database and type
+  contracts). Every file reference of every origin is classified; an unlisted read into `docs/guards` fails (checked
+  with a removed-origin negative case).
+- **A2-2 (`241cbb41`).** Byte-identical copy into `v4-adoption/producers/`, Git blobs equal to the origins (18/18);
+  `producers/origins.json` records the origins for the drift control (R7).
+- **A2-3 (`9e2ac1df`).** Adaptation in its own commit: explicit Target root, direct calls to the relocated gate scripts
+  with the unchanged output layout, the policy copies in `producers/policy`, the Database-only gate, source inventory
+  v3, producer ids `ifx-v4a-*`, run directories `artifacts/guards/v4a-producers/<gate>-runs`, no fixed frontend
+  `PATH`. Static controls pass with five negative mutations (`a2-relocation/a2-3-controls.json`).
+- **A2-4 (`2fd78fa6`).** V3/V4 producer parity on one clean clone: zero semantic differences for solution, assembly,
+  type, frontend and database; identity changes listed apart (producer ids, authority hashes, the V3 facade summary,
+  the relocated inventory root). Negative parity 3/3: a lint error, an unsafe migration policy and a failing test
+  fail both sides at the same check with the same message (`a2-relocation/a2-4-parity.json`). Two comparator faults
+  were fixed on the way (dictionary keys, a variable colliding with a parameter name); the producer runs were reused.
+- **A2-5 (`c206cdb9`).** The 0.5.0-a harness copied into `candidates/ifx-i2b-051` at the same depth and substituted
+  (evidence root `artifacts/guards/p10-ifx-i2b/a2-051`, version 0.5.1). The five lock consumers pin the relocated
+  producers (versions 0.2.1, database 0.3.1); the staging script runs them and passes `-TargetRoot`; the Profile
+  `workspaceEvidence` names `producers/database`. Their suites pass on relocated-producer evidence: 60 cases, the 56
+  shared with A1-3 identical in kind, expectation, outcome, findings and message, the four A1-4 cases passing
+  (`a2-relocation/a2-5-suites/index.json`).
+- **A2-6.** Matrix contract and fixture spec regenerated from the 0.5.1 inventory (only the five adapter hashes, the
+  inventory projection and one fixture-script hash differ; verifier passes). Merged suite index for the contract
+  handshake (`suite-index-051.json`: 20 from A1-3, 5 from A2-5). The focused qualification takes its workspace roots
+  from the Profile (`New-IFX051WorkspaceEvidence.ps1`). Trial: the chain in readiness mode passes (bundle manifest
+  `c241c2a8…`); parallel certification Windows 191/191, controls 180 + 42, Linux 191/191 semantic equal; harness
+  controls 12 Windows, 4 PR-gate and the Linux controls pass. Two trial attempts stopped on harness faults and are
+  kept. Records `a2-relocation/a2-6-trial/index.json`.
+  - Next: A2-7, readiness on the committed state (`-ReadinessOnly`, evidence root `a2-051`).

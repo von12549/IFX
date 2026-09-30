@@ -1,0 +1,85 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-051-a2-6-trial-records",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A2-6",
+  "trialCommit": "d5c4e6ddaca1f0f7e89dbf1ac1bf956365e68095",
+  "harnessControlsCommit": "d5c4e6ddaca1f0f7e89dbf1ac1bf956365e68095",
+  "candidateVersion": "0.5.1",
+  "baseVersion": "1.1.6",
+  "results": {
+    "chain": "pass (readiness only)",
+    "bundleManifestSha256": "c241c2a894c6888e026b9c9fbca77aee8d32d3fcd7a8c90845e3befec7c1f659",
+    "windows": "191 of 191",
+    "controls": "capability 180, staged-evidence 42",
+    "linux": "pass, 191 of 191, semantic projection equal",
+    "harnessControls": "pass: 12 Windows, 4 PR-gate and the Linux controls"
+  },
+  "preservedAttempts": [
+    "a2-051-trial-attempt1-suite-index (contract handshake read the substituted A1-3 index path)",
+    "a2-051-trial-attempt2-workspace-roots (focused qualification used the V3_ifx workspace root)"
+  ],
+  "note": "Trial runs, not the A2-8 C6c. The full trial trees stay in the ignored artifacts/guards/p10-ifx-i2b/a2-051-trial.",
+  "files": [
+    {
+      "path": "chain/a1-chain.json",
+      "sha256": "80cab382456d90e9060d8f1c7fa32db3aeb42a04f61b6aabcd8db78a403b465e"
+    },
+    {
+      "path": "chain/readiness.json",
+      "sha256": "e0553fe9f9792c6b491092ed9e0273b51057c5dacb1354634bf800922b5c9ed1"
+    },
+    {
+      "path": "chain/contract-summary.json",
+      "sha256": "ae881b746e373e23c51f57d930bd5bc9304c1472d74e1c6b441d218974572e86"
+    },
+    {
+      "path": "chain/inheritance-matrix.json",
+      "sha256": "c4da88bea92596362cbbfca8046d15a7c0a48adfbe86f7c3d334bbc06dac9795"
+    },
+    {
+      "path": "chain/candidate-a-summary.json",
+      "sha256": "1f18ea355db38609a9269029776ca1d218829456213783af8a4df65b1f02ac67"
+    },
+    {
+      "path": "chain/candidate-b-summary.json",
+      "sha256": "8651aff972104ebabd6483496be60f511ce0e9317eeec2e56977586a3b04bd56"
+    },
+    {
+      "path": "chain/focused-summary.json",
+      "sha256": "fdbfc7820a5a66670d0d1fdec4c8245dd29486a5c3a798e76e281dac16868b45"
+    },
+    {
+      "path": "chain/production.json",
+      "sha256": "d289b7351c7791fbe83b0b797cc95b2eec87938d3ffd71cada3210673b61ad45"
+    },
+    {
+      "path": "c6c-trial/summary.json",
+      "sha256": "4f10bd7eb75bf13e8bcda97ef4e6816a48e39a7bfbbc4bf2239c614c5b832bb6"
+    },
+    {
+      "path": "c6c-trial/windows-summary.json",
+      "sha256": "330a05a883f0441ca25c4f9d7eb942d8cb676e048a3858f040f3a9a41d8059e7"
+    },
+    {
+      "path": "c6c-trial/windows-case-manifest.json",
+      "sha256": "55de7eda46635b2d05efd502042e877b0e0c9ae575749a4b6ba4c1af8ef4541d"
+    },
+    {
+      "path": "c6c-trial/controls-summary.json",
+      "sha256": "e21d9a24d76849125361b48d87ff4977d4543354d6730b9cf6226e0643ee131e"
+    },
+    {
+      "path": "c6c-trial/linux-summary.json",
+      "sha256": "4b14c995000111dba01b1d8a11a4f6dac185e69f20b39d0d9a637d228ac4f81c"
+    },
+    {
+      "path": "c6c-trial/linux-case-manifest.json",
+      "sha256": "faa26b323ac53a9fd0b8a275cf32b33a475142266f9b23e779ddab831cc37728"
+    },
+    {
+      "path": "harness-controls/summary.json",
+      "sha256": "3a648f56039418c5c9b6b39d97d6fc712afb2664ac16f9ff0e0df2180a97222d"
+    }
+  ]
+}
