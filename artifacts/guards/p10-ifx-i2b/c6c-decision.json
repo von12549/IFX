@@ -1,0 +1,75 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "phase-1-complete-stop-for-human-review",
+  "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.5.0",
+  "contractSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\contract-preflight\\c4d69d9b65dd4c16a38713b017156de6\\summary.json",
+    "sha256": "950ca1a2767fa72e77cc8fc870ddcfd4417a479b9432543985babdcfa5796176"
+  },
+  "focusedSummary": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\focused-qualification-050\\4ca0303744494c8286814d1cd75c1455\\summary.json",
+    "sha256": "1b2f9af0192cfaee1ab5127b6b5989c98e10b20082ef843f330384f0dc0adc15"
+  },
+  "inventory": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\formal-inventory\\41f92d76d22047fd80b883f3b74470b0\\ordinal-inventory.json",
+    "sha256": "8eba1e8557380f4b0aab36ad8116e95db32297d83fbc9fa6ec56c4f13fe2707d"
+  },
+  "candidate": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\formal-candidate-a\\40bd4b845f2c4dec81efbb36481810cc\\bundle",
+    "manifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284"
+  },
+  "c6c": {
+    "attemptMarker": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\c6c-attempt.json",
+    "summaryPath": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\c6c-full\\summary.json",
+    "exitCode": 0,
+    "productCertification": {
+      "targetProduct": "IFX",
+      "deploymentPlatform": "windows-server",
+      "status": "pass",
+      "blockingRequirements": [
+        "windows-full",
+        "certification-controls"
+      ],
+      "reasonCodes": []
+    },
+    "portabilityAssessment": {
+      "platform": "linux-x64",
+      "blocking": false,
+      "status": "pass",
+      "semanticProjection": "equal",
+      "reasonCodes": [],
+      "processExitCode": 0,
+      "provenCoreCases": 191,
+      "diagnostics": [],
+      "report": {
+        "path": "linux/summary.json",
+        "sha256": "586cc7e01e7025820d2a086bae51aa3279b622eab39a74ee6bb164b5020cb0f8"
+      },
+      "matrixReport": {
+        "path": "linux/matrix/summary.json",
+        "sha256": "f4c207e5eb49aa526dec28c634b33280136e98e60c035d3e76b058bc0df2bb74"
+      },
+      "caseManifest": {
+        "path": "linux/matrix/case-manifest.json",
+        "sha256": "b6e95dc9e19cd4979aadcc46bb0a01a2bfee8b3d4b3f86ee45c37a75dd9f52fa"
+      },
+      "failureEvidence": [],
+      "copyBack": {
+        "archiveSha256": "0b251e7362c8bfb9b5cf8f2d49b41b71ae347715e2b2d8ec4ad66323d68bdea0",
+        "files": 59592,
+        "reports": 6,
+        "deep": false
+      }
+    }
+  },
+  "risks": [
+    "The A1-7 human review is still required.",
+    "The synthetic review fixture is not human extension acceptance.",
+    "Linux is a visible non-blocking portability assessment under C6c22.",
+    "0.5.0-a keeps producer scripts in the Target; the trusted-base producer relocation is 0.5.0-b."
+  ],
+  "recommendation": "Review the C6c evidence in A1-7 before any publication step."
+}

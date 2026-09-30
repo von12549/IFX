@@ -1,0 +1,1713 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "ifx-050a-certification-controls",
+  "sourceCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+  "inventorySha256": "8eba1e8557380f4b0aab36ad8116e95db32297d83fbc9fa6ec56c4f13fe2707d",
+  "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+  "reviewRecordSha256": "5ac9e8e938b186a6f74375558d0ea8364fba3345c0e0f050646a6927cbe6144b",
+  "productionSnapshotManifestSha256": "a4fc8f55f48eee6899769d8d77879c33344cce0fca389df51e410c3a7113f50e",
+  "lockControlCount": 42,
+  "lockCases": [
+    {
+      "id": "solution/current",
+      "lockId": "solution",
+      "detectorId": "ifx-solution-evidence",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "resultSha256": "f05b5cb38748de2e77813302d1fdba2d8c3745934ec7d190e03658a17b252516"
+    },
+    {
+      "id": "solution/missing-staging",
+      "lockId": "solution",
+      "detectorId": "ifx-solution-evidence",
+      "status": "error",
+      "exitCategory": "prerequisite-missing",
+      "findingCount": 0,
+      "resultSha256": "9a68c7989301b08d5f3ecee7d643d2c9cd903a820be073fe7b583fe06a07d207"
+    },
+    {
+      "id": "solution/forged-producer",
+      "lockId": "solution",
+      "detectorId": "ifx-solution-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "9bdadc3b08af869c0942bb8bdad5ab63d2c8d4d7e61529b99efe3b289c724d9d"
+    },
+    {
+      "id": "solution/altered",
+      "lockId": "solution",
+      "detectorId": "ifx-solution-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "dc32deea109d3093d1767cdb1b63078cad01237f52dfc61d7bb84e0b4b897e1f"
+    },
+    {
+      "id": "solution/stale",
+      "lockId": "solution",
+      "detectorId": "ifx-solution-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "3926632a1fa7542856e629096c341f71fe271c6bc9f287d0b0e0f8d8ed26a822"
+    },
+    {
+      "id": "solution/wrong-commit",
+      "lockId": "solution",
+      "detectorId": "ifx-solution-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "a5dbe120b50770931ca1873033fe8e21e21993875b74f1a07ba9e5e3e679d6b0"
+    },
+    {
+      "id": "solution/post-production-change",
+      "lockId": "solution",
+      "detectorId": "ifx-solution-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "084687b404dab034f1ae9a2a7337402440db7b8137135565a17b1fa6bee09f3c"
+    },
+    {
+      "id": "assembly/current",
+      "lockId": "assembly",
+      "detectorId": "ifx-assembly-evidence",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "resultSha256": "3a537322e55c2782b2cfad92ad9f353f9c27bb47b8d1fc87b2e0ff552333c6a8"
+    },
+    {
+      "id": "assembly/missing-staging",
+      "lockId": "assembly",
+      "detectorId": "ifx-assembly-evidence",
+      "status": "error",
+      "exitCategory": "prerequisite-missing",
+      "findingCount": 0,
+      "resultSha256": "24ad883557b1c0fd199c109b728ad78bd7e0b987b82045a03078a67aa113b186"
+    },
+    {
+      "id": "assembly/forged-producer",
+      "lockId": "assembly",
+      "detectorId": "ifx-assembly-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "dfbaf5217983f3d3108351357943077da6fc2ad6d01ef291198c41ff962018ed"
+    },
+    {
+      "id": "assembly/altered",
+      "lockId": "assembly",
+      "detectorId": "ifx-assembly-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "6e0904a6421f0cee9775bedc051f277f240c9ce237dab45100f7ebbf0f77c924"
+    },
+    {
+      "id": "assembly/stale",
+      "lockId": "assembly",
+      "detectorId": "ifx-assembly-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "7b56f749cb7ee367717c0bc002e88d434fd2aa8aa76025eb89045a4f2e359f50"
+    },
+    {
+      "id": "assembly/wrong-commit",
+      "lockId": "assembly",
+      "detectorId": "ifx-assembly-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "fc359223cff4378a9f0cf0ab12cd897dadd831086c90cfbc04ef9dfd728fa991"
+    },
+    {
+      "id": "assembly/post-production-change",
+      "lockId": "assembly",
+      "detectorId": "ifx-assembly-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "bd85d7964a0e427889fe6f8b3a8fc081f60dfdd71d2ce5bc65733f05e5eba65c"
+    },
+    {
+      "id": "frontend/current",
+      "lockId": "frontend",
+      "detectorId": "ifx-frontend-evidence",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "resultSha256": "01e7ff0d5071fe6a55532fc349fb5c4f005d7b9f1741a2bb632b4059b20e34b5"
+    },
+    {
+      "id": "frontend/missing-staging",
+      "lockId": "frontend",
+      "detectorId": "ifx-frontend-evidence",
+      "status": "error",
+      "exitCategory": "prerequisite-missing",
+      "findingCount": 0,
+      "resultSha256": "a7afc403a0dc3b17cb438c5c734084fcae2a4b9f0f0a68e27d97d1c75d77d167"
+    },
+    {
+      "id": "frontend/forged-producer",
+      "lockId": "frontend",
+      "detectorId": "ifx-frontend-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "d9ebf8c920b5ef509bc9a188237db182e83ee816c84a9556cfc42778d6785eac"
+    },
+    {
+      "id": "frontend/altered",
+      "lockId": "frontend",
+      "detectorId": "ifx-frontend-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "362d53e5edef074df5cecf3da8eb0fa4879ea8f30907c225f6ba8688c8b68df0"
+    },
+    {
+      "id": "frontend/stale",
+      "lockId": "frontend",
+      "detectorId": "ifx-frontend-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "3249427bf9052030d3ad3d992c74c0d8c913cd7875e1b169522e1ee5027d07a9"
+    },
+    {
+      "id": "frontend/wrong-commit",
+      "lockId": "frontend",
+      "detectorId": "ifx-frontend-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "f156ae360ecc2a96a612b660a3b932d6a3277cb704340e141a8cbf459175e36a"
+    },
+    {
+      "id": "frontend/post-production-change",
+      "lockId": "frontend",
+      "detectorId": "ifx-frontend-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "7fa3af9a05d94d62cbec2a88e91a5b1ef4c8ffd0edd4a781a2551409bd6f3607"
+    },
+    {
+      "id": "database/current",
+      "lockId": "database",
+      "detectorId": "ifx-database-evidence",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "resultSha256": "c407e06b355c6723f5d44e8cfca527513ff561f2325d864b30148402434eddf4"
+    },
+    {
+      "id": "database/missing-staging",
+      "lockId": "database",
+      "detectorId": "ifx-database-evidence",
+      "status": "error",
+      "exitCategory": "prerequisite-missing",
+      "findingCount": 0,
+      "resultSha256": "8eb6c0d56aa5e9b476c24d27b635855787e8ae14f5dece9fbaf1a3a2c4a7ae22"
+    },
+    {
+      "id": "database/forged-producer",
+      "lockId": "database",
+      "detectorId": "ifx-database-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "167ea401a78d55c377e4f0728f8e59fdff7e4a171d2a7996fa9f0ccda191d005"
+    },
+    {
+      "id": "database/altered",
+      "lockId": "database",
+      "detectorId": "ifx-database-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "307fdf3ed267f5a8390afd811a3451764a68cff5e03ffb091817a8fa75c49d59"
+    },
+    {
+      "id": "database/stale",
+      "lockId": "database",
+      "detectorId": "ifx-database-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "8188922c1f460c94bc4636d80e91ec171698510f385e24b855dfb4035721f9b0"
+    },
+    {
+      "id": "database/wrong-commit",
+      "lockId": "database",
+      "detectorId": "ifx-database-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "4324259fd4b76ce13188923570a85e7222e5df54dd651b0de45c25a11b0ffdfd"
+    },
+    {
+      "id": "database/post-production-change",
+      "lockId": "database",
+      "detectorId": "ifx-database-evidence",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "ede8e57083fb2ec4d2e0a827f95871b8379ff4263f9d87419c3b86874f6d839b"
+    },
+    {
+      "id": "graph/current",
+      "lockId": "graph",
+      "detectorId": "ifx-c1-evaluated-reference",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "resultSha256": "c0dc0ed6b6351a3d1dc912cf10021ee431c1efb5a220324ee50fdada6d0fc83a"
+    },
+    {
+      "id": "graph/missing-staging",
+      "lockId": "graph",
+      "detectorId": "ifx-c1-evaluated-reference",
+      "status": "error",
+      "exitCategory": "prerequisite-missing",
+      "findingCount": 0,
+      "resultSha256": "47e1c5eb0c8a49046eeb1ec073b8358cad41b82713022eaa1f96a2605720d696"
+    },
+    {
+      "id": "graph/forged-producer",
+      "lockId": "graph",
+      "detectorId": "ifx-c1-evaluated-reference",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "39d4976278d0edbc9a82dbacba0825573be75d40160ecde0485fe4b7265419bb"
+    },
+    {
+      "id": "graph/altered",
+      "lockId": "graph",
+      "detectorId": "ifx-c1-evaluated-reference",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "81f08482b741fbced91754b47639395433127d97920d20683b695efedc300a6e"
+    },
+    {
+      "id": "graph/stale",
+      "lockId": "graph",
+      "detectorId": "ifx-c1-evaluated-reference",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "e2dde59a572d25cc2b7184345b43559268ad8787e179860fcf6f38ded453c176"
+    },
+    {
+      "id": "graph/wrong-commit",
+      "lockId": "graph",
+      "detectorId": "ifx-c1-evaluated-reference",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "072e08e393d8c0e8a60692263c410963eff605f4e93b6ca8b9b9aaa0ca3ab4de"
+    },
+    {
+      "id": "graph/post-production-change",
+      "lockId": "graph",
+      "detectorId": "ifx-c1-evaluated-reference",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "552906f3347e0b15c20a5fa34a9cffeec4af95332f31183992959e3a1b6a4deb"
+    },
+    {
+      "id": "type/current",
+      "lockId": "type",
+      "detectorId": "ifx-c1-type-provenance",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "resultSha256": "ea5efe332ce0bccfcaa2c6ff908503ccd233a1bb67ef69fd3f76aed210ff42c9"
+    },
+    {
+      "id": "type/missing-staging",
+      "lockId": "type",
+      "detectorId": "ifx-c1-type-provenance",
+      "status": "error",
+      "exitCategory": "prerequisite-missing",
+      "findingCount": 0,
+      "resultSha256": "7aabef7e15abb1a80bcbc457e36dc2df049ac23d0e22f5c5c2eab9b02622595c"
+    },
+    {
+      "id": "type/forged-producer",
+      "lockId": "type",
+      "detectorId": "ifx-c1-type-provenance",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "14e4069fd00dd47624a1a32bb3cfa49c4b4f235c2933ee86363021f15733b85f"
+    },
+    {
+      "id": "type/altered",
+      "lockId": "type",
+      "detectorId": "ifx-c1-type-provenance",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "aa349b0743d24c4b2ea220e2988ec39fdecc9544e6c12f6df54c0971f62e617a"
+    },
+    {
+      "id": "type/stale",
+      "lockId": "type",
+      "detectorId": "ifx-c1-type-provenance",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "c77ba0868962c21b1991f200f36ac57a362e5b004da099ca22393a95df57e5b6"
+    },
+    {
+      "id": "type/wrong-commit",
+      "lockId": "type",
+      "detectorId": "ifx-c1-type-provenance",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "4660339cc91e5f2b709e718808a6b6fcf7568f478bfc13a70bd4aef7f3024464"
+    },
+    {
+      "id": "type/post-production-change",
+      "lockId": "type",
+      "detectorId": "ifx-c1-type-provenance",
+      "status": "error",
+      "exitCategory": "integrity-failure",
+      "findingCount": 0,
+      "resultSha256": "6d796c044aaaba879ac484219417cf138e5edf0a6ef2c362ef9d755f64578924"
+    }
+  ],
+  "capabilityVariantCount": 180,
+  "capabilityCases": [
+    {
+      "id": "ifx-assembly-evidence-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "50b2980ba4b0e65b44c61a90482ac7963bed844b6c03dc07ab605d673c8b8fbf"
+    },
+    {
+      "id": "ifx-assembly-evidence-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "50b2980ba4b0e65b44c61a90482ac7963bed844b6c03dc07ab605d673c8b8fbf"
+    },
+    {
+      "id": "ifx-assembly-evidence-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "50b2980ba4b0e65b44c61a90482ac7963bed844b6c03dc07ab605d673c8b8fbf"
+    },
+    {
+      "id": "ifx-assembly-evidence-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "50b2980ba4b0e65b44c61a90482ac7963bed844b6c03dc07ab605d673c8b8fbf"
+    },
+    {
+      "id": "ifx-assembly-evidence-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "50b2980ba4b0e65b44c61a90482ac7963bed844b6c03dc07ab605d673c8b8fbf"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "9c1294e31d76eff6cb9bc5413417dc86050aae768386e08b6091eefe7570c54d"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "9c1294e31d76eff6cb9bc5413417dc86050aae768386e08b6091eefe7570c54d"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "9c1294e31d76eff6cb9bc5413417dc86050aae768386e08b6091eefe7570c54d"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "9c1294e31d76eff6cb9bc5413417dc86050aae768386e08b6091eefe7570c54d"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "9c1294e31d76eff6cb9bc5413417dc86050aae768386e08b6091eefe7570c54d"
+    },
+    {
+      "id": "ifx-c1-type-provenance-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aa45c0c6dddfb33bb838b562fe6f1fb52472e4622334e425ac2bbd2a8212a4ea"
+    },
+    {
+      "id": "ifx-c1-type-provenance-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aa45c0c6dddfb33bb838b562fe6f1fb52472e4622334e425ac2bbd2a8212a4ea"
+    },
+    {
+      "id": "ifx-c1-type-provenance-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aa45c0c6dddfb33bb838b562fe6f1fb52472e4622334e425ac2bbd2a8212a4ea"
+    },
+    {
+      "id": "ifx-c1-type-provenance-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aa45c0c6dddfb33bb838b562fe6f1fb52472e4622334e425ac2bbd2a8212a4ea"
+    },
+    {
+      "id": "ifx-c1-type-provenance-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aa45c0c6dddfb33bb838b562fe6f1fb52472e4622334e425ac2bbd2a8212a4ea"
+    },
+    {
+      "id": "ifx-database-evidence-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "916c33cec65fbb7f9f4f50e93a621232cd22d5f866a390a51dcfb1e65685113e"
+    },
+    {
+      "id": "ifx-database-evidence-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "916c33cec65fbb7f9f4f50e93a621232cd22d5f866a390a51dcfb1e65685113e"
+    },
+    {
+      "id": "ifx-database-evidence-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "916c33cec65fbb7f9f4f50e93a621232cd22d5f866a390a51dcfb1e65685113e"
+    },
+    {
+      "id": "ifx-database-evidence-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "916c33cec65fbb7f9f4f50e93a621232cd22d5f866a390a51dcfb1e65685113e"
+    },
+    {
+      "id": "ifx-database-evidence-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "916c33cec65fbb7f9f4f50e93a621232cd22d5f866a390a51dcfb1e65685113e"
+    },
+    {
+      "id": "ifx-domain-reference-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3a95b2767ff6280fd5e091c19a417c8592281286f7c7068c255ce30d947b9c30"
+    },
+    {
+      "id": "ifx-domain-reference-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3a95b2767ff6280fd5e091c19a417c8592281286f7c7068c255ce30d947b9c30"
+    },
+    {
+      "id": "ifx-domain-reference-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3a95b2767ff6280fd5e091c19a417c8592281286f7c7068c255ce30d947b9c30"
+    },
+    {
+      "id": "ifx-domain-reference-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3a95b2767ff6280fd5e091c19a417c8592281286f7c7068c255ce30d947b9c30"
+    },
+    {
+      "id": "ifx-domain-reference-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3a95b2767ff6280fd5e091c19a417c8592281286f7c7068c255ce30d947b9c30"
+    },
+    {
+      "id": "ifx-embedded-adapter-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d3e681e8bcfec96aaff7b55bf11739cff81b516390f941468e31b45bc8f1de49"
+    },
+    {
+      "id": "ifx-embedded-adapter-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d3e681e8bcfec96aaff7b55bf11739cff81b516390f941468e31b45bc8f1de49"
+    },
+    {
+      "id": "ifx-embedded-adapter-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d3e681e8bcfec96aaff7b55bf11739cff81b516390f941468e31b45bc8f1de49"
+    },
+    {
+      "id": "ifx-embedded-adapter-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d3e681e8bcfec96aaff7b55bf11739cff81b516390f941468e31b45bc8f1de49"
+    },
+    {
+      "id": "ifx-embedded-adapter-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d3e681e8bcfec96aaff7b55bf11739cff81b516390f941468e31b45bc8f1de49"
+    },
+    {
+      "id": "ifx-frontend-evidence-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8a8a26833efdf338ab17ab17f9279e7d4d2c0310d1f2bf8594a79c667d1b5572"
+    },
+    {
+      "id": "ifx-frontend-evidence-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8a8a26833efdf338ab17ab17f9279e7d4d2c0310d1f2bf8594a79c667d1b5572"
+    },
+    {
+      "id": "ifx-frontend-evidence-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8a8a26833efdf338ab17ab17f9279e7d4d2c0310d1f2bf8594a79c667d1b5572"
+    },
+    {
+      "id": "ifx-frontend-evidence-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8a8a26833efdf338ab17ab17f9279e7d4d2c0310d1f2bf8594a79c667d1b5572"
+    },
+    {
+      "id": "ifx-frontend-evidence-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8a8a26833efdf338ab17ab17f9279e7d4d2c0310d1f2bf8594a79c667d1b5572"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0a85d0db8f11ac563222628ecc7fe8def91d386792f888f141267f92249afcb0"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0a85d0db8f11ac563222628ecc7fe8def91d386792f888f141267f92249afcb0"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0a85d0db8f11ac563222628ecc7fe8def91d386792f888f141267f92249afcb0"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0a85d0db8f11ac563222628ecc7fe8def91d386792f888f141267f92249afcb0"
+    },
+    {
+      "id": "ifx-g03-catalog-semantics-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0a85d0db8f11ac563222628ecc7fe8def91d386792f888f141267f92249afcb0"
+    },
+    {
+      "id": "ifx-g03-docs-closeout-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b57b505b6c5b78d73ad5a4999f4fa068cb6813cfb6a139f01f278bf139cdb0df"
+    },
+    {
+      "id": "ifx-g03-docs-closeout-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b57b505b6c5b78d73ad5a4999f4fa068cb6813cfb6a139f01f278bf139cdb0df"
+    },
+    {
+      "id": "ifx-g03-docs-closeout-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b57b505b6c5b78d73ad5a4999f4fa068cb6813cfb6a139f01f278bf139cdb0df"
+    },
+    {
+      "id": "ifx-g03-docs-closeout-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b57b505b6c5b78d73ad5a4999f4fa068cb6813cfb6a139f01f278bf139cdb0df"
+    },
+    {
+      "id": "ifx-g03-docs-closeout-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b57b505b6c5b78d73ad5a4999f4fa068cb6813cfb6a139f01f278bf139cdb0df"
+    },
+    {
+      "id": "ifx-g03-governance-core-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bc1a617656295f271abd55a18086785d8d0104dae7b3f790d1d958c551a540c3"
+    },
+    {
+      "id": "ifx-g03-governance-core-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bc1a617656295f271abd55a18086785d8d0104dae7b3f790d1d958c551a540c3"
+    },
+    {
+      "id": "ifx-g03-governance-core-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bc1a617656295f271abd55a18086785d8d0104dae7b3f790d1d958c551a540c3"
+    },
+    {
+      "id": "ifx-g03-governance-core-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bc1a617656295f271abd55a18086785d8d0104dae7b3f790d1d958c551a540c3"
+    },
+    {
+      "id": "ifx-g03-governance-core-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bc1a617656295f271abd55a18086785d8d0104dae7b3f790d1d958c551a540c3"
+    },
+    {
+      "id": "ifx-g03-snapshots-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "57ebb3b7b50d378a611c98e987a7e8ec68acabb055014b68ab599adbb4092539"
+    },
+    {
+      "id": "ifx-g03-snapshots-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "57ebb3b7b50d378a611c98e987a7e8ec68acabb055014b68ab599adbb4092539"
+    },
+    {
+      "id": "ifx-g03-snapshots-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "57ebb3b7b50d378a611c98e987a7e8ec68acabb055014b68ab599adbb4092539"
+    },
+    {
+      "id": "ifx-g03-snapshots-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "57ebb3b7b50d378a611c98e987a7e8ec68acabb055014b68ab599adbb4092539"
+    },
+    {
+      "id": "ifx-g03-snapshots-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "57ebb3b7b50d378a611c98e987a7e8ec68acabb055014b68ab599adbb4092539"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "645f997edba48cb3401cf00dff927918b8c1d4d737b69ea13a1fe71085df1b20"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "645f997edba48cb3401cf00dff927918b8c1d4d737b69ea13a1fe71085df1b20"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "645f997edba48cb3401cf00dff927918b8c1d4d737b69ea13a1fe71085df1b20"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "645f997edba48cb3401cf00dff927918b8c1d4d737b69ea13a1fe71085df1b20"
+    },
+    {
+      "id": "ifx-g03-source-reconciliation-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "645f997edba48cb3401cf00dff927918b8c1d4d737b69ea13a1fe71085df1b20"
+    },
+    {
+      "id": "ifx-g04-closeout-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e1e57f3597f3b2433e591a8254019a7d6ac991103749bd3ce18dfd48150574eb"
+    },
+    {
+      "id": "ifx-g04-closeout-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e1e57f3597f3b2433e591a8254019a7d6ac991103749bd3ce18dfd48150574eb"
+    },
+    {
+      "id": "ifx-g04-closeout-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e1e57f3597f3b2433e591a8254019a7d6ac991103749bd3ce18dfd48150574eb"
+    },
+    {
+      "id": "ifx-g04-closeout-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e1e57f3597f3b2433e591a8254019a7d6ac991103749bd3ce18dfd48150574eb"
+    },
+    {
+      "id": "ifx-g04-closeout-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e1e57f3597f3b2433e591a8254019a7d6ac991103749bd3ce18dfd48150574eb"
+    },
+    {
+      "id": "ifx-g04-manifests-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "6bf1bc58e5da35e6c1d26e09238392805f8da3121e122b60da8941074c4f72f6"
+    },
+    {
+      "id": "ifx-g04-manifests-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "6bf1bc58e5da35e6c1d26e09238392805f8da3121e122b60da8941074c4f72f6"
+    },
+    {
+      "id": "ifx-g04-manifests-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "6bf1bc58e5da35e6c1d26e09238392805f8da3121e122b60da8941074c4f72f6"
+    },
+    {
+      "id": "ifx-g04-manifests-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "6bf1bc58e5da35e6c1d26e09238392805f8da3121e122b60da8941074c4f72f6"
+    },
+    {
+      "id": "ifx-g04-manifests-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "6bf1bc58e5da35e6c1d26e09238392805f8da3121e122b60da8941074c4f72f6"
+    },
+    {
+      "id": "ifx-g04-runtime-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "548d9b10a0f19315d06efb42ec75696da91091bb959c666463d06c30e0f1c905"
+    },
+    {
+      "id": "ifx-g04-runtime-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "548d9b10a0f19315d06efb42ec75696da91091bb959c666463d06c30e0f1c905"
+    },
+    {
+      "id": "ifx-g04-runtime-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "548d9b10a0f19315d06efb42ec75696da91091bb959c666463d06c30e0f1c905"
+    },
+    {
+      "id": "ifx-g04-runtime-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "548d9b10a0f19315d06efb42ec75696da91091bb959c666463d06c30e0f1c905"
+    },
+    {
+      "id": "ifx-g04-runtime-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "548d9b10a0f19315d06efb42ec75696da91091bb959c666463d06c30e0f1c905"
+    },
+    {
+      "id": "ifx-g05-carriers-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "44c56b29fb223425f898341256322773ad65818c000988f880bef0e75576e000"
+    },
+    {
+      "id": "ifx-g05-carriers-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "44c56b29fb223425f898341256322773ad65818c000988f880bef0e75576e000"
+    },
+    {
+      "id": "ifx-g05-carriers-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "44c56b29fb223425f898341256322773ad65818c000988f880bef0e75576e000"
+    },
+    {
+      "id": "ifx-g05-carriers-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "44c56b29fb223425f898341256322773ad65818c000988f880bef0e75576e000"
+    },
+    {
+      "id": "ifx-g05-carriers-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "44c56b29fb223425f898341256322773ad65818c000988f880bef0e75576e000"
+    },
+    {
+      "id": "ifx-g05-closeout-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8d7a590fda2559cec870fb82f3a17d56bf7aba307fac932802d5f39d86963eec"
+    },
+    {
+      "id": "ifx-g05-closeout-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8d7a590fda2559cec870fb82f3a17d56bf7aba307fac932802d5f39d86963eec"
+    },
+    {
+      "id": "ifx-g05-closeout-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8d7a590fda2559cec870fb82f3a17d56bf7aba307fac932802d5f39d86963eec"
+    },
+    {
+      "id": "ifx-g05-closeout-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8d7a590fda2559cec870fb82f3a17d56bf7aba307fac932802d5f39d86963eec"
+    },
+    {
+      "id": "ifx-g05-closeout-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "8d7a590fda2559cec870fb82f3a17d56bf7aba307fac932802d5f39d86963eec"
+    },
+    {
+      "id": "ifx-g05-execution-http-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d52fd7ead18524a52197778e4313ecec80ba824d134abcce14a6ecb3d1611ea8"
+    },
+    {
+      "id": "ifx-g05-execution-http-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d52fd7ead18524a52197778e4313ecec80ba824d134abcce14a6ecb3d1611ea8"
+    },
+    {
+      "id": "ifx-g05-execution-http-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d52fd7ead18524a52197778e4313ecec80ba824d134abcce14a6ecb3d1611ea8"
+    },
+    {
+      "id": "ifx-g05-execution-http-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d52fd7ead18524a52197778e4313ecec80ba824d134abcce14a6ecb3d1611ea8"
+    },
+    {
+      "id": "ifx-g05-execution-http-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "d52fd7ead18524a52197778e4313ecec80ba824d134abcce14a6ecb3d1611ea8"
+    },
+    {
+      "id": "ifx-g05-governance-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aed056b1a11b428a33ef133fce27087a2f8305e63e7e4aaa7dce6757a26d9ea5"
+    },
+    {
+      "id": "ifx-g05-governance-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aed056b1a11b428a33ef133fce27087a2f8305e63e7e4aaa7dce6757a26d9ea5"
+    },
+    {
+      "id": "ifx-g05-governance-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aed056b1a11b428a33ef133fce27087a2f8305e63e7e4aaa7dce6757a26d9ea5"
+    },
+    {
+      "id": "ifx-g05-governance-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aed056b1a11b428a33ef133fce27087a2f8305e63e7e4aaa7dce6757a26d9ea5"
+    },
+    {
+      "id": "ifx-g05-governance-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "aed056b1a11b428a33ef133fce27087a2f8305e63e7e4aaa7dce6757a26d9ea5"
+    },
+    {
+      "id": "ifx-g05-inventory-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0293697f2f6b63e0238889c2295ac119fd6c8a3079e599c844533bcc0b5f5f61"
+    },
+    {
+      "id": "ifx-g05-inventory-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0293697f2f6b63e0238889c2295ac119fd6c8a3079e599c844533bcc0b5f5f61"
+    },
+    {
+      "id": "ifx-g05-inventory-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0293697f2f6b63e0238889c2295ac119fd6c8a3079e599c844533bcc0b5f5f61"
+    },
+    {
+      "id": "ifx-g05-inventory-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0293697f2f6b63e0238889c2295ac119fd6c8a3079e599c844533bcc0b5f5f61"
+    },
+    {
+      "id": "ifx-g05-inventory-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "0293697f2f6b63e0238889c2295ac119fd6c8a3079e599c844533bcc0b5f5f61"
+    },
+    {
+      "id": "ifx-g05-protocol-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "524aaedefbbeab85c12110f32c3645196380c20585f439d331569567bfc8f066"
+    },
+    {
+      "id": "ifx-g05-protocol-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "524aaedefbbeab85c12110f32c3645196380c20585f439d331569567bfc8f066"
+    },
+    {
+      "id": "ifx-g05-protocol-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "524aaedefbbeab85c12110f32c3645196380c20585f439d331569567bfc8f066"
+    },
+    {
+      "id": "ifx-g05-protocol-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "524aaedefbbeab85c12110f32c3645196380c20585f439d331569567bfc8f066"
+    },
+    {
+      "id": "ifx-g05-protocol-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "524aaedefbbeab85c12110f32c3645196380c20585f439d331569567bfc8f066"
+    },
+    {
+      "id": "ifx-history-integrity-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "360bb433f51f3614f43bc04167c73381f3daf28e6646c2d17be955254fbb2ad3"
+    },
+    {
+      "id": "ifx-history-integrity-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "360bb433f51f3614f43bc04167c73381f3daf28e6646c2d17be955254fbb2ad3"
+    },
+    {
+      "id": "ifx-history-integrity-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "360bb433f51f3614f43bc04167c73381f3daf28e6646c2d17be955254fbb2ad3"
+    },
+    {
+      "id": "ifx-history-integrity-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "360bb433f51f3614f43bc04167c73381f3daf28e6646c2d17be955254fbb2ad3"
+    },
+    {
+      "id": "ifx-history-integrity-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "360bb433f51f3614f43bc04167c73381f3daf28e6646c2d17be955254fbb2ad3"
+    },
+    {
+      "id": "ifx-injection-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bbd34b145a7ae861e9d0c35353d98e29c4df783be3e4e46ceec5402c7e595922"
+    },
+    {
+      "id": "ifx-injection-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bbd34b145a7ae861e9d0c35353d98e29c4df783be3e4e46ceec5402c7e595922"
+    },
+    {
+      "id": "ifx-injection-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bbd34b145a7ae861e9d0c35353d98e29c4df783be3e4e46ceec5402c7e595922"
+    },
+    {
+      "id": "ifx-injection-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bbd34b145a7ae861e9d0c35353d98e29c4df783be3e4e46ceec5402c7e595922"
+    },
+    {
+      "id": "ifx-injection-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "bbd34b145a7ae861e9d0c35353d98e29c4df783be3e4e46ceec5402c7e595922"
+    },
+    {
+      "id": "ifx-ownership-graph-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f49102f694f2f18125fc33e64e4db8efdb8324ea6e817d8ea9a2c64b193b3c33"
+    },
+    {
+      "id": "ifx-ownership-graph-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f49102f694f2f18125fc33e64e4db8efdb8324ea6e817d8ea9a2c64b193b3c33"
+    },
+    {
+      "id": "ifx-ownership-graph-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f49102f694f2f18125fc33e64e4db8efdb8324ea6e817d8ea9a2c64b193b3c33"
+    },
+    {
+      "id": "ifx-ownership-graph-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f49102f694f2f18125fc33e64e4db8efdb8324ea6e817d8ea9a2c64b193b3c33"
+    },
+    {
+      "id": "ifx-ownership-graph-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f49102f694f2f18125fc33e64e4db8efdb8324ea6e817d8ea9a2c64b193b3c33"
+    },
+    {
+      "id": "ifx-package-reference-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f8babd4dd593c7c4758561be51870d1c038a6e385c6578158a97adc2c4aa7f1a"
+    },
+    {
+      "id": "ifx-package-reference-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f8babd4dd593c7c4758561be51870d1c038a6e385c6578158a97adc2c4aa7f1a"
+    },
+    {
+      "id": "ifx-package-reference-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f8babd4dd593c7c4758561be51870d1c038a6e385c6578158a97adc2c4aa7f1a"
+    },
+    {
+      "id": "ifx-package-reference-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f8babd4dd593c7c4758561be51870d1c038a6e385c6578158a97adc2c4aa7f1a"
+    },
+    {
+      "id": "ifx-package-reference-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f8babd4dd593c7c4758561be51870d1c038a6e385c6578158a97adc2c4aa7f1a"
+    },
+    {
+      "id": "ifx-plan04-abstractions-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "a1e756d671cd641245092e1605727aa7d907294d07f9af3aea196cbb333bfb7b"
+    },
+    {
+      "id": "ifx-plan04-abstractions-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "a1e756d671cd641245092e1605727aa7d907294d07f9af3aea196cbb333bfb7b"
+    },
+    {
+      "id": "ifx-plan04-abstractions-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "a1e756d671cd641245092e1605727aa7d907294d07f9af3aea196cbb333bfb7b"
+    },
+    {
+      "id": "ifx-plan04-abstractions-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "a1e756d671cd641245092e1605727aa7d907294d07f9af3aea196cbb333bfb7b"
+    },
+    {
+      "id": "ifx-plan04-abstractions-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "a1e756d671cd641245092e1605727aa7d907294d07f9af3aea196cbb333bfb7b"
+    },
+    {
+      "id": "ifx-plan04-extraction-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3aa91b9fea399376f1a4604642fe09c9aa21976cccd65464eb77a40b11c01552"
+    },
+    {
+      "id": "ifx-plan04-extraction-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3aa91b9fea399376f1a4604642fe09c9aa21976cccd65464eb77a40b11c01552"
+    },
+    {
+      "id": "ifx-plan04-extraction-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3aa91b9fea399376f1a4604642fe09c9aa21976cccd65464eb77a40b11c01552"
+    },
+    {
+      "id": "ifx-plan04-extraction-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3aa91b9fea399376f1a4604642fe09c9aa21976cccd65464eb77a40b11c01552"
+    },
+    {
+      "id": "ifx-plan04-extraction-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "3aa91b9fea399376f1a4604642fe09c9aa21976cccd65464eb77a40b11c01552"
+    },
+    {
+      "id": "ifx-plan04-projection-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e6be882f0c25b5ec373fbb7737f4424918f3e2a7791e5dfe4186a14efc78be1b"
+    },
+    {
+      "id": "ifx-plan04-projection-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e6be882f0c25b5ec373fbb7737f4424918f3e2a7791e5dfe4186a14efc78be1b"
+    },
+    {
+      "id": "ifx-plan04-projection-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e6be882f0c25b5ec373fbb7737f4424918f3e2a7791e5dfe4186a14efc78be1b"
+    },
+    {
+      "id": "ifx-plan04-projection-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e6be882f0c25b5ec373fbb7737f4424918f3e2a7791e5dfe4186a14efc78be1b"
+    },
+    {
+      "id": "ifx-plan04-projection-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e6be882f0c25b5ec373fbb7737f4424918f3e2a7791e5dfe4186a14efc78be1b"
+    },
+    {
+      "id": "ifx-plan04-tenant-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b09d5bc1849d669a9f84020c1774c1a40e635323ac142615215b31186a50998e"
+    },
+    {
+      "id": "ifx-plan04-tenant-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b09d5bc1849d669a9f84020c1774c1a40e635323ac142615215b31186a50998e"
+    },
+    {
+      "id": "ifx-plan04-tenant-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b09d5bc1849d669a9f84020c1774c1a40e635323ac142615215b31186a50998e"
+    },
+    {
+      "id": "ifx-plan04-tenant-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b09d5bc1849d669a9f84020c1774c1a40e635323ac142615215b31186a50998e"
+    },
+    {
+      "id": "ifx-plan04-tenant-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "b09d5bc1849d669a9f84020c1774c1a40e635323ac142615215b31186a50998e"
+    },
+    {
+      "id": "ifx-plan05-security-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "4f78ba4158047ca2015b9660135d87dbb13f754e3d9f5df24c55a7160e28e12f"
+    },
+    {
+      "id": "ifx-plan05-security-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "4f78ba4158047ca2015b9660135d87dbb13f754e3d9f5df24c55a7160e28e12f"
+    },
+    {
+      "id": "ifx-plan05-security-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "4f78ba4158047ca2015b9660135d87dbb13f754e3d9f5df24c55a7160e28e12f"
+    },
+    {
+      "id": "ifx-plan05-security-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "4f78ba4158047ca2015b9660135d87dbb13f754e3d9f5df24c55a7160e28e12f"
+    },
+    {
+      "id": "ifx-plan05-security-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "4f78ba4158047ca2015b9660135d87dbb13f754e3d9f5df24c55a7160e28e12f"
+    },
+    {
+      "id": "ifx-project-name-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e157cf40d8617184a7b2b2bb0c1442a454662acb88b6adada7c4ec83c87db3cd"
+    },
+    {
+      "id": "ifx-project-name-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e157cf40d8617184a7b2b2bb0c1442a454662acb88b6adada7c4ec83c87db3cd"
+    },
+    {
+      "id": "ifx-project-name-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e157cf40d8617184a7b2b2bb0c1442a454662acb88b6adada7c4ec83c87db3cd"
+    },
+    {
+      "id": "ifx-project-name-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e157cf40d8617184a7b2b2bb0c1442a454662acb88b6adada7c4ec83c87db3cd"
+    },
+    {
+      "id": "ifx-project-name-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "e157cf40d8617184a7b2b2bb0c1442a454662acb88b6adada7c4ec83c87db3cd"
+    },
+    {
+      "id": "ifx-provider-cycle-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "389a35aeb39e47b762042e13496251a21b95ceec9f20185e3f27ef0f78d0d316"
+    },
+    {
+      "id": "ifx-provider-cycle-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "389a35aeb39e47b762042e13496251a21b95ceec9f20185e3f27ef0f78d0d316"
+    },
+    {
+      "id": "ifx-provider-cycle-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "389a35aeb39e47b762042e13496251a21b95ceec9f20185e3f27ef0f78d0d316"
+    },
+    {
+      "id": "ifx-provider-cycle-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "389a35aeb39e47b762042e13496251a21b95ceec9f20185e3f27ef0f78d0d316"
+    },
+    {
+      "id": "ifx-provider-cycle-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "389a35aeb39e47b762042e13496251a21b95ceec9f20185e3f27ef0f78d0d316"
+    },
+    {
+      "id": "ifx-reference-cycle-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "1e49814f6b2c3ec4b98c31ea974a3dff7ab7d885e4262b00c2f2271294523b8d"
+    },
+    {
+      "id": "ifx-reference-cycle-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "1e49814f6b2c3ec4b98c31ea974a3dff7ab7d885e4262b00c2f2271294523b8d"
+    },
+    {
+      "id": "ifx-reference-cycle-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "1e49814f6b2c3ec4b98c31ea974a3dff7ab7d885e4262b00c2f2271294523b8d"
+    },
+    {
+      "id": "ifx-reference-cycle-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "1e49814f6b2c3ec4b98c31ea974a3dff7ab7d885e4262b00c2f2271294523b8d"
+    },
+    {
+      "id": "ifx-reference-cycle-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "1e49814f6b2c3ec4b98c31ea974a3dff7ab7d885e4262b00c2f2271294523b8d"
+    },
+    {
+      "id": "ifx-ring-graph-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f7d75c694339f99c855694301a5f4530c9bf86fcccb8ef0fdf6695128c2cd271"
+    },
+    {
+      "id": "ifx-ring-graph-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f7d75c694339f99c855694301a5f4530c9bf86fcccb8ef0fdf6695128c2cd271"
+    },
+    {
+      "id": "ifx-ring-graph-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f7d75c694339f99c855694301a5f4530c9bf86fcccb8ef0fdf6695128c2cd271"
+    },
+    {
+      "id": "ifx-ring-graph-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f7d75c694339f99c855694301a5f4530c9bf86fcccb8ef0fdf6695128c2cd271"
+    },
+    {
+      "id": "ifx-ring-graph-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "f7d75c694339f99c855694301a5f4530c9bf86fcccb8ef0fdf6695128c2cd271"
+    },
+    {
+      "id": "ifx-solution-evidence-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "475461060c7c99d5c4939d25e2d8cb6a7f5a90f85eca342020016c3d433599ea"
+    },
+    {
+      "id": "ifx-solution-evidence-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "475461060c7c99d5c4939d25e2d8cb6a7f5a90f85eca342020016c3d433599ea"
+    },
+    {
+      "id": "ifx-solution-evidence-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "475461060c7c99d5c4939d25e2d8cb6a7f5a90f85eca342020016c3d433599ea"
+    },
+    {
+      "id": "ifx-solution-evidence-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "475461060c7c99d5c4939d25e2d8cb6a7f5a90f85eca342020016c3d433599ea"
+    },
+    {
+      "id": "ifx-solution-evidence-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "475461060c7c99d5c4939d25e2d8cb6a7f5a90f85eca342020016c3d433599ea"
+    },
+    {
+      "id": "ifx-source-policy-read-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "af8e8e0d24f19be418b47adf4e2a61f438bc80a0b99ee7bcabc243cc64b01856"
+    },
+    {
+      "id": "ifx-source-policy-write-root",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "af8e8e0d24f19be418b47adf4e2a61f438bc80a0b99ee7bcabc243cc64b01856"
+    },
+    {
+      "id": "ifx-source-policy-process",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "af8e8e0d24f19be418b47adf4e2a61f438bc80a0b99ee7bcabc243cc64b01856"
+    },
+    {
+      "id": "ifx-source-policy-network",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "af8e8e0d24f19be418b47adf4e2a61f438bc80a0b99ee7bcabc243cc64b01856"
+    },
+    {
+      "id": "ifx-source-policy-timeout",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "Module capabilities exceed or differ from reviewed ceiling",
+      "outputSha256": "af8e8e0d24f19be418b47adf4e2a61f438bc80a0b99ee7bcabc243cc64b01856"
+    }
+  ],
+  "rootControlCount": 7,
+  "rootCases": [
+    {
+      "id": "state-inside-package",
+      "status": "blocked",
+      "exitCode": 11,
+      "exitCategory": "unsafe-path",
+      "outputSha256": "eea14f58ccd5f5b0e281213a37f5d3361a81819489b956f8fb20ba4c86f48ab0"
+    },
+    {
+      "id": "evidence-inside-target",
+      "status": "blocked",
+      "exitCode": 11,
+      "exitCategory": "unsafe-path",
+      "outputSha256": "477bad5ae9bab0027d7a76c7cecde5363eca2198ee6c709671ee46071a5f84cf"
+    },
+    {
+      "id": "mutable-overlap",
+      "status": "blocked",
+      "exitCode": 11,
+      "exitCategory": "unsafe-path",
+      "outputSha256": "557b0d8dc3fc9bbca2d85b3b8d63ef25c9be25eefacc3039964c8d9cd7db0aa9"
+    },
+    {
+      "id": "normalized-traversal-to-target",
+      "status": "blocked",
+      "exitCode": 11,
+      "exitCategory": "unsafe-path",
+      "outputSha256": "477bad5ae9bab0027d7a76c7cecde5363eca2198ee6c709671ee46071a5f84cf"
+    },
+    {
+      "id": "linked-state-root",
+      "status": "blocked",
+      "exitCode": 11,
+      "exitCategory": "unsafe-path",
+      "outputSha256": "cc74ec0f966a87ca2d074edcb3cbaa86d9575729b0dd2d235ee44cf4a8ab292c"
+    },
+    {
+      "id": "declared-packageroot-write",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "module schema validation failed",
+      "outputSha256": "dcbc7b4a8879bf29448922b6807b79a57958ed5dea25cf18b8313b6a8f5d0389"
+    },
+    {
+      "id": "declared-targetroot-write",
+      "status": "blocked",
+      "phase": "pre-install",
+      "expected": "module schema validation failed",
+      "outputSha256": "3b4c5a83b1904a3e580e0984762cff1a4008bbabb6477ce84190787f9e485bbb"
+    }
+  ],
+  "linkControlStatus": "blocked",
+  "invariants": {
+    "originalBundle": "unchanged",
+    "composedPackage": "unchanged",
+    "productionSnapshot": "unchanged",
+    "trackedTarget": "unchanged"
+  }
+}

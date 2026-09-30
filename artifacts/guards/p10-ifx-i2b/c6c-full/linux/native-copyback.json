@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-linux-native-archive-copyback",
+  "status": "pass",
+  "nativeRoot": "/native/linux",
+  "outRoot": "/out/linux",
+  "excluded": [
+    "native-checkout"
+  ],
+  "diagnostics": [],
+  "archive": {
+    "path": "native-results.tar.gz",
+    "format": "tar (pax, sorted, gzip)",
+    "bytes": 2970320970,
+    "sha256": "0b251e7362c8bfb9b5cf8f2d49b41b71ae347715e2b2d8ec4ad66323d68bdea0",
+    "fileEntries": 59592
+  },
+  "listing": {
+    "path": "native-listing.txt",
+    "files": 59592,
+    "bytes": 4063986269,
+    "sha256": "bf1166d662c5f7c6067d2c6190bdd4f33233a913c8ef623c4b8f82660e9ee348",
+    "lineFormat": "<sha256> <bytes> <path>"
+  },
+  "reports": [
+    {
+      "path": "matrix/case-manifest.json",
+      "present": true,
+      "bytes": 149985,
+      "sha256": "b6e95dc9e19cd4979aadcc46bb0a01a2bfee8b3d4b3f86ee45c37a75dd9f52fa"
+    },
+    {
+      "path": "matrix/matrix-contract-summary.json",
+      "present": true,
+      "bytes": 767,
+      "sha256": "4bce6a5113d53068c6f4338bd1a29416d9dc63ec3665d13b8beab5b0eaec5aeb"
+    },
+    {
+      "path": "matrix/summary.json",
+      "present": true,
+      "bytes": 24617,
+      "sha256": "f4c207e5eb49aa526dec28c634b33280136e98e60c035d3e76b058bc0df2bb74"
+    },
+    {
+      "path": "native-links.json",
+      "present": true,
+      "bytes": 1358,
+      "sha256": "acc7bf66262d7f70ec0c08615be4ed098520e6c837699f113484c11edc06be21"
+    },
+    {
+      "path": "positive.json",
+      "present": true,
+      "bytes": 1956,
+      "sha256": "f2dd8438a07e7fa08f03874a151cd9db60b483d81d7b8b54df30bf469fb6854f"
+    },
+    {
+      "path": "summary.json",
+      "present": true,
+      "bytes": 775,
+      "sha256": "586cc7e01e7025820d2a086bae51aa3279b622eab39a74ee6bb164b5020cb0f8"
+    }
+  ],
+  "timings": {
+    "listSeconds": 15.967,
+    "archiveSeconds": 91.288,
+    "verifyNativeSeconds": 22.761,
+    "copyArchiveSeconds": 155.098,
+    "copyReportsSeconds": 0.869,
+    "totalSeconds": 287.094
+  }
+}

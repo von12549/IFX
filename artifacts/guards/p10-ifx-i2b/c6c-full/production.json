@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-evidence-production",
+  "status": "pass",
+  "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+  "runs": [
+    {
+      "gate": "solution",
+      "exitCode": 0,
+      "seconds": 133.1,
+      "lockPath": "artifacts/guards/p10-ifx-c5b/solution-runs/22c2fbb24f084132b09dc96323599112/evidence-lock.json",
+      "tail": [
+        "IFX guardrails passed: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c5b\\solution-runs\\22c2fbb24f084132b09dc96323599112\\summary-quality.json",
+        "Solution evidence lock: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c5b\\solution-runs\\22c2fbb24f084132b09dc96323599112\\evidence-lock.json",
+        "SHA256: e3964de0bb877ed1524f390ec0d0e97f3dbf5ea0920037d73a65dcadbcda0338"
+      ]
+    },
+    {
+      "gate": "assembly",
+      "exitCode": 0,
+      "seconds": 2.7,
+      "lockPath": "artifacts/guards/p10-ifx-c5c/assembly-runs/46076f7104d44235b94676c756502855/evidence-lock.json",
+      "tail": [
+        "IFX guardrails passed: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c5c\\assembly-runs\\46076f7104d44235b94676c756502855\\summary-quality.json",
+        "Assembly evidence lock: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c5c\\assembly-runs\\46076f7104d44235b94676c756502855\\evidence-lock.json",
+        "SHA256: f027a2da1aff3762d9bc5c36afc7f7795cef6d8af0621b69f12d721979ac7464"
+      ]
+    },
+    {
+      "gate": "frontend",
+      "exitCode": 0,
+      "seconds": 41.5,
+      "lockPath": "artifacts/guards/p10-ifx-c5d/frontend-runs/97c63f9a4d9d4c0a8171f6b112ec804f/evidence-lock.json",
+      "tail": [
+        "Frontend evidence lock: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c5d\\frontend-runs\\97c63f9a4d9d4c0a8171f6b112ec804f\\evidence-lock.json",
+        "SHA256: 4b87fd9e8842fbb494b75e6a60d74ad0cd10dd7a1b031e581f1172560cd7e88c"
+      ]
+    },
+    {
+      "gate": "database",
+      "exitCode": 0,
+      "seconds": 104.1,
+      "lockPath": "artifacts/guards/p10-ifx-c4b/database-runs/d9a27e5ae72a490c838bb6b5f6da9273/evidence-lock.json",
+      "tail": [
+        "IFX guardrails passed: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c4b\\database-runs\\d9a27e5ae72a490c838bb6b5f6da9273\\summary-specialized.json",
+        "Database evidence lock: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c4b\\database-runs\\d9a27e5ae72a490c838bb6b5f6da9273\\evidence-lock.json",
+        "SHA256: 1746550403a67a3293db5386d29133956c5eb9a535c73675975614953e898cb3"
+      ]
+    },
+    {
+      "gate": "graph",
+      "exitCode": 0,
+      "seconds": 29.1,
+      "lockPath": "artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/da9b0f90a8ae4ae3ac384a02d3e0961e/evidence-lock.json",
+      "tail": [
+        "Evaluated graph evidence lock: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c1-r2b\\evaluation-runs\\da9b0f90a8ae4ae3ac384a02d3e0961e\\evidence-lock.json",
+        "SHA256: e6523675518fdb702763953f584c7aa954a66be6cbaa5d0483a6274772d74307"
+      ]
+    },
+    {
+      "gate": "type",
+      "exitCode": 0,
+      "seconds": 1.4,
+      "lockPath": "artifacts/guards/p10-ifx-c1-r1b/type-runs/17eb783bd96449b295875c4dedd863ae/evidence-lock.json",
+      "tail": [
+        "Compiled type evidence lock: C:\\Users\\von12\\AppData\\Local\\Temp\\ifx050-w-41820be3\\artifacts\\guards\\p10-ifx-c1-r1b\\type-runs\\17eb783bd96449b295875c4dedd863ae\\evidence-lock.json",
+        "SHA256: 125b0b9db66bcff30b2df850dab8f0e87ee3dc7efe12498d7b16efc484b1b1aa"
+      ]
+    }
+  ]
+}

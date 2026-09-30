@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3, A1-4 and A1-5 complete; IFX-V4-005 fixed; A1-6 C6c needs authorization`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 human review next`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -394,6 +394,22 @@ Module dispositions:
   - The harness under `candidates/` is unchanged since the A1-4 harness controls (`e13ac68c`).
   - Records: `artifacts/guards/p10-ifx-i2b/a1-readiness/` (`index.json`); evrun 050 in `I2B-ci-evidence`.
   - Next: the A1-6 single C6c (authorization).
+- **A1-6 complete (2026-09-30, authorized).** `Invoke-IFX050C6Chain.ps1 -AuthorizeA16C6c` at `c0d927eb` passes in
+  2,498 s; the single C6c took 1,809 s. The A1-5 run trees were moved to the ignored `a1-5-run/` first, because the
+  chain requires absent outputs.
+  - readiness steps again at HEAD: handshake 11/1/25, candidates A and B deterministic (bundle manifest
+    `086a3911…`; it differs from A1-5 only because the source commit is part of the candidate), focused
+    qualification pass;
+  - product certification (Windows, blocking): pass. Independent matrix 191/191 core cases; controls 180
+    capability + 42 staged-evidence;
+  - portability assessment (Linux, non-blocking): pass, 191/191, semantic projection equal, network none, image
+    `sha256:7d373379…`; archive copy-back 59,592 files;
+  - decision `phase-1-complete-stop-for-human-review` (`c6c-decision.json`, sha256 `315a8251…`);
+  - no IFX-V4-005 failure: the solution producer ran twice (chain production and C6c production).
+  - Records at their natural paths under `artifacts/guards/p10-ifx-i2b/` (as I1 did): `c6c-attempt.json`,
+    `c6c-decision.json`, `a1-chain.json`, `c6c-full/**` reports, readiness and chain inputs, `chain/*.log`.
+    Evidence: evrun 051 in `I2B-ci-evidence`.
+  - Next: A1-7, the C6d review packet and the human review of the changed claims (operator acceptance).
 
 ### 9.5 Out of scope for A1
 
