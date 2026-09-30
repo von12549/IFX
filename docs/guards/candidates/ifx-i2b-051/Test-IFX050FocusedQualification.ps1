@@ -64,7 +64,8 @@ trap {
 }
 
 $currentCase='workspace-evidence-production';$workspacePath=Join-Path $outsideRoot 'workspace-evidence.json'
-$producer=InvokeProcess 'pwsh' @('-NoLogo','-NoProfile','-NonInteractive','-File',(Join-Path $repo 'docs/guards/candidates/ifx-workspace-evidence/New-IFXWorkspaceEvidence.ps1'),'-TargetRoot',$target,'-OutputPath',$workspacePath) 300
+# 0.5.1 (A2): the workspace roots come from the composed Profile (producers/database replaces the V3_ifx specialized root).
+$producer=InvokeProcess 'pwsh' (@('-NoLogo','-NoProfile','-NonInteractive','-File',(Join-Path $PSScriptRoot 'New-IFX051WorkspaceEvidence.ps1'),'-TargetRoot',$target,'-OutputPath',$workspacePath,'-RelativeRoots',(@($profile.workspaceEvidence.relativeRoots) -join ','))) 300
 Assert (-not$producer.timedOut-and$producer.exitCode-eq0-and[IO.File]::Exists($workspacePath)) "Workspace evidence production failed: $($producer.stderr)"
 $schema=Join-Path $BaseInstallRoot 'package/core/contracts/workspace-evidence.schema.json';Assert (Test-Json -LiteralPath $workspacePath -SchemaFile $schema -ErrorAction Stop) 'Workspace evidence schema validation failed.'
 $workspace=Get-Content $workspacePath -Raw|ConvertFrom-Json -Depth 30;Assert ($workspace.targetCommit-ceq$commit-and$workspace.completedAt-and$workspace.fileCount-gt1000) 'Workspace evidence is stale or incomplete.';$workspaceHash=Hash $workspacePath
