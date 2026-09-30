@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 and A1-4 complete; A1-6 C6c needs authorization and IFX-V4-005 first`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3, A1-4 and A1-5 complete; IFX-V4-005 fixed; A1-6 C6c needs authorization`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -382,6 +382,18 @@ Module dispositions:
     the lock consumers first, so no later suite needs them.
   - Next: IFX-V4-005 under its own Plan (authorization), then A1-5 readiness on that commit and the A1-6 C6c
     (authorization).
+- **IFX-V4-005 fixed (2026-09-30).** Plan `20260930-ifx-v4-005-drain-wait-race` complete: `739fc279`, pushed.
+- **A1-5 complete (2026-09-30).** `Invoke-IFX050C6Chain.ps1 -ReadinessOnly` at `739fc279` passes in 711 s:
+  - inventory; handshake 11 inherit, 1 base, 25 requalified;
+  - one production at HEAD (357 s);
+  - candidates A and B equal on the bundle manifest (`682d1e42…`), Profile, inventory, production record,
+    composition receipt projection and composed package fingerprint;
+  - focused qualification: 7 consumers, 58 negative cases;
+  - readiness pass: matrix contract re-derived, I1 C6c records preserved; authorization
+    `readiness-only-full-c6c-not-authorized`.
+  - The harness under `candidates/` is unchanged since the A1-4 harness controls (`e13ac68c`).
+  - Records: `artifacts/guards/p10-ifx-i2b/a1-readiness/` (`index.json`); evrun 050 in `I2B-ci-evidence`.
+  - Next: the A1-6 single C6c (authorization).
 
 ### 9.5 Out of scope for A1
 
