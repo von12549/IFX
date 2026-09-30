@@ -1,7 +1,7 @@
 # IFX I2-B amendment A1 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A1-8a: the C6e composition of
 # V4 Guards 1.1.6 + ifx_profile 0.5.0 with the accepted production review record; successor of
 # candidates/ifx-rebind-116/Invoke-IFX116S7Preparation.ps1 and Invoke-IFX116S7HostRuns.ps1 (unchanged).
-# Two detached worktrees at the certified commit: the clean one also gets one evidence production, staged the way
+# Two clean clones detached at the certified commit: the clean one also gets one evidence production, staged the way
 # the trusted-base workflow will stage it. Installed-Host runs: clean Pre passes; a deliberate import fault blocks
 # with IMPORT-DIRECTION; clean Post on staged evidence passes; the dependency run passes; Post without staged
 # evidence fails closed. Protected roots and Git facts are re-checked after the runs.
@@ -84,11 +84,13 @@ $baseText = @(& $verifier -InstallRoot $base -ReceiptPath $baseReceipt 2>&1); if
 $baseProof = ($baseText -join "`n") | ConvertFrom-Json -AsHashtable -Depth 100
 if ($baseProof.status -cne 'pass' -or $baseProof.kind -cne 'base-release' -or $baseProof.receiptSha256 -cne $ids.baseReceipt) { Fail 'Base proof mismatch.' }
 
-# 2. Two detached worktrees at the certified commit; one deliberate import fault.
+# 2. Two clean clones detached at the certified commit (not worktrees: the evidence producers require a .git
+# directory); one deliberate import fault.
 [void][IO.Directory]::CreateDirectory($evidenceOutput); $logRoot = Join-Path $evidenceOutput 'host-runs'
 foreach ($wt in @($clean, $violating)) {
-    $o = @(& git -c core.longpaths=true -C $repo worktree add --detach $wt $ExpectedTargetCommit 2>&1)
-    Write-Log (Join-Path $evidenceOutput "$([IO.Path]::GetFileName($wt))-worktree-add.log") $o; if ($LASTEXITCODE -ne 0) { Fail "Worktree creation failed: $wt" }
+    $o = @(& git clone --no-local --quiet -c core.longpaths=true $repo $wt 2>&1); $code = $LASTEXITCODE
+    if ($code -eq 0) { $o += @(& git -C $wt -c advice.detachedHead=false checkout --quiet --detach $ExpectedTargetCommit 2>&1); $code = $LASTEXITCODE }
+    Write-Log (Join-Path $evidenceOutput "$([IO.Path]::GetFileName($wt))-clone.log") $o; if ($code -ne 0) { Fail "Target clone failed: $wt" }
 }
 $faultRelative = 'src/Modules/CRM/IFX.Modules.CRM.Domain/A18Fault.cs'
 [IO.File]::WriteAllText((Join-Path $violating $faultRelative), "using IFX.Modules.CRM.Contracts;`n`nnamespace IFX.Modules.CRM.Domain;`n`ninternal sealed class A18Fault;`n", [Text.UTF8Encoding]::new($false))
