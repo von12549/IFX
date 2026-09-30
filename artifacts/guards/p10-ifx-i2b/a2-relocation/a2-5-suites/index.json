@@ -1,0 +1,127 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-051-suite-outcomes",
+  "step": "A2-5",
+  "status": "pass",
+  "rule": "catalog cases common with A1-3 agree in kind, expectation, outcome and findings; cases added in A1-4 pass (R11)",
+  "modules": [
+    {
+      "moduleId": "ifx-c1-type-provenance",
+      "version": "0.2.1",
+      "status": "pass",
+      "cases": 12,
+      "failed": 0,
+      "predecessorVersion": "0.2.0",
+      "predecessorCases": 12,
+      "commonCases": 12,
+      "outcomeDifferences": [],
+      "casesAddedAfterA13": [],
+      "casesMissing": [],
+      "host": "pass",
+      "policySha256": "29ad967a74154259cf10121d55b59d6d6274ceb820175930c0bef0f31d9d4367",
+      "summarySha256": "04ba240e2da3578f4fb7acef3c489d74acd05912c150b0b8b5e3e7702333ae52",
+      "targetCommit": "f71551978d3ccbec95bbd3a534737cafeb37bafd"
+    },
+    {
+      "moduleId": "ifx-solution-evidence",
+      "version": "0.2.1",
+      "status": "pass",
+      "cases": 11,
+      "failed": 0,
+      "predecessorVersion": "0.2.0",
+      "predecessorCases": 10,
+      "commonCases": 10,
+      "outcomeDifferences": [],
+      "casesAddedAfterA13": [
+        {
+          "id": "checklist-vacuous-tests",
+          "kind": "rule",
+          "expected": "fail/findings-blocking",
+          "actual": "fail/findings-blocking",
+          "pass": true
+        }
+      ],
+      "casesMissing": [],
+      "host": "pass",
+      "policySha256": "dd6bac88ef1a3778a891209aeff468357ce0b789e16884e3931f46b405ff443b",
+      "summarySha256": "ea035319306ee855bcd309b443f04ff9e6597d7c793cb2bfce38e25e972d60eb",
+      "targetCommit": "f71551978d3ccbec95bbd3a534737cafeb37bafd"
+    },
+    {
+      "moduleId": "ifx-assembly-evidence",
+      "version": "0.2.1",
+      "status": "pass",
+      "cases": 12,
+      "failed": 0,
+      "predecessorVersion": "0.2.0",
+      "predecessorCases": 11,
+      "commonCases": 11,
+      "outcomeDifferences": [],
+      "casesAddedAfterA13": [
+        {
+          "id": "checklist-report-failed",
+          "kind": "rule",
+          "expected": "fail/findings-blocking",
+          "actual": "fail/findings-blocking",
+          "pass": true
+        }
+      ],
+      "casesMissing": [],
+      "host": "pass",
+      "policySha256": "4eab694326f4c6ded709e35aa4e7180bdcbede1e0f6ed21f053f8018842e65d7",
+      "summarySha256": "a3bfb7f2b9723f47c49f538c15eef4087d963b3b5b267487aa6e4e265e820345",
+      "targetCommit": "f71551978d3ccbec95bbd3a534737cafeb37bafd"
+    },
+    {
+      "moduleId": "ifx-frontend-evidence",
+      "version": "0.2.1",
+      "status": "pass",
+      "cases": 11,
+      "failed": 0,
+      "predecessorVersion": "0.2.0",
+      "predecessorCases": 10,
+      "commonCases": 10,
+      "outcomeDifferences": [],
+      "casesAddedAfterA13": [
+        {
+          "id": "checklist-vacuous-tests",
+          "kind": "rule",
+          "expected": "fail/findings-blocking",
+          "actual": "fail/findings-blocking",
+          "pass": true
+        }
+      ],
+      "casesMissing": [],
+      "host": "pass",
+      "policySha256": "e5259839e9389dbd340812043d2f5811f52c717bc59dab43f018b8e8a537ef19",
+      "summarySha256": "dd49e0e10053b190641dbcdf3ee8b008730e4ec6482e61d5de33005c33ce8eda",
+      "targetCommit": "f71551978d3ccbec95bbd3a534737cafeb37bafd"
+    },
+    {
+      "moduleId": "ifx-database-evidence",
+      "version": "0.3.1",
+      "status": "pass",
+      "cases": 14,
+      "failed": 0,
+      "predecessorVersion": "0.3.0",
+      "predecessorCases": 13,
+      "commonCases": 13,
+      "outcomeDifferences": [],
+      "casesAddedAfterA13": [
+        {
+          "id": "checklist-sql-matrix-failed",
+          "kind": "rule",
+          "expected": "fail/findings-blocking",
+          "actual": "fail/findings-blocking",
+          "pass": true
+        }
+      ],
+      "casesMissing": [],
+      "host": "pass",
+      "policySha256": "76a7f2fa232808e87f481f2eda5d51ff78ca2e8a27733e785187041a81f3233e",
+      "summarySha256": "53a73efc2bea411ebb5bb56ddbdb6a36f329b457cbd73980ab0594a0f615e62e",
+      "targetCommit": "f71551978d3ccbec95bbd3a534737cafeb37bafd"
+    }
+  ],
+  "caseTotal": 60.0
+}
