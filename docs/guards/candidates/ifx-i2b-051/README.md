@@ -16,3 +16,4 @@ producers themselves live in `docs/guards/v4-adoption/producers/` (ruling R6).
 | A2-5 | `modules/` (five lock consumers), `change-spec.json`, `Invoke-IFX050EvidenceProducers.ps1`, `New-IFX050DraftBundle.ps1` | The relocated producers' ids, scripts, authority hashes and run prefixes; database source inventory v3; staging passes `-TargetRoot`; Profile `workspaceEvidence` names `producers/database` |
 | A2-5 | `Compare-IFX051SuiteOutcomes.ps1` | The five changed suites on relocated-producer evidence against the A1-3 records (record `a2-relocation/a2-5-suites/index.json`) |
 | A2-6 | `matrix-contract-050.json`, `fixture-spec-050.json` | Regenerated from the 0.5.1 inventory |
+| A2-9 | `Export-IFX051C6dReviewPacket.ps1` | C6d review packet of 0.5.1 against the accepted 0.5.0 packet: only the five moved consumers and the Profile may change; producer changes listed; relocation evidence bound |
