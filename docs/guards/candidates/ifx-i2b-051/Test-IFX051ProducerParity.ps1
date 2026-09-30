@@ -49,7 +49,7 @@ function Invoke-Producer([string]$Target, [string]$Side, [string]$Gate, [hashtab
 }
 
 # Volatile keys (times, durations) and the run-directory prefixes are excluded before a semantic comparison.
-$volatileKey = [regex]'(?i)(At|Time|Timestamp|Duration|Elapsed|generated|date)$'
+$volatileKey = [regex]'(?i)(At|Time|Timestamp|Duration|Elapsed|generated|date)(Utc)?$'
 function Normalize($Value, [string[]]$Prefixes) {
     if ($Value -is [Collections.IDictionary]) { $o = [ordered]@{}; foreach ($k in @($Value.Keys | ForEach-Object { [string]$_ } | Sort-Object -CaseSensitive)) { if (-not $volatileKey.IsMatch($k)) { $o[$k] = Normalize $Value[$k] $Prefixes } }; return $o }
     if ($Value -is [Collections.IList]) { return @(foreach ($x in $Value) { Normalize $x $Prefixes }) }
@@ -154,7 +154,7 @@ $mutations = [ordered]@{
     database = @{ edit = 'deployment/migration-safety-policy.json'; json = { param($j) $j.automaticDownAllowed = $true } }
     solution = @{ file = 'tests/IFX.IntegrationTests/A2ParityFailingTest.cs'; content = "namespace IFX.IntegrationTests;`n`npublic sealed class A2ParityFailingTest`n{`n    [Fact]`n    public void DeliberateParityFailure() => throw new InvalidOperationException(`"A2-4 negative parity`");`n}`n" }
 }
-$negative = [ordered]@{}
+$negativeResults = [ordered]@{}
 foreach ($gate in $Negative) {
     $m = $mutations[$gate]
     & git -C $target checkout --quiet --detach $head; & git -C $target clean -fdq -e artifacts/
@@ -166,16 +166,16 @@ foreach ($gate in $Negative) {
     $sa = & $summaryOf $a; $sb = & $summaryOf $b
     $failedChecks = { param($s) if ($null -eq $s) { '<no summary>' } else { Canon @($s.checks | Where-Object { $_.status -cne 'pass' }) } }
     $same = ($a.exitCode -ne 0 -and $b.exitCode -ne 0 -and (& $failedChecks $sa) -ceq (& $failedChecks $sb) -and (& $failedChecks $sa) -cne '[]')
-    $negative[$gate] = [ordered]@{ mutation = $(if ($m.ContainsKey('file')) { "add $($m.file)" } else { "edit $($m.edit)" }); v3ExitCode = $a.exitCode; v4ExitCode = $b.exitCode
+    $negativeResults[$gate] = [ordered]@{ mutation = $(if ($m.ContainsKey('file')) { "add $($m.file)" } else { "edit $($m.edit)" }); v3ExitCode = $a.exitCode; v4ExitCode = $b.exitCode
         v3FailedChecks = (& $failedChecks $sa); v4FailedChecks = (& $failedChecks $sb); sameFailure = $same }
 }
 & git -C $target checkout --quiet --detach $head
 
 $semantic = @($positive.Values | ForEach-Object { $_.differences })
-$negativeMismatch = @($negative.Values | Where-Object { -not $_.sameFailure })
+$negativeMismatch = @($negativeResults.Values | Where-Object { -not $_.sameFailure })
 $status = if ($semantic.Count -eq 0 -and $negativeMismatch.Count -eq 0) { 'pass' } else { 'fail' }
 Write-Json $ReportPath ([ordered]@{ formatVersion = 1; kind = 'ifx-051-producer-parity'; step = 'A2-4'; status = $status; commit = $head; workRoot = $work
     rule = 'semantic equality with zero listed differences (R11); identity changes are listed apart'
-    runs = @($runs); positive = $positive; negative = $negative; semanticDifferenceCount = $semantic.Count; negativeMismatchCount = $negativeMismatch.Count })
-Write-Output "A2-4 producer parity $status`: semantic differences $($semantic.Count), negative mismatches $($negativeMismatch.Count) of $($negative.Count)"
+    runs = @($runs); positive = $positive; negative = $negativeResults; semanticDifferenceCount = $semantic.Count; negativeMismatchCount = $negativeMismatch.Count })
+Write-Output "A2-4 producer parity $status`: semantic differences $($semantic.Count), negative mismatches $($negativeMismatch.Count) of $($negativeResults.Count)"
 if ($status -cne 'pass') { exit 1 }
