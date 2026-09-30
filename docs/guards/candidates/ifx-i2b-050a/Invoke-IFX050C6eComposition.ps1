@@ -168,7 +168,10 @@ $checks = [ordered]@{
     violatingPreBlocks = ($v.status -ceq 'fail' -and $v.exitCategory -ceq 'findings-blocking' -and $v.moduleCount -eq 10 -and ((@($v.failedModules | ForEach-Object { $_.moduleId })) -join '|') -ceq 'ifx-source-policy' -and $fault.Count -eq 1 -and @($v.findings).Count -eq 1)
     stagedPostPass = ($p.status -ceq 'pass' -and $p.moduleCount -eq 27 -and $p.passedModuleCount -eq 27 -and @($p.findings).Count -eq 0 -and $p.coverageClaimCount -eq 57 -and $p.allCoverageNonVacuous)
     dependencyPostPass = ($d.status -ceq 'pass' -and $d.moduleCount -eq 37 -and @($d.findings).Count -eq 0 -and $d.coverageClaimCount -eq 79 -and ($d.executedStages -join ',') -ceq 'bootstrap,analysis,pre,post')
-    unstagedPostFailsClosed = ($u.status -cne 'pass' -and $u.hostExitCode -ne 0 -and @($lockConsumers | Where-Object { $unstagedFailed -notcontains $_ }).Count -eq 0)
+    # The Host stops at the first missing prerequisite (architecture-conformance reads the staged assembly
+    # manifest); each lock consumer's missing-staging case is proven by the C6c staged-evidence controls.
+    unstagedPostFailsClosed = ($u.status -ceq 'error' -and $u.exitCategory -ceq 'prerequisite-missing' -and $u.hostExitCode -ne 0 -and $u.passedModuleCount -eq 0 -and
+        @($unstagedFailed | Where-Object { $_ -notin (@($lockConsumers) + 'architecture-conformance') }).Count -eq 0)
     profileIdentity = ($profile.version -ceq '0.5.0' -and @($cases.Values | Where-Object { $_.profileSha256 -cne $profileSha }).Count -eq 0)
     hostQueriesAgree = ($c.hostQueriesAgree -and $v.hostQueriesAgree -and $p.hostQueriesAgree)
 }
