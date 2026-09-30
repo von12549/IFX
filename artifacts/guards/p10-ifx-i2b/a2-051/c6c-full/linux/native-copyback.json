@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-linux-native-archive-copyback",
+  "status": "pass",
+  "nativeRoot": "/native/linux",
+  "outRoot": "/out/linux",
+  "excluded": [
+    "native-checkout"
+  ],
+  "diagnostics": [],
+  "archive": {
+    "path": "native-results.tar.gz",
+    "format": "tar (pax, sorted, gzip)",
+    "bytes": 2970188861,
+    "sha256": "920646b28228351f29be8222a681229204d14ebb5aa6d1e392c34d64085fcd54",
+    "fileEntries": 59324
+  },
+  "listing": {
+    "path": "native-listing.txt",
+    "files": 59324,
+    "bytes": 4063130795,
+    "sha256": "caa4fbbc00794aa5c8badedde48d746c6d12105ccbf806e6e8942b27234ab120",
+    "lineFormat": "<sha256> <bytes> <path>"
+  },
+  "reports": [
+    {
+      "path": "matrix/case-manifest.json",
+      "present": true,
+      "bytes": 149985,
+      "sha256": "bfea97cc86b4459935b1db23c84a1d2a1d4c123a7ffda453558e165ebf87ced0"
+    },
+    {
+      "path": "matrix/matrix-contract-summary.json",
+      "present": true,
+      "bytes": 767,
+      "sha256": "7920fa6bdbf7b6a6727dc670b9e6bbf8399fbbf904318995dc9cd6eb292b01d8"
+    },
+    {
+      "path": "matrix/summary.json",
+      "present": true,
+      "bytes": 24592,
+      "sha256": "e1a596ecc3bfc2ff70605905f44aa8390707d633d62438c11d8959c491e07346"
+    },
+    {
+      "path": "native-links.json",
+      "present": true,
+      "bytes": 1358,
+      "sha256": "971617262b601622b67ddca6f215bd37a54284b4c296f4c700f0e8750c2c74c5"
+    },
+    {
+      "path": "positive.json",
+      "present": true,
+      "bytes": 1956,
+      "sha256": "b157f2f374f9193178cfe716256c391c11104e92d10258b07f8a22ee72897991"
+    },
+    {
+      "path": "summary.json",
+      "present": true,
+      "bytes": 775,
+      "sha256": "3969753b3180663735af8bba170885e2016140dab4aeefe2256de51a18f0ebe9"
+    }
+  ],
+  "timings": {
+    "listSeconds": 14.751,
+    "archiveSeconds": 94.024,
+    "verifyNativeSeconds": 20.527,
+    "copyArchiveSeconds": 123.102,
+    "copyReportsSeconds": 0.871,
+    "totalSeconds": 254.307
+  }
+}

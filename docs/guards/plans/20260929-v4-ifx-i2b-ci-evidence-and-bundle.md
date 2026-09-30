@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-7 complete (local); A2-8 C6c needs authorization`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 review packet next`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -594,3 +594,15 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
   `readiness-only-full-c6c-not-authorized`. Records `a2-relocation/a2-7-readiness/index.json`; evrun 088.
   - Next: A2-8, the single 0.5.1 C6c (authorization). As in A1-6, the A2-7 run trees under `a2-051` are moved aside
     first because the chain requires absent outputs.
+- **A2-8 (2026-09-30, authorized "授权 A2-8").** `Invoke-IFX050C6Chain.ps1 -AuthorizeA28C6c` (0.5.1 harness) at
+  `351b504b` passes in 2,663 s; the single C6c took 1,916 s. The A2-7 run trees were moved to the ignored
+  `a2-051/a2-7-run/` first.
+  - readiness steps again at HEAD: handshake 11/1/25; candidates A and B deterministic (bundle manifest
+    `b7a67516…`); focused qualification pass;
+  - product certification (Windows, blocking): pass, independent matrix 191/191, controls 180 capability + 42
+    staged-evidence;
+  - portability assessment (Linux, non-blocking): pass, 191/191, semantic projection equal; archive copy-back
+    59,324 files;
+  - decision `phase-1-complete-stop-for-human-review` (`a2-051/c6c-decision.json`, sha256 `309af8b2…`).
+  - Records at their natural paths under `artifacts/guards/p10-ifx-i2b/a2-051/`. Evidence: evrun 089.
+  - Next: A2-9, the C6d review packet (the producer identity change) and the human review.

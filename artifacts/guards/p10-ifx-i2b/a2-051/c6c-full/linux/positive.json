@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "ifx-050a-c6c-linux-synthetic-candidate",
+  "sourceCommit": "351b504bd6549a8e9cede9ab34571986f6188c49",
+  "baseVersion": "1.1.6",
+  "bundleVersion": "0.5.1",
+  "bundleManifestSha256": "b7a6751612f2279809b07988916112b499c52e7b1b36ae175c68924bd979e5e7",
+  "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
+  "linuxSdk": "10.0.303",
+  "installerSource": "release-archive",
+  "installerSha256": "eece069e2d6e8eec84b0e8ad9db6e2927bf4ba6645bf9a887398ef9e692b4165",
+  "checkoutIndexSync": {
+    "reportedBeforeSync": 5102,
+    "remainingAfterSync": 0,
+    "fileMode": "false"
+  },
+  "productionSnapshot": {
+    "productionRecord": "/out/production/production.json",
+    "fileCount": 858,
+    "targetCommit": "351b504bd6549a8e9cede9ab34571986f6188c49"
+  },
+  "windowsBaseReceiptSha256": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497",
+  "linuxBaseReceiptSha256": "3fa03c943afd85c2346bd3af33eee8e4e9013bb07cf87ded8588e8e28d50128b",
+  "basePayloadIdentity": "equal",
+  "cases": [
+    {
+      "id": "direct-pre",
+      "status": "pass",
+      "moduleCount": 10,
+      "claimCount": 22,
+      "stages": [
+        "pre"
+      ]
+    },
+    {
+      "id": "direct-post",
+      "status": "pass",
+      "moduleCount": 27,
+      "claimCount": 57,
+      "stages": [
+        "post"
+      ]
+    },
+    {
+      "id": "dependency-post",
+      "status": "pass",
+      "moduleCount": 37,
+      "claimCount": 79,
+      "stages": [
+        "bootstrap",
+        "analysis",
+        "pre",
+        "post"
+      ]
+    }
+  ],
+  "compositionReceiptSha256": "79dce4bffbf9a8c4394be236d6e490efb4f806382e0efe3e84e6ea1cf712bea4",
+  "windowsSummarySha256": "3b43b9a19b68b74ed47c3c2575f4e256eba82a0db1614c1aeb5b7104d67273bb",
+  "limitations": [
+    "Synthetic review is not Xiaolong Feng approval.",
+    "Independent detector-family violation/zero-match matrix remains required."
+  ]
+}
