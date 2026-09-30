@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 review packet ready, operator decision pending`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); A1-8 next (local)`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -417,6 +417,11 @@ Module dispositions:
   package files changed, 6 embedded policies added, none removed; four lock consumers gain EvidenceRoot reads only),
   `file-inventory.json` (262 files) and `module-ceilings.json` (36 modules). Evidence: evrun 053 (052 hung on the
   `$input` automatic variable and was stopped; fixed in `777d4764`).
+- **A1-7 accepted (2026-09-30).** The operator accepted the exact packet `9d1e95d0…` ("接受"). Records in
+  `c6d-review-050/`: `c6d-decision.json` (`c6d-exact-bundle-human-review-accepted`) and
+  `production-extension-review.json` (id `20260930-ifx-0-5-0-production-review`, scope `production`, 36 module
+  ceilings; valid against the 1.1.6 `extension-review.schema.json`). Acceptance permits A1-8 locally; it does not
+  authorize a push, a workflow, a ruleset or publishing.
 
 ### 9.5 Out of scope for A1
 

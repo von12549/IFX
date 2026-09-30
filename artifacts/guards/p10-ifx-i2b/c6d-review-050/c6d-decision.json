@@ -1,0 +1,93 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "c6d-exact-bundle-human-review-accepted",
+  "decidedAt": "2026-09-30T08:15:45.9502934+00:00",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A1-7",
+  "authority": {
+    "authorityType": "human-review",
+    "authorityId": "xiaolong-feng",
+    "candidateHostVerdictAllowed": false
+  },
+  "acceptanceStatement": "接受",
+  "acceptanceContext": "Operator reply to the A1-7 request to accept or reject the exact review packet 9d1e95d0b20d5ec3458b49dfb5732e278202a3ed46bfb5507c72f84446d0e683 (ifx_profile 0.5.0 on V4 Guards 1.1.6, bundle 086a3911..., C6c at c0d927eb). Acceptance adopts the per-module \"pass means\" claims of review.md and permits writing the production review record and continuing with A1-8 (C6e, P10.2 parity, P10.3 rehearsal) locally. It does not authorize a push, a workflow, a ruleset or publishing.",
+  "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.5.0",
+  "bundle": {
+    "id": "ifx-profile-candidate",
+    "manifestPath": "artifacts/guards/p10-ifx-i2b/formal-candidate-a/40bd4b845f2c4dec81efbb36481810cc/bundle/bundle-manifest.json",
+    "manifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "profileCount": 1,
+    "moduleCount": 36,
+    "fileCount": 262
+  },
+  "acceptedEvidence": {
+    "reviewPacket": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/review-packet.json",
+      "sha256": "9d1e95d0b20d5ec3458b49dfb5732e278202a3ed46bfb5507c72f84446d0e683"
+    },
+    "review": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/review.md",
+      "sha256": "910771e083f5a882fa5fd9fc6457556894108ff96df90f77def95c907b8c8b68"
+    },
+    "claimChanges": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/claim-changes.json",
+      "sha256": "d03f26d24ec89e2ff6285d3e2f0a2de1f80cffc090d27faabf76a842594465ff"
+    },
+    "predecessorComparison": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/predecessor-comparison.json",
+      "sha256": "a9fdb8b39981108eb5a2b8d1e63be0ff77f3395cfb37148e3b881d01c2cc0fe8"
+    },
+    "fileInventory": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/file-inventory.json",
+      "sha256": "c2f7df23d23cd637fa4eb1f2385606c79c0a1f3dc489bcdb2fa8dd919afc459c"
+    },
+    "moduleCeilings": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/module-ceilings.json",
+      "sha256": "c3fba003bdc86a53cced16a4315840789d16d2afcd3ef369a0ea5c05f102d943"
+    },
+    "productionReviewRecord": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6d-review-050/production-extension-review.json",
+      "sha256": "3dec187b175d7161f1dfc9571962ca0946b1b71c637ec5e020fe8ea5c5d3e801",
+      "schema": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6/package/core/contracts/extension-review.schema.json (installed 1.1.6 base)",
+      "schemaValid": true
+    },
+    "c6cDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6c-decision.json",
+      "sha256": "315a825135d64dc80315774a63be87fd541d19fe6fc3ff6a46be455171bfee2a"
+    },
+    "c6cCertificationSummary": {
+      "path": "artifacts/guards/p10-ifx-i2b/c6c-full/summary.json",
+      "sha256": "cd15b99af6aeac73805ecec5166c8e4a7881c315f26c4de097f9ab792a05eb04"
+    }
+  },
+  "openLimitsAccepted": [
+    "Evidence model staged-by-workflow: Post no longer builds or tests; six lock consumers pass only when the workflow ran the pinned producers at the same commit. The CI workflow with producer, staging and upload steps is not installed yet (A1-8 rehearsal, then I2-C/D).",
+    "Four of the six producers still wrap V3 gates (Invoke-IFXGuardrails -Mode Quality/Specialized); the Profile keeps the V3_ifx specialized root as workspace evidence for the database producer. Both move in 0.5.0-b.",
+    "The generated producer pins and reads docs/guards/V3/.../SourceFiles.cs for lineage, and the frontend producer sets a fixed Windows PATH; both are replaced in 0.5.0-b.",
+    "Type and graph locks are fresh for one hour; CI must produce them right before Post.",
+    "Governance pins (104 kept) make any edit of those documents integrity-failure until a new bundle is reviewed; 126 live pins were dropped.",
+    "Linux is a non-blocking portability assessment; product certification is Windows (windows-full and certification-controls).",
+    "The candidate's synthetic review fixture is a test input, not acceptance; the production review record is written only after this human review.",
+    "IFX-V4-005 is fixed in the product; its new load test does not force the race (a deterministic test would need an injected TimeProvider).",
+    "Harness limit: the zero-source catalog cases delete ignored build outputs in the matrix Target clone; the lock consumers run first."
+  ],
+  "relatedBacklog": [
+    "IFX-V4-005 closed by its own Plan before the C6c (ruling R4)",
+    "IFX-V4-006 archive copy-back (closed in B1) carried the C6c Linux results"
+  ],
+  "followUps": [
+    "0.5.0-b: relocate the V3-wrapping producers and remove the V3_ifx workspace-evidence root; replace the generated producer lineage read and the frontend fixed PATH.",
+    "IFX-V4-007 remains open until the successor workflow with producer, staging and upload steps is installed (A1-8 rehearsal, then I2-C/D)."
+  ],
+  "boundary": {
+    "a17Complete": true,
+    "productionReviewAccepted": true,
+    "a18LocalPermitted": true,
+    "compositionPerformed": false,
+    "pushAuthorized": false
+  }
+}
