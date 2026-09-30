@@ -51,7 +51,8 @@ if ($Phase -ceq 'Produce') {
     $rows = [Collections.Generic.List[object]]::new()
     foreach ($g in @('solution', 'assembly', 'frontend', 'database', 'graph', 'type')) {
         $t = [Diagnostics.Stopwatch]::StartNew()
-        $out = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $target $producers[$g].script) @($producerArgs[$g]) 2>&1)
+        # The relocated producers never derive the repository from their own location (A2-3): pass the Target explicitly.
+        $out = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $target $producers[$g].script) -TargetRoot $target @($producerArgs[$g]) 2>&1)
         $exit = $LASTEXITCODE
         $rows.Add([ordered]@{ gate = $g; exitCode = $exit; seconds = [math]::Round($t.Elapsed.TotalSeconds, 1); lockPath = $lockOf[$g]; tail = @($out | Select-Object -Last 3 | ForEach-Object { [string]$_ }) })
         if ($exit -ne 0 -or -not [IO.File]::Exists((Join-Path $target $lockOf[$g]))) { Write-Json $RunRecordPath ([ordered]@{ formatVersion = 1; kind = 'ifx-050a-evidence-production'; status = 'fail'; targetCommit = $commit; failedGate = $g; runs = @($rows.ToArray()) }); throw "Producer $g failed ($exit): $($out | Select-Object -Last 5)" }
