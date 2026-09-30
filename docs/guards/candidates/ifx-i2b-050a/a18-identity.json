@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A1-8",
+  "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+  "c6eDecision": "6bbe11b78cb094335dec321171e41a5a179ccac64d37f31363bbac0d4edf92fa",
+  "v3Inventory": "c910ec9c49d86f335f465483cd62723352b757db04f3adf3de6ed45a13218003",
+  "v3Policy": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+  "v3TrustedComponents": "2213db9f5d217bca12144b667d1af5fcfabf1ca707186dedadefaa75d62202be",
+  "package": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+  "receipt": "dc0e2aafb2862a8acd89a70375962198c84f2d528ea630494d3a97e64fa64c53",
+  "bundleManifest": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+  "profile": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e",
+  "caseManifest": "8b76e2490d389ec5205d7d27712ad3e5fa89072df21b6af58928b8acc8a84892",
+  "c6cSummary": "bb2eca3f0784bb1946a6036440ef58dd0e932ab9b8664e1c236345be3927b0aa",
+  "v3InventoryDerivation": {
+    "acceptedIdentity": "docs/guards/candidates/ifx-rebind-116/i1-identity.json",
+    "fileCount": 562,
+    "changedFromAccepted": [],
+    "reason": "docs/guards/V3 and V3_ifx unchanged between 44536a6a and the A1-6 target commit"
+  },
+  "roots": {
+    "composedInstall": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.5.0",
+    "cleanTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a18-clean-050",
+    "violatingTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a18-violating-050"
+  }
+}
