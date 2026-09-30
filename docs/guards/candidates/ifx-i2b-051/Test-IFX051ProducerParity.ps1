@@ -9,12 +9,14 @@
 param(
     [Parameter(Mandatory)][string]$WorkRoot,
     [Parameter(Mandatory)][string]$ReportPath,
-    [string[]]$Negative = @('frontend', 'database', 'solution')
+    [string[]]$Negative = @('frontend', 'database', 'solution'),
+    # Reuses the clone and the positive producer runs of an earlier invocation (one run per gate and side).
+    [switch]$ReuseClone
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
-$work = [IO.Path]::GetFullPath($WorkRoot); if (Test-Path -LiteralPath $work) { throw "WorkRoot must be absent: $work" }
+$work = [IO.Path]::GetFullPath($WorkRoot); if ((Test-Path -LiteralPath $work) -ne [bool]$ReuseClone) { throw "WorkRoot must be absent (or present with -ReuseClone): $work" }
 function Hash([string]$Path) { (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
 function Write-Json([string]$Path, $Value) { [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($Path)); [IO.File]::WriteAllText($Path, (($Value | ConvertTo-Json -Depth 30).Replace("`r`n", "`n") + "`n"), [Text.UTF8Encoding]::new($false)) }
 function Canon($v) { $v | ConvertTo-Json -Depth 30 -Compress }
@@ -49,7 +51,7 @@ function Invoke-Producer([string]$Target, [string]$Side, [string]$Gate, [hashtab
 # Volatile keys (times, durations) and the run-directory prefixes are excluded before a semantic comparison.
 $volatileKey = [regex]'(?i)(At|Time|Timestamp|Duration|Elapsed|generated|date)$'
 function Normalize($Value, [string[]]$Prefixes) {
-    if ($Value -is [Collections.IDictionary]) { $o = [ordered]@{}; foreach ($k in @($Value.Keys | Sort-Object)) { if (-not $volatileKey.IsMatch([string]$k)) { $o[$k] = Normalize $Value[$k] $Prefixes } }; return $o }
+    if ($Value -is [Collections.IDictionary]) { $o = [ordered]@{}; foreach ($k in @($Value.Keys | ForEach-Object { [string]$_ } | Sort-Object -CaseSensitive)) { if (-not $volatileKey.IsMatch($k)) { $o[$k] = Normalize $Value[$k] $Prefixes } }; return $o }
     if ($Value -is [Collections.IList]) { return @(foreach ($x in $Value) { Normalize $x $Prefixes }) }
     if ($Value -is [string]) { $s = $Value.Replace('\', '/'); foreach ($p in $Prefixes) { $s = $s.Replace($p, '<run>') }; return $s }
     return $Value
@@ -116,14 +118,29 @@ function Compare-Gate([string]$Target, [string]$Gate, $A, $B, [string]$Kind) {
 # 1. Positive parity on a clean clone of HEAD.
 $head = (& git -C $repo rev-parse HEAD).Trim()
 $target = Join-Path $work 'p'
-$o = @(& git clone --no-local --quiet -c core.longpaths=true $repo $target 2>&1); if ($LASTEXITCODE -ne 0) { throw "Clone failed: $o" }
 $runs = [Collections.Generic.List[object]]::new(); $locks = @{ v3 = @{}; v4 = @{} }
+if ($ReuseClone) {
+    # The clone keeps the commit it was made at; the relocated and the lab producers there must equal those at HEAD.
+    $cloneHead = (& git -C $target rev-parse HEAD).Trim()
+    foreach ($tree in @('docs/guards/v4-adoption/producers', 'docs/guards/candidates/ifx-gate-coverage-c5b', 'docs/guards/candidates/ifx-gate-coverage-c5c', 'docs/guards/candidates/ifx-gate-coverage-c5d', 'docs/guards/candidates/ifx-gate-coverage-c4b', 'docs/guards/candidates/ifx-gate-coverage-c1r1b', 'docs/guards/V3_ifx')) {
+        if ((& git -C $target rev-parse "HEAD:$tree").Trim() -cne (& git -C $repo rev-parse "HEAD:$tree").Trim()) { throw "Reused clone differs from HEAD in $tree" }
+    }
+    $head = $cloneHead
+    foreach ($side in @('v3', 'v4')) { foreach ($gate in @('solution', 'assembly', 'type', 'frontend', 'database')) {
+        $dirs = @(Get-ChildItem -LiteralPath (Join-Path $target $sides[$side][$gate].prefix) -Directory)
+        if ($dirs.Count -ne 1 -or -not [IO.File]::Exists((Join-Path $dirs[0].FullName 'evidence-lock.json'))) { throw "Reuse needs exactly one locked run: $side $gate" }
+        $run = "$($sides[$side][$gate].prefix)/$($dirs[0].Name)"
+        $runs.Add([ordered]@{ side = $side; gate = $gate; exitCode = 0; seconds = $null; run = $run; lock = "$run/evidence-lock.json"; log = (Join-Path $logRoot "positive-$side-$gate.log"); reused = $true })
+    } }
+} else {
+$o = @(& git clone --no-local --quiet -c core.longpaths=true $repo $target 2>&1); if ($LASTEXITCODE -ne 0) { throw "Clone failed: $o" }
 foreach ($side in @('v3', 'v4')) {
     foreach ($gate in @('solution', 'assembly', 'type', 'frontend', 'database')) {
         $r = Invoke-Producer $target $side $gate $locks[$side] 'positive'; $runs.Add($r)
         if ($r.exitCode -ne 0) { throw "Positive $side $gate producer failed ($($r.exitCode)); see $($r.log)" }
         $locks[$side][$gate] = $r.lock
     }
+}
 }
 $positive = [ordered]@{}
 foreach ($gate in @('solution', 'assembly', 'type', 'frontend', 'database')) {
