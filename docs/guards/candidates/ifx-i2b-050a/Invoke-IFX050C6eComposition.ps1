@@ -108,7 +108,7 @@ $pre =[ordered]@{ baseInstallation = Get-InventoryDigest $base; bundle = Get-Inv
 Write-Json (Join-Path $evidenceOutput 'pre-inventories.json') ([ordered]@{ formatVersion = 1; roots = $pre })
 
 # 4. Production composition with the accepted review record (no synthetic fixture).
-foreach ($d in @($state, $evidence)) { [void][IO.Directory]::CreateDirectory($d) }
+foreach ($d in @($state, $evidence)) { [void][IO.Directory]::CreateDirectory((Join-Path $d 'compose')) }
 $composeText = @(& $composer -BaseInstallRoot $base -BaseReceiptPath $baseReceipt -BaseArchivePath $archive -BundleRoot $bundle -ReviewRecordPath $reviewFile -OutputInstallRoot $install `
     -CompositionReceiptPath $receipt -TargetRoot $clean -StateRoot (Join-Path $state 'compose') -EvidenceRoot (Join-Path $evidence 'compose') 2>&1)
 Write-Log (Join-Path $evidenceOutput 'compose.log') $composeText; if ($LASTEXITCODE -ne 0) { Fail 'Production composition failed; see compose.log' }
