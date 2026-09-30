@@ -39,7 +39,8 @@ $specFile = Full-File $ChangeSpecPath 'Change spec'; $checkFile = Full-File $Che
 $manifestFile = Full-File (Join-Path $bundle 'bundle-manifest.json') 'Bundle manifest'
 $output = [IO.Path]::GetFullPath($OutputRoot)
 if ([IO.Directory]::Exists($output) -or [IO.File]::Exists($output)) { Fail "Output already exists: $output" }
-foreach ($input in @($bundle, $decisionFile, $summaryFile, $caseFile, $inventoryFile)) { if ((Is-Under $output $input) -or (Is-Under $input $output)) { Fail 'Output must be disjoint from every review input.' } }
+# Not $input: that automatic variable enumerates stdin and blocks when stdin stays open (evrun).
+foreach ($reviewInput in @($bundle, $decisionFile, $summaryFile, $caseFile, $inventoryFile)) { if ((Is-Under $output $reviewInput) -or (Is-Under $reviewInput $output)) { Fail 'Output must be disjoint from every review input.' } }
 
 # 1. Identity of the certified candidate.
 $manifestHash = Hash $manifestFile
