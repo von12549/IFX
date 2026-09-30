@@ -2,14 +2,15 @@
 # ifx_profile 0.5.0-a; successor of candidates/ifx-rebind-116/Test-IFX116ContractCompatibility.ps1 (unchanged).
 # The published 1.1.6 base and its workspace-evidence contract are verified as before. The inheritance matrix compares
 # every module with the 0.4.4 inventory: the 12 unchanged modules inherit; the 25 changed modules are requalified, and
-# each must match the adapter and policy of its passing A1-3 suite record (artifacts/guards/p10-ifx-i2b/a2-051/a1-suites).
+# each must match the adapter and policy of its passing suite record (0.5.1: artifacts/guards/p10-ifx-i2b/a2-relocation/
+# suite-index-051.json, A1-3 records for the 20 unchanged modules and A2-5 records for the five moved producers).
 [CmdletBinding()]
 param(
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath = 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
     [string]$PreviousInventoryPath = 'docs/guards/candidates/ifx-i2b-051/baseline-044/authority-map.json',
-    [string]$SuiteIndexPath = 'artifacts/guards/p10-ifx-i2b/a2-051/a1-suites/index.json',
+    [string]$SuiteIndexPath = 'artifacts/guards/p10-ifx-i2b/a2-relocation/suite-index-051.json',
     [Parameter(Mandatory)][string]$InventoryPath,
     [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/contract-preflight'
 )
