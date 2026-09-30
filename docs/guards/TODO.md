@@ -135,8 +135,10 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     locally (V3/V4 producer parity zero differences; trial C6c pass); A2-7 readiness passed at `c9317b38`.
     A2-8 C6c passed at `351b504b` (Windows 191/191, controls 180 + 42, Linux 191/191 semantic equal). A2-9 review
     packet `a2-051/c6d-review-051` accepted; A2-10 (C6e, parity against 0.5.0, P10.3 successor) complete.
-    A2-11 verification passed; receipt `v4-adoption/migration/ifx-i2b-a2-0-5-1-receipt.json`. Next: the A2-12 push
-    (authorization).
+    A2-11 verification passed; receipt `v4-adoption/migration/ifx-i2b-a2-0-5-1-receipt.json`. A2-12 pushed
+    (`13502169..5f6008ee`); **I2-B complete (2026-10-01).** Next: I2-C, Plan `20261001-v4-ifx-i2c-main-promotion`
+    (promotion to `main` and admission of `v4-adoption`). Finding F-C1: 0.5.1 still pins the graph producer and the
+    staging script under `docs/guards/candidates`, so I2-D needs a 0.5.2 relocation first (ruling RC2).
   - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).

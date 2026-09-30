@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 and A2-11 complete (local); A2-12 push needs authorization`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 and A2-11 complete; amendment A2 (0.5.0-b, bundle 0.5.1) COMPLETE 2026-10-01, pushed `13502169..5f6008ee`; next: I2-C (own Plan)`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -461,7 +461,7 @@ Module dispositions:
 
 ## 10. Amendment A2 — bundle 0.5.1, the producer relocation (0.5.0-b)
 
-Status: `ACTIVE — rulings R6–R11 taken as recommended and A2-0 to A2-7 authorized for local execution (2026-09-30, "全部按推荐，并授权A2-0到A2-7本地执行"); A2-8 and A2-12 need their own authorization`
+Status: `ACTIVE — rulings R6–R11 taken as recommended and A2-0 to A2-7 authorized for local execution (2026-09-30, "全部按推荐，并授权A2-0到A2-7本地执行"); A2-8 and A2-12 authorized separately; COMPLETE 2026-10-01, pushed `13502169..5f6008ee`; see §10.7`
 
 A2 is the second D-B step chosen at B3. Four of the six evidence producers consumed by 0.5.0-a still run V3 gates
 through `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1`. The accepted proposal therefore says that V4
@@ -637,3 +637,6 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
   `I2B-ci-evidence/a2-11-verification.json` (evrun 098; run 097 executed an empty script and is void). Receipt
   `v4-adoption/migration/ifx-i2b-a2-0-5-1-receipt.json`.
   - Next: A2-12, push the A2 commits (authorization).
+- **A2-12 (2026-10-01, "授权 A2-12 推送").** Fast-forward push `13502169..5f6008ee` (27 commits) to
+  `codex/v4-development-base`; the fetched remote head equals the local head. **Amendment A2 is complete.** Next:
+  I2-C under its own Plan `20261001-v4-ifx-i2c-main-promotion`.

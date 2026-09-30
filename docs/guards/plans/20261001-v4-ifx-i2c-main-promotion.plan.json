@@ -1,0 +1,65 @@
+{
+  "formatVersion": 1,
+  "id": "20261001-v4-ifx-i2c-main-promotion",
+  "title": "IFX I2-C: promote to main and admit docs/guards/v4-adoption (decisions 1A and 2B)",
+  "goal": "Bring the IFX-V4-005 fix and the G03 governance set to the protected history through V3-judged pull requests, admit exactly one new docs/guards entry v4-adoption through the V3 two-PR trusted-base flow, and fast-forward main by the 1A default-branch sequence, without bypass, force push or ruleset change.",
+  "acceptanceCriteria": [
+    "Every remote step is separately authorized; no force push, --admin, bypass or ruleset change; the ruleset after C10 equals the C1 snapshot.",
+    "Every pull request's final head passes all 13 required contexts, and every protected change is covered by exactly one consumed base authorization.",
+    "Default branch is main and main equals the pull-request target head; docs/guards on main is exactly plans, V3, V3_ifx and v4-adoption, and a negative control shows any other entry fails.",
+    "The IFX-V4-005 and G03 sets on main are byte-identical to the development branch.",
+    "No candidate, inventory, artifact, bundle, V4 workflow or TODO file reaches main; P10.GATE, cutover and V3 retirement stay false."
+  ],
+  "plannedPaths": [
+    "artifacts/guards/p10-ifx-i2c",
+    "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+    "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+    "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+    "docs/guards/TODO.md",
+    "docs/guards/V3_ifx/shared/decisions/history",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations",
+    "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+    "docs/guards/candidates/ifx-i2c",
+    "docs/guards/plans",
+    "docs/guards/v4-adoption/README.md",
+    "docs/guards/v4-adoption/migration/ifx-i2c-main-promotion-receipt.json",
+    "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+    "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs",
+    "tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "V3 CI has not run since 2026-09-21; runner-image drift could fail a required context on the first pull request.",
+    "The ff push of main (C9) cannot be reversed once main is the default branch again.",
+    "While the default branch is codex/guards-principles-plan, main is outside the ruleset.",
+    "Bundle 0.5.1 pins a graph producer and staging script under docs/guards/candidates (F-C1), so I2-D needs bundle 0.5.2 first.",
+    "V3 does not stop an unreviewed authorize-then-change sequence while O1 is deferred; the operator reviews each authorization PR."
+  ],
+  "decisions": [
+    "1A and 2B from the program Plan apply unchanged.",
+    "RC1 (a): pull requests into codex/guards-principles-plan first, then 1A.",
+    "RC2 X1: bundle 0.5.2 via I2-B amendment A3 before I2-D.",
+    "RC3 (a): exact allowlist plans, V3, V3_ifx, v4-adoption with v4-adoption/README.md.",
+    "RC4 (a): new V3 decision record for the admission.",
+    "RC5: merge commit.",
+    "RC6 (a): docs/guards/TODO.md stays on the development branch during I2."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "v3-pre-diff-rehearsal",
+    "ifx-package-test",
+    "two-pr-authorization-rehearsal",
+    "ifx-ci-contract-remote"
+  ],
+  "dependencies": [
+    "20260929-v4-ifx-i2-p10-gate-successor",
+    "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+    "20260930-ifx-v4-005-drain-wait-race"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
