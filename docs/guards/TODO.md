@@ -128,7 +128,7 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     - the G03/G05 modules read the V3-generated `layerguard-governance-input.json`.
   - **I2-B amendment A1 (0.5.0-a): A1-3 (25 module successors, 516 suite cases) and A1-4 (harness successors;
     trial C6c Windows 191/191, controls 180 + 42, Linux 191/191 semantic equal; harness controls with PR-gate
-    cases pass) complete 2026-09-29.** Next: IFX-V4-005, then A1-5 and the A1-6 C6c (authorization).
+    cases pass) complete 2026-09-29.** IFX-V4-005 fixed 2026-09-30. Next: A1-5, then the A1-6 C6c (authorization).
   - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).
@@ -194,16 +194,20 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
 
   Lesson: search removed paths case-insensitively.
 
-- [ ] **IFX-V4-005 — Timing-sensitive test `RuntimeDrainCoordinatorTests.BeginDrain_AtomicallyRejectsNewWork_AndWaitsForExistingWork`**
+- [x] **IFX-V4-005 — Timing-sensitive test `RuntimeDrainCoordinatorTests.BeginDrain_AtomicallyRejectsNewWork_AndWaitsForExistingWork` — FIXED (2026-09-30)**
 
   `tests/IFX.IntegrationTests/Runtime/RuntimeDrainCoordinatorTests.cs` waits at most 1 s for idle after
   releasing the operation. Under load it fails (4 of 126 recorded C5b solution-evidence runs, including
   I1 S5 attempt 3, again in I2-B B2 producer-timing attempt 1, and a fifth time in the I2-B A1-4 PR-gate controls),
   and the solution-evidence producer then issues no lock. The cause is in the product: `WaitForIdleAsync` can report
-  a timeout after the runtime is already idle when the thread pool is starved. A Plan draft
-  (`plans/20260930-ifx-v4-005-drain-wait-race`) waits for authorization; ruling R4 makes it a prerequisite of the
-  I2-B A1-6 C6c. It must be fixed before V4 builds and tests the solution in CI (design note 12). Make the test deterministic,
-  for example with a longer bound or an explicit completion signal, under an IFX product Plan.
+  a timeout after the runtime is already idle when the thread pool is starved. Ruling R4 makes the fix a
+  prerequisite of the I2-B A1-6 C6c.
+
+  Plan `plans/20260930-ifx-v4-005-drain-wait-race` complete on 2026-09-30. The coordinator reports idle
+  when idle won before the timeout was observed, and the positive test bound is 30 s. Drain tests 200/200 under CPU
+  load, all 1,278 solution tests and the V3 solution quality gate pass. The new load check also passes on the
+  unfixed coordinator, so the race itself has no deterministic test (that would need an injected `TimeProvider`).
+  F4 (commit and push) authorized and done.
 
 - [x] **IFX-V4-006 — Slow C6c Linux result copy-back — FIXED IN THE HARNESS (2026-09-29, I2-B B1)**
 

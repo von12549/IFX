@@ -1,6 +1,6 @@
 # IFX-V4-005 — drain wait reports a timeout although the runtime is already idle
 
-Status: `AUTHORIZED F0–F3 (2026-09-30); F4 push needs authorization`
+Status: `COMPLETE (2026-09-30; F4 authorized and pushed)`
 
 Formal Plan ID: `20260930-ifx-v4-005-drain-wait-race`.
 
@@ -42,7 +42,24 @@ Prerequisite of I2-B amendment A1 (ruling R4): it must be fixed before the A1-6 
   - Under the certified 0.4.4 bundle the pin would drift. That bundle already cannot follow new commits (IFX-V4-007).
 - The C6c of 0.5.0 (A1-6) runs on a commit after F4.
 
-## 4. Planned paths
+## 4. Results
+
+| Step | Result |
+| --- | --- |
+| F0 | `plan validate` pass; Plan pair committed `a7d885f7` |
+| F1 | `WaitForIdleAsync` reads the idle task once and, on timeout, returns `idle.IsCompleted`. The two `ifx-g04-runtime` predicates that read the file (`newWorkRejectedAtomically`, `inFlightDrainBounded`) still match |
+| F2 | Positive test bound 30 s; load check `WaitForIdleAsync_ReportsIdle_WhenIdleWinsUnderParallelLoad` added; timeout test unchanged |
+| F3 | Release build 0 warnings. `dotnet test IFX.sln`: 21 assemblies, 1,278 tests pass. Drain tests 200/200 with 12 CPU-load processes. V3 `Quality -QualityTarget Solution` pass; V3 `Specialized -SpecializedGate G04` pass |
+
+- **Control.** With the old coordinator and the new tests, 30 runs under the same load also passed. The load check
+  does not force the thread-pool ordering of the race, so it is not a regression test for F1. A deterministic test
+  would need an injected `TimeProvider` (constructor, DI registration and the `CancelAfter(timeout)` predicate
+  change), which is outside this Plan. F1 rests on the code reasoning in §1, and the 30 s bound removes the test-side
+  stall.
+- Evidence: `v4-todo-008-evidence/IFX-V4-005` (evrun 001–009, `drain-loop-fixed.json`,
+  `drain-loop-old-code-control.json`).
+
+## 5. Planned paths
 
 - `docs/guards/plans/20260930-ifx-v4-005-drain-wait-race.md` and `.plan.json`
 - `src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs`
