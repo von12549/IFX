@@ -1,14 +1,15 @@
+# Relocated from docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1 (IFX I2-B amendment A2, rulings R6-R10). Adapted: the Database gate only (the G03, G04, G05 and Plan04 branches are not relocated); explicit -TargetRoot or GUARD_TARGET_ROOT only.
 [CmdletBinding()]
 param(
-    [ValidateSet('G03','G04','G05','Plan04','Database','All')]
-    [string] $Gate = 'All',
+    [ValidateSet('Database')]
+    [string] $Gate = 'Database',
     [string] $OutputDirectory = 'artifacts/guards/v3-ifx/specialized',
     [switch] $NoBuild,
     [string] $TargetRoot
 )
 
 $ErrorActionPreference = 'Stop'
-$repositoryRoot = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../../..')) }
+$repositoryRoot = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { throw 'An explicit Target root is required: the relocated producers never derive the repository from their own location.' }
 # Detector scripts read the target through GUARD_TARGET_ROOT; their code and package configuration stay in this package.
 $previousTargetRoot = $env:GUARD_TARGET_ROOT
 $env:GUARD_TARGET_ROOT = $repositoryRoot
@@ -16,25 +17,13 @@ $scriptRoot = Join-Path $PSScriptRoot 'scripts'
 $resolvedOutput = if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory } else { Join-Path $repositoryRoot $OutputDirectory }
 New-Item -ItemType Directory -Force -Path $resolvedOutput | Out-Null
 
-$selected = if ($Gate -eq 'All') { @('G03','G04','G05','Plan04','Database') } else { @($Gate) }
+$selected = @('Database')
 $results = @()
 foreach ($gateId in $selected) {
     $gateOutput = Join-Path $resolvedOutput $gateId.ToLowerInvariant()
     New-Item -ItemType Directory -Force -Path $gateOutput | Out-Null
     try {
         switch ($gateId) {
-            'G03' {
-                & (Join-Path $scriptRoot 'Invoke-G03ContractEventGuard.ps1') -Phase 9 -ReportPath (Join-Path $gateOutput 'guard.json')
-            }
-            'G04' {
-                & (Join-Path $scriptRoot 'Invoke-G04Verification.ps1') -OutputDirectory $gateOutput
-            }
-            'G05' {
-                & (Join-Path $scriptRoot 'Invoke-G05Verification.ps1') -OutputDirectory $gateOutput
-            }
-            'Plan04' {
-                & (Join-Path $scriptRoot 'Test-Plan04Governance.ps1') -OutputDirectory $gateOutput
-            }
             'Database' {
                 $databaseTests = Join-Path $repositoryRoot 'tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj'
                 $databaseInventory = Join-Path $repositoryRoot 'tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj'
@@ -64,7 +53,6 @@ foreach ($gateId in $selected) {
             }
         }
         $resultPath = switch ($gateId) {
-            'G03' { Join-Path $gateOutput 'guard.json' }
             default { Join-Path $gateOutput 'verification-summary.json' }
         }
         if (-not (Test-Path -LiteralPath $resultPath -PathType Leaf)) { throw "$gateId did not produce its detector result." }

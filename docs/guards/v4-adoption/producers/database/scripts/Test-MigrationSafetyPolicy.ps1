@@ -1,3 +1,4 @@
+# Relocated from docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-MigrationSafetyPolicy.ps1 (IFX I2-B amendment A2, rulings R6-R10). Adapted: GUARD_TARGET_ROOT only (set by Invoke-IFXSpecialized.ps1).
 [CmdletBinding()]
 param(
     [string] $ReportPath = "artifacts/database-migrator/migration-safety-report.json",
@@ -6,7 +7,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../../../..')) }
+$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { throw 'An explicit Target root is required: the relocated producers never derive the repository from their own location.' }
 $policyPath = Join-Path $repositoryRoot "deployment/migration-safety-policy.json"
 $resolvedReportPath = if ([IO.Path]::IsPathRooted($ReportPath)) { $ReportPath } else { Join-Path $repositoryRoot $ReportPath }
 $outputRoot = Split-Path -Parent $resolvedReportPath

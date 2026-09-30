@@ -1,9 +1,10 @@
+# Relocated from docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1 (IFX I2-B amendment A2, rulings R6-R10). Adapted: producer ifx-v4a-solution-v1; runs producers/quality directly; explicit -TargetRoot; run directory artifacts/guards/v4a-producers/solution-runs.
 [CmdletBinding()]
 param([string]$TargetRoot,[string]$RunId=([guid]::NewGuid().ToString('N')))
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 if($RunId -cnotmatch '^[a-f0-9]{32}$'){throw 'RunId must be lowercase 32-hex.'}
-$repo=if($TargetRoot){[IO.Path]::GetFullPath($TargetRoot)}else{[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))}
+if(-not $TargetRoot){throw 'An explicit Target root is required: the relocated producers never derive the repository from their own location.'};$repo=[IO.Path]::GetFullPath($TargetRoot)
 function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
 function Tree-Lines([string]$Root){
     $files=@(foreach($relative in @('src','tests','tools')){
@@ -18,14 +19,14 @@ $dirty=(& git -C $repo status --porcelain --untracked-files=no -- src tests tool
 if($LASTEXITCODE -ne 0 -or -not [string]::IsNullOrWhiteSpace(($dirty -join "`n"))){throw 'Controlled Solution run requires clean tracked source inputs.'}
 $commit=(& git -C $repo rev-parse HEAD).Trim().ToLowerInvariant()
 if($LASTEXITCODE -ne 0 -or $commit -cnotmatch '^[a-f0-9]{40}$'){throw 'Target commit unavailable.'}
-$relative="artifacts/guards/p10-ifx-c5b/solution-runs/$RunId"
+$relative="artifacts/guards/v4a-producers/solution-runs/$RunId"
 $output=Join-Path $repo $relative
 if([IO.Directory]::Exists($output)){throw 'Run directory exists.'}
 $before=@(Tree-Lines $repo)
 if($before.Count -lt 81){throw 'Solution source set is unexpectedly small.'}
 $started=[DateTimeOffset]::UtcNow
-& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $repo 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1') -Mode Quality -QualityTarget Solution -TargetRoot $repo -OutputDirectory $relative
-if($LASTEXITCODE -ne 0){throw 'V3 Solution Quality failed; no passing lock issued.'}
+& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot '../quality/Invoke-IFXQuality.ps1') -Target Solution -TargetRoot $repo -OutputDirectory "$relative/quality"
+if($LASTEXITCODE -ne 0){throw 'Solution quality failed; no passing lock issued.'}
 $completed=[DateTimeOffset]::UtcNow
 $after=@(Tree-Lines $repo)
 if(($before -join "`n") -cne ($after -join "`n")){throw 'Solution source changed during controlled run.'}
@@ -43,8 +44,8 @@ foreach($file in $trx){
 }
 $files=@(Get-ChildItem -LiteralPath $quality -File -Recurse -Force|Where-Object{$_.Name -eq 'summary.json' -or $_.Name -eq 'nuget-audit.json' -or $_.Extension -eq '.trx'}|Sort-Object FullName|ForEach-Object{[ordered]@{path=[IO.Path]::GetRelativePath($repo,$_.FullName).Replace('\','/');sha256=Hash $_.FullName}})
 if($files.Count -ne $trx.Count+2){throw 'Solution evidence inventory mismatch.'}
-$sources=[ordered]@{quality=(Hash (Join-Path $repo 'docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1'));audit=(Hash (Join-Path $repo 'docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1'))}
-$lock=[ordered]@{formatVersion=1;gate='Solution';producer='ifx-c5b-controlled-v1';result='passed';targetCommit=$commit;startedAt=$started.ToString('o');completedAt=$completed.ToString('o');evidencePrefix="$relative/";sourceFileCount=$before.Count;sourceTreeSha256=(Text-Hash ($before -join "`n"));authorityHashes=$sources;projectCount=81;testRunCount=$trx.Count;totalTests=$total;files=$files}
+$sources=[ordered]@{quality=(Hash (Join-Path $PSScriptRoot '../quality/Invoke-IFXQuality.ps1'));audit=(Hash (Join-Path $PSScriptRoot '../quality/Invoke-IFXPackageAudit.ps1'))}
+$lock=[ordered]@{formatVersion=1;gate='Solution';producer='ifx-v4a-solution-v1';result='passed';targetCommit=$commit;startedAt=$started.ToString('o');completedAt=$completed.ToString('o');evidencePrefix="$relative/";sourceFileCount=$before.Count;sourceTreeSha256=(Text-Hash ($before -join "`n"));authorityHashes=$sources;projectCount=81;testRunCount=$trx.Count;totalTests=$total;files=$files}
 $lockPath=Join-Path $output 'evidence-lock.json'
 [IO.File]::WriteAllText($lockPath,(($lock|ConvertTo-Json -Depth 50).Replace("`r`n","`n")+"`n"),[Text.UTF8Encoding]::new($false))
 Write-Output "Solution evidence lock: $lockPath"

@@ -1,3 +1,4 @@
+# Relocated from docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1 (IFX I2-B amendment A2, rulings R6-R10). Adapted: explicit -RepositoryRoot or GUARD_TARGET_ROOT only; the Domain policy is the copy in producers/policy.
 [CmdletBinding()]
 param(
     [string] $RepositoryRoot,
@@ -10,7 +11,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../../..')) }
+$root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { throw 'An explicit Target root is required: the relocated producers never derive the repository from their own location.' }
 function Resolve-PathInRoot([string] $path) {
     $resolved = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($path)) { $path } else { Join-Path $root $path }))
     $prefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
@@ -21,10 +22,9 @@ function Resolve-PathInRoot([string] $path) {
 $output = Resolve-PathInRoot $ReportPath
 $report = [ordered]@{ schemaVersion = 1; mode = 'quality'; detector = 'assembly'; status = 'blocked'; checks = @(); message = $null }
 try {
-    # The policy is package configuration: read it from this package unless a target-relative path is given explicitly.
-    $packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
-    $policyCandidates = @('policy/layerguard.json', 'stages/post/policy/layerguard.json' | ForEach-Object { Join-Path $packageRoot $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
-    if (-not $PolicyPath -and $policyCandidates.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($policyCandidates.Count)." }
+    # The policy is producer package configuration: the relocated copy, unless a target-relative path is given explicitly.
+    $policyCandidates = @(Join-Path $PSScriptRoot '../policy/layerguard.json' | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+    if (-not $PolicyPath -and $policyCandidates.Count -ne 1) { throw 'The relocated Domain policy producers/policy/layerguard.json is missing.' }
     $policyFile = if ($PolicyPath) { Resolve-PathInRoot $PolicyPath } else { $policyCandidates[0] }
     if (-not (Test-Path -LiteralPath $policyFile -PathType Leaf)) { throw "Policy is missing: $PolicyPath" }
     $policy = Get-Content -Raw -LiteralPath $policyFile | ConvertFrom-Json -Depth 100

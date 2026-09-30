@@ -1,10 +1,11 @@
+# Relocated from docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-DatabasePendingModelChanges.ps1 (IFX I2-B amendment A2, rulings R6-R10). Adapted: GUARD_TARGET_ROOT only (set by Invoke-IFXSpecialized.ps1).
 param(
     [switch] $NoBuild,
     [ValidateSet('Debug','Release')][string] $Configuration = 'Debug'
 )
 
 $ErrorActionPreference = "Stop"
-$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../../../..')) }
+$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { throw 'An explicit Target root is required: the relocated producers never derive the repository from their own location.' }
 $startupProject = Join-Path $repositoryRoot "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj"
 $contexts = @(
     @{ Name = "Auth"; Context = "IfxDbContext"; Project = "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj" },

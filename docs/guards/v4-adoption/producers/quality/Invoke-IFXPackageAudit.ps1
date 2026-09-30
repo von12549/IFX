@@ -1,3 +1,4 @@
+# Relocated from docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1 (IFX I2-B amendment A2, rulings R6-R10). Adapted: explicit -RepositoryRoot or GUARD_TARGET_ROOT only.
 [CmdletBinding()]
 param(
     [string] $RepositoryRoot,
@@ -12,7 +13,7 @@ $root = if ($RepositoryRoot) {
 } elseif ($env:GUARD_TARGET_ROOT) {
     [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT)
 } else {
-    [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../../..'))
+    throw 'An explicit Target root is required: the relocated producers never derive the repository from their own location.'
 }
 $resolvedOutput = if ([IO.Path]::IsPathRooted($OutputPath)) {
     [IO.Path]::GetFullPath($OutputPath)

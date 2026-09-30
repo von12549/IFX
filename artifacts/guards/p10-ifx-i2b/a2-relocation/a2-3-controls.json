@@ -1,0 +1,108 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-051-producer-controls",
+  "step": "A2-3",
+  "status": "pass",
+  "producerRoot": "docs/guards/v4-adoption/producers",
+  "results": {
+    "staticClean": {
+      "pass": true,
+      "violations": []
+    },
+    "refuseWithoutTargetRoot": {
+      "pass": true,
+      "entries": [
+        {
+          "entry": "solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+          "exitCode": 1,
+          "refused": true
+        },
+        {
+          "entry": "assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+          "exitCode": 1,
+          "refused": true
+        },
+        {
+          "entry": "frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+          "exitCode": 1,
+          "refused": true
+        },
+        {
+          "entry": "database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+          "exitCode": 1,
+          "refused": true
+        },
+        {
+          "entry": "type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+          "exitCode": 1,
+          "refused": true
+        },
+        {
+          "entry": "quality/Invoke-IFXQuality.ps1",
+          "exitCode": 1,
+          "refused": true
+        },
+        {
+          "entry": "database/Invoke-IFXSpecialized.ps1",
+          "exitCode": 1,
+          "refused": true
+        }
+      ]
+    },
+    "inventoryRederived": {
+      "pass": true
+    },
+    "originsNoDrift": {
+      "pass": true,
+      "report": {
+        "formatVersion": 1,
+        "kind": "ifx-051-producer-origin-drift",
+        "originsSha256": "d3160e51868b3018b0bd522f74f4c62d56b48d58cb3bfd01fb1390031ddaa897",
+        "originCommit": "337ccd5c887fe31c1dbf4bbbc5f76aad57d1ea3d",
+        "fileCount": 18,
+        "drift": [],
+        "status": "no-drift"
+      }
+    },
+    "negativeControls": {
+      "pass": true,
+      "controls": [
+        {
+          "id": "v3-path-literal",
+          "rejected": true,
+          "violations": [
+            "forbidden-path: solution/Invoke-IFXSolutionEvidenceProducer.ps1:54"
+          ]
+        },
+        {
+          "id": "v3-path-other-case",
+          "rejected": true,
+          "violations": [
+            "forbidden-path: quality/Invoke-IFXQuality.ps1:71"
+          ]
+        },
+        {
+          "id": "lab-tree-read",
+          "rejected": true,
+          "violations": [
+            "forbidden-path: type/Invoke-IFXCompiledTypeEvidenceProducer.ps1:76"
+          ]
+        },
+        {
+          "id": "escape-package",
+          "rejected": true,
+          "violations": [
+            "escapes-package: database/Invoke-IFXSpecialized.ps1 -> ../../../V3_ifx_copy/x.ps1"
+          ]
+        },
+        {
+          "id": "parse-error",
+          "rejected": true,
+          "violations": [
+            "parse-error: frontend/Invoke-IFXFrontendEvidenceProducer.ps1"
+          ]
+        }
+      ]
+    }
+  }
+}

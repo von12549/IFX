@@ -1,3 +1,4 @@
+# Relocated from docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1 (IFX I2-B amendment A2, rulings R6-R10). Adapted: producer ifx-v4a-database-v1; runs producers/database/Invoke-IFXSpecialized.ps1 directly; source inventory contract v3 (producers/database replaces the V3_ifx specialized root); explicit -TargetRoot; run directory artifacts/guards/v4a-producers/database-runs.
 [CmdletBinding()]
 param(
     [string]$TargetRoot,
@@ -8,15 +9,15 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 if($RunId -cnotmatch '^[a-f0-9]{32}$'){throw 'RunId must be a 32-character lowercase hex identifier.'}
-$repo=if($TargetRoot){[IO.Path]::GetFullPath($TargetRoot)}else{[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))}
-$inventoryContractPath=Join-Path $PSScriptRoot 'modules/ifx-database-evidence/source-inventory.json'
+if(-not $TargetRoot){throw 'An explicit Target root is required: the relocated producers never derive the repository from their own location.'};$repo=[IO.Path]::GetFullPath($TargetRoot)
+$inventoryContractPath=Join-Path $PSScriptRoot 'source-inventory.json'
 function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
 function Hash-Text([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
 function Hash-Normalized([string]$Path){Hash-Text ([IO.File]::ReadAllText($Path).ReplaceLineEndings("`n"))}
 function Is-Excluded([string]$Relative,[string[]]$Names){$segments=$Relative.Replace('\','/').Split('/');foreach($segment in $segments){if($Names -ccontains $segment){return $true}};return $false}
 function Read-InventoryContract([string]$Path){
     $value=Get-Content $Path -Raw|ConvertFrom-Json -Depth 20
-    if($value.formatVersion -ne 1 -or $value.id -cne 'ifx-database-source-inventory-v2' -or (@($value.extensions)-join '|') -cne '.cs|.csproj|.json|.ps1' -or $value.pathOrder -cne 'ordinal' -or $value.contentHash -cne 'utf8-lf-sha256' -or $value.trackedAtProduction -ne $true){throw 'Database source inventory contract drift.'}
+    if($value.formatVersion -ne 1 -or $value.id -cne 'ifx-database-source-inventory-v3' -or (@($value.extensions)-join '|') -cne '.cs|.csproj|.json|.ps1' -or $value.pathOrder -cne 'ordinal' -or $value.contentHash -cne 'utf8-lf-sha256' -or $value.trackedAtProduction -ne $true){throw 'Database source inventory contract drift.'}
     return $value
 }
 function Get-SourceInventory([string]$Root,$Contract){
@@ -36,11 +37,11 @@ function Get-SourceInventory([string]$Root,$Contract){
     return @($ordered|ForEach-Object{[ordered]@{path=$_;sha256=Hash-Normalized (Join-Path $Root $_)}})
 }
 $inventoryContract=Read-InventoryContract $inventoryContractPath
-$command=Join-Path $repo 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
-if(-not [IO.File]::Exists($command)){throw 'V3 Database gate command missing.'}
+$command=Join-Path $PSScriptRoot 'Invoke-IFXSpecialized.ps1'
+if(-not [IO.File]::Exists($command)){throw 'Relocated Database gate missing.'}
 $commit=(& git -C $repo rev-parse HEAD).Trim().ToLowerInvariant()
 if($LASTEXITCODE -ne 0 -or $commit -cnotmatch '^[a-f0-9]{40}$'){throw 'Target commit unavailable.'}
-if(-not [string]::IsNullOrWhiteSpace((& git -C $repo status --porcelain --untracked-files=no -- src tests/IFX.DatabaseBoundary.Tests tools/IFX.DatabaseInventory docs/guards/V3_ifx/stages/post/gates/specialized deployment))){throw 'Controlled Database run requires clean tracked Database inputs.'}
+if(-not [string]::IsNullOrWhiteSpace((& git -C $repo status --porcelain --untracked-files=no -- src tests/IFX.DatabaseBoundary.Tests tools/IFX.DatabaseInventory docs/guards/v4-adoption/producers/database deployment))){throw 'Controlled Database run requires clean tracked Database inputs.'}
 $sourceFiles=@(Get-SourceInventory $repo $inventoryContract)
 $gitArguments=@('-C',$repo,'-c','core.quotePath=false','ls-files','--')+@($inventoryContract.roots)
 $trackedRaw=@(& git @gitArguments)
@@ -57,17 +58,17 @@ $sourceLines=@($sourceFiles|ForEach-Object{"$($_.path)|$($_.sha256)"})
 if($sourceLines.Count -lt 19){throw 'Database source inventory is empty.'}
 $sourceTreeSha256=Hash-Text ($sourceLines -join "`n")
 if($InventoryOnly){
-    $inventoryResult=[ordered]@{formatVersion=1;status='pass';scope='ifx-database-source-inventory-v2';targetCommit=$commit;sourceInventoryId=$inventoryContract.id;sourceInventorySha256=Hash $inventoryContractPath;sourceFileCount=$sourceLines.Count;sourceTreeSha256=$sourceTreeSha256;sourceFiles=$sourceFiles}
+    $inventoryResult=[ordered]@{formatVersion=1;status='pass';scope='ifx-database-source-inventory-v3';targetCommit=$commit;sourceInventoryId=$inventoryContract.id;sourceInventorySha256=Hash $inventoryContractPath;sourceFileCount=$sourceLines.Count;sourceTreeSha256=$sourceTreeSha256;sourceFiles=$sourceFiles}
     $json=(($inventoryResult|ConvertTo-Json -Depth 20).Replace("`r`n","`n")+"`n")
     if($InventoryReportPath){$resolved=[IO.Path]::GetFullPath($InventoryReportPath);[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($resolved));[IO.File]::WriteAllText($resolved,$json,[Text.UTF8Encoding]::new($false));Write-Output "Database source inventory: $resolved"}else{Write-Output $json}
     return
 }
-$relative="artifacts/guards/p10-ifx-c4b/database-runs/$RunId"
+$relative="artifacts/guards/v4a-producers/database-runs/$RunId"
 $output=Join-Path $repo $relative
 if([IO.Directory]::Exists($output)){throw 'Database evidence run directory already exists.'}
 $started=[DateTimeOffset]::UtcNow
-& pwsh -NoLogo -NoProfile -NonInteractive -File $command -Mode Specialized -SpecializedGate Database -TargetRoot $repo -OutputDirectory $relative
-if($LASTEXITCODE -ne 0){throw "Controlled V3 Database gate failed; inspect $output. No passing lock was issued."}
+& pwsh -NoLogo -NoProfile -NonInteractive -File $command -Gate Database -TargetRoot $repo -OutputDirectory "$relative/specialized"
+if($LASTEXITCODE -ne 0){throw "Controlled Database gate failed; inspect $output. No passing lock was issued."}
 $completed=[DateTimeOffset]::UtcNow
 $required=@('specialized/summary.json','specialized/database/verification-summary.json','specialized/database/migration-safety.json','specialized/database/G02-migration-manifest.json','specialized/database/G02-database-inventory.json','specialized/database/release/artifact-manifest.json','specialized/database/release/migration-manifest.json','specialized/database/release/release-manifest.json','specialized/database/publish/IFX.DatabaseMigrator.dll')
 foreach($item in $required){if(-not [IO.File]::Exists((Join-Path $output $item))){throw "Controlled Database output missing: $item"}}
@@ -75,7 +76,7 @@ $files=@(Get-ChildItem -LiteralPath (Join-Path $output 'specialized') -File -Rec
 if(@($files|Where-Object path -like '*/release/*.sql').Count -lt 5){throw 'Controlled Database run produced fewer than five SQL scripts.'}
 $authorities=[ordered]@{}
 foreach($entry in @(@('migrationCatalog','src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json'),@('releaseManifest','deployment/release-manifest.json'),@('safetyPolicy','deployment/migration-safety-policy.json'))){$authorities[$entry[0]]=Hash (Join-Path $repo $entry[1])}
-$lock=[ordered]@{formatVersion=1;gate='Database';producer='ifx-c4b-controlled-v2';result='passed';targetCommit=$commit;startedAt=$started.ToString('o');completedAt=$completed.ToString('o');evidencePrefix="$relative/";sourceInventoryId=$inventoryContract.id;sourceInventorySha256=Hash $inventoryContractPath;sourceFileCount=$sourceLines.Count;sourceTreeSha256=$sourceTreeSha256;sourceFiles=$sourceFiles;authorityHashes=$authorities;files=$files}
+$lock=[ordered]@{formatVersion=1;gate='Database';producer='ifx-v4a-database-v1';result='passed';targetCommit=$commit;startedAt=$started.ToString('o');completedAt=$completed.ToString('o');evidencePrefix="$relative/";sourceInventoryId=$inventoryContract.id;sourceInventorySha256=Hash $inventoryContractPath;sourceFileCount=$sourceLines.Count;sourceTreeSha256=$sourceTreeSha256;sourceFiles=$sourceFiles;authorityHashes=$authorities;files=$files}
 $lockPath=Join-Path $output 'evidence-lock.json'
 [IO.File]::WriteAllText($lockPath,(($lock|ConvertTo-Json -Depth 50).Replace("`r`n","`n")+"`n"),[Text.UTF8Encoding]::new($false))
 Write-Output "Database evidence lock: $lockPath"
