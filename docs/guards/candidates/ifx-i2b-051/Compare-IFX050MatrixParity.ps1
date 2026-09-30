@@ -1,18 +1,15 @@
-# IFX I2-B amendment A1 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A1-8b: case-level parity of the
-# 0.5.0 C6c independent matrix against the accepted 0.4.4 matrix (I1). Both matrices come from the same matrix
-# contract, so every case ID, kind, rule, claim set and expected outcome must be equal and every actual outcome
-# (process exit, status, exit category) must be equal. What may differ is the first finding a case reports
-# (subject, evidence kind), because the 0.5.0 suites use new fixtures; each such difference is listed with the
-# module's change-spec disposition. It also compares the P10.2 replay matrix with the accepted 0.4.4 replay.
+# IFX I2-B amendment A2 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A2-10b: case-level parity of the 0.5.1 C6c
+# independent matrix and P10.2 replay against the accepted 0.5.0 records (A1-6, A1-8b); the A1-8b comparer with the 0.5.0
+# predecessor. The rules are unchanged (IDs, contracts and outcomes equal; first-finding changes listed; replay rows equal).
 [CmdletBinding()]
 param(
-    [string]$PredecessorCaseManifestPath = 'artifacts/guards/p10-ifx-116/c6c-full/windows/case-manifest.json',
-    [string]$PredecessorCaseManifestSha256 = '5a941375c7803b2031fb967f4ed5bebfa754e3419c8887f36c54d27f4b2af65f',
+    [string]$PredecessorCaseManifestPath = 'artifacts/guards/p10-ifx-i2b/c6c-full/windows/case-manifest.json',
+    [string]$PredecessorCaseManifestSha256 = '8b76e2490d389ec5205d7d27712ad3e5fa89072df21b6af58928b8acc8a84892',
     [string]$CaseManifestPath = 'artifacts/guards/p10-ifx-i2b/a2-051/c6c-full/windows/case-manifest.json',
     [Parameter(Mandatory)][string]$CaseManifestSha256,
-    [string]$PredecessorParityMatrixPath = 'artifacts/guards/p10-ifx-116/p10-2-parity-044/parity-matrix.json',
-    [string]$PredecessorParityMatrixSha256 = '1d61650695185ed8ad69b3c013f241a63190d0ca5999e0205c7262676bf4ac7c',
-    [string]$ParityMatrixPath = 'artifacts/guards/p10-ifx-i2b/a2-051/p10-2-parity-050/parity-matrix.json',
+    [string]$PredecessorParityMatrixPath = 'artifacts/guards/p10-ifx-i2b/p10-2-parity-050/parity-matrix.json',
+    [string]$PredecessorParityMatrixSha256 = '68e89a7f994766045be157c53348237679c80acd0b4bae6cb0e03f78442e5dbd',
+    [string]$ParityMatrixPath = 'artifacts/guards/p10-ifx-i2b/a2-051/p10-2-parity-051/parity-matrix.json',
     [string]$ChangeSpecPath = (Join-Path $PSScriptRoot 'change-spec.json'),
     [Parameter(Mandatory)][string]$OutputPath
 )
@@ -26,8 +23,8 @@ function Canon($Value) { $Value | ConvertTo-Json -Depth 50 -Compress }
 $output = Full $OutputPath; if ([IO.File]::Exists($output)) { throw "Output already exists: $output" }
 
 # 1. The 191-case independent matrix.
-$old = @{}; foreach ($c in @((Read-Pinned $PredecessorCaseManifestPath $PredecessorCaseManifestSha256 '0.4.4 case manifest').cases)) { $old[[string]$c.id] = $c }
-$new = @{}; foreach ($c in @((Read-Pinned $CaseManifestPath $CaseManifestSha256 '0.5.0 case manifest').cases)) { $new[[string]$c.id] = $c }
+$old = @{}; foreach ($c in @((Read-Pinned $PredecessorCaseManifestPath $PredecessorCaseManifestSha256 '0.5.0 case manifest (A1-6)').cases)) { $old[[string]$c.id] = $c }
+$new = @{}; foreach ($c in @((Read-Pinned $CaseManifestPath $CaseManifestSha256 '0.5.1 case manifest').cases)) { $new[[string]$c.id] = $c }
 $spec = Get-Content -LiteralPath (Full $ChangeSpecPath) -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 $disposition = @{}; foreach ($m in @($spec.modules)) { $disposition[[string]$m.id] = @($m.disposition) }
 $gaps = [Collections.Generic.List[object]]::new(); $subjectChanges = [Collections.Generic.List[object]]::new()
@@ -48,7 +45,7 @@ foreach ($id in @($old.Keys | Where-Object { $new.ContainsKey($_) } | Sort-Objec
 }
 
 # 2. The 52-case P10.2 replay (ten unchanged Pre modules): every row must equal the accepted 0.4.4 row.
-$oldMatrix = Read-Pinned $PredecessorParityMatrixPath $PredecessorParityMatrixSha256 '0.4.4 P10.2 matrix'
+$oldMatrix = Read-Pinned $PredecessorParityMatrixPath $PredecessorParityMatrixSha256 '0.5.0 P10.2 matrix (A1-8b)'
 $newMatrixFile = Full $ParityMatrixPath; $newMatrix = Get-Content -LiteralPath $newMatrixFile -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 # Semantic projection as in the I1 comparison: run metadata (paths, timestamps, process and input hashes) excluded.
 function Semantic($Row) {
@@ -71,7 +68,7 @@ $strengtheningsEqual = (Canon @($oldMatrix.strengthenings)) -ceq (Canon @($newMa
 $p102Equal = ($rowDiffs.Count -eq 0 -and [int]$newMatrix.gapCount -eq 0 -and $strengtheningsEqual)
 
 $status = if ($gaps.Count -eq 0 -and $p102Equal) { 'pass' } else { 'fail' }
-Write-IFX050Json $output ([ordered]@{ formatVersion = 1; status = $status; step = 'A1-8b'; scope = 'ifx-050a-parity-against-044'
+Write-IFX050Json $output ([ordered]@{ formatVersion = 1; status = $status; step = 'A2-10b'; scope = 'ifx-051-parity-against-050'
     independentMatrix = [ordered]@{ predecessor = [ordered]@{ path = $PredecessorCaseManifestPath; sha256 = $PredecessorCaseManifestSha256 }; current = [ordered]@{ path = $CaseManifestPath; sha256 = $CaseManifestSha256 }
         caseCount = $new.Count; outcomeGaps = @($gaps); firstFindingChanges = @($subjectChanges)
         rule = 'case IDs, kinds, rules, claims, expected and actual outcomes equal; only the first finding subject or evidence kind may differ, and each difference is listed' }
