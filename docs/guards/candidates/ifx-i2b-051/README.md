@@ -10,3 +10,4 @@ producers themselves live in `docs/guards/v4-adoption/producers/` (ruling R6).
 | A2-1 | `relocation-inventory.json` | The committed inventory |
 | A2-2 | `Copy-IFX051Producers.ps1` | Copies the inventoried origins byte for byte into `v4-adoption/producers/` and writes `producers/origins.json`; `-Check` is the origin drift control (R7) |
 | A2-3 | `Test-IFX051ProducerControls.ps1` | Static controls of the relocated producers (no V3, V3_ifx or lab path in any case; no escape from the package; parse; refusal without a Target root; inventory re-derived; no origin drift) with five negative mutations |
+| A2-4 | `Test-IFX051ProducerParity.ps1` | V3/V4 producer parity on one clean clone: semantic evidence comparison per gate, identity changes listed apart, and a committed negative mutation per gate that must fail the same way on both sides (R11) |
