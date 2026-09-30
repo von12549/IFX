@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); A1-8 next (local)`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); A1-8 complete (local); A1-9 next`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -422,6 +422,28 @@ Module dispositions:
   `production-extension-review.json` (id `20260930-ifx-0-5-0-production-review`, scope `production`, 36 module
   ceilings; valid against the 1.1.6 `extension-review.schema.json`). Acceptance permits A1-8 locally; it does not
   authorize a push, a workflow, a ruleset or publishing.
+- **A1-8 complete (2026-09-30, local).**
+  - **A1-8a C6e** (`Invoke-IFX050C6eComposition.ps1`): production composition `releases/v4-guards-1.1.6-ifx-0.5.0`,
+    package `f94d724a…`, receipt `dc0e2aaf…`, on two clean clones at `c0d927eb`. Installed Host: clean Pre 10 modules /
+    22 claims; the deliberate `A18Fault.cs` blocks with `IMPORT-DIRECTION`; Post on staged evidence 27 modules / 57
+    claims; the dependency run 37 modules / 79 claims; Post without staged evidence fails closed
+    (`prerequisite-missing`, stopping at `architecture-conformance`). Protected roots and Git facts unchanged.
+    Decision `a1-8a-decision.json` `6bbe11b7…`. Attempts 1–3 stopped on harness faults and are kept:
+    1 used worktrees (the producers need a `.git` directory), 2 did not create the compose roots, 3 expected
+    every lock consumer to be listed for the unstaged Post although the Host stops at the first missing
+    prerequisite (all positive checks passed).
+  - **A1-8b parity against 0.4.4**: the P10.2 replay (`Invoke-IFX050P102Parity.ps1`, literal successor) passes
+    52/52 with zero gaps and the same 15 strengthenings, row by row equal to the accepted 0.4.4 replay.
+    `Compare-IFX050MatrixParity.ps1`: the 191 C6c cases equal the 0.4.4 matrix in IDs, kinds, rules, claims and
+    expected and actual outcomes; 7 cases report a different first finding because the fixtures changed, each
+    listed in `p10-2-parity-050/parity-against-044.json`.
+  - **A1-8c P10.3 successor**: specimen with producer, staging (from the trusted base, before Pre and Post) and
+    always-run upload steps; proposal with the staged-by-workflow evidence model and the four V3-wrapping
+    producers declared `re-attests-v3-producer-until-0.5.0-b`; rollback anchor `ffe03be5…` from a GET-only
+    snapshot; design note 13. Rehearsal passes with 13 negative controls rejected; decision
+    `fab31b2b…`.
+  - Identity file `candidates/ifx-i2b-050a/a18-identity.json`. Evidence: evrun 054–061 in `I2B-ci-evidence`.
+  - Next: A1-9 local verification, then A1-10 push (authorization).
 
 ### 9.5 Out of scope for A1
 

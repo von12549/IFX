@@ -1,0 +1,483 @@
+{
+  "formatVersion": 1,
+  "runs": [
+    {
+      "id": "clean",
+      "process": {
+        "name": "v4-real-clean",
+        "startedAt": "2026-09-30T18:53:55.5266805+10:00",
+        "elapsedSeconds": 48.043,
+        "exitCode": 0,
+        "stdoutSha256": "4b33dfa51a21caaaca114d3baf52363f255efb4f296d7d7346dcb4206806bbec",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "resultChannel": "stdout",
+      "result": {
+        "formatVersion": 1,
+        "runId": "aba234a36ac04c41b847a92aa7a22103",
+        "stage": "pre",
+        "status": "pass",
+        "exitCategory": "success",
+        "executedStages": [
+          "pre"
+        ],
+        "profile": {
+          "id": "ifx_profile",
+          "version": "0.5.0",
+          "sha256": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e"
+        },
+        "roots": {
+          "packageRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.5.0\\package",
+          "targetRoot": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-a18-clean-050",
+          "stateRoot": "D:\\IFX-Root\\guard-runtime\\evidence\\p10-2-a18-050\\v4-state",
+          "evidenceRoot": "D:\\IFX-Root\\guard-runtime\\evidence\\p10-2-a18-050\\v4-evidence"
+        },
+        "authorityHashes": {
+          "package": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+          "profile": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e",
+          "registry": "8818e57731bc61c9c3ffed0b1a3fedd2bb0f4111da9f0f325eefbc8bf95b4748",
+          "contractsManifest": "2ad9da4ccd3e14299923e3e1ad7b9945f52b5df8f013b1abdb60a89a1269cf03",
+          "workspaceEvidence": "d74f4fcaab208fe54bf5031f12a037ba4c721c0df6ad7107c0bd27e1ba30c368",
+          "module.ifx-domain-reference": "d2c2ac30ce664b4134cdf0cce095e99631a70678c65bd42fd64ac58f895cd92e",
+          "adapter.ifx-domain-reference": "5a04a73206d4fa011a45e8bd63231f27d28b7b19256a2e3998e29a41bf84dd8a",
+          "authority.ifx-domain-reference.rule-execution-plan": "57159e33a040fd8a2a42fc37f0b7b5443b5af73a5cb3a22028ea4f657bf1496a",
+          "module.ifx-package-reference": "f3f9f3d09cd9f644a377296043822ee5f19384b57711bf47cee532fa70967fd0",
+          "adapter.ifx-package-reference": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c",
+          "authority.ifx-package-reference.rule-execution-plan": "43d996ce120da9b6dd43a6b850b0b8aefea79b03f7180a2e76747ddd86193c30",
+          "module.ifx-ring-graph": "b84f1b4b61eaa34f72b895f6b85255482eb257a31240c501ff8b6471b2eb2c9f",
+          "adapter.ifx-ring-graph": "b07b1eb7b34c1601d9710a867d68c20a3a0f253c919fb2a7f1aa5b6e6721f456",
+          "authority.ifx-ring-graph.rule-execution-plan": "a50854ba1dd3d8218ef2d4844e4d1d5985f5820d70b1666bb9b68cd7d10cfab2",
+          "module.ifx-ownership-graph": "eb4e8de5846030d9db13b1cd93e7dbfb36bccfae3b34db329df9e76e9bd5fd39",
+          "adapter.ifx-ownership-graph": "ce948cdae72097de20db11e8ca1c4d41188a05948dff68198c23e91cf8adce88",
+          "authority.ifx-ownership-graph.rule-execution-plan": "17b9ac85eb08d687d61f86dc4463c90dc26df14d038e12fe6c36467a07efb4cc",
+          "module.ifx-provider-cycle": "c7ad788c02c6410d09d45b0d9b43ae87cb23774020ced339ad8ec3f5d8e272b0",
+          "adapter.ifx-provider-cycle": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+          "authority.ifx-provider-cycle.rule-execution-plan": "8a22f6b23075188546ae80283781bb9112f29acddc04208ef1928ed862daa2c0",
+          "module.ifx-embedded-adapter": "98321692b392460ef91d5d0866bf135359fbf6effbf541c10eef8a4dbac4337c",
+          "adapter.ifx-embedded-adapter": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9",
+          "authority.ifx-embedded-adapter.rule-execution-plan": "855c2e17d62b6c1515bce2796e3b59b07440768cd56e72d65dd593cd7591b368",
+          "module.ifx-source-policy": "96fdc26e7623cd6ee68dc242f0276d31075699d9c86255198f113ee061aacabe",
+          "adapter.ifx-source-policy": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+          "authority.ifx-source-policy.rule-execution-plan": "a4c9f319190848d07fe94c9a244f9d89c860a38da23a28c8ae830c024bf2c54f",
+          "module.ifx-project-name": "87ae35cdf6f1faa8464e12a10db3b35f19992269ebc1434d349775136583bf64",
+          "adapter.ifx-project-name": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d",
+          "authority.ifx-project-name.rule-execution-plan": "96823a4dacd421385fe7d478d4c213547e4e50e531c4a9cc7c817543ef89b1a3",
+          "module.ifx-reference-cycle": "4824b086f234d647b024fc678311bce5afc95c9fda649463a23d609f59b1ac57",
+          "adapter.ifx-reference-cycle": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375",
+          "authority.ifx-reference-cycle.rule-execution-plan": "f199b0aaff25637ba4f44d4b12ab9c5d95067f70ae71f851076d74e7215b7dd6",
+          "module.ifx-injection": "2b1d46df9b62d28fe9c81ffa289296c8b5ddcdf315a18ad89d95f4452aa7cb7a",
+          "adapter.ifx-injection": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09",
+          "authority.ifx-injection.rule-execution-plan": "20b385f9b8009feff8fca896737bcf577d87f95d0fa294acd75a17391a486b7e"
+        },
+        "moduleResults": [
+          {
+            "moduleId": "ifx-domain-reference",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-domain-reference.json"
+          },
+          {
+            "moduleId": "ifx-package-reference",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-package-reference.json"
+          },
+          {
+            "moduleId": "ifx-ring-graph",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-ring-graph.json"
+          },
+          {
+            "moduleId": "ifx-ownership-graph",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-ownership-graph.json"
+          },
+          {
+            "moduleId": "ifx-provider-cycle",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-provider-cycle.json"
+          },
+          {
+            "moduleId": "ifx-embedded-adapter",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-embedded-adapter.json"
+          },
+          {
+            "moduleId": "ifx-source-policy",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-source-policy.json"
+          },
+          {
+            "moduleId": "ifx-project-name",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-project-name.json"
+          },
+          {
+            "moduleId": "ifx-reference-cycle",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-reference-cycle.json"
+          },
+          {
+            "moduleId": "ifx-injection",
+            "status": "pass",
+            "evidencePath": "runs/aba234a36ac04c41b847a92aa7a22103/stages/pre/modules/ifx-injection.json"
+          }
+        ],
+        "findings": [],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 5,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 20,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 15,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 51,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 51,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 10,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 7,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 7,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 641,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 624,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 739,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 33,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 64,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 250,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 33,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 474,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 63,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 51,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 147,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 10,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 719,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1802,
+            "minimum": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "violation",
+      "process": {
+        "name": "v4-real-violation",
+        "startedAt": "2026-09-30T18:54:43.5766992+10:00",
+        "elapsedSeconds": 44.773,
+        "exitCode": 16,
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "cf79b16e084706a40837980d0af35167133959602e5f9210857c7aa52c644cd3"
+      },
+      "resultChannel": "stderr",
+      "result": {
+        "formatVersion": 1,
+        "runId": "230bb307bfc945f6916e9545760c29a4",
+        "stage": "pre",
+        "status": "fail",
+        "exitCategory": "findings-blocking",
+        "executedStages": [
+          "pre"
+        ],
+        "profile": {
+          "id": "ifx_profile",
+          "version": "0.5.0",
+          "sha256": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e"
+        },
+        "roots": {
+          "packageRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.5.0\\package",
+          "targetRoot": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-a18-violating-050",
+          "stateRoot": "D:\\IFX-Root\\guard-runtime\\evidence\\p10-2-a18-050\\v4-state",
+          "evidenceRoot": "D:\\IFX-Root\\guard-runtime\\evidence\\p10-2-a18-050\\v4-evidence"
+        },
+        "authorityHashes": {
+          "package": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+          "profile": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e",
+          "registry": "8818e57731bc61c9c3ffed0b1a3fedd2bb0f4111da9f0f325eefbc8bf95b4748",
+          "contractsManifest": "2ad9da4ccd3e14299923e3e1ad7b9945f52b5df8f013b1abdb60a89a1269cf03",
+          "workspaceEvidence": "70c64fc28b7948ddebc515d8fafb0560a8f2a3320e4feeb06217c567fda59048",
+          "module.ifx-domain-reference": "d2c2ac30ce664b4134cdf0cce095e99631a70678c65bd42fd64ac58f895cd92e",
+          "adapter.ifx-domain-reference": "5a04a73206d4fa011a45e8bd63231f27d28b7b19256a2e3998e29a41bf84dd8a",
+          "authority.ifx-domain-reference.rule-execution-plan": "57159e33a040fd8a2a42fc37f0b7b5443b5af73a5cb3a22028ea4f657bf1496a",
+          "module.ifx-package-reference": "f3f9f3d09cd9f644a377296043822ee5f19384b57711bf47cee532fa70967fd0",
+          "adapter.ifx-package-reference": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c",
+          "authority.ifx-package-reference.rule-execution-plan": "43d996ce120da9b6dd43a6b850b0b8aefea79b03f7180a2e76747ddd86193c30",
+          "module.ifx-ring-graph": "b84f1b4b61eaa34f72b895f6b85255482eb257a31240c501ff8b6471b2eb2c9f",
+          "adapter.ifx-ring-graph": "b07b1eb7b34c1601d9710a867d68c20a3a0f253c919fb2a7f1aa5b6e6721f456",
+          "authority.ifx-ring-graph.rule-execution-plan": "a50854ba1dd3d8218ef2d4844e4d1d5985f5820d70b1666bb9b68cd7d10cfab2",
+          "module.ifx-ownership-graph": "eb4e8de5846030d9db13b1cd93e7dbfb36bccfae3b34db329df9e76e9bd5fd39",
+          "adapter.ifx-ownership-graph": "ce948cdae72097de20db11e8ca1c4d41188a05948dff68198c23e91cf8adce88",
+          "authority.ifx-ownership-graph.rule-execution-plan": "17b9ac85eb08d687d61f86dc4463c90dc26df14d038e12fe6c36467a07efb4cc",
+          "module.ifx-provider-cycle": "c7ad788c02c6410d09d45b0d9b43ae87cb23774020ced339ad8ec3f5d8e272b0",
+          "adapter.ifx-provider-cycle": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+          "authority.ifx-provider-cycle.rule-execution-plan": "8a22f6b23075188546ae80283781bb9112f29acddc04208ef1928ed862daa2c0",
+          "module.ifx-embedded-adapter": "98321692b392460ef91d5d0866bf135359fbf6effbf541c10eef8a4dbac4337c",
+          "adapter.ifx-embedded-adapter": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9",
+          "authority.ifx-embedded-adapter.rule-execution-plan": "855c2e17d62b6c1515bce2796e3b59b07440768cd56e72d65dd593cd7591b368",
+          "module.ifx-source-policy": "96fdc26e7623cd6ee68dc242f0276d31075699d9c86255198f113ee061aacabe",
+          "adapter.ifx-source-policy": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+          "authority.ifx-source-policy.rule-execution-plan": "a4c9f319190848d07fe94c9a244f9d89c860a38da23a28c8ae830c024bf2c54f",
+          "module.ifx-project-name": "87ae35cdf6f1faa8464e12a10db3b35f19992269ebc1434d349775136583bf64",
+          "adapter.ifx-project-name": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d",
+          "authority.ifx-project-name.rule-execution-plan": "96823a4dacd421385fe7d478d4c213547e4e50e531c4a9cc7c817543ef89b1a3",
+          "module.ifx-reference-cycle": "4824b086f234d647b024fc678311bce5afc95c9fda649463a23d609f59b1ac57",
+          "adapter.ifx-reference-cycle": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375",
+          "authority.ifx-reference-cycle.rule-execution-plan": "f199b0aaff25637ba4f44d4b12ab9c5d95067f70ae71f851076d74e7215b7dd6",
+          "module.ifx-injection": "2b1d46df9b62d28fe9c81ffa289296c8b5ddcdf315a18ad89d95f4452aa7cb7a",
+          "adapter.ifx-injection": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09",
+          "authority.ifx-injection.rule-execution-plan": "20b385f9b8009feff8fca896737bcf577d87f95d0fa294acd75a17391a486b7e"
+        },
+        "moduleResults": [
+          {
+            "moduleId": "ifx-domain-reference",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-domain-reference.json"
+          },
+          {
+            "moduleId": "ifx-package-reference",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-package-reference.json"
+          },
+          {
+            "moduleId": "ifx-ring-graph",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-ring-graph.json"
+          },
+          {
+            "moduleId": "ifx-ownership-graph",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-ownership-graph.json"
+          },
+          {
+            "moduleId": "ifx-provider-cycle",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-provider-cycle.json"
+          },
+          {
+            "moduleId": "ifx-embedded-adapter",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-embedded-adapter.json"
+          },
+          {
+            "moduleId": "ifx-source-policy",
+            "status": "fail",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-source-policy.json"
+          },
+          {
+            "moduleId": "ifx-project-name",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-project-name.json"
+          },
+          {
+            "moduleId": "ifx-reference-cycle",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-reference-cycle.json"
+          },
+          {
+            "moduleId": "ifx-injection",
+            "status": "pass",
+            "evidencePath": "runs/230bb307bfc945f6916e9545760c29a4/stages/pre/modules/ifx-injection.json"
+          }
+        ],
+        "findings": [
+          {
+            "ruleId": "IMPORT-DIRECTION",
+            "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/A18Fault.cs:1: IFX.Modules.CRM.Domain -> IFX.Modules.CRM.Contracts",
+            "evidenceKind": "source-import",
+            "detectorId": "ifx-source-policy",
+            "severity": "blocking"
+          }
+        ],
+        "coverage": [
+          {
+            "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+            "matched": 5,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+            "matched": 20,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+            "matched": 15,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.RING_GRAPH_RAW",
+            "matched": 51,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+            "matched": 51,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PROVIDER_CYCLE",
+            "matched": 10,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE",
+            "matched": 7,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE",
+            "matched": 7,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE",
+            "matched": 642,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE",
+            "matched": 624,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE",
+            "matched": 739,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE",
+            "matched": 33,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+            "matched": 64,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE",
+            "matched": 250,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+            "matched": 33,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE",
+            "matched": 474,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE",
+            "matched": 63,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+            "matched": 51,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.RING_REFERENCE_RAW",
+            "matched": 147,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+            "matched": 10,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+            "matched": 719,
+            "minimum": 1
+          },
+          {
+            "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+            "matched": 1802,
+            "minimum": 1
+          }
+        ]
+      }
+    }
+  ]
+}

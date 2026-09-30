@@ -1,0 +1,74 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A1-8c",
+  "supersedes": {
+    "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+    "sha256": "b5882ec7d89f0124e10cfad72b7212466dfb802e98ed94c1c8731084f803cb0a",
+    "tuple": "V4 Guards 1.1.6 + ifx_profile 0.4.4",
+    "status": "historical"
+  },
+  "evidenceModel": {
+    "model": "staged-by-workflow",
+    "stagingScriptSource": "previously-trusted-base",
+    "reAttestedV3Producers": [
+      "solution",
+      "assembly",
+      "frontend",
+      "database"
+    ]
+  },
+  "identity": {
+    "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+    "v4ProductVersion": "1.1.6",
+    "ifxProfileVersion": "0.5.0",
+    "guardRepository": "von12549/Guard",
+    "guardReleaseCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+    "profileSha256": "abe3166823435e88972e07ca1f72ee19415f57b72d55b0e7b37b9a24b983626e",
+    "productionReviewSha256": "3dec187b175d7161f1dfc9571962ca0946b1b71c637ec5e020fe8ea5c5d3e801",
+    "packageSha256": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+    "compositionReceiptSha256": "dc0e2aafb2862a8acd89a70375962198c84f2d528ea630494d3a97e64fa64c53",
+    "c6cDecisionSha256": "315a825135d64dc80315774a63be87fd541d19fe6fc3ff6a46be455171bfee2a",
+    "c6dDecisionSha256": "57a1037004d78747223894a064e2a3b55ed6e923e6f6274eac3238384d53cc57",
+    "c6eDecisionSha256": "6bbe11b78cb094335dec321171e41a5a179ccac64d37f31363bbac0d4edf92fa",
+    "p10_2DecisionSha256": "12a0b200efa770fd610da7bb2e124d59f53bd4d5ba571c4d9e7c0bdbbf8b6099",
+    "windowsFullSummarySha256": "bb2eca3f0784bb1946a6036440ef58dd0e932ab9b8664e1c236345be3927b0aa"
+  },
+  "remote": {
+    "ifxDevelopmentCommit": "ffe03be59496a45b7af4ba02a5c346caa191e80c",
+    "rulesetId": 23459908,
+    "requiredContextCount": 13,
+    "guardReleaseTag": "v4-guards-v1.1.6",
+    "remoteMutationPerformed": false
+  },
+  "proof": {
+    "contextOwnershipRows": 13,
+    "detectorOwnershipRows": 9,
+    "executedNegativeControls": 13,
+    "protectedRootsUnchanged": true
+  },
+  "activationBlockers": [
+    "promote-reviewed-v3-workflow-and-p10-evidence-to-default-branch",
+    "publish-exact-ifx-0.5.0-bundle-by-separate-plan",
+    "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
+    "prove-producer-runtime-prerequisites-on-the-hosted-runner-when-installing-the-specimen",
+    "add-v4-ifx-required-to-ruleset-by-separate-plan",
+    "complete-coexistence-window-before-removing-any-v3-context",
+    "relocate-the-v3-wrapping-producers-in-0.5.0-b-before-any-v3-retirement"
+  ],
+  "boundary": {
+    "p10_3SuccessorDesignComplete": true,
+    "p10GatePassed": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "activated": false,
+    "ifxCutover": false,
+    "ifxCoreSourceRemoved": true,
+    "cleanupReceiptSha256": "fe371edac2167bbd4ff60377b02b2f04ae942f99c312d0d2376d46be8daaf2a7",
+    "v3Retired": false
+  }
+}

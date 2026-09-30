@@ -1,0 +1,5 @@
+[31;1mException: [0mD:\IFX-Root\IFX\docs\guards\candidates\ifx-i2b-050a\Invoke-IFX050EvidenceProducers.ps1:27[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m  27 | [0m . arget '.git'))) { [36;1mthrow "TargetRoot is not a Git checkout: $target"[0m }[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mTargetRoot is not a Git checkout: D:\IFX-Root\guard-runtime\fixtures\ifx-a18-clean-050[0m

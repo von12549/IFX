@@ -1,0 +1,73 @@
+{
+  "formatVersion": 1,
+  "status": "fail",
+  "decision": "a1-8a-composition-stopped",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A1-8a",
+  "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+  "identities": {
+    "bundleManifest": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+    "reviewPacket": "9d1e95d0b20d5ec3458b49dfb5732e278202a3ed46bfb5507c72f84446d0e683",
+    "reviewRecord": "3dec187b175d7161f1dfc9571962ca0946b1b71c637ec5e020fe8ea5c5d3e801",
+    "c6dDecision": "57a1037004d78747223894a064e2a3b55ed6e923e6f6274eac3238384d53cc57",
+    "baseArchive": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "baseReceipt": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497"
+  },
+  "baseProof": {
+    "formatVersion": 1,
+    "status": "pass",
+    "kind": "base-release",
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6",
+    "productVersion": "1.1.6",
+    "packageHash": "a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825",
+    "receiptSha256": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "sourceCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "manifestSha256": "37fb9073e30e57ca0e33a89ba41ed5aba46f061560c4e3ede2f2b6f569371f55"
+  },
+  "compositionProof": {
+    "formatVersion": 1,
+    "status": "pass",
+    "kind": "local-extension-composition",
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.5.0",
+    "productVersion": "1.1.6",
+    "packageHash": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+    "receiptSha256": "dc0e2aafb2862a8acd89a70375962198c84f2d528ea630494d3a97e64fa64c53",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+    "scope": "production"
+  },
+  "composition": {
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6-ifx-0.5.0",
+    "receipt": {
+      "path": "D:\\IFX-Root\\guard-runtime\\receipts\\v4-guards-1.1.6-ifx-0.5.0.compose.json",
+      "sha256": "dc0e2aafb2862a8acd89a70375962198c84f2d528ea630494d3a97e64fa64c53"
+    },
+    "packageHash": "f94d724aa24596312fce8880c96cdf779e1f02c378a8789d7f9428aaf74425ad",
+    "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284",
+    "reviewRecordSha256": "3dec187b175d7161f1dfc9571962ca0946b1b71c637ec5e020fe8ea5c5d3e801"
+  },
+  "production": {
+    "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\a18-c6e\\production.json",
+    "sha256": "bfbe0ba8d7b720a8d7193b25b7982b33fdf8b05e0c7c3d28f7f30e3880ed5266"
+  },
+  "hostVerificationSha256": "7fc20fc797e4e1eec468b60bbe59b4fdbfe868d7005382460bdc5de2bb7b9c08",
+  "checks": {
+    "cleanPrePass": true,
+    "violatingPreBlocks": true,
+    "stagedPostPass": true,
+    "dependencyPostPass": true,
+    "unstagedPostFailsClosed": false,
+    "profileIdentity": true,
+    "hostQueriesAgree": true,
+    "protectedRootsUnchanged": true,
+    "gitFactsUnchanged": true
+  },
+  "boundary": {
+    "installedWebUi": "deferred-to-p10-gate-successor",
+    "p10GatePassed": false,
+    "activated": false,
+    "cutover": false,
+    "workflowInstalled": false
+  }
+}
