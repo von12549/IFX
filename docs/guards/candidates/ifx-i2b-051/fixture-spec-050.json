@@ -6,14 +6,14 @@
     "path": "docs/guards/candidates/ifx-rebind-116/fixture-spec-116.json",
     "sha256": "f6060fe89df5b9e9038a1c1ec7fe87af0fb630a23e39e876ff33cb3da0bbf3cc"
   },
-  "matrixContractSha256": "a2f71891ac935d9b0a456ae0603357ec2e0cacb5135944f49a85f8b97cb95e2c",
+  "matrixContractSha256": "e6825684f14f7b9e090ab6077ee9461b81559d84a7660ca4f800ed3d35e10737",
   "requiredCoreCases": 191,
   "supplementalCaseCount": 15,
   "suiteMatrixCaseCount": 10,
   "sources": {
     "supplemental": {
       "path": "docs/guards/candidates/ifx-i2b-051/Test-IFX050SupplementalFixtures.ps1",
-      "sha256": "e48c25efe403de6259bacd7b1fcd32d43f442b854fa40f59eb73df9c268ae100"
+      "sha256": "611f193e78bb5af28c79ac41a3741b4bac6a8d7478b43ea690ce7d448c0c2543"
     },
     "suite:ifx-assembly-evidence": {
       "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-assembly-evidence.cases.json",

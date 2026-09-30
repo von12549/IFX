@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "id": "ifx-050a-independent-matrix-contract",
-  "inventoryProjectionSha256": "a3612ea02b80d02a7528e7b0eaab0fbdcd10381c3d311f043317e1777ec3a084",
+  "inventoryProjectionSha256": "c94a5e91e4ddd8c83cf8c5e1ec340053048383ff9b0a1e2553a180d4da3b9aa7",
   "moduleCount": 37,
   "blockingRuleCount": 80,
   "advisoryRuleCount": 3,
@@ -103,7 +103,7 @@
       "ordinal": 12,
       "id": "ifx-c1-type-provenance",
       "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-c1-type-provenance/adapter.ps1",
-      "adapterSha256": "b7568404a37e57acd1755ee21b5687a622c36440d8939ee40ad543cc34018538",
+      "adapterSha256": "b67f655ee81baa89548b7be15e0f896ac944ac42116fa1127a20c595ccaeed8d",
       "zeroStrategy": "integrity-zero",
       "sourceFact": "the attestation has exactly seven integrity checks and never emits semantic findings",
       "zeroExitCategory": "integrity-failure"
@@ -247,7 +247,7 @@
       "ordinal": 26,
       "id": "ifx-database-evidence",
       "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-database-evidence/adapter.ps1",
-      "adapterSha256": "e4467c60f79a4f41301ab84528a9fe8a24a7bec634958ecbe8b89caa09ff63e8",
+      "adapterSha256": "ded6e96a738a4d329b14325d423667f25a5f30ddfd7b9af681fa47d48af1a51a",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each locked Database evidence assertion",
       "zeroFinding": {
@@ -341,7 +341,7 @@
       "ordinal": 34,
       "id": "ifx-solution-evidence",
       "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-solution-evidence/adapter.ps1",
-      "adapterSha256": "cf0773a41549fcda67e6d5ec7b3e5aaa02e25236f8c2ba8bece5d65fd8af02f1",
+      "adapterSha256": "6e7c1d5ad00ae8c7f11f6d154ad36cedce246b9d273dec404b5bf24daf566642",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each of four locked Solution assertions",
       "zeroFinding": {
@@ -354,7 +354,7 @@
       "ordinal": 35,
       "id": "ifx-assembly-evidence",
       "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-assembly-evidence/adapter.ps1",
-      "adapterSha256": "53578e22f196a7723ed5dc2ca523ef483e2fbf086ee25203933d90887c0cbe87",
+      "adapterSha256": "32c64f372eeeed3765af2f80fba974068ad5e4e20fb60e37aaf285bd25e7fc8a",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for locked build and assembly assertions",
       "zeroFinding": {
@@ -367,7 +367,7 @@
       "ordinal": 36,
       "id": "ifx-frontend-evidence",
       "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-frontend-evidence/adapter.ps1",
-      "adapterSha256": "61a02c963d4dad7a2294d04c7abcb1e86d5b7aa46e72e6f1fcadc3f9f18d2a1e",
+      "adapterSha256": "b10f5f10ccf16eb6d10062f25f035905753f4ed8d7e0c1535fd1f17da2b70e7a",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each of five locked Frontend assertions",
       "zeroFinding": {
