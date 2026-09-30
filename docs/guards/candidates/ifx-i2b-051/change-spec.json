@@ -11,12 +11,12 @@
   },
   "target": {
     "profileVersion": "0.5.0",
-    "moduleSourceRoot": "docs/guards/candidates/ifx-i2b-050a/modules"
+    "moduleSourceRoot": "docs/guards/candidates/ifx-i2b-051/modules"
   },
   "rulings": {
     "R1": "registries are live",
     "R2": "G03 core regenerates the projection",
-    "R3": "lab tree candidates/ifx-i2b-050a",
+    "R3": "lab tree candidates/ifx-i2b-051",
     "R4": "IFX-V4-005 fixed first under its own Plan"
   },
   "lockLayout": {

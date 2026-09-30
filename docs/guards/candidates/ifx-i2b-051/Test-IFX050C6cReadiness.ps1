@@ -10,7 +10,7 @@ param(
     [Parameter(Mandatory)][string]$ContractSummaryPath,
     [Parameter(Mandatory)][string]$FocusedSummaryPath,
     [Parameter(Mandatory)][string]$ReportPath,
-    [string]$CandidateVersion = '0.5.0',
+    [string]$CandidateVersion = '0.5.1',
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6'
 )
 Set-StrictMode -Version Latest

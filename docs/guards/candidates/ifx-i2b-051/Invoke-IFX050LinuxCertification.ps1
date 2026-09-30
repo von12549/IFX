@@ -22,7 +22,7 @@ param(
     [string]$ExpectedBaseVersion = '1.1.6',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
     [string]$ExpectedPackageHash = 'a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825',
-    [string]$CandidateVersion = '0.5.0'
+    [string]$CandidateVersion = '0.5.1'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -47,7 +47,7 @@ $tracked = @(& git -c core.autocrlf=true -c core.filemode=false -C $source statu
 Assert ($LASTEXITCODE -eq 0 -and ($tracked -join '').Trim().Length -eq 0) 'Linux source mount has tracked changes.'
 
 try {
-    $positiveRunner = Join-Path $source 'docs/guards/candidates/ifx-i2b-050a/Test-IFX050DualPlatformCandidate.ps1'
+    $positiveRunner = Join-Path $source 'docs/guards/candidates/ifx-i2b-051/Test-IFX050DualPlatformCandidate.ps1'
     $positiveOutput = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $positiveRunner `
         -WindowsSummaryPath $WindowsSummaryPath -SourceRoot $source -BundleRoot $BundleRoot -ReviewRecordPath $ReviewRecordPath -TargetRoot $target `
         -WindowsBaseReceiptPath $WindowsBaseReceiptPath -BaseArchivePath $BaseArchivePath -ProductionSnapshotRoot $ProductionSnapshotRoot -WorkRoot $work -ReportPath $positiveReport `
@@ -57,7 +57,7 @@ try {
     Assert ($positive.status -ceq 'pass' -and $positive.sourceCommit -ceq $sourceCommit -and @($positive.cases).Count -eq 3) 'Linux positive report is invalid.'
 
     # The matrix runs from the native checkout, on it, with the production the positive run imported.
-    $matrixRunner = Join-Path $target 'docs/guards/candidates/ifx-i2b-050a/Test-IFX050IndependentMatrix.ps1'
+    $matrixRunner = Join-Path $target 'docs/guards/candidates/ifx-i2b-051/Test-IFX050IndependentMatrix.ps1'
     $matrixOutput = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $matrixRunner `
         -InventoryPath $InventoryPath -BundleRoot $BundleRoot -ReviewRecordPath $ReviewRecordPath -Platform linux `
         -TargetRoot $target -ProductionRecord (Join-Path $ProductionSnapshotRoot 'production.json') `

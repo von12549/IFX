@@ -46,7 +46,7 @@ foreach ($reviewInput in @($bundle, $decisionFile, $summaryFile, $caseFile, $inv
 $manifestHash = Hash $manifestFile
 if ($manifestHash -cne $ExpectedManifestSha256) { Fail 'Bundle manifest identity differs from the C6c candidate.' }
 $manifest = Read-Json $manifestFile; $decision = Read-Json $decisionFile; $summary = Read-Json $summaryFile; $cases = Read-Json $caseFile
-if ([string]$manifest.baseVersion -cne '1.1.6' -or [string]$manifest.version -cne '0.5.0') { Fail 'Bundle version tuple is not 1.1.6 / 0.5.0.' }
+if ([string]$manifest.baseVersion -cne '1.1.6' -or [string]$manifest.version -cne '0.5.1') { Fail 'Bundle version tuple is not 1.1.6 / 0.5.0.' }
 if ([string]$decision.status -cne 'pass' -or [string]$decision.decision -cne 'phase-1-complete-stop-for-human-review') { Fail 'C6c decision is not a passing human-review handoff.' }
 if ([string]$decision.targetCommit -cne $ExpectedTargetCommit -or [string]$summary.sourceCommit -cne $ExpectedTargetCommit -or [string]$cases.sourceCommit -cne $ExpectedTargetCommit) { Fail 'C6c target commit mismatch.' }
 if ([string]$decision.candidate.manifestSha256 -cne $manifestHash -or [string]$cases.bundleManifestSha256 -cne $manifestHash) { Fail 'C6c records do not bind this candidate.' }
@@ -102,7 +102,7 @@ if (@($old.modules).Count -ne @($manifest.modules).Count) { Fail 'Module count d
 
 # 4. What "pass" means per module: change spec, check changes, lock policy and suite evidence.
 $spec = Read-Json $specFile; $checks = Read-Json $checkFile
-if ([string]$spec.target.profileVersion -cne '0.5.0') { Fail 'Change spec is not for 0.5.0.' }
+if ([string]$spec.target.profileVersion -cne '0.5.1') { Fail 'Change spec is not for 0.5.0.' }
 $suiteById = @{}
 $windowsSummary = Read-Json (Full-File (Join-Path ([IO.Path]::GetDirectoryName($caseFile)) 'summary.json') 'Windows matrix summary')
 foreach ($s in @($windowsSummary.suites)) { $suiteById[[string]$s.moduleId] = $s }
@@ -207,7 +207,7 @@ $reviewOut = Join-Path $output 'review.md'; [IO.File]::WriteAllText($reviewOut, 
 
 $packet = [ordered]@{
     formatVersion = 1; status = 'ready-for-designated-human-review'; scope = 'c6d-exact-bundle-review'; step = 'A1-7'; planId = '20260929-v4-ifx-i2b-ci-evidence-and-bundle'
-    reviewDecision = 'pending'; acceptedBy = $null; targetCommit = $ExpectedTargetCommit; baseVersion = '1.1.6'; candidateVersion = '0.5.0'
+    reviewDecision = 'pending'; acceptedBy = $null; targetCommit = $ExpectedTargetCommit; baseVersion = '1.1.6'; candidateVersion = '0.5.1'
     bundle = [ordered]@{ id = [string]$manifest.id; manifestPath = Rel $manifestFile; manifestSha256 = $manifestHash; baseArchiveSha256 = $ExpectedBaseArchiveSha256; profileCount = 1; moduleCount = $ceilings.Count; fileCount = $files.Count }
     inputs = [ordered]@{ ordinalInventory = Bound $inventoryFile; changeSpec = Bound $specFile; checkChanges = Bound $checkFile; windowsCaseManifest = Bound $caseFile }
     outputs = [ordered]@{ review = Bound $reviewOut; claimChanges = Bound $claimsOut; predecessorComparison = Bound $comparisonOut; fileInventory = Bound $inventoryOut; moduleCeilings = Bound $ceilingsOut }

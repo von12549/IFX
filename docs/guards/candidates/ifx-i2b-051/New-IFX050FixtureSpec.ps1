@@ -8,8 +8,8 @@
 # Sources are bound by their UTF-8/LF text hash (ruling R5), so a Windows and a Linux checkout agree.
 [CmdletBinding()]
 param(
-    [string]$ContractPath = 'docs/guards/candidates/ifx-i2b-050a/matrix-contract-050.json',
-    [string]$OutputPath = 'docs/guards/candidates/ifx-i2b-050a/fixture-spec-050.json'
+    [string]$ContractPath = 'docs/guards/candidates/ifx-i2b-051/matrix-contract-050.json',
+    [string]$OutputPath = 'docs/guards/candidates/ifx-i2b-051/fixture-spec-050.json'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

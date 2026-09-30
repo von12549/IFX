@@ -151,8 +151,8 @@ $spec = [ordered]@{
     formatVersion = 1; kind = 'ifx-050a-change-spec'
     plan = '20260929-v4-ifx-i2b-ci-evidence-and-bundle'; amendment = 'A1'; step = 'A1-2'
     base = [ordered]@{ install = 'v4-guards-1.1.6-ifx-0.4.4'; profileVersion = $profile.version; profileSha256 = (Get-FileHash -LiteralPath $profilePath -Algorithm SHA256).Hash.ToLowerInvariant() }
-    target = [ordered]@{ profileVersion = '0.5.0'; moduleSourceRoot = 'docs/guards/candidates/ifx-i2b-050a/modules' }
-    rulings = [ordered]@{ R1 = 'registries are live'; R2 = 'G03 core regenerates the projection'; R3 = 'lab tree candidates/ifx-i2b-050a'; R4 = 'IFX-V4-005 fixed first under its own Plan' }
+    target = [ordered]@{ profileVersion = '0.5.1'; moduleSourceRoot = 'docs/guards/candidates/ifx-i2b-051/modules' }
+    rulings = [ordered]@{ R1 = 'registries are live'; R2 = 'G03 core regenerates the projection'; R3 = 'lab tree candidates/ifx-i2b-051'; R4 = 'IFX-V4-005 fixed first under its own Plan' }
     lockLayout = [ordered]@{
         root = 'EvidenceRoot'; lock = 'locks/<gate>/evidence-lock.json'; evidence = 'locks/<gate>/<files listed in the lock>'
         staged = 'locks/type/assembly-manifest.json and locks/type/assemblies/*.dll (read by ifx-c1-type-provenance and architecture-conformance)'

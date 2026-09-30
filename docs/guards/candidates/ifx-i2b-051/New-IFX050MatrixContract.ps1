@@ -7,8 +7,8 @@
 param(
     [Parameter(Mandatory)][string]$InventoryPath,
     [string]$SourceContractPath = 'docs/guards/candidates/ifx-rebind-116/matrix-contract-116.json',
-    [string]$OutputPath = 'docs/guards/candidates/ifx-i2b-050a/matrix-contract-050.json',
-    [string]$AdjustmentsPath = 'docs/guards/candidates/ifx-i2b-050a/matrix-adjustments-050.json'
+    [string]$OutputPath = 'docs/guards/candidates/ifx-i2b-051/matrix-contract-050.json',
+    [string]$AdjustmentsPath = 'docs/guards/candidates/ifx-i2b-051/matrix-adjustments-050.json'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

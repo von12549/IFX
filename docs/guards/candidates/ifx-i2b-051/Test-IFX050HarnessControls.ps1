@@ -36,7 +36,7 @@ $trackedBefore = @(& git -C $repo status --porcelain --untracked-files=no); Asse
 $root = [IO.Path]::GetFullPath($EvidenceRoot)
 if (Test-Path -LiteralPath $root) { throw "EvidenceRoot must be absent: $root" }
 [void][IO.Directory]::CreateDirectory($root)
-$work = Join-Path ([IO.Path]::GetTempPath()) "ifx050-h-$([guid]::NewGuid().ToString('N').Substring(0,8))"; [void][IO.Directory]::CreateDirectory($work)
+$work = Join-Path ([IO.Path]::GetTempPath()) "ifx051-h-$([guid]::NewGuid().ToString('N').Substring(0,8))"; [void][IO.Directory]::CreateDirectory($work)
 $cases = [Collections.Generic.List[object]]::new()
 function Case([string]$Id, [bool]$ExpectReject, [scriptblock]$Body) {
     $message = $null; $rejected = $false; $detail = $null

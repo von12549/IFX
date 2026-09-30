@@ -78,7 +78,7 @@ foreach ($k in $expected.Keys) { if ($ids[$k] -cne $expected[$k]) { Fail "$k SHA
 $c6d = Read-Json $c6dFile; $review = Read-Json $reviewFile; $packet = Read-Json $packetFile; $manifest = Read-Json $manifestFile
 if ($c6d.status -cne 'pass' -or $c6d.decision -cne 'c6d-exact-bundle-human-review-accepted' -or $c6d.targetCommit -cne $ExpectedTargetCommit -or $packet.targetCommit -cne $ExpectedTargetCommit -or
     $review.scope -cne 'production' -or $review.decision -cne 'accepted' -or $review.acceptedBy.authorityId -cne 'xiaolong-feng' -or $review.bundleManifestSha256 -cne $ids.bundleManifest -or
-    $manifest.baseVersion -cne '1.1.6' -or $manifest.version -cne '0.5.0' -or $c6d.acceptedEvidence.productionReviewRecord.sha256 -cne $ids.reviewRecord) { Fail 'Accepted A1-7 production identity is invalid.' }
+    $manifest.baseVersion -cne '1.1.6' -or $manifest.version -cne '0.5.1' -or $c6d.acceptedEvidence.productionReviewRecord.sha256 -cne $ids.reviewRecord) { Fail 'Accepted A1-7 production identity is invalid.' }
 $verifier = Join-Path $base 'package/core/distribution/Test-V4ComposedInstallation.ps1'; $composer = Join-Path $base 'package/core/distribution/Compose-V4Extension.ps1'
 $baseText = @(& $verifier -InstallRoot $base -ReceiptPath $baseReceipt 2>&1); if ($LASTEXITCODE -ne 0) { Fail "Base verification failed: $($baseText -join ' ')" }
 $baseProof = ($baseText -join "`n") | ConvertFrom-Json -AsHashtable -Depth 100
@@ -172,7 +172,7 @@ $checks = [ordered]@{
     # manifest); each lock consumer's missing-staging case is proven by the C6c staged-evidence controls.
     unstagedPostFailsClosed = ($u.status -ceq 'error' -and $u.exitCategory -ceq 'prerequisite-missing' -and $u.hostExitCode -ne 0 -and $u.passedModuleCount -eq 0 -and
         @($unstagedFailed | Where-Object { $_ -notin (@($lockConsumers) + 'architecture-conformance') }).Count -eq 0)
-    profileIdentity = ($profile.version -ceq '0.5.0' -and @($cases.Values | Where-Object { $_.profileSha256 -cne $profileSha }).Count -eq 0)
+    profileIdentity = ($profile.version -ceq '0.5.1' -and @($cases.Values | Where-Object { $_.profileSha256 -cne $profileSha }).Count -eq 0)
     hostQueriesAgree = ($c.hostQueriesAgree -and $v.hostQueriesAgree -and $p.hostQueriesAgree)
 }
 $post = [ordered]@{ baseInstallation = Get-InventoryDigest $base; bundle = Get-InventoryDigest $bundle; cleanTracked = (& git -C $clean rev-parse 'HEAD^{tree}').Trim(); violatingTarget = Get-InventoryDigest $violating @('.git') }

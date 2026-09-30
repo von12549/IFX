@@ -8,11 +8,11 @@
 param(
     [string]$PredecessorCaseManifestPath = 'artifacts/guards/p10-ifx-116/c6c-full/windows/case-manifest.json',
     [string]$PredecessorCaseManifestSha256 = '5a941375c7803b2031fb967f4ed5bebfa754e3419c8887f36c54d27f4b2af65f',
-    [string]$CaseManifestPath = 'artifacts/guards/p10-ifx-i2b/c6c-full/windows/case-manifest.json',
+    [string]$CaseManifestPath = 'artifacts/guards/p10-ifx-i2b/a2-051/c6c-full/windows/case-manifest.json',
     [Parameter(Mandatory)][string]$CaseManifestSha256,
     [string]$PredecessorParityMatrixPath = 'artifacts/guards/p10-ifx-116/p10-2-parity-044/parity-matrix.json',
     [string]$PredecessorParityMatrixSha256 = '1d61650695185ed8ad69b3c013f241a63190d0ca5999e0205c7262676bf4ac7c',
-    [string]$ParityMatrixPath = 'artifacts/guards/p10-ifx-i2b/p10-2-parity-050/parity-matrix.json',
+    [string]$ParityMatrixPath = 'artifacts/guards/p10-ifx-i2b/a2-051/p10-2-parity-050/parity-matrix.json',
     [string]$ChangeSpecPath = (Join-Path $PSScriptRoot 'change-spec.json'),
     [Parameter(Mandatory)][string]$OutputPath
 )

@@ -14,9 +14,9 @@ param(
     [string] $ReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6-ifx-0.5.0.compose.json',
     [string] $BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string] $BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
-    [string] $C6eDecisionPath = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a1-8a-decision.json',
-    [string] $C6cWindowsRoot = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/c6c-full/windows',
-    [string] $OutputRoot = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/p10-2-parity-050',
+    [string] $C6eDecisionPath = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a2-051/a1-8a-decision.json',
+    [string] $C6cWindowsRoot = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a2-051/c6c-full/windows',
+    [string] $OutputRoot = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a2-051/p10-2-parity-050',
     [string] $BuildRoot = 'D:/IFX-Root/guard-runtime/build/p10-2-a18-050',
     [string] $RuntimeRoot = 'D:/IFX-Root/guard-runtime/evidence/p10-2-a18-050'
 )

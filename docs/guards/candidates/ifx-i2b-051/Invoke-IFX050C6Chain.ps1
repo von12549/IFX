@@ -6,13 +6,13 @@
 # produces its own evidence. -ReadinessOnly stops after the readiness report (A1-5) and needs no authorization.
 [CmdletBinding()]
 param(
-    [switch]$AuthorizeA16C6c,
+    [switch]$AuthorizeA28C6c,
     [switch]$ReadinessOnly,
-    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b',
+    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051',
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath = 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$CandidateVersion = '0.5.0'
+    [string]$CandidateVersion = '0.5.1'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -31,7 +31,7 @@ function Step([string]$Id, [string]$Script, [string[]]$Arguments) {
 }
 function OnlyChild([string]$Root) { $dirs = @(Get-ChildItem -LiteralPath (Full $Root) -Directory); Assert ($dirs.Count -eq 1) "Expected exactly one run directory below $Root"; $dirs[0].FullName }
 
-Assert ($ReadinessOnly.IsPresent -or $AuthorizeA16C6c.IsPresent) 'The full chain requires -AuthorizeA16C6c; use -ReadinessOnly for A1-5.'
+Assert ($ReadinessOnly.IsPresent -or $AuthorizeA28C6c.IsPresent) 'The full chain requires -AuthorizeA28C6c; use -ReadinessOnly for A1-5.'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $commit = (& git -C $repo rev-parse HEAD).Trim().ToLowerInvariant(); Assert ($LASTEXITCODE -eq 0 -and $commit -cmatch '^[a-f0-9]{40}$') 'Target commit unavailable.'
 $tracked = @(& git -C $repo status --porcelain --untracked-files=no); Assert ($LASTEXITCODE -eq 0 -and -not $tracked) 'The C6 chain requires a clean tracked target.'
@@ -50,7 +50,7 @@ try {
     $contract = Join-Path (OnlyChild "$EvidenceRoot/contract-preflight") 'summary.json'
 
     # 3. One production at HEAD on a clean clone (the candidate's Host runs and the focused qualification stage it).
-    $target = Join-Path ([IO.Path]::GetTempPath()) "ifx050-t-$([guid]::NewGuid().ToString('N').Substring(0,8))"
+    $target = Join-Path ([IO.Path]::GetTempPath()) "ifx051-t-$([guid]::NewGuid().ToString('N').Substring(0,8))"
     $o = @(& git clone --no-local --quiet -c core.longpaths=true $repo $target 2>&1); Assert ($LASTEXITCODE -eq 0) "Chain target clone failed: $($o -join ' ')"
     $production = Join-Path $root 'chain-production/production.json'; [void][IO.Directory]::CreateDirectory((Split-Path -Parent $production))
     Step 'production' (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') @('-Phase', 'Produce', '-TargetRoot', $target, '-RunRecordPath', $production)
@@ -69,13 +69,13 @@ try {
     # 6. Readiness only (A1-5), or readiness and the single authorized C6c (A1-6).
     if ($ReadinessOnly) { Step 'readiness' (Join-Path $PSScriptRoot 'Test-IFX050C6cReadiness.ps1') ($c6cArgs + @('-ReportPath', "$EvidenceRoot/readiness/summary.json")); $decision = $null }
     else {
-        Step 'c6c' (Join-Path $PSScriptRoot 'Invoke-IFX050C6c.ps1') ($c6cArgs + @('-BundleRoot', $bundle, '-ReviewRecordPath', (Join-Path $candidateA 'synthetic-review.json'), '-AuthorizeA16C6c'))
+        Step 'c6c' (Join-Path $PSScriptRoot 'Invoke-IFX050C6c.ps1') ($c6cArgs + @('-BundleRoot', $bundle, '-ReviewRecordPath', (Join-Path $candidateA 'synthetic-review.json'), '-AuthorizeA28C6c'))
         $decision = Full "$EvidenceRoot/c6c-decision.json"
     }
     $status = 'pass'; $failure = $null
 } catch { $status = 'failed'; $failure = $_.Exception.Message }
 $chainCompleted = [DateTimeOffset]::UtcNow
-$report = [ordered]@{ formatVersion = 1; status = $status; step = $(if ($ReadinessOnly) { 'A1-5' } else { 'A1-6' }); targetCommit = $commit; baseVersion = '1.1.6'; candidateVersion = $CandidateVersion
+$report = [ordered]@{ formatVersion = 1; status = $status; step = $(if ($ReadinessOnly) { 'A2-7' } else { 'A2-8' }); targetCommit = $commit; baseVersion = '1.1.6'; candidateVersion = $CandidateVersion
     startedAt = $chainStarted.ToString('o'); completedAt = $chainCompleted.ToString('o'); elapsedSeconds = [math]::Round(($chainCompleted - $chainStarted).TotalSeconds, 3); failure = $failure; steps = @($steps.ToArray()) }
 if ($status -ceq 'pass') {
     $report.outputs = [ordered]@{ inventory = [ordered]@{ path = Rel $inventory; sha256 = Hash $inventory }; contract = [ordered]@{ path = Rel $contract; sha256 = Hash $contract }; production = [ordered]@{ path = Rel $production; sha256 = Hash $production }

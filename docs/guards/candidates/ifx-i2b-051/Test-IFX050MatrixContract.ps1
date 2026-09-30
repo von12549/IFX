@@ -9,11 +9,11 @@ param(
     [string]$RepositoryRoot = (Get-Location).Path,
     [Parameter(Mandatory)][string]$BaseInstallRoot,
     [Parameter(Mandatory)][string]$InventoryPath,
-    [string]$ContractPath = 'docs/guards/candidates/ifx-i2b-050a/matrix-contract-050.json',
-    [string]$FixtureSpecPath = 'docs/guards/candidates/ifx-i2b-050a/fixture-spec-050.json',
-    [string]$ReportPath = 'artifacts/guards/p10-ifx-i2b/matrix-contract/summary.json',
+    [string]$ContractPath = 'docs/guards/candidates/ifx-i2b-051/matrix-contract-050.json',
+    [string]$FixtureSpecPath = 'docs/guards/candidates/ifx-i2b-051/fixture-spec-050.json',
+    [string]$ReportPath = 'artifacts/guards/p10-ifx-i2b/a2-051/matrix-contract/summary.json',
     [string]$CaptureDirectory,
-    [string]$DiagnosticReportPath = 'artifacts/guards/p10-ifx-i2b/matrix-contract/reclassification.json'
+    [string]$DiagnosticReportPath = 'artifacts/guards/p10-ifx-i2b/a2-051/matrix-contract/reclassification.json'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

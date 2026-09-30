@@ -19,7 +19,7 @@ param(
     [string]$ExpectedBaseVersion = '1.1.6',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
     [string]$ExpectedPackageHash = 'a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825',
-    [string]$CandidateVersion = '0.5.0',
+    [string]$CandidateVersion = '0.5.1',
     [string]$ReportPath
 )
 
@@ -113,12 +113,12 @@ $archiveRelative = Relative-Under $repo $BaseArchivePath
 $windowsMatrix = Join-Path $root 'windows/summary.json'
 $controls = Join-Path $root 'controls/summary.json'
 $linuxSummary = Join-Path $root 'linux/summary.json'
-$windowsRunner = Join-Path $repo 'docs/guards/candidates/ifx-i2b-050a/Test-IFX050IndependentMatrix.ps1'
-$controlRunner = Join-Path $repo 'docs/guards/candidates/ifx-i2b-050a/Test-IFX050CertificationControls.ps1'
-$linuxRunner = '/source/docs/guards/candidates/ifx-i2b-050a/Invoke-IFX050LinuxCertification.ps1'
+$windowsRunner = Join-Path $repo 'docs/guards/candidates/ifx-i2b-051/Test-IFX050IndependentMatrix.ps1'
+$controlRunner = Join-Path $repo 'docs/guards/candidates/ifx-i2b-051/Test-IFX050CertificationControls.ps1'
+$linuxRunner = '/source/docs/guards/candidates/ifx-i2b-051/Invoke-IFX050LinuxCertification.ps1'
 
 # One production at HEAD on a clean Windows clone; its snapshot serves the controls and the Linux leg.
-$windowsTarget = Join-Path ([IO.Path]::GetTempPath()) "ifx050-w-$([guid]::NewGuid().ToString('N').Substring(0,8))"
+$windowsTarget = Join-Path ([IO.Path]::GetTempPath()) "ifx051-w-$([guid]::NewGuid().ToString('N').Substring(0,8))"
 $cloneOutput = @(& git clone --no-local --quiet -c core.longpaths=true $repo $windowsTarget 2>&1); Assert ($LASTEXITCODE -eq 0) "Windows target clone failed: $($cloneOutput -join ' ')"
 $production = Join-Path $root 'production.json'; $productionLog = Join-Path $root 'logs/production.txt'; [void][IO.Directory]::CreateDirectory((Split-Path -Parent $productionLog))
 $productionStarted = [DateTimeOffset]::UtcNow

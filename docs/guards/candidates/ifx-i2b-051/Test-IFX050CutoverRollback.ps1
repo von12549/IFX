@@ -8,8 +8,8 @@
 param(
     [ValidateSet('Validate','Aggregate')][string] $Mode = 'Validate',
     [string] $RepositoryRoot = (Resolve-Path (Join-Path $PSScriptRoot '../../../..')).Path,
-    [string] $IdentityPath = 'docs/guards/candidates/ifx-i2b-050a/a18-identity.json',
-    [string] $EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/p10-3-successor-050/rehearsal',
+    [string] $IdentityPath = 'docs/guards/candidates/ifx-i2b-051/a18-identity.json',
+    [string] $EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/p10-3-successor-050/rehearsal',
     [ValidateSet('success','failure','cancelled','skipped')][string] $ContractResult = 'success',
     [ValidateSet('success','failure','cancelled','skipped')][string] $WindowsResult = 'success'
 )
@@ -87,9 +87,9 @@ $remote = Get-Content -Raw -LiteralPath (Full $identity.records.remoteSnapshot.p
 $required = Get-Content -Raw -LiteralPath $paths.requiredChecks | ConvertFrom-Json -Depth 100
 $releaseAssets = @($remote.guardRelease.assets)
 
-Assert-True ($c6c.status -ceq 'pass' -and $c6c.baseVersion -ceq '1.1.6' -and $c6c.candidateVersion -ceq '0.5.0') 'C6c decision identity mismatch.'
-Assert-True ($windows.status -ceq 'pass' -and $windows.platform -ceq 'windows' -and $windows.baseVersion -ceq '1.1.6' -and $windows.bundleVersion -ceq '0.5.0') 'Windows-full identity mismatch.'
-Assert-True ($s6.status -ceq 'pass' -and $s6.decision -ceq 'c6d-exact-bundle-human-review-accepted' -and $s6.candidateVersion -ceq '0.5.0') 'A1-7 human review is not accepted.'
+Assert-True ($c6c.status -ceq 'pass' -and $c6c.baseVersion -ceq '1.1.6' -and $c6c.candidateVersion -ceq '0.5.1') 'C6c decision identity mismatch.'
+Assert-True ($windows.status -ceq 'pass' -and $windows.platform -ceq 'windows' -and $windows.baseVersion -ceq '1.1.6' -and $windows.bundleVersion -ceq '0.5.1') 'Windows-full identity mismatch.'
+Assert-True ($s6.status -ceq 'pass' -and $s6.decision -ceq 'c6d-exact-bundle-human-review-accepted' -and $s6.candidateVersion -ceq '0.5.1') 'A1-7 human review is not accepted.'
 Assert-True ($s7.status -ceq 'pass' -and $s7.decision -ceq 'a1-8a-composition-accepted' -and $s7.checks.stagedPostPass -and $s7.checks.unstagedPostFailsClosed) 'A1-8a composition is not accepted.'
 Assert-True ($p10.status -ceq 'pass' -and $p10.decision -ceq 'p10-2-parity-accepted' -and $p10.gapCount -eq 0) 'P10.2 parity is not zero-gap accepted.'
 Assert-True ($parity044.status -ceq 'pass' -and $parity044.p10_2Replay.equalToPredecessor -and @($parity044.independentMatrix.outcomeGaps).Count -eq 0) 'Parity against 0.4.4 did not pass.'
@@ -132,7 +132,7 @@ function Test-Design($Proposal, [string] $Workflow, [bool] $CoreSourcePresent, $
         Assert-True ($Workflow.Contains([string]$hash)) "Workflow does not bind identity: $hash"
     }
     # Candidate self-judgment: the aggregate runs only from the previously trusted base.
-    Assert-True ($Workflow -match 'pwsh -NoProfile -File "\$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-050a/Test-IFX050CutoverRollback\.ps1" -Mode Aggregate') 'Aggregate is not evaluated from the trusted base.'
+    Assert-True ($Workflow -match 'pwsh -NoProfile -File "\$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback\.ps1" -Mode Aggregate') 'Aggregate is not evaluated from the trusted base.'
     Assert-True ($Workflow -match 'git worktree add --detach "\$env:RUNNER_TEMP/ifx-trusted-base" \$env:BASE_SHA') 'Trusted base is not materialized from the PR base commit.'
     # Standalone release source: explicit Guard repository, exact tag, asset and digest.
     Assert-True ($Proposal.trustedInputs.baseReleaseRepository -ceq 'von12549/Guard' -and $Proposal.trustedInputs.baseReleaseTag -ceq 'v4-guards-v1.1.6') 'Proposal does not name the standalone Guard release.'
@@ -174,7 +174,7 @@ function Test-Design($Proposal, [string] $Workflow, [bool] $CoreSourcePresent, $
     }
     Assert-True (@($model.producers | Where-Object { [bool]$_.wrapsV3Gate }).Count -eq 4) 'Four V3-wrapping producers must stay declared until 0.5.0-b.'
     Assert-True (@($Proposal.detectorOwnership | Where-Object status -ceq 'v4-owner-re-attests-v3-producer').Count -eq 2) 'Detector ownership must declare the re-attested evidence families.'
-    Assert-True (([string](Get-EnvValue $Workflow 'IFX_BUNDLE_BASE_PATH')).EndsWith('/0.5.0') -and $Proposal.identity.ifxProfileVersion -ceq '0.5.0') 'Specimen does not bind the 0.5.0 bundle.'
+    Assert-True (([string](Get-EnvValue $Workflow 'IFX_BUNDLE_BASE_PATH')).EndsWith('/0.5.0') -and $Proposal.identity.ifxProfileVersion -ceq '0.5.1') 'Specimen does not bind the 0.5.0 bundle.'
     # Premature cleanup: docs/guards/v4 may be absent only after the authorized T8 cleanup, proven by the
     # T8 cleanup receipt binding an existing cleanup commit (V4-TODO-008 T8 amendment of this control).
     if ($CoreSourcePresent) {
@@ -202,7 +202,7 @@ $controls = @(
     @{ id = 'archive-hash-drift'; proposal = $null; workflow = $workflowText.Replace("V4_ARCHIVE_SHA256: $($identity.baseArchiveSha256)", "V4_ARCHIVE_SHA256: $('0' * 64)") },
     @{ id = 'missing-bundle'; proposal = $null; workflow = $workflowText.Replace("throw 'The exact IFX bundle has not been published into the trusted base by its separate authorization.'", "Write-Warning 'bundle missing'") },
     @{ id = 'source-path-fallback'; proposal = $null; workflow = $workflowText.Replace('IFX_BUNDLE_BASE_PATH: docs/guards/v4-adoption/', "IFX_BUNDLE_BASE_PATH: $removedPrefix") },
-    @{ id = 'candidate-self-judgment'; proposal = $null; workflow = $workflowText.Replace('"$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-050a/Test-IFX050CutoverRollback.ps1"', '"./docs/guards/candidates/ifx-i2b-050a/Test-IFX050CutoverRollback.ps1"') },
+    @{ id = 'candidate-self-judgment'; proposal = $null; workflow = $workflowText.Replace('"$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1"', '"./docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1"') },
     @{ id = 'installer-from-target-source'; proposal = $null; workflow = $workflowText.Replace("(Join-Path `$expanded 'package/core/distribution/Install-V4Distribution.ps1')", "(Join-Path `$env:GITHUB_WORKSPACE '" + 'docs/guards/' + "V4/core/distribution/Install-V4Distribution.ps1')") },
     @{ id = 'premature-cleanup'; proposal = (Mutate-Json { param($p) $p.boundary.ifxCoreSourceRemoved = $true; $p.boundary.cleanupAuthorized = $true }); workflow = $workflowText; noReceipt = $true },
     @{ id = 'producer-step-missing'; proposal = $null; workflow = [regex]::Replace($workflowText, '(?ms)      - name: Produce IFX evidence.*?(?=      - name: Stage IFX evidence)', '') },

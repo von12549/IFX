@@ -102,7 +102,7 @@
     {
       "ordinal": 12,
       "id": "ifx-c1-type-provenance",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-c1-type-provenance/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-c1-type-provenance/adapter.ps1",
       "adapterSha256": "b7568404a37e57acd1755ee21b5687a622c36440d8939ee40ad543cc34018538",
       "zeroStrategy": "integrity-zero",
       "sourceFact": "the attestation has exactly seven integrity checks and never emits semantic findings",
@@ -111,7 +111,7 @@
     {
       "ordinal": 13,
       "id": "ifx-c1-evaluated-reference",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-c1-evaluated-reference/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-c1-evaluated-reference/adapter.ps1",
       "adapterSha256": "6cd5a5c3194f7d27fb8d8ae3659314b5fb86e962d7c83ded2f4f48bd86fcb8f4",
       "zeroStrategy": "integrity-zero",
       "sourceFact": "zero in-scope evaluated edges is an explicit integrity failure",
@@ -120,7 +120,7 @@
     {
       "ordinal": 14,
       "id": "ifx-g03-governance-core",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g03-governance-core/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-governance-core/adapter.ps1",
       "adapterSha256": "0dc300f1a2d857b119aef8c021fce75e86ad2d603340fdd37e64fe462bb91955",
       "zeroStrategy": "enumerated-zero",
       "sourceFact": "four governed populations have independent coverage counters"
@@ -128,7 +128,7 @@
     {
       "ordinal": 15,
       "id": "ifx-g03-catalog-semantics",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g03-catalog-semantics/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-catalog-semantics/adapter.ps1",
       "adapterSha256": "54b8e8de3e35da1b7fad912cb2e3439c6b4093a47d51fc6c0a443bb23e456e99",
       "zeroStrategy": "enumerated-zero",
       "sourceFact": "four catalog populations have independent coverage counters"
@@ -136,7 +136,7 @@
     {
       "ordinal": 16,
       "id": "ifx-g03-source-reconciliation",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g03-source-reconciliation/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-source-reconciliation/adapter.ps1",
       "adapterSha256": "5deb7c7eee69c8eb9e999dd3ab16070272f7fa909f537581af21e6d217f2069b",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "the required catalog supplies field coverage even when the source inventory and reconciliation populations are empty",
@@ -149,7 +149,7 @@
     {
       "ordinal": 17,
       "id": "ifx-g03-snapshots",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g03-snapshots/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-snapshots/adapter.ps1",
       "adapterSha256": "12f34d83885128ae8b2c5afedc6f6f33acbb394f3487f9cfd21a428da4ae7818",
       "zeroStrategy": "enumerated-zero",
       "sourceFact": "both snapshot claims emit explicit zero-subject findings"
@@ -157,7 +157,7 @@
     {
       "ordinal": 18,
       "id": "ifx-g03-docs-closeout",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g03-docs-closeout/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-docs-closeout/adapter.ps1",
       "adapterSha256": "dd709de4720842542fa5cb29e2dea3f2eda4bbbcd842ac84c499c731b73e0550",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "the required catalog can retain legacy entries while its protocol documentation population is empty",
@@ -170,7 +170,7 @@
     {
       "ordinal": 19,
       "id": "ifx-g04-manifests",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g04-manifests/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g04-manifests/adapter.ps1",
       "adapterSha256": "54b9eae0436601f30ebf13eb215ab9c75665728a1e86e4f3ccd162f28195c096",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "required release and deployment authorities drive fixed manifest checklists even when the governed module set is empty",
@@ -183,7 +183,7 @@
     {
       "ordinal": 20,
       "id": "ifx-g04-runtime",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g04-runtime/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g04-runtime/adapter.ps1",
       "adapterSha256": "6649d9e8d69c44b4f739f7237434141c95ca0fda45dd9125feb62e7c006a6dc5",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "required runtime authorities execute fixed family checklists; valid input cannot drive every family counter to zero",
@@ -196,7 +196,7 @@
     {
       "ordinal": 21,
       "id": "ifx-g04-closeout",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g04-closeout/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g04-closeout/adapter.ps1",
       "adapterSha256": "138e557d1e731355014a908830d8d78ceedace413dd77367753a7d7222ad07bb",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "required closeout authorities retain evidence, documentation and inbound populations when the closeout blocker population is empty",
@@ -209,7 +209,7 @@
     {
       "ordinal": 22,
       "id": "ifx-plan04-extraction",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-plan04-extraction/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan04-extraction/adapter.ps1",
       "adapterSha256": "7c9ddf2abc9c12e3e96a62add60364a4e684ef9698e735857197a62f78a44784",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each of nine extraction assertions",
@@ -222,7 +222,7 @@
     {
       "ordinal": 23,
       "id": "ifx-plan04-tenant",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-plan04-tenant/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan04-tenant/adapter.ps1",
       "adapterSha256": "093b20d6eec426697bd444e8cf8532906b2b77f912c3afc383ddb85d9e1b3cbd",
       "zeroStrategy": "enumerated-zero",
       "sourceFact": "an empty tenant source set emits zero-subject before checklist evaluation"
@@ -230,7 +230,7 @@
     {
       "ordinal": 24,
       "id": "ifx-plan04-projection",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-plan04-projection/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan04-projection/adapter.ps1",
       "adapterSha256": "eaf50b96be5b957793bc6b1f3f4c912f471683310622b201fc8b6826376e83eb",
       "zeroStrategy": "enumerated-zero",
       "sourceFact": "an insufficient projection source set emits zero-subject before checklist evaluation"
@@ -238,7 +238,7 @@
     {
       "ordinal": 25,
       "id": "ifx-plan04-abstractions",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-plan04-abstractions/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan04-abstractions/adapter.ps1",
       "adapterSha256": "8fa48f691cbed0c058e451e4ccf67aa8b07e1efb2e512421f2aa227fb93e3855",
       "zeroStrategy": "enumerated-zero",
       "sourceFact": "an insufficient abstractions source set emits zero-subject before checklist evaluation"
@@ -246,7 +246,7 @@
     {
       "ordinal": 26,
       "id": "ifx-database-evidence",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-database-evidence/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-database-evidence/adapter.ps1",
       "adapterSha256": "e4467c60f79a4f41301ab84528a9fe8a24a7bec634958ecbe8b89caa09ff63e8",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each locked Database evidence assertion",
@@ -259,7 +259,7 @@
     {
       "ordinal": 27,
       "id": "ifx-g05-inventory",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g05-inventory/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-inventory/adapter.ps1",
       "adapterSha256": "6ca66683535eb92442d8706729881b6990afd31cf79df8273c4bfa718bf1362f",
       "zeroStrategy": "enumerated-zero",
       "sourceFact": "coverage equals the selected source file count and zero emits zero-subject"
@@ -267,7 +267,7 @@
     {
       "ordinal": 28,
       "id": "ifx-g05-protocol",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g05-protocol/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-protocol/adapter.ps1",
       "adapterSha256": "57dbd81195e0568a1965f0c0092664e677dbb88678755d8350a096b14f85739f",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "required protocol authorities retain shape and evidence checklist coverage when the dependency population is empty",
@@ -280,7 +280,7 @@
     {
       "ordinal": 29,
       "id": "ifx-g05-execution-http",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g05-execution-http/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-execution-http/adapter.ps1",
       "adapterSha256": "99a0925e97cbeaa02017a3a5b23c30ffa277863065cb3b0216308fbf49fa2c17",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "required HTTP authorities retain HTTP checklist coverage when the execution population is empty",
@@ -293,7 +293,7 @@
     {
       "ordinal": 30,
       "id": "ifx-g05-carriers",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g05-carriers/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-carriers/adapter.ps1",
       "adapterSha256": "ae11bb14d4760b4863e6b793e5ac3e16b25ff425cc08ffbf12c2556acc492f91",
       "zeroStrategy": "enumerated-zero",
       "sourceFact": "both carrier claims emit zero-subject findings"
@@ -301,7 +301,7 @@
     {
       "ordinal": 31,
       "id": "ifx-g05-governance",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g05-governance/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-governance/adapter.ps1",
       "adapterSha256": "24c26684b3209f54bcf25f61c02d279aa1679408d4aba3123cee5e32b1cba45a",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each of the 21 phase assertions",
@@ -314,7 +314,7 @@
     {
       "ordinal": 32,
       "id": "ifx-g05-closeout",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-g05-closeout/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-closeout/adapter.ps1",
       "adapterSha256": "b2cb37faa2c64b85f8844967a05a03aa33a67e2eb347fbc30ea7dc8eacbb1594",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each phase 8, 10 and 11 assertion",
@@ -327,7 +327,7 @@
     {
       "ordinal": 33,
       "id": "ifx-plan05-security",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-plan05-security/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan05-security/adapter.ps1",
       "adapterSha256": "8103c72373656e16a797520df244c3433af6dae27e6cfe681d7b4b8229a2d87c",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "seven required source authorities make the early zero-source branch unreachable; the owned claim is a thirteen-item fixed checklist",
@@ -340,7 +340,7 @@
     {
       "ordinal": 34,
       "id": "ifx-solution-evidence",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-solution-evidence/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-solution-evidence/adapter.ps1",
       "adapterSha256": "cf0773a41549fcda67e6d5ec7b3e5aaa02e25236f8c2ba8bece5d65fd8af02f1",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each of four locked Solution assertions",
@@ -353,7 +353,7 @@
     {
       "ordinal": 35,
       "id": "ifx-assembly-evidence",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-assembly-evidence/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-assembly-evidence/adapter.ps1",
       "adapterSha256": "53578e22f196a7723ed5dc2ca523ef483e2fbf086ee25203933d90887c0cbe87",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for locked build and assembly assertions",
@@ -366,7 +366,7 @@
     {
       "ordinal": 36,
       "id": "ifx-frontend-evidence",
-      "adapterPath": "docs/guards/candidates/ifx-i2b-050a/modules/ifx-frontend-evidence/adapter.ps1",
+      "adapterPath": "docs/guards/candidates/ifx-i2b-051/modules/ifx-frontend-evidence/adapter.ps1",
       "adapterSha256": "61a02c963d4dad7a2294d04c7abcb1e86d5b7aa46e72e6f1fcadc3f9f18d2a1e",
       "zeroStrategy": "fixed-checklist-zero",
       "sourceFact": "Record increments coverage for each of five locked Frontend assertions",

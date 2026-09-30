@@ -1,17 +1,17 @@
 # IFX I2-B amendment A1 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A1-4: the module/claim inventory of
 # ifx_profile 0.5.0-a, successor of docs/guards/candidates/ifx-gate-coverage-c6b0/Test-IFXC6ModuleInventory.ps1 (which
 # stays unchanged as historical authority). The 25 modules changed by the A1-2 specification come from
-# candidates/ifx-i2b-050a/modules; the 12 unchanged modules keep their accepted 0.4.4 sources. Rules, claims and
+# candidates/ifx-i2b-051/modules; the 12 unchanged modules keep their accepted 0.4.4 sources. Rules, claims and
 # ownership are unchanged: 37 modules, 83 rules, 79 claims.
 [CmdletBinding()]
 param(
-    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/formal-inventory',
+    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/formal-inventory',
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$ExpectedBaseVersion = '1.1.6',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
     [string]$ExpectedPackageHash = 'a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825',
-    [string]$PredecessorInventoryPath = 'docs/guards/candidates/ifx-i2b-050a/baseline-044/authority-map.json'
+    [string]$PredecessorInventoryPath = 'docs/guards/candidates/ifx-i2b-051/baseline-044/authority-map.json'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -66,7 +66,7 @@ foreach ($old in @($predecessor.modules | Sort-Object ordinal)) {
         Assert ($rule.stage -ceq $stage -and [int]$rule.minimumMatches -ge 1 -and $null -eq $rule.baseline -and $rule.severity -in @('blocking', 'advisory')) "Rule drift: $id/$($rule.ruleId)"
         $rules.Add([ordered]@{ ordinal = 0; moduleOrdinal = $ordinal; moduleId = $id; stage = $stage; ruleId = $rule.ruleId; claimId = $rule.claimId; severity = $rule.severity; minimumMatches = [int]$rule.minimumMatches })
     }
-    $modules.Add([ordered]@{ ordinal = $ordinal; id = $id; tranche = $(if ($changed) { 'i2b-050a' } else { [string]$old.tranche }); stage = $stage; disposition = $(if ($changed) { 'changed' } else { 'unchanged' })
+    $modules.Add([ordered]@{ ordinal = $ordinal; id = $id; tranche = $(if ($changed) { 'i2b-051' } else { [string]$old.tranche }); stage = $stage; disposition = $(if ($changed) { 'changed' } else { 'unchanged' })
         sourcePath = [IO.Path]::GetRelativePath($repo, $moduleRoot).Replace('\', '/'); version = $manifest.version; manifestSha256 = Hash $manifestPath; adapterSha256 = Hash $adapterPath; dependencyLockSha256 = Hash $dependencyPath; rulePlanSha256 = Hash $planPath
         authorities = $authorityRows; prerequisites = @($manifest.prerequisites); capabilities = [ordered]@{ readRoots = $readRoots; writeRoots = $writeRoots; processes = $processes; network = [bool]$manifest.capabilities.network; maxTimeoutSeconds = [int]$manifest.capabilities.timeoutSeconds } })
 }

@@ -2,16 +2,16 @@
 # ifx_profile 0.5.0-a; successor of candidates/ifx-rebind-116/Test-IFX116ContractCompatibility.ps1 (unchanged).
 # The published 1.1.6 base and its workspace-evidence contract are verified as before. The inheritance matrix compares
 # every module with the 0.4.4 inventory: the 12 unchanged modules inherit; the 25 changed modules are requalified, and
-# each must match the adapter and policy of its passing A1-3 suite record (artifacts/guards/p10-ifx-i2b/a1-suites).
+# each must match the adapter and policy of its passing A1-3 suite record (artifacts/guards/p10-ifx-i2b/a2-051/a1-suites).
 [CmdletBinding()]
 param(
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath = 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$PreviousInventoryPath = 'docs/guards/candidates/ifx-i2b-050a/baseline-044/authority-map.json',
-    [string]$SuiteIndexPath = 'artifacts/guards/p10-ifx-i2b/a1-suites/index.json',
+    [string]$PreviousInventoryPath = 'docs/guards/candidates/ifx-i2b-051/baseline-044/authority-map.json',
+    [string]$SuiteIndexPath = 'artifacts/guards/p10-ifx-i2b/a2-051/a1-suites/index.json',
     [Parameter(Mandatory)][string]$InventoryPath,
-    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/contract-preflight'
+    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/contract-preflight'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -70,7 +70,7 @@ foreach ($row in @($inventory.modules | Sort-Object ordinal)) {
 }
 Assert (@($inheritance | Where-Object { $_.disposition -ceq 'inherit' }).Count -eq 11 -and @($inheritance | Where-Object { $_.disposition -ceq 'requalified-a1-3' }).Count -eq 25) 'Inheritance matrix disposition count drift.'
 $runId = [guid]::NewGuid().ToString('N'); $root = Join-Path (Full $EvidenceRoot) $runId; [void][IO.Directory]::CreateDirectory($root)
-$matrixPath = Join-Path $root 'inheritance-matrix.json'; WriteJson $matrixPath ([ordered]@{ formatVersion = 1; status = 'pass'; targetCommit = $commit; from = '0.4.4'; to = '0.5.0'; rows = @($inheritance.ToArray()) })
+$matrixPath = Join-Path $root 'inheritance-matrix.json'; WriteJson $matrixPath ([ordered]@{ formatVersion = 1; status = 'pass'; targetCommit = $commit; from = '0.4.4'; to = '0.5.1'; rows = @($inheritance.ToArray()) })
 $report = Join-Path $root 'summary.json'
 WriteJson $report ([ordered]@{ formatVersion = 1; status = 'pass'; scope = 'v4-1.1.6-ifx-050a-contract-handshake'; targetCommit = $commit; base = [ordered]@{ tagCommit = $tagCommit; archiveSha256 = Hash $archive; receiptSha256 = Hash $receiptPath; packageHash = $packageCheck.packageHash }
     workspaceConsumers = @($contractRows.ToArray()); inheritanceMatrixPath = [IO.Path]::GetRelativePath($repo, $matrixPath).Replace('\', '/'); inheritanceMatrixSha256 = Hash $matrixPath

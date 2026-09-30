@@ -16,7 +16,7 @@ param(
     [Parameter(Mandatory)][string]$EvidenceRoot,
     [Parameter(Mandatory)][string]$ReportPath,
     [Parameter(Mandatory)][string]$ProductionSnapshotRoot,
-    [string]$CandidateVersion='0.5.0'
+    [string]$CandidateVersion='0.5.1'
 )
 
 Set-StrictMode -Version Latest
@@ -119,7 +119,7 @@ $runRoot=Full $EvidenceRoot; $report=Full $ReportPath
 foreach ($path in @($inventoryFull,$bundle,$reviewFull,$baseInstall,$baseReceipt,$archive)) { Assert (Test-Path -LiteralPath $path) "Required control input missing: $path" }
 Assert (-not (Test-Path -LiteralPath $runRoot)) 'Control EvidenceRoot must be absent.'
 [void][IO.Directory]::CreateDirectory($runRoot)
-$workRoot=Join-Path ([IO.Path]::GetTempPath()) "ifx050-c-$([guid]::NewGuid().ToString('N').Substring(0,8))"
+$workRoot=Join-Path ([IO.Path]::GetTempPath()) "ifx051-c-$([guid]::NewGuid().ToString('N').Substring(0,8))"
 Assert (-not (Test-Path -LiteralPath $workRoot)) 'Control WorkRoot must be absent.'
 [void][IO.Directory]::CreateDirectory($workRoot)
 [void][IO.Directory]::CreateDirectory((Join-Path $workRoot 'adapter-state'))

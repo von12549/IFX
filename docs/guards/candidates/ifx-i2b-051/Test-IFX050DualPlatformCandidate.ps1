@@ -17,7 +17,7 @@ param(
     [Parameter(Mandatory)][string]$ReportPath,
     [string]$ExpectedBaseVersion = '1.1.6',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
-    [string]$CandidateVersion = '0.5.0'
+    [string]$CandidateVersion = '0.5.1'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
