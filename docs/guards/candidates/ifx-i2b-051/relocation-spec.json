@@ -1,0 +1,207 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-051-producer-relocation-spec",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "amendment": "A2",
+  "destinationRoot": "docs/guards/v4-adoption/producers",
+  "files": [
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1",
+      "destination": "quality/Invoke-IFXQuality.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "solution",
+        "assembly",
+        "frontend"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1",
+      "destination": "quality/Invoke-IFXPackageAudit.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "solution"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+      "destination": "quality/Invoke-IFXAssemblyGuard.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "assembly"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+      "destination": "policy/layerguard.json",
+      "kind": "v3-policy",
+      "gates": [
+        "assembly",
+        "type"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "destination": "policy/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "kind": "v3-policy",
+      "gates": [
+        "type"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1",
+      "destination": "database/Invoke-IFXSpecialized.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+      "destination": "database/scripts/Test-MigrationSafetyPolicy.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G02DatabaseInventory.ps1",
+      "destination": "database/scripts/Invoke-G02DatabaseInventory.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+      "destination": "database/scripts/Test-DatabasePendingModelChanges.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/New-DatabaseMigrationArtifacts.ps1",
+      "destination": "database/scripts/New-DatabaseMigrationArtifacts.ps1",
+      "kind": "v3-gate",
+      "gates": [
+        "database"
+      ]
+    },
+    {
+      "origin": "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/detector-result.schema.json",
+      "destination": "database/contracts/detector-result.schema.json",
+      "kind": "v3-contract",
+      "gates": [
+        "database"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c5b/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "destination": "solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "solution"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c5c/Invoke-IFXAssemblyEvidenceProducer.ps1",
+      "destination": "assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "assembly"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c5d/Invoke-IFXFrontendEvidenceProducer.ps1",
+      "destination": "frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "frontend"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c4b/Invoke-IFXDatabaseEvidenceProducer.ps1",
+      "destination": "database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "database"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c4b/modules/ifx-database-evidence/source-inventory.json",
+      "destination": "database/source-inventory.json",
+      "kind": "lab-contract",
+      "gates": [
+        "database"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r1b/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+      "destination": "type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "type"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r1b/modules/ifx-c1-type-provenance/policy.json",
+      "destination": "type/type-policy.json",
+      "kind": "lab-contract",
+      "gates": [
+        "type"
+      ]
+    }
+  ],
+  "notRelocated": [
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+      "reason": "the V3 facade; the relocated producers call the relocated gate scripts directly with the same output layout"
+    },
+    {
+      "path": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "reason": "V4-native graph producer with no V3 or lab read beyond its own package; unchanged (R9 covers type and generated only)"
+    },
+    {
+      "path": "generated producer (lineage only)",
+      "reason": "no module consumes it; the 0.5.0-a staging script already runs only the six consumed producers, so R9 needs no further change"
+    }
+  ],
+  "outputRelativePrefixes": [
+    "specialized/",
+    "quality/",
+    "assemblies/"
+  ],
+  "literalClassifications": [
+    {
+      "literal": "policy/layerguard.json",
+      "in": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+      "resolvesTo": "docs/guards/V3_ifx/policy/layerguard.json (absent legacy layout candidate)"
+    },
+    {
+      "literal": "stages/post/policy/layerguard.json",
+      "in": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+      "resolvesTo": "docs/guards/V3_ifx/stages/post/policy/layerguard.json"
+    },
+    {
+      "literal": "Invoke-G03ContractEventGuard.ps1",
+      "in": "docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1",
+      "resolvesTo": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03ContractEventGuard.ps1: the G03 branch, not reached by -Gate Database; removed from the relocated copy in A2-3"
+    },
+    {
+      "literal": "Invoke-G04Verification.ps1",
+      "in": "docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1",
+      "resolvesTo": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G04Verification.ps1: the G04 branch, not reached by -Gate Database; removed from the relocated copy in A2-3"
+    },
+    {
+      "literal": "Invoke-G05Verification.ps1",
+      "in": "docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1",
+      "resolvesTo": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G05Verification.ps1: the G05 branch, not reached by -Gate Database; removed from the relocated copy in A2-3"
+    },
+    {
+      "literal": "Test-Plan04Governance.ps1",
+      "in": "docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1",
+      "resolvesTo": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-Plan04Governance.ps1: the Plan04 branch, not reached by -Gate Database; removed from the relocated copy in A2-3"
+    }
+  ]
+}
