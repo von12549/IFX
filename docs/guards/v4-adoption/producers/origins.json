@@ -274,6 +274,24 @@
       "gitBlob": "e4943b7b031a28e29aa93f6d72a6668557fc1c45",
       "step": "A3-2",
       "originCommit": "6298d7fd978bd63786875991b121167a07c51b2f"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1",
+      "destination": "docs/guards/v4-adoption/ci/Invoke-IFXV4Aggregate.ps1",
+      "kind": "lab-aggregate",
+      "gates": [
+        "v4-ifx-required"
+      ],
+      "sha256": "e164e040dbd5e112cfeaf3c989c3ff21bfda45fd53c88370f4a5b36249506a5a",
+      "lfSha256": "e164e040dbd5e112cfeaf3c989c3ff21bfda45fd53c88370f4a5b36249506a5a",
+      "gitBlob": "31dc0795d7e3c048aafa4620a18a4596c83addbd",
+      "extractedBranch": {
+        "startLine": 45,
+        "endLine": 54,
+        "sha256": "1975e58a5c4c6091ead3c65976c673fe9304c4915a3f6d8f0a42a4d50690fe9e"
+      },
+      "step": "A3-3",
+      "originCommit": "d30f4983d0be9b95d697ab16c944ec318ad9834f"
     }
   ],
   "amendments": [
@@ -282,6 +300,11 @@
       "originCommit": "6298d7fd978bd63786875991b121167a07c51b2f",
       "closureInventorySha256": "9a83d0be84df9df6a8931713b31aba8a9aa1b7d44c0e9eb83990412c03811643",
       "rule": "A3 entries come from the lab tree (candidates) at their own originCommit; Copy-IFX052Closure.ps1 -Check reports any later origin change as drift for review (ruling R13)."
+    },
+    {
+      "step": "A3-3",
+      "originCommit": "d30f4983d0be9b95d697ab16c944ec318ad9834f",
+      "rule": "The aggregate is extracted, not copied: only the Aggregate branch (lines 45-54, sha256 1975e58a5c4c6091) runs from the trusted base (ruling R14); the drift controls report any later change to the whole origin file."
     }
   ]
 }

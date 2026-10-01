@@ -1,3 +1,4 @@
+# Relocated from docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1 (IFX I2-B amendment A3, rulings R12-R13). Adapted: producer ifx-v4a-graph-v1; reads policy.json next to itself, whose sourcePolicies name the relocated copies in policies/; explicit -TargetRoot; run directory artifacts/guards/v4a-producers/graph-runs.
 [CmdletBinding()]
 param([string]$TargetRoot,[string]$RunId=([guid]::NewGuid().ToString('N')))
 Set-StrictMode -Version Latest
@@ -25,7 +26,7 @@ function Checked([string]$Path){
     return $full
 }
 Assert ($RunId -cmatch '^[a-f0-9]{32}$') 'RunId must be lowercase 32-hex.'
-$repo=if($TargetRoot){[IO.Path]::GetFullPath($TargetRoot)}else{[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))}
+if(-not $TargetRoot){throw 'An explicit Target root is required: the relocated producers never derive the repository from their own location.'};$repo=[IO.Path]::GetFullPath($TargetRoot)
 Assert ([IO.Directory]::Exists((Join-Path $repo 'src'))) 'TargetRoot/src missing.'
 $sdk=(& dotnet --version).Trim();Assert ($LASTEXITCODE -eq 0 -and $sdk -ceq '10.0.303') 'Pinned SDK drift.'
 foreach($name in @('MSBuildSDKsPath','MSBuildExtensionsPath','MSBuildProjectExtensionsPath','CustomAfterMicrosoftCommonTargets','CustomBeforeMicrosoftCommonTargets')){
@@ -77,17 +78,17 @@ foreach($project in $projects){
     }
 }
 Assert ($edges.Count -gt 0 -and $rawCount -gt 0) 'Zero reference subjects.'
-$policyPath=Join-Path $PSScriptRoot 'modules/ifx-c1-evaluated-reference/policy.json';$policy=Get-Content $policyPath -Raw|ConvertFrom-Json
+$policyPath=Join-Path $PSScriptRoot 'policy.json';$policy=Get-Content $policyPath -Raw|ConvertFrom-Json
 foreach($source in @($policy.sourcePolicies)){
     Assert ((Hash (Checked (Join-Path $repo $source.path))) -ceq $source.sha256) "C1 policy source drift: $($source.path)"
 }
 $now=[DateTimeOffset]::UtcNow
-$prefix="artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/$RunId/"
+$prefix="artifacts/guards/v4a-producers/graph-runs/$RunId/"
 $out=Join-Path $repo $prefix;Assert (-not [IO.Directory]::Exists($out)) 'Run already exists.'
 [void][IO.Directory]::CreateDirectory($out)
 $inputRows=@($allFiles.Keys|Sort-Object|ForEach-Object{[ordered]@{path=$_;sha256=$allFiles[$_]}})
 $projectPaths=@($projects|ForEach-Object{Rel $_.FullName}|Sort-Object)
-$lock=[ordered]@{formatVersion=1;gate='C1EvaluatedReferenceGraph';producer='ifx-c1-r2b-controlled-v1';result='passed';targetCommit=$commit;createdAt=$now.ToString('o');expiresAt=$now.AddHours(1).ToString('o');sdk=$sdk;configuration='Release';targetFramework='net8.0';arguments=@('-getProperty:TargetFramework,DisableTransitiveProjectReferences','-getItem:ProjectReference','-p:Configuration=Release','-nologo');policySha256=Hash $policyPath;projects=$projectPaths;projectStates=@($states.ToArray()|Sort-Object project);inputs=$inputRows;rawReferenceCount=$rawCount;edges=@($edges.ToArray()|Sort-Object from,to,definer);evaluatedReferenceCount=$edges.Count;rawEvaluatedDelta=($edges.Count-$rawCount)}
+$lock=[ordered]@{formatVersion=1;gate='C1EvaluatedReferenceGraph';producer='ifx-v4a-graph-v1';result='passed';targetCommit=$commit;createdAt=$now.ToString('o');expiresAt=$now.AddHours(1).ToString('o');sdk=$sdk;configuration='Release';targetFramework='net8.0';arguments=@('-getProperty:TargetFramework,DisableTransitiveProjectReferences','-getItem:ProjectReference','-p:Configuration=Release','-nologo');policySha256=Hash $policyPath;projects=$projectPaths;projectStates=@($states.ToArray()|Sort-Object project);inputs=$inputRows;rawReferenceCount=$rawCount;edges=@($edges.ToArray()|Sort-Object from,to,definer);evaluatedReferenceCount=$edges.Count;rawEvaluatedDelta=($edges.Count-$rawCount)}
 $lockPath=Join-Path $out 'evidence-lock.json'
 [IO.File]::WriteAllText($lockPath,(($lock|ConvertTo-Json -Depth 50).Replace("`r`n","`n")+"`n"),[Text.UTF8Encoding]::new($false))
 Write-Output "Evaluated graph evidence lock: $lockPath"

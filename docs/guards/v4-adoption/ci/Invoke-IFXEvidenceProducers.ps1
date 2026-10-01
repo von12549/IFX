@@ -1,12 +1,12 @@
-# IFX I2-B amendment A2 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle): produce and stage the 0.5.1 evidence locks;
-# successor of candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1 (unchanged). The solution, assembly, frontend,
-# database and type producers are the relocated ones in docs/guards/v4-adoption/producers (rulings R6-R9); the graph
-# producer is unchanged. -Phase Produce runs the six consumed producers on the Target in C6 chain order (the one-hour locks last) and
-# records their lock paths; -Phase Stage copies each consumed run into EvidenceRoot/locks/<gate>/ and writes
-# EvidenceRoot/locks/staging.json, which the 0.5.0-a lock consumers read instead of a Profile lock path and hash.
-# The type run's assembly-manifest.json and DLLs are also staged at the EvidenceRoot root, where the built-in
-# architecture-conformance module and ifx-c1-type-provenance read them. From 0.5.0-b the trusted-base workflow runs
-# this script before stage run --stage post.
+# Relocated from docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1 (IFX I2-B amendment A3, ruling R12).
+# Adapted: every producer runs from docs/guards/v4-adoption/producers, including the relocated graph producer
+# ifx-v4a-graph-v1; nothing under docs/guards/candidates is named. Behaviour is otherwise unchanged:
+# -Phase Produce runs the six consumed producers on the Target in C6 chain order (the one-hour locks last) and records
+# their lock paths; -Phase Stage copies each consumed run into EvidenceRoot/locks/<gate>/ and writes
+# EvidenceRoot/locks/staging.json, which the lock consumers read instead of a Profile lock path and hash. The type
+# run's assembly-manifest.json and DLLs are also staged at the EvidenceRoot root, where the built-in
+# architecture-conformance module and ifx-c1-type-provenance read them. The trusted-base workflow runs this script
+# before stage run --stage post.
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidateSet('Produce', 'Stage')][string]$Phase,
@@ -27,14 +27,14 @@ function Write-Json([string]$Path, $Value) {
 }
 $target = [IO.Path]::GetFullPath($TargetRoot)
 if (-not [IO.Directory]::Exists((Join-Path $target '.git'))) { throw "TargetRoot is not a Git checkout: $target" }
-$candidates = 'docs/guards/candidates'; $relocated = 'docs/guards/v4-adoption/producers'
+$relocated = 'docs/guards/v4-adoption/producers'
 # Gate -> producer, in C6 chain order. 'generated' is recorded for lineage; no 0.5.0-a module consumes it.
 $producers = [ordered]@{
     solution = [ordered]@{ id = 'ifx-v4a-solution-v1'; script = "$relocated/solution/Invoke-IFXSolutionEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/solution-runs/' }
     assembly = [ordered]@{ id = 'ifx-v4a-assembly-v1'; script = "$relocated/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/assembly-runs/' }
     frontend = [ordered]@{ id = 'ifx-v4a-frontend-v1'; script = "$relocated/frontend/Invoke-IFXFrontendEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/frontend-runs/' }
     database = [ordered]@{ id = 'ifx-v4a-database-v1'; script = "$relocated/database/Invoke-IFXDatabaseEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/database-runs/' }
-    graph = [ordered]@{ id = 'ifx-c1-r2b-controlled-v1'; script = "$candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1"; prefix = 'artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/' }
+    graph = [ordered]@{ id = 'ifx-v4a-graph-v1'; script = "$relocated/graph/Invoke-IFXEvaluatedGraphProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/graph-runs/' }
     type = [ordered]@{ id = 'ifx-v4a-type-v1'; script = "$relocated/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1"; prefix = 'artifacts/guards/v4a-producers/type-runs/' }
 }
 
