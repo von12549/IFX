@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "id": "20261001-v4-ifx-i2c-v4-adoption-admission",
+  "owner": "xiaolong-feng",
+  "summary": "Admit exactly one new top-level docs/guards entry, v4-adoption, for the curated V4 Guards adoption package of IFX; the cutover-preservation allowlist becomes plans, V3, V3_ifx and v4-adoption, compared case-sensitively, and every other entry still fails.",
+  "affectedPaths": [
+    "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+    "docs/guards/v4-adoption/**",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.md",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.plan.json"
+  ],
+  "rationale": "IFX adopts V4 Guards (from von12549/Guard) alongside V3 during a coexistence window. The V4 trusted inputs (the exact reviewed ifx_profile bundle and its production review, the V4-native evidence producers, the P10.3 aggregate, the proposal and the receipts) need one reviewed location in the protected history that V3 does not own, so that a later pull request can publish them and a V4 workflow can read them from the trusted base. Admitting a single entry keeps the allowlist exact: the lab tree (candidates, inventories, artifacts) and the V4 backlog stay on the development branch and are never admitted. The change is a trusted component change of tcb.validation.package-tests consumed under one change-trusted-base authorization (D10, D15, D23); its assertions only grow: the comparison becomes case-sensitive, and a missing v4-adoption entry fails like any unexpected one. V3 keeps owning every V3 path, workflow and required context; no V3 verdict reads v4-adoption."
+}
