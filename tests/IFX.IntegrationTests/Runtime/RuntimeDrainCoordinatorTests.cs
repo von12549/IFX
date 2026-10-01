@@ -18,10 +18,29 @@ public sealed class RuntimeDrainCoordinatorTests
         lifecycle.Snapshot.State.Should().Be(RuntimeLifecycleState.Stopping);
         coordinator.TryBeginOperation(out _).Should().BeFalse();
 
-        var wait = coordinator.WaitForIdleAsync(TimeSpan.FromSeconds(1), CancellationToken.None);
+        // The bound only guards against a hang; it must not measure thread-pool scheduling (IFX-V4-005).
+        var wait = coordinator.WaitForIdleAsync(TimeSpan.FromSeconds(30), CancellationToken.None);
         wait.IsCompleted.Should().BeFalse();
         operation!.Dispose();
         (await wait).Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task WaitForIdleAsync_ReportsIdle_WhenIdleWinsUnderParallelLoad()
+    {
+        // IFX-V4-005 load check: every drained wait whose operation ends well inside the bound reports idle. It does
+        // not force the thread-pool ordering of the race, so it passes on the unfixed coordinator as well.
+        var results = await Task.WhenAll(Enumerable.Range(0, 500).Select(_ => Task.Run(async () =>
+        {
+            var coordinator = new RuntimeDrainCoordinator(new RuntimeLifecycle());
+            coordinator.TryBeginOperation(out var operation).Should().BeTrue();
+            coordinator.BeginDrain();
+            var wait = coordinator.WaitForIdleAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
+            operation!.Dispose();
+            return await wait;
+        })));
+
+        results.Should().HaveCount(500).And.OnlyContain(idle => idle);
     }
 
     [Fact]
