@@ -1,0 +1,214 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-a3-0-5-2-receipt",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "amendment": "A3",
+  "createdAt": "2026-10-01T09:29:19.119102+00:00",
+  "predecessor": {
+    "receipt": {
+      "path": "docs/guards/v4-adoption/migration/ifx-i2b-a2-0-5-1-receipt.json",
+      "sha256": "3d030c800542dd9edc7f38284366a594dac877c1f8cc3a45f59e557ae14151b1"
+    },
+    "tuple": "V4 Guards 1.1.6 + ifx_profile 0.5.1",
+    "status": "historical"
+  },
+  "release": {
+    "repository": "https://github.com/von12549/Guard",
+    "tag": "v4-guards-v1.1.6",
+    "commit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "archiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "installedPackageHash": "a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825"
+  },
+  "candidate": {
+    "id": "ifx-profile-candidate",
+    "version": "0.5.2",
+    "evidenceModel": "staged-by-workflow",
+    "change": "trusted-base closure (finding F-C1 of I2-C): the graph lock consumer pins the relocated graph producer; the lineage names the ci/ staging script; claims unchanged",
+    "targetCommit": "3600988cc9e91f0a523ec60f5f4378dd4c83c541",
+    "bundleManifestSha256": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+    "profileSha256": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302",
+    "productionReviewSha256": "38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d",
+    "composedPackageHash": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42",
+    "compositionReceiptSha256": "01011be24afb6fdd6daa34666dc0ec0b7c886c5ffe3528b1dd80c7accbf07a19",
+    "changeSpec": {
+      "path": "docs/guards/candidates/ifx-i2b-052/change-spec.json",
+      "sha256": "ac8adbeb5e2ffcf3b8822f4ae0a41122e092ff9542bbe5616b1b0a41d06222a6"
+    },
+    "identityFile": {
+      "path": "docs/guards/candidates/ifx-i2b-052/a310-identity.json",
+      "sha256": "093d2692e2b21111e2143ccc8fde7726207564c772ffb3a915accee6cc225d83"
+    }
+  },
+  "closure": {
+    "allowedRoot": "docs/guards/v4-adoption",
+    "spec": {
+      "path": "docs/guards/candidates/ifx-i2b-052/closure-spec.json",
+      "sha256": "d3c61657de8fa150ce0db27786df437dadfa9a1bdcdf9f0883877a1574584867"
+    },
+    "inventory": {
+      "path": "docs/guards/candidates/ifx-i2b-052/closure-inventory.json",
+      "sha256": "9a83d0be84df9df6a8931713b31aba8a9aa1b7d44c0e9eb83990412c03811643"
+    },
+    "origins": {
+      "path": "docs/guards/v4-adoption/producers/origins.json",
+      "sha256": "2cdb21c00f16dd8324a103141b2bb6d4617c1efef94acb6e8d4dd6447a33a20b"
+    },
+    "relocated": [
+      "producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1 (ifx-v4a-graph-v1)",
+      "producers/graph/policy.json",
+      "producers/graph/policies/ifx-reference-cycle-policy.json",
+      "producers/graph/policies/ifx-ownership-graph-policy.json",
+      "ci/Invoke-IFXEvidenceProducers.ps1"
+    ],
+    "extracted": [
+      "ci/Invoke-IFXV4Aggregate.ps1 (the Aggregate branch of the lab rehearsal)"
+    ]
+  },
+  "validation": {
+    "a3_1Inventory": {
+      "path": "docs/guards/candidates/ifx-i2b-052/closure-inventory.json",
+      "sha256": "9a83d0be84df9df6a8931713b31aba8a9aa1b7d44c0e9eb83990412c03811643"
+    },
+    "a3_3Controls": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-closure/a3-3-controls.json",
+      "sha256": "c0757658c7757f2dd64f67bfdb4d07a4186555cebb619fab83dc68876e6078b6"
+    },
+    "a3_4Parity": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-closure/a3-4-parity.json",
+      "sha256": "8c7f390e1676096054272118c05d43dd8e5aebab52ae0f356b2ecaef57bf1901"
+    },
+    "a3_5Suites": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-closure/a3-5-suites/index.json",
+      "sha256": "832eb72a837d12d551a1bf51f8e40221ad937b0782eb6dc54d709ee36e9545fc"
+    },
+    "a3_6SuiteIndex": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-closure/suite-index-052.json",
+      "sha256": "36cb733c82719ae6541b1ae41fda78a5862f30cce6036cbba5ed008074ca97d6"
+    },
+    "a3_6Trial": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-closure/a3-6-trial/index.json",
+      "sha256": "8bdc02603db38383640afc2aa0d91e552093aaab07a3734083cf2d53f94959f0"
+    },
+    "a3_7Readiness": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-closure/a3-7-readiness/index.json",
+      "sha256": "2d52a914f161438666b831b8fce71c77795506597ca358777e374c5f22aa9db9"
+    },
+    "a3_8C6c": {
+      "decision": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-decision.json",
+        "sha256": "5b5edf13fe7c3bc2ff97a5f62a2f08d68e14eb54c6bf91ea2a2b41262c99da90"
+      },
+      "summary": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-full/summary.json",
+        "sha256": "e0d1b7d69222b42641f7d115874945cf7ee68c07075300bd240c418a93edc3f0"
+      },
+      "windows": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-full/windows/summary.json",
+        "sha256": "d6384960457ce32e11b110f133d0c84afea26df6b288c47a588681791521db00"
+      },
+      "linux": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-full/linux/summary.json",
+        "sha256": "2e710890a801aa943c9625c1d37ba7c847f4ea547c01d83938e62adec629c855"
+      },
+      "chain": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/a1-chain.json",
+        "sha256": "ea62b5e6eb50adf212fff6c4e77b789a98155eb329edc7661f8db7904514d8a2"
+      }
+    },
+    "a3_9HumanReview": {
+      "decision": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/c6d-decision.json",
+        "sha256": "8d7dee8d9b35c86ba6a0f1c7049467a30f0d8e151c020a5fb9c59708aa7be38c"
+      },
+      "packet": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/review-packet.json",
+        "sha256": "e8d0b0ca6a95d750e302517ec327e85d3dc157be1650e0ca8e407e65de812a78"
+      },
+      "productionReviewRecord": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/production-extension-review.json",
+        "sha256": "38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d"
+      }
+    },
+    "a3_10aComposition": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/a3-10a-decision.json",
+      "sha256": "102ada6ce67591af60a7ee56d588e46de4c057df10c7411e4ddb62d2c2851bfd"
+    },
+    "a3_10bParityAgainst051": {
+      "p10_2Decision": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-052/p10-2-decision.json",
+        "sha256": "c1f3f13a177fdf0c7d3d7d493abb09767d3ff823303d5169ac4f482f159d9d78"
+      },
+      "matrix": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-052/parity-against-051.json",
+        "sha256": "be163235802d945f465f777caf42bdab1ef98cfd7e33340868ad0e9d1c965e1b"
+      },
+      "hostOutcomes": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-052/host-outcomes-against-051.json",
+        "sha256": "69c58ad72abaef756de967aebabcb5f9273f49ab85532b3854e41480a780bc37"
+      }
+    },
+    "a3_10cRehearsal": {
+      "decision": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-3-successor-052/rehearsal/p10-3-successor-decision.json",
+        "sha256": "fc78f8c8c8fb6ced78824b40b88afd93304d0c6ee85f2756141bc12d895e336d"
+      },
+      "remoteSnapshot": {
+        "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-3-successor-052/remote-snapshot.json",
+        "sha256": "5384d20b1adfbfe7dc4e1765c35daac0a604799222ad617fca56998e50eaaa06"
+      }
+    },
+    "a3_11LocalVerification": {
+      "path": "D:/IFX-Root/v4-todo-008-evidence/I2B-ci-evidence/a3-11-verification.json",
+      "sha256": "159c65f3d70a45be6a498d405812fc35c76fde88d2f09815eb91eb83470ae76d",
+      "status": "pass",
+      "head": "789993fd30d7c7ee685898c4ad4e61bd0fd7e02b",
+      "checks": {
+        "worktreeClean": true,
+        "v3V3ifxGithubByteIdentical": true,
+        "gitFsck": true,
+        "planValidate": true,
+        "v3IfxValidate": true,
+        "plannedPaths": true,
+        "allOriginsNoDrift": true,
+        "closureOriginsNoDrift": true,
+        "closureControls": true,
+        "a2RelocationInventoryRederived": true,
+        "specimenAndProposalClosed": true
+      }
+    },
+    "preservedAttempts": [
+      "a3-4 parity attempt 1 (evrun 105; comparator read the error header)",
+      "a3-10c rehearsal attempt 1 (evrun 126; closure rule rejected the bare directory name)",
+      "a3-11 verification run 128 (whole-text proposal search; void)"
+    ],
+    "notes": [
+      "evrun sequence 106 is shared by a3-4-parity-2 and a3-5-produce, which ran at the same time",
+      "the V3/V3_ifx inventory of the target has 563 files: the three I2-C changes since 0.5.1 are listed in a310-identity.json"
+    ]
+  },
+  "backlog": {
+    "closed": [],
+    "progressed": [
+      "IFX-V4-001 (P10.GATE successor): 0.5.2 certified, reviewed and composed; everything the workflow runs from the trusted base and every producer lies under docs/guards/v4-adoption, the one entry main admits",
+      "IFX-V4-007 stays open until the successor workflow is installed (I2-E)"
+    ],
+    "opened": []
+  },
+  "booleans": {
+    "candidateCertified": true,
+    "humanReviewAccepted": true,
+    "composedLocally": true,
+    "trustedBaseClosedUnderV4Adoption": true,
+    "bundlePublished": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "activated": false,
+    "p10GatePassed": false,
+    "ifxCutover": false,
+    "v3Retired": false
+  },
+  "next": [
+    "A3-12: push the A3 commits (authorization)",
+    "Program: I2-D (publish the curated v4-adoption package and the 0.5.2 bundle to main) under its own Plan"
+  ]
+}

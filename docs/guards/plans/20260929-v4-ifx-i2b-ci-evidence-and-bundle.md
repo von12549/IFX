@@ -643,7 +643,7 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
 
 ## 11. Amendment A3 — bundle 0.5.2, the trusted-base closure (finding F-C1)
 
-Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-0 to A3-7 complete (A3-7 readiness pass at `f33b5086`); A3-8 C6c pass (authorized); A3-9 accepted ("接受"); A3-10 and A3-11 local; A3-12 needs its own authorization`
+Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-0 to A3-7 complete (A3-7 readiness pass at `f33b5086`); A3-8 C6c pass (authorized); A3-9 accepted ("接受"); A3-10 and A3-11 complete (local); A3-12 push needs authorization`
 
 I2-C (Plan `20261001-v4-ifx-i2c-main-promotion`) admitted `docs/guards/v4-adoption` as the only V4 entry on `main`
 (`7b9b53dc`). Its finding **F-C1**: bundle 0.5.1 still needs three lab paths under `docs/guards/candidates`, which `main`
@@ -814,3 +814,16 @@ So A3 touches one module (`ifx-c1-evaluated-reference`, the graph lock consumer)
     `producer-reads-lab-tree` (decision `fc78f8c8…`). Attempt 1 (evrun 126) stopped on a fault of the new rule (the bare
     directory name in a specimen comment). Design note 15.
   - Next: A3-11 local verification and receipt, then the A3-12 push (authorization).
+- **A3-11 (2026-10-01).** Local verification at `789993fd` passes:
+  - clean worktree; V3, V3_ifx and `.github` byte-identical to `main` `7b9b53dc` and the pushed `e2ffb2eb`;
+  - `git fsck --full --strict`;
+  - `plan validate` and V3_ifx `Validate` for this Plan and the I2-C Plan;
+  - all 380 paths changed since `e2ffb2eb` planned;
+  - no drift of the A2 or A3 origins; closure controls (including the A2 controls on their scope) pass; the A2
+    relocation inventory re-derives;
+  - the specimen names nothing under `candidates`, and the proposal's staging and producer scripts lie under
+    `v4-adoption`.
+
+  Record `I2B-ci-evidence/a3-11-verification.json` (evrun 129; run 128 used a whole-text proposal search that matched
+  descriptive notes and is void). Receipt `v4-adoption/migration/ifx-i2b-a3-0-5-2-receipt.json`.
+  - Next: A3-12, push the A3 commits (authorization).

@@ -41,6 +41,7 @@ IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 | `migration/ifx-i1-rebinding-1-1-6-receipt.json` | I1 receipt: 1.1.6 + 0.4.4 identities, S1–S9 decisions, closed and opened backlog items, T8 coupling correction |
 | `migration/ifx-i2b-a1-0-5-0-a-receipt.json` | I2-B A1 receipt: 0.5.0-a candidate identities, A1-3 to A1-9 records, backlog, booleans (not published or active) |
 | `migration/ifx-i2b-a2-0-5-1-receipt.json` | I2-B A2 receipt: 0.5.1 candidate and relocated producers, A2-3 to A2-11 records, booleans (not published or active) |
+| `migration/ifx-i2b-a3-0-5-2-receipt.json` | I2-B A3 receipt: 0.5.2 candidate, the closure under `v4-adoption`, A3-1 to A3-11 records, booleans (not published or active) |
 | `migration/ifx-i2c-main-promotion-receipt.json` | I2-C receipt: `main` promoted (`ecb03726..7b9b53dc`, PRs #109–#113), `v4-adoption` admitted, ruleset unchanged |
 
 The files 06–09 were moved here with `git mv` from `docs/guards/v4/plans/` and
