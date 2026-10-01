@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-plan04-projection",
+  "source": "ifx-gate-coverage-c4a3 suite (0.4.4); the projection registry is live (R1)",
+  "cases": [
+    {
+      "id": "false-approved-consumer",
+      "edits": [
+        {
+          "path": "docs/architecture/review/policies/plan04/projection-registry.json",
+          "json": "$j.approvedCrossModuleQueryConsumers=@('unauthorized-report')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "approvedConsumerInventoryIsExplicitlyEmpty"
+    },
+    {
+      "id": "zero-source",
+      "edits": [
+        {
+          "root": "src/Modules",
+          "filter": "*.cs",
+          "remove": true,
+          "except": [
+            "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs",
+            "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboxConfiguration.cs",
+            "src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyTransactionProcessedCommand.cs",
+            "src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyClassStatusChangedCommand.cs"
+          ]
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-subject"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

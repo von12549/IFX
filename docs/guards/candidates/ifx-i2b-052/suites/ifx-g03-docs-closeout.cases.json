@@ -1,0 +1,220 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-docs-closeout",
+  "source": "ifx-gate-coverage-c2d fixtures/cases.json and suite (0.4.4); the catalog is live (R1); zh/en/closeout/plans stay pinned, so their edits carry repin",
+  "cases": [
+    {
+      "id": "doc-identity-drift",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+          "find": "| `auth.resource-authorization.v1` | sync | Auth -> CRM, Registry, Transaction, Holdings | Proposed |",
+          "replace": "| `auth.resource-authorization.v1` | sync | Auth -> CRM, Registry, Transaction, Holdings | Active |"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "protocol-table-drift",
+      "repin": true
+    },
+    {
+      "id": "missing-document",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "missing-diagram",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/diagrams/provider-consumer.svg",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "missing-diagram"
+    },
+    {
+      "id": "bad-png",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/diagrams/provider-consumer.png",
+          "write": "bad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signaturebad-signature"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "invalid-png"
+    },
+    {
+      "id": "broken-link",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+          "append": "\n[broken](missing-local-target.md)\n"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "broken-link",
+      "repin": true
+    },
+    {
+      "id": "legacy-overdue",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].lifecycle = 'LegacyPendingMigration'; $source.publicSurface[0].expiresAt = (Get-Date).AddDays(-1).ToString('yyyy-MM-dd')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "overdue-legacy"
+    },
+    {
+      "id": "legacy-deadline-exceeded",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].lifecycle = 'LegacyPendingMigration'; $source.publicSurface[0].expiresAt = ([DateOnly]::Parse([string]$source.sourcePolicy.legacyDeadline).AddDays(1)).ToString('yyyy-MM-dd')"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "deadline-exceeded"
+    },
+    {
+      "id": "missing-disposition",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface[0].disposition = ''"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "missing-disposition"
+    },
+    {
+      "id": "false-ready",
+      "edits": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+          "find": "`closureStatus=pre-ready`",
+          "replace": "`closureStatus=ready-for-approval`"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "readiness-drift",
+      "repin": true
+    },
+    {
+      "id": "missing-readiness",
+      "edits": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+          "find": "<!-- G03-CURRENT-READINESS-START -->",
+          "replace": "<!-- readiness marker removed -->"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "readiness-missing",
+      "repin": true
+    },
+    {
+      "id": "missing-blocker-owner",
+      "edits": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+          "find": "| `protocols-not-active` | Plans 01/02 provider and consumer owners |",
+          "replace": "| `protocols-not-active` |  |"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "blocker-metadata",
+      "repin": true
+    },
+    {
+      "id": "missing-blocker-revisit",
+      "edits": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+          "find": "| `behavior-tests-pending` | Plans 01/02 implementers | When G03-6.5 and G03-6.6 are checked against complete provider/consumer evidence |",
+          "replace": "| `behavior-tests-pending` | Plans 01/02 implementers |  |"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "blocker-metadata",
+      "repin": true
+    },
+    {
+      "id": "missing-handoff",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/handoffs/plan01-contracts-handoff.md",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "missing-handoff"
+    },
+    {
+      "id": "broken-handoff-link",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/handoffs/plan01-contracts-handoff.md",
+          "append": "\n[broken](missing-local-target.md)\n"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "broken-link"
+    },
+    {
+      "id": "zero-protocol",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.protocols = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-protocol"
+    },
+    {
+      "id": "zero-legacy",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "jsonObject": "$source.publicSurface = @()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-legacy"
+    },
+    {
+      "id": "missing-closeout",
+      "edits": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

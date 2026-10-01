@@ -1,0 +1,93 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-governance",
+  "source": "ifx-gate-coverage-c4p6p7 suite (0.4.4); the stale case is covered by the generated cases",
+  "benignExpectations": [
+    {
+      "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G05-FIELD-GOVERNANCE",
+      "reason": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json records the catalog SHA-256 (catalogSha256); a lone catalog edit leaves the projection stale (R2: the projection is regenerated with the catalog)"
+    }
+  ],
+  "cases": [
+    {
+      "id": "bad-catalog",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "find": "sole admission source",
+          "replace": "unreviewed admission source"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "bad-observability",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/observability-security-policy.json",
+          "find": "\"status\": \"pending\"",
+          "replace": "\"status\": \"approved\""
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "zero-handlers",
+      "edits": [
+        {
+          "root": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands",
+          "filter": "*Handler.cs",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "catalog-with-projection",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "harmless": true
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "json": "$j.catalogSha256=(Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $clone 'docs/architecture/review/gates/G03/contract-event-catalog.yaml')).Hash.ToLowerInvariant()"
+        }
+      ],
+      "status": "pass",
+      "category": "success"
+    },
+    {
+      "id": "zero-field-surfaces",
+      "note": "A1-4 matrix Z (I1 c6c4 supplemental recipe): the live G03 catalog classifies no field surface",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "json": "$j.fieldSurfaces=@()"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G05-FIELD-GOVERNANCE",
+      "code": "allTargetLegacyAndEnvelopeFieldsAreClassified"
+    }
+  ]
+}

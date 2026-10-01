@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-inventory",
+  "source": "ifx-gate-coverage-c4p0 suite (0.4.4); the stale case is covered by the generated governance cases",
+  "cases": [
+    {
+      "id": "no-outbox",
+      "edits": [
+        {
+          "root": "src",
+          "filter": "*.cs",
+          "pathMatch": "[\\\\/]Outbox[\\\\/]|Outbox[^\\\\/]*\\.cs$",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "zero-source",
+      "edits": [
+        {
+          "root": "src",
+          "filter": "*.cs",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-context-inventory.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

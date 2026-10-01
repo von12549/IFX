@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-plan04-abstractions",
+  "source": "ifx-gate-coverage-c4a4 suite (0.4.4). The two V4 policies are packaged with the module (lab coupling removed), so the 0.4.4 missing/stale cases on docs/guards/candidates become missing-solution; editing the lab copies is covered by the generated benign cases",
+  "cases": [
+    {
+      "id": "ignored-generated-directory",
+      "edits": [
+        {
+          "path": "src/Modules/CRM/node_modules/IFX.Modules.CRM.Abstractions/Ignored.cs",
+          "write": "public record Ignored();"
+        }
+      ],
+      "status": "pass",
+      "category": "success"
+    },
+    {
+      "id": "legacy-directory",
+      "edits": [
+        {
+          "path": "src/Modules/CRM/IFX.Modules.CRM.Abstractions",
+          "mkdir": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "noLegacyAbstractionsDirectories"
+    },
+    {
+      "id": "zero-source",
+      "edits": [
+        {
+          "root": "src",
+          "filter": "*",
+          "remove": true
+        },
+        {
+          "root": "tests",
+          "filter": "*",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "zero-subject"
+    },
+    {
+      "id": "missing-solution",
+      "edits": [
+        {
+          "path": "IFX.sln",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

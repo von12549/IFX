@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-closeout",
+  "source": "ifx-gate-coverage-c4p8p11 suite (0.4.4); the stale case is covered by the generated cases",
+  "cases": [
+    {
+      "id": "false-durability",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+          "find": "pre-active-fake-carrier-conformance",
+          "replace": "active-durable"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "zero-diagrams",
+      "configSet": "$c.diagramTreeSha256 = Get-IFX050TreePin 'ifx-g05-closeout' 'diagramTreeSha256' (Join-Path $clone 'docs/architecture/review/gates/G05/diagrams')",
+      "edits": [
+        {
+          "root": "docs/architecture/review/gates/G05/diagrams",
+          "filter": "*",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    },
+    {
+      "id": "handoff-01-empty",
+      "note": "A1-4 matrix Z/V (I1 c6c4 supplemental recipe): the Plan 01 handoff is emptied and delivered with a new bundle",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+          "write": ""
+        }
+      ],
+      "repin": true,
+      "status": "fail",
+      "category": "findings-blocking",
+      "rule": "G05-HANDOFF",
+      "code": "fourOwnershipPreservingHandoffsExist"
+    }
+  ]
+}

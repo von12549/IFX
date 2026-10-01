@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-check-changes",
+  "purpose": "Every change to what a 0.5.0-a check means, beyond dropping a live pin in front of an unchanged content check. Input to the A1-7 human review.",
+  "changes": [
+    {
+      "module": "ifx-g04-manifests",
+      "check": "inventory-stability:{source-program,source-health,source-background-jobs,compose,compose-nas}",
+      "claim": "IFX.C3.G04_INVENTORY",
+      "change": "removed",
+      "reason": "compared five live sources with their Profile pins only; no content condition. The other G04 inventory checks (phase-0 compose order, business modules, live/ready health, known gaps) are unchanged."
+    },
+    {
+      "module": "ifx-g04-manifests",
+      "check": "binding:<key> (8 release bindings)",
+      "claim": "IFX.C3.G04_MANIFEST",
+      "change": "re-anchored",
+      "reason": "the release-runtime manifest binding sha256 is compared with the current bytes of the bound file instead of the Profile pin; a stale release binding still fails."
+    }
+  ]
+}

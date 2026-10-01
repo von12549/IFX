@@ -1,0 +1,104 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-carriers",
+  "source": "ifx-gate-coverage-c4p4p5 suite (0.4.4); the stale case is covered by the generated cases",
+  "cases": [
+    {
+      "id": "bad-contract",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+          "find": "pre-active-conformance",
+          "replace": "production-approved"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "bad-event",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json",
+          "find": "pre-active-fake-carrier-conformance",
+          "replace": "production-approved"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "zero-subject",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+          "write": ""
+        },
+        {
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/ContractContextConformanceTests.cs",
+          "write": ""
+        },
+        {
+          "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase4-contract-context.md",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json",
+          "write": ""
+        },
+        {
+          "path": "tests/IFX.Platform.ProtocolContracts.Tests/EventPropagationConformanceTests.cs",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase5-event-propagation.md",
+          "write": ""
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json",
+          "write": ""
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g04-manifests",
+  "rules": [
+    { "ruleId": "G04-INVENTORY", "claimId": "IFX.C3.G04_INVENTORY", "stage": "post", "detectors": ["ifx-g04-manifests"], "evidenceKinds": ["runtime-inventory", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-MANIFEST", "claimId": "IFX.C3.G04_MANIFEST", "stage": "post", "detectors": ["ifx-g04-manifests"], "evidenceKinds": ["release-manifest", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-ORCHESTRATION", "claimId": "IFX.C3.G04_ORCHESTRATION", "stage": "post", "detectors": ["ifx-g04-manifests"], "evidenceKinds": ["release-policy", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-FAILURE-POLICY", "claimId": "IFX.C3.G04_FAILURE_POLICY", "stage": "post", "detectors": ["ifx-g04-manifests"], "evidenceKinds": ["failure-policy", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

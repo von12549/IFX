@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-assembly-evidence","rules":[{"ruleId":"ASSEMBLY-COMPILED-REFERENCES","claimId":"IFX.C5.ASSEMBLY_QUALITY","stage":"post","detectors":["ifx-assembly-evidence"],"evidenceKinds":["solution-provenance","assembly-report","compiled-assembly"],"severity":"blocking","baseline":null,"minimumMatches":7}]}

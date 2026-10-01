@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-solution-evidence-050a",
+  "lockBinding": "staged-evidence",
+  "gate": "solution",
+  "expectedProjectCount": 81,
+  "authorityHashes": {
+    "quality": "7bf5c682f25d28238fc1907696cd2cf76d125f5531357963e1b30bc603240211",
+    "audit": "81721869ecf5c6c2fd53397fa292185687aea53a2f9bd2b28be8c1edb2f82ed6"
+  },
+  "checkIds": [
+    "controlledSolutionPassed",
+    "nugetDirectTransitiveAudit",
+    "nonVacuousSolutionTests",
+    "freshLockedSource"
+  ],
+  "producer": {
+    "id": "ifx-v4a-solution-v1",
+    "script": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+    "scriptSha256": "2e71d5967a62323fee8f5d0a1eb33bc1d8aa6a1ddf6a3e1c1e7133e4d4063068"
+  }
+}

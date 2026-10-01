@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-c1-evaluated-reference",
+  "version": "0.2.0",
+  "compatibleApi": "1.x",
+  "supportedPlatforms": [
+    "linux-x64",
+    "win-x64"
+  ],
+  "adapter": {
+    "kind": "powershell",
+    "path": "modules/ifx-c1-evaluated-reference/adapter.ps1",
+    "sha256": "6cd5a5c3194f7d27fb8d8ae3659314b5fb86e962d7c83ded2f4f48bd86fcb8f4"
+  },
+  "prerequisites": [
+    {
+      "runtime": "pwsh",
+      "versionRange": ">=7.4"
+    }
+  ],
+  "stages": [
+    "post"
+  ],
+  "capabilities": {
+    "readRoots": [
+      "PackageRoot",
+      "TargetRoot",
+      "EvidenceRoot"
+    ],
+    "writeRoots": [],
+    "processes": [
+      "pwsh",
+      "git"
+    ],
+    "network": false,
+    "timeoutSeconds": 180
+  },
+  "configSchema": "modules/ifx-c1-evaluated-reference/config.schema.json",
+  "resultSchema": "modules/ifx-c1-evaluated-reference/result.schema.json",
+  "dependencyLock": {
+    "path": "modules/ifx-c1-evaluated-reference/dependencies.lock.json",
+    "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0"
+  },
+  "authorities": [
+    {
+      "id": "ifx-policy",
+      "path": "modules/ifx-c1-evaluated-reference/policy.json",
+      "sha256": "6bdc6e33adeea6bd30394bb1d5e3eedc09fb61b78dabadd584ec33be0d1eb4f4"
+    },
+    {
+      "id": "rule-execution-plan",
+      "path": "modules/ifx-c1-evaluated-reference/rule-execution-plan.json",
+      "sha256": "bf8242662897c8a125cdadf444edae10fcc0e7eb067e015a26a47aca35147c38"
+    },
+    {
+      "id": "module-result",
+      "path": "modules/ifx-c1-evaluated-reference/result.schema.json",
+      "sha256": "599b4ee4665c4ce8c1ccdca77de48235d74722f9a298c8849db36830b9160469"
+    },
+    {
+      "id": "embedded-ifx-ownership-graph-policy",
+      "path": "modules/ifx-c1-evaluated-reference/embedded/ifx-ownership-graph-policy.json",
+      "sha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c"
+    },
+    {
+      "id": "embedded-ifx-reference-cycle-policy",
+      "path": "modules/ifx-c1-evaluated-reference/embedded/ifx-reference-cycle-policy.json",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7"
+    }
+  ]
+}

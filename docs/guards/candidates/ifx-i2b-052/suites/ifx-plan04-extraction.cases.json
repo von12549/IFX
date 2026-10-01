@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-plan04-extraction",
+  "source": "ifx-gate-coverage-c4a1 suite (0.4.4); the extraction policy and schema stay pinned (governance), so their edits carry repin",
+  "cases": [
+    {
+      "id": "microservice-default",
+      "repin": true,
+      "edits": [
+        {
+          "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+          "find": "modular-monolith",
+          "replace": "microservice"
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "defaultRemainsModularMonolith"
+    },
+    {
+      "id": "zero-fixtures",
+      "edits": [
+        {
+          "root": "tests/Architecture/Plan04/Fixtures",
+          "filter": "extraction-*.json",
+          "remove": true
+        }
+      ],
+      "status": "fail",
+      "category": "findings-blocking",
+      "code": "positiveAndNegativeFixturesPass"
+    },
+    {
+      "id": "missing-authority",
+      "edits": [
+        {
+          "path": "docs/architecture/review/policies/plan04/extraction-decision-record.schema.json",
+          "remove": true
+        }
+      ],
+      "status": "error",
+      "category": "prerequisite-missing"
+    }
+  ]
+}

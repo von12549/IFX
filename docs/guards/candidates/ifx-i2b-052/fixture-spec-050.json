@@ -1,0 +1,271 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-050a-matrix-fixtures",
+  "status": "complete",
+  "derivedFrom": {
+    "path": "docs/guards/candidates/ifx-rebind-116/fixture-spec-116.json",
+    "sha256": "f6060fe89df5b9e9038a1c1ec7fe87af0fb630a23e39e876ff33cb3da0bbf3cc"
+  },
+  "matrixContractSha256": "e6825684f14f7b9e090ab6077ee9461b81559d84a7660ca4f800ed3d35e10737",
+  "requiredCoreCases": 191,
+  "supplementalCaseCount": 15,
+  "suiteMatrixCaseCount": 10,
+  "sources": {
+    "supplemental": {
+      "path": "docs/guards/candidates/ifx-i2b-051/Test-IFX050SupplementalFixtures.ps1",
+      "sha256": "611f193e78bb5af28c79ac41a3741b4bac6a8d7478b43ea690ce7d448c0c2543"
+    },
+    "suite:ifx-assembly-evidence": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-assembly-evidence.cases.json",
+      "sha256": "2800346d6ea2c4a9a97284d4ef00cb8a08c0bd4b399e6103491a23b076eda74c"
+    },
+    "suite:ifx-c1-evaluated-reference": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-c1-evaluated-reference.cases.json",
+      "sha256": "c8fa78f17b893017f3c99e24e5a7008c6f75e38696cbdefd919c81b3ef35bd81"
+    },
+    "suite:ifx-c1-type-provenance": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-c1-type-provenance.cases.json",
+      "sha256": "176d2fc024200a4453efeeb4b2188c2abc17097e5cc61c091089fae85007e212"
+    },
+    "suite:ifx-database-evidence": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-database-evidence.cases.json",
+      "sha256": "afe68e62ad61ed6220c9e9e9fb0e95c96f2ea77eef76268c19fc992084b759cb"
+    },
+    "suite:ifx-frontend-evidence": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-frontend-evidence.cases.json",
+      "sha256": "b7fd1709d2716e1ea9ac9113d51df1fc7b30067337ff3e7226b16f04ce6080ef"
+    },
+    "suite:ifx-g03-catalog-semantics": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g03-catalog-semantics.cases.json",
+      "sha256": "69a80a5e07f0637205f58f925ab6889c554733acfabf1a630e9e3b3fbb458c65"
+    },
+    "suite:ifx-g03-docs-closeout": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g03-docs-closeout.cases.json",
+      "sha256": "348de688ac6d7b2b393c956414f9432baf04261d9308cb03b90e772db85a3a89"
+    },
+    "suite:ifx-g03-governance-core": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g03-governance-core.cases.json",
+      "sha256": "9a30499450ec8a97fa173c41734eb1b5748f281860ffa892bddf6c475ae76cde"
+    },
+    "suite:ifx-g03-snapshots": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g03-snapshots.cases.json",
+      "sha256": "9c2a92579e29f1a62506dd2b253f7fd1f1566f503b774eb3ffa50721a1f8cf21"
+    },
+    "suite:ifx-g03-source-reconciliation": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g03-source-reconciliation.cases.json",
+      "sha256": "c2a9949aef1470a796c3d79523b5d7ea8940cd4b26ba7ca3a3af9f8569789d95"
+    },
+    "suite:ifx-g04-closeout": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g04-closeout.cases.json",
+      "sha256": "d02cbfc31172586ad7b5a61a4512b5219d5fcb39a3e34643554e96e2565da78b"
+    },
+    "suite:ifx-g04-manifests": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g04-manifests.cases.json",
+      "sha256": "b838e711424b029c469478b07685713ad677697e47e26b1ebb8d342b719f4bd7"
+    },
+    "suite:ifx-g04-runtime": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g04-runtime.cases.json",
+      "sha256": "ccb1b1f53d8acc99dd6a3f6ebfcb628fd3e164e7407ee46eac439c99dd4f7a7d"
+    },
+    "suite:ifx-g05-carriers": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g05-carriers.cases.json",
+      "sha256": "20f23459bb06db882e573e10f9839aed8c535fbf3821a661f1e4fbc177924614"
+    },
+    "suite:ifx-g05-closeout": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g05-closeout.cases.json",
+      "sha256": "86fd91388a82d347171fbe5f82d893e929370b49d628f4bb45f6ddb8802aa732"
+    },
+    "suite:ifx-g05-execution-http": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g05-execution-http.cases.json",
+      "sha256": "5dd53faed147645ff26c31227a732c00f3eea1e730fa06e2006ad8afb1c11507"
+    },
+    "suite:ifx-g05-governance": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g05-governance.cases.json",
+      "sha256": "6dcb607d31415f9c0a486b12a25eed47420e7b16e5898c89c67a0f536ccfda8b"
+    },
+    "suite:ifx-g05-inventory": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g05-inventory.cases.json",
+      "sha256": "855bf10d2b19f533a2d0e6353a01932cf7ae609b238967cbb2f9e9af3734d899"
+    },
+    "suite:ifx-g05-protocol": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-g05-protocol.cases.json",
+      "sha256": "5086e50308f3284da59e94a10791c1744e111630c6f4f9ece559da609b89cd0c"
+    },
+    "suite:ifx-plan04-abstractions": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-plan04-abstractions.cases.json",
+      "sha256": "b25c6ff31241659bb78fb3be8d1e17a7b75727d457620b99690dbb459ed54fc1"
+    },
+    "suite:ifx-plan04-extraction": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-plan04-extraction.cases.json",
+      "sha256": "722a3a9cef6dfe9b1732243c73fd10c5117cf90263d62385129cb74e3db88c85"
+    },
+    "suite:ifx-plan04-projection": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-plan04-projection.cases.json",
+      "sha256": "da70bab78cf6d97bddf549d340eed58544d0c8bcefa7aac99e055b06f8ac16a8"
+    },
+    "suite:ifx-plan04-tenant": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-plan04-tenant.cases.json",
+      "sha256": "2fda1c938072f511da13a15bed095dd3f4f9d28ddac635e0eb805457efeb0dd9"
+    },
+    "suite:ifx-plan05-security": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-plan05-security.cases.json",
+      "sha256": "6babcd18508635c097e9d11bcb98b0efabb3ac6c37733cd2f3823add3cf68d37"
+    },
+    "suite:ifx-solution-evidence": {
+      "path": "docs/guards/candidates/ifx-i2b-051/suites/ifx-solution-evidence.cases.json",
+      "sha256": "7ecfaefca854631bc0e8251662effe0e5572a70acd95687d8f33cc2f183101c4"
+    }
+  },
+  "cases": [
+    {
+      "id": "ifx-provider-cycle/M",
+      "source": "supplemental",
+      "fixture": "ifx-provider-cycle/M",
+      "recipe": "policy-local provider graph authority absent"
+    },
+    {
+      "id": "ifx-provider-cycle/Z",
+      "source": "supplemental",
+      "fixture": "ifx-provider-cycle/Z",
+      "recipe": "policy-local provider graph with zero provider edges"
+    },
+    {
+      "id": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "source": "supplemental",
+      "fixture": "ifx-provider-cycle/V/PROVIDER-CYCLE",
+      "recipe": "policy-local provider graph A -> B -> C -> A"
+    },
+    {
+      "id": "ifx-package-reference/Z",
+      "source": "supplemental",
+      "fixture": "ifx-package-reference/Z",
+      "recipe": "one out-of-scope project selects no governed ring"
+    },
+    {
+      "id": "ifx-ring-graph/Z",
+      "source": "supplemental",
+      "fixture": "ifx-ring-graph/Z",
+      "recipe": "one out-of-scope project selects no governed ring"
+    },
+    {
+      "id": "ifx-ownership-graph/Z",
+      "source": "supplemental",
+      "fixture": "ifx-ownership-graph/Z",
+      "recipe": "one out-of-scope project selects no governed ring"
+    },
+    {
+      "id": "ifx-injection/Z",
+      "source": "supplemental",
+      "fixture": "ifx-injection/Z",
+      "recipe": "CRM Application and Infrastructure projects with no governed dependency"
+    },
+    {
+      "id": "ifx-source-policy/Z",
+      "source": "supplemental",
+      "fixture": "ifx-source-policy/Z",
+      "recipe": "CRM projects with no governed import, declaration, symbol or payload"
+    },
+    {
+      "id": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "source": "supplemental",
+      "fixture": "ifx-source-policy/V/DECLARATION-IMPLEMENTS",
+      "recipe": "disposable blocking mustImplement declaration and a Gateway that does not implement it"
+    },
+    {
+      "id": "ifx-source-policy/A/DECLARATION-PLACEMENT-ADVISORY",
+      "source": "supplemental",
+      "fixture": "ifx-source-policy/A/DECLARATION-PLACEMENT-ADVISORY",
+      "recipe": "a command validator placed in Domain"
+    },
+    {
+      "id": "ifx-history-integrity/M",
+      "source": "supplemental",
+      "fixture": "ifx-history-integrity/M",
+      "recipe": "absent history target"
+    },
+    {
+      "id": "architecture-conformance/C",
+      "source": "supplemental",
+      "fixture": "architecture-conformance/C",
+      "recipe": "synthetic Contracts and Application assemblies without a forbidden dependency"
+    },
+    {
+      "id": "architecture-conformance/M",
+      "source": "supplemental",
+      "fixture": "architecture-conformance/M",
+      "recipe": "assembly manifest naming an absent DLL"
+    },
+    {
+      "id": "architecture-conformance/Z",
+      "source": "supplemental",
+      "fixture": "architecture-conformance/Z",
+      "recipe": "forbidden-dependency rule over an absent source namespace"
+    },
+    {
+      "id": "architecture-conformance/V/ARCH.TYPE_DEPENDENCY",
+      "source": "supplemental",
+      "fixture": "architecture-conformance/V/ARCH.TYPE_DEPENDENCY",
+      "recipe": "Application type exposing a forbidden Contracts type"
+    },
+    {
+      "id": "ifx-assembly-evidence/checklist-report-failed",
+      "source": "suite:ifx-assembly-evidence",
+      "fixture": "checklist-report-failed",
+      "recipe": "A1-4 matrix Z/V: a consistently relocked assembly report records a failed run"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference/forbidden-edge-crm",
+      "source": "suite:ifx-c1-evaluated-reference",
+      "fixture": "forbidden-edge-crm",
+      "recipe": "A1-4 matrix V (0.4.4 suite forbidden-edge): the locked evaluated graph gains a Domain to Contracts edge"
+    },
+    {
+      "id": "ifx-c1-evaluated-reference/forbidden-edge-registry",
+      "source": "suite:ifx-c1-evaluated-reference",
+      "fixture": "forbidden-edge-registry",
+      "recipe": "A1-4 matrix V: the same violation in a second module, an independent fixture for the second rule"
+    },
+    {
+      "id": "ifx-database-evidence/checklist-sql-matrix-failed",
+      "source": "suite:ifx-database-evidence",
+      "fixture": "checklist-sql-matrix-failed",
+      "recipe": "A1-4 matrix Z/V: a consistently relocked verification summary records a failed SQL Server matrix"
+    },
+    {
+      "id": "ifx-frontend-evidence/checklist-vacuous-tests",
+      "source": "suite:ifx-frontend-evidence",
+      "fixture": "checklist-vacuous-tests",
+      "recipe": "A1-4 matrix Z/V: the lock claims one more test than the locked run log reports"
+    },
+    {
+      "id": "ifx-g04-closeout/evidence-phase8-empty",
+      "source": "suite:ifx-g04-closeout",
+      "fixture": "evidence-phase8-empty",
+      "recipe": "A1-4 matrix V (I1 c6c4 supplemental recipe): the Phase 8 evidence record is emptied and delivered with a new bundle"
+    },
+    {
+      "id": "ifx-g05-closeout/handoff-01-empty",
+      "source": "suite:ifx-g05-closeout",
+      "fixture": "handoff-01-empty",
+      "recipe": "A1-4 matrix Z/V (I1 c6c4 supplemental recipe): the Plan 01 handoff is emptied and delivered with a new bundle"
+    },
+    {
+      "id": "ifx-g05-governance/zero-field-surfaces",
+      "source": "suite:ifx-g05-governance",
+      "fixture": "zero-field-surfaces",
+      "recipe": "A1-4 matrix Z (I1 c6c4 supplemental recipe): the live G03 catalog classifies no field surface"
+    },
+    {
+      "id": "ifx-g05-protocol/evidence-phase1-empty",
+      "source": "suite:ifx-g05-protocol",
+      "fixture": "evidence-phase1-empty",
+      "recipe": "A1-4 matrix V (I1 c6c4 supplemental recipe): the Phase 1 evidence record is emptied and delivered with a new bundle"
+    },
+    {
+      "id": "ifx-solution-evidence/checklist-vacuous-tests",
+      "source": "suite:ifx-solution-evidence",
+      "fixture": "checklist-vacuous-tests",
+      "recipe": "A1-4 matrix Z/V: the lock claims one more test than the locked TRX results hold"
+    }
+  ]
+}

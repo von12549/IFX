@@ -1,0 +1,155 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g05-governance-050a",
+  "pinPolicy": "governance-only",
+  "authorities": [
+    {
+      "id": "catalog",
+      "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "pinned": false
+    },
+    {
+      "id": "catalogReport",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-catalog-report.json",
+      "pinned": true
+    },
+    {
+      "id": "layerGuard",
+      "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+      "pinned": false
+    },
+    {
+      "id": "phase6Evidence",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-field-classification.md",
+      "pinned": true
+    },
+    {
+      "id": "phase6Layer",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase6-layerguard-report.json",
+      "pinned": true
+    },
+    {
+      "id": "observabilityPolicy",
+      "path": "docs/architecture/review/gates/G05/observability-security-policy.json",
+      "pinned": true
+    },
+    {
+      "id": "redactor",
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Observability/SensitiveTelemetryRedactor.cs",
+      "pinned": false
+    },
+    {
+      "id": "sink",
+      "path": "src/ApiHost/IFX.ApiHost/Observability/SensitiveLogEventSink.cs",
+      "pinned": false
+    },
+    {
+      "id": "factory",
+      "path": "src/ApiHost/IFX.ApiHost/Observability/SensitiveTelemetryRedactorFactory.cs",
+      "pinned": false
+    },
+    {
+      "id": "program",
+      "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+      "pinned": false
+    },
+    {
+      "id": "requestLogging",
+      "path": "src/ApiHost/IFX.ApiHost/Middleware/RequestLoggingMiddleware.cs",
+      "pinned": false
+    },
+    {
+      "id": "exception",
+      "path": "src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs",
+      "pinned": false
+    },
+    {
+      "id": "observabilityTests",
+      "path": "tests/IFX.IntegrationTests/Observability/SensitiveObservabilityTests.cs",
+      "pinned": false
+    },
+    {
+      "id": "httpBoundaryTests",
+      "path": "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs",
+      "pinned": false
+    },
+    {
+      "id": "loginEvent",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/LoginEvent.cs",
+      "pinned": false
+    },
+    {
+      "id": "loginConfig",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Identity/Configurations/LoginEventConfiguration.cs",
+      "pinned": false
+    },
+    {
+      "id": "authSnapshot",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs",
+      "pinned": false
+    },
+    {
+      "id": "tokenMigration",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+      "pinned": false
+    },
+    {
+      "id": "noOpEmail",
+      "path": "src/Platform/Notifications/IFX.Platform.Notifications.Composition/NoOpEmailService.cs",
+      "pinned": false
+    },
+    {
+      "id": "sendGrid",
+      "path": "src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/SendGridEmailService.cs",
+      "pinned": false
+    },
+    {
+      "id": "oidc",
+      "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/OidcProtocolService.cs",
+      "pinned": false
+    },
+    {
+      "id": "endToEndTests",
+      "path": "tests/IFX.IntegrationTests/Middleware/ExceptionHandlingHttpEndToEndTests.cs",
+      "pinned": false
+    },
+    {
+      "id": "phase7Evidence",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase7-observability-security.md",
+      "pinned": true
+    },
+    {
+      "id": "phase7Layer",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase7-layerguard-report.json",
+      "pinned": true
+    }
+  ],
+  "transactionHandlersRoot": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands",
+  "checkIds": {
+    "phase6": [
+      "g03CatalogRemainsSoleFieldAuthority",
+      "allTargetLegacyAndEnvelopeFieldsAreClassified",
+      "noC4AndAllC3HaveGovernedExceptions",
+      "c4SemanticDenylistIsComplete",
+      "capabilitySplitAndEventMinimizationAreRecorded",
+      "sensitiveFinancialAndComplianceUsesAreGoverned",
+      "pendingSecurityApprovalIsNotMisrepresented",
+      "layerGuardGovernanceHashMatchesCatalog",
+      "phase6EvidenceExists",
+      "phase6LayerGuardEvidenceExists"
+    ],
+    "phase7": [
+      "centralOperationalSinkEnforcesClassifier",
+      "productionPseudonymKeyFailsClosedAndSupportsRotation",
+      "rawRequestPathAndSdkPayloadsAreNotLogged",
+      "externalErrorsAreStableAndSafe",
+      "auditSinkGovernanceIsIndependentAndComplete",
+      "traceMetricAndBaggagePolicyIsBounded",
+      "authTokenPersistenceIsRemovedInCodeAndMigration",
+      "destructiveMigrationApprovalIsNotMisrepresented",
+      "capturedSentinelCoverageExists",
+      "phase7EvidenceExists",
+      "phase7LayerGuardEvidenceExists"
+    ]
+  }
+}
