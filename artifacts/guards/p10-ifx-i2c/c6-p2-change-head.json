@@ -1,0 +1,154 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-change-head",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "set": "P2",
+  "createdAtUtc": "2026-10-01T04:23:33.5611086Z",
+  "target": "4a78750473a99727ea99e68a07728faa5a47c82a",
+  "changeHead": {
+    "set": "P2",
+    "kind": "change",
+    "consumesRecords": true,
+    "branch": "codex/i2c-p2-g03-documentation",
+    "base": "4a78750473a99727ea99e68a07728faa5a47c82a",
+    "head": "b0f16df4ffb0fb760136ddd9fe34b1ea467d9033",
+    "changed": [
+      {
+        "status": "M",
+        "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md"
+      },
+      {
+        "status": "M",
+        "path": "docs/architecture/review/gates/G03/contract-event-governance.en.md"
+      },
+      {
+        "status": "M",
+        "path": "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+      },
+      {
+        "status": "M",
+        "path": "docs/guards/V3_ifx/shared/policy-config.json"
+      },
+      {
+        "status": "D",
+        "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-policy.json"
+      },
+      {
+        "status": "D",
+        "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-trusted-base.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json"
+      },
+      {
+        "status": "M",
+        "path": "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs"
+      }
+    ],
+    "blobs": {
+      "docs/architecture/review/evidence/gates/G03/G03-closeout.md": {
+        "blob": "0b31b74eb8e829b2c3a2f3dae3fd88575705bf49",
+        "origin": "source-commit"
+      },
+      "docs/architecture/review/gates/G03/contract-event-governance.en.md": {
+        "blob": "37b0be115a5a76297da8860b88096d64d8b9501a",
+        "origin": "source-commit"
+      },
+      "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md": {
+        "blob": "a9ee10f89de314bd3da51d302549e8092f6e551c",
+        "origin": "source-commit"
+      },
+      "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json": {
+        "blob": "379406abd72a581fd807200b4c9f53603a29e1f1",
+        "origin": "source-commit"
+      },
+      "docs/guards/V3_ifx/shared/policy-config.json": {
+        "blob": "91715aed0a952d3232ff03bf2bd86d8c132e6c42",
+        "origin": "source-commit"
+      },
+      "tests/IFX.IntegrationTests/Composition/Plan06DependencyBoundaryTests.cs": {
+        "blob": "b473c4520ba82b98a1635eb666091daf5358a608",
+        "origin": "source-commit"
+      },
+      "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.md": {
+        "blob": "57422d2aa815da9aa68a4e54a3ebf749209ba1a2",
+        "origin": "authored"
+      },
+      "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json": {
+        "blob": "808b67dd3c73af80813c9749361030f5ca407b13",
+        "origin": "authored"
+      }
+    }
+  },
+  "checks": [
+    {
+      "id": "change-diff",
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Protected change verification passed (3 obligation(s) covered by 2 authorization(s)): C:\\Users\\von12\\AppData\\Local\\Temp\\guard-gen-63394dff\\protected-changes.json",
+        "Policy candidate validation passed (3 validation(s)): D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 156 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "Trusted base run passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "change-candidates",
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted component candidate check passed (authorized change of tcb.manifest): D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "id": "change-policy-candidates",
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Policy candidate validation passed (3 validation(s)): <work>\\policy-candidates.json"
+      ]
+    },
+    {
+      "id": "change-validate",
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Domain authority candidates passed (0 changed): D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\domain-authorities-validate.json",
+        "IFX policy projection Apply passed (12 files; changed: 0).",
+        "IFX policy projection Check passed (12 files; changed: 0).",
+        "CI contract passed (local): 13 checks match required-checks.json",
+        "Manifest check passed: 6 stages, 19 commands, 17 trusted components, 13 gates.",
+        "IFX guardrails passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\summary-validate.json",
+        "Trusted base run passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "id": "change-g03",
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Domain authority candidates passed (0 changed): D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\domain-authorities-specialized.json",
+        "IFX policy projection Apply passed (12 files; changed: 0).",
+        "G03 catalog validation passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\docs\\architecture\\review\\gates\\G03\\contract-event-catalog.yaml",
+        "G03 source reconciliation passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\specialized\\g03\\G03-phase9-source-reconciliation.json",
+        "G03 LayerGuard governance handoff passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\specialized\\g03\\G03-phase9-layerguard-handoff-report.json",
+        "G03 documentation validation passed. Report: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\specialized\\g03\\G03-phase9-documentation-report.json",
+        "G03 closeout readiness audit passed with status 'pre-ready'. Report: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\specialized\\g03\\G03-phase9-status.json",
+        "G03 Phase 9 guard passed. Report: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\specialized\\g03\\guard.json",
+        "IFX specialized guards passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\specialized\\summary.json",
+        "IFX guardrails passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\summary-specialized.json"
+      ]
+    }
+  ],
+  "status": "pass"
+}

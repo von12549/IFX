@@ -28,7 +28,29 @@
     }
   },
   "next": [
-    "merge #110 after 13/13 (authorization)",
-    "then the P2 change PR (push and open under the C6 authorization), then its merge (authorization)"
-  ]
+    "merge #111 after 13/13 (authorization)",
+    "C7 (P3a, P3) needs its own authorization"
+  ],
+  "p2aMerge": {
+    "pullRequest": 110,
+    "authorization": "授权合并 #110",
+    "method": "merge commit",
+    "mergeCommit": "4a78750473a99727ea99e68a07728faa5a47c82a",
+    "parents": [
+      "218591eca89e71954851c501c015203555b436ce",
+      "5df34289dd049c5ab089657c1d2d15be3235c698"
+    ],
+    "checksBeforeMerge": "13/13 SUCCESS, CLEAN (one GET read)",
+    "recordsInBase": true
+  },
+  "p2": {
+    "head": "artifacts/guards/p10-ifx-i2c/c6-p2-change-head.json",
+    "branch": "codex/i2c-p2-g03-documentation",
+    "remoteHead": "b0f16df4ffb0fb760136ddd9fe34b1ea467d9033",
+    "preflight": "Diff, candidate parity (full), policy candidates, Validate, G03: pass",
+    "pullRequest": {
+      "number": 111,
+      "url": "https://github.com/von12549/IFX/pull/111"
+    }
+  }
 }
