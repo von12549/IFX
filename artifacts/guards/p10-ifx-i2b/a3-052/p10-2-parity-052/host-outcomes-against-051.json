@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-052-host-outcomes-against-051",
+  "step": "A3-10b",
+  "status": "pass",
+  "predecessor": {
+    "path": "artifacts/guards/p10-ifx-i2b/a2-051/a210-c6e/host-verification.json",
+    "sha256": "129c4521760a3e83e65e93b911d2232235fac4f9267f6e1fa249727fef927972",
+    "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
+    "packageHash": "52364a8d508e715416324c96d723268e9a13ff207bf301c406e8256feb71b7d2"
+  },
+  "current": {
+    "path": "artifacts/guards/p10-ifx-i2b/a3-052/a310-c6e/host-verification.json",
+    "sha256": "d5dde30e691ecafa83885ba162fbbeeb5b2ec4126b8e0911e377f40859ce6590",
+    "profileSha256": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302",
+    "packageHash": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42"
+  },
+  "checksEqual": true,
+  "cases": [
+    {
+      "case": "pre-clean",
+      "equal": true,
+      "v051": "{\"hostExitCode\":0,\"status\":\"pass\",\"exitCategory\":\"success\",\"executedStages\":[\"pre\"],\"moduleCount\":10,\"passedModuleCount\":10,\"coverageClaimCount\":22,\"allCoverageNonVacuous\":true,\"failedModules\":[],\"findings\":[]}",
+      "v052": "{\"hostExitCode\":0,\"status\":\"pass\",\"exitCategory\":\"success\",\"executedStages\":[\"pre\"],\"moduleCount\":10,\"passedModuleCount\":10,\"coverageClaimCount\":22,\"allCoverageNonVacuous\":true,\"failedModules\":[],\"findings\":[]}"
+    },
+    {
+      "case": "pre-violating",
+      "equal": true,
+      "v051": "{\"hostExitCode\":16,\"status\":\"fail\",\"exitCategory\":\"findings-blocking\",\"executedStages\":[\"pre\"],\"moduleCount\":10,\"passedModuleCount\":9,\"coverageClaimCount\":22,\"allCoverageNonVacuous\":true,\"failedModules\":[\"ifx-source-policy|fail\"],\"findings\":[\"IMPORT-DIRECTION|ifx-source-policy|blocking\"]}",
+      "v052": "{\"hostExitCode\":16,\"status\":\"fail\",\"exitCategory\":\"findings-blocking\",\"executedStages\":[\"pre\"],\"moduleCount\":10,\"passedModuleCount\":9,\"coverageClaimCount\":22,\"allCoverageNonVacuous\":true,\"failedModules\":[\"ifx-source-policy|fail\"],\"findings\":[\"IMPORT-DIRECTION|ifx-source-policy|blocking\"]}"
+    },
+    {
+      "case": "post-staged",
+      "equal": true,
+      "v051": "{\"hostExitCode\":0,\"status\":\"pass\",\"exitCategory\":\"success\",\"executedStages\":[\"post\"],\"moduleCount\":27,\"passedModuleCount\":27,\"coverageClaimCount\":57,\"allCoverageNonVacuous\":true,\"failedModules\":[],\"findings\":[]}",
+      "v052": "{\"hostExitCode\":0,\"status\":\"pass\",\"exitCategory\":\"success\",\"executedStages\":[\"post\"],\"moduleCount\":27,\"passedModuleCount\":27,\"coverageClaimCount\":57,\"allCoverageNonVacuous\":true,\"failedModules\":[],\"findings\":[]}"
+    },
+    {
+      "case": "dependency-post-staged",
+      "equal": true,
+      "v051": "{\"hostExitCode\":0,\"status\":\"pass\",\"exitCategory\":\"success\",\"executedStages\":[\"bootstrap\",\"analysis\",\"pre\",\"post\"],\"moduleCount\":37,\"passedModuleCount\":37,\"coverageClaimCount\":79,\"allCoverageNonVacuous\":true,\"failedModules\":[],\"findings\":[]}",
+      "v052": "{\"hostExitCode\":0,\"status\":\"pass\",\"exitCategory\":\"success\",\"executedStages\":[\"bootstrap\",\"analysis\",\"pre\",\"post\"],\"moduleCount\":37,\"passedModuleCount\":37,\"coverageClaimCount\":79,\"allCoverageNonVacuous\":true,\"failedModules\":[],\"findings\":[]}"
+    },
+    {
+      "case": "post-unstaged",
+      "equal": true,
+      "v051": "{\"hostExitCode\":15,\"status\":\"error\",\"exitCategory\":\"prerequisite-missing\",\"executedStages\":[\"post\"],\"moduleCount\":1,\"passedModuleCount\":0,\"coverageClaimCount\":1,\"allCoverageNonVacuous\":false,\"failedModules\":[\"architecture-conformance|error\"],\"findings\":[\"V4.MODULE.ARCHITECTURE_CONFORMANCE|architecture-conformance|blocking\"]}",
+      "v052": "{\"hostExitCode\":15,\"status\":\"error\",\"exitCategory\":\"prerequisite-missing\",\"executedStages\":[\"post\"],\"moduleCount\":1,\"passedModuleCount\":0,\"coverageClaimCount\":1,\"allCoverageNonVacuous\":false,\"failedModules\":[\"architecture-conformance|error\"],\"findings\":[\"V4.MODULE.ARCHITECTURE_CONFORMANCE|architecture-conformance|blocking\"]}"
+    }
+  ]
+}

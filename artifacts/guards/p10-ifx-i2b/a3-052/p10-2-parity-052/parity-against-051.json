@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "step": "A3-10b",
+  "scope": "ifx-052-parity-against-051",
+  "independentMatrix": {
+    "predecessor": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6c-full/windows/case-manifest.json",
+      "sha256": "75c730c110bf81ddef46dbfac4434aa189ce471d8c34c2b62eb499ff1f554092"
+    },
+    "current": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-full/windows/case-manifest.json",
+      "sha256": "bcd132a8c05c7788b1412aae2af9a29f3f81648f966693e427d4cad6fb8d64b9"
+    },
+    "caseCount": 191,
+    "outcomeGaps": [],
+    "firstFindingChanges": [],
+    "rule": "case IDs, kinds, rules, claims, expected and actual outcomes equal; only the first finding subject or evidence kind may differ, and each difference is listed"
+  },
+  "p10_2Replay": {
+    "predecessor": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/p10-2-parity-051/parity-matrix.json",
+      "sha256": "7008889804027628fe6d60361ce205effb222c344b0cba17d2574076e95c677d"
+    },
+    "current": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-052/parity-matrix.json",
+      "sha256": "f02f38517cbae5f6508f2a539efbf4406ee121208deaf36cecffd27599f538fd"
+    },
+    "rowsKey": "cases",
+    "caseCount": 52,
+    "gapCount": 0,
+    "strengtheningCount": 15,
+    "strengtheningsIdentical": true,
+    "semanticRowDifferences": [],
+    "equalToPredecessor": true
+  }
+}

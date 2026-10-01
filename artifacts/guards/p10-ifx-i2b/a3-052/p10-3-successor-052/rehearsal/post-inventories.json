@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "roots": {
+    "baseInstall": {
+      "path": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6",
+      "fileCount": 141,
+      "sha256": "0103dfbd1bf1b96eb19f481884bfa4f688d0aa979bd6884fb481bc1712e1ddc6"
+    },
+    "composedInstall": {
+      "path": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.5.2",
+      "fileCount": 406,
+      "sha256": "189cfca2de5906032d3147eb5575eb3b23e99a3890742318d562dfcb0b5a5a55"
+    },
+    "acceptedBundle": {
+      "path": "D:\\IFX-Root\\IFX\\artifacts\\guards\\p10-ifx-i2b\\a3-052\\formal-candidate-a\\8f06b1c739984178bdfc5c8b5e18d558\\bundle",
+      "fileCount": 263,
+      "sha256": "98f9a18991778277239e8a496d84e433fc8108f7f79a8305047f50bcd2b9214c"
+    },
+    "cleanTarget": {
+      "path": "D:/IFX-Root/guard-runtime/fixtures/ifx-a310-clean-052",
+      "fileCount": 24230,
+      "sha256": "67c0e56d82d640ab7e0d1658ef251ca1cb4cd153512bd606e13b7b53090c5714"
+    },
+    "violatingTarget": {
+      "path": "D:/IFX-Root/guard-runtime/fixtures/ifx-a310-violating-052",
+      "fileCount": 5595,
+      "sha256": "35e9a7a1d51e42f3e5a61be0a4b31b7072e7c1c1051c56d18b16db49910390c0"
+    }
+  }
+}

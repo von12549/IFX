@@ -795,3 +795,22 @@ So A3 touches one module (`ifx-c1-evaluated-reference`, the graph lock consumer)
   review record `production-extension-review.json` (`38eb775a…`, id `20261001-ifx-0-5-2-production-review`, valid
   against the installed 1.1.6 `extension-review` schema). Claims carried forward from 0.5.1 unchanged.
   - Next: A3-10 (C6e composition of 1.1.6 + 0.5.2, parity against 0.5.1, P10.3 successor with the closure rule).
+- **A3-10 (2026-10-01).**
+  - **A3-10a C6e** (`8cb6dc56`, evrun 121): production composition of 1.1.6 + 0.5.2 with the accepted review (package
+    `0fab0676…`, receipt `01011be2…`); the installed Host passes the clean Pre (10 modules, 22 claims), blocks the
+    deliberate fault with `IMPORT-DIRECTION`, passes staged Post (27 modules, 57 claims) and the dependency run (37
+    modules, 79 claims), and fails the unstaged Post closed; Host queries agree; protected roots unchanged
+    (`a3-10a-decision.json` `102ada6c…`). Evidence was produced and staged with `v4-adoption/ci`.
+  - **Identity** `candidates/ifx-i2b-052/a310-identity.json` (`New-IFX052A310Identity.ps1`): the V3/V3_ifx inventory of
+    the target has 563 files; its derivation lists the three I2-C changes since 0.5.1 (the admission decision, its
+    registration, the four-entry allowlist); the V3 policy, baseline and trusted components that the replay runs are
+    unchanged.
+  - **A3-10b against 0.5.1** (evrun 122-124): P10.2 replay 52/52 with 0 gaps and the same 15 strengthenings; the C6c
+    matrix equal with no first-finding change; installed-Host outcomes 5/5 equal (`a3-052/p10-2-parity-052/`).
+  - **A3-10c P10.3 successor** (`8f8ab368`, evrun 125-127): GET-only remote snapshot (development branch `e2ffb2eb`,
+    ruleset 23459908 strict with 13 contexts, Guard release `v4-guards-v1.1.6`); specimen and proposal rebound to 0.5.2
+    (staging and aggregate from `v4-adoption/ci`, graph producer `ifx-v4a-graph-v1`, rollback anchor `e2ffb2eb…`); the
+    rehearsal adds the closure rule and rejects 16 negative controls, including `specimen-reads-lab-tree` and
+    `producer-reads-lab-tree` (decision `fc78f8c8…`). Attempt 1 (evrun 126) stopped on a fault of the new rule (the bare
+    directory name in a specimen comment). Design note 15.
+  - Next: A3-11 local verification and receipt, then the A3-12 push (authorization).
