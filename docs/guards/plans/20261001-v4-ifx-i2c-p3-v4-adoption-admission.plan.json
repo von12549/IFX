@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "id": "20261001-v4-ifx-i2c-p3-v4-adoption-admission",
+  "title": "Admit docs/guards/v4-adoption as the one V4 adoption entry",
+  "goal": "Extend the cutover-preservation allowlist by exactly one entry, v4-adoption, compared case-sensitively, record the admission as a registered V3 decision, and create the entry with its README, consuming one base change-trusted-base authorization.",
+  "acceptanceCriteria": [
+    "Test-CutoverPreservation requires the top level of docs/guards to equal plans, V3, V3_ifx and v4-adoption, compared case-sensitively; every other assertion is unchanged.",
+    "A missing v4-adoption entry and any additional entry fail the test.",
+    "Decision 20261001-v4-ifx-i2c-v4-adoption-admission is added and registered in the decision history of policy-config.json.",
+    "docs/guards/v4-adoption contains only README.md.",
+    "The change consumes and deletes exactly the base authorizations generated for this head, the head candidate passes base-owned validation and parity, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-policy.json",
+    "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.md",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission.plan.json",
+    "docs/guards/v4-adoption/README.md"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json"
+  ]
+}

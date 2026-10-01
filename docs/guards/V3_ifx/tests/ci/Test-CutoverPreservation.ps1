@@ -47,12 +47,13 @@ $restoredCompatibilityPaths = @($retiredCompatibilityPaths | Where-Object { Test
 if ($restoredCompatibilityPaths.Count -gt 0) { throw "Retired compatibility paths remain: $($restoredCompatibilityPaths -join ', ')" }
 if (@($system.compatibility.entries).Count -ne 0) { throw 'Plan 06 P11.5 requires the compatibility registry to be empty.' }
 $topLevel = @(Get-ChildItem -LiteralPath (Join-Path $root 'docs/guards') -Force | ForEach-Object Name | Sort-Object)
-$expectedTopLevel = @('plans', 'V3', 'V3_ifx') | Sort-Object
-if (@(Compare-Object $expectedTopLevel $topLevel).Count -ne 0) {
+# Decision 20261001-v4-ifx-i2c-v4-adoption-admission admits exactly one V4 adoption entry; every other entry still fails.
+$expectedTopLevel = @('plans', 'V3', 'V3_ifx', 'v4-adoption') | Sort-Object
+if (@(Compare-Object -CaseSensitive $expectedTopLevel $topLevel).Count -ne 0) {
     throw "docs/guards top level contains an unexpected entry: $($topLevel -join ', ')"
 }
 $v3Workflow = Get-Content -Raw -LiteralPath (Join-Path $root '.github/workflows/v3-ifx-guardrails.yml')
 foreach ($trigger in @('pull_request', 'push', 'workflow_dispatch')) {
     if ($v3Workflow -notmatch "(?m)^  ${trigger}:") { throw "V3 workflow is missing its $trigger trigger." }
 }
-Write-Host "Cutover preservation passed: $($required.Count) required paths, $($baselines.Count) historical baselines, $($deletionManifest.deletedPaths.Count) prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired and one V3 workflow active."
+Write-Host "Cutover preservation passed: $($required.Count) required paths, $($baselines.Count) historical baselines, $($deletionManifest.deletedPaths.Count) prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired, one V4 adoption entry admitted and one V3 workflow active."

@@ -11,6 +11,11 @@ composed locally; the inactive specimen and proposal bind 0.5.1.
 IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 [`../TODO.md`](../TODO.md).
 
+**Development edition.** This README indexes the adoption lab on `codex/v4-development-base`. Since IFX I2-C
+(2026-10-01) the protected history (`main`) admits `docs/guards/v4-adoption` as its one V4 entry (V3 decision
+`20261001-v4-ifx-i2c-v4-adoption-admission`), with a separate `main` edition of this README; the curated package reaches
+`main` only through its own reviewed pull requests (I2-D onwards).
+
 `docs/guards/v4` was the former incubation copy of the product. V4-TODO-008 T8 removed it on 2026-09-28
 (cleanup receipt below); `git revert` of the recorded cleanup commit restores it.
 
@@ -33,6 +38,7 @@ IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 | `migration/ifx-i1-rebinding-1-1-6-receipt.json` | I1 receipt: 1.1.6 + 0.4.4 identities, S1–S9 decisions, closed and opened backlog items, T8 coupling correction |
 | `migration/ifx-i2b-a1-0-5-0-a-receipt.json` | I2-B A1 receipt: 0.5.0-a candidate identities, A1-3 to A1-9 records, backlog, booleans (not published or active) |
 | `migration/ifx-i2b-a2-0-5-1-receipt.json` | I2-B A2 receipt: 0.5.1 candidate and relocated producers, A2-3 to A2-11 records, booleans (not published or active) |
+| `migration/ifx-i2c-main-promotion-receipt.json` | I2-C receipt: `main` promoted (`ecb03726..7b9b53dc`, PRs #109–#113), `v4-adoption` admitted, ruleset unchanged |
 
 The files 06–09 were moved here with `git mv` from `docs/guards/v4/plans/` and
 `docs/guards/v4/integrations/github/`; their history is intact (`git log --follow`). The accepted P10.1–P10.3
