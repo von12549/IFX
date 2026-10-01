@@ -14,8 +14,10 @@ IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 
 **Development edition.** This README indexes the adoption lab on `codex/v4-development-base`. Since IFX I2-C
 (2026-10-01) the protected history (`main`) admits `docs/guards/v4-adoption` as its one V4 entry (V3 decision
-`20261001-v4-ifx-i2c-v4-adoption-admission`), with a separate `main` edition of this README; the curated package reaches
-`main` only through its own reviewed pull requests (I2-D onwards).
+`20261001-v4-ifx-i2c-v4-adoption-admission`), with a separate `main` edition of this README. IFX I2-D (2026-10-01, PR #114, merge `d2ddb2b4`) published the
+curated package to `main` byte-identical: the 0.5.2 bundle and review under `extensions/`, `producers/`, `ci/`,
+`integrations/` and `migration/`, with the `main` edition of this README (blob `de872af2`). The design notes in
+`plans/` and this development edition stay on `codex/v4-development-base`.
 
 `docs/guards/v4` was the former incubation copy of the product. V4-TODO-008 T8 removed it on 2026-09-28
 (cleanup receipt below); `git revert` of the recorded cleanup commit restores it.
@@ -32,6 +34,7 @@ IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 | `plans/13-p10-3-successor-0-5-0.md` | I2-B A1-8 successor: V4 Guards 1.1.6 + `ifx_profile` 0.5.0; producer, staging and upload steps; four producers re-attest V3 until 0.5.0-b (historical) |
 | `plans/14-p10-3-successor-0-5-1.md` | I2-B A2-10 successor: V4 Guards 1.1.6 + `ifx_profile` 0.5.1; producers relocated to `producers/`, no V3 re-attestation (historical) |
 | `plans/15-p10-3-successor-0-5-2.md` | I2-B A3-10 successor: V4 Guards 1.1.6 + `ifx_profile` 0.5.2; closure under `v4-adoption` (graph producer, `ci/`) with the closure rule |
+| `extensions/ifx/0.5.2/` | The certified `ifx_profile` 0.5.2 bundle (manifest `a2f619a3…`) and its accepted review (`38eb775a…`), the trusted inputs the specimen reads from the base (I2-D) |
 | `producers/` | The V4-owned evidence producers: relocated V3 gate logic and lab producers (I2-B A2) and the graph producer with its policy and source policies (A3), with `origins.json` |
 | `ci/` | What the workflow runs from the trusted base (I2-B A3): the staging script `Invoke-IFXEvidenceProducers.ps1` and the aggregate `Invoke-IFXV4Aggregate.ps1` |
 | `integrations/github/ifx-cutover-proposal.json` | Inactive cutover proposal, bound to the A3-10 successor identities (0.5.2) |
@@ -43,10 +46,11 @@ IFX's adoption items (V4-TODO-004 and IFX-V4-001 to IFX-V4-006) are in
 | `migration/ifx-i2b-a2-0-5-1-receipt.json` | I2-B A2 receipt: 0.5.1 candidate and relocated producers, A2-3 to A2-11 records, booleans (not published or active) |
 | `migration/ifx-i2b-a3-0-5-2-receipt.json` | I2-B A3 receipt: 0.5.2 candidate, the closure under `v4-adoption`, A3-1 to A3-11 records, booleans (not published or active) |
 | `migration/ifx-i2c-main-promotion-receipt.json` | I2-C receipt: `main` promoted (`ecb03726..7b9b53dc`, PRs #109–#113), `v4-adoption` admitted, ruleset unchanged |
+| `migration/ifx-i2d-publish-receipt.json` | I2-D receipt: the curated package published to `main` (PR #114, `d2ddb2b4`), byte identity, ruleset unchanged, specimen still inactive |
 
 The files 06–09 were moved here with `git mv` from `docs/guards/v4/plans/` and
 `docs/guards/v4/integrations/github/`; their history is intact (`git log --follow`). The accepted P10.1–P10.3
 decision records under `artifacts/guards/p10-ifx-114/` are historical facts and are not edited.
 
-Nothing here is active. Installing the specimen, publishing the IFX bundle, changing a required context
+Nothing here is active. The bundle is published (I2-D) but nothing reads it yet. Installing the specimen, changing a required context
 or ruleset, P10.GATE, cutover and V3 retirement each need their own exact Plan and authorization.
