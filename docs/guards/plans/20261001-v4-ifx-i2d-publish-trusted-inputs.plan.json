@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "20261001-v4-ifx-i2d-publish-trusted-inputs",
+  "title": "IFX I2-D: publish the curated v4-adoption package and the exact 0.5.2 bundle to main",
+  "goal": "Publish the exact reviewed 0.5.2 bundle and production review, the V4 evidence producers, the ci/ staging and aggregate scripts, the proposal and specimen, and the receipts into docs/guards/v4-adoption on main through one V3-judged pull request, and prove the published bytes are the certified ones, without installing a workflow, changing the ruleset or activating anything.",
+  "acceptanceCriteria": [
+    "Every remote step is separately authorized; no force push, --admin, ruleset or bypass change; the ruleset equals the I2-C snapshot.",
+    "The publication PR's final head passes all 13 required contexts with no protected-change obligation.",
+    "docs/guards/v4-adoption on main holds exactly the RD1 set, every file equal to its development-branch source blob except the authored main README; the bundle equals the certified 0.5.2 bundle file by file (manifest a2f619a3) and the review is 38eb775a.",
+    "A local composition of the published bundle gives package 0fab0676; the specimen's input checks pass on autocrlf true and false checkouts.",
+    "No workflow installed, nothing activated; P10.GATE, cutover and V3 retirement stay false."
+  ],
+  "plannedPaths": [
+    "artifacts/guards/p10-ifx-i2d",
+    "docs/guards/TODO.md",
+    "docs/guards/candidates/ifx-i2d",
+    "docs/guards/plans",
+    "docs/guards/v4-adoption/README.md",
+    "docs/guards/v4-adoption/ci",
+    "docs/guards/v4-adoption/extensions",
+    "docs/guards/v4-adoption/integrations",
+    "docs/guards/v4-adoption/migration",
+    "docs/guards/v4-adoption/producers"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A published file could differ from the certified bytes through line-ending normalization or a copy fault.",
+    "A required V3 context could fail on the publication PR for a reason unrelated to its content (runner drift).",
+    "Until a V3 protection change (RD4), the published inputs on main are protected only by review and the pull-request-base rule of the workflow."
+  ],
+  "decisions": [
+    "1A, 2B and the I2-C admission decision apply unchanged.",
+    "RD1 (a) 2B set plus main README; RD2 (a) one PR; RD3 (a) TODO stays on the development branch; RD4 (a) protection deferred to a V3 trust change before I2-F; RD5 (a) bundle on the development branch first; RD6 merge commit."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "v3-pre-diff-rehearsal",
+    "ifx-package-test",
+    "publication-byte-identity",
+    "composed-package-identity"
+  ],
+  "dependencies": [
+    "20260929-v4-ifx-i2-p10-gate-successor",
+    "20261001-v4-ifx-i2c-main-promotion",
+    "20260929-v4-ifx-i2b-ci-evidence-and-bundle"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}

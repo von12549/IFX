@@ -148,8 +148,9 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     `v4-adoption/producers/graph` (`ifx-v4a-graph-v1`), staging script and extracted aggregate under `v4-adoption/ci`.
     Closure inventory, controls and parity pass; A3-8 C6c pass at `3600988c` (Windows 191/191, controls 180 + 42,
     Linux 191/191 equal); A3-9 review accepted; A3-10 composition, parity against 0.5.1 and the P10.3 successor with
-    the closure rule pass; A3-11 verification and receipt `v4-adoption/migration/ifx-i2b-a3-0-5-2-receipt.json`. Next:
-    the A3-12 push (authorization), then I2-D.
+    the closure rule pass; A3-11 verification and receipt `v4-adoption/migration/ifx-i2b-a3-0-5-2-receipt.json`. A3-12 pushed
+    (`e2ffb2eb..0b38f0f3`); **amendment A3 complete.** Next: I2-D, Plan `20261001-v4-ifx-i2d-publish-trusted-inputs`
+    (publish the curated `v4-adoption` package and the 0.5.2 bundle to `main`).
   - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).
