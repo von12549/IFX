@@ -1,6 +1,6 @@
 # IFX I2-C — promote to `main` and admit `docs/guards/v4-adoption` (decisions 1A and 2B)
 
-Status: `ACTIVE — rulings RC1–RC6 taken as recommended and C0–C4 authorized for local execution (2026-10-01, "全部按推荐，并授权C0到C4本地执行"); C0–C3 complete; C4 review packet ready for the operator; every remote step C5–C12 needs its own authorization`
+Status: `ACTIVE — rulings RC1–RC6 taken as recommended and C0–C4 authorized for local execution (2026-10-01, "全部按推荐，并授权C0到C4本地执行"); C0–C3 complete; C4 accepted and C5 authorized ("接受，授权 C5"); C5 done: PR #109 open; every remote step C5–C12 needs its own authorization`
 
 Formal Plan ID: `20261001-v4-ifx-i2c-main-promotion`. Phase I2-C of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`. Phases I2-D to I2-G build on it.
@@ -206,4 +206,8 @@ Each of these stops I2-C. The evidence is kept, and nothing is retried silently.
   `v4-adoption`, with every path equal to its source. Trials 1–2 (evrun 004–005) and attempt 1 (evrun 006, all 36 steps
   as expected but a wrong final-state string comparison) are kept under `artifacts/guards/p10-ifx-i2c-trials/`.
   Fixes: generated records are committed with LF; final-state checks.
-- **C4.** Review packet `c4-review/review-packet.json` `897c7d68…` and `review.md` (evrun 008). Waiting for the operator.
+- **C4.** Review packet `c4-review/review-packet.json` `897c7d68…` and `review.md` (evrun 008). Accepted by the operator ("接受，授权 C5"); decision `c4-decision.json`.
+- **C5.** Target still `57647c9a`. P1 rebuilt on it (`1b234ace`, byte checks pass), the trusted Diff re-run on that exact head
+  passes; branch `codex/i2c-p1-drain-wait-fix` pushed and verified; PR
+  [#109](https://github.com/von12549/IFX/pull/109) opened to `codex/guards-principles-plan` (`c5-p1.json`). Next: merge
+  after 13/13 (authorization).
