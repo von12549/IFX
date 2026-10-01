@@ -1,6 +1,6 @@
 # IFX I2-C — promote to `main` and admit `docs/guards/v4-adoption` (decisions 1A and 2B)
 
-Status: `COMPLETE (C0–C11) 2026-10-01 — main promoted `ecb03726..7b9b53dc` through PRs #109–#113 and the 1A sequence; `v4-adoption` admitted; ruleset unchanged; C12 push of the development branch authorized ("授权 C11 和 C12")`
+Status: `COMPLETE 2026-10-01 — main promoted `ecb03726..7b9b53dc` through PRs #109–#113 and the 1A sequence; `v4-adoption` admitted; ruleset unchanged; development branch pushed `5f6008ee..e2ffb2eb`; push run on main succeeded`
 
 Formal Plan ID: `20261001-v4-ifx-i2c-main-promotion`. Phase I2-C of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`. Phases I2-D to I2-G build on it.
@@ -238,4 +238,7 @@ Each of these stops I2-C. The evidence is kept, and nothing is retried silently.
   ([36820468709](https://github.com/von12549/IFX/actions/runs/36820468709)) was `in_progress` at the one read (05:40 UTC);
   its conclusion is recorded later. `origin/main` merged into the development branch (`daa2b78a`; the two expected
   conflicts resolved by rule). Receipt `v4-adoption/migration/ifx-i2c-main-promotion-receipt.json`.
-- **C12.** Fast-forward push of the development branch (authorized).
+- **C12.** Fast-forward push `5f6008ee..e2ffb2eb` (24 commits); the fetched remote head equals the local head.
+- **Push run on `main`.** [36820468709](https://github.com/von12549/IFX/actions/runs/36820468709) completed with
+  `success` (12 jobs succeeded; `v3-pre-diff` runs only on pull requests and was skipped), read once after the operator
+  reported it (`c11-push-run.json`). **I2-C is complete.**

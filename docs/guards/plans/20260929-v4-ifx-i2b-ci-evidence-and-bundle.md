@@ -1,6 +1,6 @@
 # IFX I2-B — CI evidence design and successor bundle (starts with IFX-V4-006)
 
-Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 and A2-11 complete; amendment A2 (0.5.0-b, bundle 0.5.1) COMPLETE 2026-10-01, pushed `13502169..5f6008ee`; next: I2-C (own Plan)`
+Status: `ACTIVE — B0–B3 COMPLETE 2026-09-29 (B3: A accepted, D-B two-step chosen); B1–B2 pushed; amendment A1 (0.5.0-a) ACTIVE — rulings R1–R5 taken; A1-2 accepted; A1-3 to A1-6 complete (A1-6 C6c pass); IFX-V4-005 fixed; A1-7 accepted 2026-09-30 ("接受"); amendment A1 (0.5.0-a) COMPLETE 2026-09-30, pushed `ffe03be5..13502169`; amendment A2 (0.5.0-b, bundle 0.5.1) ACTIVE — rulings R6–R11 taken as recommended; A2-0 to A2-8 complete (A2-8 C6c pass, authorized); A2-9 accepted 2026-09-30 ("接受"); A2-10 and A2-11 complete; amendment A2 (0.5.0-b, bundle 0.5.1) COMPLETE 2026-10-01, pushed `13502169..5f6008ee`; I2-C complete (2026-10-01); amendment A3 (bundle 0.5.2, finding F-C1) ACTIVE — rulings R12–R16 taken as recommended; see §11`
 
 Formal Plan ID: `20260929-v4-ifx-i2b-ci-evidence-and-bundle`. Phase I2-B of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`.
@@ -640,3 +640,104 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
 - **A2-12 (2026-10-01, "授权 A2-12 推送").** Fast-forward push `13502169..5f6008ee` (27 commits) to
   `codex/v4-development-base`; the fetched remote head equals the local head. **Amendment A2 is complete.** Next:
   I2-C under its own Plan `20261001-v4-ifx-i2c-main-promotion`.
+
+## 11. Amendment A3 — bundle 0.5.2, the trusted-base closure (finding F-C1)
+
+Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-8 and A3-12 need their own authorization`
+
+I2-C (Plan `20261001-v4-ifx-i2c-main-promotion`) admitted `docs/guards/v4-adoption` as the only V4 entry on `main`
+(`7b9b53dc`). Its finding **F-C1**: bundle 0.5.1 still needs three lab paths under `docs/guards/candidates`, which `main`
+will never hold. A3 moves them into `v4-adoption` and issues bundle **0.5.2**, so that I2-D can publish a package
+whose every trusted-base and Target-side path lives under `docs/guards/v4-adoption`. The module claims do not change.
+
+### 11.1 Scope, from the 0.5.1 bundle and specimen (read-only analysis, 2026-10-01)
+
+| Need | Today | Why it matters on `main` |
+| --- | --- | --- |
+| graph producer | `candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1` (94 lines), id `ifx-c1-r2b-controlled-v1`, runs `artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/` | the staging script runs it **from the Target**; `ifx-c1-evaluated-reference` compares the producer id, path and script hash |
+| its policy | sibling `modules/ifx-c1-evaluated-reference/policy.json` (SDK, configuration, framework, project count, `sourcePolicies`) | the producer reads it next to itself; the consumer compares its hash (`producer.policySha256`) |
+| two source policies | `candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json`, `candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json` | the producer checks both **in the Target** by path and hash (`sourcePolicies`) |
+| staging script | `candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1` | named by the Profile's `evidence-lineage.json` (`stagingScript`) and run from the trusted base by the specimen |
+| aggregate | `candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1 -Mode Aggregate` | run from the trusted base by the specimen's `v4-ifx-required` job; only its 15-line `Aggregate` branch is used |
+
+Checked as unchanged:
+
+- Every other bundle mention of `docs/guards/candidates`, `V3` or `V3_ifx` is provenance (`source*`, `authority-map`
+  `sourcePath`) or an embedded copy.
+- None of the files the 0.5.1 bundle pins changed between its target `351b504b` and `main` `7b9b53dc`.
+- The A2 producers read nothing under `candidates`, `inventories` or `plans`.
+
+So A3 touches one module (`ifx-c1-evaluated-reference`, the graph lock consumer) and the Profile lineage.
+
+### 11.2 Steps
+
+| Step | Action | Gate |
+| --- | --- | --- |
+| A3-0 | Operator rulings R12–R16 (§11.3); commit this amendment. Also fix the I2-C Plan's status line (C12 pushed) and record the `main` push-run conclusion (run `36820468709`: success, 12 jobs, `v3-pre-diff` skipped on push) | **Operator** |
+| A3-1 | **Closure inventory** `candidates/ifx-i2b-052/closure-inventory.json`: every repository path that the specimen's trusted-base steps, the staging script, each consumed producer and the bundle's Target-side reads reach, with its SHA-256 at the certified commit. A generator re-derives it; a control fails on any path outside `docs/guards/v4-adoption`, the product source the producers inspect, `.github` and the downloaded release | Local commit; control |
+| A3-2 | **Byte-identical copy** into `v4-adoption`, in its own commit (R12, R13): the graph producer, its policy and the two source policies under `producers/graph/`; the staging script under `ci/`; `origins.json` extended; copy-equals-original recorded | Local commit; control |
+| A3-3 | **Adaptation**, in a separate commit: new producer id `ifx-v4a-graph-v1`, run directory `artifacts/guards/v4a-producers/graph-runs/`, explicit `-TargetRoot`, `sourcePolicies` pointing at the relocated copies (same hashes); the staging script runs the relocated graph producer; the extracted aggregate `ci/Invoke-IFXV4Aggregate.ps1` (R14). Static controls as in A2-3, plus: no consumed path under `docs/guards/candidates`, case-insensitive | Local commit; controls |
+| A3-4 | **Graph parity** on one commit (R15): the lab producer and the relocated one; semantically equal locks (ids, paths and timestamps excluded); the catalog violation fixtures of the graph consumer fail the same way under both. Aggregate parity: old and new give the same result and exit code for all 16 combinations of `success`, `failure`, `cancelled` and `skipped` | Evidence; local commit |
+| A3-5 | **Module successor 0.5.2**: `ifx-c1-evaluated-reference` 0.2.0 → 0.2.1 with the new producer id, script, script hash and policy hash; Profile lineage names `ci/` and `producers/graph/`; its suite reruns, and the other 26 modules carry forward unchanged | Local commits; suite passes |
+| A3-6 | Lab tree `candidates/ifx-i2b-052` (R16: byte copy of `ifx-i2b-051` at the same depth, then substitutions) with harness successors, and a trial of the C6 chain | Local commits |
+| A3-7 | Readiness on the post-A3-6 commit (`-ReadinessOnly`) | Local |
+| A3-8 | **Single C6c** for 0.5.2 | **Authorization** |
+| A3-9 | C6d review packet: the graph producer identity and the lineage paths only; **human review** | **Operator acceptance** |
+| A3-10 | C6e composition and installed-Host runs; parity against 0.5.1 (outcomes equal). P10.3 successor: the specimen binds 0.5.2 and runs only `v4-adoption/ci/` from the trusted base; the proposal names `ifx-v4a-graph-v1` and `ci/`. A new closure rule makes the rehearsal reject any trusted-base or producer path outside `v4-adoption`, with negative controls `specimen-reads-lab-tree` and `producer-reads-lab-tree` | Local |
+| A3-11 | Local verification (as A2-11) and receipt | Local |
+| A3-12 | Push the A3 commits | **Authorization** |
+
+### 11.3 Operator rulings needed before A3-1
+
+- **R12 — location and identity.**
+  - *Recommended:*
+    - `v4-adoption/producers/graph/` for the producer, its policy and the two source policies (`policies/`);
+    - `v4-adoption/ci/` for the staging script and the aggregate;
+    - a new producer id `ifx-v4a-graph-v1` and run directory `artifacts/guards/v4a-producers/graph-runs/`, as R8 did for the others.
+  - *Alternative:* keep the id and change only the paths.
+- **R13 — the two source policies.**
+  - *Recommended:* byte copies under `producers/graph/policies/`. The producer keeps checking them by hash, and the hashes stay those of the lab originals. The origins file records both, and a drift control reports any later change to the originals.
+  - *Alternative:* drop the producer's source check and rely on the consumer's embedded copies.
+- **R14 — aggregate.**
+  - *Recommended:* extract the `Aggregate` branch into a standalone `ci/Invoke-IFXV4Aggregate.ps1` (inputs, exit codes and JSON unchanged). The 262-line rehearsal (`Validate` mode) stays in the lab tree.
+  - *Alternative:* copy the whole rehearsal script into `ci/`.
+- **R15 — parity standard.**
+  - *Recommended:* as R11. Semantic equality of the graph locks on the certified commit, the consumer's violation fixtures, and the 16-case aggregate table, with zero listed differences; a difference stops A3.
+- **R16 — lab tree.**
+  - *Recommended:* `candidates/ifx-i2b-052`, a byte copy of `ifx-i2b-051` at the same depth, then literal substitutions (the A2 pattern):
+    - evidence root `artifacts/guards/p10-ifx-i2b/a3-052`;
+    - chain switch `-AuthorizeA38C6c`.
+
+### 11.4 Acceptance for A3
+
+- The closure inventory and its control show that every trusted-base, staging, producer and Target-side path of
+  0.5.2 is under `docs/guards/v4-adoption` (or is product source, `.github` or the pinned release).
+- Graph and aggregate parity have zero differences (A3-4).
+- The 0.5.2 C6c passes: Windows 191/191 and controls; Linux 191/191 with equal semantic projection.
+- The installed-Host outcomes for 0.5.2 equal those for 0.5.1 (A3-10).
+- The rehearsal rejects a lab-tree path in the specimen or the proposal.
+- `V3`, `V3_ifx` and `.github` stay byte-identical to `main` `7b9b53dc`.
+
+### 11.5 Planned paths (A3)
+
+- `docs/guards/v4-adoption/producers/graph/**`, `docs/guards/v4-adoption/producers/origins.json`,
+  `docs/guards/v4-adoption/ci/**` (new)
+- `docs/guards/candidates/ifx-i2b-052/**` (lab tree)
+- `artifacts/guards/p10-ifx-i2b/**` (records)
+- `docs/guards/v4-adoption/integrations/github/**`, `docs/guards/v4-adoption/plans/15-p10-3-successor-0-5-2.md`,
+  `docs/guards/v4-adoption/migration/**`, `docs/guards/v4-adoption/README.md`
+- this Plan pair, `docs/guards/TODO.md`, the I2-C Plan (status line) and `artifacts/guards/p10-ifx-i2c/**` (push-run record)
+
+### 11.6 Out of scope for A3
+
+- Publishing to `main` (I2-D). A3 only makes the publishable set self-contained.
+- The producers' runtime prerequisites on the hosted runner. For example, the graph producer pins .NET SDK `10.0.303`, and the database matrix needs SQL Server. These belong to installing and negative-testing the specimen (I2-E).
+- Any other bundle, module or claim change; the ruleset; V3 retirement; Guard product changes.
+
+### 11.7 Progress
+
+- **A3-0 (2026-10-01).** Rulings R12–R16 taken as recommended: graph producer, its policy and the two source policies
+  under `v4-adoption/producers/graph/` with id `ifx-v4a-graph-v1`; staging script and the extracted aggregate under
+  `v4-adoption/ci/`; source policies as byte copies checked by hash; parity as R11 plus the 16-case aggregate table; lab
+  tree `candidates/ifx-i2b-052`. A3-0 to A3-7 authorized for local execution. The I2-C status line is corrected and the
+  `main` push-run conclusion recorded (`artifacts/guards/p10-ifx-i2c/c11-push-run.json`).

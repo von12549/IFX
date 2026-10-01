@@ -6,22 +6,28 @@
   "acceptanceCriteria": [
     "The archive copy-back is byte-faithful and faster, with passing harness controls.",
     "The design note covers all seven producers and all 13 context-ownership rows and recommends one option.",
-    "No bundle, Profile, module, remote, workflow or ruleset change before the B3 decision."
+    "No bundle, Profile, module, remote, workflow or ruleset change before the B3 decision.",
+    "A3: every trusted-base, staging, producer and Target-side path of bundle 0.5.2 lies under docs/guards/v4-adoption; zero-difference graph and aggregate parity; 0.5.2 C6c passes; installed-Host outcomes equal 0.5.1."
   ],
   "plannedPaths": [
     "artifacts/guards/p10-ifx-i2b",
+    "artifacts/guards/p10-ifx-i2c",
     "docs/guards/TODO.md",
     "docs/guards/candidates/ifx-i2b",
     "docs/guards/candidates/ifx-i2b-050a",
     "docs/guards/candidates/ifx-i2b-051",
+    "docs/guards/candidates/ifx-i2b-052",
     "docs/guards/plans/20260929-v4-ifx-i2b-ci-evidence-and-bundle.md",
     "docs/guards/plans/20260929-v4-ifx-i2b-ci-evidence-and-bundle.plan.json",
+    "docs/guards/plans/20261001-v4-ifx-i2c-main-promotion.md",
     "docs/guards/v4-adoption/README.md",
+    "docs/guards/v4-adoption/ci",
     "docs/guards/v4-adoption/integrations/github",
     "docs/guards/v4-adoption/migration",
     "docs/guards/v4-adoption/plans/12-ci-evidence-design.md",
     "docs/guards/v4-adoption/plans/13-p10-3-successor-0-5-0.md",
     "docs/guards/v4-adoption/plans/14-p10-3-successor-0-5-1.md",
+    "docs/guards/v4-adoption/plans/15-p10-3-successor-0-5-2.md",
     "docs/guards/v4-adoption/producers"
   ],
   "areas": [
@@ -38,7 +44,8 @@
     "Options D-A, D-B and D-C are compared before choosing.",
     "B3: pin split accepted; D-B in two steps (0.5.0-a PR-gate rework, 0.5.0-b producer relocation).",
     "A1: 0.5.0 lock consumers read locks from EvidenceRoot and verify the producer contract; live pins are dropped, governance pins kept.",
-    "A2: producers relocated to docs/guards/v4-adoption/producers (R6); V3 origins recorded with a drift control (R7); new producer ids ifx-v4a-* (R8); type producer embeds its V3 policy copies and the generated producer is not staged (R9); no fixed frontend PATH (R10); zero-difference semantic V3/V4 parity (R11); bundle 0.5.1."
+    "A2: producers relocated to docs/guards/v4-adoption/producers (R6); V3 origins recorded with a drift control (R7); new producer ids ifx-v4a-* (R8); type producer embeds its V3 policy copies and the generated producer is not staged (R9); no fixed frontend PATH (R10); zero-difference semantic V3/V4 parity (R11); bundle 0.5.1.",
+    "A3 (rulings R12-R16 taken as recommended): graph producer, its policy and two source policies relocated to v4-adoption/producers/graph with id ifx-v4a-graph-v1; staging script and extracted aggregate under v4-adoption/ci; bundle 0.5.2."
   ],
   "validationCommands": [
     "plan-validate",
