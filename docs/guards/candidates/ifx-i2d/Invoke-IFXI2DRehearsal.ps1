@@ -110,7 +110,12 @@ try {
     $archive = Join-Path $repositoryPath 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip'
     $install = Join-Path $work 'composed'; $receipt = Join-Path $work 'composed.compose.json'
     foreach ($d in 'state', 'evidence') { [void][IO.Directory]::CreateDirectory((Join-Path $work $d)) }
-    $compose = Invoke-GuardIsolatedPwsh (Join-Path $base116 'package/core/distribution/Compose-V4Extension.ps1') @('-BaseInstallRoot', $base116, '-BaseReceiptPath', $baseReceipt, '-BaseArchivePath', $archive, '-BundleRoot', (Join-Path $windowsTrusted 'bundle'), '-ReviewRecordPath', (Join-Path $windowsTrusted 'production-extension-review.json'), '-OutputInstallRoot', $install, '-CompositionReceiptPath', $receipt, '-TargetRoot', $windowsCheckout, '-StateRoot', (Join-Path $work 'state'), '-EvidenceRoot', (Join-Path $work 'evidence')) -WorkingDirectory $work
+    # As the specimen does: copy the trusted bundle directory out of the checkout (the composer refuses a bundle root
+    # inside the Target) and compose from the copy.
+    $inputs = Join-Path $work 'v4-ifx-inputs'; [void][IO.Directory]::CreateDirectory($inputs)
+    $copied = Join-Path $inputs 'ifx-0.5.2'
+    Copy-Item -LiteralPath $windowsTrusted -Destination $copied -Recurse
+    $compose = Invoke-GuardIsolatedPwsh (Join-Path $base116 'package/core/distribution/Compose-V4Extension.ps1') @('-BaseInstallRoot', $base116, '-BaseReceiptPath', $baseReceipt, '-BaseArchivePath', $archive, '-BundleRoot', (Join-Path $copied 'bundle'), '-ReviewRecordPath', (Join-Path $copied 'production-extension-review.json'), '-OutputInstallRoot', $install, '-CompositionReceiptPath', $receipt, '-TargetRoot', $windowsCheckout, '-StateRoot', (Join-Path $work 'state'), '-EvidenceRoot', (Join-Path $work 'evidence')) -WorkingDirectory $work
     Add-Step 'compose' 'The published bundle composes with the 1.1.6 base under the published review.' 0 $compose ''
     $verify = Invoke-GuardIsolatedPwsh (Join-Path $base116 'package/core/distribution/Test-V4ComposedInstallation.ps1') @('-InstallRoot', $install, '-ReceiptPath', $receipt, '-BaseReceiptPath', $baseReceipt) -WorkingDirectory $work
     $proof = $null; try { $proof = $verify.Output | ConvertFrom-Json -Depth 50 } catch {}
