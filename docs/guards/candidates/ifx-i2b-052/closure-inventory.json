@@ -1,0 +1,517 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-052-closure-inventory",
+  "specSha256": "d3c61657de8fa150ce0db27786df437dadfa9a1bdcdf9f0883877a1574584867",
+  "allowedRoot": "docs/guards/v4-adoption",
+  "origins": [
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "destination": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "kind": "lab-producer",
+      "sha256": "d6057dc41a65e997f0985a7fc84476223488666566396d60d616f0d83d5ebebc",
+      "lfSha256": "d6057dc41a65e997f0985a7fc84476223488666566396d60d616f0d83d5ebebc",
+      "gitBlob": "c5ae3397ce38b2853dfe7c12c1297d792c1f0a37",
+      "lines": 94,
+      "usedBy": [
+        "bundle 0.5.1",
+        "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policy.json",
+      "kind": "lab-policy",
+      "sha256": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec",
+      "lfSha256": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec",
+      "gitBlob": "f431a01d5a01e507b4749cf25f41afe816faa191",
+      "lines": 1,
+      "usedBy": [
+        "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policies/ifx-reference-cycle-policy.json",
+      "kind": "lab-source-policy",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+      "lfSha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+      "gitBlob": "2c69a0c40f80b13dc973c7f0a8132680deb73198",
+      "lines": 183,
+      "usedBy": [
+        "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policies/ifx-ownership-graph-policy.json",
+      "kind": "lab-source-policy",
+      "sha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c",
+      "lfSha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c",
+      "gitBlob": "a0b6e56231136bac00ce4b95fa1eeadc7fa31f1d",
+      "lines": 77,
+      "usedBy": [
+        "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+      "destination": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1",
+      "kind": "lab-staging",
+      "sha256": "42b96ca52b6086006fe5ef10f6512ae01445705dc8b5a3bf5206654860c598cf",
+      "lfSha256": "42b96ca52b6086006fe5ef10f6512ae01445705dc8b5a3bf5206654860c598cf",
+      "gitBlob": "e4943b7b031a28e29aa93f6d72a6668557fc1c45",
+      "lines": 94,
+      "usedBy": [
+        "bundle 0.5.1",
+        "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml"
+      ]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1",
+      "destination": "docs/guards/v4-adoption/ci/Invoke-IFXV4Aggregate.ps1",
+      "kind": "lab-aggregate",
+      "sha256": "e164e040dbd5e112cfeaf3c989c3ff21bfda45fd53c88370f4a5b36249506a5a",
+      "lfSha256": "e164e040dbd5e112cfeaf3c989c3ff21bfda45fd53c88370f4a5b36249506a5a",
+      "gitBlob": "31dc0795d7e3c048aafa4620a18a4596c83addbd",
+      "lines": 262,
+      "usedBy": [
+        "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml"
+      ],
+      "branch": {
+        "startLine": 45,
+        "endLine": 54,
+        "sha256": "1975e58a5c4c6091ead3c65976c673fe9304c4915a3f6d8f0a42a4d50690fe9e"
+      }
+    }
+  ],
+  "roots": {
+    "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml": {
+      "kind": "specimen",
+      "references": [
+        {
+          "literal": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+          "base": "trusted-base",
+          "path": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+          "class": "relocate"
+        },
+        {
+          "literal": "docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1",
+          "base": "trusted-base",
+          "path": "docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1",
+          "class": "relocate"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/extensions/ifx/0.5.1",
+          "base": "trusted-base",
+          "path": "docs/guards/v4-adoption/extensions/ifx/0.5.1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers",
+          "base": "trusted-base",
+          "path": "docs/guards/v4-adoption/producers",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1": {
+      "kind": "staging",
+      "references": [
+        {
+          "literal": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+          "base": "literal",
+          "path": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+          "base": "literal",
+          "path": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+          "base": "literal",
+          "path": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+          "base": "literal",
+          "path": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+          "base": "literal",
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+          "class": "relocate"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+          "base": "literal",
+          "path": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "../../../..",
+          "base": "PSScriptRoot",
+          "path": ".",
+          "class": "other-target"
+        },
+        {
+          "literal": "modules/ifx-c1-evaluated-reference/policy.json",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json",
+          "class": "relocate"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "../quality/Invoke-IFXQuality.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXQuality.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "../quality/Invoke-IFXAssemblyGuard.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXAssemblyGuard.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "../policy/layerguard.json",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/policy/layerguard.json",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "source-inventory.json",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/database/source-inventory.json",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "Invoke-IFXSpecialized.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/database/Invoke-IFXSpecialized.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/database",
+          "base": "literal",
+          "path": "docs/guards/v4-adoption/producers/database",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/database/Invoke-IFXSpecialized.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "scripts",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/database/scripts",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "contracts/detector-result.schema.json",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/database/contracts/detector-result.schema.json",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/database/scripts/Invoke-G02DatabaseInventory.ps1": {
+      "kind": "producer-script",
+      "references": []
+    },
+    "docs/guards/v4-adoption/producers/database/scripts/New-DatabaseMigrationArtifacts.ps1": {
+      "kind": "producer-script",
+      "references": []
+    },
+    "docs/guards/v4-adoption/producers/database/scripts/Test-DatabasePendingModelChanges.ps1": {
+      "kind": "producer-script",
+      "references": []
+    },
+    "docs/guards/v4-adoption/producers/database/scripts/Test-MigrationSafetyPolicy.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "Invoke-G02DatabaseInventory.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/database/scripts/Invoke-G02DatabaseInventory.ps1",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "../quality/Invoke-IFXQuality.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXQuality.ps1",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/quality/Invoke-IFXAssemblyGuard.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "../policy/layerguard.json",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/policy/layerguard.json",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/quality/Invoke-IFXPackageAudit.ps1": {
+      "kind": "producer-script",
+      "references": []
+    },
+    "docs/guards/v4-adoption/producers/quality/Invoke-IFXQuality.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "Invoke-IFXPackageAudit.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXPackageAudit.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "Invoke-IFXAssemblyGuard.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXAssemblyGuard.ps1",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "../quality/Invoke-IFXQuality.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXQuality.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "../quality/Invoke-IFXPackageAudit.ps1",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXPackageAudit.ps1",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1": {
+      "kind": "producer-script",
+      "references": [
+        {
+          "literal": "type-policy.json",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/type/type-policy.json",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "../policy/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/policy/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "../policy/layerguard.json",
+          "base": "PSScriptRoot",
+          "path": "docs/guards/v4-adoption/producers/policy/layerguard.json",
+          "class": "v4-adoption"
+        }
+      ]
+    },
+    "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json": {
+      "kind": "producer-policy",
+      "references": [
+        {
+          "literal": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+          "base": "target",
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+          "class": "relocate",
+          "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7"
+        },
+        {
+          "literal": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+          "base": "target",
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+          "class": "relocate",
+          "sha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c"
+        }
+      ]
+    },
+    "bundle 0.5.1": {
+      "kind": "bundle-runtime",
+      "references": [
+        {
+          "literal": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+          "base": "modules/ifx-assembly-evidence/policy.json#/producer/script",
+          "path": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+          "base": "modules/ifx-c1-evaluated-reference/policy.json#/producer/script",
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+          "class": "relocate"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+          "base": "modules/ifx-c1-type-provenance/policy.json#/producer/script",
+          "path": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+          "base": "modules/ifx-database-evidence/policy.json#/producer/script",
+          "path": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+          "base": "modules/ifx-frontend-evidence/policy.json#/producer/script",
+          "path": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+          "base": "modules/ifx-solution-evidence/policy.json#/producer/script",
+          "path": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+          "base": "profiles/catalog/ifx_profile/evidence-lineage.json#/stagingScript",
+          "path": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+          "class": "relocate"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+          "base": "profiles/catalog/ifx_profile/evidence-lineage.json#/producers/0/script",
+          "path": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+          "base": "profiles/catalog/ifx_profile/evidence-lineage.json#/producers/1/script",
+          "path": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+          "class": "relocate"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+          "base": "profiles/catalog/ifx_profile/evidence-lineage.json#/producers/2/script",
+          "path": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+          "base": "profiles/catalog/ifx_profile/evidence-lineage.json#/producers/3/script",
+          "path": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+          "base": "profiles/catalog/ifx_profile/evidence-lineage.json#/producers/4/script",
+          "path": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+          "base": "profiles/catalog/ifx_profile/evidence-lineage.json#/producers/5/script",
+          "path": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+          "class": "v4-adoption"
+        },
+        {
+          "literal": "docs/guards/v4-adoption/producers/database",
+          "base": "profiles/catalog/ifx_profile/profile.json#/workspaceEvidence/relativeRoots/3",
+          "path": "docs/guards/v4-adoption/producers/database",
+          "class": "v4-adoption"
+        }
+      ]
+    }
+  },
+  "counts": {
+    "roots": 18,
+    "references": 46.0,
+    "relocate": 9,
+    "unlisted": 0
+  },
+  "postRelocation": [
+    {
+      "root": "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml",
+      "from": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+      "to": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1",
+      "underAllowedRoot": true
+    },
+    {
+      "root": "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml",
+      "from": "docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1",
+      "to": "docs/guards/v4-adoption/ci/Invoke-IFXV4Aggregate.ps1",
+      "underAllowedRoot": true
+    },
+    {
+      "root": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+      "from": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "to": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "underAllowedRoot": true
+    },
+    {
+      "root": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "from": "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json",
+      "to": "docs/guards/v4-adoption/producers/graph/policy.json",
+      "underAllowedRoot": true
+    },
+    {
+      "root": "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json",
+      "from": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+      "to": "docs/guards/v4-adoption/producers/graph/policies/ifx-reference-cycle-policy.json",
+      "underAllowedRoot": true
+    },
+    {
+      "root": "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json",
+      "from": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+      "to": "docs/guards/v4-adoption/producers/graph/policies/ifx-ownership-graph-policy.json",
+      "underAllowedRoot": true
+    },
+    {
+      "root": "bundle 0.5.1",
+      "from": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "to": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "underAllowedRoot": true
+    },
+    {
+      "root": "bundle 0.5.1",
+      "from": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+      "to": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1",
+      "underAllowedRoot": true
+    },
+    {
+      "root": "bundle 0.5.1",
+      "from": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "to": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "underAllowedRoot": true
+    }
+  ],
+  "unlistedReads": [],
+  "status": "pass"
+}

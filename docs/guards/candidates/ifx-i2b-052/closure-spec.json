@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-052-closure-spec",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "amendment": "A3",
+  "allowedRoot": "docs/guards/v4-adoption",
+  "roots": {
+    "specimen": "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml",
+    "stagingScript": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+    "producerPackage": "docs/guards/v4-adoption/producers",
+    "bundlePackage": "artifacts/guards/p10-ifx-i2b/a2-051/formal-candidate-a/cddff38a8d04481298b7882ab038e322/bundle/package"
+  },
+  "relocate": [
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "destination": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "kind": "lab-producer",
+      "gates": ["graph"]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policy.json",
+      "kind": "lab-policy",
+      "gates": ["graph"]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policies/ifx-reference-cycle-policy.json",
+      "kind": "lab-source-policy",
+      "gates": ["graph"]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policies/ifx-ownership-graph-policy.json",
+      "kind": "lab-source-policy",
+      "gates": ["graph"]
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+      "destination": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1",
+      "kind": "lab-staging",
+      "gates": ["solution", "assembly", "frontend", "database", "graph", "type"]
+    }
+  ],
+  "extract": [
+    {
+      "origin": "docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1",
+      "destination": "docs/guards/v4-adoption/ci/Invoke-IFXV4Aggregate.ps1",
+      "kind": "lab-aggregate",
+      "branch": "if ($Mode -ceq 'Aggregate') { ... }",
+      "reason": "ruling R14: only the Aggregate branch runs from the trusted base; the Validate rehearsal stays in the lab tree"
+    }
+  ],
+  "runtimeJsonKeys": ["script", "stagingScript", "relativeRoots"],
+  "provenanceJsonKeys": ["sourcePath", "path", "source", "projectNamePolicyPath", "referencePolicyPath"],
+  "productSourceRoots": ["src", "tests", "tools", "deployment", "docs/architecture", "Directory.Build.props", "Directory.Packages.props", "global.json", "IFX.sln", "IFX.slnx", "NuGet.config", "nuget.config", ".config"]
+}
