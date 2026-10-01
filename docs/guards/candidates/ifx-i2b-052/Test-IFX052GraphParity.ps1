@@ -34,8 +34,10 @@ function Invoke-Graph([string]$Side, [string]$Label) {
     $out = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $target $s.script) -TargetRoot $target -RunId $id 2>&1); $code = $LASTEXITCODE
     $log = Join-Path $logRoot "$Label-$Side.log"; [void][IO.Directory]::CreateDirectory($logRoot); [IO.File]::WriteAllLines($log, @($out | ForEach-Object { [string]$_ }), [Text.UTF8Encoding]::new($false))
     $text = (@($out | ForEach-Object { [string]$_ }) -join "`n") -replace '\x1b\[[0-9;]*m', ''
-    $m = [regex]::Match($text, '(?m)^(?:Exception|[^\r\n]*Exception):\s*(?<msg>[^\r\n]+)')
-    $message = if ($m.Success) { $m.Groups['msg'].Value.Trim() } elseif ($code -ne 0) { ($text -split "`n" | Where-Object { $_.Trim() } | Select-Object -Last 1) } else { '' }
+    # pwsh prints a thrown message as the last '| <message>' line of its error box; the 'Exception: <script>:<line>' header
+    # names the script and line, which differ between the sides by design (the relocated script has a provenance header).
+    $boxLines = @([regex]::Matches($text, '(?m)^\s*\|\s+(?<msg>[^~\s][^\r\n]*)$') | ForEach-Object { $_.Groups['msg'].Value.Trim() })
+    $message = if ($boxLines.Count) { $boxLines[-1] } elseif ($code -ne 0) { ($text -split "`n" | Where-Object { $_.Trim() } | Select-Object -Last 1) } else { '' }
     [ordered]@{ side = $Side; exitCode = $code; seconds = [math]::Round($t.Elapsed.TotalSeconds, 1); run = "$($s.prefix)/$id"; lock = "$($s.prefix)/$id/evidence-lock.json"; message = $message; log = [IO.Path]::GetRelativePath($work, $log).Replace('\', '/') }
 }
 $volatileKey = [regex]'(?i)^(createdAt|expiresAt)$'
