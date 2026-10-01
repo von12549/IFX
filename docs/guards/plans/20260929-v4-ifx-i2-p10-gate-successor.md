@@ -1,6 +1,6 @@
 # IFX I2 — P10.GATE successor for V4 Guards 1.1.6 + `ifx_profile` 0.4.4 (IFX-V4-001)
 
-Status: `ACTIVE — phase division and decisions 1A/2B accepted by the operator (2026-09-29); I2-A complete (2026-09-29); I2-B complete (2026-10-01, bundle 0.5.1, pushed `5f6008ee`); I2-C complete (2026-10-01, `20261001-v4-ifx-i2c-main-promotion`: main promoted to `7b9b53dc`, `v4-adoption` admitted); next: I2-B amendment A3 (bundle 0.5.2, F-C1), then I2-D`
+Status: `ACTIVE — phase division and decisions 1A/2B accepted by the operator (2026-09-29); I2-A complete (2026-09-29); I2-B complete (2026-10-01, bundle 0.5.1, pushed `5f6008ee`); I2-C complete (2026-10-01, `20261001-v4-ifx-i2c-main-promotion`: main promoted to `7b9b53dc`, `v4-adoption` admitted); I2-B amendment A3 complete (2026-10-01, bundle 0.5.2, pushed `0b38f0f3`); I2-D complete (2026-10-01, `20261001-v4-ifx-i2d-publish-trusted-inputs`: PR #114, main `d2ddb2b4`, bundle 0.5.2 published); next: I2-E under its own Plan; RD4 V3 protection of `v4-adoption` before I2-F`
 
 Formal Plan ID: `20260929-v4-ifx-i2-p10-gate-successor`. This is a **program Plan**: every phase
 below needs its own exact Plan and authorization, and the remote phases need explicit per-step approval.

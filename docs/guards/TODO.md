@@ -151,6 +151,13 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     the closure rule pass; A3-11 verification and receipt `v4-adoption/migration/ifx-i2b-a3-0-5-2-receipt.json`. A3-12 pushed
     (`e2ffb2eb..0b38f0f3`); **amendment A3 complete.** Next: I2-D, Plan `20261001-v4-ifx-i2d-publish-trusted-inputs`
     (publish the curated `v4-adoption` package and the 0.5.2 bundle to `main`).
+  - **I2-D complete (2026-10-01).** Plan `20261001-v4-ifx-i2d-publish-trusted-inputs`:
+    - the 0.5.2 bundle and review added to the development branch first (`2c82d6e8`); rehearsal 19/19, review accepted;
+    - PR #114 (298 copied files, the `main` README, a V3 plan pair) merged into `main` with 13/13 (`d2ddb2b4`); every
+      published file byte-identical to its development source; ruleset 23459908 unchanged; the specimen still inactive;
+    - receipt `v4-adoption/migration/ifx-i2d-publish-receipt.json`.
+    - Next: I2-E (install the workflow, remote negative tests) under its own Plan; the V3 protection of `v4-adoption`
+      (RD4) before I2-F.
   - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).

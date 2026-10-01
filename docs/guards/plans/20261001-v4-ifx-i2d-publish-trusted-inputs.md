@@ -1,6 +1,6 @@
 # IFX I2-D — publish the curated `v4-adoption` package and the exact 0.5.2 bundle to `main`
 
-Status: `ACTIVE — rulings RD1–RD6 taken as recommended and D0–D5 authorized for local execution (2026-10-01, "全部按推荐，并授权D0到D5本地执行"); D0–D5 complete (D5 accepted, "接受，授权 D6"); D6 done: PR #114 open; every remote step D6–D9 needs its own authorization`
+Status: `ACTIVE — rulings RD1–RD6 taken as recommended and D0–D5 authorized for local execution (2026-10-01, "全部按推荐，并授权D0到D5本地执行"); D0–D5 complete (D5 accepted, "接受，授权 D6"); D6 done (PR #114); D7–D9 authorized ("#114 CI已通过。授权D7/8/9"); COMPLETE (2026-10-01): main `d2ddb2b4`, receipt `v4-adoption/migration/ifx-i2d-publish-receipt.json`; D9 pushes the development branch`
 
 Formal Plan ID: `20261001-v4-ifx-i2d-publish-trusted-inputs`. Phase I2-D of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`. I2-E (installing the workflow) builds on it.
@@ -161,6 +161,13 @@ Each of these stops I2-D, and the evidence is kept:
 - **D5.** Review packet `d5-review/review-packet.json` `5e2d2211…` and `review.md` (evrun 006). Accepted ("接受，授权 D6"); decision `d5-decision.json`.
 - **D6.** `main` still `7b9b53dc`. Head rebuilt on it (`d5218f87`, 301 changes, byte checks pass); the trusted Diff re-run on
   that exact head passes with no protected changes; branch `codex/i2d-publish-v4-adoption` pushed and verified; PR
-  [#114](https://github.com/von12549/IFX/pull/114) opened to `main` (`d6-record.json`). Next: D7 merge after 13/13
-  (authorization).
+  [#114](https://github.com/von12549/IFX/pull/114) opened to `main` (`d6-record.json`).
+- **D7.** Authorized ("#114 CI已通过。授权D7/8/9"). One GET read: 13/13, CLEAN, head `d5218f87`. Merged with a merge commit
+  and `--match-head-commit`: `main` = `d2ddb2b4` (parents `7b9b53dc`, `d5218f87`); its tree equals the PR head.
+- **D8.** Post-state passes (`d8-post-state.json`): default branch `main`; `docs/guards` top level `V3`, `V3_ifx`, `plans`,
+  `v4-adoption`; the 299 `v4-adoption` files on `main` are exactly the published set, every one equal to its source blob;
+  manifest `a2f619a3…`, review `38eb775a…`; ruleset unchanged; no open pull request. The push-triggered V3 run on `main`
+  (36865277272) was in progress at the one read and is not polled. `main` merged into the development branch
+  (`d2b5472c`): the README conflict keeps the development edition with a note naming the `main` edition; under
+  `v4-adoption` only the README and `plans/` differ from `main`. Receipt `v4-adoption/migration/ifx-i2d-publish-receipt.json`.
 

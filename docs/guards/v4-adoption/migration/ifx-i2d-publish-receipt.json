@@ -1,0 +1,114 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2d-publish-receipt",
+  "planId": "20261001-v4-ifx-i2d-publish-trusted-inputs",
+  "phase": "I2-D",
+  "createdAt": "2026-10-01T13:00:23.903827+00:00",
+  "decisions": {
+    "rulings": [
+      "RD1 (a)",
+      "RD2 (a)",
+      "RD3 (a)",
+      "RD4 (a)",
+      "RD5 (a)",
+      "RD6 merge commit"
+    ],
+    "acceptance": "接受，授权 D6",
+    "remote": "#114 CI已通过。授权D7/8/9"
+  },
+  "publication": {
+    "pullRequest": 114,
+    "branch": "codex/i2d-publish-v4-adoption",
+    "head": "d5218f87cd75472b464514667f94876f164d12dd",
+    "mainBefore": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "mainAfter": "d2ddb2b40c661772c844886e12c39ed59b1177ba",
+    "mergeParents": [
+      "7b9b53dcc102fd8513927681641493101b4599ca",
+      "d5218f87cd75472b464514667f94876f164d12dd"
+    ],
+    "method": "merge commit, --match-head-commit, after 13/13 required checks",
+    "sourceCommit": "2c82d6e8d3ec13817d67f8f71718124ca35ed323",
+    "copiedFiles": 298,
+    "authoredFiles": [
+      "docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.md",
+      "docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.plan.json",
+      "docs/guards/v4-adoption/README.md"
+    ],
+    "publishedV4AdoptionFiles": 299,
+    "byteIdenticalToSources": true,
+    "bundleManifestSha256": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+    "reviewSha256": "38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d",
+    "composedPackageHash": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42",
+    "mainReadmeBlob": "de872af27ad9832b9fc8db97a6b7340aad7b9973",
+    "defaultBranch": "main",
+    "rulesetId": 23459908,
+    "rulesetCanonicalSha256": "857a51aaf9590758aa37ab0daf234695ba6e3a434644e598026d741b2c7d6f4a",
+    "rulesetUnchanged": true
+  },
+  "records": {
+    "d1Snapshot": {
+      "path": "artifacts/guards/p10-ifx-i2d/d1-remote-snapshot.json",
+      "sha256": "9d8a8b129c87195a5e1f27b6e618daf94a00dbf29995a75e00ba30c1c08adde1"
+    },
+    "d4Rehearsal": {
+      "path": "artifacts/guards/p10-ifx-i2d/d4-rehearsal/rehearsal.json",
+      "sha256": "0704f14d670a355f7ccfbe5cc3f4bf9679afca6de3116c2e195b320473bf7cf0"
+    },
+    "d5ReviewPacket": {
+      "path": "artifacts/guards/p10-ifx-i2d/d5-review/review-packet.json",
+      "sha256": "5e2d2211d365f86edaf95b2a3f07deae8fb3e97c05f2652da4bed7ddcb7e03ed"
+    },
+    "d5Decision": {
+      "path": "artifacts/guards/p10-ifx-i2d/d5-decision.json",
+      "sha256": "c76c8674fa89525cf62efacb2aa42a34130dfb3ff8b95f79c266c1105b663c1f"
+    },
+    "d6Record": {
+      "path": "artifacts/guards/p10-ifx-i2d/d6-record.json",
+      "sha256": "38f085179aab65de6694297e574d12a2c799c79611d9c5cbc0ef6940869305ca"
+    },
+    "d8PostState": {
+      "path": "artifacts/guards/p10-ifx-i2d/d8-post-state.json",
+      "sha256": "9e555a33b024f147f6c3955d6c7a4dd9e084ce2b0ce7f4fc02dd91987931987e"
+    },
+    "prSpec": {
+      "path": "docs/guards/candidates/ifx-i2d/pr-spec.json",
+      "sha256": "0a0bc600269e03dfa665c1c7fec456fc8661ed300d21de371c59ab5a34043a92"
+    }
+  },
+  "developmentBranchMerge": {
+    "commit": "d2b5472c",
+    "conflictsResolvedByRule": [
+      "docs/guards/v4-adoption/README.md (development edition + note)"
+    ],
+    "differsFromMainUnderV4Adoption": [
+      "README.md (development edition)",
+      "plans/ (design notes, RD1)"
+    ]
+  },
+  "openItems": [
+    "Push-triggered V3 run on main 36865277272 was in_progress at the one D8 read (2026-10-01T12:57:23Z created); its conclusion is recorded later",
+    "RD4: V3 protection of docs/guards/v4-adoption (changes to the published inputs need V3 obligations) must land before I2-F"
+  ],
+  "backlog": {
+    "progressed": [
+      "IFX-V4-001: I2-D complete (trusted inputs published to main)"
+    ],
+    "closed": [],
+    "opened": []
+  },
+  "booleans": {
+    "mainPromoted": true,
+    "v4AdoptionAdmitted": true,
+    "bundlePublished": true,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "p10GatePassed": false,
+    "ifxCutover": false,
+    "v3Retired": false
+  },
+  "next": [
+    "D9: push the development branch (authorized)",
+    "I2-E: install the workflow and run the remote negative tests, under its own Plan",
+    "RD4 V3 protection of v4-adoption before I2-F"
+  ]
+}
