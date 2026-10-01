@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2d-d6-record",
+  "planId": "20261001-v4-ifx-i2d-publish-trusted-inputs",
+  "step": "D6",
+  "authorization": "接受，授权 D6",
+  "recordedAtUtc": "2026-10-01T12:08:49.650899+00:00",
+  "target": {
+    "branch": "main",
+    "commit": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "unchangedSinceD1": true
+  },
+  "build": {
+    "branch": "codex/i2d-publish-v4-adoption",
+    "head": "d5218f87cd75472b464514667f94876f164d12dd",
+    "base": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "changedCount": 301
+  },
+  "preflight": "trusted Diff from main's own runner on the exact head: protected change verification passed (no protected changes); Trusted base run passed",
+  "push": {
+    "branch": "codex/i2d-publish-v4-adoption",
+    "remoteHead": "d5218f87cd75472b464514667f94876f164d12dd",
+    "verifiedBy": "git ls-remote"
+  },
+  "pullRequest": {
+    "number": 114,
+    "url": "https://github.com/von12549/IFX/pull/114",
+    "base": "main",
+    "state": "open"
+  },
+  "next": "merge (merge commit) after 13/13 needs separate authorization (D7); CI is not polled"
+}

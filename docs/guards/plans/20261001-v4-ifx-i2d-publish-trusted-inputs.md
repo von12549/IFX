@@ -1,6 +1,6 @@
 # IFX I2-D — publish the curated `v4-adoption` package and the exact 0.5.2 bundle to `main`
 
-Status: `ACTIVE — rulings RD1–RD6 taken as recommended and D0–D5 authorized for local execution (2026-10-01, "全部按推荐，并授权D0到D5本地执行"); D0–D4 complete; D5 review packet ready; every remote step D6–D9 needs its own authorization`
+Status: `ACTIVE — rulings RD1–RD6 taken as recommended and D0–D5 authorized for local execution (2026-10-01, "全部按推荐，并授权D0到D5本地执行"); D0–D5 complete (D5 accepted, "接受，授权 D6"); D6 done: PR #114 open; every remote step D6–D9 needs its own authorization`
 
 Formal Plan ID: `20261001-v4-ifx-i2d-publish-trusted-inputs`. Phase I2-D of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`. I2-E (installing the workflow) builds on it.
@@ -158,5 +158,9 @@ Each of these stops I2-D, and the evidence is kept:
 
   Attempt 1 (evrun 004) passed the 17 V3 and publication checks, but the composer refused a bundle root inside the
   Target checkout; it is kept under `artifacts/guards/p10-ifx-i2d-trials`.
-- **D5.** Review packet `d5-review/review-packet.json` `5e2d2211…` and `review.md` (evrun 006). Waiting for the operator.
+- **D5.** Review packet `d5-review/review-packet.json` `5e2d2211…` and `review.md` (evrun 006). Accepted ("接受，授权 D6"); decision `d5-decision.json`.
+- **D6.** `main` still `7b9b53dc`. Head rebuilt on it (`d5218f87`, 301 changes, byte checks pass); the trusted Diff re-run on
+  that exact head passes with no protected changes; branch `codex/i2d-publish-v4-adoption` pushed and verified; PR
+  [#114](https://github.com/von12549/IFX/pull/114) opened to `main` (`d6-record.json`). Next: D7 merge after 13/13
+  (authorization).
 
