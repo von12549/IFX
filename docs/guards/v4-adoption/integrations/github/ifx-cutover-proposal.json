@@ -2,42 +2,54 @@
   "formatVersion": 1,
   "status": "inactive-design-only",
   "successorOf": {
-    "tuple": "V4 Guards 1.1.6 + ifx_profile 0.5.0",
+    "tuple": "V4 Guards 1.1.6 + ifx_profile 0.5.1",
     "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
-    "decisionSha256": "fab31b2bb91da93dcf12ec98c86b28a9f714cb10be84862e761c611ea28211b8",
-    "decisionNote": "A1-8c rehearsal (artifacts/guards/p10-ifx-i2b/p10-3-successor-050/rehearsal)",
+    "decisionSha256": "893693904ab17371491d1d3eb24267de8bbf7b1ca48c0142d89fc0ba65aa45e2",
+    "decisionNote": "A2-10c rehearsal (artifacts/guards/p10-ifx-i2b/a2-051/p10-3-successor-051/rehearsal)",
     "previousIdentity": {
-      "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+      "targetCommit": "351b504bd6549a8e9cede9ab34571986f6188c49",
       "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
-      "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284"
+      "bundleManifestSha256": "b7a6751612f2279809b07988916112b499c52e7b1b36ae175c68924bd979e5e7"
     },
     "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
     "earlier": {
-      "tuple": "V4 Guards 1.1.6 + ifx_profile 0.4.4",
+      "tuple": "V4 Guards 1.1.6 + ifx_profile 0.5.0",
       "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
-      "decisionSha256": "b5882ec7d89f0124e10cfad72b7212466dfb802e98ed94c1c8731084f803cb0a",
-      "decisionNote": "I1 S9 rehearsal (artifacts/guards/p10-ifx-116/p10-3-successor-044/rehearsal)",
+      "decisionSha256": "fab31b2bb91da93dcf12ec98c86b28a9f714cb10be84862e761c611ea28211b8",
+      "decisionNote": "A1-8c rehearsal (artifacts/guards/p10-ifx-i2b/p10-3-successor-050/rehearsal)",
       "previousIdentity": {
-        "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+        "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
         "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
-        "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7"
+        "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284"
       },
       "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
       "earlier": {
-        "tuple": "V4 Guards 1.1.5 + ifx_profile 0.4.3",
+        "tuple": "V4 Guards 1.1.6 + ifx_profile 0.4.4",
         "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
-        "decisionSha256": "f9775c584be738ebe5b72892cec18a04f3b938f638b0dbae68e327b530b3ce47",
-        "decisionNote": "T7 successor rehearsal as re-run after the T8 cleanup (artifacts/guards/p10-ifx-115/p10-3-successor-t8-043)",
+        "decisionSha256": "b5882ec7d89f0124e10cfad72b7212466dfb802e98ed94c1c8731084f803cb0a",
+        "decisionNote": "I1 S9 rehearsal (artifacts/guards/p10-ifx-116/p10-3-successor-044/rehearsal)",
         "previousIdentity": {
-          "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
-          "baseArchiveSha256": "74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976",
-          "bundleManifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03"
+          "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+          "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+          "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7"
         },
-        "planId": "20260928-v4-ifx-i1-rebind-1-1-6",
+        "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
         "earlier": {
-          "tuple": "V4 Guards 1.1.4 + ifx_profile 0.4.2",
-          "decision": "p10-3-design-and-local-rehearsal-accepted",
-          "decisionSha256": "529e19b567c05619ec054117e2514c579a908a4e614355411fc28b6d52964964"
+          "tuple": "V4 Guards 1.1.5 + ifx_profile 0.4.3",
+          "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+          "decisionSha256": "f9775c584be738ebe5b72892cec18a04f3b938f638b0dbae68e327b530b3ce47",
+          "decisionNote": "T7 successor rehearsal as re-run after the T8 cleanup (artifacts/guards/p10-ifx-115/p10-3-successor-t8-043)",
+          "previousIdentity": {
+            "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+            "baseArchiveSha256": "74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976",
+            "bundleManifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03"
+          },
+          "planId": "20260928-v4-ifx-i1-rebind-1-1-6",
+          "earlier": {
+            "tuple": "V4 Guards 1.1.4 + ifx_profile 0.4.2",
+            "decision": "p10-3-design-and-local-rehearsal-accepted",
+            "decisionSha256": "529e19b567c05619ec054117e2514c579a908a4e614355411fc28b6d52964964"
+          }
         }
       }
     }
@@ -45,22 +57,22 @@
   "remoteMutationAuthorized": false,
   "activationBlocked": true,
   "identity": {
-    "targetCommit": "351b504bd6549a8e9cede9ab34571986f6188c49",
+    "targetCommit": "3600988cc9e91f0a523ec60f5f4378dd4c83c541",
     "v4ProductVersion": "1.1.6",
-    "ifxProfileVersion": "0.5.1",
+    "ifxProfileVersion": "0.5.2",
     "guardRepository": "von12549/Guard",
     "guardReleaseCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
     "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
-    "bundleManifestSha256": "b7a6751612f2279809b07988916112b499c52e7b1b36ae175c68924bd979e5e7",
-    "profileSha256": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
-    "productionReviewSha256": "077edb6c2dc83baad0ade959adfe45de1dc36c878ff7676f4f0774b761a16387",
-    "packageSha256": "52364a8d508e715416324c96d723268e9a13ff207bf301c406e8256feb71b7d2",
-    "compositionReceiptSha256": "3e9a3e9ddba2e2d1faa9e464309dd5ead709e6f4adc253a9ad8e662f3c7c7cf8",
-    "c6cDecisionSha256": "309af8b25cb6630718f12f8bba0ab0fd754ef06884d06d11b58c6de4d1c96e7d",
-    "c6dDecisionSha256": "b841e92b46795cef1058cbdfd480177a9a7556c50d7e50ad49366418bbb2dd14",
-    "c6eDecisionSha256": "2e3a6454c07d303e6de39ab0c85590798b5890f1f2fefcdea4dadb942d9e1e1e",
-    "p10_2DecisionSha256": "aec12ba111ad579cd46f5c5ccf972129f25086e64d4bd6b3cdb0c5c73128b358",
-    "windowsFullSummarySha256": "e5af6ead399ffbee077bae25cdb0d605f15e66bd7c74b9d1bf30de0566ceb91e"
+    "bundleManifestSha256": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+    "profileSha256": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302",
+    "productionReviewSha256": "38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d",
+    "packageSha256": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42",
+    "compositionReceiptSha256": "01011be24afb6fdd6daa34666dc0ec0b7c886c5ffe3528b1dd80c7accbf07a19",
+    "c6cDecisionSha256": "5b5edf13fe7c3bc2ff97a5f62a2f08d68e14eb54c6bf91ea2a2b41262c99da90",
+    "c6dDecisionSha256": "8d7dee8d9b35c86ba6a0f1c7049467a30f0d8e151c020a5fb9c59708aa7be38c",
+    "c6eDecisionSha256": "102ada6ce67591af60a7ee56d588e46de4c057df10c7411e4ddb62d2c2851bfd",
+    "p10_2DecisionSha256": "c1f3f13a177fdf0c7d3d7d493abb09767d3ff823303d5169ac4f482f159d9d78",
+    "windowsFullSummarySha256": "d6384960457ce32e11b110f133d0c84afea26df6b288c47a588681791521db00"
   },
   "trustedInputs": {
     "baseReleaseRepository": "von12549/Guard",
@@ -68,9 +80,15 @@
     "baseReleaseAsset": "v4-guards-1.1.6.zip",
     "baseReleaseUrl": "https://github.com/von12549/Guard/releases/download/v4-guards-v1.1.6/v4-guards-1.1.6.zip",
     "baseReleaseDigestPinned": true,
-    "futureBundleBasePath": "docs/guards/v4-adoption/extensions/ifx/0.5.1",
+    "futureBundleBasePath": "docs/guards/v4-adoption/extensions/ifx/0.5.2",
     "bundlePublicationState": "not-published-separate-plan-required",
-    "candidateMaySupplyAuthority": false
+    "candidateMaySupplyAuthority": false,
+    "mainPromotion": {
+      "state": "done-by-i2c",
+      "plan": "20261001-v4-ifx-i2c-main-promotion",
+      "mainCommit": "7b9b53dcc102fd8513927681641493101b4599ca",
+      "admittedEntry": "docs/guards/v4-adoption"
+    }
   },
   "workflow": {
     "specimenPath": "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml",
@@ -91,7 +109,7 @@
   },
   "evidenceModel": {
     "model": "staged-by-workflow",
-    "stagingScript": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+    "stagingScript": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1",
     "stagingScriptSource": "previously-trusted-base",
     "producerIdentity": "each lock consumer verifies the producer script SHA-256 pinned in its accepted module policy",
     "postWithoutStagingFailsClosed": true,
@@ -126,8 +144,8 @@
       },
       {
         "gate": "graph",
-        "producerId": "ifx-c1-r2b-controlled-v1",
-        "script": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+        "producerId": "ifx-v4a-graph-v1",
+        "script": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
         "wrapsV3Gate": false,
         "attestation": "v4-native-producer"
       },
@@ -140,10 +158,16 @@
       }
     ],
     "notes": [
-      "0.5.1 (A2): the solution, assembly, frontend, database and type producers run from docs/guards/v4-adoption/producers; none reads docs/guards/V3 or V3_ifx (relocation inventory, static controls and V3/V4 parity in artifacts/guards/p10-ifx-i2b/a2-relocation).",
-      "The graph producer stays in the lab tree and reads nothing under V3; the generated producer is not staged."
+      "0.5.1 (A2): the solution, assembly, frontend, database and type producers run from docs/guards/v4-adoption/producers; none reads docs/guards/V3 or V3_ifx.",
+      "0.5.2 (A3, finding F-C1): the graph producer, its policy and two source policies run from docs/guards/v4-adoption/producers/graph; the staging script and the aggregate run from docs/guards/v4-adoption/ci; nothing the specimen or a producer runs lies under docs/guards/candidates (closure inventory, controls and parity in artifacts/guards/p10-ifx-i2b/a3-closure).",
+      "The generated producer is not staged."
     ],
-    "relocation": "done in 0.5.1 (I2-B amendment A2)"
+    "relocation": "done in 0.5.1 (I2-B amendment A2) and 0.5.2 (amendment A3, closure)",
+    "closure": {
+      "allowedRoot": "docs/guards/v4-adoption",
+      "rule": "every trusted-base path of the specimen, the staging script and every producer script lie under the allowed root; no producer names docs/guards/candidates",
+      "executedBy": "a310-successor-rehearsal"
+    }
   },
   "coexistence": {
     "minimumCalendarDays": 7,
@@ -414,7 +438,7 @@
       "required-context-or-ruleset-drift",
       "evidence-or-target-root-mutation"
     ],
-    "restoreCommit": "135021696472a87179fe82a18b8562241a77df63",
+    "restoreCommit": "e2ffb2eb3ec632c0124199ecad000c26c5148792",
     "restoreWorkflowPath": ".github/workflows/v3-ifx-guardrails.yml",
     "restoreWorkflowBlob": "51986b5aae2ccdacb52020f21c20b7c12f630726",
     "restoreRulesetId": 23459908,
@@ -515,11 +539,21 @@
       "id": "re-attestation-returns",
       "expected": "rejected",
       "executedBy": "a210-successor-rehearsal"
+    },
+    {
+      "id": "specimen-reads-lab-tree",
+      "expected": "rejected",
+      "executedBy": "a310-successor-rehearsal"
+    },
+    {
+      "id": "producer-reads-lab-tree",
+      "expected": "rejected",
+      "executedBy": "a310-successor-rehearsal"
     }
   ],
   "activationPrerequisites": [
-    "promote-reviewed-v3-workflow-and-p10-evidence-to-default-branch",
-    "publish-exact-ifx-0.5.1-bundle-by-separate-plan",
+    "publish-curated-v4-adoption-package-to-main-by-separate-plan",
+    "publish-exact-ifx-0.5.2-bundle-by-separate-plan",
     "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
     "prove-producer-runtime-prerequisites-on-the-hosted-runner-when-installing-the-specimen",
     "add-v4-ifx-required-to-ruleset-by-separate-plan",

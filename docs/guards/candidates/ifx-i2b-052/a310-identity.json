@@ -47,5 +47,39 @@
     "cleanTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a310-clean-052",
     "violatingTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a310-violating-052",
     "bundle": "artifacts/guards/p10-ifx-i2b/a3-052/formal-candidate-a/8f06b1c739984178bdfc5c8b5e18d558/bundle"
+  },
+  "records": {
+    "c6cDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-decision.json",
+      "sha256": "5b5edf13fe7c3bc2ff97a5f62a2f08d68e14eb54c6bf91ea2a2b41262c99da90"
+    },
+    "windowsFull": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-full/windows/summary.json",
+      "sha256": "d6384960457ce32e11b110f133d0c84afea26df6b288c47a588681791521db00"
+    },
+    "c6dDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/c6d-decision.json",
+      "sha256": "8d7dee8d9b35c86ba6a0f1c7049467a30f0d8e151c020a5fb9c59708aa7be38c"
+    },
+    "c6eDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/a3-10a-decision.json",
+      "sha256": "102ada6ce67591af60a7ee56d588e46de4c057df10c7411e4ddb62d2c2851bfd"
+    },
+    "p10_2Decision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-052/p10-2-decision.json",
+      "sha256": "c1f3f13a177fdf0c7d3d7d493abb09767d3ff823303d5169ac4f482f159d9d78"
+    },
+    "parityAgainst051": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-052/parity-against-051.json",
+      "sha256": "be163235802d945f465f777caf42bdab1ef98cfd7e33340868ad0e9d1c965e1b"
+    },
+    "hostOutcomesAgainst051": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-052/host-outcomes-against-051.json",
+      "sha256": "69c58ad72abaef756de967aebabcb5f9273f49ab85532b3854e41480a780bc37"
+    },
+    "remoteSnapshot": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/p10-3-successor-052/remote-snapshot.json",
+      "sha256": "5384d20b1adfbfe7dc4e1765c35daac0a604799222ad617fca56998e50eaaa06"
+    }
   }
 }

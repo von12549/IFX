@@ -1,6 +1,6 @@
-# INACTIVE P10.3 SUCCESSOR SPECIMEN. IFX I2-B A2-10 binds V4 Guards 1.1.6 from von12549/Guard + ifx_profile 0.5.1
-# (successor of the A1-8 specimen). Evidence is produced and staged by this workflow; the producers live in
-# docs/guards/v4-adoption/producers and run no V3 gate.
+# INACTIVE P10.3 SUCCESSOR SPECIMEN. IFX I2-B A3-10 binds V4 Guards 1.1.6 from von12549/Guard + ifx_profile 0.5.2
+# (successor of the A2-10 specimen). Evidence is produced and staged by this workflow; everything it runs from the
+# trusted base lies under docs/guards/v4-adoption (producers/, ci/), the one entry main admits.
 # A later exact Plan must install this as .github/workflows/v4-ifx-guardrails.yml.
 name: V4 IFX Guardrails
 
@@ -21,11 +21,11 @@ env:
   V4_RELEASE_TAG: v4-guards-v1.1.6
   V4_ARCHIVE_NAME: v4-guards-1.1.6.zip
   V4_ARCHIVE_SHA256: 92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8
-  IFX_BUNDLE_BASE_PATH: docs/guards/v4-adoption/extensions/ifx/0.5.1
-  IFX_BUNDLE_MANIFEST_SHA256: b7a6751612f2279809b07988916112b499c52e7b1b36ae175c68924bd979e5e7
-  IFX_PRODUCTION_REVIEW_SHA256: 077edb6c2dc83baad0ade959adfe45de1dc36c878ff7676f4f0774b761a16387
-  IFX_TARGET_COMMIT: 351b504bd6549a8e9cede9ab34571986f6188c49
-  IFX_EVIDENCE_PRODUCERS: docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1
+  IFX_BUNDLE_BASE_PATH: docs/guards/v4-adoption/extensions/ifx/0.5.2
+  IFX_BUNDLE_MANIFEST_SHA256: a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372
+  IFX_PRODUCTION_REVIEW_SHA256: 38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d
+  IFX_TARGET_COMMIT: 3600988cc9e91f0a523ec60f5f4378dd4c83c541
+  IFX_EVIDENCE_PRODUCERS: docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1
 
 jobs:
   v4-ifx-contract:
@@ -68,7 +68,7 @@ jobs:
           if ((Get-FileHash -Algorithm SHA256 -LiteralPath $review).Hash.ToLowerInvariant() -cne $env:IFX_PRODUCTION_REVIEW_SHA256) {
             throw 'IFX production review hash mismatch.'
           }
-          Copy-Item -LiteralPath $trusted -Destination (Join-Path $input 'ifx-0.5.1') -Recurse
+          Copy-Item -LiteralPath $trusted -Destination (Join-Path $input 'ifx-0.5.2') -Recurse
       - uses: actions/upload-artifact@v4
         with:
           name: v4-ifx-inputs-${{ github.sha }}
@@ -118,7 +118,7 @@ jobs:
           Expand-Archive -LiteralPath $archive -DestinationPath $expanded
           pwsh -NoProfile -File (Join-Path $expanded 'package/core/distribution/Install-V4Distribution.ps1') -Mode Install -InstallRoot $base -ReceiptPath $baseReceipt -ArchivePath $archive
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          $bundleBase = Join-Path $input 'ifx-0.5.1'
+          $bundleBase = Join-Path $input 'ifx-0.5.2'
           pwsh -NoProfile -File (Join-Path $base 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $base -BaseReceiptPath $baseReceipt -BaseArchivePath $archive -BundleRoot (Join-Path $bundleBase 'bundle') -ReviewRecordPath (Join-Path $bundleBase 'production-extension-review.json') -OutputInstallRoot $composed -CompositionReceiptPath $composeReceipt -TargetRoot $env:GITHUB_WORKSPACE -StateRoot $state -EvidenceRoot $evidence
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "V4_IFX_COMPOSED=$composed" >> $env:GITHUB_ENV
@@ -179,5 +179,5 @@ jobs:
           CONTRACT_RESULT: ${{ needs.v4-ifx-contract.result }}
           WINDOWS_RESULT: ${{ needs.v4-ifx-windows.result }}
         run: |
-          pwsh -NoProfile -File "$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1" -Mode Aggregate -ContractResult $env:CONTRACT_RESULT -WindowsResult $env:WINDOWS_RESULT
+          pwsh -NoProfile -File "$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/v4-adoption/ci/Invoke-IFXV4Aggregate.ps1" -ContractResult $env:CONTRACT_RESULT -WindowsResult $env:WINDOWS_RESULT
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

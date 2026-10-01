@@ -181,7 +181,7 @@ function Test-Design($Proposal, [string] $Workflow, [bool] $CoreSourcePresent, $
     # provenance header line excepted).
     $adoption = 'docs/guards/v4-adoption/'
     $specimenPaths = @([regex]::Matches($Workflow, '(?i)docs/guards/[A-Za-z0-9_./-]*[A-Za-z0-9_]') | ForEach-Object { $_.Value } | Sort-Object -Unique)
-    foreach ($path in $specimenPaths) { Assert-True ($path.StartsWith($adoption, [StringComparison]::Ordinal)) "Specimen names a path outside docs/guards/v4-adoption: $path" }
+    foreach ($path in $specimenPaths) { Assert-True ($path -ceq 'docs/guards/v4-adoption' -or $path.StartsWith($adoption, [StringComparison]::Ordinal)) "Specimen names a path outside docs/guards/v4-adoption: $path" }
     Assert-True (([string]$model.stagingScript).StartsWith("${adoption}ci/", [StringComparison]::Ordinal)) 'The staging script is not under docs/guards/v4-adoption/ci.'
     $labRead = [regex]'(?i)docs[\\/]+guards[\\/]+candidates([\\/''"]|$)'
     foreach ($producer in @($model.producers)) {
