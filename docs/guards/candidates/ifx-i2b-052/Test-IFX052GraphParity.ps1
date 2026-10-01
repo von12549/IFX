@@ -36,7 +36,7 @@ function Invoke-Graph([string]$Side, [string]$Label) {
     $text = (@($out | ForEach-Object { [string]$_ }) -join "`n") -replace '\x1b\[[0-9;]*m', ''
     # pwsh prints a thrown message as the last '| <message>' line of its error box; the 'Exception: <script>:<line>' header
     # names the script and line, which differ between the sides by design (the relocated script has a provenance header).
-    $boxLines = @([regex]::Matches($text, '(?m)^\s*\|\s+(?<msg>[^~\s][^\r\n]*)$') | ForEach-Object { $_.Groups['msg'].Value.Trim() })
+    $boxLines = @([regex]::Matches($text, '(?m)^[ \t]*\|[ \t]+(?<msg>[^~\s][^\r\n]*?)\r?$') | ForEach-Object { $_.Groups['msg'].Value.Trim() })
     $message = if ($boxLines.Count) { $boxLines[-1] } elseif ($code -ne 0) { ($text -split "`n" | Where-Object { $_.Trim() } | Select-Object -Last 1) } else { '' }
     [ordered]@{ side = $Side; exitCode = $code; seconds = [math]::Round($t.Elapsed.TotalSeconds, 1); run = "$($s.prefix)/$id"; lock = "$($s.prefix)/$id/evidence-lock.json"; message = $message; log = [IO.Path]::GetRelativePath($work, $log).Replace('\', '/') }
 }
