@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "ifx-050a-matrix-contract",
+  "v4Reference": "base-package and repository paths (IFX-V4-004)",
+  "inventorySha256": "eaf3901c6cec3ab2d08b931107be7b46af5cec2094b979b9f7a30fb1438307d9",
+  "inventoryProjectionSha256": "6df63f69caa8c1f5c2dd43f614ab60cf4e31e7499015bf4555225e7a566b706c",
+  "contractSha256": "20bf8cbd0bd4ce8faad8c6f6180c04bd91d4cd726194431010743eaaeb14869e",
+  "fixtureSpecSha256": "c86288d95a449200e7c5114438279fcf9376217b48c26d33fe1b04972dd0d061",
+  "moduleCount": 37,
+  "changedModuleCount": 25,
+  "blockingRuleCount": 80,
+  "advisoryRuleCount": 3,
+  "zeroStrategies": {
+    "enumerated": 19,
+    "fixedChecklist": 16,
+    "integrity": 2
+  },
+  "ruleOverrideCount": 17,
+  "fixtureCaseCount": 25
+}

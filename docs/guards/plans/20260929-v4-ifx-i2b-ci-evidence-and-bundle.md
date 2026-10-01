@@ -643,7 +643,7 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
 
 ## 11. Amendment A3 — bundle 0.5.2, the trusted-base closure (finding F-C1)
 
-Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-8 and A3-12 need their own authorization`
+Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-0 to A3-7 complete (A3-7 readiness pass at `f33b5086`); A3-8 and A3-12 need their own authorization`
 
 I2-C (Plan `20261001-v4-ifx-i2c-main-promotion`) admitted `docs/guards/v4-adoption` as the only V4 entry on `main`
 (`7b9b53dc`). Its finding **F-C1**: bundle 0.5.1 still needs three lab paths under `docs/guards/candidates`, which `main`
@@ -774,4 +774,9 @@ So A3 touches one module (`ifx-c1-evaluated-reference`, the graph lock consumer)
   mode passes (719 s, bundle manifest `0d661957…`, A and B equal); parallel certification Windows 191/191, controls
   180 + 42, Linux 191/191 semantic equal; harness controls pass (`a3-closure/a3-6-trial/index.json`, evrun 115-117).
   - Note: evrun sequence 106 is shared by `a3-4-parity-2` and `a3-5-produce`, which ran at the same time.
-  - Next: A3-7, readiness on the committed state (`-ReadinessOnly`, evidence root `a3-052`).
+- **A3-7 (2026-10-01).** `Invoke-IFX050C6Chain.ps1 -ReadinessOnly` (0.5.2 harness) at `f33b5086` passes in 784 s:
+  handshake 11 inherit, 1 base, 25 requalified (suite index `36cb733c…`); one production with the relocated staging
+  script and producers; candidates A and B equal on the bundle manifest (`c84c171b…`); focused qualification; readiness
+  `readiness-only-full-c6c-not-authorized`. Records `a3-closure/a3-7-readiness/index.json`; evrun 118.
+  - Next: A3-8, the single 0.5.2 C6c (authorization). As in A2-8, the A3-7 run trees under `a3-052` are moved aside
+    first because the chain requires absent outputs.

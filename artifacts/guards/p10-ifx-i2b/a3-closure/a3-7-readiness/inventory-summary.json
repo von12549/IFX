@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "baseVersion": "1.1.6",
+  "moduleCount": 37,
+  "changedModuleCount": 25,
+  "ruleCount": 83,
+  "claimCount": 79,
+  "inventoryPath": "artifacts/guards/p10-ifx-i2b/a3-052/formal-inventory/a80b79c9b6fc4f4aaf6b1add559cd6b7/ordinal-inventory.json",
+  "inventorySha256": "eaf3901c6cec3ab2d08b931107be7b46af5cec2094b979b9f7a30fb1438307d9",
+  "sourceCommit": "f33b508692077009d7df98fba050ccfe2c662e72"
+}

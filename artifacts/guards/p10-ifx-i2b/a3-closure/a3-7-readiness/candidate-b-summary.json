@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "status": "partial",
+  "scope": "ifx-050a-candidate-bundle",
+  "hostValidated": false,
+  "baseVersion": "1.1.6",
+  "bundleVersion": "0.5.2",
+  "targetCommit": "f33b508692077009d7df98fba050ccfe2c662e72",
+  "sourceCommit": "f33b508692077009d7df98fba050ccfe2c662e72",
+  "workspaceEvidenceDeclared": true,
+  "evidenceModel": "staged-by-workflow",
+  "moduleSelections": 37,
+  "changedModules": 25,
+  "externalModules": 36,
+  "distinctClaims": 79,
+  "baselineRefs": [],
+  "cases": [],
+  "negativeCases": [
+    {
+      "id": "manifest-tamper",
+      "status": "blocked",
+      "phase": "composition"
+    },
+    {
+      "id": "baseline-injection",
+      "status": "blocked",
+      "phase": "composition"
+    }
+  ],
+  "bundleManifestSha256": "c84c171bb29375a4157b2d4ae45103bfea3018cfd8a3acc3d58041e2a5c39274",
+  "profileSha256": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302",
+  "ordinalInventorySha256": "eaf3901c6cec3ab2d08b931107be7b46af5cec2094b979b9f7a30fb1438307d9",
+  "productionRecordSha256": "4d44725a5d25834e21908cbcb64a9dda27d0d89afe1f7f9eaae4dabe66f95947",
+  "compositionReceiptSha256": "abeb55a2a0bf176d02c995ce191e483b92682bc1ab6a9c6666b03c31a11b5551",
+  "compositionReceiptProjectionSha256": "ee7e8a178304639cd5ee591f097caa824d1e67dd2ad95fd328f3f45e9a65e8cd",
+  "composedPackageFingerprintSha256": "01e921e1092865259c3ee50802c1cdea4361e21824140766155920124b3b29fa",
+  "limitations": [
+    "Synthetic composition is not Xiaolong Feng approval.",
+    "C6c dual-platform and independent negative certification remain required.",
+    "G04 PRE-READY and P10.3 deferrals remain open."
+  ]
+}
