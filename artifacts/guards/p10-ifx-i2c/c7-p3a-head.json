@@ -1,0 +1,105 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-authorization-head",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "set": "P3",
+  "createdAtUtc": "2026-10-01T04:56:56.3694093Z",
+  "target": "751fa8fe17c329dd26340e49399f87bc6f58667a",
+  "preparedChangeHead": "4b9a355d993aa6ec2b69728661e0b31b1090deeb",
+  "records": [
+    {
+      "id": "i2c-v4-adoption-admission-trusted-base",
+      "equalToRehearsal": true,
+      "sha256": "a77e1b92f5ae0cbba049d737eb4a931e7ec689208a460d147fc14d9aa3180a4a"
+    },
+    {
+      "id": "i2c-v4-adoption-admission-policy",
+      "equalToRehearsal": true,
+      "sha256": "cdee559c56fcf629f6cad4b9e900335e946b928bf4ae829f17eaac797f8608a0"
+    }
+  ],
+  "authorizationHead": {
+    "set": "P3",
+    "kind": "authorization",
+    "consumesRecords": false,
+    "branch": "codex/i2c-p3-v4-adoption-admission-authorization",
+    "base": "751fa8fe17c329dd26340e49399f87bc6f58667a",
+    "head": "44c251717de7bc36b70d67cd36caaf247bb70b41",
+    "changed": [
+      {
+        "status": "A",
+        "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.md"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.plan.json"
+      }
+    ],
+    "blobs": {
+      "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.md": {
+        "blob": "9a0ac0e6c44ee0280a4a9e9abd79e3669c4d83a9",
+        "origin": "authored"
+      },
+      "docs/guards/plans/20261001-v4-ifx-i2c-p3-v4-adoption-admission-authorization.plan.json": {
+        "blob": "f15a0100bfdfcd37751f296bc5da647c8ed221bd",
+        "origin": "authored"
+      },
+      "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-trusted-base.json": {
+        "blob": "47695aa1ead3f5de46cf7485def39ab068c57ca2",
+        "origin": "generated"
+      },
+      "docs/guards/V3_ifx/stages/diff/authorizations/i2c-v4-adoption-admission-policy.json": {
+        "blob": "bbdfc9c54f6608c3b597045be82094c311f063e0",
+        "origin": "generated"
+      }
+    }
+  },
+  "checks": [
+    {
+      "id": "authorization-diff",
+      "exit": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Protected change verification passed (no protected changes): C:\\Users\\von12\\AppData\\Local\\Temp\\guard-gen-f115038e\\protected-changes.json",
+        "Policy candidate validation passed (0 validation(s)): D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 149 ms - Ifx.Guards.StageGate.Tests.dll (net10.0)",
+        "IFX guardrails passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\summary-diff.json",
+        "Trusted base run passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "authorization-candidates",
+      "exit": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted component candidate check passed (no trusted component changes): D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "id": "authorization-validate",
+      "exit": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Domain authority candidates passed (0 changed): D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\domain-authorities-validate.json",
+        "IFX policy projection Apply passed (12 files; changed: 0).",
+        "IFX policy projection Check passed (12 files; changed: 0).",
+        "CI contract passed (local): 13 checks match required-checks.json",
+        "Manifest check passed: 6 stages, 19 commands, 17 trusted components, 13 gates.",
+        "IFX guardrails passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\summary-validate.json",
+        "Trusted base run passed: D:\\IFX-Root\\guard-runtime\\i2c\\pr-work\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    }
+  ],
+  "status": "pass"
+}

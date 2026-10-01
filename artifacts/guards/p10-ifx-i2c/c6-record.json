@@ -28,8 +28,7 @@
     }
   },
   "next": [
-    "merge #111 after 13/13 (authorization)",
-    "C7 (P3a, P3) needs its own authorization"
+    "C7"
   ],
   "p2aMerge": {
     "pullRequest": 110,
@@ -52,5 +51,17 @@
       "number": 111,
       "url": "https://github.com/von12549/IFX/pull/111"
     }
+  },
+  "p2Merge": {
+    "pullRequest": 111,
+    "authorization": "授权合并 #111，并授权 C7",
+    "method": "merge commit",
+    "mergeCommit": "751fa8fe17c329dd26340e49399f87bc6f58667a",
+    "parents": [
+      "4a78750473a99727ea99e68a07728faa5a47c82a",
+      "b0f16df4ffb0fb760136ddd9fe34b1ea467d9033"
+    ],
+    "checksBeforeMerge": "13/13 SUCCESS, CLEAN (one GET read)",
+    "recordsRemaining": 0
   }
 }

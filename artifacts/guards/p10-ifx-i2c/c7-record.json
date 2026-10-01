@@ -1,0 +1,23 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-c7-record",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "step": "C7",
+  "authorization": "授权合并 #111，并授权 C7",
+  "recordedAtUtc": "2026-10-01T04:57:29.024848+00:00",
+  "target": "751fa8fe17c329dd26340e49399f87bc6f58667a",
+  "p3a": {
+    "head": "artifacts/guards/p10-ifx-i2c/c7-p3a-head.json",
+    "branch": "codex/i2c-p3-v4-adoption-admission-authorization",
+    "remoteHead": "44c251717de7bc36b70d67cd36caaf247bb70b41",
+    "recordsEqualToRehearsal": true,
+    "pullRequest": {
+      "number": 112,
+      "url": "https://github.com/von12549/IFX/pull/112"
+    }
+  },
+  "next": [
+    "merge #112 after 13/13 (authorization)",
+    "then the P3 change PR (push and open under C7), then its merge (authorization)"
+  ]
+}
