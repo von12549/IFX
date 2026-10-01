@@ -1,7 +1,7 @@
-# DIAGNOSTIC PROBE P0-d (IFX amendment A4, Plan 20261002-v4-ifx-a4-specimen-runner-revision, ruling RA2): NEVER MERGE.
+# DIAGNOSTIC PROBE P0-d2 (IFX amendment A4, Plan 20261002-v4-ifx-a4-specimen-runner-revision, RA2, RA7): NEVER MERGE.
 # The published 0.5.2 successor specimen with only the two I2-E E3 corrections (F-E7 installer path inside the release
 # archive, F-E6 StateRoot and EvidenceRoot created before composition) and one read-only runner inventory step.
-# It runs once on its draft pull request to learn the hosted-runner facts; the revised specimen comes from A4-4.
+# P0-d2 adds two read-only diagnostic steps after Produce (F-E9, F-E8, F-E1); the revised specimen comes from A4-4.
 name: V4 IFX Guardrails
 
 on:
@@ -146,6 +146,59 @@ jobs:
           # consumers against the producer hashes pinned in the accepted module policies.
           pwsh -NoProfile -File "$env:RUNNER_TEMP/ifx-trusted-base/$env:IFX_EVIDENCE_PRODUCERS" -Phase Produce -TargetRoot $env:GITHUB_WORKSPACE -RunRecordPath "$env:RUNNER_TEMP/v4-ifx-production.json"
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Producer diagnostics (A4 P0-d2, read-only)
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          function Show-FailedTests([string] $Root) {
+            foreach ($file in @(Get-ChildItem -LiteralPath $Root -Recurse -File -Filter '*.trx' -ErrorAction SilentlyContinue)) {
+              [xml]$x = Get-Content -Raw -LiteralPath $file.FullName
+              $ns = @{ t = 'http://microsoft.com/schemas/VisualStudio/TeamTest/2010' }
+              $c = (Select-Xml -Xml $x -XPath '//t:Counters' -Namespace $ns | Select-Object -First 1).Node
+              "-- $($file.Name): total $($c.total) passed $($c.passed) failed $($c.failed)"
+              foreach ($f in @(Select-Xml -Xml $x -XPath "//t:UnitTestResult[@outcome='Failed']" -Namespace $ns | Select-Object -First 25)) {
+                "FAILED $($f.Node.testName)"
+                $m = $f.Node.Output.ErrorInfo.Message; if ($m) { ($m -split "`n" | Select-Object -First 8) -join "`n" }
+              }
+            }
+          }
+          $record = Join-Path $env:RUNNER_TEMP 'v4-ifx-production.json'
+          '== production record'; if (Test-Path -LiteralPath $record) { Get-Content -Raw -LiteralPath $record } else { 'none' }
+          $runs = Join-Path $env:GITHUB_WORKSPACE 'artifacts/guards/v4a-producers'
+          '== producer run files'; Get-ChildItem -LiteralPath $runs -Recurse -File -ErrorAction SilentlyContinue | Select-Object -First 200 | ForEach-Object { "$([IO.Path]::GetRelativePath($runs, $_.FullName)) $($_.Length)" }
+          '== quality summaries'
+          foreach ($j in @(Get-ChildItem -LiteralPath $runs -Recurse -File -Filter '*.json' -ErrorAction SilentlyContinue | Where-Object { $_.FullName -match '[\\/]quality[\\/]' })) { "-- $($j.Name)"; $t = Get-Content -Raw -LiteralPath $j.FullName; $t.Substring(0, [Math]::Min(4000, $t.Length)) }
+          '== failed tests'; Show-FailedTests $runs
+          if (@(Get-ChildItem -LiteralPath $runs -Recurse -File -Filter '*.trx' -ErrorAction SilentlyContinue).Count -eq 0) {
+            '== no TRX file: solution build errors'
+            dotnet build (Join-Path $env:GITHUB_WORKSPACE 'IFX.sln') --configuration Release -nologo -clp:ErrorsOnly 2>&1 | Select-Object -Last 80
+          }
+          exit 0
+      - name: Database producer, run independently (A4 P0-d2 diagnostic)
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          function Show-FailedTests([string] $Root) {
+            foreach ($file in @(Get-ChildItem -LiteralPath $Root -Recurse -File -Filter '*.trx' -ErrorAction SilentlyContinue)) {
+              [xml]$x = Get-Content -Raw -LiteralPath $file.FullName
+              $ns = @{ t = 'http://microsoft.com/schemas/VisualStudio/TeamTest/2010' }
+              $c = (Select-Xml -Xml $x -XPath '//t:Counters' -Namespace $ns | Select-Object -First 1).Node
+              "-- $($file.Name): total $($c.total) passed $($c.passed) failed $($c.failed)"
+              foreach ($f in @(Select-Xml -Xml $x -XPath "//t:UnitTestResult[@outcome='Failed']" -Namespace $ns | Select-Object -First 25)) {
+                "FAILED $($f.Node.testName)"
+                $m = $f.Node.Output.ErrorInfo.Message; if ($m) { ($m -split "`n" | Select-Object -First 8) -join "`n" }
+              }
+            }
+          }
+          $id = [guid]::NewGuid().ToString('N')
+          $t = [Diagnostics.Stopwatch]::StartNew()
+          $out = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $env:GITHUB_WORKSPACE 'docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1') -TargetRoot $env:GITHUB_WORKSPACE -RunId $id 2>&1)
+          "== database producer exit $LASTEXITCODE after $([Math]::Round($t.Elapsed.TotalSeconds)) s"
+          '== last 60 lines'; $out | Select-Object -Last 60 | ForEach-Object { [string]$_ }
+          '== failed tests'; Show-FailedTests (Join-Path $env:GITHUB_WORKSPACE "artifacts/guards/v4a-producers/database-runs/$id")
+          exit 0
       - name: Stage IFX evidence into EvidenceRoot
         shell: pwsh
         run: |
