@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-c4-decision",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "step": "C4",
+  "decision": "c4-pull-requests-accepted",
+  "operator": "xiaolong-feng",
+  "operatorStatement": "接受，授权 C5",
+  "decidedAtUtc": "2026-10-01T02:03:39.059127+00:00",
+  "reviewPacket": {
+    "path": "artifacts/guards/p10-ifx-i2c/c4-review/review-packet.json",
+    "sha256": "897c7d680ce4442733e2fea2ca8e3f06ab445a3dc332d5b4f216ac90cb728742"
+  },
+  "reviewMarkdown": {
+    "path": "artifacts/guards/p10-ifx-i2c/c4-review/review.md",
+    "sha256": "22a9af381f5621f06742541e2fae05cbdc825dc66b4eb0540bece949f7ea3a02"
+  },
+  "rehearsal": {
+    "path": "artifacts/guards/p10-ifx-i2c/c3-rehearsal/rehearsal.json",
+    "sha256": "eee37e09274a27f6d825d309b39498f54ef113aab745523e1273c5de53d31276"
+  },
+  "snapshot": {
+    "path": "artifacts/guards/p10-ifx-i2c/c1-remote-snapshot.json",
+    "sha256": "9db7ba9d29202799f65aeab6d647c562108f1cf755f0719aa8f1592350cd5ebb"
+  },
+  "spec": {
+    "path": "docs/guards/candidates/ifx-i2c/pr-spec.json",
+    "sha256": "228160f1ea3434977fe9c972eb79aa640afa59f6a69b269e6197cd23d21d5433"
+  },
+  "accepted": [
+    "P1, P2 with P2a, P3 with P3a as prepared, their V3 plans and decision 20261001-v4-ifx-i2c-v4-adoption-admission",
+    "the C3 rehearsal as the local proof, with the listed contexts left to CI"
+  ],
+  "authorized": [
+    "C5: push codex/i2c-p1-drain-wait-fix and open its pull request to codex/guards-principles-plan"
+  ],
+  "notAuthorized": [
+    "merging any pull request",
+    "C6-C12"
+  ]
+}
