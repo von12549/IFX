@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c2d-g03-current-documentation",
+  "owner": "ifx-c2d-implementation",
+  "summary": "Reconcile the two G03 governance explanations with the current six-protocol catalog and distinguish current readiness from the historical Phase 9 report.",
+  "affectedPaths": [
+    "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+    "docs/architecture/review/gates/G03/contract-event-governance.en.md"
+  ],
+  "rationale": "Both governance documents still contain four-protocol and all-Proposed prose from the earlier Phase 9 baseline, while the current catalog has six protocols, four Active and two Proposed, and all 46 legacy public surfaces are Retired. C2d may correct explanatory text and add a catalog-reconciled current protocol table without changing catalog authority, recorded historical evidence, protocol lifecycle, approval checkboxes or production Profile. This implementation decision is not a multi-owner G03 closure approval."
+}
