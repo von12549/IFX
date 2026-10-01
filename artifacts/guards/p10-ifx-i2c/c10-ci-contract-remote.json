@@ -1,0 +1,594 @@
+{
+  "formatVersion": 1,
+  "mode": "remote",
+  "status": "pass",
+  "workflow": ".github/workflows/v3-ifx-guardrails.yml",
+  "declaration": "docs/guards/V3_ifx/stages/ci/required-checks.json",
+  "checkNames": [
+    "v3-pre-diff",
+    "v3-architecture",
+    "v3-quality-solution",
+    "v3-quality-assembly",
+    "v3-quality-frontend",
+    "v3-specialized-g03",
+    "v3-specialized-g04",
+    "v3-specialized-g05",
+    "v3-specialized-plan04",
+    "v3-specialized-database",
+    "v3-historical-integrity",
+    "v3-cross-platform-ubuntu-latest",
+    "v3-cross-platform-windows-latest"
+  ],
+  "checks": [
+    {
+      "id": "workflow-yaml-canonical",
+      "status": "pass",
+      "detail": "canonical YAML structural parse problems []"
+    },
+    {
+      "id": "workflow-needs:v3-quality-assembly->v3-quality-solution",
+      "status": "pass",
+      "detail": "needs must reference a job in the same workflow"
+    },
+    {
+      "id": "workflow-needs:v3-specialized-g03->v3-architecture",
+      "status": "pass",
+      "detail": "needs must reference a job in the same workflow"
+    },
+    {
+      "id": "workflow-needs:v3-specialized-g04->v3-architecture",
+      "status": "pass",
+      "detail": "needs must reference a job in the same workflow"
+    },
+    {
+      "id": "workflow-needs:v3-specialized-g05->v3-architecture",
+      "status": "pass",
+      "detail": "needs must reference a job in the same workflow"
+    },
+    {
+      "id": "workflow-needs:v3-specialized-plan04->v3-architecture",
+      "status": "pass",
+      "detail": "needs must reference a job in the same workflow"
+    },
+    {
+      "id": "workflow-needs:v3-specialized-database->v3-architecture",
+      "status": "pass",
+      "detail": "needs must reference a job in the same workflow"
+    },
+    {
+      "id": "workflow-needs:v3-specialized-database->v3-quality-solution",
+      "status": "pass",
+      "detail": "needs must reference a job in the same workflow"
+    },
+    {
+      "id": "workflow-triggers",
+      "status": "pass",
+      "detail": "pull_request and push to main are required; found triggers [pull_request, push, schedule, workflow_dispatch] push branches [main]"
+    },
+    {
+      "id": "workflow-aggregate-plan-selection",
+      "status": "pass",
+      "detail": "multiple changed formal plans must select exactly one *-aggregate.plan.json and pass it to the trusted Diff runner"
+    },
+    {
+      "id": "workflow-public-commands",
+      "status": "pass",
+      "detail": "workflow script entries not declared public []"
+    },
+    {
+      "id": "declaration-workflow-path",
+      "status": "pass",
+      "detail": "required-checks.json automaticGuardWorkflow is '.github/workflows/v3-ifx-guardrails.yml'"
+    },
+    {
+      "id": "declaration-unique-ids",
+      "status": "pass",
+      "detail": "job IDs must be unique"
+    },
+    {
+      "id": "declaration-matches-workflow",
+      "status": "pass",
+      "detail": "workflow checks not declared []; declared jobs not in workflow []"
+    },
+    {
+      "id": "declaration-required-count",
+      "status": "pass",
+      "detail": "ruleset.requiredCheckCount 13 != declared jobs 13"
+    },
+    {
+      "id": "declaration-blocking:v3-pre-diff",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-pre-diff",
+      "status": "pass",
+      "detail": "trigger pull-request requires job condition github.event_name == 'pull_request'; found 'github.event_name == 'pull_request''"
+    },
+    {
+      "id": "declaration-blocking:v3-architecture",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-architecture",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-specialized-g03",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-specialized-g03",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-specialized-g04",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-specialized-g04",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-specialized-g05",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-specialized-g05",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-specialized-plan04",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-specialized-plan04",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-specialized-database",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-specialized-database",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-quality-solution",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-quality-solution",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-quality-assembly",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-quality-assembly",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-quality-frontend",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-quality-frontend",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-historical-integrity",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-historical-integrity",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-cross-platform-ubuntu-latest",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-cross-platform-ubuntu-latest",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "declaration-blocking:v3-cross-platform-windows-latest",
+      "status": "pass",
+      "detail": "every declared job is a required, blocking check"
+    },
+    {
+      "id": "declaration-trigger:v3-cross-platform-windows-latest",
+      "status": "pass",
+      "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-pre-diff",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-pre-diff",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Diff -PlanPath $plan -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA -GateId v3-pre-diff'"
+    },
+    {
+      "id": "trusted-base-runner:v3-pre-diff",
+      "status": "pass",
+      "detail": "check v3-pre-diff must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-pre-diff; found [v3-pre-diff]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-pre-diff",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-architecture",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-architecture",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope -HeadRef $env:GUARD_HEAD_SHA -GitHubOutput $env:GITHUB_OUTPUT'"
+    },
+    {
+      "id": "trusted-base-runner:v3-architecture",
+      "status": "pass",
+      "detail": "check v3-architecture must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-architecture; found [v3-architecture]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-architecture",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-quality-solution",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-quality-solution",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Solution -GateId v3-quality-solution'"
+    },
+    {
+      "id": "trusted-base-runner:v3-quality-solution",
+      "status": "pass",
+      "detail": "check v3-quality-solution must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-quality-solution; found [v3-quality-solution]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-quality-solution",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-quality-assembly",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-quality-assembly",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Assembly -GateId v3-quality-assembly'"
+    },
+    {
+      "id": "trusted-base-runner:v3-quality-assembly",
+      "status": "pass",
+      "detail": "check v3-quality-assembly must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-quality-assembly; found [v3-quality-assembly]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-quality-assembly",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-quality-frontend",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-quality-frontend",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Frontend -GateId v3-quality-frontend'"
+    },
+    {
+      "id": "trusted-base-runner:v3-quality-frontend",
+      "status": "pass",
+      "detail": "check v3-quality-frontend must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-quality-frontend; found [v3-quality-frontend]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-quality-frontend",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-specialized-g03",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-specialized-g03",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G03 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g03'"
+    },
+    {
+      "id": "trusted-base-runner:v3-specialized-g03",
+      "status": "pass",
+      "detail": "check v3-specialized-g03 must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-specialized-g03; found [v3-specialized-g03]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-specialized-g03",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-specialized-g04",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-specialized-g04",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G04 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g04'"
+    },
+    {
+      "id": "trusted-base-runner:v3-specialized-g04",
+      "status": "pass",
+      "detail": "check v3-specialized-g04 must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-specialized-g04; found [v3-specialized-g04]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-specialized-g04",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-specialized-g05",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-specialized-g05",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G05 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g05'"
+    },
+    {
+      "id": "trusted-base-runner:v3-specialized-g05",
+      "status": "pass",
+      "detail": "check v3-specialized-g05 must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-specialized-g05; found [v3-specialized-g05]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-specialized-g05",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-specialized-plan04",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-specialized-plan04",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Plan04 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-plan04'"
+    },
+    {
+      "id": "trusted-base-runner:v3-specialized-plan04",
+      "status": "pass",
+      "detail": "check v3-specialized-plan04 must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-specialized-plan04; found [v3-specialized-plan04]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-specialized-plan04",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-specialized-database",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-specialized-database",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Database -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-database'"
+    },
+    {
+      "id": "trusted-base-runner:v3-specialized-database",
+      "status": "pass",
+      "detail": "check v3-specialized-database must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-specialized-database; found [v3-specialized-database]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-specialized-database",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-historical-integrity",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-historical-integrity",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode HistoricalIntegrity -GateId v3-historical-integrity'"
+    },
+    {
+      "id": "trusted-base-runner:v3-historical-integrity",
+      "status": "pass",
+      "detail": "check v3-historical-integrity must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-historical-integrity; found [v3-historical-integrity]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-historical-integrity",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "trusted-base-no-head-dispatcher:v3-cross-platform",
+      "status": "pass",
+      "detail": "jobs must not run the head dispatcher in place; use the trusted base runner"
+    },
+    {
+      "id": "trusted-base-first-verdict:v3-cross-platform",
+      "status": "pass",
+      "detail": "the first guard executable must come from the base worktree; found 'pwsh -NoProfile -File \"$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1\" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope -HeadRef $env:GUARD_HEAD_SHA -GitHubOutput $env:GITHUB_OUTPUT'"
+    },
+    {
+      "id": "trusted-base-runner:v3-cross-platform-ubuntu-latest",
+      "status": "pass",
+      "detail": "check v3-cross-platform-ubuntu-latest must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-cross-platform-ubuntu-latest; found [v3-cross-platform-ubuntu-latest, v3-cross-platform-windows-latest]"
+    },
+    {
+      "id": "trusted-base-runner:v3-cross-platform-windows-latest",
+      "status": "pass",
+      "detail": "check v3-cross-platform-windows-latest must run Invoke-IFXTrustedBase.ps1 from $env:GUARD_BASE with -GateId v3-cross-platform-windows-latest; found [v3-cross-platform-ubuntu-latest, v3-cross-platform-windows-latest]"
+    },
+    {
+      "id": "trusted-base-worktree:v3-cross-platform",
+      "status": "pass",
+      "detail": "jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base"
+    },
+    {
+      "id": "cost-concurrency",
+      "status": "pass",
+      "detail": "workflow concurrency group 'v3-ifx-guardrails-${{ github.event.pull_request.number || github.ref }}' cancel-in-progress True must match required-checks.json"
+    },
+    {
+      "id": "cost-schedule",
+      "status": "pass",
+      "detail": "workflow schedule [17 3 1 * *] must contain the declared cron '17 3 1 * *'"
+    },
+    {
+      "id": "cost-package-cache:v3-architecture",
+      "status": "pass",
+      "detail": "job must cache ~/.nuget/packages with actions/cache@v4 and a key derived from docs/guards/*/build/locks/*.packages.lock.json"
+    },
+    {
+      "id": "cost-package-cache:v3-quality-solution",
+      "status": "pass",
+      "detail": "job must cache ~/.nuget/packages with actions/cache@v4 and a key derived from docs/guards/*/build/locks/*.packages.lock.json"
+    },
+    {
+      "id": "cost-package-cache:v3-specialized-database",
+      "status": "pass",
+      "detail": "job must cache ~/.nuget/packages with actions/cache@v4 and a key derived from docs/guards/*/build/locks/*.packages.lock.json"
+    },
+    {
+      "id": "cost-package-cache:v3-cross-platform",
+      "status": "pass",
+      "detail": "job must cache ~/.nuget/packages with actions/cache@v4 and a key derived from docs/guards/*/build/locks/*.packages.lock.json"
+    },
+    {
+      "id": "cost-windows-portability-declaration",
+      "status": "pass",
+      "detail": "Windows portability must remain a required windows-latest matrix check with ordinary smoke coverage"
+    },
+    {
+      "id": "cost-windows-full-certification-dispatch",
+      "status": "pass",
+      "detail": "workflow_dispatch must expose windowsCoverage=full for the P11.4 full Windows certification"
+    },
+    {
+      "id": "cost-windows-coverage-selection",
+      "status": "pass",
+      "detail": "the public candidate facade must select smoke only on Windows and full coverage everywhere else"
+    },
+    {
+      "id": "cost-candidate-facade",
+      "status": "pass",
+      "detail": "candidate facade docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 must expose CandidateCoverage with a fail-safe full default"
+    },
+    {
+      "id": "cost-windows-smoke-commands",
+      "status": "pass",
+      "detail": "facade Windows smoke commands [docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Check, docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Generate, docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1, docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check, docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate, docs/guards/V3/tests/Test-V3BuildBaseline.ps1] must exactly match the declaration [docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Check, docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Generate, docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1, docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check, docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate, docs/guards/V3/tests/Test-V3BuildBaseline.ps1]"
+    },
+    {
+      "id": "cost-full-suite-commands",
+      "status": "pass",
+      "detail": "facade full commands [docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Check, docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Generate, docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1, docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1, docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1, docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1, docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1, docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1, docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1, docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1, docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check, docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate, docs/guards/V3/tests/Test-V3.ps1, docs/guards/V3/tests/Test-V3BuildBaseline.ps1] must exactly match the declaration [docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Check, docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Generate, docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1, docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1, docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1, docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1, docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1, docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1, docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1, docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1, docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check, docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate, docs/guards/V3/tests/Test-V3.ps1, docs/guards/V3/tests/Test-V3BuildBaseline.ps1]"
+    },
+    {
+      "id": "change-scope-entry-point",
+      "status": "pass",
+      "detail": "the declared classification entry point and implementation must be this package's own files: docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1, docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1"
+    },
+    {
+      "id": "change-scope-step:v3-architecture",
+      "status": "pass",
+      "detail": "job must classify the changed set with docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1 -Mode Scope from $env:GUARD_BASE in a step with id scope"
+    },
+    {
+      "id": "change-scope-fails-open:v3-architecture",
+      "status": "pass",
+      "detail": "the classification step must be continue-on-error, so a base that cannot classify leads to a full run"
+    },
+    {
+      "id": "change-scope-guard:v3-architecture",
+      "status": "pass",
+      "detail": "job must skip its head candidate work when the base classifies the changed set as records-and-plans"
+    },
+    {
+      "id": "change-scope-step:v3-cross-platform",
+      "status": "pass",
+      "detail": "job must classify the changed set with docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1 -Mode Scope from $env:GUARD_BASE in a step with id scope"
+    },
+    {
+      "id": "change-scope-fails-open:v3-cross-platform",
+      "status": "pass",
+      "detail": "the classification step must be continue-on-error, so a base that cannot classify leads to a full run"
+    },
+    {
+      "id": "change-scope-guard:v3-cross-platform",
+      "status": "pass",
+      "detail": "job must skip its head candidate work when the base classifies the changed set as records-and-plans"
+    },
+    {
+      "id": "change-scope-inheriting-checks",
+      "status": "pass",
+      "detail": "checks that may inherit a base verdict must be declared jobs; found []"
+    },
+    {
+      "id": "ruleset-identity",
+      "status": "pass",
+      "detail": "ruleset 23459908 'IFX V3 Required Checks' does not match required-checks.json"
+    },
+    {
+      "id": "ruleset-active",
+      "status": "pass",
+      "detail": "enforcement is 'active'"
+    },
+    {
+      "id": "ruleset-strict",
+      "status": "pass",
+      "detail": "strict is True; strict up-to-date checks are required (Plan 06 §12.3)"
+    },
+    {
+      "id": "ruleset-contexts",
+      "status": "pass",
+      "detail": "contexts not declared []; declared jobs not required []"
+    }
+  ]
+}

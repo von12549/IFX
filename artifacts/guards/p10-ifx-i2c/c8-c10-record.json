@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-c8-c10-record",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "steps": "C7 (P3 merge), C8, C9, C10",
+  "authorization": [
+    "授权合并 #113，并授权 C8–C10"
+  ],
+  "recordedAtUtc": "2026-10-01T05:35:35.903591+00:00",
+  "p3Merge": {
+    "pullRequest": 113,
+    "method": "merge commit",
+    "mergeCommit": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "parents": [
+      "ca805d6d804c723582e5611839191acd2e39c500",
+      "8402585b80e4e09e23f95198ae3f8901abd00d96"
+    ],
+    "checksBeforeMerge": "13/13 SUCCESS, CLEAN (one GET read)"
+  },
+  "targetFinalState": {
+    "commit": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "docsGuardsTopLevel": [
+      "V3",
+      "V3_ifx",
+      "plans",
+      "v4-adoption"
+    ],
+    "v4AdoptionFiles": [
+      "README.md"
+    ],
+    "remainingAuthorizationRecords": 0,
+    "pathsChecked": 17,
+    "blobMismatches": 0
+  },
+  "c8": {
+    "action": "default branch main -> codex/guards-principles-plan",
+    "atUtc": "2026-10-01T05:34:40Z",
+    "verified": "GET default_branch = codex/guards-principles-plan"
+  },
+  "c9": {
+    "action": "git push origin 7b9b53dc:refs/heads/main (fast-forward, no force)",
+    "before": "ecb03726a6c67208d25e7988695c53f6326d77c0",
+    "after": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "commitsAdded": 579,
+    "atUtc": "2026-10-01T05:34:50Z",
+    "verified": "git ls-remote refs/heads/main = 7b9b53dc"
+  },
+  "c10": {
+    "action": "default branch -> main",
+    "atUtc": "2026-10-01T05:34:55Z",
+    "verified": "GET default_branch = main",
+    "windowSeconds": 15,
+    "rulesetCanonicalSha256": "857a51aaf9590758aa37ab0daf234695ba6e3a434644e598026d741b2c7d6f4a",
+    "rulesetEqualsC1": true,
+    "ciContractRemote": {
+      "path": "artifacts/guards/p10-ifx-i2c/c10-ci-contract-remote.json",
+      "sha256": "51281c6a7f4632f2d5f0f97e711e4a13847bf0994bae9b591d761f05a23e1b6a",
+      "status": "pass",
+      "note": "evrun 014; run 013 failed because the work clone's origin is local (no -Repository)"
+    }
+  },
+  "next": [
+    "C11: post-state record, push-triggered V3 run on main (one GET read), merge origin/main into the development branch, receipt (authorization)",
+    "C12: push the development branch (authorization)"
+  ]
+}

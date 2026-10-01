@@ -1,6 +1,6 @@
 # IFX I2-C — promote to `main` and admit `docs/guards/v4-adoption` (decisions 1A and 2B)
 
-Status: `ACTIVE — rulings RC1–RC6 taken as recommended and C0–C4 authorized for local execution (2026-10-01, "全部按推荐，并授权C0到C4本地执行"); C0–C3 complete; C4 accepted and C5 authorized ("接受，授权 C5"); C5 done (#109 merged `218591ec`); C6 authorized ("授权合并 #109，并授权 C6"): #110 merged `4a787504`; #111 merged `751fa8fe`; C7 authorized ("授权合并 #111，并授权 C7"): #112 merged `ca805d6d`; P3 PR #113 open; every remote step C5–C12 needs its own authorization`
+Status: `ACTIVE — rulings RC1–RC6 taken as recommended and C0–C4 authorized for local execution (2026-10-01, "全部按推荐，并授权C0到C4本地执行"); C0–C3 complete; C4 accepted and C5 authorized ("接受，授权 C5"); C5 done (#109 merged `218591ec`); C6 authorized ("授权合并 #109，并授权 C6"): #110 merged `4a787504`; #111 merged `751fa8fe`; C7 authorized ("授权合并 #111，并授权 C7"): #112 merged `ca805d6d`; #113 merged `7b9b53dc`; C8–C10 done ("授权合并 #113，并授权 C8–C10"): `main` = `7b9b53dc`, default branch `main`, ruleset unchanged; C11–C12 remain; every remote step C5–C12 needs its own authorization`
 
 Formal Plan ID: `20261001-v4-ifx-i2c-main-promotion`. Phase I2-C of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`. Phases I2-D to I2-G build on it.
@@ -225,4 +225,11 @@ Each of these stops I2-C. The evidence is kept, and nothing is retried silently.
   merged after authorization: target `ca805d6d`, records in the base. P3 change head `8402585b` passes the preflight on
   `ca805d6d` (trusted Diff, candidate check with full parity, policy candidates, Validate, G03; evrun 012,
   `c7-p3-change-head.json`), and its own `Test-CutoverPreservation` passes. Pushed and verified; PR
-  [#113](https://github.com/von12549/IFX/pull/113) opened. Next: merge #113 after 13/13 (authorization), then C8–C10.
+  [#113](https://github.com/von12549/IFX/pull/113) opened. 13/13 (the CI candidate tests ran the new allowlist on the
+  merge ref); merged after authorization: target `7b9b53dc`; final state checked: `docs/guards` is exactly `plans`, `V3`,
+  `V3_ifx`, `v4-adoption`, no record left, all 17 P1–P3 paths equal to their source.
+- **C8–C10 (2026-10-01, 05:34:40–05:34:55 UTC).** Default branch set to `codex/guards-principles-plan`; `main`
+  fast-forwarded `ecb03726..7b9b53dc` (579 commits) by a plain push; default branch set back to `main`, each GET-verified.
+  The ruleset's canonical SHA-256 equals C1 (`857a51aa…`); `Invoke-IFXCiContract.ps1 -Remote` passes: 13 checks match
+  `required-checks.json` (evrun 014; run 013 needed `-Repository` in the work clone). Record `c8-c10-record.json`.
+  Next: C11 and C12 (authorization).
