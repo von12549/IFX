@@ -643,7 +643,7 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
 
 ## 11. Amendment A3 — bundle 0.5.2, the trusted-base closure (finding F-C1)
 
-Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-0 to A3-7 complete (A3-7 readiness pass at `f33b5086`); A3-8 C6c pass (authorized); A3-9 review next; A3-12 needs its own authorization`
+Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-0 to A3-7 complete (A3-7 readiness pass at `f33b5086`); A3-8 C6c pass (authorized); A3-9 accepted ("接受"); A3-10 and A3-11 local; A3-12 needs its own authorization`
 
 I2-C (Plan `20261001-v4-ifx-i2c-main-promotion`) admitted `docs/guards/v4-adoption` as the only V4 entry on `main`
 (`7b9b53dc`). Its finding **F-C1**: bundle 0.5.1 still needs three lab paths under `docs/guards/candidates`, which `main`
@@ -791,3 +791,7 @@ So A3 touches one module (`ifx-c1-evaluated-reference`, the graph lock consumer)
   files change, one module version (0.2.0 → 0.2.1), four adapter lines, the Profile version and one `policySha256`, the
   lineage's staging script and graph producer, and 25 provenance `sourcePath` values in the authority map. Waiting for
   the human review decision.
+- **A3-9 accepted (2026-10-01, "接受").** `a3-052/c6d-review-052/c6d-decision.json` (`8d7dee8d…`) and the production
+  review record `production-extension-review.json` (`38eb775a…`, id `20261001-ifx-0-5-2-production-review`, valid
+  against the installed 1.1.6 `extension-review` schema). Claims carried forward from 0.5.1 unchanged.
+  - Next: A3-10 (C6e composition of 1.1.6 + 0.5.2, parity against 0.5.1, P10.3 successor with the closure rule).

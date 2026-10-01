@@ -1,0 +1,87 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "c6d-exact-bundle-human-review-accepted",
+  "decidedAt": "2026-10-01T08:47:31.331904+00:00",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A3-9",
+  "authority": {
+    "authorityType": "human-review",
+    "authorityId": "xiaolong-feng",
+    "candidateHostVerdictAllowed": false
+  },
+  "acceptanceStatement": "接受",
+  "acceptanceContext": "Operator reply to the A3-9 request to accept or reject the exact review packet e8d0b0ca6a95d750e302517ec327e85d3dc157be1650e0ca8e407e65de812a78 (ifx_profile 0.5.2 on V4 Guards 1.1.6, bundle a2f619a3..., C6c at 3600988c; predecessor the accepted 0.5.1 packet f65fa234...). Acceptance adopts the relocated graph producer and staging script with the 0.5.1 claims carried forward unchanged, and permits writing the production review record and continuing with A3-10 and A3-11 locally. It does not authorize a push, a workflow, a ruleset or publishing.",
+  "targetCommit": "3600988cc9e91f0a523ec60f5f4378dd4c83c541",
+  "baseVersion": "1.1.6",
+  "candidateVersion": "0.5.2",
+  "bundle": {
+    "id": "ifx-profile-candidate",
+    "manifestPath": "artifacts/guards/p10-ifx-i2b/a3-052/formal-candidate-a/8f06b1c739984178bdfc5c8b5e18d558/bundle/bundle-manifest.json",
+    "manifestSha256": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "profileCount": 1,
+    "moduleCount": 36,
+    "fileCount": 262
+  },
+  "acceptedEvidence": {
+    "reviewPacket": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/review-packet.json",
+      "sha256": "e8d0b0ca6a95d750e302517ec327e85d3dc157be1650e0ca8e407e65de812a78"
+    },
+    "review": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/review.md",
+      "sha256": "13b6a77a1b30c56b57521d618a9a8c00c9839026e39cdc2b915c3859d6ba985e"
+    },
+    "predecessorComparison": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/predecessor-comparison.json",
+      "sha256": "58c901b772913dd5db5180e96b92c8deec5edd0610c48ddfb5f543628ddce506"
+    },
+    "fileInventory": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/file-inventory.json",
+      "sha256": "4a913dde54cad1c7ba431263fe32f7d04baded28653fe8923ac361aa1e1c2f51"
+    },
+    "moduleCeilings": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/module-ceilings.json",
+      "sha256": "89d4ae5e5ac05d9a1d1fac1cbb187e09748bc2946715bfe8f8562825bcd33f51"
+    },
+    "predecessorPacket": {
+      "path": "artifacts/guards/p10-ifx-i2b/a2-051/c6d-review-051/review-packet.json",
+      "sha256": "f65fa234bb8d2219be77087e2c23708e56e0afb41d1eecc92735b7976caf1232"
+    },
+    "productionReviewRecord": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/production-extension-review.json",
+      "sha256": "38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d",
+      "schema": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6/package/core/contracts/extension-review.schema.json (installed 1.1.6 base)",
+      "schemaValid": true
+    },
+    "c6cDecision": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-decision.json",
+      "sha256": "5b5edf13fe7c3bc2ff97a5f62a2f08d68e14eb54c6bf91ea2a2b41262c99da90"
+    },
+    "c6cCertificationSummary": {
+      "path": "artifacts/guards/p10-ifx-i2b/a3-052/c6c-full/summary.json",
+      "sha256": "e0d1b7d69222b42641f7d115874945cf7ee68c07075300bd240c418a93edc3f0"
+    }
+  },
+  "openLimitsAccepted": [
+    "The lab originals of the relocated graph producer, its policy, the two source policies and the staging script stay in docs/guards/candidates on the development branch; Copy-IFX052Closure.ps1 -Check reports any later change to them as drift for review; it does not sync.",
+    "The two source policies under producers/graph/policies are byte copies kept as hashed data: their provenance fields still name V3 paths, which the producer never reads (A3-3 control).",
+    "The specimen and proposal still bind 0.5.1 and the lab-tree staging and aggregate paths; A3-10 rebinds them to 0.5.2 and adds the closure rule with its negative controls.",
+    "The hosted runner's prerequisites for the producers (for example the pinned .NET SDK 10.0.303 of the graph producer and SQL Server for the database matrix) are proved only when the specimen is installed and negative-tested (I2-E).",
+    "Linux remains a non-blocking portability assessment; the synthetic review fixture is a test input, not acceptance.",
+    "Publishing to main (I2-D), the ruleset, P10.GATE and V3 retirement remain separate decisions."
+  ],
+  "followUps": [
+    "A3-10: C6e composition of 1.1.6 + 0.5.2, parity against 0.5.1, P10.3 successor with the closure rule (specimen-reads-lab-tree, producer-reads-lab-tree).",
+    "A3-11 local verification and receipt; A3-12 push needs its own authorization.",
+    "IFX-V4-007 stays open until the successor workflow is installed (I2-E)."
+  ],
+  "boundary": {
+    "a39Complete": true,
+    "productionReviewAccepted": true,
+    "a310LocalPermitted": true,
+    "compositionPerformed": false,
+    "pushAuthorized": false
+  }
+}

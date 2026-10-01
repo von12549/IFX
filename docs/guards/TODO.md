@@ -144,6 +144,10 @@ Adoption records: [`v4-adoption/`](v4-adoption/README.md). Plan paths below that
     - receipt `v4-adoption/migration/ifx-i2c-main-promotion-receipt.json`.
     - Next: I2-B amendment A3 (bundle 0.5.2: finding F-C1, the graph producer and the staging script still live under
       `docs/guards/candidates`), then I2-D (publication), each under its own Plan.
+  - **I2-B amendment A3 (bundle 0.5.2, 2026-10-01).** Graph producer, its policy and two source policies relocated to
+    `v4-adoption/producers/graph` (`ifx-v4a-graph-v1`), staging script and extracted aggregate under `v4-adoption/ci`.
+    Closure inventory, controls and parity pass; A3-8 C6c pass at `3600988c` (Windows 191/191, controls 180 + 42,
+    Linux 191/191 equal); A3-9 review accepted. Next: A3-10, A3-11 locally, then the A3-12 push (authorization).
   - **I2-B B0–B3 done (2026-09-29): pin split accepted, D-B in two steps chosen; the 0.5.0-a amendment is next.** Plan
     `20260929-v4-ifx-i2b-ci-evidence-and-bundle`; design note `v4-adoption/plans/12-ci-evidence-design.md`.
     - B1 fixed IFX-V4-006 (archive copy-back).
