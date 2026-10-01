@@ -207,6 +207,81 @@
       "sha256": "3277b19802afb20808f4d7693bf8638a1f520666db6bce87eb4e233b6d22b7c9",
       "lfSha256": "3277b19802afb20808f4d7693bf8638a1f520666db6bce87eb4e233b6d22b7c9",
       "gitBlob": "d148b77aaf31458bf4e62bdbce549ca0d8831ada"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "destination": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "kind": "lab-producer",
+      "gates": [
+        "bundle 0.5.1",
+        "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1"
+      ],
+      "sha256": "d6057dc41a65e997f0985a7fc84476223488666566396d60d616f0d83d5ebebc",
+      "lfSha256": "d6057dc41a65e997f0985a7fc84476223488666566396d60d616f0d83d5ebebc",
+      "gitBlob": "c5ae3397ce38b2853dfe7c12c1297d792c1f0a37",
+      "step": "A3-2",
+      "originCommit": "6298d7fd978bd63786875991b121167a07c51b2f"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policy.json",
+      "kind": "lab-policy",
+      "gates": [
+        "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1"
+      ],
+      "sha256": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec",
+      "lfSha256": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec",
+      "gitBlob": "f431a01d5a01e507b4749cf25f41afe816faa191",
+      "step": "A3-2",
+      "originCommit": "6298d7fd978bd63786875991b121167a07c51b2f"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policies/ifx-reference-cycle-policy.json",
+      "kind": "lab-source-policy",
+      "gates": [
+        "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json"
+      ],
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+      "lfSha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+      "gitBlob": "2c69a0c40f80b13dc973c7f0a8132680deb73198",
+      "step": "A3-2",
+      "originCommit": "6298d7fd978bd63786875991b121167a07c51b2f"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+      "destination": "docs/guards/v4-adoption/producers/graph/policies/ifx-ownership-graph-policy.json",
+      "kind": "lab-source-policy",
+      "gates": [
+        "docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json"
+      ],
+      "sha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c",
+      "lfSha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c",
+      "gitBlob": "a0b6e56231136bac00ce4b95fa1eeadc7fa31f1d",
+      "step": "A3-2",
+      "originCommit": "6298d7fd978bd63786875991b121167a07c51b2f"
+    },
+    {
+      "origin": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+      "destination": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1",
+      "kind": "lab-staging",
+      "gates": [
+        "bundle 0.5.1",
+        "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml"
+      ],
+      "sha256": "42b96ca52b6086006fe5ef10f6512ae01445705dc8b5a3bf5206654860c598cf",
+      "lfSha256": "42b96ca52b6086006fe5ef10f6512ae01445705dc8b5a3bf5206654860c598cf",
+      "gitBlob": "e4943b7b031a28e29aa93f6d72a6668557fc1c45",
+      "step": "A3-2",
+      "originCommit": "6298d7fd978bd63786875991b121167a07c51b2f"
+    }
+  ],
+  "amendments": [
+    {
+      "step": "A3-2",
+      "originCommit": "6298d7fd978bd63786875991b121167a07c51b2f",
+      "closureInventorySha256": "9a83d0be84df9df6a8931713b31aba8a9aa1b7d44c0e9eb83990412c03811643",
+      "rule": "A3 entries come from the lab tree (candidates) at their own originCommit; Copy-IFX052Closure.ps1 -Check reports any later origin change as drift for review (ruling R13)."
     }
   ]
 }
