@@ -1,0 +1,210 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-052-closure-parity",
+  "step": "A3-4",
+  "status": "fail",
+  "head": "5365b397c0a0f0a9156ba7a39a824346d6971522",
+  "graph": {
+    "positive": {
+      "lab": {
+        "side": "lab",
+        "exitCode": 0,
+        "seconds": 28.2,
+        "run": "artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/3a105b1e33994b9a90121b599168899c",
+        "lock": "artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/3a105b1e33994b9a90121b599168899c/evidence-lock.json",
+        "message": "",
+        "log": "logs/positive-lab.log"
+      },
+      "v4": {
+        "side": "v4",
+        "exitCode": 0,
+        "seconds": 27.8,
+        "run": "artifacts/guards/v4a-producers/graph-runs/b7cc06a106c442029fadcc0177f5bc34",
+        "lock": "artifacts/guards/v4a-producers/graph-runs/b7cc06a106c442029fadcc0177f5bc34/evidence-lock.json",
+        "message": "",
+        "log": "logs/positive-v4.log"
+      },
+      "identity": {
+        "policySha256": {
+          "lab": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec",
+          "v4": "0677a56ff5e8719a7cb421a2b94a0d7c0c0095867a140bbeb05eaadd8b75f26a"
+        },
+        "producer": {
+          "lab": "ifx-c1-r2b-controlled-v1",
+          "v4": "ifx-v4a-graph-v1"
+        },
+        "sharedFields": [
+          "arguments",
+          "configuration",
+          "edges",
+          "evaluatedReferenceCount",
+          "formatVersion",
+          "gate",
+          "inputs",
+          "projects",
+          "projectStates",
+          "rawEvaluatedDelta",
+          "rawReferenceCount",
+          "result",
+          "sdk",
+          "targetCommit",
+          "targetFramework"
+        ],
+        "edges": 155,
+        "projects": 58
+      },
+      "differences": []
+    },
+    "negative": {
+      "unsupported-construct": {
+        "committed": true,
+        "labExitCode": 1,
+        "v4ExitCode": 1,
+        "labMessage": "<target>\\docs\\guards\\candidates\\ifx-gate-coverage-c1r2b\\Invoke-IFXEvaluatedGraphProducer.ps1:5",
+        "v4Message": "<target>\\docs\\guards\\v4-adoption\\producers\\graph\\Invoke-IFXEvaluatedGraphProducer.ps1:6",
+        "sameFailure": false
+      },
+      "project-set-drift": {
+        "committed": true,
+        "labExitCode": 1,
+        "v4ExitCode": 1,
+        "labMessage": "<target>\\docs\\guards\\candidates\\ifx-gate-coverage-c1r2b\\Invoke-IFXEvaluatedGraphProducer.ps1:5",
+        "v4Message": "<target>\\docs\\guards\\v4-adoption\\producers\\graph\\Invoke-IFXEvaluatedGraphProducer.ps1:6",
+        "sameFailure": false
+      },
+      "source-policy-drift": {
+        "committed": true,
+        "labExitCode": 1,
+        "v4ExitCode": 1,
+        "labMessage": "<target>\\docs\\guards\\candidates\\ifx-gate-coverage-c1r2b\\Invoke-IFXEvaluatedGraphProducer.ps1:5",
+        "v4Message": "<target>\\docs\\guards\\v4-adoption\\producers\\graph\\Invoke-IFXEvaluatedGraphProducer.ps1:6",
+        "sameFailure": false
+      },
+      "dirty-tracked-source": {
+        "committed": false,
+        "labExitCode": 1,
+        "v4ExitCode": 1,
+        "labMessage": "<target>\\docs\\guards\\candidates\\ifx-gate-coverage-c1r2b\\Invoke-IFXEvaluatedGraphProducer.ps1:5",
+        "v4Message": "<target>\\docs\\guards\\v4-adoption\\producers\\graph\\Invoke-IFXEvaluatedGraphProducer.ps1:6",
+        "sameFailure": false
+      }
+    }
+  },
+  "aggregate": [
+    {
+      "contract": "success",
+      "windows": "success",
+      "exitCode": 0,
+      "equal": true,
+      "newExitCode": 0
+    },
+    {
+      "contract": "success",
+      "windows": "failure",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "success",
+      "windows": "cancelled",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "success",
+      "windows": "skipped",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "failure",
+      "windows": "success",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "failure",
+      "windows": "failure",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "failure",
+      "windows": "cancelled",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "failure",
+      "windows": "skipped",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "cancelled",
+      "windows": "success",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "cancelled",
+      "windows": "failure",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "cancelled",
+      "windows": "cancelled",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "cancelled",
+      "windows": "skipped",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "skipped",
+      "windows": "success",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "skipped",
+      "windows": "failure",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "skipped",
+      "windows": "cancelled",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    },
+    {
+      "contract": "skipped",
+      "windows": "skipped",
+      "exitCode": 16,
+      "equal": true,
+      "newExitCode": 16
+    }
+  ],
+  "semanticDifferenceCount": 0,
+  "negativeMismatchCount": 4,
+  "aggregateDifferenceCount": 0
+}

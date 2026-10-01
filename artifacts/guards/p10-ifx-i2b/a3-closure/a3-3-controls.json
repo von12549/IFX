@@ -1,0 +1,122 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-052-closure-controls",
+  "step": "A3-3",
+  "status": "pass",
+  "head": "a44e054995a68f2236c7be2ec6349994b118260a",
+  "results": {
+    "staticAndClosure": {
+      "pass": true,
+      "violations": []
+    },
+    "graphRefusesWithoutTargetRoot": {
+      "pass": true,
+      "exitCode": 1
+    },
+    "aggregateRefusesMissingInputs": {
+      "pass": true,
+      "exitCode": 1
+    },
+    "a3OriginsNoDrift": {
+      "pass": true,
+      "report": {
+        "formatVersion": 1,
+        "kind": "ifx-052-closure-origin-drift",
+        "fileCount": 5,
+        "drift": [],
+        "status": "no-drift"
+      }
+    },
+    "allOriginsNoDrift": {
+      "pass": true,
+      "report": {
+        "formatVersion": 1,
+        "kind": "ifx-051-producer-origin-drift",
+        "originsSha256": "2cdb21c00f16dd8324a103141b2bb6d4617c1efef94acb6e8d4dd6447a33a20b",
+        "originCommit": "337ccd5c887fe31c1dbf4bbbc5f76aad57d1ea3d",
+        "fileCount": 24,
+        "drift": [],
+        "status": "no-drift"
+      }
+    },
+    "a2ProducerControls": {
+      "pass": true,
+      "scope": "producers without graph/",
+      "summary": [
+        "A2-3 producer controls pass: static True, refusals True, negatives 5/5"
+      ]
+    },
+    "negativeControls": {
+      "pass": true,
+      "controls": [
+        {
+          "id": "lab-path-literal",
+          "rejected": true,
+          "violations": [
+            "forbidden-path: producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1:97",
+            "closure: producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1 -> docs/guards/candidates/ifx-gate-coverage-c1r2b/modules/ifx-c1-evaluated-reference/policy.json"
+          ]
+        },
+        {
+          "id": "staging-runs-lab-producer",
+          "rejected": true,
+          "violations": [
+            "forbidden-path: ci/Invoke-IFXEvidenceProducers.ps1:37",
+            "closure: ci/Invoke-IFXEvidenceProducers.ps1 -> docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1"
+          ]
+        },
+        {
+          "id": "staging-names-missing-producer",
+          "rejected": true,
+          "violations": [
+            "staging-missing-producer: docs/guards/v4-adoption/producers/graph/Invoke-IFXMissingProducer.ps1"
+          ]
+        },
+        {
+          "id": "policy-source-back-to-lab",
+          "rejected": true,
+          "violations": [
+            "forbidden-path: producers/graph/policy.json:1",
+            "policy-source-outside-package: docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json"
+          ]
+        },
+        {
+          "id": "policy-source-hash-drift",
+          "rejected": true,
+          "violations": [
+            "policy-source-hash: docs/guards/v4-adoption/producers/graph/policies/ifx-ownership-graph-policy.json"
+          ]
+        },
+        {
+          "id": "escape-package",
+          "rejected": true,
+          "violations": [
+            "escapes-package: ci/Invoke-IFXV4Aggregate.ps1 -> ../../candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1"
+          ]
+        },
+        {
+          "id": "v3-path-other-case",
+          "rejected": true,
+          "violations": [
+            "forbidden-path: ci/Invoke-IFXV4Aggregate.ps1:21",
+            "closure: ci/Invoke-IFXV4Aggregate.ps1 -> DOCS/GUARDS/v3_IFX/stages/ci/required-checks.json"
+          ]
+        },
+        {
+          "id": "source-policy-parsed",
+          "rejected": true,
+          "violations": [
+            "hashed-data-read: the graph producer uses a source policy other than by hash"
+          ]
+        },
+        {
+          "id": "parse-error",
+          "rejected": true,
+          "violations": [
+            "parse-error: producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1"
+          ]
+        }
+      ]
+    }
+  }
+}
