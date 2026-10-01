@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "scope": "ifx-050a-linux-certification",
+  "storage": "container-native",
+  "nativeRoot": "/native/linux",
+  "sourceCommit": "08bba61d4cd5874429f64f193a1404c67d4ddbfa",
+  "sdk": "10.0.303",
+  "networkExpectation": "disabled-by-orchestrator",
+  "positiveReportPath": "/native/linux/positive.json",
+  "positiveReportSha256": "ebb4f89f4f287d7fa9d995e5486082204e08c6add6bb080093226638b1563d78",
+  "matrixReportPath": "/native/linux/matrix/summary.json",
+  "matrixReportSha256": "fe554bcdfa4180393eccad3c1d75cc839be8e57059926b8ab734af9281c68e01",
+  "caseManifestPath": "../matrix/case-manifest.json",
+  "caseManifestSha256": "0d18ece748ee361dc163d738a0248dfa7c0a4a624b8d43108ca13e3d298bbab3",
+  "provenCoreCases": 191,
+  "gaps": []
+}

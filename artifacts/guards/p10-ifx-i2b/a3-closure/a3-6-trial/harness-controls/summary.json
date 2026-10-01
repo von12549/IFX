@@ -1,0 +1,244 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-harness-controls",
+  "status": "pass",
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A1-4",
+  "harnessCommit": "08bba61d4cd5874429f64f193a1404c67d4ddbfa",
+  "linuxImageDigest": "sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773",
+  "windowsCases": [
+    {
+      "id": "no-harness-file-uses-docs-guards-v4",
+      "expected": "accept",
+      "actual": "accept",
+      "message": null,
+      "detail": {
+        "scannedFiles": 255
+      },
+      "pass": true
+    },
+    {
+      "id": "a4-base-reference-verified",
+      "expected": "accept",
+      "actual": "accept",
+      "message": null,
+      "detail": {
+        "package": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.6\\package"
+      },
+      "pass": true
+    },
+    {
+      "id": "a4-base-reference-drift-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "message": "Base reference hash drift: modules/architecture-conformance/adapter.ps1 (54ffebd4c6e47e492c60ded254732e357b7defc07cd61a9945a77944c801910d)",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "id": "matrix-contract-verifier-pass",
+      "expected": "accept",
+      "actual": "accept",
+      "message": null,
+      "detail": {
+        "report": "verifier/summary.json"
+      },
+      "pass": true
+    },
+    {
+      "id": "matrix-contract-drift-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "message": "\u001b[31;1mException: \u001b[0mD:\\IFX-Root\\IFX\\docs\\guards\\candidates\\ifx-i2b-052\\Test-IFX050MatrixContract.ps1:26\u001b[0m \u001b[31;1m\u001b[0m\u001b[36;1mLine |\u001b[0m \u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m  26 | \u001b[0m . dition, [string]$Message) { if (-not $Condition) { \u001b[36;1mthrow $Message\u001b[0m } }\u001b[0m \u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m     | \u001b[31;1m                                                      ~~~~~~~~~~~~~~\u001b[0m \u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mMatrix contract differs from its derivation (New-IFX050MatrixContract).\u001b[0m",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "id": "fixture-spec-drift-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "message": "\u001b[31;1mException: \u001b[0mD:\\IFX-Root\\IFX\\docs\\guards\\candidates\\ifx-i2b-052\\Test-IFX050MatrixContract.ps1:26\u001b[0m \u001b[31;1m\u001b[0m\u001b[36;1mLine |\u001b[0m \u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m  26 | \u001b[0m . dition, [string]$Message) { if (-not $Condition) { \u001b[36;1mthrow $Message\u001b[0m } }\u001b[0m \u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m     | \u001b[31;1m                                                      ~~~~~~~~~~~~~~\u001b[0m \u001b[31;1m\u001b[0m\u001b[36;1m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[0m\u001b[36;1m\u001b[31;1m\u001b[31;1m\u001b[36;1m     | \u001b[31;1mFixture specification differs from its derivation (New-IFX050FixtureSpec).\u001b[0m",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "id": "installer-from-verified-archive",
+      "expected": "accept",
+      "actual": "accept",
+      "message": null,
+      "detail": {
+        "installerSha256": "eece069e2d6e8eec84b0e8ad9db6e2927bf4ba6645bf9a887398ef9e692b4165",
+        "extractedEntries": 127
+      },
+      "pass": true
+    },
+    {
+      "id": "archive-hash-drift-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "message": "Release archive hash drift: 6264b93f27c718130c2b1e5d548e741d847bfc832acbe6c3865ea5771bd7da4e",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "id": "extraction-under-target-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "message": "The release installer must not be extracted under the TargetRoot.",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "id": "wrong-version-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "message": "The release archive has no package installer.",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "id": "snapshot-file-drift-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "message": "Snapshot file drift: artifacts/guards/v4a-producers/assembly-runs/cbfafb4b9f5f4c8fb32b0dd0df18385c/evidence-lock.json",
+      "detail": null,
+      "pass": true
+    },
+    {
+      "id": "snapshot-other-commit-rejected",
+      "expected": "reject",
+      "actual": "reject",
+      "message": "The snapshot is not at the TargetRoot commit.",
+      "detail": null,
+      "pass": true
+    }
+  ],
+  "prGateCases": [
+    {
+      "id": "pr-benign-src",
+      "commit": "bf3cb45879827b7a6d26359aec0dd38349af3f63",
+      "production": "pr-gate/pr-benign-src/production.json",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "rules": [],
+      "exitCode": 0,
+      "pass": true
+    },
+    {
+      "id": "pr-foreign-production",
+      "commit": "99f5e24d7edd541ab3a6cdcc206deff024cf4069",
+      "production": "pr-gate/pr-benign-src/production.json",
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "rules": [
+        "V4.MODULE.IFX_C1_TYPE_PROVENANCE"
+      ],
+      "exitCode": 12,
+      "pass": true
+    },
+    {
+      "id": "pr-rule-breaking",
+      "commit": "99f5e24d7edd541ab3a6cdcc206deff024cf4069",
+      "production": "pr-gate/pr-rule-breaking/production.json",
+      "expected": "fail/findings-blocking G04-BACKPRESSURE",
+      "actual": "fail/findings-blocking",
+      "rules": [
+        "G04-BACKPRESSURE"
+      ],
+      "exitCode": 16,
+      "pass": true
+    },
+    {
+      "id": "pr-governance",
+      "commit": "eb75fd21d12032b11fe78e6293f1df15bf15907b",
+      "production": "pr-gate/pr-governance/production.json",
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "rules": [
+        "V4.MODULE.IFX_G05_CLOSEOUT"
+      ],
+      "exitCode": 12,
+      "pass": true
+    }
+  ],
+  "prGateSkipped": false,
+  "linux": {
+    "exitCode": 0,
+    "report": {
+      "path": "linux/native-storage-controls.json",
+      "sha256": "d5a2b60303995440fb629ecccad24897d0c7fc26b425a210b7c22835d9d32dc3"
+    },
+    "cases": [
+      {
+        "id": "native-paths-accepted",
+        "expected": "accept",
+        "actual": "accept",
+        "message": null,
+        "pass": true
+      },
+      {
+        "id": "target-on-out-bind-rejected",
+        "expected": "reject",
+        "actual": "reject",
+        "message": "Linux working path outside the native root /native/linux: /out/linux/native-checkout",
+        "pass": true
+      },
+      {
+        "id": "work-on-out-bind-rejected",
+        "expected": "reject",
+        "actual": "reject",
+        "message": "Linux working path outside the native root /native/linux: /out/linux/work",
+        "pass": true
+      },
+      {
+        "id": "all-on-out-bind-rejected",
+        "expected": "reject",
+        "actual": "reject",
+        "message": "Linux working path must not be on the bind-mounted root /out/linux: /out/linux/native-checkout",
+        "pass": true
+      },
+      {
+        "id": "target-under-source-rejected",
+        "expected": "reject",
+        "actual": "reject",
+        "message": "Linux working path must not be on the bind-mounted root /source: /source/x/native-checkout",
+        "pass": true
+      },
+      {
+        "id": "path-outside-native-root-rejected",
+        "expected": "reject",
+        "actual": "reject",
+        "message": "Linux working path outside the native root /native/linux: /elsewhere/native-checkout",
+        "pass": true
+      },
+      {
+        "id": "undeclared-9p-mount-rejected",
+        "expected": "reject",
+        "actual": "reject",
+        "message": "Linux native root is on a shared file system (v9fs): /unlisted/linux",
+        "pass": true
+      },
+      {
+        "id": "copyback-excludes-target",
+        "expected": "accept",
+        "actual": "accept",
+        "message": null,
+        "pass": true
+      },
+      {
+        "id": "a5-index-sync-identical-bytes-accepted",
+        "expected": "accept",
+        "actual": "accept",
+        "message": null,
+        "pass": true
+      },
+      {
+        "id": "a5-index-sync-content-change-rejected",
+        "expected": "reject",
+        "actual": "reject",
+        "message": "Native checkout content differs from the bound commit: M  lf.json",
+        "pass": true
+      }
+    ]
+  }
+}
