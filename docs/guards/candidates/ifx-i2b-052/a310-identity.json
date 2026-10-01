@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+  "step": "A3-10",
+  "targetCommit": "3600988cc9e91f0a523ec60f5f4378dd4c83c541",
+  "guardReleaseCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+  "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+  "bundleManifestSha256": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+  "profileSha256": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302",
+  "productionReviewSha256": "38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d",
+  "packageSha256": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42",
+  "compositionReceiptSha256": "01011be24afb6fdd6daa34666dc0ec0b7c886c5ffe3528b1dd80c7accbf07a19",
+  "c6eDecision": "102ada6ce67591af60a7ee56d588e46de4c057df10c7411e4ddb62d2c2851bfd",
+  "v3Inventory": "50611e91475c0e2142d30f89c14c4e7dbe5a6c63449b8a403dd0420cfa0385b6",
+  "v3InventoryFileCount": 563,
+  "v3Policy": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+  "v3TrustedComponents": "2213db9f5d217bca12144b667d1af5fcfabf1ca707186dedadefaa75d62202be",
+  "package": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42",
+  "receipt": "01011be24afb6fdd6daa34666dc0ec0b7c886c5ffe3528b1dd80c7accbf07a19",
+  "bundleManifest": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+  "profile": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302",
+  "caseManifest": "bcd132a8c05c7788b1412aae2af9a29f3f81648f966693e427d4cad6fb8d64b9",
+  "c6cSummary": "d6384960457ce32e11b110f133d0c84afea26df6b288c47a588681791521db00",
+  "v3InventoryDerivation": {
+    "acceptedIdentity": "docs/guards/candidates/ifx-i2b-051/a210-identity.json",
+    "predecessorTargetCommit": "351b504bd6549a8e9cede9ab34571986f6188c49",
+    "predecessorFileCount": 562,
+    "fileCount": 563,
+    "changedFromAccepted": [
+      {
+        "status": "A",
+        "path": "docs/guards/V3_ifx/shared/decisions/history/20261001-v4-ifx-i2c-v4-adoption-admission.json"
+      },
+      {
+        "status": "M",
+        "path": "docs/guards/V3_ifx/shared/policy-config.json"
+      },
+      {
+        "status": "M",
+        "path": "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1"
+      }
+    ],
+    "reason": "I2-C (Plan 20261001-v4-ifx-i2c-main-promotion) brought these V3 changes to main and the development branch: the v4-adoption admission decision, its registration in policy-config.json and the four-entry allowlist of Test-CutoverPreservation.ps1. The V3 policy (layerguard.json), baseline and trusted-components.json that the replay runs are unchanged."
+  },
+  "roots": {
+    "composedInstall": "D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.5.2",
+    "cleanTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a310-clean-052",
+    "violatingTarget": "D:/IFX-Root/guard-runtime/fixtures/ifx-a310-violating-052",
+    "bundle": "artifacts/guards/p10-ifx-i2b/a3-052/formal-candidate-a/8f06b1c739984178bdfc5c8b5e18d558/bundle"
+  }
+}

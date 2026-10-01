@@ -1,5 +1,6 @@
-# IFX I2-B amendment A2 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A2-10b: the P10.2 parity replay for
-# V4 Guards 1.1.6 + ifx_profile 0.5.1 (the A1-8b replay with the 0.5.1 roots and decision); successor of candidates/ifx-rebind-116/Invoke-IFX116P102Parity.ps1
+# IFX I2-B amendment A3 (Plan 20260929-v4-ifx-i2b-ci-evidence-and-bundle) step A3-10b: the P10.2 parity replay for
+# V4 Guards 1.1.6 + ifx_profile 0.5.2 (the A2-10b replay with the 0.5.2 roots and decision; the expected V3/V3_ifx
+# inventory file count comes from the identity file, since I2-C added one V3 decision on main); successor of candidates/ifx-rebind-116/Invoke-IFX116P102Parity.ps1
 # (unchanged), derived by literal substitution. The 52-case corpus covers the ten Pre modules, which 0.5.0 leaves
 # unchanged, so the expected result equals the accepted 0.4.4 replay. The C6c supplemental capture is
 # supplemental.jsonl with project ID ifx-050a-supplemental (c6c4.jsonl and ifx-c6c4-supplemental in I1).
@@ -8,17 +9,17 @@ param(
     [Parameter(Mandatory)][string] $IdentityPath,
     [Parameter(Mandatory)][string] $BundleRoot,
     [string] $RepositoryRoot = 'D:/IFX-Root/IFX',
-    [string] $ReferenceRoot = 'D:/IFX-Root/guard-runtime/fixtures/ifx-a210-clean-051',
-    [string] $ViolationRoot = 'D:/IFX-Root/guard-runtime/fixtures/ifx-a210-violating-051',
-    [string] $InstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.5.1',
-    [string] $ReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6-ifx-0.5.1.compose.json',
+    [string] $ReferenceRoot = 'D:/IFX-Root/guard-runtime/fixtures/ifx-a310-clean-052',
+    [string] $ViolationRoot = 'D:/IFX-Root/guard-runtime/fixtures/ifx-a310-violating-052',
+    [string] $InstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6-ifx-0.5.2',
+    [string] $ReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6-ifx-0.5.2.compose.json',
     [string] $BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string] $BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
-    [string] $C6eDecisionPath = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a3-052/a2-10a-decision.json',
+    [string] $C6eDecisionPath = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a3-052/a3-10a-decision.json',
     [string] $C6cWindowsRoot = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a3-052/c6c-full/windows',
-    [string] $OutputRoot = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-051',
-    [string] $BuildRoot = 'D:/IFX-Root/guard-runtime/build/p10-2-a210-051',
-    [string] $RuntimeRoot = 'D:/IFX-Root/guard-runtime/evidence/p10-2-a210-051'
+    [string] $OutputRoot = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-i2b/a3-052/p10-2-parity-052',
+    [string] $BuildRoot = 'D:/IFX-Root/guard-runtime/build/p10-2-a310-052',
+    [string] $RuntimeRoot = 'D:/IFX-Root/guard-runtime/evidence/p10-2-a310-052'
 )
 
 Set-StrictMode -Version Latest
@@ -27,7 +28,7 @@ $ErrorActionPreference = 'Stop'
 $identity = Get-Content -LiteralPath $IdentityPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 $expected = [ordered]@{}
 foreach ($name in @('targetCommit','c6eDecision','v3Inventory','v3Policy','v3TrustedComponents','package','receipt','bundleManifest','profile','caseManifest','c6cSummary')) {
-    if ([string]::IsNullOrWhiteSpace([string]$identity[$name])) { throw "A2-10 identity file lacks $name." }
+    if ([string]::IsNullOrWhiteSpace([string]$identity[$name])) { throw "A3-10 identity file lacks $name." }
     $expected[$name] = [string]$identity[$name]
 }
 $expected.pwsh = '7.6.6'
@@ -122,7 +123,7 @@ $install = Full-Directory $InstallRoot 'InstallRoot'
 $receipt = Full-File $ReceiptPath 'Composition receipt'
 $baseReceipt = Full-File $BaseReceiptPath 'Base receipt'
 $bundle = Full-Directory $BundleRoot 'BundleRoot'
-$decisionPath = Full-File $C6eDecisionPath 'A2-10a decision'
+$decisionPath = Full-File $C6eDecisionPath 'A3-10a decision'
 $windows = Full-Directory $C6cWindowsRoot 'C6c Windows evidence'
 $output = Absent $OutputRoot 'OutputRoot'
 $build = Absent $BuildRoot 'BuildRoot'
@@ -142,12 +143,12 @@ if ((Sha $decisionPath) -cne $expected.c6eDecision -or (Sha $receipt) -cne $expe
     (Sha $caseManifestPath) -cne $expected.caseManifest -or (Sha $c6cSummaryPath) -cne $expected.c6cSummary -or
     (Sha $v3PolicyPath) -cne $expected.v3Policy -or (Sha $v3TrustedPath) -cne $expected.v3TrustedComponents) { Fail 'Frozen identity mismatch.' }
 $decision = Get-Content -LiteralPath $decisionPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
-if ($decision.status -cne 'pass' -or $decision.decision -cne 'a2-10a-composition-accepted') { Fail 'A2-10a composition is not accepted.' }
+if ($decision.status -cne 'pass' -or $decision.decision -cne 'a3-10a-composition-accepted') { Fail 'A3-10a composition is not accepted.' }
 $referenceHead = (& git -C $reference rev-parse HEAD).Trim()
 $referenceStatus = @(& git -C $reference status --porcelain=v1 --untracked-files=all)
 if ($LASTEXITCODE -ne 0 -or $referenceHead -cne $expected.targetCommit -or $referenceStatus.Count -ne 0) { Fail 'Reference worktree is not the clean certified commit.' }
 $v3Pre = Root-Inventory $reference @('docs/guards/V3','docs/guards/V3_ifx')
-if ($v3Pre.inventorySha256 -cne $expected.v3Inventory -or $v3Pre.fileCount -ne 562) { Fail 'V3/V3_ifx inventory mismatch.' }
+if ($v3Pre.inventorySha256 -cne $expected.v3Inventory -or $v3Pre.fileCount -ne [int]$identity['v3InventoryFileCount']) { Fail 'V3/V3_ifx inventory mismatch.' }
 $immutablePre = [ordered]@{
     reference = Text-Sha (Fingerprint $reference)
     install = Text-Sha (Fingerprint $install)
