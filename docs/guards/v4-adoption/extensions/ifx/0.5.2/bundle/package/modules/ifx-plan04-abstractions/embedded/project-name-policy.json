@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-project-name-c1j",
+  "sourcePolicy": { "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json", "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5" },
+  "sourceRule": { "path": "docs/guards/V3_ifx/stages/post/rules/L1.2.json", "sha256": "584007ec88e47dcdbe92796745ce107f557cac8d033c3c71a0418f29d7cc3e06" },
+  "scanRoot": "src",
+  "rings": {
+    "Domain": ["IFX.Modules.*.Domain"],
+    "Contracts": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
+    "Application": ["IFX.Modules.*.Application"],
+    "Presentation": ["IFX.Modules.*.Presentation"],
+    "IntegrationAdapter": ["IFX.Modules.*.Integration", "IFX.Modules.*.Infrastructure.Integrations"],
+    "Infrastructure": ["IFX.Modules.*.Infrastructure", "IFX.Platform.*.Infrastructure.*"],
+    "Client": ["IFX.Modules.*.Client"],
+    "Runtime": ["IFX.Platform.*.Runtime"],
+    "Composition": ["IFX.Modules.*.Composition", "IFX.Platform.*.Composition"],
+    "RuntimeHost": ["IFX.ApiHost", "IFX.*.Worker"]
+  },
+  "forbiddenProjectNames": ["*.Abstractions"],
+  "sourceSeverity": "drift",
+  "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+  "ruleId": "PROJECT-NAME-FORBIDDEN",
+  "minimumInScopeProjects": 1
+}

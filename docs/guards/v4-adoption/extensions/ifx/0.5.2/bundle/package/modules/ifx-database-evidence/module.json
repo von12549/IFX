@@ -1,0 +1,65 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-database-evidence",
+  "version": "0.3.1",
+  "compatibleApi": "1.x",
+  "supportedPlatforms": [
+    "linux-x64",
+    "win-x64"
+  ],
+  "adapter": {
+    "kind": "powershell",
+    "path": "modules/ifx-database-evidence/adapter.ps1",
+    "sha256": "ded6e96a738a4d329b14325d423667f25a5f30ddfd7b9af681fa47d48af1a51a"
+  },
+  "prerequisites": [
+    {
+      "runtime": "pwsh",
+      "versionRange": ">=7.4"
+    }
+  ],
+  "stages": [
+    "post"
+  ],
+  "capabilities": {
+    "readRoots": [
+      "PackageRoot",
+      "TargetRoot",
+      "EvidenceRoot"
+    ],
+    "writeRoots": [],
+    "processes": [
+      "pwsh"
+    ],
+    "network": false,
+    "timeoutSeconds": 60
+  },
+  "configSchema": "modules/ifx-database-evidence/config.schema.json",
+  "resultSchema": "modules/ifx-database-evidence/result.schema.json",
+  "dependencyLock": {
+    "path": "modules/ifx-database-evidence/dependencies.lock.json",
+    "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0"
+  },
+  "authorities": [
+    {
+      "id": "ifx-policy",
+      "path": "modules/ifx-database-evidence/policy.json",
+      "sha256": "76a7f2fa232808e87f481f2eda5d51ff78ca2e8a27733e785187041a81f3233e"
+    },
+    {
+      "id": "source-inventory",
+      "path": "modules/ifx-database-evidence/source-inventory.json",
+      "sha256": "bda0d6551eca8f3931c125a3634f514dd608c1c21f4addff947b3a7e76f4f036"
+    },
+    {
+      "id": "rule-execution-plan",
+      "path": "modules/ifx-database-evidence/rule-execution-plan.json",
+      "sha256": "09d2035d8bb4a337b26418b7747e033211d24f0ea3325824362b102f312e786e"
+    },
+    {
+      "id": "module-result",
+      "path": "modules/ifx-database-evidence/result.schema.json",
+      "sha256": "6d28b1a2afed00a80a129580cdb976dfd1aa5cc0730736c5e322243c40f81042"
+    }
+  ]
+}

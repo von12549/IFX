@@ -1,0 +1,1991 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-profile-candidate",
+  "version": "0.5.2",
+  "compatibleApi": "1.x",
+  "baseVersion": "1.1.6",
+  "profiles": [
+    {
+      "id": "ifx_profile",
+      "version": "0.5.2",
+      "path": "profiles/catalog/ifx_profile/profile.json",
+      "sha256": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302"
+    }
+  ],
+  "modules": [
+    {
+      "id": "ifx-domain-reference",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-domain-reference/module.json",
+      "manifestSha256": "d2c2ac30ce664b4134cdf0cce095e99631a70678c65bd42fd64ac58f895cd92e",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-package-reference",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-package-reference/module.json",
+      "manifestSha256": "f3f9f3d09cd9f644a377296043822ee5f19384b57711bf47cee532fa70967fd0",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-ring-graph",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-ring-graph/module.json",
+      "manifestSha256": "b84f1b4b61eaa34f72b895f6b85255482eb257a31240c501ff8b6471b2eb2c9f",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-ownership-graph",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-ownership-graph/module.json",
+      "manifestSha256": "eb4e8de5846030d9db13b1cd93e7dbfb36bccfae3b34db329df9e76e9bd5fd39",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-provider-cycle",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-provider-cycle/module.json",
+      "manifestSha256": "c7ad788c02c6410d09d45b0d9b43ae87cb23774020ced339ad8ec3f5d8e272b0",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-embedded-adapter",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-embedded-adapter/module.json",
+      "manifestSha256": "98321692b392460ef91d5d0866bf135359fbf6effbf541c10eef8a4dbac4337c",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh",
+          "dotnet"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-source-policy",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-source-policy/module.json",
+      "manifestSha256": "96fdc26e7623cd6ee68dc242f0276d31075699d9c86255198f113ee061aacabe",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh",
+          "dotnet"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-project-name",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-project-name/module.json",
+      "manifestSha256": "87ae35cdf6f1faa8464e12a10db3b35f19992269ebc1434d349775136583bf64",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-reference-cycle",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-reference-cycle/module.json",
+      "manifestSha256": "4824b086f234d647b024fc678311bce5afc95c9fda649463a23d609f59b1ac57",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-injection",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-injection/module.json",
+      "manifestSha256": "2b1d46df9b62d28fe9c81ffa289296c8b5ddcdf315a18ad89d95f4452aa7cb7a",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-c1-type-provenance",
+      "version": "0.2.1",
+      "manifestPath": "modules/ifx-c1-type-provenance/module.json",
+      "manifestSha256": "f91d2401b59e5c5bd155c487fb776a6cfb07d5e0d1e8d791dca593e3a5330dab",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-c1-evaluated-reference",
+      "version": "0.2.1",
+      "manifestPath": "modules/ifx-c1-evaluated-reference/module.json",
+      "manifestSha256": "e4ff79d87ba82d34051bc8ea88629e9c4b9dac65edb9fa4a73b17de1f437ec24",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh",
+          "git"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-g03-governance-core",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g03-governance-core/module.json",
+      "manifestSha256": "f51ad98be057d4ec3e0695d877a0cba6ab99600f113fbbfbb1e018ea2b8e6b6c",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 30
+      }
+    },
+    {
+      "id": "ifx-g03-catalog-semantics",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g03-catalog-semantics/module.json",
+      "manifestSha256": "35e50036e9f81d675e7cf2199e557f21e8b6122ac2296b214a9a6b7ad7ce2f7a",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 30
+      }
+    },
+    {
+      "id": "ifx-g03-source-reconciliation",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g03-source-reconciliation/module.json",
+      "manifestSha256": "5a31f2dbb9748da05376a30c0eddfc0b4c9dba2a27282e82f687786653c903b6",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g03-snapshots",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g03-snapshots/module.json",
+      "manifestSha256": "fd5b94cc89725933c538c85cffe7228b91d1cd9e7a4d219c717e729ad7311162",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g03-docs-closeout",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g03-docs-closeout/module.json",
+      "manifestSha256": "7ae7501a4df17698815f54aba9a4e43328b3e33750f594fbc61c39fcdf160d63",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g04-manifests",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g04-manifests/module.json",
+      "manifestSha256": "9712fe0e5dca7fa019ae7064f076dd360f9931e924d12441b1bcf9a3d5cbaa0d",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 45
+      }
+    },
+    {
+      "id": "ifx-g04-runtime",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g04-runtime/module.json",
+      "manifestSha256": "8ddb5351970eeed583edaa4f4c8bb9166a8ad70f711bd7ebe0a31c662b22ad54",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g04-closeout",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g04-closeout/module.json",
+      "manifestSha256": "3e7ab6c7cd414c6795a166f13b73efc3915f959bc017d175ce791a94892f2559",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-plan04-extraction",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-plan04-extraction/module.json",
+      "manifestSha256": "8a077496c71f6fee1af36ebdaef67c720774fa002669b20c1bac28ae14dcafe4",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-plan04-tenant",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-plan04-tenant/module.json",
+      "manifestSha256": "b07951ab9f82f9b8346e7b326a72454e6ab21a5ce2983aa74152868fb9d4e994",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-plan04-projection",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-plan04-projection/module.json",
+      "manifestSha256": "d1db4270247cb7119bcb1c30c5241f9dbe6b39987a7526ab12b2b87979c9103a",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-plan04-abstractions",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-plan04-abstractions/module.json",
+      "manifestSha256": "876b0eb225d00637b5149e56c8e32e2d3585f874a4b1f8ff6251af72b3a827a3",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-database-evidence",
+      "version": "0.3.1",
+      "manifestPath": "modules/ifx-database-evidence/module.json",
+      "manifestSha256": "f9f039218c5180fef706436f6872565aeeb72f07027e9236573ff82a4fb14eb4",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g05-inventory",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g05-inventory/module.json",
+      "manifestSha256": "f18cc9104fe766d6da04db4d0405193651eb4cfc23663634e0c4cae9513b023d",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g05-protocol",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g05-protocol/module.json",
+      "manifestSha256": "641821c3909de797f8fae01156d2527b292e3650307d02a3a3a21649eae5b941",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g05-execution-http",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g05-execution-http/module.json",
+      "manifestSha256": "66e865148d7dd4dce8aea4432edd29c530cdbe47dc18f099ed123d4e6d7c9458",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g05-carriers",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g05-carriers/module.json",
+      "manifestSha256": "3db9a32d64d51a0e1da4786cb6923581cbd190a513b4382ac314f6018fc24e50",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g05-governance",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g05-governance/module.json",
+      "manifestSha256": "f727e61612c4212007026d498289a72e1835b99f1984acb1cce4781052ec8bb6",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-g05-closeout",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-g05-closeout/module.json",
+      "manifestSha256": "0c8256a1ef2f945ec3bffa1ef979764872cd0bb6d7de11a7903ec480d94b47ca",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-plan05-security",
+      "version": "0.2.0",
+      "manifestPath": "modules/ifx-plan05-security/module.json",
+      "manifestSha256": "ae6ba27819eac2fff9130bd56f9415e18de195417c45d8a5f887edeb151936d7",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    },
+    {
+      "id": "ifx-solution-evidence",
+      "version": "0.2.1",
+      "manifestPath": "modules/ifx-solution-evidence/module.json",
+      "manifestSha256": "bf03cf58bad7585f264266c5ae292a61c208f75550c341f1d4d9260d0dbf4be0",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-assembly-evidence",
+      "version": "0.2.1",
+      "manifestPath": "modules/ifx-assembly-evidence/module.json",
+      "manifestSha256": "6a70e17fd41c6fafb511cce58f5381fdcb1b1034481d3e234b8626b9efeaa7a1",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-frontend-evidence",
+      "version": "0.2.1",
+      "manifestPath": "modules/ifx-frontend-evidence/module.json",
+      "manifestSha256": "01a385b3eaa4234c1d581c3618d297f8cf8d1904f698a3e099d104246e8ed3ad",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot",
+          "EvidenceRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 180
+      }
+    },
+    {
+      "id": "ifx-history-integrity",
+      "version": "0.1.0",
+      "manifestPath": "modules/ifx-history-integrity/module.json",
+      "manifestSha256": "f11d964a38f5cd54e91c47279a3089a58ee1d887df64642ad5d369b3ae96875f",
+      "allowedCapabilities": {
+        "readRoots": [
+          "PackageRoot",
+          "TargetRoot"
+        ],
+        "writeRoots": [],
+        "processes": [
+          "pwsh"
+        ],
+        "network": false,
+        "maxTimeoutSeconds": 60
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "modules/ifx-assembly-evidence/adapter.ps1",
+      "sha256": "32c64f372eeeed3765af2f80fba974068ad5e4e20fb60e37aaf285bd25e7fc8a",
+      "size": 16703
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/config.schema.json",
+      "sha256": "de52b3f405c3d73abaaf89bcde944a1b62302b0a57f1667a6b73db2b8bee357e",
+      "size": 456
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/module.json",
+      "sha256": "6a70e17fd41c6fafb511cce58f5381fdcb1b1034481d3e234b8626b9efeaa7a1",
+      "size": 1611
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/policy.json",
+      "sha256": "4eab694326f4c6ded709e35aa4e7180bdcbede1e0f6ed21f053f8018842e65d7",
+      "size": 1482
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/result.schema.json",
+      "sha256": "ec04db82c4cd3fcb9aae422e36b9560c15d9f17bc40e7398826564af96cc900c",
+      "size": 1199
+    },
+    {
+      "path": "modules/ifx-assembly-evidence/rule-execution-plan.json",
+      "sha256": "955d274d03a44d8aac8f589982ae763689463e86fbe9e09ec6fd31fe68074955",
+      "size": 331
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/adapter.ps1",
+      "sha256": "5a7ef219e9870cc65e2ea68b5cf48f145fd9d95b492a762c2fdfd523bfb32845",
+      "size": 17469
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/config.schema.json",
+      "sha256": "030e8b4a1d6fd1f74ae5c4877581bb91d58cd45e88307230622493107814e784",
+      "size": 470
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/embedded/ifx-ownership-graph-policy.json",
+      "sha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c",
+      "size": 4068
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/embedded/ifx-reference-cycle-policy.json",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+      "size": 4692
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/module.json",
+      "sha256": "e4ff79d87ba82d34051bc8ea88629e9c4b9dac65edb9fa4a73b17de1f437ec24",
+      "size": 2144
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/policy.json",
+      "sha256": "a50501666e2cbbe7819ca874f26207656f3879f72088690f0346c4a579e7bf65",
+      "size": 1148
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/result.schema.json",
+      "sha256": "599b4ee4665c4ce8c1ccdca77de48235d74722f9a298c8849db36830b9160469",
+      "size": 1212
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/rule-execution-plan.json",
+      "sha256": "bf8242662897c8a125cdadf444edae10fcc0e7eb067e015a26a47aca35147c38",
+      "size": 563
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/adapter.ps1",
+      "sha256": "b67f655ee81baa89548b7be15e0f896ac944ac42116fa1127a20c595ccaeed8d",
+      "size": 19466
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/config.schema.json",
+      "sha256": "8340ab6c8c88c748e3144178c316b616662a1392208aa0ab0bac4a2eba9f9c22",
+      "size": 465
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/embedded/layer-policy.json",
+      "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+      "size": 13774
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/embedded/type-rule.json",
+      "sha256": "d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b",
+      "size": 623
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/module.json",
+      "sha256": "f91d2401b59e5c5bd155c487fb776a6cfb07d5e0d1e8d791dca593e3a5330dab",
+      "size": 2029
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/policy.json",
+      "sha256": "29ad967a74154259cf10121d55b59d6d6274ceb820175930c0bef0f31d9d4367",
+      "size": 1437
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/result.schema.json",
+      "sha256": "754ad2e86df02e001159a3f77fc2d181ad9b49ac0c6c0b97c86349e568d89b69",
+      "size": 1212
+    },
+    {
+      "path": "modules/ifx-c1-type-provenance/rule-execution-plan.json",
+      "sha256": "f42d3847318173b2d545f72f014a15030b1e97bc4490c9e0887e1c79065f44c6",
+      "size": 344
+    },
+    {
+      "path": "modules/ifx-database-evidence/adapter.ps1",
+      "sha256": "ded6e96a738a4d329b14325d423667f25a5f30ddfd7b9af681fa47d48af1a51a",
+      "size": 25256
+    },
+    {
+      "path": "modules/ifx-database-evidence/config.schema.json",
+      "sha256": "77050acd61f6828df55bdb72055f2f6b6a12b45ac619f5534a31f1a4a73544a3",
+      "size": 457
+    },
+    {
+      "path": "modules/ifx-database-evidence/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-database-evidence/module.json",
+      "sha256": "f9f039218c5180fef706436f6872565aeeb72f07027e9236573ff82a4fb14eb4",
+      "size": 1807
+    },
+    {
+      "path": "modules/ifx-database-evidence/policy.json",
+      "sha256": "76a7f2fa232808e87f481f2eda5d51ff78ca2e8a27733e785187041a81f3233e",
+      "size": 991
+    },
+    {
+      "path": "modules/ifx-database-evidence/result.schema.json",
+      "sha256": "6d28b1a2afed00a80a129580cdb976dfd1aa5cc0730736c5e322243c40f81042",
+      "size": 1155
+    },
+    {
+      "path": "modules/ifx-database-evidence/rule-execution-plan.json",
+      "sha256": "09d2035d8bb4a337b26418b7747e033211d24f0ea3325824362b102f312e786e",
+      "size": 288
+    },
+    {
+      "path": "modules/ifx-database-evidence/source-inventory.json",
+      "sha256": "bda0d6551eca8f3931c125a3634f514dd608c1c21f4addff947b3a7e76f4f036",
+      "size": 392
+    },
+    {
+      "path": "modules/ifx-domain-reference/adapter.ps1",
+      "sha256": "5a04a73206d4fa011a45e8bd63231f27d28b7b19256a2e3998e29a41bf84dd8a",
+      "size": 10741
+    },
+    {
+      "path": "modules/ifx-domain-reference/config.schema.json",
+      "sha256": "bc4c8610c96006b427dc9617ed9155e322b8ffab2bbc4b542a07ceb0bc1d8a7e",
+      "size": 489
+    },
+    {
+      "path": "modules/ifx-domain-reference/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-domain-reference/module.json",
+      "sha256": "d2c2ac30ce664b4134cdf0cce095e99631a70678c65bd42fd64ac58f895cd92e",
+      "size": 1456
+    },
+    {
+      "path": "modules/ifx-domain-reference/policy.json",
+      "sha256": "1506a8b1cf079a834c11a10ce798068696abd80c0c1b460528c4d471336f8599",
+      "size": 774
+    },
+    {
+      "path": "modules/ifx-domain-reference/result.schema.json",
+      "sha256": "ba0e0c6e71df95825e6e264ae4ab47c531aa879a3c957973004fae3f69244a39",
+      "size": 1391
+    },
+    {
+      "path": "modules/ifx-domain-reference/rule-execution-plan.json",
+      "sha256": "57159e33a040fd8a2a42fc37f0b7b5443b5af73a5cb3a22028ea4f657bf1496a",
+      "size": 471
+    },
+    {
+      "path": "modules/ifx-embedded-adapter/adapter.ps1",
+      "sha256": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9",
+      "size": 14158
+    },
+    {
+      "path": "modules/ifx-embedded-adapter/config.schema.json",
+      "sha256": "94ba882a01240da7d9c488566799f44e37f10771f1980939d3b8b4af7d5bd7dc",
+      "size": 538
+    },
+    {
+      "path": "modules/ifx-embedded-adapter/dependencies.lock.json",
+      "sha256": "af116ff720699de0c0857cd4df8ed71ed7e16fdb76be01734b0c942c882ef7a1",
+      "size": 256
+    },
+    {
+      "path": "modules/ifx-embedded-adapter/module.json",
+      "sha256": "98321692b392460ef91d5d0866bf135359fbf6effbf541c10eef8a4dbac4337c",
+      "size": 1461
+    },
+    {
+      "path": "modules/ifx-embedded-adapter/policy.json",
+      "sha256": "7f3ffcd92ac320de078f82a04ee757f8cc18f646f44028fab9f858a18fe6c0f8",
+      "size": 2052
+    },
+    {
+      "path": "modules/ifx-embedded-adapter/result.schema.json",
+      "sha256": "4ac80aa79d9fe0ba99ead6541614b21f0e8239b04bcba0947c4ae405766ed3c8",
+      "size": 1471
+    },
+    {
+      "path": "modules/ifx-embedded-adapter/rule-execution-plan.json",
+      "sha256": "855c2e17d62b6c1515bce2796e3b59b07440768cd56e72d65dd593cd7591b368",
+      "size": 698
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/adapter.ps1",
+      "sha256": "b10f5f10ccf16eb6d10062f25f035905753f4ed8d7e0c1535fd1f17da2b70e7a",
+      "size": 15793
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/config.schema.json",
+      "sha256": "c7df330cedf5ea59a50defde937f830504f98df596b2018e42b472523a020fb8",
+      "size": 456
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/module.json",
+      "sha256": "01a385b3eaa4234c1d581c3618d297f8cf8d1904f698a3e099d104246e8ed3ad",
+      "size": 1611
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/policy.json",
+      "sha256": "e5259839e9389dbd340812043d2f5811f52c717bc59dab43f018b8e8a537ef19",
+      "size": 825
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/result.schema.json",
+      "sha256": "e65fb4f1b1b974946304c085ed9e7ff0be5881a41f324b71b8b03c82475930e4",
+      "size": 1230
+    },
+    {
+      "path": "modules/ifx-frontend-evidence/rule-execution-plan.json",
+      "sha256": "9192792286bfdf5b5687c2e267c7361d2cbdafd54068dd55722d4f5f38f43612",
+      "size": 362
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/adapter.ps1",
+      "sha256": "54b8e8de3e35da1b7fad912cb2e3439c6b4093a47d51fc6c0a443bb23e456e99",
+      "size": 19094
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/config.schema.json",
+      "sha256": "d1c19c14f30ca5e305a5573ad04e1a36cc1d786f983c63c055ef344732a8bd22",
+      "size": 827
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/module.json",
+      "sha256": "35e50036e9f81d675e7cf2199e557f21e8b6122ac2296b214a9a6b7ad7ce2f7a",
+      "size": 1620
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/policy.json",
+      "sha256": "253ce1aa65d4eaf0de630e755b4997e9316e30562465dd79381ba767f65afafc",
+      "size": 1144
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/result.schema.json",
+      "sha256": "6cb7a1008e98a8974e643cbfd8a1e110af4723593ba17594a0e60ac381816148",
+      "size": 1627
+    },
+    {
+      "path": "modules/ifx-g03-catalog-semantics/rule-execution-plan.json",
+      "sha256": "27c806e2acc4509ab73ff7501e6e7281cf1f8a9f6b6998265ddac20eb1cb274b",
+      "size": 1207
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/adapter.ps1",
+      "sha256": "dd709de4720842542fa5cb29e2dea3f2eda4bbbcd842ac84c499c731b73e0550",
+      "size": 12591
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/config.schema.json",
+      "sha256": "1b74b03cbc2e8a0d95a9b6c266a26534b64f5f4b4752698c33131f9fbe1bccd4",
+      "size": 1284
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/module.json",
+      "sha256": "7ae7501a4df17698815f54aba9a4e43328b3e33750f594fbc61c39fcdf160d63",
+      "size": 1588
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/policy.json",
+      "sha256": "3c9f293e33860fb19384b9035726aeba56d95d8d06d2203ce4c682389bcc2228",
+      "size": 2128
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/result.schema.json",
+      "sha256": "0d600c3d1c6455162dd48c18327f4b93abf81ab9d95b1ecf57ade74685af93a7",
+      "size": 1595
+    },
+    {
+      "path": "modules/ifx-g03-docs-closeout/rule-execution-plan.json",
+      "sha256": "1f20a220cd997ee77e4c12dd0d7af8085b25f09cd3c59f106c76b1aa050e3426",
+      "size": 896
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/adapter.ps1",
+      "sha256": "0dc300f1a2d857b119aef8c021fce75e86ad2d603340fdd37e64fe462bb91955",
+      "size": 18931
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/config.schema.json",
+      "sha256": "3b8690c95925ca2553f063c0154661d5c2e283907694607ebb380c0f0eb7ed3d",
+      "size": 809
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/module.json",
+      "sha256": "f51ad98be057d4ec3e0695d877a0cba6ab99600f113fbbfbb1e018ea2b8e6b6c",
+      "size": 1604
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/policy.json",
+      "sha256": "45df816f4c104ee038675514855a4ecf8c61851bac140d0980d26225d39d0dcc",
+      "size": 2077
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/result.schema.json",
+      "sha256": "8bcca63a18bea405ef2c66d00555a8100eda554afd2d30acf883bdbcefa3cdf1",
+      "size": 1617
+    },
+    {
+      "path": "modules/ifx-g03-governance-core/rule-execution-plan.json",
+      "sha256": "1a82f1503ad94280f6ce2940a373197b68b78c403ae4ec33f7df2f5cadccf2a2",
+      "size": 1172
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/adapter.ps1",
+      "sha256": "12f34d83885128ae8b2c5afedc6f6f33acbb394f3487f9cfd21a428da4ae7818",
+      "size": 13254
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/config.schema.json",
+      "sha256": "9d2c0ffb0fa1f88bf9b1042ba06f757592851a1646d96a4a065992d25008a55e",
+      "size": 688
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/module.json",
+      "sha256": "fd5b94cc89725933c538c85cffe7228b91d1cd9e7a4d219c717e729ad7311162",
+      "size": 1578
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/policy.json",
+      "sha256": "19bc796f283cafe823b2893790dcb2450619d3a9bfa7581bcb391bc53eab44a4",
+      "size": 1441
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/result.schema.json",
+      "sha256": "6483315d9082332b3efad22cf0f82464c35f4bbc193f71c580b33aac405608da",
+      "size": 1533
+    },
+    {
+      "path": "modules/ifx-g03-snapshots/rule-execution-plan.json",
+      "sha256": "9e20fa8e1ef922853246df371196bbe9d31ee7722101cee3a181e89cfc4dd71d",
+      "size": 662
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/adapter.ps1",
+      "sha256": "5deb7c7eee69c8eb9e999dd3ab16070272f7fa909f537581af21e6d217f2069b",
+      "size": 18020
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/config.schema.json",
+      "sha256": "034400d0169fbbb2f3528549d695184f201a14cf9ad243ab70427088bf21ec0c",
+      "size": 764
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/module.json",
+      "sha256": "5a31f2dbb9748da05376a30c0eddfc0b4c9dba2a27282e82f687786653c903b6",
+      "size": 1674
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/policy.json",
+      "sha256": "2979ffd9e234a1fd32e10af8afe83be483fe4050402aed394695c40c24254f9e",
+      "size": 1595
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/result.schema.json",
+      "sha256": "2e153d8bd7f73f97bb4572d69d572f79506f3464a486fad414f47e82bc6e8e2d",
+      "size": 1619
+    },
+    {
+      "path": "modules/ifx-g03-source-reconciliation/rule-execution-plan.json",
+      "sha256": "9a0bce08590cdc69c0ee42f3c27641a30a77373e4fdb1d146b01cedd9eee5582",
+      "size": 960
+    },
+    {
+      "path": "modules/ifx-g04-closeout/adapter.ps1",
+      "sha256": "138e557d1e731355014a908830d8d78ceedace413dd77367753a7d7222ad07bb",
+      "size": 11881
+    },
+    {
+      "path": "modules/ifx-g04-closeout/config.schema.json",
+      "sha256": "ff7f2a61479d0113fc29368badfa15ef66237255c974fce72a6529da18fec095",
+      "size": 891
+    },
+    {
+      "path": "modules/ifx-g04-closeout/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g04-closeout/module.json",
+      "sha256": "3e7ab6c7cd414c6795a166f13b73efc3915f959bc017d175ce791a94892f2559",
+      "size": 1548
+    },
+    {
+      "path": "modules/ifx-g04-closeout/policy.json",
+      "sha256": "efef4e8aa6bdbc4cf957b6de0a86568041a24b0146dcef948f39eeb966119d8b",
+      "size": 7960
+    },
+    {
+      "path": "modules/ifx-g04-closeout/result.schema.json",
+      "sha256": "9a1c3712b422020c9c5e3e1bf45fea77b485524137ae5a03a62e79af34cceaad",
+      "size": 1575
+    },
+    {
+      "path": "modules/ifx-g04-closeout/rule-execution-plan.json",
+      "sha256": "a98858943bcfc20d2669d71ab5cf58177dde90df81d2a5709b5d43288f7b617d",
+      "size": 1042
+    },
+    {
+      "path": "modules/ifx-g04-manifests/adapter.ps1",
+      "sha256": "54b9eae0436601f30ebf13eb215ab9c75665728a1e86e4f3ccd162f28195c096",
+      "size": 17316
+    },
+    {
+      "path": "modules/ifx-g04-manifests/config.schema.json",
+      "sha256": "2f56dddb2812e7a6c310e98fb38e93e7b237efde9cfb2bf26a2679c83b9d23de",
+      "size": 953
+    },
+    {
+      "path": "modules/ifx-g04-manifests/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g04-manifests/module.json",
+      "sha256": "9712fe0e5dca7fa019ae7064f076dd360f9931e924d12441b1bcf9a3d5cbaa0d",
+      "size": 1556
+    },
+    {
+      "path": "modules/ifx-g04-manifests/policy.json",
+      "sha256": "a131c16c947af00291f6d405a3816e9a4d50249dfbdb9fd11ce7b958fe068842",
+      "size": 4407
+    },
+    {
+      "path": "modules/ifx-g04-manifests/result.schema.json",
+      "sha256": "e4dfde436c78277ff753d3876f9577707b0231c3a60014c01bbf45bf910a3b8a",
+      "size": 1631
+    },
+    {
+      "path": "modules/ifx-g04-manifests/rule-execution-plan.json",
+      "sha256": "b5cc9f86e4dd3d1a1218467e5ac8b8350d0240fcf117aff81fa90b99eb5d318f",
+      "size": 1038
+    },
+    {
+      "path": "modules/ifx-g04-runtime/adapter.ps1",
+      "sha256": "6649d9e8d69c44b4f739f7237434141c95ca0fda45dd9125feb62e7c006a6dc5",
+      "size": 8534
+    },
+    {
+      "path": "modules/ifx-g04-runtime/config.schema.json",
+      "sha256": "a11f26b5ac22db830c9dd1c4a51556a5e83b6027b5b1272d0fefafc13b1da4a0",
+      "size": 935
+    },
+    {
+      "path": "modules/ifx-g04-runtime/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g04-runtime/module.json",
+      "sha256": "8ddb5351970eeed583edaa4f4c8bb9166a8ad70f711bd7ebe0a31c662b22ad54",
+      "size": 1540
+    },
+    {
+      "path": "modules/ifx-g04-runtime/policy.json",
+      "sha256": "80e29eb5738b1b39ce3a74c43a113cf2a105a2ba51ae3509714f0973e69c05ed",
+      "size": 16718
+    },
+    {
+      "path": "modules/ifx-g04-runtime/result.schema.json",
+      "sha256": "014099a581ce30392822350f7008367ba0389d01831db43674a134c91389f56f",
+      "size": 1643
+    },
+    {
+      "path": "modules/ifx-g04-runtime/rule-execution-plan.json",
+      "sha256": "fd7a4a523d6565e240291bbdbf9d34a6d0ed1076d83cac972d39aee3763d6568",
+      "size": 1674
+    },
+    {
+      "path": "modules/ifx-g05-carriers/adapter.ps1",
+      "sha256": "ae11bb14d4760b4863e6b793e5ac3e16b25ff425cc08ffbf12c2556acc492f91",
+      "size": 9933
+    },
+    {
+      "path": "modules/ifx-g05-carriers/config.schema.json",
+      "sha256": "10e05aea7e6306c6be074762b1cf2c9d7a6d053265aef8cf4171864725321868",
+      "size": 997
+    },
+    {
+      "path": "modules/ifx-g05-carriers/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g05-carriers/module.json",
+      "sha256": "3db9a32d64d51a0e1da4786cb6923581cbd190a513b4382ac314f6018fc24e50",
+      "size": 1548
+    },
+    {
+      "path": "modules/ifx-g05-carriers/policy.json",
+      "sha256": "ae565aa07dbd3799da0581d6e27b5dc6507701fc6e9274289a6ee8a325808f6b",
+      "size": 12184
+    },
+    {
+      "path": "modules/ifx-g05-carriers/result.schema.json",
+      "sha256": "99c71b7340f7c8a7c1736182eca0738d0d00117308400dc53d1c2e4340ffbb2e",
+      "size": 1259
+    },
+    {
+      "path": "modules/ifx-g05-carriers/rule-execution-plan.json",
+      "sha256": "a28561f9b8cab6048c96cf25ff7cd8fb256f0ee09fe1f25528c4836733f4d7f6",
+      "size": 540
+    },
+    {
+      "path": "modules/ifx-g05-closeout/adapter.ps1",
+      "sha256": "b2cb37faa2c64b85f8844967a05a03aa33a67e2eb347fbc30ea7dc8eacbb1594",
+      "size": 16898
+    },
+    {
+      "path": "modules/ifx-g05-closeout/config.schema.json",
+      "sha256": "ebcb3f368dde246e5d7dcb3914c0f6c41a61b6592071f6df4795066257e763e2",
+      "size": 1134
+    },
+    {
+      "path": "modules/ifx-g05-closeout/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-g05-closeout/module.json",
+      "sha256": "0c8256a1ef2f945ec3bffa1ef979764872cd0bb6d7de11a7903ec480d94b47ca",
+      "size": 1548
+    },
+    {
+      "path": "modules/ifx-g05-closeout/policy.json",
+      "sha256": "d0ceca9e0c04fc0e4b9e1b677f3ae1f4752df2bca8b24c0f7df66239aeaeda44",
+      "size": 4715
+    },
+    {
+      "path": "modules/ifx-g05-closeout/result.schema.json",
+      "sha256": "0ad0c01c91fe94fe2c95475fcc400403d65ded5bdadafcd5615d22b88e607312",
+      "size": 1242
+    },
+    {
+      "path": "modules/ifx-g05-closeout/rule-execution-plan.json",
+      "sha256": "a24f28dc504f9a3e1d4d94e486bc411cf94b827cc9d3aa6dd001c5a038927c3d",
+      "size": 682
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/adapter.ps1",
+      "sha256": "99a0925e97cbeaa02017a3a5b23c30ffa277863065cb3b0216308fbf49fa2c17",
+      "size": 12179
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/config.schema.json",
+      "sha256": "f53d1282b3484982c1e48119b1be9bc12fd5f5c5cd62b3005444f21e26466dc9",
+      "size": 1109
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/module.json",
+      "sha256": "66e865148d7dd4dce8aea4432edd29c530cdbe47dc18f099ed123d4e6d7c9458",
+      "size": 1596
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/policy.json",
+      "sha256": "c1fe0eafaba2ae21e9e17523482f3d858114690ec73ff61c8368ef86891d6b28",
+      "size": 9785
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/result.schema.json",
+      "sha256": "337cfa8eb4a88f9cea3b0645046a731b3fa7884e2fe462fbe595730e8ab51117",
+      "size": 2150
+    },
+    {
+      "path": "modules/ifx-g05-execution-http/rule-execution-plan.json",
+      "sha256": "1e157452ba8eac5b330ff131efa4aa153cf5f45985a555e8a4e51692fb7f7743",
+      "size": 736
+    },
+    {
+      "path": "modules/ifx-g05-governance/adapter.ps1",
+      "sha256": "24c26684b3209f54bcf25f61c02d279aa1679408d4aba3123cee5e32b1cba45a",
+      "size": 15331
+    },
+    {
+      "path": "modules/ifx-g05-governance/config.schema.json",
+      "sha256": "e55092459c934d3bd0eb2e1ebcd20e653b607f4c41408c2d8081e8d652c799cb",
+      "size": 997
+    },
+    {
+      "path": "modules/ifx-g05-governance/dependencies.lock.json",
+      "sha256": "cdfff2907a39a9e07319529d267c271f4fa0559b0ac710e38db788733bc3a0eb",
+      "size": 65
+    },
+    {
+      "path": "modules/ifx-g05-governance/module.json",
+      "sha256": "f727e61612c4212007026d498289a72e1835b99f1984acb1cce4781052ec8bb6",
+      "size": 1564
+    },
+    {
+      "path": "modules/ifx-g05-governance/policy.json",
+      "sha256": "a69bac1f1488ea702d694d723d20b0588522319cd22425cf1e316bf93d8d3232",
+      "size": 5019
+    },
+    {
+      "path": "modules/ifx-g05-governance/result.schema.json",
+      "sha256": "247eb65c155ab09138357c514d89a3ec351f2b6165b463da7bd694f8f827aaab",
+      "size": 1272
+    },
+    {
+      "path": "modules/ifx-g05-governance/rule-execution-plan.json",
+      "sha256": "b99b2a82f456389427420971ff2d7934b813aebadca0b21ab9e071c14452caf2",
+      "size": 538
+    },
+    {
+      "path": "modules/ifx-g05-inventory/adapter.ps1",
+      "sha256": "6ca66683535eb92442d8706729881b6990afd31cf79df8273c4bfa718bf1362f",
+      "size": 13014
+    },
+    {
+      "path": "modules/ifx-g05-inventory/config.schema.json",
+      "sha256": "d51356cae983072883de7e45541e391bd0f8c4a8f45f3bd0957154f5f20104e8",
+      "size": 957
+    },
+    {
+      "path": "modules/ifx-g05-inventory/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g05-inventory/module.json",
+      "sha256": "f18cc9104fe766d6da04db4d0405193651eb4cfc23663634e0c4cae9513b023d",
+      "size": 1578
+    },
+    {
+      "path": "modules/ifx-g05-inventory/policy.json",
+      "sha256": "045c62b11261a15b7e4b04de35d9d5524f267c99bb9729e1ca3c9c2c32e31ea3",
+      "size": 973
+    },
+    {
+      "path": "modules/ifx-g05-inventory/result.schema.json",
+      "sha256": "edcfadb05d74106d2fe9643eed3b0b7f73c8d843384d86e77154cfa803039a81",
+      "size": 1500
+    },
+    {
+      "path": "modules/ifx-g05-inventory/rule-execution-plan.json",
+      "sha256": "65680cc686fc938b468e549225525f57cedd49bc9a02d5e38fd0fc895a4fbb4c",
+      "size": 389
+    },
+    {
+      "path": "modules/ifx-g05-protocol/adapter.ps1",
+      "sha256": "57dbd81195e0568a1965f0c0092664e677dbb88678755d8350a096b14f85739f",
+      "size": 9595
+    },
+    {
+      "path": "modules/ifx-g05-protocol/config.schema.json",
+      "sha256": "93c7345e9f9991e87d0979348cff1b1f3977548ede12735db60b4bfc9f59e4c8",
+      "size": 1168
+    },
+    {
+      "path": "modules/ifx-g05-protocol/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-g05-protocol/module.json",
+      "sha256": "641821c3909de797f8fae01156d2527b292e3650307d02a3a3a21649eae5b941",
+      "size": 1548
+    },
+    {
+      "path": "modules/ifx-g05-protocol/policy.json",
+      "sha256": "173a91325a4ab060e3e78228acbbebc8c23eab0d449512616619ac57e9514488",
+      "size": 7558
+    },
+    {
+      "path": "modules/ifx-g05-protocol/result.schema.json",
+      "sha256": "1e3b63c627ff716a76ce866ef5772009d4e9eb053fe1ae10531fd8a4bc428e20",
+      "size": 2261
+    },
+    {
+      "path": "modules/ifx-g05-protocol/rule-execution-plan.json",
+      "sha256": "e83cc3a4c9600ab85d29107dfd3ee32f04e4a02c04387a0a93b023b1feae3b86",
+      "size": 1098
+    },
+    {
+      "path": "modules/ifx-history-integrity/adapter.ps1",
+      "sha256": "74acd528806a1c334112eb3ac2b440b33644b2e6c3fdfc33d8cfeb9c799df52a",
+      "size": 5397
+    },
+    {
+      "path": "modules/ifx-history-integrity/config.schema.json",
+      "sha256": "07442db2e6d3c26beb743e4c167cd533c6b86b23e8d3d18b0c6331617da11b47",
+      "size": 354
+    },
+    {
+      "path": "modules/ifx-history-integrity/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-history-integrity/module.json",
+      "sha256": "f11d964a38f5cd54e91c47279a3089a58ee1d887df64642ad5d369b3ae96875f",
+      "size": 1280
+    },
+    {
+      "path": "modules/ifx-history-integrity/policy.json",
+      "sha256": "11479324506a7b0ef21cd1d8a4ca960642f80c8d47fa6d0d3fdc1f3b5b504a5a",
+      "size": 4014
+    },
+    {
+      "path": "modules/ifx-history-integrity/result.schema.json",
+      "sha256": "0053d77761e9369ec1de479ba29ed74d874827f840d71b6c48c7c6e5b6213379",
+      "size": 1171
+    },
+    {
+      "path": "modules/ifx-history-integrity/rule-execution-plan.json",
+      "sha256": "e675cda46ab5a197de962143b3d8ef13bb9cb9e868879b48fdef1f5e0bdb84d5",
+      "size": 303
+    },
+    {
+      "path": "modules/ifx-injection/adapter.ps1",
+      "sha256": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09",
+      "size": 13648
+    },
+    {
+      "path": "modules/ifx-injection/config.schema.json",
+      "sha256": "46150385d05ba04690b1407449dc23748c2402aee0265ad14bbe9a277411877e",
+      "size": 614
+    },
+    {
+      "path": "modules/ifx-injection/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-injection/module.json",
+      "sha256": "2b1d46df9b62d28fe9c81ffa289296c8b5ddcdf315a18ad89d95f4452aa7cb7a",
+      "size": 1338
+    },
+    {
+      "path": "modules/ifx-injection/policy.json",
+      "sha256": "22c077b8c1719c6323772af36a5f9be9ef534498acf6506d5b2233c876ac70cc",
+      "size": 2210
+    },
+    {
+      "path": "modules/ifx-injection/result.schema.json",
+      "sha256": "d4fff4f684ad139c4d84d8fd13efeef719379ddfea51568a7162dba03bd90faa",
+      "size": 1524
+    },
+    {
+      "path": "modules/ifx-injection/rule-execution-plan.json",
+      "sha256": "20b385f9b8009feff8fca896737bcf577d87f95d0fa294acd75a17391a486b7e",
+      "size": 723
+    },
+    {
+      "path": "modules/ifx-ownership-graph/adapter.ps1",
+      "sha256": "ce948cdae72097de20db11e8ca1c4d41188a05948dff68198c23e91cf8adce88",
+      "size": 14042
+    },
+    {
+      "path": "modules/ifx-ownership-graph/config.schema.json",
+      "sha256": "fdf6a9f08aa5e73caef870844a94775e4bc506de1c327c4e66c26bdff516aeec",
+      "size": 482
+    },
+    {
+      "path": "modules/ifx-ownership-graph/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-ownership-graph/module.json",
+      "sha256": "eb4e8de5846030d9db13b1cd93e7dbfb36bccfae3b34db329df9e76e9bd5fd39",
+      "size": 1432
+    },
+    {
+      "path": "modules/ifx-ownership-graph/policy.json",
+      "sha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c",
+      "size": 4068
+    },
+    {
+      "path": "modules/ifx-ownership-graph/result.schema.json",
+      "sha256": "d3e623db6be15fadce2879422d55ff57c60657cbc0214688008d3e6118cd3262",
+      "size": 1388
+    },
+    {
+      "path": "modules/ifx-ownership-graph/rule-execution-plan.json",
+      "sha256": "17b9ac85eb08d687d61f86dc4463c90dc26df14d038e12fe6c36467a07efb4cc",
+      "size": 468
+    },
+    {
+      "path": "modules/ifx-package-reference/adapter.ps1",
+      "sha256": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c",
+      "size": 7773
+    },
+    {
+      "path": "modules/ifx-package-reference/config.schema.json",
+      "sha256": "658517ba16fe8a6031818a97759ee9a60542ed4c57466b4e8ce8e60e76809c3c",
+      "size": 510
+    },
+    {
+      "path": "modules/ifx-package-reference/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-package-reference/module.json",
+      "sha256": "f3f9f3d09cd9f644a377296043822ee5f19384b57711bf47cee532fa70967fd0",
+      "size": 1448
+    },
+    {
+      "path": "modules/ifx-package-reference/policy.json",
+      "sha256": "48c1d9d20f746883cef1dc50ad44b602028d7509dfd95b64f843f3f358f04c45",
+      "size": 1537
+    },
+    {
+      "path": "modules/ifx-package-reference/result.schema.json",
+      "sha256": "de261f2b5632fde59c198fc23f15ab2517f6b580bd9cb6929ee61465f74de8dc",
+      "size": 1438
+    },
+    {
+      "path": "modules/ifx-package-reference/rule-execution-plan.json",
+      "sha256": "43d996ce120da9b6dd43a6b850b0b8aefea79b03f7180a2e76747ddd86193c30",
+      "size": 768
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/adapter.ps1",
+      "sha256": "8fa48f691cbed0c058e451e4ccf67aa8b07e1efb2e512421f2aa227fb93e3855",
+      "size": 14949
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/config.schema.json",
+      "sha256": "f0291fcb8f7260db94965f899d71202cb9e7bc0fc7be8a9c3c4da8567071e53a",
+      "size": 462
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/embedded/project-name-policy.json",
+      "sha256": "36e25d60c29547719638469aad7ef8fcab1f86e243067108feac24226ef74829",
+      "size": 1231
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/embedded/reference-cycle-policy.json",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+      "size": 4692
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/module.json",
+      "sha256": "876b0eb225d00637b5149e56c8e32e2d3585f874a4b1f8ff6251af72b3a827a3",
+      "size": 2057
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/policy.json",
+      "sha256": "05b4e25bd9a66a3e526dea749b23ff67c991e192385e677dea0df53725f1dc9a",
+      "size": 1851
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/result.schema.json",
+      "sha256": "bba9955c2a30fd00eee4f29c1888ca514397435dc462e72e7d216ccb450b426c",
+      "size": 1171
+    },
+    {
+      "path": "modules/ifx-plan04-abstractions/rule-execution-plan.json",
+      "sha256": "b0ac371d30fdf6d0ae2baf54c2085c7c0861e15b5d125ca81027656e7ac28c83",
+      "size": 303
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/adapter.ps1",
+      "sha256": "7c9ddf2abc9c12e3e96a62add60364a4e684ef9698e735857197a62f78a44784",
+      "size": 10413
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/config.schema.json",
+      "sha256": "55a8820784ff61820fe187d0347eed8fc9530eb009399f5aaba16a0fa405455a",
+      "size": 692
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/module.json",
+      "sha256": "8a077496c71f6fee1af36ebdaef67c720774fa002669b20c1bac28ae14dcafe4",
+      "size": 1588
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/policy.json",
+      "sha256": "c449d70465f714cedcf29f81534dcabc222ba47ac3ed78f6c96b012a9de910b9",
+      "size": 679
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/result.schema.json",
+      "sha256": "2e394d0ff0421c6c7c9196f5cba54f6733a67cc7819eba2e6dd3ca5b59d5dfc2",
+      "size": 1161
+    },
+    {
+      "path": "modules/ifx-plan04-extraction/rule-execution-plan.json",
+      "sha256": "9a68b87a6fd9760a375263ef46b4067f63d27c2cce2ef9bf1f7886631a604d9d",
+      "size": 293
+    },
+    {
+      "path": "modules/ifx-plan04-projection/adapter.ps1",
+      "sha256": "eaf50b96be5b957793bc6b1f3f4c912f471683310622b201fc8b6826376e83eb",
+      "size": 14263
+    },
+    {
+      "path": "modules/ifx-plan04-projection/config.schema.json",
+      "sha256": "d87acbf8775037993f597d4ae7379d49fdb699c32fcfcbd21f21fd4c9ce1824c",
+      "size": 962
+    },
+    {
+      "path": "modules/ifx-plan04-projection/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-plan04-projection/module.json",
+      "sha256": "d1db4270247cb7119bcb1c30c5241f9dbe6b39987a7526ab12b2b87979c9103a",
+      "size": 1588
+    },
+    {
+      "path": "modules/ifx-plan04-projection/policy.json",
+      "sha256": "60fd60b8345154864669041b94c2c00badaf78d759524c16c9153f94e8bd32d4",
+      "size": 3318
+    },
+    {
+      "path": "modules/ifx-plan04-projection/result.schema.json",
+      "sha256": "a854b8ba3f4c6b2f0599015adea093c591c002edc60bc7f3869f63d456986a63",
+      "size": 1161
+    },
+    {
+      "path": "modules/ifx-plan04-projection/rule-execution-plan.json",
+      "sha256": "23f295cfa097a562dbfed66fe4bad23ea4213534216591dfa4039acef144762a",
+      "size": 293
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/adapter.ps1",
+      "sha256": "093b20d6eec426697bd444e8cf8532906b2b77f912c3afc383ddb85d9e1b3cbd",
+      "size": 14984
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/config.schema.json",
+      "sha256": "1b11f52252cb6d8827f7d4e3b4c5cf0a0babafa23faeebf0891a9472a8d712e4",
+      "size": 569
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/module.json",
+      "sha256": "b07951ab9f82f9b8346e7b326a72454e6ab21a5ce2983aa74152868fb9d4e994",
+      "size": 1556
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/policy.json",
+      "sha256": "e246325cbe0c3be6c27bf5593168816374f8d4e9fd1052193a4daa039789c0b7",
+      "size": 3979
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/result.schema.json",
+      "sha256": "4258493c552f17b696e14b23c13ba0045099e3f8fa5595f1f4e72932bc8524c4",
+      "size": 1141
+    },
+    {
+      "path": "modules/ifx-plan04-tenant/rule-execution-plan.json",
+      "sha256": "321d4fd16baae7e5ced056989aebcec3fd31fe89020ebdf0498977064107d062",
+      "size": 273
+    },
+    {
+      "path": "modules/ifx-plan05-security/adapter.ps1",
+      "sha256": "8103c72373656e16a797520df244c3433af6dae27e6cfe681d7b4b8229a2d87c",
+      "size": 15866
+    },
+    {
+      "path": "modules/ifx-plan05-security/config.schema.json",
+      "sha256": "c4fa58889c3f3e93979dae292c99b6539081a2845458456d4430b31c9ea7e5f4",
+      "size": 957
+    },
+    {
+      "path": "modules/ifx-plan05-security/dependencies.lock.json",
+      "sha256": "a923f669754d5494dced0653b5e3389c827c61b2bf6a432e039f1fef7d0ff473",
+      "size": 59
+    },
+    {
+      "path": "modules/ifx-plan05-security/module.json",
+      "sha256": "ae6ba27819eac2fff9130bd56f9415e18de195417c45d8a5f887edeb151936d7",
+      "size": 1594
+    },
+    {
+      "path": "modules/ifx-plan05-security/policy.json",
+      "sha256": "8b679ffca13b0d89265a6e5fb09901314a807259c467e7e4cd7ace69512687a2",
+      "size": 2131
+    },
+    {
+      "path": "modules/ifx-plan05-security/result.schema.json",
+      "sha256": "399f8da789cd8845cf5762e5dab405fade8c040cb8af0c91c317fb1cf51eefe8",
+      "size": 1203
+    },
+    {
+      "path": "modules/ifx-plan05-security/rule-execution-plan.json",
+      "sha256": "bdf0129e8a595e059234ee59c9c988b3d6406fad0cf429fc07417c25b7c44473",
+      "size": 298
+    },
+    {
+      "path": "modules/ifx-project-name/adapter.ps1",
+      "sha256": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d",
+      "size": 9577
+    },
+    {
+      "path": "modules/ifx-project-name/config.schema.json",
+      "sha256": "0f1eee7922caef01d6a44c3bdf49aee691c736f95977013601b863a7e6e67bb7",
+      "size": 482
+    },
+    {
+      "path": "modules/ifx-project-name/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-project-name/module.json",
+      "sha256": "87ae35cdf6f1faa8464e12a10db3b35f19992269ebc1434d349775136583bf64",
+      "size": 1378
+    },
+    {
+      "path": "modules/ifx-project-name/policy.json",
+      "sha256": "36e25d60c29547719638469aad7ef8fcab1f86e243067108feac24226ef74829",
+      "size": 1231
+    },
+    {
+      "path": "modules/ifx-project-name/result.schema.json",
+      "sha256": "2c360c6f9f9bf2f8957f990d13c4bf63319b9eadd1abfcf809ad39952603ff56",
+      "size": 1390
+    },
+    {
+      "path": "modules/ifx-project-name/rule-execution-plan.json",
+      "sha256": "96823a4dacd421385fe7d478d4c213547e4e50e531c4a9cc7c817543ef89b1a3",
+      "size": 470
+    },
+    {
+      "path": "modules/ifx-provider-cycle/adapter.ps1",
+      "sha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d",
+      "size": 5772
+    },
+    {
+      "path": "modules/ifx-provider-cycle/config.schema.json",
+      "sha256": "7af4bc2c2a7311a619ad1eca5935db77c5453b5ca584a83ea1ed8c424dbd086a",
+      "size": 476
+    },
+    {
+      "path": "modules/ifx-provider-cycle/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-provider-cycle/module.json",
+      "sha256": "c7ad788c02c6410d09d45b0d9b43ae87cb23774020ced339ad8ec3f5d8e272b0",
+      "size": 1410
+    },
+    {
+      "path": "modules/ifx-provider-cycle/policy.json",
+      "sha256": "6b3524c8905fd47ebfdc72bd81e22095f22eab0e6bfd4b37efc5d08fb3d5b873",
+      "size": 966
+    },
+    {
+      "path": "modules/ifx-provider-cycle/result.schema.json",
+      "sha256": "8175a73ed49f24e226d04bda4d52a5056d1bae1c09da2a8a0bc1dda605cc4e70",
+      "size": 1356
+    },
+    {
+      "path": "modules/ifx-provider-cycle/rule-execution-plan.json",
+      "sha256": "8a22f6b23075188546ae80283781bb9112f29acddc04208ef1928ed862daa2c0",
+      "size": 451
+    },
+    {
+      "path": "modules/ifx-reference-cycle/adapter.ps1",
+      "sha256": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375",
+      "size": 11532
+    },
+    {
+      "path": "modules/ifx-reference-cycle/config.schema.json",
+      "sha256": "55eedd052b3ea03c71939329ab63b5a9ed1b764270db52ae275668e607a90fe0",
+      "size": 597
+    },
+    {
+      "path": "modules/ifx-reference-cycle/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-reference-cycle/module.json",
+      "sha256": "4824b086f234d647b024fc678311bce5afc95c9fda649463a23d609f59b1ac57",
+      "size": 1386
+    },
+    {
+      "path": "modules/ifx-reference-cycle/policy.json",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+      "size": 4692
+    },
+    {
+      "path": "modules/ifx-reference-cycle/result.schema.json",
+      "sha256": "bf806fd5f603944d1efc44ccfc7ea68515cd6931ecd74a0d6478125d1a3158c7",
+      "size": 1530
+    },
+    {
+      "path": "modules/ifx-reference-cycle/rule-execution-plan.json",
+      "sha256": "f199b0aaff25637ba4f44d4b12ab9c5d95067f70ae71f851076d74e7215b7dd6",
+      "size": 713
+    },
+    {
+      "path": "modules/ifx-ring-graph/adapter.ps1",
+      "sha256": "b07b1eb7b34c1601d9710a867d68c20a3a0f253c919fb2a7f1aa5b6e6721f456",
+      "size": 12327
+    },
+    {
+      "path": "modules/ifx-ring-graph/config.schema.json",
+      "sha256": "15a8b510d17c7c0618802ee67291f99c6bfb6200da97517720a2150edeb30652",
+      "size": 472
+    },
+    {
+      "path": "modules/ifx-ring-graph/dependencies.lock.json",
+      "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6",
+      "size": 68
+    },
+    {
+      "path": "modules/ifx-ring-graph/module.json",
+      "sha256": "b84f1b4b61eaa34f72b895f6b85255482eb257a31240c501ff8b6471b2eb2c9f",
+      "size": 1392
+    },
+    {
+      "path": "modules/ifx-ring-graph/policy.json",
+      "sha256": "eab4197a12a5181255df3cc74c67ca13d40524b3baf0eeabf0376b6c0ef6fbe0",
+      "size": 1833
+    },
+    {
+      "path": "modules/ifx-ring-graph/result.schema.json",
+      "sha256": "e6346d372e4c3ee1a864031b16e8b35fd0164a036f5f17d09d3d22315a7b6b8f",
+      "size": 1368
+    },
+    {
+      "path": "modules/ifx-ring-graph/rule-execution-plan.json",
+      "sha256": "a50854ba1dd3d8218ef2d4844e4d1d5985f5820d70b1666bb9b68cd7d10cfab2",
+      "size": 448
+    },
+    {
+      "path": "modules/ifx-solution-evidence/adapter.ps1",
+      "sha256": "6e7c1d5ad00ae8c7f11f6d154ad36cedce246b9d273dec404b5bf24daf566642",
+      "size": 15717
+    },
+    {
+      "path": "modules/ifx-solution-evidence/config.schema.json",
+      "sha256": "cdc270fd3d00d181b3916d78b4a1fd7d549ea9da973b69c72cf6ba93376ba596",
+      "size": 456
+    },
+    {
+      "path": "modules/ifx-solution-evidence/dependencies.lock.json",
+      "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0",
+      "size": 55
+    },
+    {
+      "path": "modules/ifx-solution-evidence/module.json",
+      "sha256": "bf03cf58bad7585f264266c5ae292a61c208f75550c341f1d4d9260d0dbf4be0",
+      "size": 1611
+    },
+    {
+      "path": "modules/ifx-solution-evidence/policy.json",
+      "sha256": "dd6bac88ef1a3778a891209aeff468357ce0b789e16884e3931f46b405ff443b",
+      "size": 724
+    },
+    {
+      "path": "modules/ifx-solution-evidence/result.schema.json",
+      "sha256": "2ae31b8230a0cf6e067ed526f02f97cb446eb87dc8f4b190ad5e7c75de540f0b",
+      "size": 1200
+    },
+    {
+      "path": "modules/ifx-solution-evidence/rule-execution-plan.json",
+      "sha256": "81704ba11ba05c09cd5a2aef45738da277fe16c6aba4b6327b2458eff79ce1ce",
+      "size": 332
+    },
+    {
+      "path": "modules/ifx-source-policy/adapter.ps1",
+      "sha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16",
+      "size": 25241
+    },
+    {
+      "path": "modules/ifx-source-policy/config.schema.json",
+      "sha256": "3601ee8a0ba77851ea3e6b0a193641cb748cf75c51889435bce0ae796f38d7d6",
+      "size": 800
+    },
+    {
+      "path": "modules/ifx-source-policy/dependencies.lock.json",
+      "sha256": "af116ff720699de0c0857cd4df8ed71ed7e16fdb76be01734b0c942c882ef7a1",
+      "size": 256
+    },
+    {
+      "path": "modules/ifx-source-policy/module.json",
+      "sha256": "96fdc26e7623cd6ee68dc242f0276d31075699d9c86255198f113ee061aacabe",
+      "size": 1437
+    },
+    {
+      "path": "modules/ifx-source-policy/policy.json",
+      "sha256": "903944b672a1a9e912ef1aa4b900801e36c479ea8b028d0fde4b7bf201281c86",
+      "size": 10323
+    },
+    {
+      "path": "modules/ifx-source-policy/result.schema.json",
+      "sha256": "1350b1727ba606b68adaefc91401c1766f30126bb64c3f49cb50b14795f0361e",
+      "size": 1834
+    },
+    {
+      "path": "modules/ifx-source-policy/rule-execution-plan.json",
+      "sha256": "a4c9f319190848d07fe94c9a244f9d89c860a38da23a28c8ae830c024bf2c54f",
+      "size": 3236
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/authority-map.json",
+      "sha256": "09cc0b57cc769478340779d640e95abcf01530c456080dc66c09ccdd1d56e927",
+      "size": 86288
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/evidence-lineage.json",
+      "sha256": "9e4498e57dcd145ecf39ec041fda0474621e1de0011ed34dc3da9ef5af0d3c25",
+      "size": 2713
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/profile.json",
+      "sha256": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302",
+      "size": 32731
+    }
+  ]
+}

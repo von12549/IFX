@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-ownership-graph",
+  "matrixSha256": "05ca3fb7274d72afdc7eb1f7af9b7115fc37a6913c1e86734acfda2bc56c3f4c",
+  "rules": [
+    {
+      "ruleId": "OWNERSHIP-REFERENCE",
+      "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+      "stage": "pre",
+      "detectors": ["ifx-ownership-graph"],
+      "evidenceKinds": ["project-graph-raw", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

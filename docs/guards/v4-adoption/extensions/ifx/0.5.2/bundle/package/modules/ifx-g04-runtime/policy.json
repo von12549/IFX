@@ -1,0 +1,734 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g04-runtime-050a",
+  "pinPolicy": "governance-only",
+  "families": [
+    "role",
+    "startup",
+    "worker",
+    "drain",
+    "health",
+    "backpressure",
+    "inbound"
+  ],
+  "authorities": [
+    {
+      "id": "program",
+      "path": "src/ApiHost/IFX.ApiHost/Program.cs",
+      "pinned": false
+    },
+    {
+      "id": "runtimeResolver",
+      "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeProfileResolver.cs",
+      "pinned": false
+    },
+    {
+      "id": "backgroundJobs",
+      "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs",
+      "pinned": false
+    },
+    {
+      "id": "compose",
+      "path": "docker-compose.yml",
+      "pinned": false
+    },
+    {
+      "id": "monitor",
+      "path": "src/ApiHost/IFX.ApiHost/Runtime/StartupDependencyMonitor.cs",
+      "pinned": false
+    },
+    {
+      "id": "dependencyReview",
+      "path": "docs/architecture/review/evidence/gates/G04/G04-phase3-dependency-review.md",
+      "pinned": true
+    },
+    {
+      "id": "contracts",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RuntimeContracts.cs",
+      "pinned": false
+    },
+    {
+      "id": "leaseTests",
+      "path": "tests/IFX.DatabaseBoundary.Tests/G04DispatcherLeaseConformanceTests.cs",
+      "pinned": false
+    },
+    {
+      "id": "criticalWorker",
+      "path": "src/ApiHost/IFX.ApiHost/Runtime/CriticalWorkerBackgroundService.cs",
+      "pinned": false
+    },
+    {
+      "id": "drainCoordinator",
+      "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs",
+      "pinned": false
+    },
+    {
+      "id": "drainOptions",
+      "path": "src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainOptions.cs",
+      "pinned": false
+    },
+    {
+      "id": "healthConfig",
+      "path": "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs",
+      "pinned": false
+    },
+    {
+      "id": "snapshotStore",
+      "path": "src/ApiHost/IFX.ApiHost/Runtime/HealthSnapshotStore.cs",
+      "pinned": false
+    },
+    {
+      "id": "backpressurePolicy",
+      "path": "deployment/g04/backpressure-policy.json",
+      "pinned": false
+    },
+    {
+      "id": "backpressureImpl",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessageBackpressurePolicy.cs",
+      "pinned": false
+    },
+    {
+      "id": "backpressureTests",
+      "path": "tests/IFX.IntegrationTests/Runtime/MessageBackpressurePolicyTests.cs",
+      "pinned": false
+    },
+    {
+      "id": "receiver",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RawIntegrationEventReceiver.cs",
+      "pinned": false
+    },
+    {
+      "id": "sender",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/InProcessIntegrationEventTransport.cs",
+      "pinned": false
+    },
+    {
+      "id": "registration",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessagingServiceCollectionExtensions.cs",
+      "pinned": false
+    },
+    {
+      "id": "inboundTests",
+      "path": "tests/IFX.IntegrationTests/Runtime/InboundIntegrationEventTransportAdapterTests.cs",
+      "pinned": false
+    }
+  ],
+  "predicates": [
+    {
+      "id": "runtimeProfileResolverExists",
+      "family": "role",
+      "clauses": [
+        {
+          "alias": "runtimeResolver",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "apiEndpointMappingIsRoleGated",
+      "family": "role",
+      "clauses": [
+        {
+          "alias": "program",
+          "all": [
+            "if \\(runtimeProfile\\.Capabilities\\.Api\\)[\\s\\S]*?installer\\.MapEndpoints"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hangfireClientServerSplit",
+      "family": "role",
+      "clauses": [
+        {
+          "alias": "backgroundJobs",
+          "all": [
+            "AddBackgroundJobsClient",
+            "AddBackgroundJobsServer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hangfireServerIsRoleGated",
+      "family": "role",
+      "clauses": [
+        {
+          "alias": "program",
+          "all": [
+            "if \\(runtimeProfile\\.Capabilities\\.HangfireServer\\)[\\s\\S]*?AddBackgroundJobsServer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sameArtifactApiWorkerCompose",
+      "family": "role",
+      "clauses": [
+        {
+          "alias": "compose",
+          "all": [
+            "ifx-api:[\\s\\S]*?dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile",
+            "ifx-worker:[\\s\\S]*?dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "workerRoleConfigured",
+      "family": "role",
+      "clauses": [
+        {
+          "alias": "compose",
+          "all": [
+            "ifx-worker:[\\s\\S]*?Runtime__Role=worker"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "manifestsLoadedBeforeBuild",
+      "family": "startup",
+      "clauses": [
+        {
+          "alias": "program",
+          "order": [
+            "RuntimeManifestLoader.Load",
+            "builder.Build()"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "platformRegisteredBeforeModules",
+      "family": "startup",
+      "clauses": [
+        {
+          "alias": "program",
+          "order": [
+            "builder.Services.AddReliableMessaging(",
+            "builder.Services.AddIamModule"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "manifestOrdersEndpointMapping",
+      "family": "startup",
+      "clauses": [
+        {
+          "alias": "program",
+          "all": [
+            "orderedInstallers[\\s\\S]*?installer\\.MapEndpoints"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "compositionValidatedAfterBuild",
+      "family": "startup",
+      "clauses": [
+        {
+          "alias": "program",
+          "order": [
+            "builder.Build()",
+            "StartupBoundaryVerifier.ValidateComposition"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "endpointCollisionValidated",
+      "family": "startup",
+      "clauses": [
+        {
+          "alias": "program",
+          "all": [
+            "StartupBoundaryVerifier\\.ValidateEndpointIdentity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recoverableDependenciesAsync",
+      "family": "startup",
+      "clauses": [
+        {
+          "alias": "monitor",
+          "all": [
+            "BackgroundService",
+            "while \\(!stoppingToken\\.IsCancellationRequested\\)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "readinessChecksBounded",
+      "family": "startup",
+      "clauses": [
+        {
+          "alias": "monitor",
+          "all": [
+            "CancelAfter\\(timeout\\)",
+            "readiness-critical"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dependencyReviewExists",
+      "family": "startup",
+      "clauses": [
+        {
+          "alias": "dependencyReview",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "perModuleDispatcherContractExists",
+      "family": "worker",
+      "clauses": [
+        {
+          "alias": "contracts",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "sqlLeaseReferenceSuiteExists",
+      "family": "worker",
+      "clauses": [
+        {
+          "alias": "leaseTests",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "uniqueRuntimeIdentityCreated",
+      "family": "worker",
+      "clauses": [
+        {
+          "alias": "program",
+          "all": [
+            "RuntimeInstanceIdentity\\.Create"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runtimeIdentityOverridesHangfire",
+      "family": "worker",
+      "clauses": [
+        {
+          "alias": "program",
+          "all": [
+            "AddBackgroundJobsServer\\(builder\\.Configuration, runtimeInstanceIdentity\\.Value\\)"
+          ]
+        },
+        {
+          "alias": "backgroundJobs",
+          "all": [
+            "options\\.ServerName = runtimeInstanceIdentity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixedHangfireIdentityRemoved",
+      "family": "worker",
+      "clauses": [
+        {
+          "alias": "compose",
+          "none": [
+            "auth-api-worker"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "criticalLoopTerminatesNonZero",
+      "family": "worker",
+      "clauses": [
+        {
+          "alias": "criticalWorker",
+          "all": [
+            "Environment\\.ExitCode = 1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sharedDrainSignalRegistered",
+      "family": "drain",
+      "clauses": [
+        {
+          "alias": "program",
+          "all": [
+            "RuntimeDrainCoordinator",
+            "IMessagingDrainSignal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "newWorkRejectedAtomically",
+      "family": "drain",
+      "clauses": [
+        {
+          "alias": "drainCoordinator",
+          "all": [
+            "TryBeginOperation",
+            "Interlocked\\.Exchange\\(ref _draining"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inFlightDrainBounded",
+      "family": "drain",
+      "clauses": [
+        {
+          "alias": "drainCoordinator",
+          "all": [
+            "WaitForIdleAsync",
+            "CancelAfter\\(timeout\\)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "strictDrainBudgetsValidated",
+      "family": "drain",
+      "clauses": [
+        {
+          "alias": "drainOptions",
+          "all": [
+            "OperationBudget",
+            "HandlerBudget",
+            "LeaseBudget",
+            "ProcessGrace",
+            "OrchestratorKill"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "composeUsesBoundedSigterm",
+      "family": "drain",
+      "clauses": [
+        {
+          "alias": "compose",
+          "all": [
+            "stop_signal: SIGTERM",
+            "stop_grace_period: 45s"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "liveProbeIsLocalOnly",
+      "family": "health",
+      "clauses": [
+        {
+          "alias": "healthConfig",
+          "all": [
+            "\"\\/health\\/live\""
+          ]
+        },
+        {
+          "alias": "healthConfig",
+          "none": [
+            "MapHealthChecks\\(\"\\/health\\/live\""
+          ]
+        }
+      ]
+    },
+    {
+      "id": "startupProbeIsSeparate",
+      "family": "health",
+      "clauses": [
+        {
+          "alias": "healthConfig",
+          "all": [
+            "\"\\/health\\/startup\""
+          ]
+        }
+      ]
+    },
+    {
+      "id": "readyProbeUsesLifecycle",
+      "family": "health",
+      "clauses": [
+        {
+          "alias": "healthConfig",
+          "all": [
+            "\"\\/health\\/ready\"",
+            "RuntimeLifecycleState\\.Ready"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "detailsProbeProtected",
+      "family": "health",
+      "clauses": [
+        {
+          "alias": "healthConfig",
+          "all": [
+            "\"\\/health\\/details\"",
+            "\\.RequireAuthorization\\(\\)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "detailsUsesCachedSnapshot",
+      "family": "health",
+      "clauses": [
+        {
+          "alias": "healthConfig",
+          "all": [
+            "HealthSnapshotStore"
+          ]
+        },
+        {
+          "alias": "snapshotStore",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "readinessIsRoleFiltered",
+      "family": "health",
+      "clauses": [
+        {
+          "alias": "monitor",
+          "all": [
+            "registration\\.Tags\\.Contains\\(runtimeProfile\\.RoleName\\)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "publicAggregateHasNoDescriptions",
+      "family": "health",
+      "clauses": [
+        {
+          "alias": "healthConfig",
+          "none": [
+            "e\\.Value\\.Description"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backlogMetricContractComplete",
+      "family": "backpressure",
+      "clauses": [
+        {
+          "alias": "backpressurePolicy",
+          "jsonArrayAtLeast": {
+            "path": "requiredDimensions",
+            "count": 11
+          }
+        }
+      ]
+    },
+    {
+      "id": "countAloneCannotTripHealth",
+      "family": "backpressure",
+      "clauses": [
+        {
+          "alias": "backpressureImpl",
+          "all": [
+            "OldestPendingAge >= threshold\\.CriticalAge && observation\\.PendingCount >= threshold\\.CriticalCount && stalled",
+            "OldestPendingAge >= threshold\\.WarningAge && observation\\.PendingCount >= threshold\\.WarningCount"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backpressureIsScoped",
+      "family": "backpressure",
+      "clauses": [
+        {
+          "alias": "backpressureImpl",
+          "all": [
+            "intent\\.ExpandsBacklog",
+            "item\\.ModuleId",
+            "item\\.EventCategory"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retrySemanticsStable",
+      "family": "backpressure",
+      "clauses": [
+        {
+          "alias": "backpressureImpl",
+          "all": [
+            "G04-BACKPRESSURE-RETRY",
+            "RetryAfter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "syntheticBackpressureTestsExist",
+      "family": "backpressure",
+      "clauses": [
+        {
+          "alias": "backpressureTests",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "crashInjectionReferenceTestExists",
+      "family": "worker",
+      "clauses": [
+        {
+          "alias": "leaseTests",
+          "all": [
+            "Crash_injection_preserves_truth"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rawCarrierAndReceiverExist",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "receiver",
+          "all": [
+            "record InboundIntegrationEventMessage",
+            "interface IInboundIntegrationEventReceiver",
+            "class RawIntegrationEventReceiver"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "currentSenderUsesRawBoundary",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "sender",
+          "all": [
+            "IntegrationEventTransportCodec\\.Encode",
+            "receiver\\.ReceiveAsync"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "receiverRegistered",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "registration",
+          "all": [
+            "AddSingleton<IInboundIntegrationEventReceiver, RawIntegrationEventReceiver>"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contextValidatedBeforeHandler",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "receiver",
+          "order": [
+            "IntegrationEventTransportCodec.Decode",
+            "GetServices<IInboundIntegrationEventHandler>"
+          ]
+        },
+        {
+          "alias": "receiver",
+          "all": [
+            "G05-EVENT-CONTEXT-INVALID",
+            "G05-EVENT-TENANT-INVALID"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "invalidTraceRestartsAndSanitizes",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "receiver",
+          "all": [
+            "ActivityContext\\.TryParse",
+            "traceRestarted = true",
+            "parentContext = default",
+            "ActivityKind\\.Consumer"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boundedTraceTelemetry",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "receiver",
+          "all": [
+            "ifx\\.trace\\.restarted"
+          ]
+        },
+        {
+          "alias": "receiver",
+          "none": [
+            "ILogger|Log(?:Trace|Debug|Information|Warning|Error|Critical)\\s*\\("
+          ]
+        }
+      ]
+    },
+    {
+      "id": "testsCoverInvalidTraceParentAndState",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "inboundTests",
+          "all": [
+            "Invalid_trace_is_restarted_and_sanitized_before_the_real_handler",
+            "damaged-trace",
+            "invalid\\\\nstate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "testsCoverContextBeforeHandler",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "inboundTests",
+          "all": [
+            "Invalid_business_context_is_quarantined_before_handler_dispatch",
+            "handler\\.Messages\\.Should\\(\\)\\.BeEmpty"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "testsCoverValidParentAndCurrentTransport",
+      "family": "inbound",
+      "clauses": [
+        {
+          "alias": "inboundTests",
+          "all": [
+            "Valid_remote_trace_is_continued_without_changing_the_envelope",
+            "In_process_sender_uses_the_raw_transport_boundary"
+          ]
+        }
+      ]
+    }
+  ]
+}

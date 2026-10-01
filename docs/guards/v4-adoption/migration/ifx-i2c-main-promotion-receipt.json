@@ -1,0 +1,145 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-main-promotion-receipt",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "phase": "I2-C",
+  "createdAt": "2026-10-01T05:41:17.244438+00:00",
+  "decisions": {
+    "program": [
+      "1A",
+      "2B"
+    ],
+    "rulings": [
+      "RC1 (a)",
+      "RC2 X1",
+      "RC3 (a)",
+      "RC4 (a)",
+      "RC5 merge commit",
+      "RC6 (a)"
+    ]
+  },
+  "promotion": {
+    "mainBefore": "ecb03726a6c67208d25e7988695c53f6326d77c0",
+    "mainAfter": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "commitsAdded": 579,
+    "method": "1A: default branch to codex/guards-principles-plan, plain fast-forward push of main, default branch back to main (05:34:40-05:34:55 UTC)",
+    "defaultBranch": "main",
+    "rulesetId": 23459908,
+    "rulesetCanonicalSha256": "857a51aaf9590758aa37ab0daf234695ba6e3a434644e598026d741b2c7d6f4a",
+    "rulesetUnchanged": true
+  },
+  "pullRequests": [
+    {
+      "id": "P1",
+      "number": 109,
+      "head": "1b234ace6f67480d157c8bf4fadec3227000caf8",
+      "merge": "218591eca89e71954851c501c015203555b436ce",
+      "content": "IFX-V4-005 fix"
+    },
+    {
+      "id": "P2a",
+      "number": 110,
+      "head": "5df34289dd049c5ab089657c1d2d15be3235c698",
+      "merge": "4a78750473a99727ea99e68a07728faa5a47c82a",
+      "content": "records i2c-g03-documentation-trusted-base, -policy"
+    },
+    {
+      "id": "P2",
+      "number": 111,
+      "head": "b0f16df4ffb0fb760136ddd9fe34b1ea467d9033",
+      "merge": "751fa8fe17c329dd26340e49399f87bc6f58667a",
+      "content": "G03 documentation set; consumes the P2 records"
+    },
+    {
+      "id": "P3a",
+      "number": 112,
+      "head": "44c251717de7bc36b70d67cd36caaf247bb70b41",
+      "merge": "ca805d6d804c723582e5611839191acd2e39c500",
+      "content": "records i2c-v4-adoption-admission-trusted-base, -policy"
+    },
+    {
+      "id": "P3",
+      "number": 113,
+      "head": "8402585b80e4e09e23f95198ae3f8901abd00d96",
+      "merge": "7b9b53dcc102fd8513927681641493101b4599ca",
+      "content": "v4-adoption admitted; decision 20261001-v4-ifx-i2c-v4-adoption-admission"
+    }
+  ],
+  "everyPullRequest": "13/13 required checks before merge; merged with --match-head-commit after a separate operator authorization",
+  "records": {
+    "c1Snapshot": {
+      "path": "artifacts/guards/p10-ifx-i2c/c1-remote-snapshot.json",
+      "sha256": "9db7ba9d29202799f65aeab6d647c562108f1cf755f0719aa8f1592350cd5ebb"
+    },
+    "c3Rehearsal": {
+      "path": "artifacts/guards/p10-ifx-i2c/c3-rehearsal/rehearsal.json",
+      "sha256": "eee37e09274a27f6d825d309b39498f54ef113aab745523e1273c5de53d31276"
+    },
+    "c4ReviewPacket": {
+      "path": "artifacts/guards/p10-ifx-i2c/c4-review/review-packet.json",
+      "sha256": "897c7d680ce4442733e2fea2ca8e3f06ab445a3dc332d5b4f216ac90cb728742"
+    },
+    "c4Decision": {
+      "path": "artifacts/guards/p10-ifx-i2c/c4-decision.json",
+      "sha256": "2313f86a149a4badac005b04cb312220d58dead7872d86ccb58ccb03462d7c8d"
+    },
+    "c5": {
+      "path": "artifacts/guards/p10-ifx-i2c/c5-p1.json",
+      "sha256": "44ba3128ee8cdc2313ec400c272aeb43001209557ebdae5d0ef41a570dc43aa7"
+    },
+    "c6": {
+      "path": "artifacts/guards/p10-ifx-i2c/c6-record.json",
+      "sha256": "58c0568ccdfa36fdedb563266c7e9bd9055a177ba6c5aa898c957195946b6be0"
+    },
+    "c7": {
+      "path": "artifacts/guards/p10-ifx-i2c/c7-record.json",
+      "sha256": "421bec0a97dbe131a597628a0a1d3d191bfd846d157237ff984635a8aa0f4fca"
+    },
+    "c8c10": {
+      "path": "artifacts/guards/p10-ifx-i2c/c8-c10-record.json",
+      "sha256": "642296832a0bb7cdbc285f45e70d57c94e0ab1bed8061f4df965c85da8507098"
+    },
+    "ciContractRemote": {
+      "path": "artifacts/guards/p10-ifx-i2c/c10-ci-contract-remote.json",
+      "sha256": "51281c6a7f4632f2d5f0f97e711e4a13847bf0994bae9b591d761f05a23e1b6a"
+    },
+    "c11PostState": {
+      "path": "artifacts/guards/p10-ifx-i2c/c11-post-state.json",
+      "sha256": "0d618a9cbc40e9ccfb83840f3513e8cbac1796cedfdff834e1109ce54d933dd3"
+    }
+  },
+  "developmentBranchMerge": {
+    "commit": "daa2b78a",
+    "conflictsResolvedByRule": [
+      "docs/guards/V3_ifx/shared/policy-config.json (main)",
+      "docs/guards/v4-adoption/README.md (development edition + note)"
+    ]
+  },
+  "openItems": [
+    "Push-triggered V3 run on main 36820468709 was in_progress at the one C11 read (05:40 UTC); its conclusion is recorded later",
+    "F-C1: bundle 0.5.1 pins the graph producer and staging script under docs/guards/candidates; I2-B amendment A3 (bundle 0.5.2) must relocate them before I2-D (RC2 X1)"
+  ],
+  "backlog": {
+    "progressed": [
+      "IFX-V4-001: I2-C complete (main promoted, v4-adoption admitted)",
+      "IFX-V4-005: fix now on main"
+    ],
+    "closed": [],
+    "opened": []
+  },
+  "booleans": {
+    "mainPromoted": true,
+    "v4AdoptionAdmitted": true,
+    "bundlePublished": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "p10GatePassed": false,
+    "ifxCutover": false,
+    "v3Retired": false
+  },
+  "next": [
+    "C12: push the development branch (authorized)",
+    "I2-B amendment A3 (bundle 0.5.2 relocation) under its own Plan",
+    "I2-D publication under its own Plan"
+  ]
+}

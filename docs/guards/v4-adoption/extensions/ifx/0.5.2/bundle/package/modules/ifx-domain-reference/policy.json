@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-domain-reference-c1b",
+  "sourcePolicy": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+    "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+  },
+  "sourceRule": {
+    "path": "docs/guards/V3_ifx/stages/post/rules/L2.2.json",
+    "sha256": "3061250248352bc621763df6ed6f087e2795104ee642244081858fdd90892145"
+  },
+  "scanRoot": "src",
+  "sourceProjectPattern": "IFX.Modules.*.Domain",
+  "targetProjectPatterns": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
+  "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+  "ruleId": "RING-DIRECTION",
+  "minimumDomainProjects": 1,
+  "coverageScope": "direct raw ProjectReference only; excludes transitive reachability and source imports"
+}

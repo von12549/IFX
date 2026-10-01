@@ -1,0 +1,9 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-snapshots",
+  "matrixSha256": "78779e8f03531c33c39cee3825a36acc2625a2c6498c667909621c125a415191",
+  "rules": [
+    { "ruleId": "G03-SYNC-API-SNAPSHOT", "claimId": "IFX.C2.G03_SYNC_API_SNAPSHOT", "stage": "post", "detectors": ["ifx-g03-snapshots"], "evidenceKinds": ["sync-api-snapshot"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-SERIALIZATION-SNAPSHOT", "claimId": "IFX.C2.G03_SERIALIZATION_SNAPSHOT", "stage": "post", "detectors": ["ifx-g03-snapshots"], "evidenceKinds": ["serialization-snapshot"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

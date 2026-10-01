@@ -1,0 +1,163 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i1-consumer-rebinding-receipt",
+  "planId": "20260928-v4-ifx-i1-rebind-1-1-6",
+  "createdAt": "2026-09-28T18:32:07.072571Z",
+  "predecessor": {
+    "receipt": {
+      "path": "docs/guards/v4-adoption/migration/v4-todo-008-ifx-rebinding-receipt.json",
+      "sha256": "e8c1665ef3d2eaea0ee27fd0fcab5d17573bdaad8394d6c470b6900c76554048"
+    },
+    "tuple": "V4 Guards 1.1.5 + ifx_profile 0.4.3",
+    "status": "historical"
+  },
+  "release": {
+    "repository": "https://github.com/von12549/Guard",
+    "tag": "v4-guards-v1.1.6",
+    "tagObject": "6fb6f72ff8f095f0c9b070f73a61d9dec4da102c",
+    "commit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "releaseImmutableFlag": false,
+    "assetUrl": "https://github.com/von12549/Guard/releases/download/v4-guards-v1.1.6/v4-guards-1.1.6.zip",
+    "archiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "archiveSize": 1140678,
+    "installedPackageHash": "a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825",
+    "installReceiptSha256": "a5c47ac809d3bd29815f94d6f6481ddb59952c0435fc908c9ab3e71e9359e497",
+    "distributionManifestSha256": "37fb9073e30e57ca0e33a89ba41ed5aba46f061560c4e3ede2f2b6f569371f55",
+    "guardCertification": "https://github.com/von12549/Guard/actions/runs/36418700269 (Linux 33, Windows 34)"
+  },
+  "ifxConsumerIdentity": {
+    "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+    "bundle": {
+      "id": "ifx-profile-candidate",
+      "version": "0.4.4",
+      "manifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7",
+      "profileSha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51"
+    },
+    "productionReviewSha256": "8e4ee60369125b4122089728cbbaab1a9e372828148b876bf142d11fe8780bae",
+    "composedPackageHash": "bea54366341289bda0d82dd9bfb9c0653864ff614ebc9ddebbeda47ff090d37a",
+    "compositionReceiptSha256": "a75e67bc7ff993968cf4906bea2568f5d306987316033c068b72c875f96047fd",
+    "identityFile": {
+      "path": "docs/guards/candidates/ifx-rebind-116/i1-identity.json",
+      "sha256": "7c38f0c0c37b98141520eb52c4a2c66bb5a70d0e1f53b4413d535c06d7cde1d8"
+    }
+  },
+  "validation": {
+    "s1Install": "pass: archive, sidecar and API digest agree; package hash a09469f7; installed with the archive's own installer",
+    "s2BaseDiff": "pass: modules, Profiles, core/distribution and cli-contract byte-identical to 1.1.5; other changes are Guard CI/runner, docs and version metadata (Plan amendment A1)",
+    "s3LinuxTiming": {
+      "path": "artifacts/guards/p10-ifx-116/c6d-review-044/linux-timing-summary.json",
+      "sha256": "d6ec4747c3c19a9deb0c95d8e96286fa8a7178aeb2de76f300438e0c40f4eba4",
+      "decision": "D1-A",
+      "nativeMaxSeconds": 1.699,
+      "bindMaxSeconds": 69.33
+    },
+    "s3VerdictEquality": {
+      "path": "artifacts/guards/p10-ifx-116/c6d-review-044/linux-verdict-equality.json",
+      "sha256": "9255958aa3d3884d85ae55c42be28fcec80fa13f72352edc5d30ac9fcb6d9533"
+    },
+    "s5Chain": {
+      "path": "artifacts/guards/p10-ifx-116/r3-chain.json",
+      "sha256": "9a022bb8106c3e0b7d65291b8a5b82e9134be8888ffecedfd1df10b04d1e19e7"
+    },
+    "s5C6c": {
+      "path": "artifacts/guards/p10-ifx-116/c6c-decision.json",
+      "sha256": "504968ff40e94b65d941b47c156633d09c8e3e09d1e8e4300c7b57acca8cf9bd"
+    },
+    "s5WindowsSummary": {
+      "path": "artifacts/guards/p10-ifx-116/c6c-full/windows/summary.json",
+      "sha256": "00dec3df6aa7633ea8d33bc249434ab1a55e6d1eff0f7ce7b8731cc502a2d8f0"
+    },
+    "s5LinuxSummary": {
+      "path": "artifacts/guards/p10-ifx-116/c6c-full/linux/summary.json",
+      "sha256": "d22e706c5df7133efcde434747f2132e776964ded6e9a73d00a35f21ad131093"
+    },
+    "s5CertificationSummary": {
+      "path": "artifacts/guards/p10-ifx-116/c6c-full/summary.json",
+      "sha256": "3427ede969104350626909e10928152032542b3ab813ab3df65122796257ec6a"
+    },
+    "s5PreservedAttempts": [
+      {
+        "path": "artifacts/guards/p10-ifx-116/attempt1-contract-path/r3-chain.json",
+        "sha256": "1fef77eb799b51d061f5f08fa4f600149cb6681678802388f50e8f1891067b1b"
+      },
+      {
+        "path": "artifacts/guards/p10-ifx-116/attempt2-v4-reference/r3-chain.json",
+        "sha256": "011e057f44dab81647ac18c4917dd067918bbd7843cb9497637a9a2abafab2dd"
+      },
+      {
+        "path": "artifacts/guards/p10-ifx-116/attempt3-flaky-drain-test/r3-chain.json",
+        "sha256": "ad759188b4979821e0f581c0607fbdd663c66fb2695a67a2c381202ea8e5c18b"
+      },
+      {
+        "path": "artifacts/guards/p10-ifx-116/attempt4-linux-matrix-index/r3-chain.json",
+        "sha256": "17c6cc892773210e468c7a1d4ed5a400c86d90fc68b6fb20da8b07232bf5fe70"
+      }
+    ],
+    "s6HumanReview": {
+      "path": "artifacts/guards/p10-ifx-116/c6d-review-044/c6d-decision.json",
+      "sha256": "683ca3881ab8bdf509b009bbc305b1587f8f6d6a4b83dd8398f44985e90cfc54"
+    },
+    "s6ReviewPacket": {
+      "path": "artifacts/guards/p10-ifx-116/c6d-review-044/review-packet.json",
+      "sha256": "631e9949347e5cce48db70cf77cfc0edba7fdea2e9eb19ef1b122bbc7783ca61"
+    },
+    "s7Composition": {
+      "path": "artifacts/guards/p10-ifx-116/s7-044/s7-decision.json",
+      "sha256": "77acf8ad837ed7d9aee3fd04293f926dda53fb66a961a3fdd7d282661b9218bc"
+    },
+    "s8Parity": {
+      "path": "artifacts/guards/p10-ifx-116/p10-2-parity-044/p10-2-decision.json",
+      "sha256": "59936476061591692701942a21044b2cf1ace1a4cffbc80cd31e915756636f0c"
+    },
+    "s8Comparison": {
+      "path": "artifacts/guards/p10-ifx-116/p10-2-parity-044/comparison-with-043-and-114.json",
+      "sha256": "413620a544fe431cc09f70af81438e09cf24db1c205e110e39b9aefba3d2f67a",
+      "semanticRowDiffs": {
+        "t7-0.4.3": 0,
+        "1.1.4-r2-0.4.2": 0
+      }
+    },
+    "s9Rehearsal": {
+      "path": "artifacts/guards/p10-ifx-116/p10-3-successor-044/rehearsal/p10-3-successor-decision.json",
+      "sha256": "b5882ec7d89f0124e10cfad72b7212466dfb802e98ed94c1c8731084f803cb0a"
+    },
+    "s9RemoteSnapshot": {
+      "path": "artifacts/guards/p10-ifx-116/p10-3-successor-044/remote-snapshot.json",
+      "sha256": "78dde73ddbb7c07f1d2dce45522a664ed34b4e0d8807cc5c14b8813b4a21af64"
+    },
+    "s9DesignNote": {
+      "path": "docs/guards/v4-adoption/plans/11-p10-3-successor-1-1-6.md",
+      "sha256": "8223de0023843508ce8530cdd6154cf1cfd81a5c42d86f88a46dc680822a4e1f"
+    },
+    "harnessControls": "S4 + A4 + A5: 25/25 pass (evidence s4a5/harness-controls-r2)"
+  },
+  "backlog": {
+    "closed": {
+      "IFX-V4-002": "Linux ifx-database-evidence timeout: harness keeps Linux working paths on container-native storage; module and 60 s timeout unchanged (S3 decision D1-A); Linux C6c passes",
+      "IFX-V4-003": "C6c Linux leg installs V4 from the verified release archive",
+      "IFX-V4-004": "C6c matrix V4 reference inputs from the verified base and a pinned Git blob (amendment A4)"
+    },
+    "opened": {
+      "IFX-V4-005": "Timing-sensitive IFX test RuntimeDrainCoordinatorTests.BeginDrain_AtomicallyRejectsNewWork_AndWaitsForExistingWork (failed 4 of 126 solution-evidence runs)",
+      "IFX-V4-006": "C6c Linux result copy-back over the 9p mount took about 90 minutes (65k files); archive before copy-back"
+    },
+    "retargeted": {
+      "IFX-V4-001": "P10.GATE successor now for V4 Guards 1.1.6 + ifx_profile 0.4.4"
+    }
+  },
+  "corrections": [
+    "The T8 cleanup receipt (v4-todo-008-ifx-cleanup-receipt.json) disclosed only the c6c1 installer coupling. Its coupling scan was case-sensitive and missed the upper-case docs/guards/V4 references of the C6c matrix inputs; I1 amendment A4 records and fixes them (IFX-V4-004). The T8 receipt stays unedited as a historical record."
+  ],
+  "booleans": {
+    "ifxConsumerRebound": true,
+    "consumedRelease": "v4-guards-v1.1.6",
+    "linuxC6cPassed": true,
+    "v4Activated": false,
+    "p10GatePassed": false,
+    "bundlePublished": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "v3Retired": false,
+    "remoteWritesPerformed": false
+  }
+}

@@ -1,0 +1,88 @@
+Set-StrictMode -Version Latest;$ErrorActionPreference='Stop'
+function Get-PinSha256([string]$Path){
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF; binary files by raw bytes.
+    if([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png','.jpg','.jpeg','.gif','.ico','.pdf','.zip','.dll','.exe')){return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()}
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes([IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")))).ToLowerInvariant()
+}
+$claim='IFX.C4A.PLAN04_TENANT';$rule='PLAN04-TENANT';$detector='ifx-plan04-tenant';$findings=[Collections.Generic.List[object]]::new();$matched=0
+function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function Hash-Text([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
+function Emit([string]$Status,[string]$Category,[string]$Message=''){$result=[ordered]@{formatVersion=1;status=$Status;exitCategory=$Category;findings=@($findings.ToArray());coverage=@([ordered]@{claimId=$claim;matched=[int]$matched;minimum=1})};if($Message){$result.message=$Message};[Console]::Out.WriteLine(($result|ConvertTo-Json -Depth 40 -Compress))}
+function Stop-Adapter([string]$Category,[string]$Message){Emit 'error' $Category $Message;exit 0}
+function Is-Under([string]$Path,[string]$Root){$r=[IO.Path]::GetRelativePath($Root,$Path);$r -ne '..' -and -not [IO.Path]::IsPathRooted($r) -and -not $r.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)}
+function Assert-NoLink([string]$Path,[string]$Root){$cursor=[IO.Path]::GetFullPath($Path);while(Is-Under $cursor $Root){if([IO.File]::Exists($cursor) -or [IO.Directory]::Exists($cursor)){$item=Get-Item -LiteralPath $cursor -Force;if(($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $item.LinkTarget){Stop-Adapter 'unsafe-path' "Linked authority: $Path"}};if($cursor -ceq $Root){break};$parent=[IO.Path]::GetDirectoryName($cursor);if(-not $parent -or $parent -ceq $cursor){break};$cursor=$parent}}
+function Resolve-Authority([string]$Relative,[string]$Expected){if([IO.Path]::IsPathRooted($Relative) -or $Relative -match '(^|[\\/])\.\.([\\/]|$)' -or ($Expected -and $Expected -cnotmatch '^[a-f0-9]{64}$')){Stop-Adapter 'invalid-input' 'Authority path or hash invalid.'};$full=[IO.Path]::GetFullPath((Join-Path $target $Relative));if(-not(Is-Under $full $target)){Stop-Adapter 'unsafe-path' "Authority escapes TargetRoot: $Relative"};Assert-NoLink $full $target;if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing authority: $Relative"};if($Expected -and (Get-PinSha256 $full) -cne $Expected){Stop-Adapter 'integrity-failure' "Stale governance authority: $Relative"};return $full}
+function Present($Value){-not [string]::IsNullOrWhiteSpace([string]$Value)}
+function Match([string]$Text,[string]$Pattern){[Regex]::IsMatch($Text,$Pattern,[Text.RegularExpressions.RegexOptions]::IgnoreCase,[TimeSpan]::FromSeconds(2))}
+function Record([string]$Id,[bool]$Pass){$script:matched++;if(-not $Pass){$findings.Add([ordered]@{ruleId=$rule;subject=$Id;evidenceKind='tenant-source';detectorId=$detector;severity='blocking'})}}
+function Get-MethodBlocks([string]$Text){$lines=@($Text -split "`n");$blocks=[Collections.Generic.List[object]]::new();for($i=0;$i -lt $lines.Count;$i++){if($lines[$i] -notmatch '^    public .*Task'){continue};$end=$i;$signature=$lines[$i];while($signature -notmatch '\)' -and $end+1 -lt $lines.Count){$end++;$signature+=' '+$lines[$end]};$blockEnd=$lines.Count-1;for($j=$end+1;$j -lt $lines.Count;$j++){if($lines[$j] -match '^    public '){$blockEnd=$j-1;break}};$blocks.Add([ordered]@{signature=$signature;body=($lines[$end..$blockEnd]-join "`n")})};return @($blocks.ToArray())}
+function Fixture-Errors([string]$Text){$errors=[Collections.Generic.List[string]]::new();if(Match $Text 'Guid\?\s+tenantId'){$errors.Add('nullable-tenant')};if(Match $Text 'Guid\s+tenantId\s*=\s*default'){$errors.Add('default-tenant')};if(Match $Text 'bypassTenant|IgnoreQueryFilters'){$errors.Add('ordinary-bypass')};if((Match $Text 'Guid\s+tenantId') -and -not(Match $Text 'TenantQueryGuard\.Require\(tenantId\)')){$errors.Add('missing-tenant-guard')};if((Match $Text 'Guid\s+tenantId') -and -not(Match $Text 'TenantId\s*==\s*tenantId')){$errors.Add('missing-tenant-predicate')};return @($errors|Sort-Object -Unique)}
+function Source-Files([string]$Root){
+    $files=[Collections.Generic.List[object]]::new();$pending=[Collections.Generic.Queue[string]]::new();$pending.Enqueue($Root)
+    while($pending.Count -gt 0){
+        $current=$pending.Dequeue()
+        foreach($directoryPath in [IO.Directory]::EnumerateDirectories($current)){
+            if(([IO.File]::GetAttributes($directoryPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0){Stop-Adapter 'unsafe-path' 'Tenant source tree contains a link.'}
+            if([IO.Path]::GetFileName($directoryPath) -in @('bin','obj')){continue};$pending.Enqueue($directoryPath)
+        }
+        foreach($filePath in [IO.Directory]::EnumerateFiles($current,'*.cs',[IO.SearchOption]::TopDirectoryOnly)){
+            if(([IO.File]::GetAttributes($filePath) -band [IO.FileAttributes]::ReparsePoint) -ne 0){Stop-Adapter 'unsafe-path' 'Tenant source tree contains a link.'}
+            $files.Add([pscustomobject]@{FullName=$filePath;Name=[IO.Path]::GetFileName($filePath);BaseName=[IO.Path]::GetFileNameWithoutExtension($filePath);RelativePath=[IO.Path]::GetRelativePath($target,$filePath).Replace('\','/');Sha256=Hash $filePath;Text=[IO.File]::ReadAllText($filePath)})
+        }
+    }
+    return @($files.ToArray()|Sort-Object RelativePath)
+}
+if([string]::IsNullOrWhiteSpace($env:V4_STAGE_INPUT_JSON)){Stop-Adapter 'invalid-input' 'Stage input required.'}
+try{$inputObject=$env:V4_STAGE_INPUT_JSON|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'invalid-input' 'Stage input malformed.'}
+if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($inputObject.config.enabledClaims)-join '|') -cne $claim -or @($inputObject.relativeRoots) -notcontains 'src'){Stop-Adapter 'invalid-input' 'Stage or claim selection invalid.'}
+if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'prerequisite-missing' 'TargetRoot must be absolute.'};$target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot);if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot missing.'};Assert-NoLink $target $target
+$settingsFile=Join-Path $PSScriptRoot 'policy.json';if(-not [IO.File]::Exists($settingsFile) -or (Hash $settingsFile) -cne [string]$inputObject.config.policySha256){Stop-Adapter 'integrity-failure' 'Tenant module policy drift.'}
+try{$settings=Get-Content $settingsFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Tenant module policy malformed.'}
+if($settings.formatVersion -ne 1 -or $settings.id -cne 'ifx-plan04-tenant-050a' -or $settings.pinPolicy -cne 'governance-only' -or @($settings.checkIds).Count -ne 12 -or @($settings.tenantOwnedContracts).Count -ne 11 -or @($settings.fixtureExpectations).Count -ne 5){Stop-Adapter 'integrity-failure' 'Tenant module identity drift.'}
+$tenantPolicyFile=Resolve-Authority ([string]$settings.policyPath) ([string]$inputObject.config.tenantPolicySha256);$registryFile=Resolve-Authority ([string]$settings.registryPath) ('')
+try{$tenantPolicy=Get-Content $tenantPolicyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$registry=Get-Content $registryFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Tenant policy or registry malformed.'}
+$sourceRoot=[IO.Path]::GetFullPath((Join-Path $target ([string]$settings.sourceRoot)));if(-not(Is-Under $sourceRoot $target) -or -not [IO.Directory]::Exists($sourceRoot)){Stop-Adapter 'prerequisite-missing' 'Source root missing.'};Assert-NoLink $sourceRoot $target
+$sourceFiles=@(Source-Files $sourceRoot)
+if($sourceFiles.Count -eq 0){$findings.Add([ordered]@{ruleId=$rule;subject='zero-subject';evidenceKind='coverage';detectorId=$detector;severity='blocking'});Emit 'fail' 'findings-blocking';exit 0}
+$sourceLines=@($sourceFiles|ForEach-Object{"$($_.RelativePath)|$($_.Sha256)"}) -join "`n";<# 0.5.0-a: live tree; no Profile fingerprint #>
+$fixtureRoot=[IO.Path]::GetFullPath((Join-Path $target ([string]$settings.fixtureRoot)));if(-not(Is-Under $fixtureRoot $target) -or -not [IO.Directory]::Exists($fixtureRoot)){Stop-Adapter 'prerequisite-missing' 'Fixture root missing.'};Assert-NoLink $fixtureRoot $target
+$fixtures=@(Get-ChildItem -LiteralPath $fixtureRoot -File -Filter 'tenant-*.txt' -Force|Sort-Object Name);foreach($file in $fixtures){Assert-NoLink $file.FullName $target}
+$fixtureLines=@($fixtures|ForEach-Object{"$($_.Name)|$(Hash $_.FullName)"}) -join "`n";<# 0.5.0-a: live tree; no Profile fingerprint #>
+$repositoryFiles=@($sourceFiles|Where-Object{$_.Name -like '*Repository.cs' -and $_.FullName -match 'Infrastructure.*[\\/]Repositories'});$contractFiles=@($sourceFiles|Where-Object{$_.Name -like '*Repository.cs' -and $_.FullName -match 'Domain|Contracts'})
+$tenantMethods=[Collections.Generic.List[object]]::new();$tenantFindings=[Collections.Generic.List[object]]::new()
+foreach($file in $repositoryFiles){$source=$file.Text;foreach($method in (Get-MethodBlocks $source)){if($method.signature -notmatch 'Guid tenantId' -or $method.body -notmatch '_context\.'){continue};$tenantMethods.Add($method);if(-not(Match $method.body 'TenantQueryGuard\.Require\(tenantId\)') -or -not(Match $method.body 'TenantId\s*==\s*tenantId|tenantId\s*==\s*\w+\.TenantId|\.Id\s*==\s*tenantId')){$tenantFindings.Add($method)}}}
+$contractText=@($contractFiles|ForEach-Object{$_.Text}) -join "`n";$sourceText=@($sourceFiles|ForEach-Object{$_.Text}) -join "`n"
+$nullableCount=[Regex]::Matches($contractText,'Guid\?\s+tenantId|Guid\s+tenantId\s*=\s*default').Count;$ignoreFilters=[Regex]::Matches($sourceText,'\.IgnoreQueryFilters\s*\(').Count;$ordinaryBypass=[Regex]::Matches($contractText,'bypassTenant|ignoreTenant').Count
+$ownedResults=[Collections.Generic.List[bool]]::new();foreach($contract in $settings.tenantOwnedContracts){$relative=[string]$contract.path;$file=@($sourceFiles|Where-Object{$_.RelativePath -ceq $relative});if($file.Count -ne 1){$ownedResults.Add($false);continue};$contractSource=$file[0].Text;foreach($pattern in $contract.patterns){$ownedResults.Add((Match $contractSource ([string]$pattern)))}}
+$endpointFile=@($sourceFiles|Where-Object{$_.RelativePath -ceq [string]$settings.endpointPath});$endpointText=if($endpointFile.Count -eq 1){$endpointFile[0].Text}else{''}
+$bypassResults=[Collections.Generic.List[bool]]::new()
+foreach($entry in @($registry.entries)){
+    $parts=([string]$entry.repositoryMethod).Split('.');$interfaceName=$parts[0];$methodName=$parts[-1]
+    $interfaceFound=Match $contractText (([Regex]::Escape($methodName))+'\(int maxRows')
+    $implementations=@($repositoryFiles|Where-Object{$_.BaseName -ceq $interfaceName.Substring(1) -and (Match $_.Text (([Regex]::Escape($methodName))+'\(int maxRows'))})
+    $implementationText=if($implementations.Count -eq 1){$implementations[0].Text}else{''}
+    $implementationOk=$implementations.Count -eq 1 -and (Match $implementationText 'RequireBoundedLimit\(maxRows\)') -and (Match $implementationText 'Take\(maxRows\)')
+    $handlers=@($sourceFiles|Where-Object Name -eq ($entry.handler+'.cs'));$handlerText=if($handlers.Count -eq 1){$handlers[0].Text}else{''}
+    $handlerOk=(Match $handlerText 'CrossTenantAccessGuard\.Require') -and (Match $handlerText ([Regex]::Escape([string]$entry.purpose))) -and (Match $handlerText 'ActorUserId')
+    $endpointRoute=([string]$entry.endpoint).Replace('/api/v1/platform','');$endpointOk=(Match $endpointText ([Regex]::Escape($endpointRoute))) -and (Match $endpointText 'ExecutionScopeRequirement\.Platform') -and (Match $endpointText ([Regex]::Escape([string]$entry.permission)))
+    $metadataOk=(Present $entry.owner) -and (Present $entry.purpose) -and (Present $entry.audit) -and $entry.maximumRows -eq $tenantPolicy.crossTenantRequirements.maximumRows -and [datetime]$entry.expiresAt -gt [DateTime]::UtcNow.Date
+    $bypassResults.Add($interfaceFound -and $implementationOk -and $handlerOk -and $endpointOk -and $metadataOk)
+}
+$registered=@($registry.entries|ForEach-Object{([string]$_.repositoryMethod).Split('.')[-1]}|Sort-Object -Unique);$declared=@([Regex]::Matches($contractText,'\b(?:Get\w*)?AcrossTenants\w*Async\b')|ForEach-Object Value|Sort-Object -Unique);$unregistered=@($declared|Where-Object{$_ -notin $registered})
+$fixtureResults=[Collections.Generic.List[bool]]::new();foreach($expected in $settings.fixtureExpectations){$fixture=@($fixtures|Where-Object Name -CEQ $expected.name);if($fixture.Count -ne 1){$fixtureResults.Add($false);continue};$actual=@(Fixture-Errors ([IO.File]::ReadAllText($fixture[0].FullName)));$fixtureResults.Add(((@($expected.errors|Sort-Object)-join '|') -ceq ($actual-join '|')))}
+$checks=[ordered]@{
+    policyDefaultsToExplicitPredicate=($tenantPolicy.defaultStrategy -ceq 'explicit-tenant-predicate')
+    trustedNonNullableTenantRequired=($tenantPolicy.tenantIdentity.source -ceq 'trusted-execution-context' -and $tenantPolicy.tenantIdentity.nullableAllowed -eq $false -and $tenantPolicy.tenantIdentity.defaultAllowed -eq $false)
+    tenantMethodsGuardedAndPredicated=($tenantMethods.Count -gt 0 -and $tenantFindings.Count -eq 0)
+    contractsHaveNoNullableOrDefaultTenant=($nullableCount -eq 0)
+    tenantOwnedContractSignaturesExplicit=($ownedResults.Count -ge 11 -and @($ownedResults|Where-Object{$_ -eq $false}).Count -eq 0)
+    noOrdinaryBypassFlags=($ordinaryBypass -eq 0)
+    noIgnoreQueryFilters=($ignoreFilters -eq 0)
+    bypassRegistryComplete=(@($registry.entries).Count -eq 5 -and $bypassResults.Count -eq 5 -and @($bypassResults|Where-Object{$_ -eq $false}).Count -eq 0)
+    noUnregisteredCrossTenantRepository=($unregistered.Count -eq 0)
+    negativeFixturesPass=($fixtures.Count -eq 5 -and $fixtureResults.Count -eq 5 -and @($fixtureResults|Where-Object{$_ -eq $false}).Count -eq 0)
+    globalFilterDecisionRecorded=($tenantPolicy.globalQueryFilterDecision.status -ceq 'not-selected' -and @($tenantPolicy.globalQueryFilterDecision.revisitWhen).Count -ge 4)
+    rlsExplicitlyNotClaimed=($tenantPolicy.rlsDecision.status -ceq 'deferred-not-claimed' -and @($tenantPolicy.rlsDecision.requiredBeforeAdoption).Count -ge 5)
+}
+if((@($checks.Keys)-join '|') -cne (@($settings.checkIds)-join '|')){Stop-Adapter 'integrity-failure' 'Tenant check-ID mapping drift.'};foreach($id in $settings.checkIds){Record $id ([bool]$checks[$id])}
+if($findings.Count -gt 0){Emit 'fail' 'findings-blocking'}else{Emit 'pass' 'success'}

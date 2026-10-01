@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-solution-evidence","rules":[{"ruleId":"SOLUTION-LOCKED-QUALITY","claimId":"IFX.C5.SOLUTION_QUALITY","stage":"post","detectors":["ifx-solution-evidence"],"evidenceKinds":["quality-summary","nuget-audit","test-results","source-inventory"],"severity":"blocking","baseline":null,"minimumMatches":4}]}

@@ -1,0 +1,69 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-plan04-abstractions",
+  "version": "0.2.0",
+  "compatibleApi": "1.x",
+  "supportedPlatforms": [
+    "linux-x64",
+    "win-x64"
+  ],
+  "adapter": {
+    "kind": "powershell",
+    "path": "modules/ifx-plan04-abstractions/adapter.ps1",
+    "sha256": "8fa48f691cbed0c058e451e4ccf67aa8b07e1efb2e512421f2aa227fb93e3855"
+  },
+  "prerequisites": [
+    {
+      "runtime": "pwsh",
+      "versionRange": ">=7.4"
+    }
+  ],
+  "stages": [
+    "post"
+  ],
+  "capabilities": {
+    "readRoots": [
+      "PackageRoot",
+      "TargetRoot"
+    ],
+    "writeRoots": [],
+    "processes": [
+      "pwsh"
+    ],
+    "network": false,
+    "timeoutSeconds": 180
+  },
+  "configSchema": "modules/ifx-plan04-abstractions/config.schema.json",
+  "resultSchema": "modules/ifx-plan04-abstractions/result.schema.json",
+  "dependencyLock": {
+    "path": "modules/ifx-plan04-abstractions/dependencies.lock.json",
+    "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0"
+  },
+  "authorities": [
+    {
+      "id": "ifx-policy",
+      "path": "modules/ifx-plan04-abstractions/policy.json",
+      "sha256": "05b4e25bd9a66a3e526dea749b23ff67c991e192385e677dea0df53725f1dc9a"
+    },
+    {
+      "id": "rule-execution-plan",
+      "path": "modules/ifx-plan04-abstractions/rule-execution-plan.json",
+      "sha256": "b0ac371d30fdf6d0ae2baf54c2085c7c0861e15b5d125ca81027656e7ac28c83"
+    },
+    {
+      "id": "module-result",
+      "path": "modules/ifx-plan04-abstractions/result.schema.json",
+      "sha256": "bba9955c2a30fd00eee4f29c1888ca514397435dc462e72e7d216ccb450b426c"
+    },
+    {
+      "id": "embedded-project-name-policy",
+      "path": "modules/ifx-plan04-abstractions/embedded/project-name-policy.json",
+      "sha256": "36e25d60c29547719638469aad7ef8fcab1f86e243067108feac24226ef74829"
+    },
+    {
+      "id": "embedded-reference-cycle-policy",
+      "path": "modules/ifx-plan04-abstractions/embedded/reference-cycle-policy.json",
+      "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7"
+    }
+  ]
+}
