@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-g03-catalog-semantics/result.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["formatVersion", "status", "exitCategory", "findings", "coverage"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "status": { "enum": ["pass", "fail", "error"] },
+    "exitCategory": { "enum": ["success", "findings-blocking", "invalid-input", "unsafe-path", "integrity-failure", "prerequisite-missing"] },
+    "message": { "type": "string" },
+    "findings": { "type": "array", "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ruleId", "subject", "evidenceKind", "detectorId", "severity"],
+      "properties": {
+        "ruleId": { "enum": ["G03-PROTOCOL-LIFECYCLE", "G03-FIELD-GOVERNANCE", "G03-LEGACY-SURFACE", "G03-CHANGE-CONTROL"] },
+        "subject": { "type": "string", "minLength": 1 },
+        "evidenceKind": { "enum": ["catalog-semantics", "coverage"] },
+        "detectorId": { "const": "ifx-g03-catalog-semantics" },
+        "severity": { "const": "blocking" }
+      }
+    } },
+    "coverage": { "type": "array", "minItems": 4, "maxItems": 4, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["claimId", "matched", "minimum"],
+      "properties": {
+        "claimId": { "enum": ["IFX.C2.G03_PROTOCOL_LIFECYCLE", "IFX.C2.G03_FIELD_GOVERNANCE", "IFX.C2.G03_LEGACY_SURFACE", "IFX.C2.G03_CHANGE_CONTROL"] },
+        "matched": { "type": "integer", "minimum": 0 },
+        "minimum": { "const": 1 }
+      }
+    } }
+  }
+}

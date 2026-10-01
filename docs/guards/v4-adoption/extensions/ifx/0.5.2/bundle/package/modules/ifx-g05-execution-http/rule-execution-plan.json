@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g05-execution-http",
+  "rules": [
+    {
+      "ruleId": "G05-EXECUTION",
+      "claimId": "IFX.C4.G05_EXECUTION",
+      "stage": "post",
+      "detectors": [
+        "ifx-g05-execution-http"
+      ],
+      "evidenceKinds": [
+        "runtime-source",
+        "coverage"
+      ],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    },
+    {
+      "ruleId": "G05-HTTP",
+      "claimId": "IFX.C4.G05_HTTP",
+      "stage": "post",
+      "detectors": [
+        "ifx-g05-execution-http"
+      ],
+      "evidenceKinds": [
+        "runtime-source",
+        "coverage"
+      ],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

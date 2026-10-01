@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2d-remote-snapshot",
+  "planId": "20261001-v4-ifx-i2d-publish-trusted-inputs",
+  "step": "D1",
+  "capturedAtUtc": "2026-10-01T10:29:09.4274089Z",
+  "method": "GET-only GitHub API reads and one git fetch",
+  "heads": {
+    "main": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "codex/guards-principles-plan": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "codex/v4-development-base": "0b38f0f3b12e81fc6404a6ec87de7203660d753e"
+  },
+  "mainAncestorOfDevelopment": true,
+  "mainV4Adoption": [
+    "README.md"
+  ],
+  "defaultBranch": "main",
+  "ruleset": {
+    "id": 23459908,
+    "canonicalSha256": "857a51aaf9590758aa37ab0daf234695ba6e3a434644e598026d741b2c7d6f4a",
+    "equalsI2C": true
+  },
+  "openPullRequests": 0,
+  "failures": [],
+  "status": "pass"
+}

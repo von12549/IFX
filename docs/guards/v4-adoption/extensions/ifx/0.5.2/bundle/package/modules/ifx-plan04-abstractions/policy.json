@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-plan04-abstractions-050a",
+  "pinPolicy": "governance-only",
+  "solutionPath": "IFX.sln",
+  "projectNamePolicyPath": "docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/policy.json",
+  "referencePolicyPath": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+  "scanRoots": [
+    "src",
+    "tests"
+  ],
+  "fixtureRoot": "tests/Architecture/Plan04/Fixtures",
+  "requiredContracts": [
+    "IFX.Modules.CRM.Contracts",
+    "IFX.Modules.Registry.Contracts",
+    "IFX.Modules.Transaction.Contracts",
+    "IFX.Platform.BackgroundJobs.Contracts",
+    "IFX.Platform.Context.Contracts",
+    "IFX.Platform.Messaging.Contracts",
+    "IFX.Platform.Notifications.Contracts"
+  ],
+  "requiredCompositionProject": "IFX.BuildingBlocks.Composition",
+  "checkIds": [
+    "noLegacyAbstractionsDirectories",
+    "noLegacyAbstractionsProjects",
+    "noLegacyAbstractionsReferences",
+    "noLegacyAbstractionsSolutionEntries",
+    "requiredContractsAreExplicitSolutionProjects",
+    "compositionProjectNameIsUnambiguous",
+    "authorizationNamespaceNameIsUnambiguous",
+    "compositionProjectIsExplicitlyInSolution",
+    "layerGuardRetirementRuleIsBound",
+    "layerGuardCompositionNameIsCurrent",
+    "positiveAndNegativeFixturesPass"
+  ],
+  "embeddedProjectNamePolicy": {
+    "path": "embedded/project-name-policy.json",
+    "sha256": "36e25d60c29547719638469aad7ef8fcab1f86e243067108feac24226ef74829",
+    "source": "docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/policy.json"
+  },
+  "embeddedReferencePolicy": {
+    "path": "embedded/reference-cycle-policy.json",
+    "sha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+    "source": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json"
+  }
+}

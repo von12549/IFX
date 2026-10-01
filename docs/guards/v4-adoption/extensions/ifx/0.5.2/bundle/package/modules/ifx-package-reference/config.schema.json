@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-package-reference/config.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["enabledClaims", "policySha256"],
+  "properties": {
+    "enabledClaims": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "enum": ["IFX.C1.PACKAGE_ALLOW_RAW", "IFX.C1.PACKAGE_DENY_RAW"] } },
+    "policySha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

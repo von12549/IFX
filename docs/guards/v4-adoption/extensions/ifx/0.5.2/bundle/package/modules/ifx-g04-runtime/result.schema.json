@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-g04-runtime/result.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["formatVersion", "status", "exitCategory", "findings", "coverage"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "status": { "enum": ["pass", "fail", "error"] },
+    "exitCategory": { "enum": ["success", "findings-blocking", "invalid-input", "unsafe-path", "integrity-failure", "prerequisite-missing"] },
+    "message": { "type": "string" },
+    "findings": { "type": "array", "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ruleId", "subject", "evidenceKind", "detectorId", "severity"],
+      "properties": {
+        "ruleId": { "enum": ["G04-ROLE", "G04-STARTUP", "G04-WORKER", "G04-DRAIN", "G04-HEALTH", "G04-BACKPRESSURE", "G04-INBOUND"] },
+        "subject": { "type": "string", "minLength": 1 },
+        "evidenceKind": { "enum": ["runtime-source", "coverage"] },
+        "detectorId": { "const": "ifx-g04-runtime" },
+        "severity": { "const": "blocking" }
+      }
+    } },
+    "coverage": { "type": "array", "minItems": 7, "maxItems": 7, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["claimId", "matched", "minimum"],
+      "properties": {
+        "claimId": { "enum": ["IFX.C3.G04_ROLE", "IFX.C3.G04_STARTUP", "IFX.C3.G04_WORKER", "IFX.C3.G04_DRAIN", "IFX.C3.G04_HEALTH", "IFX.C3.G04_BACKPRESSURE", "IFX.C3.G04_INBOUND"] },
+        "matched": { "type": "integer", "minimum": 0 },
+        "minimum": { "const": 1 }
+      }
+    } }
+  }
+}

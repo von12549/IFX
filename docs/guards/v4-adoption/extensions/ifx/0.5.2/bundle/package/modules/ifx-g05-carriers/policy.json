@@ -1,0 +1,487 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g05-carriers-050a",
+  "pinPolicy": "governance-only",
+  "authorities": [
+    {
+      "id": "contractPolicy",
+      "path": "docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+      "kind": "json",
+      "pinned": true
+    },
+    {
+      "id": "contractTests",
+      "path": "tests/IFX.Platform.ProtocolContracts.Tests/ContractContextConformanceTests.cs",
+      "kind": "text",
+      "pinned": false
+    },
+    {
+      "id": "contractContext",
+      "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs",
+      "kind": "text",
+      "pinned": false
+    },
+    {
+      "id": "contractHandoff",
+      "path": "docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md",
+      "kind": "text",
+      "pinned": true
+    },
+    {
+      "id": "phase4Evidence",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase4-contract-context.md",
+      "kind": "text",
+      "pinned": true
+    },
+    {
+      "id": "phase4Layer",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json",
+      "kind": "json",
+      "pinned": true
+    },
+    {
+      "id": "eventPolicy",
+      "path": "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json",
+      "kind": "json",
+      "pinned": true
+    },
+    {
+      "id": "eventSchema",
+      "path": "docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json",
+      "kind": "json",
+      "pinned": true
+    },
+    {
+      "id": "eventGolden",
+      "path": "docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json",
+      "kind": "json",
+      "pinned": true
+    },
+    {
+      "id": "eventTests",
+      "path": "tests/IFX.Platform.ProtocolContracts.Tests/EventPropagationConformanceTests.cs",
+      "kind": "text",
+      "pinned": false
+    },
+    {
+      "id": "eventHandoff",
+      "path": "docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md",
+      "kind": "text",
+      "pinned": true
+    },
+    {
+      "id": "phase5Evidence",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase5-event-propagation.md",
+      "kind": "text",
+      "pinned": true
+    },
+    {
+      "id": "phase5Layer",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json",
+      "kind": "json",
+      "pinned": true
+    }
+  ],
+  "predicates": [
+    {
+      "id": "consumerContextConstructionIsExplicit",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "contractPolicy",
+          "op": "jsonRegex",
+          "path": "consumerConstruction.requestId",
+          "pattern": "every invocation"
+        },
+        {
+          "alias": "contractPolicy",
+          "op": "jsonRegex",
+          "path": "consumerConstruction.correlationId",
+          "pattern": "ExecutionContext"
+        },
+        {
+          "alias": "contractPolicy",
+          "op": "jsonRegex",
+          "path": "consumerConstruction.causationId",
+          "pattern": "operation identifier"
+        },
+        {
+          "alias": "contractTests",
+          "op": "all",
+          "patterns": [
+            "Guid\\.NewGuid\\(\\)",
+            "executionContext\\.OperationId\\.Value"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "providerValidationOrderIsFixed",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "contractPolicy",
+          "op": "arrayEquals",
+          "path": "providerValidationOrder",
+          "values": [
+            "consumerAllowlist",
+            "version",
+            "scope",
+            "actorSource",
+            "tenantResource"
+          ]
+        },
+        {
+          "alias": "contractTests",
+          "op": "all",
+          "patterns": [
+            "ValidationTrace\\.Add\\(\"consumerAllowlist\"\\)",
+            "ValidationTrace\\.Add\\(\"tenantResource\"\\)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contractFailureResultsAreStable",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "contractPolicy",
+          "op": "arrayIncludes",
+          "path": "stableResults",
+          "values": [
+            "contract_context_invalid",
+            "contract_consumer_denied",
+            "contract_tenant_mismatch",
+            "contract_timeout",
+            "contract_cancelled",
+            "contract_unavailable"
+          ]
+        },
+        {
+          "alias": "contractTests",
+          "op": "all",
+          "patterns": [
+            "contract_context_invalid",
+            "contract_consumer_denied",
+            "contract_tenant_mismatch",
+            "contract_timeout",
+            "contract_cancelled",
+            "contract_unavailable"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fakeCarriersShareOneApplicationPort",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "contractTests",
+          "op": "all",
+          "patterns": [
+            "interface IAccountCompliancePort",
+            "DirectContractCarrier",
+            "JsonRoundTripContractCarrier",
+            "CarrierSubstitution_DoesNotChangeConsumerApplicationPort"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contractContextCarriesNoCallerAuthorization",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "contractContext",
+          "op": "none",
+          "patterns": [
+            "public .*?(Token|ClaimsPrincipal|Roles|Permissions|AuthorizationGranted)"
+          ]
+        },
+        {
+          "alias": "contractTests",
+          "op": "all",
+          "patterns": [
+            "ContractRequestContext_HasNoCallerAssertedSecurityPayload"
+          ]
+        },
+        {
+          "alias": "contractPolicy",
+          "op": "arrayLength",
+          "path": "consumerConstruction.forbidden",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "id": "plan01ContractContextHandoffExists",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "contractHandoff",
+          "op": "exists"
+        }
+      ]
+    },
+    {
+      "id": "realContractCarrierNotMisrepresented",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "contractPolicy",
+          "op": "jsonEquals",
+          "path": "status",
+          "value": "pre-active-conformance"
+        },
+        {
+          "alias": "contractPolicy",
+          "op": "jsonRegex",
+          "path": "realCarrierEvidence",
+          "pattern": "required from Plan 01"
+        }
+      ]
+    },
+    {
+      "id": "phase4EvidenceExists",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "phase4Evidence",
+          "op": "exists"
+        }
+      ]
+    },
+    {
+      "id": "phase4LayerGuardEvidenceExists",
+      "phase": 4,
+      "clauses": [
+        {
+          "alias": "phase4Layer",
+          "op": "exists"
+        }
+      ]
+    },
+    {
+      "id": "eventEnvelopeSchemaAndGoldenExist",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "eventSchema",
+          "op": "jsonEquals",
+          "path": "$id",
+          "value": "urn:ifx:messaging:event-envelope:v1"
+        },
+        {
+          "alias": "eventSchema",
+          "op": "arrayIncludes",
+          "path": "required",
+          "values": [
+            "envelopeVersion",
+            "eventId",
+            "eventType",
+            "schemaVersion",
+            "occurredAt",
+            "producer",
+            "scope",
+            "correlationId",
+            "causationId",
+            "contentType",
+            "provenance"
+          ]
+        },
+        {
+          "alias": "eventSchema",
+          "op": "jsonEquals",
+          "path": "additionalProperties",
+          "value": true
+        },
+        {
+          "alias": "eventGolden",
+          "op": "jsonEquals",
+          "path": "envelopeVersion",
+          "value": 1
+        },
+        {
+          "alias": "eventGolden",
+          "op": "jsonRegex",
+          "path": "eventType",
+          "pattern": "^ifx\\..+\\.v1$"
+        }
+      ]
+    },
+    {
+      "id": "eventProducerUsesTrustedExecutionContext",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "eventPolicy",
+          "op": "jsonRegex",
+          "path": "producerConstruction.producer",
+          "pattern": "trusted runtime"
+        },
+        {
+          "alias": "eventTests",
+          "op": "all",
+          "patterns": [
+            "ConformanceEventProducer",
+            "context\\.CorrelationId\\.Value",
+            "context\\.OperationId\\.Value"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outboxLogicalAndDeliveryDataAreSeparated",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "eventPolicy",
+          "op": "arrayEquals",
+          "path": "physicalSeparation.immutableLogical",
+          "values": [
+            "envelope",
+            "payload"
+          ]
+        },
+        {
+          "alias": "eventPolicy",
+          "op": "arrayLength",
+          "path": "physicalSeparation.mutableDelivery",
+          "count": 4
+        },
+        {
+          "alias": "eventTests",
+          "op": "all",
+          "patterns": [
+            "class FakeOutboxRecord",
+            "class EventDeliveryMetadata"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "transportMappingAndConsumerOrderAreFixed",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "eventPolicy",
+          "op": "arrayLength",
+          "path": "transportHeaders",
+          "count": 14
+        },
+        {
+          "alias": "eventPolicy",
+          "op": "arrayEquals",
+          "path": "consumerValidationOrder",
+          "values": [
+            "producerAllowlist",
+            "envelopeAndSchemaVersion",
+            "eventIdentity",
+            "scopeAndTenant",
+            "correlationAndCausation",
+            "contentType",
+            "trace"
+          ]
+        },
+        {
+          "alias": "eventTests",
+          "op": "all",
+          "patterns": [
+            "static class FakeEventDispatcher",
+            "class FakeInboundEventAdapter"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consumerEventExecutionSemanticsAreExplicit",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "eventPolicy",
+          "op": "jsonEquals",
+          "path": "consumerExecution.operationId",
+          "value": "inbound EventId"
+        },
+        {
+          "alias": "eventPolicy",
+          "op": "jsonRegex",
+          "path": "consumerExecution.causationId",
+          "pattern": "inbound EventId"
+        },
+        {
+          "alias": "eventTests",
+          "op": "all",
+          "patterns": [
+            "new OperationId\\(eventId\\)",
+            "new CausationId\\(eventId\\)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retryReplayTraceAndTenantConformanceExist",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "eventTests",
+          "op": "all",
+          "patterns": [
+            "RetryAndReplay_PreserveLogicalEnvelopeAndPayload",
+            "InvalidTrace_RestartsTraceWithoutRejectingBusinessEvent",
+            "InvalidTenant_IsQuarantinedBeforeInboxOrApplication"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plan02EventContextHandoffExists",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "eventHandoff",
+          "op": "exists"
+        }
+      ]
+    },
+    {
+      "id": "realMessagingDurabilityNotMisrepresented",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "eventPolicy",
+          "op": "jsonEquals",
+          "path": "status",
+          "value": "pre-active-fake-carrier-conformance"
+        },
+        {
+          "alias": "eventPolicy",
+          "op": "jsonRegex",
+          "path": "realDurabilityEvidence",
+          "pattern": "required from Plan 02"
+        }
+      ]
+    },
+    {
+      "id": "phase5EvidenceExists",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "phase5Evidence",
+          "op": "exists"
+        }
+      ]
+    },
+    {
+      "id": "phase5LayerGuardEvidenceExists",
+      "phase": 5,
+      "clauses": [
+        {
+          "alias": "phase5Layer",
+          "op": "exists"
+        }
+      ]
+    }
+  ]
+}

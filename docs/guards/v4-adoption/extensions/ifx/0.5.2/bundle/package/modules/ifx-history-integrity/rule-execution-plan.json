@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-history-integrity","rules":[{"ruleId":"HISTORY-INTEGRITY","claimId":"IFX.C5.HISTORY_INTEGRITY","stage":"post","detectors":["ifx-history-integrity"],"evidenceKinds":["historical-file","historical-reference"],"severity":"blocking","baseline":null,"minimumMatches":18}]}

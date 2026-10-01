@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-ring-graph",
+  "matrixSha256": "eab4197a12a5181255df3cc74c67ca13d40524b3baf0eeabf0376b6c0ef6fbe0",
+  "rules": [
+    {
+      "ruleId": "RING-DIRECTION",
+      "claimId": "IFX.C1.RING_GRAPH_RAW",
+      "stage": "pre",
+      "detectors": ["ifx-ring-graph"],
+      "evidenceKinds": ["project-graph-raw", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

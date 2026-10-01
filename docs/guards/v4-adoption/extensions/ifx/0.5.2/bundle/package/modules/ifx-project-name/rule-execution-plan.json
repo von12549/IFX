@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-project-name",
+  "matrixSha256": "36e25d60c29547719638469aad7ef8fcab1f86e243067108feac24226ef74829",
+  "rules": [
+    {
+      "ruleId": "PROJECT-NAME-FORBIDDEN",
+      "claimId": "IFX.C1.PROJECT_NAME_FORBIDDEN",
+      "stage": "pre",
+      "detectors": ["ifx-project-name"],
+      "evidenceKinds": ["project-declaration", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

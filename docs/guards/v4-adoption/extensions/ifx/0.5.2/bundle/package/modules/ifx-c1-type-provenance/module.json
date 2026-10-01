@@ -1,0 +1,70 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-c1-type-provenance",
+  "version": "0.2.1",
+  "compatibleApi": "1.x",
+  "supportedPlatforms": [
+    "linux-x64",
+    "win-x64"
+  ],
+  "adapter": {
+    "kind": "powershell",
+    "path": "modules/ifx-c1-type-provenance/adapter.ps1",
+    "sha256": "b67f655ee81baa89548b7be15e0f896ac944ac42116fa1127a20c595ccaeed8d"
+  },
+  "prerequisites": [
+    {
+      "runtime": "pwsh",
+      "versionRange": ">=7.4"
+    }
+  ],
+  "stages": [
+    "post"
+  ],
+  "capabilities": {
+    "readRoots": [
+      "PackageRoot",
+      "TargetRoot",
+      "EvidenceRoot"
+    ],
+    "writeRoots": [],
+    "processes": [
+      "pwsh"
+    ],
+    "network": false,
+    "timeoutSeconds": 180
+  },
+  "configSchema": "modules/ifx-c1-type-provenance/config.schema.json",
+  "resultSchema": "modules/ifx-c1-type-provenance/result.schema.json",
+  "dependencyLock": {
+    "path": "modules/ifx-c1-type-provenance/dependencies.lock.json",
+    "sha256": "1df9daa70b8f0d1d8beb0173185f1c5bc6f60a9939f358a60a827b41d3eed5c0"
+  },
+  "authorities": [
+    {
+      "id": "ifx-policy",
+      "path": "modules/ifx-c1-type-provenance/policy.json",
+      "sha256": "29ad967a74154259cf10121d55b59d6d6274ceb820175930c0bef0f31d9d4367"
+    },
+    {
+      "id": "rule-execution-plan",
+      "path": "modules/ifx-c1-type-provenance/rule-execution-plan.json",
+      "sha256": "f42d3847318173b2d545f72f014a15030b1e97bc4490c9e0887e1c79065f44c6"
+    },
+    {
+      "id": "module-result",
+      "path": "modules/ifx-c1-type-provenance/result.schema.json",
+      "sha256": "754ad2e86df02e001159a3f77fc2d181ad9b49ac0c6c0b97c86349e568d89b69"
+    },
+    {
+      "id": "embedded-layer-policy",
+      "path": "modules/ifx-c1-type-provenance/embedded/layer-policy.json",
+      "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+    },
+    {
+      "id": "embedded-type-rule",
+      "path": "modules/ifx-c1-type-provenance/embedded/type-rule.json",
+      "sha256": "d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b"
+    }
+  ]
+}

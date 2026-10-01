@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-plan04-extraction","rules":[{"ruleId":"PLAN04-EXTRACTION","claimId":"IFX.C4A.PLAN04_EXTRACTION","stage":"post","detectors":["ifx-plan04-extraction"],"evidenceKinds":["extraction-policy","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1}]}

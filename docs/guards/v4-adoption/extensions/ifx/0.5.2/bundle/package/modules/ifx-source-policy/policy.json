@@ -1,0 +1,131 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-source-policy-c1h",
+  "sourcePolicy": { "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json", "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5" },
+  "sourceG03": { "path": "docs/guards/V3_ifx/stages/post/policy/g03/governance.json", "sha256": "b8f259f02179c48558bd36fd9ccc5f37ce486bbf14f92e9d4c9ada826e4f518c" },
+  "sourceRules": [
+    { "path": "docs/guards/V3_ifx/stages/post/rules/L2.2.json", "sha256": "3061250248352bc621763df6ed6f087e2795104ee642244081858fdd90892145" },
+    { "path": "docs/guards/V3_ifx/stages/post/rules/L2.3.json", "sha256": "f79c575925632d65653af3b48375160f0c9124657699b14fbe37221a1fe48473" },
+    { "path": "docs/guards/V3_ifx/stages/post/rules/L3.1.json", "sha256": "afef5fcdcf2f09f0f3ae2c850c0807876682d694e35cd511310b23d416c31a3a" },
+    { "path": "docs/guards/V3_ifx/stages/post/rules/L3.4.json", "sha256": "c2383c2bc47bc56ab60afa99fe9ddea46572282a9790b7d26832bf0cdf6d265e" },
+    { "path": "docs/guards/V3_ifx/stages/post/rules/L3.5.json", "sha256": "166192cf788c72b3b2e87703d4350ca10e10b184fe7efcae62fec04a19135f4f" },
+    { "path": "docs/guards/V3_ifx/stages/post/rules/L3.6.json", "sha256": "768c8f06aa99353fd9a2d76b466d55db3f75c5d3c2b65ee41472ee19bc6e1f0d" },
+    { "path": "docs/guards/V3_ifx/stages/post/rules/ARCH.SEMANTIC.json", "sha256": "606eaacc82bdb2ea227738d58bfef076f81d444410bc0451c0948c6c95b21e7f" }
+  ],
+  "sourceImplementations": [
+    { "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/ImportRules.cs", "sha256": "32246d76f685aaeda3553f3bfabd9c2f350c010dc379206fb8745694dc3029f1" },
+    { "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/SourcePolicyRules.cs", "sha256": "69f28d85b9cffe04438d0667a7995b5e266553ba28050f18a0189b94b5459284" },
+    { "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/DeclarationRules.cs", "sha256": "bd7cdbeb05d67b867489053c02ac897d30261404a025daf666e4c355d438a144" },
+    { "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/DeclarationIndex.cs", "sha256": "c9c4997d5de81990ef7688e006bd86ae8058f6f2f68d7498cf5fac8f9b30d512" },
+    { "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/SourceFiles.cs", "sha256": "58e657e7340a58bde2c24efd6f41fa4605eeb09a2d1ab28a1d4847ac739081e2" }
+  ],
+  "scanRoot": "src",
+  "rings": {
+    "Domain": ["IFX.Modules.*.Domain"],
+    "Contracts": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
+    "Application": ["IFX.Modules.*.Application"],
+    "Presentation": ["IFX.Modules.*.Presentation"],
+    "IntegrationAdapter": ["IFX.Modules.*.Integration", "IFX.Modules.*.Infrastructure.Integrations"],
+    "Infrastructure": ["IFX.Modules.*.Infrastructure", "IFX.Platform.*.Infrastructure.*"],
+    "Client": ["IFX.Modules.*.Client"],
+    "Runtime": ["IFX.Platform.*.Runtime"],
+    "Composition": ["IFX.Modules.*.Composition", "IFX.Platform.*.Composition"],
+    "RuntimeHost": ["IFX.ApiHost", "IFX.*.Worker"]
+  },
+  "ownership": { "modulePatterns": ["IFX.Modules.{module}.*", "IFX.Platform.{module}.*"], "requireKnown": true },
+  "allowedDependencies": {
+    "Domain": [], "Contracts": [], "Application": ["Domain", "Contracts"],
+    "Presentation": ["Application", "Contracts", "Domain"],
+    "IntegrationAdapter": ["Application", "Contracts"],
+    "Infrastructure": ["Application", "Domain", "Contracts", "Client", "Runtime"],
+    "Client": ["Contracts", "Runtime"], "Runtime": ["Contracts"],
+    "Composition": ["Domain", "Contracts", "Application", "Presentation", "IntegrationAdapter", "Infrastructure", "Client", "Runtime"],
+    "RuntimeHost": ["Composition"]
+  },
+  "referenceScopes": [
+    { "from": "Domain", "to": "Domain", "ownership": "own" },
+    { "from": "Contracts", "to": "Contracts", "ownership": "own" },
+    { "from": "Application", "to": "Application", "ownership": "own" },
+    { "from": "Application", "to": "Domain", "ownership": "own" },
+    { "from": "Application", "to": "Contracts", "ownership": "none" },
+    { "from": "Presentation", "to": "Application", "ownership": "own" },
+    { "from": "Presentation", "to": "Contracts", "ownership": "own" },
+    { "from": "Presentation", "to": "Domain", "ownership": "own" },
+    { "from": "IntegrationAdapter", "to": "Application", "ownership": "own" },
+    { "from": "IntegrationAdapter", "to": "Contracts", "ownership": "foreign" },
+    { "from": "Infrastructure", "to": "Application", "ownership": "own" },
+    { "from": "Infrastructure", "to": "Domain", "ownership": "own" },
+    { "from": "Infrastructure", "to": "Contracts", "ownership": "any" },
+    { "from": "Infrastructure", "to": "Client", "ownership": "any" },
+    { "from": "Infrastructure", "to": "Runtime", "ownership": "any" },
+    { "from": "Client", "to": "Contracts", "ownership": "own" },
+    { "from": "Client", "to": "Runtime", "ownership": "any" },
+    { "from": "Runtime", "to": "Contracts", "ownership": "any" },
+    { "from": "Composition", "to": "Domain", "ownership": "own" },
+    { "from": "Composition", "to": "Application", "ownership": "own" },
+    { "from": "Composition", "to": "Presentation", "ownership": "own" },
+    { "from": "Composition", "to": "Infrastructure", "ownership": "own" },
+    { "from": "Composition", "to": "Client", "ownership": "any" },
+    { "from": "Composition", "to": "Runtime", "ownership": "any" },
+    { "from": "RuntimeHost", "to": "Composition", "ownership": "any" }
+  ],
+  "allowedPackages": {
+    "Domain": [], "Contracts": [],
+    "Application": ["MediatR*", "FluentValidation*", "AutoMapper*", "Microsoft.Extensions.Logging*", "Microsoft.Extensions.DependencyInjection*", "IFX.BuildingBlocks.Domain*", "IFX.BuildingBlocks.Security*"]
+  },
+  "forbiddenPackages": {
+    "Contracts": ["Microsoft.EntityFrameworkCore*", "MediatR*", "Microsoft.AspNetCore*", "Newtonsoft.Json*", "System.Text.Json*", "MassTransit*", "RabbitMQ*", "Azure.Messaging*", "Microsoft.Extensions.DependencyInjection*"],
+    "Presentation": ["Microsoft.EntityFrameworkCore*", "Dapper*", "Npgsql*", "System.Data.SqlClient*", "Microsoft.Data.SqlClient*"]
+  },
+  "declarationNamespaces": [
+    { "match": "I*Contract", "kind": "interface", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts*", "exceptions": ["IContractSerializer"] },
+    { "match": "*ContractDto", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts*" },
+    { "match": "*IntegrationEvent", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts.Events*" },
+    { "match": "*EventV*", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts.Events*" },
+    { "match": "*RequestContext", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts.Context*" },
+    { "match": "*EventEnvelope", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts.Messaging*" },
+    { "match": "I*Port", "kind": "interface", "mustLiveIn": ["Application"], "namespace": "*.Application.Ports*" },
+    { "match": "*Adapter", "kind": "class", "mustLiveIn": ["IntegrationAdapter", "Infrastructure"], "namespace": "*.Integrations*", "mustImplement": "Application", "mustImplementOwn": true, "exceptions": ["*InboundAdapter"] },
+    { "match": "*InboundAdapter", "kind": "class", "mustLiveIn": ["IntegrationAdapter", "Infrastructure"], "namespace": "*.Integrations*", "mustImplement": "Contracts", "mustImplementOwn": true }
+  ],
+  "forbiddenDeclarations": [
+    { "match": "*Handler", "in": "Contracts" },
+    { "match": "*DbContext", "in": "Contracts" },
+    { "match": "*Repository", "in": "Contracts" },
+    { "match": "*Extensions", "in": "Contracts", "exceptions": ["*ContractExtensions"] },
+    { "match": "*", "kind": "class", "in": "Contracts", "exceptions": ["*Dto", "*Request", "*Response", "*Context", "*Envelope", "*Exception", "*Options", "*Constants", "*ContractExtensions"] }
+  ],
+  "forbiddenNamespaces": {
+    "Contracts": ["Microsoft.EntityFrameworkCore*", "MediatR*", "Microsoft.AspNetCore*", "Microsoft.Extensions.DependencyInjection*", "Newtonsoft.Json*", "System.Text.Json*", "MassTransit*", "RabbitMQ*", "Azure.Messaging*"],
+    "Application": ["Microsoft.AspNetCore.Http*"]
+  },
+  "forbiddenSymbols": {
+    "Contracts": ["*HttpContext", "*ClaimsPrincipal", "*JwtSecurityToken", "*Activity", "*ILogger", "*IServiceCollection", "*DbContext", "*IRequest", "*ConsumeContext"],
+    "Application": ["*HttpContext", "*ClaimsPrincipal", "*JwtSecurityToken", "*Activity", "*ContractRequestContextAccessor", "*EventEnvelopeAccessor"]
+  },
+  "forbiddenText": {
+    "Contracts": ["*Microsoft.AspNetCore*", "*Microsoft.EntityFrameworkCore*", "*MassTransit*", "*RabbitMQ*"],
+    "Application": ["*HttpContext*", "*System.Diagnostics.Activity*"]
+  },
+  "payloads": [
+    { "match": "*IntegrationEvent", "forbiddenTypes": ["*.Domain.*", "*.Infrastructure.*", "*Entity", "*DbContext"] },
+    { "match": "*EventV*", "forbiddenTypes": ["*.Domain.*", "*.Infrastructure.*", "*Entity", "*DbContext"] },
+    { "match": "*RequestContext", "allowedTypes": ["string", "Guid", "Guid?", "DateTimeOffset", "DateTimeOffset?", "bool", "int", "long", "decimal"] },
+    { "match": "*EventEnvelope", "allowedTypes": ["string", "Guid", "Guid?", "DateTimeOffset", "DateTimeOffset?", "bool", "int", "long"] }
+  ],
+  "declarations": [
+    { "match": "I*Repository", "kind": "interface", "mustLiveIn": "Domain" },
+    { "match": "*Repository", "kind": "class", "mustLiveIn": "Infrastructure", "mustImplement": "Domain", "severity": "bends" },
+    { "match": "*CommandHandler", "mustLiveIn": "Application" },
+    { "match": "*QueryHandler", "mustLiveIn": "Application" },
+    { "match": "*CommandValidator", "mustLiveIn": "Application", "severity": "bends" }
+  ],
+  "severities": { "RING-PACKAGE": "bends", "RING-PACKAGE-IMPORT": "bends", "PROJECT-NAME-FORBIDDEN": "drift" },
+  "sharedPrimitiveProjects": ["IFX.Platform.Context.Contracts", "IFX.Platform.Messaging.Contracts"],
+  "claims": [
+    "IFX.C1.IMPORT_DIRECTION_SOURCE", "IFX.C1.IMPORT_OWNERSHIP_SOURCE", "IFX.C1.IMPORT_PACKAGE_SOURCE",
+    "IFX.C1.DECLARATION_NAMESPACE_SOURCE", "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+    "IFX.C1.DECLARATION_PLACEMENT_SOURCE", "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+    "IFX.C1.SYMBOL_FORBIDDEN_SOURCE", "IFX.C1.PAYLOAD_TYPE_SOURCE"
+  ]
+}
