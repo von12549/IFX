@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2d-d5-decision",
+  "planId": "20261001-v4-ifx-i2d-publish-trusted-inputs",
+  "step": "D5",
+  "decision": "d5-publication-pull-request-accepted",
+  "operator": "xiaolong-feng",
+  "operatorStatement": "接受，授权 D6",
+  "decidedAt": "2026-10-01T12:07:13.645353+00:00",
+  "reviewPacket": {
+    "path": "artifacts/guards/p10-ifx-i2d/d5-review/review-packet.json",
+    "sha256": "5e2d2211d365f86edaf95b2a3f07deae8fb3e97c05f2652da4bed7ddcb7e03ed"
+  },
+  "reviewMarkdown": {
+    "path": "artifacts/guards/p10-ifx-i2d/d5-review/review.md",
+    "sha256": "b0bfa682386c846a59da85f7d16d189e5fbf8546e087bb0650eacc5df5cc3251"
+  },
+  "rehearsal": {
+    "path": "artifacts/guards/p10-ifx-i2d/d4-rehearsal/rehearsal.json",
+    "sha256": "0704f14d670a355f7ccfbe5cc3f4bf9679afca6de3116c2e195b320473bf7cf0"
+  },
+  "snapshot": {
+    "path": "artifacts/guards/p10-ifx-i2d/d1-remote-snapshot.json",
+    "sha256": "9d8a8b129c87195a5e1f27b6e618daf94a00dbf29995a75e00ba30c1c08adde1"
+  },
+  "spec": {
+    "path": "docs/guards/candidates/ifx-i2d/pr-spec.json",
+    "sha256": "0a0bc600269e03dfa665c1c7fec456fc8661ed300d21de371c59ab5a34043a92"
+  },
+  "accepted": [
+    "the publication pull request as prepared: 298 files copied from 2c82d6e8, the main README and the V3 plan pair"
+  ],
+  "authorized": [
+    "D6: rebuild the head on the current main, push codex/i2d-publish-v4-adoption and open its pull request to main"
+  ],
+  "notAuthorized": [
+    "merging the pull request",
+    "D7-D9"
+  ]
+}
