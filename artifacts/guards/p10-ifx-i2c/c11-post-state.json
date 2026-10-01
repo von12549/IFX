@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-post-state",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "step": "C11",
+  "authorization": "授权 C11 和 C12",
+  "capturedAtUtc": "2026-10-01T05:40:23.715701+00:00",
+  "main": "7b9b53dcc102fd8513927681641493101b4599ca",
+  "target": "7b9b53dcc102fd8513927681641493101b4599ca",
+  "mainEqualsTarget": true,
+  "defaultBranch": "main",
+  "mainBefore": "ecb03726a6c67208d25e7988695c53f6326d77c0",
+  "docsGuardsTopLevel": [
+    "V3",
+    "V3_ifx",
+    "plans",
+    "v4-adoption"
+  ],
+  "workflows": [
+    "v3-ifx-guardrails.yml"
+  ],
+  "remainingAuthorizationRecords": [],
+  "pullRequestPaths": {
+    "checked": 17,
+    "mismatches": []
+  },
+  "openPullRequests": [],
+  "rulesetCanonicalSha256": "857a51aaf9590758aa37ab0daf234695ba6e3a434644e598026d741b2c7d6f4a (C10, equal to C1)",
+  "pushRunOnMain": {
+    "id": 36820468709,
+    "url": "https://github.com/von12549/IFX/actions/runs/36820468709",
+    "workflow": "V3 IFX Guardrails",
+    "event": "push",
+    "headSha": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "observedAtUtc": "2026-10-01T05:40:03Z",
+    "status": "in_progress",
+    "conclusion": null,
+    "note": "one GET read; not polled. Its conclusion is to be recorded when the operator reports it or on the next authorized read."
+  },
+  "pullRequests": [
+    109,
+    110,
+    111,
+    112,
+    113
+  ],
+  "booleans": {
+    "mainPromoted": true,
+    "v4AdoptionAdmitted": true,
+    "bundlePublished": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "p10GatePassed": false,
+    "v3Retired": false
+  },
+  "status": "pass"
+}

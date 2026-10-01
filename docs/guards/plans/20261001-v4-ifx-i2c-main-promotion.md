@@ -1,6 +1,6 @@
 # IFX I2-C — promote to `main` and admit `docs/guards/v4-adoption` (decisions 1A and 2B)
 
-Status: `ACTIVE — rulings RC1–RC6 taken as recommended and C0–C4 authorized for local execution (2026-10-01, "全部按推荐，并授权C0到C4本地执行"); C0–C3 complete; C4 accepted and C5 authorized ("接受，授权 C5"); C5 done (#109 merged `218591ec`); C6 authorized ("授权合并 #109，并授权 C6"): #110 merged `4a787504`; #111 merged `751fa8fe`; C7 authorized ("授权合并 #111，并授权 C7"): #112 merged `ca805d6d`; #113 merged `7b9b53dc`; C8–C10 done ("授权合并 #113，并授权 C8–C10"): `main` = `7b9b53dc`, default branch `main`, ruleset unchanged; C11–C12 remain; every remote step C5–C12 needs its own authorization`
+Status: `COMPLETE (C0–C11) 2026-10-01 — main promoted `ecb03726..7b9b53dc` through PRs #109–#113 and the 1A sequence; `v4-adoption` admitted; ruleset unchanged; C12 push of the development branch authorized ("授权 C11 和 C12")`
 
 Formal Plan ID: `20261001-v4-ifx-i2c-main-promotion`. Phase I2-C of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`. Phases I2-D to I2-G build on it.
@@ -232,4 +232,10 @@ Each of these stops I2-C. The evidence is kept, and nothing is retried silently.
   fast-forwarded `ecb03726..7b9b53dc` (579 commits) by a plain push; default branch set back to `main`, each GET-verified.
   The ruleset's canonical SHA-256 equals C1 (`857a51aa…`); `Invoke-IFXCiContract.ps1 -Remote` passes: 13 checks match
   `required-checks.json` (evrun 014; run 013 needed `-Repository` in the work clone). Record `c8-c10-record.json`.
-  Next: C11 and C12 (authorization).
+- **C11.** Post-state `c11-post-state.json` passes: `main` = target `7b9b53dc`, default branch `main`, `docs/guards` exactly
+  `plans`, `V3`, `V3_ifx`, `v4-adoption`, only the V3 workflow, no record left, all 17 P1–P3 paths equal to their
+  source, no open pull request. The push-triggered V3 run on `main`
+  ([36820468709](https://github.com/von12549/IFX/actions/runs/36820468709)) was `in_progress` at the one read (05:40 UTC);
+  its conclusion is recorded later. `origin/main` merged into the development branch (`daa2b78a`; the two expected
+  conflicts resolved by rule). Receipt `v4-adoption/migration/ifx-i2c-main-promotion-receipt.json`.
+- **C12.** Fast-forward push of the development branch (authorized).
