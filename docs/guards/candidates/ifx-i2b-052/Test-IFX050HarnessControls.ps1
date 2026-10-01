@@ -36,7 +36,7 @@ $trackedBefore = @(& git -C $repo status --porcelain --untracked-files=no); Asse
 $root = [IO.Path]::GetFullPath($EvidenceRoot)
 if (Test-Path -LiteralPath $root) { throw "EvidenceRoot must be absent: $root" }
 [void][IO.Directory]::CreateDirectory($root)
-$work = Join-Path ([IO.Path]::GetTempPath()) "ifx051-h-$([guid]::NewGuid().ToString('N').Substring(0,8))"; [void][IO.Directory]::CreateDirectory($work)
+$work = Join-Path ([IO.Path]::GetTempPath()) "ifx052-h-$([guid]::NewGuid().ToString('N').Substring(0,8))"; [void][IO.Directory]::CreateDirectory($work)
 $cases = [Collections.Generic.List[object]]::new()
 function Case([string]$Id, [bool]$ExpectReject, [scriptblock]$Body) {
     $message = $null; $rejected = $false; $detail = $null
@@ -109,7 +109,7 @@ if (-not $SkipPrGate) {
     foreach ($d in @('compose-state', 'compose-evidence')) { [void][IO.Directory]::CreateDirectory((Join-Path $work $d)) }
     $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $BaseInstallRoot 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $BaseInstallRoot -BaseReceiptPath $BaseReceiptPath -BaseArchivePath (Join-Path $repo 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip') -BundleRoot $bundle -ReviewRecordPath $reviewCopy -OutputInstallRoot $composed -CompositionReceiptPath $receipt -TargetRoot $repo -StateRoot (Join-Path $work 'compose-state') -EvidenceRoot (Join-Path $work 'compose-evidence') -AllowSyntheticFixture 2>&1)
     Assert ($LASTEXITCODE -eq 0) "Candidate composition failed: $($o -join ' ')"
-    $producers = Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1'
+    $producers = Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1'
     function New-PrCommit([string]$Name, [scriptblock]$Edit) {
         $t = Clone-Head $Name; & $Edit $t
         $o = @(& git -C $t -c user.name=IFXPrGate -c user.email=ifx-pr-gate@example.invalid commit -qam "synthetic PR: $Name" 2>&1); Assert ($LASTEXITCODE -eq 0) "Synthetic PR commit failed ($Name): $($o -join ' ')"

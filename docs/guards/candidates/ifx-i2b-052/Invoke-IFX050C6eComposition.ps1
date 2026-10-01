@@ -101,7 +101,7 @@ if ($cleanFacts.head -cne $ExpectedTargetCommit -or $violatingFacts.head -cne $E
 
 # 3. One evidence production on the clean worktree (as the workflow produces it), then staging per Post root.
 $production = Join-Path $evidenceOutput 'production.json'
-$produced = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Produce -TargetRoot $clean -RunRecordPath $production 2>&1)
+$produced = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1') -Phase Produce -TargetRoot $clean -RunRecordPath $production 2>&1)
 Write-Log (Join-Path $evidenceOutput 'production.log') $produced; if ($LASTEXITCODE -ne 0) { Fail "Evidence production failed; see production.log" }
 if (@(& git -C $clean status --porcelain=v1 --untracked-files=all).Count -ne 0) { Fail 'Evidence production changed the tracked or unignored clean worktree.' }
 # The clean Target is protected by its tree and a clean status (production writes only ignored build output).
@@ -133,7 +133,7 @@ $cases = [ordered]@{}
 foreach ($s in $specs) {
     $st = Join-Path $state $s.id; $ev = Join-Path $evidence $s.id; [void][IO.Directory]::CreateDirectory($st)
     if ($s.staged) {
-        $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Stage -TargetRoot $clean -RunRecordPath $production -EvidenceRoot $ev 2>&1)
+        $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1') -Phase Stage -TargetRoot $clean -RunRecordPath $production -EvidenceRoot $ev 2>&1)
         Write-Log (Join-Path $evidenceOutput "stage-$($s.id).log") $o; if ($LASTEXITCODE -ne 0) { Fail "Staging failed: $($s.id)" }
     } else { [void][IO.Directory]::CreateDirectory($ev) }
     $a = @('stage', 'run', '--stage', $s.stage, '--package-root', $package, '--target-root', $s.target, '--state-root', $st, '--evidence-root', $ev, '--profile', 'ifx_profile')

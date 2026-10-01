@@ -74,7 +74,7 @@ $lockGate = if ($spec.disposition -contains 'lock-binding') { [string]$spec.lock
 if ($lockGate) { Assert ($ProductionRecord -and (Test-Path -LiteralPath $ProductionRecord)) 'A lock consumer needs -ProductionRecord.' }
 $script:caseEvidence = $null
 function Stage-Evidence([string]$Dir) {
-    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Stage -TargetRoot $clone -RunRecordPath $ProductionRecord -EvidenceRoot $Dir 2>&1)
+    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1') -Phase Stage -TargetRoot $clone -RunRecordPath $ProductionRecord -EvidenceRoot $Dir 2>&1)
     Assert ($LASTEXITCODE -eq 0) "Staging failed: $($o -join '; ')"
 }
 function Update-Staging([string]$Dir, [scriptblock]$Change) {

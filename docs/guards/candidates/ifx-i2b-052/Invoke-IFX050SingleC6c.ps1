@@ -11,13 +11,13 @@ param(
     [Parameter(Mandatory)][string]$SecondCandidateSummaryPath,
     [Parameter(Mandatory)][string]$ContractSummaryPath,
     [Parameter(Mandatory)][string]$FocusedSummaryPath,
-    [string]$EvidenceRoot='artifacts/guards/p10-ifx-i2b/a2-051/c6c-full',
-    [string]$AttemptMarkerPath='artifacts/guards/p10-ifx-i2b/a2-051/c6c-attempt.json',
-    [string]$DecisionPath='artifacts/guards/p10-ifx-i2b/a2-051/c6c-decision.json',
+    [string]$EvidenceRoot='artifacts/guards/p10-ifx-i2b/a3-052/c6c-full',
+    [string]$AttemptMarkerPath='artifacts/guards/p10-ifx-i2b/a3-052/c6c-attempt.json',
+    [string]$DecisionPath='artifacts/guards/p10-ifx-i2b/a3-052/c6c-decision.json',
     [string]$BaseInstallRoot='D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath='D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath='artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$CandidateVersion='0.5.1'
+    [string]$CandidateVersion='0.5.2'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'

@@ -5,7 +5,7 @@
 [CmdletBinding()]
 param(
     [string]$PredecessorPath = 'artifacts/guards/p10-ifx-i2b/a18-c6e/host-verification.json',
-    [string]$CurrentPath = 'artifacts/guards/p10-ifx-i2b/a2-051/a210-c6e/host-verification.json',
+    [string]$CurrentPath = 'artifacts/guards/p10-ifx-i2b/a3-052/a210-c6e/host-verification.json',
     [Parameter(Mandatory)][string]$OutputPath
 )
 Set-StrictMode -Version Latest

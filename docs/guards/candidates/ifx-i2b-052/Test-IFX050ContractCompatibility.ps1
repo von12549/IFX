@@ -9,10 +9,10 @@ param(
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath = 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$PreviousInventoryPath = 'docs/guards/candidates/ifx-i2b-051/baseline-044/authority-map.json',
+    [string]$PreviousInventoryPath = 'docs/guards/candidates/ifx-i2b-052/baseline-044/authority-map.json',
     [string]$SuiteIndexPath = 'artifacts/guards/p10-ifx-i2b/a2-relocation/suite-index-051.json',
     [Parameter(Mandatory)][string]$InventoryPath,
-    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/contract-preflight'
+    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a3-052/contract-preflight'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

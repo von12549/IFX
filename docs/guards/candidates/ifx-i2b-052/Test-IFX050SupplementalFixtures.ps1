@@ -8,7 +8,7 @@
 param(
     [Parameter(Mandatory)][string]$PackageRoot,
     [string]$RepositoryRoot = (Get-Location).Path,
-    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/supplemental-runs',
+    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a3-052/supplemental-runs',
     [Parameter(Mandatory)][string]$CapturePath
 )
 

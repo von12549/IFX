@@ -17,7 +17,7 @@ param(
     [Parameter(Mandatory)][string]$ReportPath,
     [string]$ExpectedBaseVersion = '1.1.6',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
-    [string]$CandidateVersion = '0.5.1'
+    [string]$CandidateVersion = '0.5.2'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -81,7 +81,7 @@ Assert ($LASTEXITCODE -eq 0 -and ($verify | ConvertFrom-Json).status -ceq 'pass'
 $packageBefore = Fingerprint (Join-Path $composed 'package'); $trackedBefore = @(& git -C $TargetRoot status --porcelain --untracked-files=no) -join "`n"
 # The staged EvidenceRoot, as the trusted-base workflow prepares it before stage run --stage post.
 $hostEvidence = Join-Path $WorkRoot 'host-evidence'
-$staged = @(& pwsh -NoProfile -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Stage -TargetRoot $TargetRoot -RunRecordPath $productionRecord -EvidenceRoot $hostEvidence 2>&1)
+$staged = @(& pwsh -NoProfile -File (Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1') -Phase Stage -TargetRoot $TargetRoot -RunRecordPath $productionRecord -EvidenceRoot $hostEvidence 2>&1)
 Assert ($LASTEXITCODE -eq 0) "Linux evidence staging failed: $($staged -join ' ')"
 $cases = [Collections.Generic.List[object]]::new()
 foreach ($spec in @([ordered]@{ id = 'direct-pre'; stage = 'pre'; count = 10; claims = 22; dependencies = $false }, [ordered]@{ id = 'direct-post'; stage = 'post'; count = 27; claims = 57; dependencies = $false }, [ordered]@{ id = 'dependency-post'; stage = 'post'; count = 37; claims = 79; dependencies = $true })) {

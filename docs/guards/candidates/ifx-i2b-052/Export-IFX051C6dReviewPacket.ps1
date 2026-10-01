@@ -9,8 +9,8 @@ param(
     [Parameter(Mandatory)][string]$OutputRoot,
     [Parameter(Mandatory)][string]$ExpectedTargetCommit,
     [Parameter(Mandatory)][string]$ExpectedManifestSha256,
-    [string]$C6cDecisionPath = 'artifacts/guards/p10-ifx-i2b/a2-051/c6c-decision.json',
-    [string]$C6cSummaryPath = 'artifacts/guards/p10-ifx-i2b/a2-051/c6c-full/summary.json',
+    [string]$C6cDecisionPath = 'artifacts/guards/p10-ifx-i2b/a3-052/c6c-decision.json',
+    [string]$C6cSummaryPath = 'artifacts/guards/p10-ifx-i2b/a3-052/c6c-full/summary.json',
     [string]$PredecessorBundleRoot = 'artifacts/guards/p10-ifx-i2b/formal-candidate-a/40bd4b845f2c4dec81efbb36481810cc/bundle',
     [string]$PredecessorManifestSha256 = '086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284',
     [string]$PredecessorDecisionPath = 'artifacts/guards/p10-ifx-i2b/c6d-review-050/c6d-decision.json',
@@ -86,11 +86,11 @@ $producerChanges = @(foreach ($id in $moved) {
 
 # 5. Evidence of the relocation, bound by hash.
 $evidence = [ordered]@{
-    relocationSpec = Bound 'docs/guards/candidates/ifx-i2b-051/relocation-spec.json'; relocationInventory = Bound 'docs/guards/candidates/ifx-i2b-051/relocation-inventory.json'
+    relocationSpec = Bound 'docs/guards/candidates/ifx-i2b-052/relocation-spec.json'; relocationInventory = Bound 'docs/guards/candidates/ifx-i2b-052/relocation-inventory.json'
     origins = Bound 'docs/guards/v4-adoption/producers/origins.json'; producerControls = Bound 'artifacts/guards/p10-ifx-i2b/a2-relocation/a2-3-controls.json'
     producerParity = Bound 'artifacts/guards/p10-ifx-i2b/a2-relocation/a2-4-parity.json'; suiteOutcomes = Bound 'artifacts/guards/p10-ifx-i2b/a2-relocation/a2-5-suites/index.json'
     suiteIndex = Bound 'artifacts/guards/p10-ifx-i2b/a2-relocation/suite-index-051.json'; trial = Bound 'artifacts/guards/p10-ifx-i2b/a2-relocation/a2-6-trial/index.json'
-    readiness = Bound 'artifacts/guards/p10-ifx-i2b/a2-relocation/a2-7-readiness/index.json'; changeSpec = Bound 'docs/guards/candidates/ifx-i2b-051/change-spec.json' }
+    readiness = Bound 'artifacts/guards/p10-ifx-i2b/a2-relocation/a2-7-readiness/index.json'; changeSpec = Bound 'docs/guards/candidates/ifx-i2b-052/change-spec.json' }
 $parity = Read-Json $evidence.producerParity.path; $suites = Read-Json $evidence.suiteOutcomes.path; $controls = Read-Json $evidence.producerControls.path
 if ($parity.status -cne 'pass' -or $parity.semanticDifferenceCount -ne 0 -or $parity.negativeMismatchCount -ne 0 -or $suites.status -cne 'pass' -or $controls.status -cne 'pass') { Fail 'Relocation evidence is not passing.' }
 

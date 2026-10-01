@@ -7,8 +7,8 @@
 param(
     [ValidateSet('Validate','Aggregate')][string] $Mode = 'Validate',
     [string] $RepositoryRoot = (Resolve-Path (Join-Path $PSScriptRoot '../../../..')).Path,
-    [string] $IdentityPath = 'docs/guards/candidates/ifx-i2b-051/a210-identity.json',
-    [string] $EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/p10-3-successor-051/rehearsal',
+    [string] $IdentityPath = 'docs/guards/candidates/ifx-i2b-052/a210-identity.json',
+    [string] $EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a3-052/p10-3-successor-051/rehearsal',
     [ValidateSet('success','failure','cancelled','skipped')][string] $ContractResult = 'success',
     [ValidateSet('success','failure','cancelled','skipped')][string] $WindowsResult = 'success'
 )
@@ -133,7 +133,7 @@ function Test-Design($Proposal, [string] $Workflow, [bool] $CoreSourcePresent, $
         Assert-True ($Workflow.Contains([string]$hash)) "Workflow does not bind identity: $hash"
     }
     # Candidate self-judgment: the aggregate runs only from the previously trusted base.
-    Assert-True ($Workflow -match 'pwsh -NoProfile -File "\$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback\.ps1" -Mode Aggregate') 'Aggregate is not evaluated from the trusted base.'
+    Assert-True ($Workflow -match 'pwsh -NoProfile -File "\$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-052/Test-IFX050CutoverRollback\.ps1" -Mode Aggregate') 'Aggregate is not evaluated from the trusted base.'
     Assert-True ($Workflow -match 'git worktree add --detach "\$env:RUNNER_TEMP/ifx-trusted-base" \$env:BASE_SHA') 'Trusted base is not materialized from the PR base commit.'
     # Standalone release source: explicit Guard repository, exact tag, asset and digest.
     Assert-True ($Proposal.trustedInputs.baseReleaseRepository -ceq 'von12549/Guard' -and $Proposal.trustedInputs.baseReleaseTag -ceq 'v4-guards-v1.1.6') 'Proposal does not name the standalone Guard release.'
@@ -203,7 +203,7 @@ $controls = @(
     @{ id = 'archive-hash-drift'; proposal = $null; workflow = $workflowText.Replace("V4_ARCHIVE_SHA256: $($identity.baseArchiveSha256)", "V4_ARCHIVE_SHA256: $('0' * 64)") },
     @{ id = 'missing-bundle'; proposal = $null; workflow = $workflowText.Replace("throw 'The exact IFX bundle has not been published into the trusted base by its separate authorization.'", "Write-Warning 'bundle missing'") },
     @{ id = 'source-path-fallback'; proposal = $null; workflow = $workflowText.Replace('IFX_BUNDLE_BASE_PATH: docs/guards/v4-adoption/', "IFX_BUNDLE_BASE_PATH: $removedPrefix") },
-    @{ id = 'candidate-self-judgment'; proposal = $null; workflow = $workflowText.Replace('"$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1"', '"./docs/guards/candidates/ifx-i2b-051/Test-IFX050CutoverRollback.ps1"') },
+    @{ id = 'candidate-self-judgment'; proposal = $null; workflow = $workflowText.Replace('"$env:RUNNER_TEMP/ifx-trusted-base/docs/guards/candidates/ifx-i2b-052/Test-IFX050CutoverRollback.ps1"', '"./docs/guards/candidates/ifx-i2b-052/Test-IFX050CutoverRollback.ps1"') },
     @{ id = 'installer-from-target-source'; proposal = $null; workflow = $workflowText.Replace("(Join-Path `$expanded 'package/core/distribution/Install-V4Distribution.ps1')", "(Join-Path `$env:GITHUB_WORKSPACE '" + 'docs/guards/' + "V4/core/distribution/Install-V4Distribution.ps1')") },
     @{ id = 'premature-cleanup'; proposal = (Mutate-Json { param($p) $p.boundary.ifxCoreSourceRemoved = $true; $p.boundary.cleanupAuthorized = $true }); workflow = $workflowText; noReceipt = $true },
     @{ id = 'producer-step-missing'; proposal = $null; workflow = [regex]::Replace($workflowText, '(?ms)      - name: Produce IFX evidence.*?(?=      - name: Stage IFX evidence)', '') },

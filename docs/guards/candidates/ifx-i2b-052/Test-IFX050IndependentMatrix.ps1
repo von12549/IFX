@@ -20,13 +20,13 @@ param(
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath = 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/matrix-runs',
-    [string]$MatrixContractPath = 'docs/guards/candidates/ifx-i2b-051/matrix-contract-050.json',
-    [string]$MatrixContractVerifierPath = 'docs/guards/candidates/ifx-i2b-051/Test-IFX050MatrixContract.ps1',
+    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a3-052/matrix-runs',
+    [string]$MatrixContractPath = 'docs/guards/candidates/ifx-i2b-052/matrix-contract-050.json',
+    [string]$MatrixContractVerifierPath = 'docs/guards/candidates/ifx-i2b-052/Test-IFX050MatrixContract.ps1',
     [string]$ExpectedBaseVersion = '1.1.6',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
     [string]$ExpectedPackageHash = 'a09469f77956190fbffa827ff5b7da2a63b615d66bf47a86ad0d17c7207bc825',
-    [string]$CandidateVersion = '0.5.1',
+    [string]$CandidateVersion = '0.5.2',
     [string]$ReportPath
 )
 Set-StrictMode -Version Latest
@@ -81,7 +81,7 @@ $contractFull = Full $MatrixContractPath; $contractVerifierFull = Full $MatrixCo
 $contractCheck = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $contractVerifierFull -RepositoryRoot $repo -BaseInstallRoot $baseInstall -InventoryPath $inventoryFull -ContractPath $contractFull -ReportPath $contractReport 2>&1)
 Assert ($LASTEXITCODE -eq 0 -and [IO.File]::Exists($contractReport)) "Matrix contract failed: $($contractCheck -join "`n")"
 $contract = Get-Content $contractFull -Raw | ConvertFrom-Json -Depth 100
-$workRoot = Join-Path ([IO.Path]::GetTempPath()) "ifx051-m-$($runId.Substring(0,8))"; Assert (-not (Test-Path $workRoot)) 'Matrix work root must be absent.'
+$workRoot = Join-Path ([IO.Path]::GetTempPath()) "ifx052-m-$($runId.Substring(0,8))"; Assert (-not (Test-Path $workRoot)) 'Matrix work root must be absent.'
 [void][IO.Directory]::CreateDirectory($workRoot)
 $workBundle = Join-Path $workRoot 'bundle'; Copy-Item -LiteralPath $bundleFull -Destination $workBundle -Recurse
 $workReview = Join-Path $workRoot 'synthetic-review.json'; Copy-Item -LiteralPath $reviewFull -Destination $workReview
@@ -111,7 +111,7 @@ Assert (((& git -C $target rev-parse HEAD) | Out-String).Trim() -ceq $commit) 'T
 Assert (@(& git -C $target status --porcelain --untracked-files=all).Count -eq 0) 'Target clone must be clean.'
 if ($ProductionRecord) { $productionFull = Full $ProductionRecord } else {
     $productionFull = Join-Path $runRoot 'production.json'
-    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Produce -TargetRoot $target -RunRecordPath $productionFull 2>&1)
+    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1') -Phase Produce -TargetRoot $target -RunRecordPath $productionFull 2>&1)
     [IO.File]::WriteAllText((Join-Path $runRoot 'production.output.txt'), (($o -join "`n") + "`n"), [Text.UTF8Encoding]::new($false))
     Assert ($LASTEXITCODE -eq 0) 'Evidence production failed; see production.output.txt.'
 }

@@ -16,7 +16,7 @@ param(
     [Parameter(Mandatory)][string]$EvidenceRoot,
     [Parameter(Mandatory)][string]$ReportPath,
     [Parameter(Mandatory)][string]$ProductionSnapshotRoot,
-    [string]$CandidateVersion='0.5.1'
+    [string]$CandidateVersion='0.5.2'
 )
 
 Set-StrictMode -Version Latest
@@ -119,7 +119,7 @@ $runRoot=Full $EvidenceRoot; $report=Full $ReportPath
 foreach ($path in @($inventoryFull,$bundle,$reviewFull,$baseInstall,$baseReceipt,$archive)) { Assert (Test-Path -LiteralPath $path) "Required control input missing: $path" }
 Assert (-not (Test-Path -LiteralPath $runRoot)) 'Control EvidenceRoot must be absent.'
 [void][IO.Directory]::CreateDirectory($runRoot)
-$workRoot=Join-Path ([IO.Path]::GetTempPath()) "ifx051-c-$([guid]::NewGuid().ToString('N').Substring(0,8))"
+$workRoot=Join-Path ([IO.Path]::GetTempPath()) "ifx052-c-$([guid]::NewGuid().ToString('N').Substring(0,8))"
 Assert (-not (Test-Path -LiteralPath $workRoot)) 'Control WorkRoot must be absent.'
 [void][IO.Directory]::CreateDirectory($workRoot)
 [void][IO.Directory]::CreateDirectory((Join-Path $workRoot 'adapter-state'))
@@ -218,7 +218,7 @@ Assert ((& git -C $shadow rev-parse HEAD).Trim() -ceq $commit) 'Evidence shadow 
 $imported=Import-IFX050Production -SnapshotRoot $snapshot -TargetRoot $shadow; $productionRecord=[string]$imported.productionRecord
 $production=Get-Content $productionRecord -Raw | ConvertFrom-Json -Depth 20
 Assert ($production.status -ceq 'pass' -and $production.targetCommit -ceq $commit) 'The C6c production is not at HEAD.'
-$stageScript=Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1'
+$stageScript=Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1'
 function Stage-Case([string]$Name) {
     $dir=Join-Path $workRoot "staged/$Name"
     $o=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $stageScript -Phase Stage -TargetRoot $shadow -RunRecordPath $productionRecord -EvidenceRoot $dir 2>&1); Assert ($LASTEXITCODE -eq 0) "Staging failed ($Name): $($o -join ' ')"

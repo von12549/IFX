@@ -18,10 +18,10 @@ param(
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath = 'D:/IFX-Root/IFX/artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/draft-runs',
+    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a3-052/draft-runs',
     [string]$ExpectedBaseVersion = '1.1.6',
     [string]$ExpectedArchiveSha256 = '92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8',
-    [string]$CandidateVersion = '0.5.1',
+    [string]$CandidateVersion = '0.5.2',
     [switch]$SkipHost
 )
 Set-StrictMode -Version Latest
@@ -33,7 +33,7 @@ function TextHash([string]$Text) { [Convert]::ToHexString([Security.Cryptography
 function Full([string]$Path) { if ([IO.Path]::IsPathFullyQualified($Path)) { [IO.Path]::GetFullPath($Path) } else { [IO.Path]::GetFullPath((Join-Path $repo $Path)) } }
 function Fingerprint([string]$Root) { @(Get-ChildItem -LiteralPath $Root -File -Recurse -Force | Sort-Object FullName | ForEach-Object { "$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)" }) -join "`n" }
 function Stage([string]$Dir) {
-    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Stage -TargetRoot $target -RunRecordPath (Full $ProductionRecord) -EvidenceRoot $Dir 2>&1)
+    $o = @(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1') -Phase Stage -TargetRoot $target -RunRecordPath (Full $ProductionRecord) -EvidenceRoot $Dir 2>&1)
     Assert ($LASTEXITCODE -eq 0) "Evidence staging failed: $($o -join ' ')"
 }
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
@@ -96,7 +96,7 @@ Copy-Item -LiteralPath $inventoryFull -Destination (Join-Path $package 'profiles
 $producers = @($spec.modules | Where-Object { $null -ne $_.lockBinding } | ForEach-Object {
     $lb = $_.lockBinding; [ordered]@{ gate = $lb.gate; moduleId = $_.id; producerId = $lb.producerId; script = $lb.script; scriptSha256 = Get-IFX050PinSha256 (Join-Path $repo $lb.script); freshness = $lb.freshness } })
 Write-IFX050Json (Join-Path $package 'profiles/catalog/ifx_profile/evidence-lineage.json') ([ordered]@{ formatVersion = 1; sourceCommit = $commit; ordinalInventorySha256 = Hash $inventoryFull; changeSpecSha256 = Hash (Join-Path $PSScriptRoot 'change-spec.json')
-    evidenceModel = 'staged-by-workflow'; stagingManifest = 'EvidenceRoot/locks/staging.json'; stagingScript = 'docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1'; producers = $producers
+    evidenceModel = 'staged-by-workflow'; stagingManifest = 'EvidenceRoot/locks/staging.json'; stagingScript = 'docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1'; producers = $producers
     g04Status = 'PRE-READY'; g04BlockerCount = 7; p103Deferred = @('G05-Phase9-eight', 'v3-pre-diff', 'v3-cross-platform-ubuntu-latest', 'v3-cross-platform-windows-latest') })
 $files = @(Get-ChildItem -LiteralPath $package -File -Recurse | Sort-Object FullName | ForEach-Object { [ordered]@{ path = [IO.Path]::GetRelativePath($package, $_.FullName).Replace('\', '/'); sha256 = Hash $_.FullName; size = $_.Length } })
 $manifestPath = Join-Path $bundle 'bundle-manifest.json'

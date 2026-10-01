@@ -7,8 +7,8 @@ param(
     [Parameter(Mandatory)][string]$BundleRoot,
     [string]$TargetRoot,
     [string]$BaseInstallRoot='D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
-    [string]$CandidateVersion='0.5.1',
-    [string]$EvidenceRoot='artifacts/guards/p10-ifx-i2b/a2-051/focused-qualification-050',
+    [string]$CandidateVersion='0.5.2',
+    [string]$EvidenceRoot='artifacts/guards/p10-ifx-i2b/a3-052/focused-qualification-050',
     [Parameter(Mandatory)][string]$ProductionRecord
 )
 Set-StrictMode -Version Latest
@@ -36,7 +36,7 @@ function InvokeProcess([string]$File,[string[]]$Arguments,[int]$TimeoutSeconds,[
 }
 function InvokeModule($Spec,$Config,[string]$WorkspacePath,[string]$WorkspaceHash,[string]$WorkspaceCommit,[string]$CaseId){
     $state=Join-Path $runRoot "state/$($Spec.id)/$CaseId";$evidence=Join-Path $outsideRoot "module-evidence/$($Spec.id)/$CaseId";[void][IO.Directory]::CreateDirectory($state);[void][IO.Directory]::CreateDirectory($evidence)
-    if($Spec.id -ceq 'ifx-database-evidence'){$stageOut=@(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot 'Invoke-IFX050EvidenceProducers.ps1') -Phase Stage -TargetRoot $target -RunRecordPath (Full $ProductionRecord) -EvidenceRoot $evidence 2>&1);Assert ($LASTEXITCODE -eq 0) "Evidence staging failed: $($stageOut -join ' ')"}
+    if($Spec.id -ceq 'ifx-database-evidence'){$stageOut=@(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $PSScriptRoot '../../v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1') -Phase Stage -TargetRoot $target -RunRecordPath (Full $ProductionRecord) -EvidenceRoot $evidence 2>&1);Assert ($LASTEXITCODE -eq 0) "Evidence staging failed: $($stageOut -join ' ')"}
     $input=[ordered]@{formatVersion=1;stage=$Spec.stage;targetRoot=$target;packageRoot=$package;stateRoot=$state;evidenceRoot=$evidence;projectId='ifx';relativeRoots=@('src','tests','tools','deployment','docs','mcp','artifacts');config=$Config}
     if($WorkspacePath){$input.workspaceEvidencePath=$WorkspacePath;$input.workspaceEvidenceSha256=$WorkspaceHash;$input.workspaceEvidenceTargetCommit=$WorkspaceCommit}
     $module=Get-Content (Join-Path $package "modules/$($Spec.id)/module.json") -Raw|ConvertFrom-Json -Depth 50;$timeout=[int]$module.capabilities.timeoutSeconds
@@ -83,7 +83,7 @@ foreach($spec in $specs){
 $stale=Get-Content $workspacePath -Raw|ConvertFrom-Json -AsHashtable -Depth 30;$stale.targetCommit='0'*40;$staleVariant=CopyVariant 'stale-evidence' $stale
 $scope=Get-Content $workspacePath -Raw|ConvertFrom-Json -AsHashtable -Depth 30;$scope.scope='ifx-workspace-evidence-v1';$scopeVariant=CopyVariant 'provider-scope-drift' $scope
 $output=Get-Content $workspacePath -Raw|ConvertFrom-Json -AsHashtable -Depth 30;$output.fileCount=[int]$output.fileCount+1;$outputVariant=CopyVariant 'provider-output-drift' $output
-$inside=Join-Path $target "artifacts/guards/p10-ifx-i2b/a2-051/inside-$runId.json";[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($inside));Copy-Item -LiteralPath $workspacePath -Destination $inside
+$inside=Join-Path $target "artifacts/guards/p10-ifx-i2b/a3-052/inside-$runId.json";[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($inside));Copy-Item -LiteralPath $workspacePath -Destination $inside
 $linkedSource=Join-Path $outsideRoot 'linked-source';[void][IO.Directory]::CreateDirectory($linkedSource);Copy-Item -LiteralPath $workspacePath -Destination (Join-Path $linkedSource 'workspace-evidence.json')
 $linkedDirectory=Join-Path $outsideRoot 'linked-directory';[void](New-Item -ItemType Junction -Path $linkedDirectory -Target $linkedSource);$linked=Join-Path $linkedDirectory 'workspace-evidence.json'
 $variants=@(

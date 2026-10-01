@@ -10,15 +10,15 @@ param(
     [Parameter(Mandatory)][string]$SecondCandidateSummaryPath,
     [Parameter(Mandatory)][string]$ContractSummaryPath,
     [Parameter(Mandatory)][string]$FocusedSummaryPath,
-    [Parameter(Mandatory)][switch]$AuthorizeA28C6c,
-    [string]$ReadinessReportPath = 'artifacts/guards/p10-ifx-i2b/a2-051/readiness/summary.json',
-    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a2-051/c6c-full',
-    [string]$AttemptMarkerPath = 'artifacts/guards/p10-ifx-i2b/a2-051/c6c-attempt.json',
-    [string]$DecisionPath = 'artifacts/guards/p10-ifx-i2b/a2-051/c6c-decision.json',
+    [Parameter(Mandatory)][switch]$AuthorizeA38C6c,
+    [string]$ReadinessReportPath = 'artifacts/guards/p10-ifx-i2b/a3-052/readiness/summary.json',
+    [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-i2b/a3-052/c6c-full',
+    [string]$AttemptMarkerPath = 'artifacts/guards/p10-ifx-i2b/a3-052/c6c-attempt.json',
+    [string]$DecisionPath = 'artifacts/guards/p10-ifx-i2b/a3-052/c6c-decision.json',
     [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.6',
     [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.6.install.json',
     [string]$BaseArchivePath = 'artifacts/guards/p10-ifx-116/base-archive/v4-guards-1.1.6.zip',
-    [string]$CandidateVersion = '0.5.1',
+    [string]$CandidateVersion = '0.5.2',
     [string]$DrainFixPlanPath = 'docs/guards/plans/20260930-ifx-v4-005-drain-wait-race.md'
 )
 
@@ -27,7 +27,7 @@ $ErrorActionPreference = 'Stop'
 function Assert([bool]$Condition,[string]$Message) { if (-not $Condition) { throw $Message } }
 function Full([string]$Path) { if ([IO.Path]::IsPathFullyQualified($Path)) { [IO.Path]::GetFullPath($Path) } else { [IO.Path]::GetFullPath((Join-Path $repo $Path)) } }
 
-Assert $AuthorizeA28C6c.IsPresent 'The A1-6 C6c requires the explicit -AuthorizeA28C6c switch.'
+Assert $AuthorizeA38C6c.IsPresent 'The A1-6 C6c requires the explicit -AuthorizeA38C6c switch.'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $drainPlan = Full $DrainFixPlanPath
 Assert ([IO.File]::Exists($drainPlan) -and ([IO.File]::ReadAllText($drainPlan) -match '(?m)^Status: `COMPLETE')) 'Ruling R4: IFX-V4-005 must be complete before the C6c.'
