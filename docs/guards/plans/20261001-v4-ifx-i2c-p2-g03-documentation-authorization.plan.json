@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20261001-v4-ifx-i2c-p2-g03-documentation-authorization",
+  "title": "Authorize the G03 documentation set (I2-C P2)",
+  "goal": "Publish the exact base authorizations that the prepared change pull request for the G03 documentation set will consume: one change-trusted-base record for its trusted component change and one weaken-policy record for its decision-history registration.",
+  "acceptanceCriteria": [
+    "The generated records cover exactly the trusted component and registered-policy changes of the prepared change head and nothing else.",
+    "This pull request contains only the two authorization records and this formal plan pair.",
+    "All 13 required checks pass before merge."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/i2c-g03-documentation-trusted-base.json",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.md",
+    "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "id": "i2c-g03-documentation-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json"
+  ],
+  "components": [
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b4a35ff242776d749333ad43fe87962e46b09413"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91715aed0a952d3232ff03bf2bd86d8c132e6c42"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
+  ],
+  "parityContract": "The decision-history registry of policy-config.json gains exactly one entry, 20260924-v4-ifx-c2d-g03-current-documentation; every other registered policy, role, schema, format and monotonicity declaration is unchanged, so every verdict on the fixed corpus is unchanged.",
+  "allowedBehaviorDifferences": []
+}
