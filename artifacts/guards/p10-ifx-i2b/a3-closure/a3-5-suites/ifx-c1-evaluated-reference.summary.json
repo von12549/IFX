@@ -1,0 +1,188 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-050a-module-suite",
+  "status": "pass",
+  "moduleId": "ifx-c1-evaluated-reference",
+  "version": "0.2.1",
+  "adapterSha256": "5a7ef219e9870cc65e2ea68b5cf48f145fd9d95b492a762c2fdfd523bfb32845",
+  "policySha256": "a50501666e2cbbe7819ca874f26207656f3879f72088690f0346c4a579e7bf65",
+  "targetCommit": "51fa44adbac5d8e12cce435bead71c06cbc85af4",
+  "baseVersion": "1.1.6",
+  "caseCatalogSha256": "c8fa78f17b893017f3c99e24e5a7008c6f75e38696cbdefd919c81b3ef35bd81",
+  "counts": {
+    "total": 12,
+    "clean": 1,
+    "benign": 0,
+    "governance": 0,
+    "rule": 4,
+    "failed": 0
+  },
+  "host": {
+    "status": "pass",
+    "exitCategory": "success",
+    "coverage": [
+      {
+        "claimId": "IFX.C1.EVALUATED_REFERENCE_GRAPH",
+        "matched": 147,
+        "minimum": 1
+      }
+    ],
+    "receiptSha256": "d83754bc8b63a99f671ae325528165e55ae4edbe22ffb8170cb0053b8192c591"
+  },
+  "cases": [
+    {
+      "id": "clean",
+      "kind": "clean",
+      "binding": null,
+      "edited": [],
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "findings": [],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "lock-gate-mismatch",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/graph/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Graph lock shape or authority drift.",
+      "pass": true
+    },
+    {
+      "id": "input-changed-after-production",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "Directory.Build.props"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered input: Directory.Build.props",
+      "pass": true
+    },
+    {
+      "id": "forbidden-edge-crm",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/graph/evidence-lock.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "C1-EVALUATED-RING-REFERENCE:src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [direction]",
+        "C1-EVALUATED-OWNERSHIP:src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj -> src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj [transitive own]"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "forbidden-edge-registry",
+      "kind": "rule",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/graph/evidence-lock.json"
+      ],
+      "expected": "fail/findings-blocking",
+      "actual": "fail/findings-blocking",
+      "findings": [
+        "C1-EVALUATED-RING-REFERENCE:src/Modules/Registry/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj -> src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj [direction]",
+        "C1-EVALUATED-OWNERSHIP:src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj -> src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj [transitive own]"
+      ],
+      "message": null,
+      "pass": true
+    },
+    {
+      "id": "lock-missing-staging",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Staged evidence manifest is missing.",
+      "pass": true
+    },
+    {
+      "id": "lock-missing",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/graph/evidence-lock.json"
+      ],
+      "expected": "error/prerequisite-missing",
+      "actual": "error/prerequisite-missing",
+      "findings": [],
+      "message": "Missing input: artifacts/guards/v4a-producers/graph-runs/14c8b00fa19442da9b3aada3bfbb1101/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-forged-producer",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/staging.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Staged evidence was not produced by the pinned producer: graph",
+      "pass": true
+    },
+    {
+      "id": "lock-tampered",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/graph/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Altered input: artifacts/guards/v4a-producers/graph-runs/14c8b00fa19442da9b3aada3bfbb1101/evidence-lock.json",
+      "pass": true
+    },
+    {
+      "id": "lock-other-commit",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/graph/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Target commit drift.",
+      "pass": true
+    },
+    {
+      "id": "lock-expired",
+      "kind": "lock",
+      "binding": null,
+      "edited": [
+        "EvidenceRoot/locks/graph/evidence-lock.json"
+      ],
+      "expected": "error/integrity-failure",
+      "actual": "error/integrity-failure",
+      "findings": [],
+      "message": "Graph lock stale or future-dated.",
+      "pass": true
+    },
+    {
+      "id": "host-post-clean",
+      "kind": "host",
+      "expected": "pass/success",
+      "actual": "pass/success",
+      "pass": true
+    }
+  ]
+}

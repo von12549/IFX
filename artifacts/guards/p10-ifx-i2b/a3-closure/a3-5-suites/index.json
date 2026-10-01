@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-052-suite-outcomes",
+  "step": "A3-5",
+  "status": "pass",
+  "rule": "catalog cases common with A1-3 agree in kind, expectation, outcome, findings and message; cases added after A1-3 pass (R15)",
+  "modules": [
+    {
+      "moduleId": "ifx-c1-evaluated-reference",
+      "version": "0.2.1",
+      "status": "pass",
+      "cases": 12,
+      "failed": 0,
+      "predecessorVersion": "0.2.0",
+      "predecessorCases": 10,
+      "commonCases": 10,
+      "outcomeDifferences": [],
+      "casesAddedAfterA13": [
+        {
+          "id": "forbidden-edge-crm",
+          "kind": "rule",
+          "expected": "fail/findings-blocking",
+          "actual": "fail/findings-blocking",
+          "pass": true
+        },
+        {
+          "id": "forbidden-edge-registry",
+          "kind": "rule",
+          "expected": "fail/findings-blocking",
+          "actual": "fail/findings-blocking",
+          "pass": true
+        }
+      ],
+      "casesMissing": [],
+      "host": "pass",
+      "policySha256": "a50501666e2cbbe7819ca874f26207656f3879f72088690f0346c4a579e7bf65",
+      "summarySha256": "b3cb222f54d47071def89c4f06d061deead3ac0d8136aa406aee94591e023886",
+      "targetCommit": "51fa44adbac5d8e12cce435bead71c06cbc85af4"
+    }
+  ],
+  "caseTotal": 12.0
+}
