@@ -741,3 +741,37 @@ So A3 touches one module (`ifx-c1-evaluated-reference`, the graph lock consumer)
   `v4-adoption/ci/`; source policies as byte copies checked by hash; parity as R11 plus the 16-case aggregate table; lab
   tree `candidates/ifx-i2b-052`. A3-0 to A3-7 authorized for local execution. The I2-C status line is corrected and the
   `main` push-run conclusion recorded (`artifacts/guards/p10-ifx-i2c/c11-push-run.json`).
+- **A3-1 (`6298d7fd`).** Closure inventory `candidates/ifx-i2b-052/closure-inventory.json` (generator
+  `New-IFX052ClosureInventory.ps1`, PowerShell AST string constants, so comments do not count): 18 roots, 46 references,
+  nothing unlisted. The paths outside `v4-adoption` are exactly the five relocate origins and the extracted aggregate; each
+  maps under `v4-adoption` after relocation; `-Check` re-derives equal (evrun 099-100).
+- **A3-2 (`d30f4983`).** Byte-identical copy of the five origins into `producers/graph/` and `ci/`; Git blobs equal the
+  origins; `producers/origins.json` gains five A3-2 entries with their origin commit; both drift controls report no drift
+  (evrun 101-103).
+- **A3-3 (`a44e0549`).** Adaptation in its own commit (graph producer `ifx-v4a-graph-v1`, explicit `-TargetRoot`,
+  `policy.json` next to the producer with `sourcePolicies` naming the relocated copies, run directory
+  `artifacts/guards/v4a-producers/graph-runs`; the staging script names nothing under `candidates`; the aggregate is the
+  extracted branch, recorded in `origins.json`). `Test-IFX052ClosureControls.ps1` passes with nine negative controls
+  (`a3-closure/a3-3-controls.json`, evrun 104). The two source policies are byte copies whose provenance fields name V3
+  paths; they are hashed data, so the path rules skip them and a control proves the producer only hashes them. The A2
+  producer controls run on their own scope (the package without `graph/`).
+- **A3-4.** Parity (`a3-closure/a3-4-parity.json`, evrun 106): the lab and relocated graph producers give semantically
+  equal locks on one commit (155 edges, 58 projects; only the producer id and the policy hash differ, each equal to its
+  own policy); four negative mutations (an unsupported MSBuild construct, a project-set change, a source-policy change, a
+  dirty tracked source) fail both with the same message; the aggregate equals the lab branch for all 16 input
+  combinations. Attempt 1 (evrun 105) had the same results but its comparator read the error header instead of the
+  message; it is kept.
+- **A3-5.** The 0.5.1 lab tree copied byte for byte into `candidates/ifx-i2b-052` (`17f453c4`) and substituted
+  (`8471dd43`: tree path, evidence root `a3-052`, temporary prefixes, version 0.5.2, step labels, `-AuthorizeA38C6c`;
+  every staging call and the lineage name `v4-adoption/ci`); the A2-only tooling and the staging copy are not copied.
+  Module successor (`51fa44ad`): `ifx-c1-evaluated-reference` 0.2.0 → 0.2.1 pins `ifx-v4a-graph-v1` (script LF hash
+  `ee739ace…`, policy `0677a56f…`, run prefix `v4a-producers/graph-runs`); change spec 0.5.2. Its suite passes on
+  evidence from the relocated staging script and producers: 12 cases, the 10 shared with A1-3 identical, the two A1-4
+  cases passing (`a3-closure/a3-5-suites/index.json`, evrun 106 produce, 108-109).
+- **A3-6.** Suite index `a3-closure/suite-index-052.json` (19 A1-3, 5 A2-5, 1 A3-5; evrun 110); matrix contract and
+  fixture spec regenerated (`08bba61d`: only tree paths, one adapter hash, the inventory projection and the
+  supplemental-fixture script hash differ; verifier passes, evrun 111-114). Trial at `08bba61d`: the chain in readiness
+  mode passes (719 s, bundle manifest `0d661957…`, A and B equal); parallel certification Windows 191/191, controls
+  180 + 42, Linux 191/191 semantic equal; harness controls pass (`a3-closure/a3-6-trial/index.json`, evrun 115-117).
+  - Note: evrun sequence 106 is shared by `a3-4-parity-2` and `a3-5-produce`, which ran at the same time.
+  - Next: A3-7, readiness on the committed state (`-ReadinessOnly`, evidence root `a3-052`).
