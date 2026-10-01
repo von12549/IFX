@@ -1,7 +1,7 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
-# 0.5.0-a: evidence locks are staged into EvidenceRoot by the trusted workflow
-# (candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
+# 0.5.2: evidence locks are staged into EvidenceRoot by the trusted workflow
+# (docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each
 # producer run prefix (artifacts/guards/.../<run>/) to its staged directory, and records the producer that ran.
 function Get-IFX050StagedGate([string]$EvidenceRootValue,[string]$TargetRootValue,[string]$Gate,$Producer){
     if([string]::IsNullOrWhiteSpace($EvidenceRootValue) -or -not [IO.Path]::IsPathFullyQualified($EvidenceRootValue)){Stop-Adapter 'invalid-input' 'EvidenceRoot is required for staged evidence.'}
@@ -89,10 +89,10 @@ foreach($row in $policy.sourcePolicies){$source=Join-Path $PSScriptRoot ([string
 $referencePolicy=$references[0];$ownershipPolicy=$references[1]
 if($referencePolicy.id -cne 'ifx-reference-cycle-c1n' -or $ownershipPolicy.id -cne 'ifx-ownership-graph-c1e'){Stop-Adapter 'integrity-failure' 'C1 source policy identity drift.'}
 $staged=Get-IFX050StagedGate ([string]$inputObject.evidenceRoot) $target 'graph' $policy.producer;$lockRelative=[string]$staged.lockPath
-if($lockRelative -cnotmatch '^artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/[a-f0-9]{32}/evidence-lock\.json$'){Stop-Adapter 'invalid-input' 'Uncontrolled lock path.'}
+if($lockRelative -cnotmatch '^artifacts/guards/v4a-producers/graph-runs/[a-f0-9]{32}/evidence-lock\.json$'){Stop-Adapter 'invalid-input' 'Uncontrolled lock path.'}
 $lockPath=Resolve-Input $lockRelative ([string]$staged.lockSha256)
 try{$lock=Get-Content $lockPath -Raw|ConvertFrom-Json -Depth 100 -DateKind String}catch{Stop-Adapter 'integrity-failure' 'Malformed graph lock.'}
-if($lock.formatVersion -ne 1 -or $lock.gate -cne 'C1EvaluatedReferenceGraph' -or $lock.producer -cne 'ifx-c1-r2b-controlled-v1' -or $lock.result -cne 'passed' -or $lock.sdk -cne $policy.sdk -or $lock.configuration -cne $policy.configuration -or $lock.targetFramework -cne $policy.targetFramework -or $lock.policySha256 -cne [string]$policy.producer.policySha256 -or @($lock.projects).Count -ne 58 -or @($lock.projectStates).Count -ne 58 -or @($lock.edges).Count -lt 1 -or $lock.evaluatedReferenceCount -ne @($lock.edges).Count -or $lock.rawReferenceCount -lt 1 -or $lock.rawEvaluatedDelta -ne ($lock.evaluatedReferenceCount-$lock.rawReferenceCount) -or (@($lock.arguments)-join '|') -cne '-getProperty:TargetFramework,DisableTransitiveProjectReferences|-getItem:ProjectReference|-p:Configuration=Release|-nologo'){Stop-Adapter 'integrity-failure' 'Graph lock shape or authority drift.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'C1EvaluatedReferenceGraph' -or $lock.producer -cne 'ifx-v4a-graph-v1' -or $lock.result -cne 'passed' -or $lock.sdk -cne $policy.sdk -or $lock.configuration -cne $policy.configuration -or $lock.targetFramework -cne $policy.targetFramework -or $lock.policySha256 -cne [string]$policy.producer.policySha256 -or @($lock.projects).Count -ne 58 -or @($lock.projectStates).Count -ne 58 -or @($lock.edges).Count -lt 1 -or $lock.evaluatedReferenceCount -ne @($lock.edges).Count -or $lock.rawReferenceCount -lt 1 -or $lock.rawEvaluatedDelta -ne ($lock.evaluatedReferenceCount-$lock.rawReferenceCount) -or (@($lock.arguments)-join '|') -cne '-getProperty:TargetFramework,DisableTransitiveProjectReferences|-getItem:ProjectReference|-p:Configuration=Release|-nologo'){Stop-Adapter 'integrity-failure' 'Graph lock shape or authority drift.'}
 try{$created=[DateTimeOffset]::Parse([string]$lock.createdAt);$expires=[DateTimeOffset]::Parse([string]$lock.expiresAt)}catch{Stop-Adapter 'integrity-failure' 'Invalid graph lock time.'}
 $now=[DateTimeOffset]::UtcNow
 if($created -gt $now.AddMinutes(5) -or $created -lt $now.AddSeconds(-[int]$policy.maximumAgeSeconds) -or $expires -le $now -or $expires -gt $created.AddSeconds([int]$policy.maximumAgeSeconds)){Stop-Adapter 'integrity-failure' 'Graph lock stale or future-dated.'}

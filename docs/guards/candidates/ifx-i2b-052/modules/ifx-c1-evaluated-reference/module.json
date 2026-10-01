@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "id": "ifx-c1-evaluated-reference",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "compatibleApi": "1.x",
   "supportedPlatforms": [
     "linux-x64",
@@ -10,7 +10,7 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-c1-evaluated-reference/adapter.ps1",
-    "sha256": "6cd5a5c3194f7d27fb8d8ae3659314b5fb86e962d7c83ded2f4f48bd86fcb8f4"
+    "sha256": "5a7ef219e9870cc65e2ea68b5cf48f145fd9d95b492a762c2fdfd523bfb32845"
   },
   "prerequisites": [
     {
@@ -45,7 +45,7 @@
     {
       "id": "ifx-policy",
       "path": "modules/ifx-c1-evaluated-reference/policy.json",
-      "sha256": "6bdc6e33adeea6bd30394bb1d5e3eedc09fb61b78dabadd584ec33be0d1eb4f4"
+      "sha256": "a50501666e2cbbe7819ca874f26207656f3879f72088690f0346c4a579e7bf65"
     },
     {
       "id": "rule-execution-plan",

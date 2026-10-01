@@ -22,9 +22,9 @@
     }
   ],
   "producer": {
-    "id": "ifx-c1-r2b-controlled-v1",
-    "script": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
-    "scriptSha256": "d6057dc41a65e997f0985a7fc84476223488666566396d60d616f0d83d5ebebc",
-    "policySha256": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec"
+    "id": "ifx-v4a-graph-v1",
+    "script": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+    "scriptSha256": "ee739ace44bcdfd401f689aedcc0836a83d3dd1c6e9539fabf777f01f696071e",
+    "policySha256": "0677a56ff5e8719a7cb421a2b94a0d7c0c0095867a140bbeb05eaadd8b75f26a"
   }
 }

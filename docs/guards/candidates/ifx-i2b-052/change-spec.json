@@ -1,29 +1,34 @@
 {
   "formatVersion": 1,
-  "kind": "ifx-051-change-spec",
+  "kind": "ifx-052-change-spec",
   "plan": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
-  "amendment": "A2",
-  "step": "A2-5",
+  "amendment": "A3",
+  "step": "A3-5",
   "base": {
     "install": "v4-guards-1.1.6-ifx-0.4.4",
     "profileVersion": "0.4.4",
     "profileSha256": "4450011a6194f31293bed3c170b00856a406d58b44670e066ce08459cd336b51"
   },
   "target": {
-    "profileVersion": "0.5.1",
-    "moduleSourceRoot": "docs/guards/candidates/ifx-i2b-051/modules"
+    "profileVersion": "0.5.2",
+    "moduleSourceRoot": "docs/guards/candidates/ifx-i2b-052/modules"
   },
   "rulings": {
     "R1": "registries are live",
     "R2": "G03 core regenerates the projection",
-    "R3": "lab tree candidates/ifx-i2b-050a (A1); candidates/ifx-i2b-051 for A2",
+    "R3": "lab tree candidates/ifx-i2b-050a (A1); candidates/ifx-i2b-051 for A2; candidates/ifx-i2b-052 for A3",
     "R4": "IFX-V4-005 fixed first under its own Plan",
     "R6": "producers relocated to docs/guards/v4-adoption/producers/<gate>",
     "R7": "the V4 copies record their V3 origins; a control reports origin drift",
     "R8": "new producer ids ifx-v4a-solution-v1, ifx-v4a-assembly-v1, ifx-v4a-frontend-v1, ifx-v4a-database-v1, ifx-v4a-type-v1",
     "R9": "the type producer reads embedded policy copies; the generated producer is not staged",
     "R10": "no fixed frontend PATH",
-    "R11": "V3/V4 producer parity: semantic equality with zero differences"
+    "R11": "V3/V4 producer parity: semantic equality with zero differences",
+    "R12": "graph producer, its policy and two source policies relocated to docs/guards/v4-adoption/producers/graph with id ifx-v4a-graph-v1; staging script and aggregate under docs/guards/v4-adoption/ci",
+    "R13": "the two source policies are byte copies checked by hash; a control reports origin drift",
+    "R14": "the aggregate is the extracted Aggregate branch (ci/Invoke-IFXV4Aggregate.ps1)",
+    "R15": "parity as R11 plus the 16-case aggregate table, zero differences",
+    "R16": "lab tree candidates/ifx-i2b-052, evidence root artifacts/guards/p10-ifx-i2b/a3-052, switch -AuthorizeA38C6c"
   },
   "lockLayout": {
     "root": "EvidenceRoot",
@@ -53,7 +58,17 @@
     ],
     "workspaceEvidenceAddRoots": [
       "docs/guards/v4-adoption/producers/database"
-    ]
+    ],
+    "lineage": {
+      "stagingScript": {
+        "from": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+        "to": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1"
+      },
+      "graphProducer": {
+        "from": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+        "to": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1"
+      }
+    }
   },
   "summary": {
     "modules": 37,
@@ -318,7 +333,7 @@
       "id": "ifx-c1-evaluated-reference",
       "stage": "post",
       "version": "0.1.0",
-      "newVersion": "0.2.0",
+      "newVersion": "0.2.1",
       "disposition": [
         "lock-binding",
         "coupling"
@@ -333,8 +348,8 @@
       "bindings": [],
       "lockBinding": {
         "gate": "graph",
-        "producerId": "ifx-c1-r2b-controlled-v1",
-        "script": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+        "producerId": "ifx-v4a-graph-v1",
+        "script": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
         "freshness": "PT1H"
       },
       "couplings": [
@@ -349,7 +364,9 @@
           "action": "embed the policy content in the module package; the policy pins its hash"
         }
       ],
-      "checkBasis": null
+      "checkBasis": null,
+      "predecessorVersion": "0.2.0",
+      "a3Change": "producer relocated (R12-R13): producer id, script, script hash, policy hash and run prefix only; checks and claims unchanged"
     },
     {
       "id": "ifx-g03-governance-core",
@@ -2530,8 +2547,9 @@
     }
   ],
   "predecessorSpec": {
-    "path": "docs/guards/candidates/ifx-i2b-050a/change-spec.json",
-    "version": "0.5.0",
-    "rule": "Every module keeps its 0.5.0-a disposition against 0.4.4; the five lock consumers below change only their producer identity (A2)."
+    "path": "docs/guards/candidates/ifx-i2b-051/change-spec.json",
+    "sha256": "c7bcee9f6b43ac273eb23fddaae877f6610d6fb19ab5b22a79b48080aafe332e",
+    "version": "0.5.1",
+    "rule": "Every module keeps its 0.5.1 disposition; only ifx-c1-evaluated-reference changes, and only its producer identity (A3, finding F-C1)."
   }
 }
