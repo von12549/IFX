@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g04-closeout",
+  "rules": [
+    { "ruleId": "G04-EVIDENCE", "claimId": "IFX.C3.G04_EVIDENCE", "stage": "post", "detectors": ["ifx-g04-closeout"], "evidenceKinds": ["closeout-evidence", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-DOCUMENTATION", "claimId": "IFX.C3.G04_DOCUMENTATION", "stage": "post", "detectors": ["ifx-g04-closeout"], "evidenceKinds": ["closeout-evidence", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-CLOSEOUT", "claimId": "IFX.C3.G04_CLOSEOUT", "stage": "post", "detectors": ["ifx-g04-closeout"], "evidenceKinds": ["closeout-evidence", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G04-INBOUND-CLOSEOUT", "claimId": "IFX.C3.G04_INBOUND_CLOSEOUT", "stage": "post", "detectors": ["ifx-g04-closeout"], "evidenceKinds": ["closeout-evidence", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

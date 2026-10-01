@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "sourceCommit": "3600988cc9e91f0a523ec60f5f4378dd4c83c541",
+  "ordinalInventorySha256": "09cc0b57cc769478340779d640e95abcf01530c456080dc66c09ccdd1d56e927",
+  "changeSpecSha256": "ac8adbeb5e2ffcf3b8822f4ae0a41122e092ff9542bbe5616b1b0a41d06222a6",
+  "evidenceModel": "staged-by-workflow",
+  "stagingManifest": "EvidenceRoot/locks/staging.json",
+  "stagingScript": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1",
+  "producers": [
+    {
+      "gate": "type",
+      "moduleId": "ifx-c1-type-provenance",
+      "producerId": "ifx-v4a-type-v1",
+      "script": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+      "scriptSha256": "e1f5be72ca05c4e61ca6663f39415430b2ca99d6767dd316ff8cc08d915f1f77",
+      "freshness": "PT1H"
+    },
+    {
+      "gate": "graph",
+      "moduleId": "ifx-c1-evaluated-reference",
+      "producerId": "ifx-v4a-graph-v1",
+      "script": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+      "scriptSha256": "ee739ace44bcdfd401f689aedcc0836a83d3dd1c6e9539fabf777f01f696071e",
+      "freshness": "PT1H"
+    },
+    {
+      "gate": "database",
+      "moduleId": "ifx-database-evidence",
+      "producerId": "ifx-v4a-database-v1",
+      "script": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+      "scriptSha256": "9ebebca93155edb88c0d2bf13825f04077174caf38f18ef4c4de4bf56205a11a",
+      "freshness": "PT24H"
+    },
+    {
+      "gate": "solution",
+      "moduleId": "ifx-solution-evidence",
+      "producerId": "ifx-v4a-solution-v1",
+      "script": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+      "scriptSha256": "2e71d5967a62323fee8f5d0a1eb33bc1d8aa6a1ddf6a3e1c1e7133e4d4063068",
+      "freshness": "PT24H"
+    },
+    {
+      "gate": "assembly",
+      "moduleId": "ifx-assembly-evidence",
+      "producerId": "ifx-v4a-assembly-v1",
+      "script": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+      "scriptSha256": "93db2ffad756bf3103ad3717b442c808cd40e58c1bcc380ea1560c2a4d94d6d7",
+      "freshness": "PT24H"
+    },
+    {
+      "gate": "frontend",
+      "moduleId": "ifx-frontend-evidence",
+      "producerId": "ifx-v4a-frontend-v1",
+      "script": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+      "scriptSha256": "d73e5943ebf30b621b38a2d8a228f11275d0935bbf0b515daf324995a9651cb6",
+      "freshness": "PT24H"
+    }
+  ],
+  "g04Status": "PRE-READY",
+  "g04BlockerCount": 7,
+  "p103Deferred": [
+    "G05-Phase9-eight",
+    "v3-pre-diff",
+    "v3-cross-platform-ubuntu-latest",
+    "v3-cross-platform-windows-latest"
+  ]
+}

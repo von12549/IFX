@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1, "moduleId": "ifx-embedded-adapter",
+  "matrixSha256": "7f3ffcd92ac320de078f82a04ee757f8cc18f646f44028fab9f858a18fe6c0f8",
+  "rules": [
+    { "ruleId": "EMBEDDED-ADAPTER-LOCATION", "claimId": "IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE", "stage": "pre", "detectors": ["ifx-embedded-adapter"], "evidenceKinds": ["source-syntax", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "EMBEDDED-ADAPTER-PROVIDER", "claimId": "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE", "stage": "pre", "detectors": ["ifx-embedded-adapter"], "evidenceKinds": ["source-syntax", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

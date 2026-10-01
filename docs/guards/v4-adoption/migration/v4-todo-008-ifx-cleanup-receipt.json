@@ -1,0 +1,984 @@
+{
+  "formatVersion": 1,
+  "kind": "v4-todo-008-ifx-cleanup-receipt",
+  "status": "pass",
+  "planId": "20260928-v4-todo-008-t8-ifx-cleanup",
+  "createdAt": "2026-09-28T07:08:57.631386Z",
+  "authorization": "A-IFX-DELETE local part: \"授权A-IFX-DELETE本地部分，执行S0–S8\" (2026-09-28)",
+  "cleanupCommit": "ae42e11d06de9317fa5b24bdfbc96db77219597c",
+  "rollback": {
+    "parentCommit": "896bca2442a0bff9f8bc8bf1a7826e5621acbf07",
+    "command": "git revert ae42e11d06de9317fa5b24bdfbc96db77219597c",
+    "restores": {
+      "path": "docs/guards/v4",
+      "treeId": "5282001c3c299ecd80c32120900e7eea2c9d1d3f",
+      "trackedFileCount": 169
+    }
+  },
+  "canonicalSource": {
+    "repository": "https://github.com/von12549/Guard",
+    "consumedRelease": "v4-guards-v1.1.5",
+    "archiveSha256": "74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976",
+    "t7Receipt": {
+      "path": "docs/guards/v4-adoption/migration/v4-todo-008-ifx-rebinding-receipt.json",
+      "sha256": "e8c1665ef3d2eaea0ee27fd0fcab5d17573bdaad8394d6c470b6900c76554048"
+    }
+  },
+  "deleted": {
+    "trackedFileCount": 169,
+    "treeId": "5282001c3c299ecd80c32120900e7eea2c9d1d3f",
+    "classification": "T1 disposition T1-manifests/20260927T102631Z: all 169 rows obsolete-after-gate; only README.md drifted (T7 non-canonical notice)",
+    "trackedFiles": [
+      {
+        "path": "docs/guards/v4/README.md",
+        "blob": "6764fdf4be6129433ba4b677eed5e79ca2838a8c",
+        "sha256": "9a665d21f497c35915bb654e4207680125a5bccb6aceeeb587be479c8bc30c1d"
+      },
+      {
+        "path": "docs/guards/v4/build/NuGet.config",
+        "blob": "a3f3aea61c8f0a0b796eb417dc4ed9a056934afb",
+        "sha256": "5256a7e3e07d2c5c94f7a1e6c45f39aab011c659c5e2d53e452dea525ce04575"
+      },
+      {
+        "path": "docs/guards/v4/build/V4.Build.props",
+        "blob": "bf9fdf4da1049c3af6e60005c99ecc7bfb335c15",
+        "sha256": "0e931268088f1277ea6d618a6148b8c6be67a79620a51f2be98efde58a8d13b8"
+      },
+      {
+        "path": "docs/guards/v4/build/global.json",
+        "blob": "d46d21e50b3f3284ca3589173cac1e0af1076810",
+        "sha256": "20c93ca7812d0a9825eef71217156f95ab2f4fe5aadfeb22ebc1c24b630018d3"
+      },
+      {
+        "path": "docs/guards/v4/core/certification/Dockerfile.linux",
+        "blob": "dbaa855aca157af24d580130a8f9167576aa5e5d",
+        "sha256": "361b59942c0f8493e201434bd109f696f36ead70bbba37b858240bdc60dd64b1"
+      },
+      {
+        "path": "docs/guards/v4/core/certification/Invoke-V4PlatformCertification.ps1",
+        "blob": "c02022fa10aaa0def0065af5c630474ee6a3dc44",
+        "sha256": "c7906f73478d7c5fc6511c938261edb7c140573a27f48deed8a3107b4f0a32a9"
+      },
+      {
+        "path": "docs/guards/v4/core/certification/Invoke-V4V1Certification.ps1",
+        "blob": "2706c802877989e09482f2ca45ac423c03f82031",
+        "sha256": "454e088fd45d7a01aed91e8b5aa9cc3fda1f6e17c9b15ba124da574419753e31"
+      },
+      {
+        "path": "docs/guards/v4/core/certification/Test-V4SupplyChain.ps1",
+        "blob": "255ce63c7cb7c4ddfb6dacbe9b9992364d57af9d",
+        "sha256": "62fe3e929b3b5baf9309d9aa49acfd200ac52642d93081c1136ae29be05e2d5d"
+      },
+      {
+        "path": "docs/guards/v4/core/certification/compatibility-baseline.json",
+        "blob": "746c1184948ceb010f775088b43ba6045932dd70",
+        "sha256": "c0c4115f7ef0848dccd6c5e80a94621be5e8fc14cbbe4ac6fe9d41da7d33ba2b"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/capability-matrix.schema.json",
+        "blob": "1f45432370a9e251e68ae0ef41f42d7083ea6e50",
+        "sha256": "d5c9e5d5b4d48431fca890f6e13d3cd6efe1a0ea4bdcca67f73543ffbed7e71e"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/ci-artifact-manifest.schema.json",
+        "blob": "a7d4bfe8295b5dbb02ea3b7669479ff72b8d6186",
+        "sha256": "0b46c8d2307dee75163d24befd9b35ba493c87695ecf1bd6ae722d303c24de13"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/ci-contract.schema.json",
+        "blob": "b47859e611338ff8fed47d8b668c1ff98d329adf",
+        "sha256": "c6f40b8add796076ebcc9f9146d0f7e87a678f90fe9040b7ffefda74de28d2bb"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/cli-contract.json",
+        "blob": "f8663eae625d8e1a3edbf1e72d050746703f156f",
+        "sha256": "083cc8d1e246c0db17f3b37791d292c1c202e869425b3299ccf90715bf4723e5"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/cli-contract.schema.json",
+        "blob": "9bc9588b33c0641f7449154fae74021afbff449a",
+        "sha256": "2686085e2af99f3c9edb5403f5ca2c73a13e50ddf942c91cc99c31092cdb50a6"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/compatibility-baseline.schema.json",
+        "blob": "4cd387e04607215f2240cb7f50b6183b5230f5a7",
+        "sha256": "acb63b6da9c767c11eee515d37ffb51f41ed43446e48ccd83fe94286ed123a1a"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/composition-manifest.schema.json",
+        "blob": "2f226044d206be6ceb2246460853601bde2c3f18",
+        "sha256": "8061de689ee8a3126ab6ef9e8d4604d9ee988462a451119fed5415a459e04bde"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/composition-receipt.schema.json",
+        "blob": "30f7b25dbef0a0885936dc76224ece451fd39ad8",
+        "sha256": "3c38682480287bcbd7fbfe71c812601058a54c0b65499076cf56ebfd48f72f0a"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/contracts-manifest.json",
+        "blob": "53fbf1e4f66809bac1d4bc2be578b947e488f450",
+        "sha256": "18085bd12a20615af31e8055c0c094f758b77a18a483048db69eb191168fb940"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/distribution-manifest.schema.json",
+        "blob": "9eef4a0d066e2b2260524db2696d957007b43210",
+        "sha256": "2663f64d18799bc5de645130d1b591ecc747a8620e12c67cdc6fdc8261facb74"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/evidence-query.schema.json",
+        "blob": "ea96ea0253f54c9a1c4f42022a668263c5197301",
+        "sha256": "39ff5f1b30dd295ecc524f82bb18efc3ea9a4c3233ef38aff2bbd7fa6964f758"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/extension-bundle.schema.json",
+        "blob": "89603fe142dcc193ce18da76f641b021f97328e5",
+        "sha256": "c58b732a148e97f8100ffd887ff31b9f05ef36634b31532f5f8a349da2d19051"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/extension-review.schema.json",
+        "blob": "ad576378b86c62b648f3ef9089afe934b7cc52d0",
+        "sha256": "61706ab67aab616b5f4eee7076bedb8f0057f955db9483161f83c0bf16a369b7"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/finding-baseline.schema.json",
+        "blob": "5d6323b4a14b3d5c4ae1f3bb433ea4664087127f",
+        "sha256": "d913d965cfa7197ecf718288ef65b101835923c149832b3a4e44f0d15faa0507"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/genesis-record.schema.json",
+        "blob": "1c21fe3ceeb97840d700550bedf7d780afee7084",
+        "sha256": "d372bcca76ccfdb346e46733293d5dbd1a8d333c8dbb177bc52ce34d6eef66da"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/install-receipt.schema.json",
+        "blob": "339cceaf07042e611088e0e0c8009cffbcc05daa",
+        "sha256": "e0979fca4173e9cd2713a85539d6bc983a40bb46d0914ec0b7dca3a6594d24b0"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/module-registry.schema.json",
+        "blob": "a8c5c5a731e6581c452bbfcdeaf58aea1eaa1189",
+        "sha256": "4b9532bc83552b28826cab24e77e1e8d683c69e57d17828f7e68f5271a08d16b"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/module-spike.schema.json",
+        "blob": "dad62949f4f0dbb161dd17b9b1537d2293ff770b",
+        "sha256": "c0c0f080e97dc806ea0597e4800b49f5690d2cfe966da3fdd4be446de5d0d078"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/module.schema.json",
+        "blob": "1b9a67c0c51c5d1ee306874ec4d8fc23fc0c17b5",
+        "sha256": "78e24ceb7b7716f893602cf163e055033dab1872d171a9bc89fdd50c7413bfd7"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/plan-catalog-query.schema.json",
+        "blob": "b4eb9b7ffd03823d230bfe98b3fa2def74f767a7",
+        "sha256": "33163f28f628b25b969002c447e087d5142154296c30fca2d37088e2558ae6cb"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/plan-set.schema.json",
+        "blob": "94a949f0132ad02a95380b75eed5eb463fc147e0",
+        "sha256": "b29456e3ca35da162a863747380d7cfedc001c93803d504572ccfb73818cc26e"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/plan.schema.json",
+        "blob": "7a299244345b98998c9c20114276759e4f97de5e",
+        "sha256": "86aec6ec2f778f1c3f7d193634b6731fa7fbf73bcb9a804f9514a990bd967dbc"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/platform-certification.schema.json",
+        "blob": "34faee6cfe5c52dc09719dc19162479579b1b300",
+        "sha256": "dbf597cce6fe65187eda2daece10109576a6e12eca20dfbb1ce254335ac7f92d"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/plugin.schema.json",
+        "blob": "a35763f67bf3e058f03abbed03155624750d95ef",
+        "sha256": "0c7d3a626aa7d37dc0c1a6314b15f8b72cc70d42feb143a8e85994f266249a0f"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/prerequisite-query.schema.json",
+        "blob": "0cf3ae882b8853a68a61175bf9179f39cf7ec1f8",
+        "sha256": "ee9aeac3eb610dc36239a92074eb172eb00ca03a09178cfb277d6de6a9f0e4a6"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/prerequisite-report.schema.json",
+        "blob": "15141dbe70260ec39bcc6537f9bae38c453aa4e8",
+        "sha256": "b5bd9dfa40fcd85abd8410321f572e858444b8087b83caf0715eab33edbc630a"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/profile-catalog-query.schema.json",
+        "blob": "8a4e713763e05a72707e0b2f15089b704b625a28",
+        "sha256": "2a90bafff43c7c6882b4513757a531d842354034523024c988fd18fc519896e1"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/profile.schema.json",
+        "blob": "1dbf94cce94950f66098f32b660cc7b01aee6933",
+        "sha256": "35f42988d4a5ed2ee6d807a089a4d158a878cc96456489012400c08e0c4007a2"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/project-query.schema.json",
+        "blob": "7bb33f0c998acddaa5a68804c8ffa1844a7b6325",
+        "sha256": "c9874e527d6681b8cb6af66d3da8746422dfbad9ded06f9abd46a2b400c05502"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/query-contract.json",
+        "blob": "d14c24e7c6fc44e123083838f3540566f2785315",
+        "sha256": "6f1d222a44ce0f4dac902df80cdf70e9ecd519eaaa602a63f4e1a4850dceec51"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/query-contract.schema.json",
+        "blob": "323887eff20d744518f822972449252232aa8ea4",
+        "sha256": "1b69f7100d39e0bc07b9ba74e9bf48b8e5d85d6120039bf87b1a935b9cbedfac"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/recovery-artifact.schema.json",
+        "blob": "d7dc8218168dc21664f8fdfa686466a9ac2d27ed",
+        "sha256": "e2ea5fa1d3878f7e921f9d6ba3057fcd206fde082e96684d228f3cd0d6d7a0a2"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/reset-manifest.schema.json",
+        "blob": "762842ad8e8639c33702de133b759a2c6f7df635",
+        "sha256": "1d875f89e6375eaf0c8274724905fc8ce3bfe4f309d6c2017edfdfbe90a16134"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/rule-execution-plan.schema.json",
+        "blob": "cad5dbb5a9fc26c610f32bf2242e83535bbdef7e",
+        "sha256": "3c1b32b394fa6cefbe64630cd76bac0a787d8c50616c9f462e043ac26d2a5d6a"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/run-catalog-query.schema.json",
+        "blob": "57d960ac11666388f69b8b34f9c8303f9744e58b",
+        "sha256": "2da4865d5c195f33efcbe758b5bd382db9ec77cf2b421821c8f0495e6b6608e2"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/runtime-requirements.schema.json",
+        "blob": "87f718bd423bb0674618ed30c630524f77cb7388",
+        "sha256": "9af23fe5469cc2ec73b4e65992d83a5e637b7cbf291b7ede685b79154f2ba4b7"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/stage-result-spike.schema.json",
+        "blob": "8f6e54c5f76389ac5da707593f7115374593d7eb",
+        "sha256": "172e727b8f4ccc869bee85993035a4f1fe43b6ddb3b26b4d620ba5716d4e0fcb"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/stage-result.schema.json",
+        "blob": "d7d8d1db6cdd259cc96d8563f09edc281d5b1269",
+        "sha256": "6f2df2a330dd19fd39636f3adbe4c076974435694bb13eab7b62a7a445815e3b"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/state.schema.json",
+        "blob": "917b3ef949495f27f185977e77d258d7349a96c9",
+        "sha256": "0ec1c8f29c266c7b38f4ca49b1b57c4143266563164bbb497362fddf9dfc9dc9"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/v1-certification.schema.json",
+        "blob": "25684083e7bb3b870d8b039779edad0b43736350",
+        "sha256": "d42f4187d6f4e128d7684538eff996f1161c3936a4189f705860557fe9b44ac3"
+      },
+      {
+        "path": "docs/guards/v4/core/contracts/workspace-evidence.schema.json",
+        "blob": "498dc468b0ec6351cb2bce18297fe83bdcb1d1c6",
+        "sha256": "bbed8f4019aea8400391ea4c21bb78ae537664ef3c3e5f8b06146c1fe5f892a8"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/Compose-V4Extension.ps1",
+        "blob": "7594c26c76339ae7c13978b2fcb8abd94dd77830",
+        "sha256": "617ad58f43b72c318fefcf8c556880db190daee6bddfe59620d7954591b29da2"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/Install-V4Distribution.ps1",
+        "blob": "1d2575b186dfb55e8edb97a500ab4d542ab856f9",
+        "sha256": "eece069e2d6e8eec84b0e8ad9db6e2927bf4ba6645bf9a887398ef9e692b4165"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/Invoke-V4Installed.ps1",
+        "blob": "50fb5b32254df1308cb0a9bc44271cb0d05f4423",
+        "sha256": "274ca64af5d5495e8b0ba1d336b7cb6a8316749ad6b832f54702db924eb47d9b"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/Invoke-V4InstalledWebCompanion.ps1",
+        "blob": "b2e0b5681f2bf67eeecdc93396ff3a8c44e4548d",
+        "sha256": "c4980997113eac061eb00a321b621da3d0c446e5a93e22dbbd7491b01dabdc51"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/Invoke-V4ReceiptedWebCompanion.ps1",
+        "blob": "c75bd83d728106fe17494875291c020ba17714c7",
+        "sha256": "76ff4400fd5ba9fe7dcdd2668f624526e834261e2bd25f36fcf4ebb53c437373"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/New-V4Distribution.ps1",
+        "blob": "7b22f5ac6c3d5cbd579757ed52278a154c46bdc2",
+        "sha256": "7c2e6e8d9170746acf31e2137ec4ab82f0fad1393a3cd591608841fe99db1222"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/Publish-V4Documentation.ps1",
+        "blob": "eceec925c9bfec534837f0bf988bde1ae268837e",
+        "sha256": "6df9a0bf03f6e56bf4bf48905a18e9c57264f726a7c3a838061f70fb1e5fdc12"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/Test-V4ComposedInstallation.ps1",
+        "blob": "5711ddea6d144ea170bccf0d2f2aa6bd3bad23ac",
+        "sha256": "fe0c6d53d575899faf70ac6fd6a940be45167d41e60421923f10ed011d828830"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/Test-V4Prerequisites.ps1",
+        "blob": "f850b838444dee37b9430fdf5f5c7f29415ff0fd",
+        "sha256": "2e681f68ebd8354c842598983519fcda69b3b6408426fbecf51a40b4c1d92e0a"
+      },
+      {
+        "path": "docs/guards/v4/core/distribution/runtime-requirements.json",
+        "blob": "7a6d2ffe5277176cf81482832ac2cbfd6b5bb164",
+        "sha256": "d705a561315c2fd6f70aa5860e3c73be8684a6cf4a1f3e4711714a139c9251f3"
+      },
+      {
+        "path": "docs/guards/v4/core/host/V4.Guards.Host/ContractRuntime.cs",
+        "blob": "42fa0988560ecaa85c331d65e49fc8f3e9d3e0ae",
+        "sha256": "ed303823cc6090b00ab6743e99b8daa8c8df6bdd461dc0be30964220faaf3ab0"
+      },
+      {
+        "path": "docs/guards/v4/core/host/V4.Guards.Host/PlanRuntime.cs",
+        "blob": "e3417c4b1ccdc9ae4263dab01a6ccc90ba889504",
+        "sha256": "8a1995ad2d7d758d76825454e4e4f222d5b04ea818c88c6becfc803b712749bf"
+      },
+      {
+        "path": "docs/guards/v4/core/host/V4.Guards.Host/Program.cs",
+        "blob": "e74c242118f7348a8892ecb02194ad9fe0a25fb3",
+        "sha256": "4921df73221745afeb8acefba9ebd9ac58f7f17b17a64dbad8dbba284452e751"
+      },
+      {
+        "path": "docs/guards/v4/core/host/V4.Guards.Host/QueryRuntime.cs",
+        "blob": "b937936be6aef0f921e53c2b2cd8a6f3bac77f47",
+        "sha256": "0dbcc8fc948a0ed27f4e2ab43d9b8dae1706207d9120fc939ea10b85406d01c9"
+      },
+      {
+        "path": "docs/guards/v4/core/host/V4.Guards.Host/StageRuntime.cs",
+        "blob": "788beb9a5ff75b9c6e3d1715f69cc794aa7a990b",
+        "sha256": "832bf69b12d1cfba244f8c2494567473ad094a6a10cf5eef2909b7c722719a1f"
+      },
+      {
+        "path": "docs/guards/v4/core/host/V4.Guards.Host/StateRuntime.cs",
+        "blob": "429ad58c12e7f4a3e5605f7c36ab75f3f1d88563",
+        "sha256": "4b86855a8a681d79c1fbc2195756ca1db2df4fa9ae8951b9630f597b2885db44"
+      },
+      {
+        "path": "docs/guards/v4/core/host/V4.Guards.Host/V4.Guards.Host.csproj",
+        "blob": "92c14ba8a794b897ea0965100fa589dbb517bc23",
+        "sha256": "2dbf3b072b9ca5a0a536796e0222320a1201b0ca87573b04f18f606028b6c1e7"
+      },
+      {
+        "path": "docs/guards/v4/core/runtime/Test-V4Package.ps1",
+        "blob": "ea4a3e91972e43e3b1c18af53f32788ea32cfaa8",
+        "sha256": "fd5fa8947bdad88a4308416dbb3e1a1d099df944f8bf494a4e2ed06ec1bfe49a"
+      },
+      {
+        "path": "docs/guards/v4/docs/1.1.0-release-notes.md",
+        "blob": "cf65afcaa4f891067674e3ee5a1e2de6b8a89bd3",
+        "sha256": "2da61c0e0e7d7be8dbfe9e2d6943198eb5b44f4d75feefae9328f6ec96bfcea1"
+      },
+      {
+        "path": "docs/guards/v4/docs/1.1.1-release-notes.md",
+        "blob": "1973fa149f52ef71eb43edb8320a12763101e70e",
+        "sha256": "62c57c4011c1e14abfe09dc080598d4462fbc10fbc599ecb3d6081c6d27fb1e4"
+      },
+      {
+        "path": "docs/guards/v4/docs/1.1.2-candidate-notes.md",
+        "blob": "ae80a1fd7304544543b433c90f34e438e1a0f8c7",
+        "sha256": "8a8c7fa59eb918ad30fdc69e3ef06a404a3c34dc25ba3115cd3ea0f867913772"
+      },
+      {
+        "path": "docs/guards/v4/docs/1.1.2-release-notes.md",
+        "blob": "7b3bc5400624f8bea0450c5306d7f3ad074acf77",
+        "sha256": "ce2431375376d3940e0932d28f2d74d5a31c2915625d281fd5f7f7ecd3bc1857"
+      },
+      {
+        "path": "docs/guards/v4/docs/1.1.3-release-notes.md",
+        "blob": "5266443997ad759dbf59313833d6028a488a50dc",
+        "sha256": "cf7c4bf9e1bea7792fb4f4274014fbaa0e117999ea9f18367cc980b0a9dba198"
+      },
+      {
+        "path": "docs/guards/v4/docs/1.1.4-release-notes.md",
+        "blob": "8c10cbfb690f3de3d9836c338fa721868580335e",
+        "sha256": "ec00c1abdca66a530df6724558357e81838cb4a794725aff86e34f336ec00f20"
+      },
+      {
+        "path": "docs/guards/v4/docs/commands.md",
+        "blob": "93af3e714b5ed789f9162e51d185d8df410af258",
+        "sha256": "c10e696eb7a51c0f42d472337c4b00b38e3abca7ae600132748ecfe6edb047bc"
+      },
+      {
+        "path": "docs/guards/v4/docs/configuration.md",
+        "blob": "dd7c3db5c3f9b2c5bb2dcfcf03073c6eeeb6d910",
+        "sha256": "93e44ee4eeb059ff5e2a2ebf2c14a4593b8d11b1c47a67d0bb80c7ea0713cd8c"
+      },
+      {
+        "path": "docs/guards/v4/docs/queries.md",
+        "blob": "a52b239bba3773a5904db676b3c368c6e6c99dda",
+        "sha256": "b9568570e01ee15c59955b241c14ce60a9610e102a0b367b17d310bb2af3236d"
+      },
+      {
+        "path": "docs/guards/v4/docs/v1-certification.md",
+        "blob": "773eac586e033e4ad0cf62432d6441cea63477e3",
+        "sha256": "1f817f611b566f0d4c314e21f42ad1a4c94b55e4ffd46ccc82cc3f906ce8b9b8"
+      },
+      {
+        "path": "docs/guards/v4/integrations/git/Invoke-V4PlanDiff.ps1",
+        "blob": "e21e2edc1a42911dfd42c68abae06d5415f4af0f",
+        "sha256": "ce3fe82da0cbfbfc717c8d5a7934e4af15cd9e42932d214f6be0207655c10664"
+      },
+      {
+        "path": "docs/guards/v4/integrations/github/Get-V4WindowsSelection.ps1",
+        "blob": "a90300f1bc2366a0337fd4e935a45bdea4dafc68",
+        "sha256": "086558303699dd77f596e455976baf9fc20f0ff9b820f633bedb0cb51f17d35a"
+      },
+      {
+        "path": "docs/guards/v4/integrations/github/Invoke-V4TrustedBase.ps1",
+        "blob": "ab84b1d2af57e2b3b929e43736e5efe78193e36d",
+        "sha256": "a79db59c8371cb82301e4c819f729cd1df0c2746cc86255c8c4fb72e5a7454bc"
+      },
+      {
+        "path": "docs/guards/v4/integrations/github/Test-V4Required.ps1",
+        "blob": "b54a451482189d6f659ca77a7046946cab672b44",
+        "sha256": "19bd3edc35d9067cf95f03af06b17ecd5bdadf8f76fdf0280dd052e3e3d9fc9e"
+      },
+      {
+        "path": "docs/guards/v4/integrations/github/ci-contract.json",
+        "blob": "efd92092e2b9c6b7dc00694da8b1c3b662084255",
+        "sha256": "c85943fb3125267d693639b31495aaa8e8321b316aba0c46f291117da9c772d7"
+      },
+      {
+        "path": "docs/guards/v4/integrations/github/proposed-v4-guards.yml",
+        "blob": "a4cc3204c71b085d83dc451b7c11645ecdad8505",
+        "sha256": "a1ce1b8cae192f37e4d19486e9209a6f198ff96b8a3930b0f94e112a7b88a2cf"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/README.md",
+        "blob": "48ae4c2f73844e93ac47599151f4d2b5a813dac2",
+        "sha256": "5b384117330496db993616ee714afe52e87c69231d1f0f673da8a8e54b5fde37"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/Program.cs",
+        "blob": "16a6d100c170eebf1ea83f56a4ca8577956a1a01",
+        "sha256": "819215500ca26ccde94b2b0fd123af147feb6b49539872f6197dcc04a2381b0b"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/V4.Guards.WebCompanion.csproj",
+        "blob": "cb5b5921fbe50e98433ba20a4b0b1f734a37f25d",
+        "sha256": "f52af2541bb9664890a0fff4f8f45a00816ecd8a91ba8da5b5b5d58675da9c1d"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/contracts/plan-detail.schema.json",
+        "blob": "2b09fd47e37336e16e8778ce5f7b7b1589b62b38",
+        "sha256": "d63581e1bc59bf42a0be97d297a02aba03991542a33b458e95c1951dcdb8a5e4"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/contracts/session.schema.json",
+        "blob": "cf7e1a0ba91f01016b6e74e5787602e09e424b89",
+        "sha256": "72e0fc21e22b81c32e792c7dc8664b1b64c2edba011fff0d887586ecdf81eda5"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/contracts/stage-run-request.schema.json",
+        "blob": "2afad6d401e25e567620d7a2c2d644e2acdd54c6",
+        "sha256": "0163d5fe24f5b64a5d071bbebce78f3fe637894b5f2e6284d5fc56f6b6bd59b0"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/contracts/stage-run-response.schema.json",
+        "blob": "2a27e1855c11a178c604ee47cb496b35028ef338",
+        "sha256": "b565b25c8e8608d0b98b898563ae5f6a0e1f99ab957cbe430b8899b9d1627bfe"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/contracts/workspace-select-request.schema.json",
+        "blob": "e8f63334cc6fce2119acaec529d598b02d652ec8",
+        "sha256": "767c44a0b06e9433ae174545defa219201e40192e5013470e858e0868ba1ac5a"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/contracts/workspace-select-response.schema.json",
+        "blob": "f93e7cda8d99d95ec0710f1a6bf1888e377fea1f",
+        "sha256": "12c52380310f799d0d6d8bd099ffaaf3e20ecf6d88896536477fffb59a5269a0"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/contracts/workspace.schema.json",
+        "blob": "fd421c974ea1a88b18a0ee4926b2f5360f0d9be2",
+        "sha256": "73b83c1c3d04a10382c40560f1abe557fb5d876cef7bc7b6f3d2d32d5e48bcf9"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/wwwroot/app.js",
+        "blob": "9a2ef359e137c39ea8460f89bb44f23e7c8d9142",
+        "sha256": "883a5f6bb6211725f1a761ad59ad13ea3fd8c6fb6dabcab50c47bf91277328ab"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/wwwroot/index.html",
+        "blob": "f42ff15ba6f0c9db4a48acb03a9e234eab687e45",
+        "sha256": "7f00baf6924e106ad9c94d4b1ae42791f72aa0d0a5f0a5f74216f8070077bd91"
+      },
+      {
+        "path": "docs/guards/v4/integrations/web/V4.Guards.WebCompanion/wwwroot/styles.css",
+        "blob": "4b7187eebb296f7d003bae8faba8f852a40b04a8",
+        "sha256": "f6a6ab6c3fcc51d44eb8ff6d9304585eff93952c98ca4dde9615702cc07eaffa"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/adapter.ps1",
+        "blob": "3137d96556cb59c45acb9639a3fb30823a917243",
+        "sha256": "227512c6e44cdaf6e391282b05d164abb60e6c89584d414adec72f5cdf07ffe9"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/capability-matrix.json",
+        "blob": "07163d692f93e4ddd3af4df0dd72641bb0cb2b19",
+        "sha256": "23dc6e5dc499492a439bf8c7338796d0bfb1acaf94509d55f7894f912389520b"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/config.schema.json",
+        "blob": "c62f6af35e3daef47b591cd7e5ebeb0b991378ba",
+        "sha256": "9ab04c3365adf3b316c703ecb9d86d87dc52a3e3a6016ee9fd09d70d0a7c8830"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/dependencies.lock.json",
+        "blob": "ab267cb1f8d8bd1893d5b3897bb4bc7d10f48f54",
+        "sha256": "3ee21118cbc66f55a17487b7c02bd5407fe83c02d4a4600d1b16f7a83e998861"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/fixtures/clean/fixture.json",
+        "blob": "5b97b4f24e8ec0fe4c1bbe671405f70881e44fd0",
+        "sha256": "f52e13f73fa16a83fc866bb2e10dc7bf962b7d228d4ecf93239ec5bc5b8b4044"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/fixtures/manifest.json",
+        "blob": "cc0a97daf5c5781d4846981e864d795aff5962b0",
+        "sha256": "94b9339432e7b08e213853f1dbe49bfd601f38a0139132903a9b2eaba39573a2"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/fixtures/missing/fixture.json",
+        "blob": "e9bd1bf0441bb9f44e6d79cfdeccdcbcb6c39992",
+        "sha256": "788cf1f0bee722f867e0ddbcf198c60f8e0dbe21b7868e340a15fe04576a4b30"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/fixtures/violating/fixture.json",
+        "blob": "f5e35533058b4c855b542966cd1540cf9b9d0dc1",
+        "sha256": "c0e2c9d3d77dc4045207fb5651b644adb847f84f49bdc2d30e40b9ffff086954"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/module.json",
+        "blob": "387ce43e563e676c16c24be040cfd4859b626101",
+        "sha256": "1a1909a86ffb3f386cb7bfca14af6797a3f57360f85c9c8412c325126adec688"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/result.schema.json",
+        "blob": "7c519a6940f0f6347195b551ae00056893bcd9b3",
+        "sha256": "4fa6d69e2050a4b1c104696fd53f50b67116f2e8072f0e160756a4e2c5dc5fb7"
+      },
+      {
+        "path": "docs/guards/v4/modules/architecture-conformance/rule-execution-plan.json",
+        "blob": "24926a94e553961e38c4e8168ad66f10f46456ab",
+        "sha256": "0425128c09162573e65e3b09b6e6832f3b436cccd36aa0d59cdf4a85d3ae7e3b"
+      },
+      {
+        "path": "docs/guards/v4/modules/build-evidence-provider/adapter.ps1",
+        "blob": "a808413010062a80b6eee417a689b6903d20703b",
+        "sha256": "12ec6b707043477fc0ef0e86cc62ab1671f8f33f9b028ad8958cece1df45c92e"
+      },
+      {
+        "path": "docs/guards/v4/modules/build-evidence-provider/build-manifest.schema.json",
+        "blob": "440b65af3ad86eb5bbe645f2975112b508a5331e",
+        "sha256": "4ae8a9d78311f161a9f3736a1db0d7c1f3b82f63c420c486613d489545f84211"
+      },
+      {
+        "path": "docs/guards/v4/modules/build-evidence-provider/config.schema.json",
+        "blob": "0d95be2d875494239c1971506620e582d4b98357",
+        "sha256": "8d46d50d9377e0dc7e0acc268f5b3970d0aafc3a469151dcce780c8301587f48"
+      },
+      {
+        "path": "docs/guards/v4/modules/build-evidence-provider/dependencies.lock.json",
+        "blob": "4cac1d5c21901e6022667318464cd9d9590f6642",
+        "sha256": "60c35ff6eb2a5c92f6d6460709a468f166cfdf4a5c2db9a195c5f14d431486fb"
+      },
+      {
+        "path": "docs/guards/v4/modules/build-evidence-provider/module.json",
+        "blob": "87d6a232644b0398c12deaf1778d553f00c4e2ba",
+        "sha256": "1bafc0b43381ce1483c1ff849c1b7fffa43cd1deb256e4f52bd00b10c4d58095"
+      },
+      {
+        "path": "docs/guards/v4/modules/build-evidence-provider/result.schema.json",
+        "blob": "b29ed8eeb07f59440f499e571794b43699ad4f64",
+        "sha256": "1a8ffa5f9dd743d2a91d6ff44ca15f42443f15b3f7a455275c990dbcc4f44bae"
+      },
+      {
+        "path": "docs/guards/v4/modules/registry.json",
+        "blob": "d234de36ed72021caa47f8156b88845c3c9e27e2",
+        "sha256": "ef1dbe0ae7d6d4405562da2f067fffd18ccdb4ec99b2a62ba65b58d0974cb129"
+      },
+      {
+        "path": "docs/guards/v4/modules/synthetic-probe/adapter.ps1",
+        "blob": "92c034cdede599da66c11170e4046eabb92e313b",
+        "sha256": "8cc299c7f5bd1a20c4af808a064501d26f7bd93f94909d42bdc578edf062335b"
+      },
+      {
+        "path": "docs/guards/v4/modules/synthetic-probe/config.schema.json",
+        "blob": "4ed0cfed7bde7e21d73a64f748c75b85c3b5725f",
+        "sha256": "e3326be0c916dc43e716031a3c77286211f8ade446a934caf54985dffa68397b"
+      },
+      {
+        "path": "docs/guards/v4/modules/synthetic-probe/dependencies.lock.json",
+        "blob": "777ecfba1ae48cb88cc9f17c1d9977c66c2e6770",
+        "sha256": "10aebb07e6318b42a22a825b59ccb3c11b7c756a59a85b19b113a96731741d09"
+      },
+      {
+        "path": "docs/guards/v4/modules/synthetic-probe/module.json",
+        "blob": "37e6b7e684bfe749237d469f55e9aabc77f662a9",
+        "sha256": "97d36d555a79d85743eab1c6e15d6d862e139a329f95048bf81463afc805e3c0"
+      },
+      {
+        "path": "docs/guards/v4/plans/00-architecture-decision-set.md",
+        "blob": "b1a17e66a263a1738f95fa772fdde2e0688f6966",
+        "sha256": "4d7a7050501e3bc63f16a3e5083c9c0ae73c63c3c9e6c497839d86a6642bf940"
+      },
+      {
+        "path": "docs/guards/v4/plans/01-v4-self-contained-guard-plugin.md",
+        "blob": "e1212f6eba9bd22d1314cdbcd84241345f468d17",
+        "sha256": "7a6fb5ba492a883333ec82d5bf2868460374f880ffc019094726a3a94b4cbbc3"
+      },
+      {
+        "path": "docs/guards/v4/plans/02-runtime-architecture.md",
+        "blob": "d63a1c2b040c32d98ce8acba86a97a40d5d672e1",
+        "sha256": "b0b0deff3b726689efe5243889453ec8b7435daeae7f9884d7e5636e5e22068e"
+      },
+      {
+        "path": "docs/guards/v4/plans/03-genesis-bootstrap-and-autonomy.md",
+        "blob": "087ae94e265e215775a095fd82e59dde5c48c6d5",
+        "sha256": "b4d9d44d6b3a5ffab0c4e03e94359a8ac3d5cb08843bc77583eb8643eb93202a"
+      },
+      {
+        "path": "docs/guards/v4/plans/04-layerguard-provenance.md",
+        "blob": "6288d0f749063e89c567a631ce942ece1cafde12",
+        "sha256": "70b7b33e77aad6136cce527f420a36d0414237b9c3ea7a934bf3f8e0cbaa4429"
+      },
+      {
+        "path": "docs/guards/v4/plans/05-p9-gate-audit.json",
+        "blob": "079ae65ec97b81f1b51769e9a280118a5ba0b976",
+        "sha256": "476a55211f323e5c99748dbe4a8e6f1eff620dabdbfa8af48eb3fc7ba18c71b2"
+      },
+      {
+        "path": "docs/guards/v4/plans/05-p9-gate-audit.md",
+        "blob": "2b53ae8fc0d72316b1b6d20eef8ae5d612b904fd",
+        "sha256": "febdc2f49a6aab8964080151f0ca75a825317b5d8b1ac5ab2bb0a1557ddbe676"
+      },
+      {
+        "path": "docs/guards/v4/plans/README.md",
+        "blob": "1ab3501b1d44dea0f24d720e3623a69d209c9439",
+        "sha256": "1fb1d74fcefb9e82b8068a312b9d460162749dff3c1ea6541a61be41cbb7461e"
+      },
+      {
+        "path": "docs/guards/v4/plans/TODO.md",
+        "blob": "5de90ebdfb3478070447226eab4b4e4add917aca",
+        "sha256": "38640d76341cc1c45d9f6531ffe01c170ab770173e69317d09faccd2bd89ae9d"
+      },
+      {
+        "path": "docs/guards/v4/plugin.json",
+        "blob": "db355cd284e0570ad9af9e2cd95795551432b176",
+        "sha256": "2fdae333556e001da6fe122f639dc6d33e6a2d09336daa03c6510a41e5b74171"
+      },
+      {
+        "path": "docs/guards/v4/profiles/catalog/default/profile.json",
+        "blob": "b36fc49624e19ce050b439cc2a4dfca1b90c2930",
+        "sha256": "e6d1257b89ddffff85db220f53622f31c829be500cfe2b610123fe815ed5a46d"
+      },
+      {
+        "path": "docs/guards/v4/profiles/catalog/synthetic_profile/baselines/none.json",
+        "blob": "11b175432b2525afd94c89ed9ffb61acf72b0def",
+        "sha256": "708083383ab6e63038d959557df1e2369c1f2708b8d2118de6c3031cf6255e81"
+      },
+      {
+        "path": "docs/guards/v4/profiles/catalog/synthetic_profile/profile.json",
+        "blob": "408231f965979afb05ed93ff24dae86873b1be4d",
+        "sha256": "abd946c2be08d071f2aa89fb4151c52f14bba5b5bea83a800ba8edc2615a445f"
+      },
+      {
+        "path": "docs/guards/v4/tests/fixtures/synthetic-target/input.txt",
+        "blob": "3e1191a64043ff2aa81c36fb13244d8b1cf44952",
+        "sha256": "03b035400b802461110b426f44247573a04ebefd43bc9c9720a0f95c7c490ed8"
+      },
+      {
+        "path": "docs/guards/v4/tests/p0/Test-V4Contracts.ps1",
+        "blob": "6b2655a0b5b87c40187c9b38ac5ef6d4685f67d1",
+        "sha256": "2124257c0abaf47d5f91e3771c96bea40f1b3e7951350433ba7b05ce07732286"
+      },
+      {
+        "path": "docs/guards/v4/tests/p0/Test-V4GenesisProposal.ps1",
+        "blob": "192f73e206b031a3cf4656528464fc5ce17b4a07",
+        "sha256": "8e47bca44b95d01a225bf45b96b553ed512a8e5b96d5b35daf92f572127b6a44"
+      },
+      {
+        "path": "docs/guards/v4/tests/p0/Test-V4HostSpike.ps1",
+        "blob": "8bb1ff0a03ba428a91bea41eb72c2ab7fe1ee433",
+        "sha256": "8659f6bbc94929418bde24f6041236f0c6358bae8551b021a7b0dac110cf19ea"
+      },
+      {
+        "path": "docs/guards/v4/tests/p1/Test-V4Package.ps1",
+        "blob": "449b99203e118facd20c5a53f79e941d07e2d1fe",
+        "sha256": "0ce1028e360449d2854fc58e5d005a811414805993dbb8d379ca228b42e58c27"
+      },
+      {
+        "path": "docs/guards/v4/tests/p1/Test-V4Registry.ps1",
+        "blob": "423ec239c1bce81fcb248e7cfaa869700d637d22",
+        "sha256": "36b5ff1bbba5a191532dac158229837a16d77785557c3be9dd969cb3fdb74cfc"
+      },
+      {
+        "path": "docs/guards/v4/tests/p10/Test-V4ExtensionComposition.ps1",
+        "blob": "01ae47e5cb5356c8db807700ea67b62e1f6e2d50",
+        "sha256": "6570e598a3a6e0f441f818a3c1ba0d25a4b6a10ca1394504f43de7ef16e808e4"
+      },
+      {
+        "path": "docs/guards/v4/tests/p2/Test-V4Reset.ps1",
+        "blob": "f6732ca60668effa9fc5e64682a72b476daf8feb",
+        "sha256": "d7745a42e6e8c659608c38d10b02408ac421ffbb3a1c87fa0dc999be10d6e77b"
+      },
+      {
+        "path": "docs/guards/v4/tests/p2/Test-V4StateTransactions.ps1",
+        "blob": "347121a1d07f2846fc8058cfa5334c6393e7dc0e",
+        "sha256": "db0ee11568fcbbc1c92881538ad21c03095337f6677306c79939d728a7925e0d"
+      },
+      {
+        "path": "docs/guards/v4/tests/p3/Test-V4StageOrchestration.ps1",
+        "blob": "e3950c398a6a4a5255ebe24bc944fdcfe89b95e0",
+        "sha256": "26dad5d59dfabee5bdeb40cd5c9eedf016a3b324bbf96e0c1ae73fdd88c3ee19"
+      },
+      {
+        "path": "docs/guards/v4/tests/p3/Test-V4Stages.ps1",
+        "blob": "3141e47ecdb5d0d5fe345aaa9be8db747549065d",
+        "sha256": "99d26df2ebb6856caf8a8569e0848a10a9bb5e64c19e49b81560264686e93803"
+      },
+      {
+        "path": "docs/guards/v4/tests/p4/Test-V4ArchUnitNetAdapter.ps1",
+        "blob": "591ee4774c4a72ae44c6804ccd3dc4eb9d5b3713",
+        "sha256": "69be54c3e6968f82217d7fb904a788fb177dc28568b875150ebec37304b8431e"
+      },
+      {
+        "path": "docs/guards/v4/tests/p4/Test-V4ArchitectureAuthority.ps1",
+        "blob": "baa397d64afbdf0637c778770edd4eeb23e3d5d9",
+        "sha256": "f2eb8ec2f75c4e6a9adef17f03427800ebbbd688459f88f44739ee5c0933e285"
+      },
+      {
+        "path": "docs/guards/v4/tests/p4/Test-V4BuildEvidence.ps1",
+        "blob": "1a3a928348969505c86f642624a7cd461864b77a",
+        "sha256": "5d67ca63ec35b0fe31ff2035d268929527f7b82c4532aeb7aa605e1162d19de8"
+      },
+      {
+        "path": "docs/guards/v4/tests/p4/Test-V4CompositeArchitecture.ps1",
+        "blob": "9e04a5784ed6e0c919f543430cda3e23f6b85880",
+        "sha256": "3e0d7dd121efd28d3ade8bde154b5f896c14f9022caf6ef7f90cd4c31b648d92"
+      },
+      {
+        "path": "docs/guards/v4/tests/p4/Test-V4ProjectModel.ps1",
+        "blob": "0fa21bdcef8403c297a814a49558e4e7d654414b",
+        "sha256": "32c02e3cc7bbf11d05b6edc29ad150a37dc98d95929a0c855679b3fd62f88a4b"
+      },
+      {
+        "path": "docs/guards/v4/tests/p4/Test-V4RoslynDetectors.ps1",
+        "blob": "d207bd374e22d610f83076859ea96c52c28f69ad",
+        "sha256": "84159b49e0c82b22e80e7e89abb7de82393cd370494abc44abaa67875bfcfb19"
+      },
+      {
+        "path": "docs/guards/v4/tests/p4/Test-V4TargetScope.ps1",
+        "blob": "8b95d276a22642ecec2690554ecd5a1afe0ea2af",
+        "sha256": "2d01adfffd41a117bb5113dc03853b6cffd0e59190323975ead02fb4a8476701"
+      },
+      {
+        "path": "docs/guards/v4/tests/p4/reference/v3-architecture-claims.json",
+        "blob": "5095574029c793767be0214c4ab1ae019ca81d8a",
+        "sha256": "156fd779cb621719e36ef88520f83e0d0797b351b3744fa7028b696fbb3f32ec"
+      },
+      {
+        "path": "docs/guards/v4/tests/p5/Test-V4PlanDiff.ps1",
+        "blob": "d96399223314b289e839583009107cab826c8881",
+        "sha256": "d4c0d6c457707a64104510ae823a2fe746a29fd5d7ee30b9fe3d4096592efcfc"
+      },
+      {
+        "path": "docs/guards/v4/tests/p5/Test-V4PlanRuntime.ps1",
+        "blob": "20c21c7875e78be9c9d0e52655abf4ef66188a90",
+        "sha256": "ea4505080c0490f28d491b90f2464f4a314fe1892b841253390e7504d0ccd806"
+      },
+      {
+        "path": "docs/guards/v4/tests/p6/Test-V4ChangeClassifier.ps1",
+        "blob": "422e4a3373cdb777e626783e8116e61944065e96",
+        "sha256": "cdf405ddc0c489c9aa551f691a893feca8be8ab588c1e84049bac34843edf1fa"
+      },
+      {
+        "path": "docs/guards/v4/tests/p6/Test-V4TrustedBase.ps1",
+        "blob": "086a9fa11314472dabfb71bbc60893a59cd2f86c",
+        "sha256": "543749c31b519aa98f0b4c7f31e7b79defbbf035ef9894fc827efd0071ee4563"
+      },
+      {
+        "path": "docs/guards/v4/tests/p6/Test-V4WorkflowContract.ps1",
+        "blob": "561188b8eca2201c121ad0ab2d7f0fb92c94f856",
+        "sha256": "4c6e4006f136cdbe413c9e6e2daf98387381efc2970ff8bc7278949d94ef2e25"
+      },
+      {
+        "path": "docs/guards/v4/tests/p7/Test-V4Distribution.ps1",
+        "blob": "e6b672bb326dc7f1833965d630e99bd27a35dd09",
+        "sha256": "73bdb9df4416aa31a31bde1444415ee7e53717b82fcca7b7fcaa476a67b9ede1"
+      },
+      {
+        "path": "docs/guards/v4/tests/p7/Test-V4Documentation.ps1",
+        "blob": "04710f459342d7fa4f2de9740468d4e242432b83",
+        "sha256": "7842c8c2b3d1118888af50a9a0e89f709681ca43da167f0b8e8ece327dca6142"
+      },
+      {
+        "path": "docs/guards/v4/tests/p7/Test-V4Lifecycle.ps1",
+        "blob": "012f2cb5a8bb0335f0b18ac2ea71862e258e43a7",
+        "sha256": "0d3dd4b83cb4d9a5265996deadec9fb70c382765af6ebca7285ca47fa75f97f0"
+      },
+      {
+        "path": "docs/guards/v4/tests/p8/Test-V4CompatibilityBaseline.ps1",
+        "blob": "8f1f81ea04617c2b8529f62e60ba02da96957247",
+        "sha256": "fa6d368e3013d7b60fe576810d42b269e9e061a41cb3516cefa0685d1c5711e5"
+      },
+      {
+        "path": "docs/guards/v4/tests/p8/Test-V4StableCli.ps1",
+        "blob": "592c55de10baabe6c66586d865f84536cbdff9cc",
+        "sha256": "b2c6dcfaec1a508c72645ec05f2b615c50d50f0da966765b33f13bbd61210a42"
+      },
+      {
+        "path": "docs/guards/v4/tests/p8/Test-V4SupplyChain.ps1",
+        "blob": "d20878ac8c3cce9f26cd5c40bf3444b3653dc214",
+        "sha256": "14d242478bf8b23d11a0281ae5455bef359fc754ecb0108bdff3b9e12adf2788"
+      },
+      {
+        "path": "docs/guards/v4/tests/p8/Test-V4V1Acceptance.ps1",
+        "blob": "77f8e6a2eab348772a6ffd98dfa8351b7df7fc03",
+        "sha256": "0f8df149fce6e80f1b6039548f13478383ba62e6368175baec28143ed4248322"
+      },
+      {
+        "path": "docs/guards/v4/tests/p9/Dockerfile.linux",
+        "blob": "d901b72a6e874c1d56341c9119f2d255cbaecc88",
+        "sha256": "c7638c641421985a5269875b090215a1df26eb1bebbb34879b4b91d96694d460"
+      },
+      {
+        "path": "docs/guards/v4/tests/p9/Test-V4EvidencePlanCenter.ps1",
+        "blob": "4f3566ed0d76c2ad6e34545bbdfcab57783ade80",
+        "sha256": "667fb1acc58bd80189d9b2a78b78d0d7bdc9fdbd1f89db832c0ae9173690af52"
+      },
+      {
+        "path": "docs/guards/v4/tests/p9/Test-V4OfflineWebDistribution.ps1",
+        "blob": "530b4f5d071fd501f6dc33f8b46d75ba60e96c32",
+        "sha256": "4d37e018e0f51cf1923aa4b36ab6ca532e1d2c3f8cf149921d3ade7ca6ec9cc8"
+      },
+      {
+        "path": "docs/guards/v4/tests/p9/Test-V4QueryContracts.ps1",
+        "blob": "e27f01a1b306136d54602bd558e20aef7411e341",
+        "sha256": "fb81a93a7253e0b02cc4902289a21aa24f900a8d3dde39cfb443172bcbccc0c3"
+      },
+      {
+        "path": "docs/guards/v4/tests/p9/Test-V4WebCompanionSpike.ps1",
+        "blob": "12ea3da214ee19cfb721470ef920493954fa864e",
+        "sha256": "b6f193da36761711de678b15c3bcbef029952d7f26216293b6ebd6c4602dbb90"
+      },
+      {
+        "path": "docs/guards/v4/tests/p9/Test-V4WorkspaceStageRunner.ps1",
+        "blob": "302acd528192be1e0b8e83805b1bd08c036439f5",
+        "sha256": "01d5c43149805c820ad64a91f2453c143b574bf1b4b6c60f734bd735bb3a969b"
+      }
+    ],
+    "ignoredFiles": [
+      {
+        "path": "docs/guards/v4/artifacts/p4c-fixtures/clean/Sample.cs",
+        "sha256": "12e75bd66abfba63743a29e51cceba63ac2d9d67b0d7a8360180a0da6413802c"
+      },
+      {
+        "path": "docs/guards/v4/artifacts/p4c-fixtures/violating/Sample.cs",
+        "sha256": "b0610cb5b87ad3a6af98ab7f69cc239b77a81999645339866ca38812c182144e"
+      }
+    ],
+    "gitignoreLines": [
+      "/docs/guards/v4/state/",
+      "/docs/guards/v4/.work/",
+      "/docs/guards/v4/artifacts/"
+    ]
+  },
+  "retained": {
+    "docs/guards/v4-adoption": {
+      "prefix": "docs/guards/v4-adoption",
+      "treeId": "2b0ada95373d47903dc2a8ac61cbe658e812fd49",
+      "fileCount": 9,
+      "digest": "bc6d457f810e2ec9c1fa78117a5025ae805c96cd504dd62124dad5b9776364fe"
+    },
+    "docs/guards/TODO.md": {
+      "prefix": "docs/guards/TODO.md",
+      "treeId": "df68ab205eb640f007a2cfff7d813ab65f8d26e2",
+      "fileCount": 1,
+      "digest": "3f6fe0aa015e268b067b7beea067504970ede9c940ce0160039bab6017769652"
+    },
+    "docs/guards/candidates/ifx-rebind-115": {
+      "prefix": "docs/guards/candidates/ifx-rebind-115",
+      "treeId": "37491615bda28c882ddf9e615dfb90435129baf3",
+      "fileCount": 14,
+      "digest": "421f7d7b3e436aaaac54892049c3dcc7ac7780d5cedb634f681be6dfcf93c733"
+    },
+    "artifacts/guards/p10-ifx-115": {
+      "prefix": "artifacts/guards/p10-ifx-115",
+      "treeId": "f7f062fc91dec5d27c028330d701d4a53db4dc3c",
+      "fileCount": 37,
+      "digest": "230126e831d923b214ccb35e33a20ea6037fb247711b1f7208464ff13b2123bf"
+    }
+  },
+  "unchangedFingerprints": {
+    "src": {
+      "prefix": "src",
+      "treeId": "3009b41b92984d40fb717a6b21e0dfb8b0d2c433",
+      "fileCount": 1183,
+      "digest": "16ec1f6e929f958a85948c08c20b417a8a07864b3418f7579383a10f34899b24"
+    },
+    "tests": {
+      "prefix": "tests",
+      "treeId": "e930521bce1e1fde8f9175806a5ccc6f6c847046",
+      "fileCount": 257,
+      "digest": "92d541dce19f8370697289759fd24f3cdef3d58de4d66dd8db620ac755b99925"
+    },
+    "tools": {
+      "prefix": "tools",
+      "treeId": "a9e56a9bd94d0c30111a39bf31590a5ea3889e31",
+      "fileCount": 2,
+      "digest": "728e4f045897b3a704b1d286cc397cc061309f2d7c29cf7d02b86b96991aab22"
+    },
+    "docs/guards/V3": {
+      "prefix": "docs/guards/V3",
+      "treeId": "217e39d1860716b1df697dd0f5527c13f5842ac3",
+      "fileCount": 230,
+      "digest": "73ee56309f7db195e8676c9fd4b82011774e29b60aaf7897443cc74277c8a749"
+    },
+    "docs/guards/V3_ifx": {
+      "prefix": "docs/guards/V3_ifx",
+      "treeId": "bcee57aeb0fcbcdd7e7793e9512ce4a8bdf9c79e",
+      "fileCount": 332,
+      "digest": "2340e83ecdf81724d04f862381377164cbf28b696140e8cfd5edaee488811010"
+    },
+    ".github": {
+      "prefix": ".github",
+      "treeId": "785ff3ded896f3c3fe87a8ea5bb49fcb1ee19cdb",
+      "fileCount": 5,
+      "digest": "da38069f15276db7b696b8a38fc6a7dab62e1874db283b8ad1527161061b2779"
+    },
+    "IFX.sln": {
+      "prefix": "IFX.sln",
+      "treeId": "c532cf5895a1be93970f17b3c2d8382755c585b9",
+      "fileCount": 1,
+      "digest": "b56ab0961b49d260326e9fdca669307a1fdd8351838b847a68ef615eead20262"
+    }
+  },
+  "historicalReferences": {
+    "policy": "Historical text and evidence may name docs/guards/v4; it is indexed as history and not rewritten.",
+    "classes": [
+      "docs/guards/plans (formal Plans)",
+      "artifacts/guards (P10 and T7 evidence)",
+      "docs/guards/v4-adoption and docs/guards/TODO.md (migration and adoption records)",
+      "accepted verifiers ifx-cutover-p10-3 and ifx-parity-p10-2 (pre-T7 layout, historical)",
+      "T7 successor verifier ifx-rebind-115 (asserts the absence of docs/guards/v4 as a source path)"
+    ],
+    "disclosedCoupling": "docs/guards/candidates/ifx-gate-coverage-c6c1/Test-IFXC6DualPlatformCandidate.ps1 installs V4 from the Target docs/guards/v4 on Linux; tracked as IFX-V4-003 for the next C6c successor."
+  },
+  "booleans": {
+    "standaloneSourceAccepted": true,
+    "standaloneReleasePublished": true,
+    "ifxConsumerRebound": true,
+    "ifxCoreSourceRemoved": true,
+    "v4Activated": false,
+    "p10GatePassed": false,
+    "v3Retired": false
+  }
+}

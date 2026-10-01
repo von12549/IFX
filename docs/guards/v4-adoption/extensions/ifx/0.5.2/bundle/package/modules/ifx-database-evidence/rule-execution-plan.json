@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-database-evidence","rules":[{"ruleId":"DATABASE-LOCKED-EVIDENCE","claimId":"IFX.C4.DATABASE_EVIDENCE","stage":"post","detectors":["ifx-database-evidence"],"evidenceKinds":["database-evidence"],"severity":"blocking","baseline":null,"minimumMatches":1}]}

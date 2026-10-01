@@ -1,0 +1,581 @@
+{
+  "formatVersion": 1,
+  "status": "inactive-design-only",
+  "successorOf": {
+    "tuple": "V4 Guards 1.1.6 + ifx_profile 0.5.1",
+    "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+    "decisionSha256": "893693904ab17371491d1d3eb24267de8bbf7b1ca48c0142d89fc0ba65aa45e2",
+    "decisionNote": "A2-10c rehearsal (artifacts/guards/p10-ifx-i2b/a2-051/p10-3-successor-051/rehearsal)",
+    "previousIdentity": {
+      "targetCommit": "351b504bd6549a8e9cede9ab34571986f6188c49",
+      "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+      "bundleManifestSha256": "b7a6751612f2279809b07988916112b499c52e7b1b36ae175c68924bd979e5e7"
+    },
+    "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+    "earlier": {
+      "tuple": "V4 Guards 1.1.6 + ifx_profile 0.5.0",
+      "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+      "decisionSha256": "fab31b2bb91da93dcf12ec98c86b28a9f714cb10be84862e761c611ea28211b8",
+      "decisionNote": "A1-8c rehearsal (artifacts/guards/p10-ifx-i2b/p10-3-successor-050/rehearsal)",
+      "previousIdentity": {
+        "targetCommit": "c0d927eb7d81256d10194b894e20d4ad92333ad9",
+        "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+        "bundleManifestSha256": "086a3911a2cb8f5cef0caf7621cecaf49dcc9bf08e30acd8a376748b9e38a284"
+      },
+      "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+      "earlier": {
+        "tuple": "V4 Guards 1.1.6 + ifx_profile 0.4.4",
+        "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+        "decisionSha256": "b5882ec7d89f0124e10cfad72b7212466dfb802e98ed94c1c8731084f803cb0a",
+        "decisionNote": "I1 S9 rehearsal (artifacts/guards/p10-ifx-116/p10-3-successor-044/rehearsal)",
+        "previousIdentity": {
+          "targetCommit": "44536a6a2738004cfae5645f1d2d1206679d9b5d",
+          "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+          "bundleManifestSha256": "f71b47543252104370330d4c2ca68cc059a8d1279a7bb1f662361ab6584a64b7"
+        },
+        "planId": "20260929-v4-ifx-i2b-ci-evidence-and-bundle",
+        "earlier": {
+          "tuple": "V4 Guards 1.1.5 + ifx_profile 0.4.3",
+          "decision": "p10-3-successor-design-and-local-rehearsal-accepted",
+          "decisionSha256": "f9775c584be738ebe5b72892cec18a04f3b938f638b0dbae68e327b530b3ce47",
+          "decisionNote": "T7 successor rehearsal as re-run after the T8 cleanup (artifacts/guards/p10-ifx-115/p10-3-successor-t8-043)",
+          "previousIdentity": {
+            "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+            "baseArchiveSha256": "74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976",
+            "bundleManifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03"
+          },
+          "planId": "20260928-v4-ifx-i1-rebind-1-1-6",
+          "earlier": {
+            "tuple": "V4 Guards 1.1.4 + ifx_profile 0.4.2",
+            "decision": "p10-3-design-and-local-rehearsal-accepted",
+            "decisionSha256": "529e19b567c05619ec054117e2514c579a908a4e614355411fc28b6d52964964"
+          }
+        }
+      }
+    }
+  },
+  "remoteMutationAuthorized": false,
+  "activationBlocked": true,
+  "identity": {
+    "targetCommit": "3600988cc9e91f0a523ec60f5f4378dd4c83c541",
+    "v4ProductVersion": "1.1.6",
+    "ifxProfileVersion": "0.5.2",
+    "guardRepository": "von12549/Guard",
+    "guardReleaseCommit": "960678fd1a193d87d5c499f08e79e7ce0550d96a",
+    "baseArchiveSha256": "92f1ec54db83de24c9d2096c8da5831b0a50bba0d53b9a4c719ad741f1b392c8",
+    "bundleManifestSha256": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+    "profileSha256": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302",
+    "productionReviewSha256": "38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d",
+    "packageSha256": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42",
+    "compositionReceiptSha256": "01011be24afb6fdd6daa34666dc0ec0b7c886c5ffe3528b1dd80c7accbf07a19",
+    "c6cDecisionSha256": "5b5edf13fe7c3bc2ff97a5f62a2f08d68e14eb54c6bf91ea2a2b41262c99da90",
+    "c6dDecisionSha256": "8d7dee8d9b35c86ba6a0f1c7049467a30f0d8e151c020a5fb9c59708aa7be38c",
+    "c6eDecisionSha256": "102ada6ce67591af60a7ee56d588e46de4c057df10c7411e4ddb62d2c2851bfd",
+    "p10_2DecisionSha256": "c1f3f13a177fdf0c7d3d7d493abb09767d3ff823303d5169ac4f482f159d9d78",
+    "windowsFullSummarySha256": "d6384960457ce32e11b110f133d0c84afea26df6b288c47a588681791521db00"
+  },
+  "trustedInputs": {
+    "baseReleaseRepository": "von12549/Guard",
+    "baseReleaseTag": "v4-guards-v1.1.6",
+    "baseReleaseAsset": "v4-guards-1.1.6.zip",
+    "baseReleaseUrl": "https://github.com/von12549/Guard/releases/download/v4-guards-v1.1.6/v4-guards-1.1.6.zip",
+    "baseReleaseDigestPinned": true,
+    "futureBundleBasePath": "docs/guards/v4-adoption/extensions/ifx/0.5.2",
+    "bundlePublicationState": "not-published-separate-plan-required",
+    "candidateMaySupplyAuthority": false,
+    "mainPromotion": {
+      "state": "done-by-i2c",
+      "plan": "20261001-v4-ifx-i2c-main-promotion",
+      "mainCommit": "7b9b53dcc102fd8513927681641493101b4599ca",
+      "admittedEntry": "docs/guards/v4-adoption"
+    }
+  },
+  "workflow": {
+    "specimenPath": "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml",
+    "futureActivePath": ".github/workflows/v4-ifx-guardrails.yml",
+    "permissions": {
+      "contents": "read"
+    },
+    "secrets": [],
+    "jobs": [
+      "v4-ifx-contract",
+      "v4-ifx-windows",
+      "v4-ifx-required"
+    ],
+    "requiredContext": "v4-ifx-required",
+    "aggregateAlwaysPresent": true,
+    "deploymentPlatform": "windows-server",
+    "linuxStatus": "compatibility-bridge-required-until-linux-complete"
+  },
+  "evidenceModel": {
+    "model": "staged-by-workflow",
+    "stagingScript": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1",
+    "stagingScriptSource": "previously-trusted-base",
+    "producerIdentity": "each lock consumer verifies the producer script SHA-256 pinned in its accepted module policy",
+    "postWithoutStagingFailsClosed": true,
+    "producers": [
+      {
+        "gate": "solution",
+        "producerId": "ifx-v4a-solution-v1",
+        "script": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1",
+        "wrapsV3Gate": false,
+        "attestation": "v4-native-producer"
+      },
+      {
+        "gate": "assembly",
+        "producerId": "ifx-v4a-assembly-v1",
+        "script": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1",
+        "wrapsV3Gate": false,
+        "attestation": "v4-native-producer"
+      },
+      {
+        "gate": "frontend",
+        "producerId": "ifx-v4a-frontend-v1",
+        "script": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1",
+        "wrapsV3Gate": false,
+        "attestation": "v4-native-producer"
+      },
+      {
+        "gate": "database",
+        "producerId": "ifx-v4a-database-v1",
+        "script": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1",
+        "wrapsV3Gate": false,
+        "attestation": "v4-native-producer"
+      },
+      {
+        "gate": "graph",
+        "producerId": "ifx-v4a-graph-v1",
+        "script": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1",
+        "wrapsV3Gate": false,
+        "attestation": "v4-native-producer"
+      },
+      {
+        "gate": "type",
+        "producerId": "ifx-v4a-type-v1",
+        "script": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1",
+        "wrapsV3Gate": false,
+        "attestation": "v4-native-producer"
+      }
+    ],
+    "notes": [
+      "0.5.1 (A2): the solution, assembly, frontend, database and type producers run from docs/guards/v4-adoption/producers; none reads docs/guards/V3 or V3_ifx.",
+      "0.5.2 (A3, finding F-C1): the graph producer, its policy and two source policies run from docs/guards/v4-adoption/producers/graph; the staging script and the aggregate run from docs/guards/v4-adoption/ci; nothing the specimen or a producer runs lies under docs/guards/candidates (closure inventory, controls and parity in artifacts/guards/p10-ifx-i2b/a3-closure).",
+      "The generated producer is not staged."
+    ],
+    "relocation": "done in 0.5.1 (I2-B amendment A2) and 0.5.2 (amendment A3, closure)",
+    "closure": {
+      "allowedRoot": "docs/guards/v4-adoption",
+      "rule": "every trusted-base path of the specimen, the staging script and every producer script lie under the allowed root; no producer names docs/guards/candidates",
+      "executedBy": "a310-successor-rehearsal"
+    }
+  },
+  "coexistence": {
+    "minimumCalendarDays": 7,
+    "minimumDistinctPullRequestHeads": 3,
+    "negativeControlRequired": true,
+    "allV3ContextsRemainRequired": true,
+    "v4AggregateIsAdditive": true
+  },
+  "currentV3Contexts": [
+    "v3-pre-diff",
+    "v3-architecture",
+    "v3-quality-solution",
+    "v3-quality-assembly",
+    "v3-quality-frontend",
+    "v3-specialized-g03",
+    "v3-specialized-g04",
+    "v3-specialized-g05",
+    "v3-specialized-plan04",
+    "v3-specialized-database",
+    "v3-historical-integrity",
+    "v3-cross-platform-ubuntu-latest",
+    "v3-cross-platform-windows-latest"
+  ],
+  "contextOwnership": [
+    {
+      "v3Context": "v3-pre-diff",
+      "v4Owner": "v4-ifx-contract",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-architecture",
+      "v4Owner": "v4-ifx-windows:ifx_profile-pre-and-post",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-quality-solution",
+      "v4Owner": "v4-ifx-windows:ifx-solution-evidence",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-quality-assembly",
+      "v4Owner": "v4-ifx-windows:ifx-assembly-evidence",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-quality-frontend",
+      "v4Owner": "v4-ifx-windows:ifx-frontend-evidence",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-specialized-g03",
+      "v4Owner": "v4-ifx-windows:ifx-g03-modules",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-specialized-g04",
+      "v4Owner": "v4-ifx-windows:ifx-g04-modules",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-specialized-g05",
+      "v4Owner": "v4-ifx-windows:ifx-g05-modules",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-specialized-plan04",
+      "v4Owner": "v4-ifx-windows:ifx-plan04-modules",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-specialized-database",
+      "v4Owner": "v4-ifx-windows:ifx-database-evidence",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-historical-integrity",
+      "v4Owner": "v4-ifx-windows:ifx-history-integrity",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    },
+    {
+      "v3Context": "v3-cross-platform-ubuntu-latest",
+      "v4Owner": "v3-compatibility-bridge",
+      "finalDisposition": "retain-until-v4-linux-complete-separate-plan",
+      "attestation": "temporary-bridge"
+    },
+    {
+      "v3Context": "v3-cross-platform-windows-latest",
+      "v4Owner": "v4-ifx-windows",
+      "finalDisposition": "replaced-after-coexistence",
+      "attestation": "v4-native"
+    }
+  ],
+  "detectorOwnership": [
+    {
+      "family": "C1-source-project-and-graph",
+      "stage": "pre",
+      "owner": "ifx_profile pre modules",
+      "status": "v4-owner"
+    },
+    {
+      "family": "G03-contract-event-governance",
+      "stage": "post",
+      "owner": "ifx-g03 module group",
+      "status": "v4-owner"
+    },
+    {
+      "family": "G04-deployment-runtime",
+      "stage": "post",
+      "owner": "ifx-g04 module group",
+      "status": "v4-owner"
+    },
+    {
+      "family": "G05-context-and-sensitive-data",
+      "stage": "post",
+      "owner": "ifx-g05 module group",
+      "status": "v4-owner"
+    },
+    {
+      "family": "Plan04-governance",
+      "stage": "post",
+      "owner": "ifx-plan04 module group",
+      "status": "v4-owner"
+    },
+    {
+      "family": "database-evidence",
+      "stage": "post",
+      "owner": "ifx-database-evidence",
+      "status": "v4-owner"
+    },
+    {
+      "family": "solution-assembly-frontend-evidence",
+      "stage": "post",
+      "owner": "ifx solution/assembly/frontend modules",
+      "status": "v4-owner"
+    },
+    {
+      "family": "historical-integrity",
+      "stage": "post",
+      "owner": "ifx-history-integrity",
+      "status": "v4-owner"
+    },
+    {
+      "family": "linux-portability",
+      "stage": "external",
+      "owner": "v3-cross-platform-ubuntu-latest",
+      "status": "temporary-bridge"
+    }
+  ],
+  "states": [
+    {
+      "id": "v3-active",
+      "requiredContexts": [
+        "v3-pre-diff",
+        "v3-architecture",
+        "v3-quality-solution",
+        "v3-quality-assembly",
+        "v3-quality-frontend",
+        "v3-specialized-g03",
+        "v3-specialized-g04",
+        "v3-specialized-g05",
+        "v3-specialized-plan04",
+        "v3-specialized-database",
+        "v3-historical-integrity",
+        "v3-cross-platform-ubuntu-latest",
+        "v3-cross-platform-windows-latest"
+      ]
+    },
+    {
+      "id": "coexistence",
+      "requiredContexts": [
+        "v3-pre-diff",
+        "v3-architecture",
+        "v3-quality-solution",
+        "v3-quality-assembly",
+        "v3-quality-frontend",
+        "v3-specialized-g03",
+        "v3-specialized-g04",
+        "v3-specialized-g05",
+        "v3-specialized-plan04",
+        "v3-specialized-database",
+        "v3-historical-integrity",
+        "v3-cross-platform-ubuntu-latest",
+        "v3-cross-platform-windows-latest",
+        "v4-ifx-required"
+      ]
+    },
+    {
+      "id": "v4-primary-with-linux-bridge",
+      "requiredContexts": [
+        "v4-ifx-required",
+        "v3-cross-platform-ubuntu-latest"
+      ]
+    },
+    {
+      "id": "rollback-restored",
+      "requiredContexts": [
+        "v3-pre-diff",
+        "v3-architecture",
+        "v3-quality-solution",
+        "v3-quality-assembly",
+        "v3-quality-frontend",
+        "v3-specialized-g03",
+        "v3-specialized-g04",
+        "v3-specialized-g05",
+        "v3-specialized-plan04",
+        "v3-specialized-database",
+        "v3-historical-integrity",
+        "v3-cross-platform-ubuntu-latest",
+        "v3-cross-platform-windows-latest"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "id": "enter-coexistence",
+      "from": "v3-active",
+      "to": "coexistence",
+      "order": [
+        "publish-and-verify-exact-bundle-under-separate-authorization",
+        "install-inactive-workflow-under-separate-authorization",
+        "prove-v4-ifx-required-negative-control",
+        "add-v4-ifx-required-without-removing-v3-contexts"
+      ]
+    },
+    {
+      "id": "promote-v4-primary",
+      "from": "coexistence",
+      "to": "v4-primary-with-linux-bridge",
+      "order": [
+        "satisfy-coexistence-window",
+        "freeze-merge-queue",
+        "verify-v4-ifx-required-on-current-head",
+        "retain-v3-cross-platform-ubuntu-latest",
+        "remove-the-other-twelve-v3-contexts"
+      ]
+    },
+    {
+      "id": "rollback",
+      "from": "v4-primary-with-linux-bridge",
+      "to": "rollback-restored",
+      "order": [
+        "freeze-merge-queue",
+        "restore-v3-workflow-from-exact-commit-and-blob",
+        "restore-all-thirteen-v3-required-contexts",
+        "prove-v3-required-contexts-on-rollback-head",
+        "remove-v4-ifx-required",
+        "disable-v4-workflow-only-after-v3-proof"
+      ]
+    }
+  ],
+  "rollback": {
+    "triggers": [
+      "v4-ifx-required-missing-skipped-or-false-pass",
+      "candidate-self-judgment-or-authority-hash-drift",
+      "unexplained-v3-v4-verdict-divergence",
+      "bundle-or-release-integrity-failure",
+      "required-context-or-ruleset-drift",
+      "evidence-or-target-root-mutation"
+    ],
+    "restoreCommit": "e2ffb2eb3ec632c0124199ecad000c26c5148792",
+    "restoreWorkflowPath": ".github/workflows/v3-ifx-guardrails.yml",
+    "restoreWorkflowBlob": "51986b5aae2ccdacb52020f21c20b7c12f630726",
+    "restoreRulesetId": 23459908,
+    "removeV4OnlyAfterV3Green": true
+  },
+  "negativeControls": [
+    {
+      "id": "remove-v3-before-v4-proof",
+      "expected": "rejected",
+      "executedBy": "p10-3-design"
+    },
+    {
+      "id": "remove-v4-before-v3-restore",
+      "expected": "rejected",
+      "executedBy": "p10-3-design"
+    },
+    {
+      "id": "candidate-supplies-bundle",
+      "expected": "rejected",
+      "executedBy": "p10-3-design"
+    },
+    {
+      "id": "aggregate-job-skipped",
+      "expected": "rejected",
+      "executedBy": "p10-3-design"
+    },
+    {
+      "id": "unpublished-bundle-activation",
+      "expected": "rejected",
+      "executedBy": "p10-3-design"
+    },
+    {
+      "id": "wrong-release-repository",
+      "expected": "rejected",
+      "executedBy": "t7-successor-rehearsal"
+    },
+    {
+      "id": "missing-release-asset",
+      "expected": "rejected",
+      "executedBy": "t7-successor-rehearsal"
+    },
+    {
+      "id": "archive-hash-drift",
+      "expected": "rejected",
+      "executedBy": "t7-successor-rehearsal"
+    },
+    {
+      "id": "missing-bundle",
+      "expected": "rejected",
+      "executedBy": "t7-successor-rehearsal"
+    },
+    {
+      "id": "source-path-fallback",
+      "expected": "rejected",
+      "executedBy": "t7-successor-rehearsal"
+    },
+    {
+      "id": "candidate-self-judgment",
+      "expected": "rejected",
+      "executedBy": "t7-successor-rehearsal"
+    },
+    {
+      "id": "premature-cleanup",
+      "expected": "rejected",
+      "executedBy": "t7-successor-rehearsal"
+    },
+    {
+      "id": "installer-from-target-source",
+      "expected": "rejected",
+      "executedBy": "i1-successor-rehearsal"
+    },
+    {
+      "id": "producer-step-missing",
+      "expected": "rejected",
+      "executedBy": "a18-successor-rehearsal"
+    },
+    {
+      "id": "staging-from-candidate",
+      "expected": "rejected",
+      "executedBy": "a18-successor-rehearsal"
+    },
+    {
+      "id": "post-before-staging",
+      "expected": "rejected",
+      "executedBy": "a18-successor-rehearsal"
+    },
+    {
+      "id": "evidence-upload-missing",
+      "expected": "rejected",
+      "executedBy": "a18-successor-rehearsal"
+    },
+    {
+      "id": "producer-reads-v3",
+      "expected": "rejected",
+      "executedBy": "a210-successor-rehearsal"
+    },
+    {
+      "id": "re-attestation-returns",
+      "expected": "rejected",
+      "executedBy": "a210-successor-rehearsal"
+    },
+    {
+      "id": "specimen-reads-lab-tree",
+      "expected": "rejected",
+      "executedBy": "a310-successor-rehearsal"
+    },
+    {
+      "id": "producer-reads-lab-tree",
+      "expected": "rejected",
+      "executedBy": "a310-successor-rehearsal"
+    }
+  ],
+  "activationPrerequisites": [
+    "publish-curated-v4-adoption-package-to-main-by-separate-plan",
+    "publish-exact-ifx-0.5.2-bundle-by-separate-plan",
+    "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
+    "prove-producer-runtime-prerequisites-on-the-hosted-runner-when-installing-the-specimen",
+    "add-v4-ifx-required-to-ruleset-by-separate-plan",
+    "complete-coexistence-window-before-removing-any-v3-context"
+  ],
+  "boundary": {
+    "p10_3DesignOnly": true,
+    "p10GatePassed": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "activated": false,
+    "ifxCutover": false,
+    "v3Retired": false,
+    "ifxCoreSourceRemoved": true,
+    "cleanupAuthorized": true,
+    "cleanupPlanId": "20260928-v4-todo-008-t8-ifx-cleanup"
+  },
+  "retiredNegativeControls": [
+    {
+      "id": "ownership-hides-v3-producer",
+      "retiredBy": "a210-successor-rehearsal",
+      "reason": "0.5.0-a only: with no V3-wrapping producer, re-attestation-returns and producer-reads-v3 replace it"
+    }
+  ]
+}

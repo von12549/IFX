@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-ring-graph-c1d",
+  "sourcePolicy": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+    "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+  },
+  "sourceRule": {
+    "path": "docs/guards/V3_ifx/stages/post/rules/L2.2.json",
+    "sha256": "3061250248352bc621763df6ed6f087e2795104ee642244081858fdd90892145"
+  },
+  "scanRoot": "src",
+  "rings": {
+    "Domain": ["IFX.Modules.*.Domain"],
+    "Contracts": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
+    "Application": ["IFX.Modules.*.Application"],
+    "Presentation": ["IFX.Modules.*.Presentation"],
+    "IntegrationAdapter": ["IFX.Modules.*.Integration", "IFX.Modules.*.Infrastructure.Integrations"],
+    "Infrastructure": ["IFX.Modules.*.Infrastructure", "IFX.Platform.*.Infrastructure.*"],
+    "Client": ["IFX.Modules.*.Client"],
+    "Runtime": ["IFX.Platform.*.Runtime"],
+    "Composition": ["IFX.Modules.*.Composition", "IFX.Platform.*.Composition"],
+    "RuntimeHost": ["IFX.ApiHost", "IFX.*.Worker"]
+  },
+  "allowedDependencies": {
+    "Domain": [],
+    "Contracts": [],
+    "Application": ["Domain", "Contracts"],
+    "Presentation": ["Application", "Contracts", "Domain"],
+    "IntegrationAdapter": ["Application", "Contracts"],
+    "Infrastructure": ["Application", "Domain", "Contracts", "Client", "Runtime"],
+    "Client": ["Contracts", "Runtime"],
+    "Runtime": ["Contracts"],
+    "Composition": ["Domain", "Contracts", "Application", "Presentation", "IntegrationAdapter", "Infrastructure", "Client", "Runtime"],
+    "RuntimeHost": ["Composition"]
+  },
+  "transitiveBoundaryRoles": ["Composition"],
+  "claimId": "IFX.C1.RING_GRAPH_RAW",
+  "minimumDomainProjects": 1,
+  "coverageScope": "raw ProjectReference graph from src entries; no MSBuild evaluation or source import"
+}

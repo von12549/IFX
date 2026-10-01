@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-domain-reference",
+  "matrixSha256": "1506a8b1cf079a834c11a10ce798068696abd80c0c1b460528c4d471336f8599",
+  "rules": [
+    {
+      "ruleId": "RING-DIRECTION",
+      "claimId": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS",
+      "stage": "pre",
+      "detectors": ["ifx-domain-reference"],
+      "evidenceKinds": ["project-model-raw", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

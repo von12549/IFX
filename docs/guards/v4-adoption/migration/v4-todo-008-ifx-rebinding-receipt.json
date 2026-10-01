@@ -1,0 +1,144 @@
+{
+  "formatVersion": 1,
+  "kind": "v4-todo-008-ifx-consumer-rebinding-receipt",
+  "planId": "20260928-v4-todo-008-t7-ifx-consumer-rebinding",
+  "createdAt": "2026-09-28T06:10:26.760799Z",
+  "handoffDecision": {
+    "decision": "standalone-guard-is-canonical-v4-source",
+    "statement": "IFX consumes V4 Guards only as a release of von12549/Guard. docs/guards/v4 in IFX is a frozen, non-canonical duplicate until the separately authorized T8 cleanup.",
+    "guardRepository": "https://github.com/von12549/Guard",
+    "guardDefaultBranchCommitAtHandoff": "b339dbc634a60c4be9f8059f798375df4bedad7a",
+    "releaseTag": "v4-guards-v1.1.5",
+    "releaseTagObject": "dce9295d77c975fe0eae9045a48130d9159794c6",
+    "releaseCommit": "a02ee3c66712c1cc9c3a84676da8ce1cd1bd6286",
+    "releaseImmutableFlag": false,
+    "assetUrl": "https://github.com/von12549/Guard/releases/download/v4-guards-v1.1.5/v4-guards-1.1.5.zip",
+    "archiveSha256": "74c371ebca73186d5ef636669a226960982c5c28b13532bc5972cbcdffee3976",
+    "archiveSize": 1120977,
+    "installedPackageHash": "e8cd32697709e8ca155b051ddbf731e12b65bad42858eafd92cddb0ee4dbf733",
+    "installReceiptSha256": "622f3d0cb8e8fc8ead33444931605bc81e23e9cc3628a84384bb4379bb839b31",
+    "distributionManifestSha256": "abd865d42848c220eb253db76f72e61e2fe82765fdb05931811bb9b477526fec",
+    "guardCertification": "https://github.com/von12549/Guard/actions/runs/36331614650 (Linux 33/33, Windows 34/34)"
+  },
+  "oldSource": {
+    "repository": "von12549/IFX",
+    "commit": "80f7b6b65fb06897444a6a36c604c42c93c834e4",
+    "subtree": "docs/guards/v4",
+    "tree": "af913836d83c071b9c0a769c6c84da4fb727b971",
+    "treeAtRebinding": "5282001c3c299ecd80c32120900e7eea2c9d1d3f",
+    "note": "The two trees differ exactly by the six moved IFX-owned files and the README non-canonical notice."
+  },
+  "movedToAdoption": [
+    {
+      "from": "docs/guards/v4/plans/06-ifx-profile-validation-program.md",
+      "to": "docs/guards/v4-adoption/plans/06-ifx-profile-validation-program.md"
+    },
+    {
+      "from": "docs/guards/v4/plans/07-p10-0-baseline-acceptance.md",
+      "to": "docs/guards/v4-adoption/plans/07-p10-0-baseline-acceptance.md"
+    },
+    {
+      "from": "docs/guards/v4/plans/08-p10-1-extension-composition-compatibility.md",
+      "to": "docs/guards/v4-adoption/plans/08-p10-1-extension-composition-compatibility.md"
+    },
+    {
+      "from": "docs/guards/v4/plans/09-p10-3-cutover-and-rollback-proposal.md",
+      "to": "docs/guards/v4-adoption/plans/09-p10-3-cutover-and-rollback-proposal.md"
+    },
+    {
+      "from": "docs/guards/v4/integrations/github/ifx-cutover-proposal.json",
+      "to": "docs/guards/v4-adoption/integrations/github/ifx-cutover-proposal.json"
+    },
+    {
+      "from": "docs/guards/v4/integrations/github/proposed-v4-ifx-guardrails.yml",
+      "to": "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml"
+    }
+  ],
+  "ifxConsumerIdentity": {
+    "targetCommit": "1fcc07838c4c37a2ee8518a27f8966f8f5a095f5",
+    "bundle": {
+      "id": "ifx-profile-candidate",
+      "version": "0.4.3",
+      "manifestSha256": "24c325acfe42723f9683b7da73a9dc61abac3e738711657841fa483ae56fdc03",
+      "profileSha256": "a8558812fb66d2071c42023ae67f27eff309573ee5af8224bba75f02bf5b99c4"
+    },
+    "productionReviewSha256": "7619c12e010a4707ef4e23f4f0b0886cdfcefbed96ccd970c31324e5c787542d",
+    "composedPackageHash": "25fd95fa4f8e56190aa5993ddc7efde99c3aafd8a185fbb7cdaead8efa1369c6",
+    "compositionReceiptSha256": "6901c54fb4d80d7b556cb5d78be3d4178d27c99299d057f63387c750da91fbcd"
+  },
+  "validation": {
+    "r1Install": "pass: archive, sidecar and API digest agree; package hash e8cd3269",
+    "r2BaseDiff": "pass: only the 7 declared T4 files, version fields and Host/Companion binaries differ from 1.1.4",
+    "r3C6c": {
+      "path": "artifacts/guards/p10-ifx-115/c6c-decision.json",
+      "sha256": "8ef606c24be2d86a50319ad36f7b713e8ab6fa3281505a5fcbb73f131b284959"
+    },
+    "r3Chain": {
+      "path": "artifacts/guards/p10-ifx-115/r3-chain.json",
+      "sha256": "27ac2cf84503761f01df220430eb807a85c451d9f23c401547f820a4861cf87c"
+    },
+    "r3WindowsSummary": {
+      "path": "artifacts/guards/p10-ifx-115/c6c-full/windows/summary.json",
+      "sha256": "356616e523bc27f7d2dd2657f8428d7cb4e39b26a4e6bf275ce7f0bdfe7ee437"
+    },
+    "r4HumanReview": {
+      "path": "artifacts/guards/p10-ifx-115/c6d-review-043/c6d-decision.json",
+      "sha256": "074266b1564b406907c1a41caef7860275303dcf9d99f33acab4fe694e23b4ea"
+    },
+    "r4LinuxDiagnostic": {
+      "path": "artifacts/guards/p10-ifx-115/c6d-review-043/linux-diagnostic-summary.json",
+      "sha256": "4f7d332f5a880b780cc69b5757d70215a6e865456383e6d37d9bdd4e126dc48a"
+    },
+    "r5Composition": {
+      "path": "artifacts/guards/p10-ifx-115/r5-043/r5-decision.json",
+      "sha256": "b99163765917e7ced4f485e63c7cf627566e743645864edcf106f9a3ca9b94c9"
+    },
+    "r6Parity": {
+      "path": "artifacts/guards/p10-ifx-115/p10-2-parity-043/p10-2-decision.json",
+      "sha256": "443ffdfe9f500168c456dee72452b206ee669958df8848c5fa70fb909962db8b"
+    },
+    "r6ComparisonWith114": {
+      "path": "artifacts/guards/p10-ifx-115/p10-2-parity-043/comparison-with-114.json",
+      "sha256": "2ea06ce168d9e4084ae69795605cee1e63b1bee5371d0b7e66fcdfd20e4d8118"
+    },
+    "r7Rehearsal": {
+      "path": "artifacts/guards/p10-ifx-115/p10-3-successor-043/rehearsal/p10-3-successor-decision.json",
+      "sha256": "c2e432bd1c61b1f558ea6daf1c20a8ccf6b4f09e3116d6c60fb4673db42a392d"
+    },
+    "r7RemoteSnapshot": {
+      "path": "artifacts/guards/p10-ifx-115/p10-3-successor-043/remote-snapshot.json",
+      "sha256": "da7cd373b1135b7a5ae44e3c00e4e42e9e060e0a8ea229c6509a99bfab0ec7df"
+    },
+    "identityFile": {
+      "path": "docs/guards/candidates/ifx-rebind-115/t7-identity.json",
+      "sha256": "d1457ced1d61ae06a35f393526ed69510d151774e471d93a4714861484c63a1b"
+    }
+  },
+  "disclosures": [
+    "Linux portability remains a non-blocking advisory (C6c22). For 0.4.3, Linux direct-post fails because ifx-database-evidence exceeds its 60 s timeout in the container (73-85 s measured); module bytes and workload are identical to 0.4.2. Follow-up: raise or platform-scale that timeout in a later bundle under its own Plan.",
+    "The installed Web UI hands-on record for 1.1.5 + 0.4.3 is deferred to the P10.GATE successor.",
+    "The GitHub release is not marked immutable; the consumer pins the archive SHA-256 in addition to the tag."
+  ],
+  "unchanged": {
+    "v3RequiredContexts": 13,
+    "ifxRuleset": {
+      "id": 23459908,
+      "enforcement": "active"
+    },
+    "ifxWorkflows": ".github/workflows unchanged",
+    "v3Source": "docs/guards/V3 and docs/guards/V3_ifx unchanged by T7"
+  },
+  "booleans": {
+    "standaloneSourceAccepted": true,
+    "standaloneReleasePublished": true,
+    "ifxConsumerRebound": true,
+    "ifxCoreSourceRemoved": false,
+    "v4Activated": false,
+    "p10GatePassed": false,
+    "v3Retired": false
+  },
+  "next": [
+    "R10: push codex/v4-development-base and the Guard records PR (separate authorization)",
+    "T8: protected removal of docs/guards/v4 (A-IFX-DELETE)"
+  ]
+}

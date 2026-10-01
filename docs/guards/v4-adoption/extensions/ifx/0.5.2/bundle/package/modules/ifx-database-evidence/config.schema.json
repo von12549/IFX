@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-database-evidence/config.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "enabledClaims",
+    "policySha256"
+  ],
+  "properties": {
+    "enabledClaims": {
+      "const": [
+        "IFX.C4.DATABASE_EVIDENCE"
+      ]
+    },
+    "policySha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

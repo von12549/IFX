@@ -1,0 +1,4 @@
+{
+  "formatVersion":1,"moduleId":"ifx-plan05-security",
+  "rules":[{"ruleId":"PLAN05-SECURITY-BOUNDARY","claimId":"IFX.C4.PLAN05_SECURITY","stage":"post","detectors":["ifx-plan05-security"],"evidenceKinds":["security-source","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1}]
+}

@@ -1,0 +1,74 @@
+Set-StrictMode -Version Latest;$ErrorActionPreference='Stop'
+function Get-PinSha256([string]$Path){
+    # 0.5.0-a (R5): a governance pin is the SHA-256 of the UTF-8 text with line endings normalized to LF; binary files by raw bytes.
+    if([IO.Path]::GetExtension($Path).ToLowerInvariant() -in @('.png','.jpg','.jpeg','.gif','.ico','.pdf','.zip','.dll','.exe')){return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()}
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes([IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")))).ToLowerInvariant()
+}
+$claim='IFX.C4A.PLAN04_PROJECTION';$rule='PLAN04-PROJECTION';$detector='ifx-plan04-projection';$findings=[Collections.Generic.List[object]]::new();$matched=0
+function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function Hash-Text([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
+function Emit([string]$Status,[string]$Category,[string]$Message=''){$result=[ordered]@{formatVersion=1;status=$Status;exitCategory=$Category;findings=@($findings.ToArray());coverage=@([ordered]@{claimId=$claim;matched=[int]$matched;minimum=1})};if($Message){$result.message=$Message};[Console]::Out.WriteLine(($result|ConvertTo-Json -Depth 40 -Compress))}
+function Stop-Adapter([string]$Category,[string]$Message){Emit 'error' $Category $Message;exit 0}
+function Is-Under([string]$Path,[string]$Root){$r=[IO.Path]::GetRelativePath($Root,$Path);$r -ne '..' -and -not [IO.Path]::IsPathRooted($r) -and -not $r.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)}
+function Assert-NoLink([string]$Path,[string]$Root){$cursor=[IO.Path]::GetFullPath($Path);while(Is-Under $cursor $Root){if([IO.File]::Exists($cursor) -or [IO.Directory]::Exists($cursor)){$item=Get-Item -LiteralPath $cursor -Force;if(($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $item.LinkTarget){Stop-Adapter 'unsafe-path' "Linked authority: $Path"}};if($cursor -ceq $Root){break};$parent=[IO.Path]::GetDirectoryName($cursor);if(-not $parent -or $parent -ceq $cursor){break};$cursor=$parent}}
+function Present($Value){-not [string]::IsNullOrWhiteSpace([string]$Value)}
+function Match([string]$Text,[string]$Pattern){[Regex]::IsMatch($Text,$Pattern,[Text.RegularExpressions.RegexOptions]::IgnoreCase,[TimeSpan]::FromSeconds(2))}
+function Field($Object,[string]$Name){if($Object -is [System.Collections.IDictionary] -and $Object.Contains($Name)){return $Object[$Name]};return $null}
+function Record([string]$Id,[bool]$Pass){$script:matched++;if(-not $Pass){$findings.Add([ordered]@{ruleId=$rule;subject=$Id;evidenceKind='projection-source';detectorId=$detector;severity='blocking'})}}
+function Registration-Errors($registration,[bool]$RequireRegistry){$errors=[Collections.Generic.List[string]]::new();$raw=$registration|ConvertTo-Json -Depth 100 -Compress;$contexts=@([Regex]::Matches($raw,'\b[A-Za-z]+DbContext\b')|ForEach-Object Value|Sort-Object -Unique);if($contexts.Count -gt 1 -or (Match $raw 'cross-module-table-join')){$errors.Add('cross-dbcontext-or-table-join')};if($registration.status -eq 'approved' -and ((Field $registration 'registrationPresent') -eq $false -or -not $RequireRegistry)){$errors.Add('unregistered-projection')};if($registration.status -eq 'approved'){$semantics=Field $registration 'semantics';$lifecycle=Field $registration 'lifecycle';$privacy=Field $registration 'privacy';if(-not(Present (Field $semantics 'inbox')) -or -not(Present (Field $semantics 'idempotencyKey'))){$errors.Add('duplicate-business-effect-risk')};if(-not(Present (Field $lifecycle 'rebuild')) -or -not(Present (Field $lifecycle 'reconciliation')) -or -not(Present (Field $lifecycle 'driftDetection'))){$errors.Add('rebuild-drift-risk')};if((Field $privacy 'sourceFieldSuperset') -eq $true){$errors.Add('sensitive-field-superset')}};return @($errors|Sort-Object -Unique)}
+function Source-Files([string]$Root){
+    $files=[Collections.Generic.List[object]]::new();$pending=[Collections.Generic.Queue[string]]::new();$pending.Enqueue($Root)
+    while($pending.Count -gt 0){
+        $current=$pending.Dequeue()
+        foreach($directoryPath in [IO.Directory]::EnumerateDirectories($current)){
+            if(([IO.File]::GetAttributes($directoryPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0){Stop-Adapter 'unsafe-path' 'Projection source tree contains a link.'}
+            if([IO.Path]::GetFileName($directoryPath) -in @('bin','obj')){continue};$pending.Enqueue($directoryPath)
+        }
+        foreach($filePath in [IO.Directory]::EnumerateFiles($current,'*.cs',[IO.SearchOption]::TopDirectoryOnly)){
+            if(([IO.File]::GetAttributes($filePath) -band [IO.FileAttributes]::ReparsePoint) -ne 0){Stop-Adapter 'unsafe-path' 'Projection source tree contains a link.'}
+            $files.Add([pscustomobject]@{FullName=$filePath;RelativePath=[IO.Path]::GetRelativePath($target,$filePath).Replace('\','/');Sha256=Hash $filePath;Text=[IO.File]::ReadAllText($filePath)})
+        }
+    }
+    return @($files.ToArray()|Sort-Object FullName)
+}
+if([string]::IsNullOrWhiteSpace($env:V4_STAGE_INPUT_JSON)){Stop-Adapter 'invalid-input' 'Stage input required.'}
+try{$inputObject=$env:V4_STAGE_INPUT_JSON|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'invalid-input' 'Stage input malformed.'}
+if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($inputObject.config.enabledClaims)-join '|') -cne $claim -or @($inputObject.relativeRoots) -notcontains 'src'){Stop-Adapter 'invalid-input' 'Stage or claim selection invalid.'}
+if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'prerequisite-missing' 'TargetRoot must be absolute.'};$target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot);if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot missing.'};Assert-NoLink $target $target
+$settingsFile=Join-Path $PSScriptRoot 'policy.json';if(-not [IO.File]::Exists($settingsFile) -or (Hash $settingsFile) -cne [string]$inputObject.config.policySha256){Stop-Adapter 'integrity-failure' 'Projection module policy drift.'}
+try{$settings=Get-Content $settingsFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Projection module policy malformed.'}
+if($settings.formatVersion -ne 1 -or $settings.id -cne 'ifx-plan04-projection-050a' -or $settings.pinPolicy -cne 'governance-only' -or @($settings.authorities).Count -ne 9 -or @($settings.fixtureExpectations).Count -ne 6 -or @($settings.checkIds).Count -ne 13){Stop-Adapter 'integrity-failure' 'Projection module identity drift.'}
+$pinned=@($settings.authorities|Where-Object{$_.pinned -eq $true});$configLocks=@($inputObject.config.authorityHashes);if($pinned.Count -ne 3 -or $configLocks.Count -ne $pinned.Count){Stop-Adapter 'invalid-input' 'Governance authority lock count mismatch.'};for($k=0;$k -lt $pinned.Count;$k++){if($pinned[$k].id -cne $configLocks[$k].id){Stop-Adapter 'invalid-input' "Governance authority lock mismatch: $k"}}
+# 0.5.0-a: governance authorities keep their pins; each live authority is bound to its current bytes for the loop below.
+$locks=@(foreach($pa in @($settings.authorities)){if($pa.pinned -eq $true){@($configLocks|Where-Object{$_.id -ceq $pa.id})[0]}else{$lr=[string]$pa.path;$lf=[IO.Path]::GetFullPath((Join-Path $target $lr));$ls=-not [IO.Path]::IsPathRooted($lr) -and $lr -notmatch '(^|[\\/])\.\.([\\/]|$)' -and (Is-Under $lf $target) -and [IO.File]::Exists($lf) -and ((Get-Item -LiteralPath $lf -Force).Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0;[ordered]@{id=[string]$pa.id;sha256=$(if($ls){Get-PinSha256 $lf}else{'0'*64})}}});if($locks.Count -ne 9){Stop-Adapter 'invalid-input' 'Authority lock count drift.'};$texts=@{}
+for($i=0;$i -lt 9;$i++){$authority=$settings.authorities[$i];$lock=$locks[$i];$relative=[string]$authority.path;if($authority.id -cne $lock.id -or [string]$lock.sha256 -cnotmatch '^[a-f0-9]{64}$' -or [IO.Path]::IsPathRooted($relative) -or $relative -match '(^|[\\/])\.\.([\\/]|$)'){Stop-Adapter 'invalid-input' "Authority lock mismatch: $i"};$full=[IO.Path]::GetFullPath((Join-Path $target $relative));if(-not(Is-Under $full $target)){Stop-Adapter 'unsafe-path' "Authority escapes TargetRoot: $relative"};Assert-NoLink $full $target;if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing authority: $relative"};if((Get-PinSha256 $full) -cne [string]$lock.sha256){Stop-Adapter 'integrity-failure' "Stale authority: $relative"};$texts[[string]$authority.id]=[IO.File]::ReadAllText($full)}
+try{$projection=$texts.projectionPolicy|ConvertFrom-Json -AsHashtable -Depth 100;$schema=$texts.schema|ConvertFrom-Json -AsHashtable -Depth 100;$registry=$texts.registry|ConvertFrom-Json -AsHashtable -Depth 100;$catalog=$texts.catalog|ConvertFrom-Json -AsHashtable -Depth 100;$graph=$texts.graph|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Projection authority JSON malformed.'}
+$sourceRoot=[IO.Path]::GetFullPath((Join-Path $target ([string]$settings.sourceRoot)));if(-not(Is-Under $sourceRoot $target) -or -not [IO.Directory]::Exists($sourceRoot)){Stop-Adapter 'prerequisite-missing' 'Module source root missing.'};Assert-NoLink $sourceRoot $target
+$sourceFiles=@(Source-Files $sourceRoot)
+if($sourceFiles.Count -lt 20){$findings.Add([ordered]@{ruleId=$rule;subject='zero-subject';evidenceKind='coverage';detectorId=$detector;severity='blocking'});Emit 'fail' 'findings-blocking';exit 0}
+$sourceLines=@($sourceFiles|ForEach-Object{"$($_.RelativePath)|$($_.Sha256)"}) -join "`n";<# 0.5.0-a: live tree; no Profile fingerprint #>
+$fixtureRoot=[IO.Path]::GetFullPath((Join-Path $target ([string]$settings.fixtureRoot)));if(-not(Is-Under $fixtureRoot $target) -or -not [IO.Directory]::Exists($fixtureRoot)){Stop-Adapter 'prerequisite-missing' 'Fixture root missing.'};Assert-NoLink $fixtureRoot $target
+$fixtures=@(Get-ChildItem -LiteralPath $fixtureRoot -File -Filter 'projection-*.json' -Force|Sort-Object Name);foreach($file in $fixtures){Assert-NoLink $file.FullName $target};$fixtureLines=@($fixtures|ForEach-Object{"$($_.Name)|$(Hash $_.FullName)"}) -join "`n";<# 0.5.0-a: live tree; no Profile fingerprint #>
+$references=@($registry.references);$holdings=@($references|Where-Object id -eq 'holdings-event-consumer');$active=@($catalog.protocols|Where-Object lifecycle -eq 'Active'|ForEach-Object identity);$schemaFile=[IO.Path]::GetFullPath((Join-Path $target ([string]$settings.authorities[1].path)))
+$schemaResults=@($references|ForEach-Object{Test-Json -Json ($_|ConvertTo-Json -Depth 100) -SchemaFile $schemaFile -ErrorAction SilentlyContinue})
+$forbiddenEdges=@($graph.physicalCrossModuleEdges|Where-Object{$_.classification -ne 'registered-cross-module-protocol' -or $_.toRole -notin @('Contracts','Events')})
+$crossContextFiles=@($sourceFiles|Where-Object{@([Regex]::Matches($_.Text,'\b(?:Auth|CRM|Registry|Transaction|Holdings)DbContext\b')|ForEach-Object Value|Sort-Object -Unique).Count -gt 1})
+$fixtureResults=[Collections.Generic.List[bool]]::new();foreach($expected in $settings.fixtureExpectations){$fixture=@($fixtures|Where-Object Name -CEQ $expected.name);if($fixture.Count -ne 1){$fixtureResults.Add($false);continue};try{$document=[IO.File]::ReadAllText($fixture[0].FullName)|ConvertFrom-Json -AsHashtable -Depth 100;$actual=@(Registration-Errors $document ((Field $document 'registrationPresent') -ne $false));$fixtureResults.Add(((@($expected.errors|Sort-Object)-join '|') -ceq ($actual-join '|')))}catch{$fixtureResults.Add($false)}}
+$requiredSchema=@('lifecycle','failureRecovery','privacy','approvals')
+$checks=[ordered]@{
+    noProjectionWithoutApprovedConsumer=($projection.defaultDecision -ceq 'no-projection-without-approved-consumer')
+    allowedPathsAreClosedSet=(@($projection.allowedReadPaths).Count -eq 2 -and 'local-versioned-contract' -in $projection.allowedReadPaths -and 'registered-owned-projection' -in $projection.allowedReadPaths)
+    crossDatabaseReadsForbidden=('cross-dbcontext-join' -in $projection.forbiddenReadPaths -and 'cross-module-table-join' -in $projection.forbiddenReadPaths)
+    registrationSchemaRequiresLifecyclePrivacyAndApprovals=(@($requiredSchema|Where-Object{$_ -notin $schema.required}).Count -eq 0)
+    approvedConsumerInventoryIsExplicitlyEmpty=(@($registry.approvedCrossModuleQueryConsumers).Count -eq 0 -and @($registry.publicProjectionSchemas).Count -eq 0)
+    holdingsIsReferenceOnly=($holdings.Count -eq 1 -and $holdings[0].status -ceq 'reference-only')
+    registryEntriesConformToSchema=($references.Count -gt 0 -and @($schemaResults|Where-Object{$_ -ne $true}).Count -eq 0)
+    referenceProtocolsAreActiveInG03=($holdings.Count -eq 1 -and @($holdings[0].sourceProtocols).Count -eq 2 -and @($holdings[0].sourceProtocols|Where-Object{$_ -notin $active}).Count -eq 0)
+    holdingsReferenceHasTenantInboxAndIdempotency=((Match $texts.holdingHandler 'TenantId is null|TenantId == Guid.Empty') -and (Match $texts.holdingInbox 'ConsumerId, message.EventId') -and (Match $texts.holdingInbox 'IsUnique') -and (Match $texts.transactionHandler 'HasCompletedAsync\(request.ConsumerId, request.Metadata.EventId') -and (Match $texts.classHandler 'HasCompletedAsync\(request.ConsumerId, request.Metadata.EventId'))
+    noForbiddenPhysicalModuleEdges=($forbiddenEdges.Count -eq 0)
+    noSourceFileUsesMultipleModuleDbContexts=($crossContextFiles.Count -eq 0)
+    negativeFixturesPass=($fixtures.Count -eq 6 -and $fixtureResults.Count -eq 6 -and @($fixtureResults|Where-Object{$_ -eq $false}).Count -eq 0)
+    privacyAndRollbackAreFailClosed=($projection.privacy.supersetOfSourceAllowed -eq $false -and $projection.privacy.deletionBypassAllowed -eq $false -and (Match $projection.rollout 'Never fall back'))
+}
+if((@($checks.Keys)-join '|') -cne (@($settings.checkIds)-join '|')){Stop-Adapter 'integrity-failure' 'Projection check-ID mapping drift.'};foreach($id in $settings.checkIds){Record $id ([bool]$checks[$id])}
+if($findings.Count -gt 0){Emit 'fail' 'findings-blocking'}else{Emit 'pass' 'success'}

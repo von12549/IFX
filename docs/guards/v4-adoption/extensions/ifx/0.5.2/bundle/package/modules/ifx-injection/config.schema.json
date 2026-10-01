@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-injection/config.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["enabledClaims", "policySha256"],
+  "properties": {
+    "enabledClaims": {
+      "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true,
+      "items": [
+        { "const": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE" },
+        { "const": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE" }
+      ],
+      "additionalItems": false
+    },
+    "policySha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

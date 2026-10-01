@@ -1,0 +1,183 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-reference-cycle-c1n",
+  "scanRoot": "src",
+  "sourcePolicy": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+    "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+  },
+  "sourceG03": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/g03/governance.json",
+    "sha256": "b8f259f02179c48558bd36fd9ccc5f37ce486bbf14f92e9d4c9ada826e4f518c"
+  },
+  "sourceImplementations": [
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/ReferenceRules.cs",
+      "sha256": "b4606b92691d23ffac2a65dc23ca7930ec0edf12984ea071fac69aded3075420"
+    },
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/OwnershipRules.cs",
+      "sha256": "836a24c6d68368fc5f154e1e5e616cc470ec0635e5b95e2b62d4e6f400d72b8f"
+    },
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/Ruleset.cs",
+      "sha256": "001ba9233658eb899c78968ce3951840c006e9c3ca513d10913ba08ce2c6fc19"
+    },
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/ProjectGraph.cs",
+      "sha256": "491cbced5d905cfe4be7a029366e65cab2d24391481d7e714596ac25153fa4ea"
+    },
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/CsprojReader.cs",
+      "sha256": "7d6b5c43b854bf50f702ce15730df453ac0273db6e80389913c7dd47eea43ae1"
+    }
+  ],
+  "rings": {
+    "Domain": [
+      "IFX.Modules.*.Domain"
+    ],
+    "Contracts": [
+      "IFX.Modules.*.Contracts",
+      "IFX.Platform.*.Contracts"
+    ],
+    "Application": [
+      "IFX.Modules.*.Application"
+    ],
+    "Presentation": [
+      "IFX.Modules.*.Presentation"
+    ],
+    "IntegrationAdapter": [
+      "IFX.Modules.*.Integration",
+      "IFX.Modules.*.Infrastructure.Integrations"
+    ],
+    "Infrastructure": [
+      "IFX.Modules.*.Infrastructure",
+      "IFX.Platform.*.Infrastructure.*"
+    ],
+    "Client": [
+      "IFX.Modules.*.Client"
+    ],
+    "Runtime": [
+      "IFX.Platform.*.Runtime"
+    ],
+    "Composition": [
+      "IFX.Modules.*.Composition",
+      "IFX.Platform.*.Composition"
+    ],
+    "RuntimeHost": [
+      "IFX.ApiHost",
+      "IFX.*.Worker"
+    ]
+  },
+  "allowedDependencies": {
+    "Domain": [],
+    "Contracts": [],
+    "Application": [
+      "Domain",
+      "Contracts"
+    ],
+    "Presentation": [
+      "Application",
+      "Contracts",
+      "Domain"
+    ],
+    "IntegrationAdapter": [
+      "Application",
+      "Contracts"
+    ],
+    "Infrastructure": [
+      "Application",
+      "Domain",
+      "Contracts",
+      "Client",
+      "Runtime"
+    ],
+    "Client": [
+      "Contracts",
+      "Runtime"
+    ],
+    "Runtime": [
+      "Contracts"
+    ],
+    "Composition": [
+      "Domain",
+      "Contracts",
+      "Application",
+      "Presentation",
+      "IntegrationAdapter",
+      "Infrastructure",
+      "Client",
+      "Runtime"
+    ],
+    "RuntimeHost": [
+      "Composition"
+    ]
+  },
+  "allowedReferences": {
+    "Domain": [
+      "IFX.BuildingBlocks.Domain"
+    ],
+    "Contracts": [],
+    "Application": [
+      "IFX.Modules.*.Domain",
+      "IFX.BuildingBlocks.Application",
+      "IFX.BuildingBlocks.Domain",
+      "IFX.BuildingBlocks.Security",
+      "IFX.Platform.*"
+    ],
+    "Presentation": [
+      "IFX.Modules.*.Application",
+      "IFX.Modules.*.Contracts",
+      "IFX.Modules.*.Domain"
+    ],
+    "IntegrationAdapter": [
+      "IFX.Modules.*.Application",
+      "IFX.Modules.*.Contracts",
+      "IFX.Platform.*.Contracts"
+    ],
+    "Infrastructure": [
+      "IFX.Modules.*.Application",
+      "IFX.Modules.*.Domain",
+      "IFX.Modules.*.Contracts",
+      "IFX.Modules.*.Client",
+      "IFX.BuildingBlocks.*",
+      "IFX.Platform.*"
+    ],
+    "Client": [
+      "IFX.Modules.*.Contracts",
+      "IFX.Platform.*.Runtime",
+      "IFX.BuildingBlocks.Security"
+    ],
+    "Runtime": [
+      "IFX.Platform.*.Contracts",
+      "IFX.BuildingBlocks.*"
+    ],
+    "Composition": [
+      "IFX.Modules.*",
+      "IFX.Platform.*",
+      "IFX.BuildingBlocks.*"
+    ],
+    "RuntimeHost": [
+      "*.Composition",
+      "IFX.BuildingBlocks.Composition",
+      "IFX.BuildingBlocks.Application",
+      "IFX.BuildingBlocks.Security"
+    ]
+  },
+  "sharedPrimitiveProjects": [
+    "IFX.Platform.Context.Contracts",
+    "IFX.Platform.Messaging.Contracts"
+  ],
+  "claims": [
+    {
+      "claimId": "IFX.C1.RING_REFERENCE_RAW",
+      "ruleId": "RING-REFERENCE",
+      "minimumMatches": 1
+    },
+    {
+      "claimId": "IFX.C1.CONTRACT_CYCLE_RAW",
+      "ruleId": "CONTRACT-CYCLE",
+      "minimumMatches": 1
+    }
+  ]
+}
