@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "id": "i2c-g03-documentation-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20261001-v4-ifx-i2c-p2-g03-documentation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+    "docs/guards/V3_ifx/shared/policy-config.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+      "baseSha256": null,
+      "headSha256": "366df940e3137a1e2a90da6720ec08da36eac5a8c5e559678258f4b1ebbe5ad9",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "379406abd72a581fd807200b4c9f53603a29e1f1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "8a566d4385fc704747e73064a86b98a19217b390d3afe8960cfaa697317bb18e",
+      "headSha256": "9d876448da2c478185b763866c5701a521e9555039e114efd700f7095ad63e40",
+      "schema": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+      "pointers": [
+        "/entries/24/paths/41"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91715aed0a952d3232ff03bf2bd86d8c132e6c42"
+      }
+    }
+  ]
+}
