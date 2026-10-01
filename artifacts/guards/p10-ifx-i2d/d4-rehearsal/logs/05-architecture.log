@@ -1,0 +1,35 @@
+Change scope full: 299 changed path(s) are gate inputs or unrecognized: docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1, docs/guards/v4-adoption/ci/Invoke-IFXV4Aggregate.ps1, docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/bundle-manifest.json, docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/adapter.ps1, docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/config.schema.json. Report: <work>\h\artifacts\guards\v3-ifx\trusted-base\change-scope-architecture.json
+
+Domain authority candidates passed (0 changed): <work>\h\artifacts\guards\v3-ifx\trusted-base\domain-authorities-architecture.json
+
+IFX policy projection Apply passed (12 files; changed: 0).
+
+IFX policy projection Check passed (12 files; changed: 0).
+  Determining projects to restore...
+  Restored <temp>\guard-gen-8ece3410\v3-ifx\docs\guards\V3\stages\post\gates\architecture\dotnet\Guards.ArchitectureConformance.Tests\Guards.ArchitectureConformance.Tests.csproj (in 222 ms).
+  Restored <temp>\guard-gen-8ece3410\v3-ifx\docs\guards\V3\stages\post\gates\architecture\dotnet\Guards.ArchitectureConformance\Guards.ArchitectureConformance.csproj (in 222 ms).
+  Restored <temp>\guard-gen-8ece3410\v3-ifx\docs\guards\V3_ifx\stages\post\gates\architecture\dotnet\src\LayerGuard.Ifx\LayerGuard.Ifx.csproj (in 222 ms).
+  Restored <temp>\guard-gen-8ece3410\v3-ifx\docs\guards\V3_ifx\stages\post\gates\architecture\dotnet\tests\LayerGuard.Tests\LayerGuard.Tests.csproj (in 222 ms).
+  Restored <temp>\guard-gen-8ece3410\v3-ifx\docs\guards\V3_ifx\stages\post\gates\architecture\dotnet\tests\LayerGuard.Ifx.Tests\LayerGuard.Ifx.Tests.csproj (in 222 ms).
+  Guards.ArchitectureConformance -> <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\Guards.ArchitectureConformance\debug\layerguard.dll
+  LayerGuard.Tests -> <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\LayerGuard.Tests\debug\LayerGuard.Tests.dll
+Test run for <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\LayerGuard.Tests\debug\LayerGuard.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Guards.ArchitectureConformance.Tests -> <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\Guards.ArchitectureConformance.Tests\debug\Guards.ArchitectureConformance.Tests.dll
+Test run for <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\Guards.ArchitectureConformance.Tests\debug\Guards.ArchitectureConformance.Tests.dll (.NETCoreApp,Version=v10.0)
+  LayerGuard.Ifx -> <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\LayerGuard.Ifx\debug\layerguard-ifx.dll
+A total of 1 test files matched the specified pattern.
+No test is available in <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\LayerGuard.Tests\debug\LayerGuard.Tests.dll. Make sure that test discoverer & executors are registered and platform & framework version settings are appropriate and try again.
+
+Additionally, path to test adapters can be specified using /TestAdapterPath command. Example  /TestAdapterPath:<pathToCustomAdapters>.
+  LayerGuard.Ifx.Tests -> <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\LayerGuard.Ifx.Tests\debug\LayerGuard.Ifx.Tests.dll
+Test run for <temp>\guard-gen-8ece3410\build\v3-ifx\architecture-conformance\bin\LayerGuard.Ifx.Tests\debug\LayerGuard.Ifx.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:   184, Skipped:     0, Total:   184, Duration: 498 ms - Guards.ArchitectureConformance.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 6 s - LayerGuard.Ifx.Tests.dll (net10.0)
+IFX independent LayerGuard gate passed. Report: <work>\h\artifacts\guards\v3-ifx\architecture\layerguard.json
+IFX guardrails passed: <work>\h\artifacts\guards\v3-ifx\summary-architecture.json
+
+Trusted base run passed: <work>\h\artifacts\guards\v3-ifx\trusted-base\summary-architecture.json

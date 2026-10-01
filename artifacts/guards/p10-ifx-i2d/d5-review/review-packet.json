@@ -1,0 +1,188 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2d-review-packet",
+  "planId": "20261001-v4-ifx-i2d-publish-trusted-inputs",
+  "step": "D5",
+  "createdAtUtc": "2026-10-01T11:06:19.4550036Z",
+  "repositoryHead": "13a0d7bbdeb9a8803047d7f1e5c7d01644cd4eaa",
+  "plan": {
+    "path": "docs/guards/plans/20261001-v4-ifx-i2d-publish-trusted-inputs.plan.json",
+    "sha256": "0f52664e6f57f68950aeb461301a6b034842d63ca698140fb6d9030c444b2790"
+  },
+  "snapshot": {
+    "path": "artifacts/guards/p10-ifx-i2d/d1-remote-snapshot.json",
+    "sha256": "9d8a8b129c87195a5e1f27b6e618daf94a00dbf29995a75e00ba30c1c08adde1"
+  },
+  "rehearsal": {
+    "path": "artifacts/guards/p10-ifx-i2d/d4-rehearsal/rehearsal.json",
+    "sha256": "0704f14d670a355f7ccfbe5cc3f4bf9679afca6de3116c2e195b320473bf7cf0"
+  },
+  "spec": {
+    "path": "docs/guards/candidates/ifx-i2d/pr-spec.json",
+    "sha256": "0a0bc600269e03dfa665c1c7fec456fc8661ed300d21de371c59ab5a34043a92"
+  },
+  "main": "7b9b53dcc102fd8513927681641493101b4599ca",
+  "sourceCommit": "2c82d6e8d3ec13817d67f8f71718124ca35ed323",
+  "rulesetCanonicalSha256": "857a51aaf9590758aa37ab0daf234695ba6e3a434644e598026d741b2c7d6f4a",
+  "published": {
+    "copied": 298,
+    "authored": {
+      "docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.md": {
+        "path": "docs/guards/candidates/ifx-i2d/pr/P1/docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.md",
+        "sha256": "863d2e10de5ad2b24f176f54362e21ec39913c1b8e3d1cd3f3880e2c3dec32ea"
+      },
+      "docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.plan.json": {
+        "path": "docs/guards/candidates/ifx-i2d/pr/P1/docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.plan.json",
+        "sha256": "6e53a6fb5412e6d176caefb5e0041064d7ebc0b583fd7f437ad47288e49b6887"
+      },
+      "docs/guards/v4-adoption/README.md": {
+        "path": "docs/guards/candidates/ifx-i2d/pr/P1/docs/guards/v4-adoption/README.md",
+        "sha256": "2322c603f8c3c4c4f7db126c040ced2aeee5d77a62ca1c61a00f68d1cb62823a"
+      }
+    },
+    "byDirectory": {
+      "ci": 2,
+      "extensions": 264,
+      "integrations": 2,
+      "migration": 7,
+      "producers": 23
+    },
+    "bundleManifestSha256": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+    "reviewSha256": "38eb775a885996d0ab092dc1f4fe32e600a3fdb0997bce4a018e698eed93e24d",
+    "composedPackageHash": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42"
+  },
+  "rehearsalSteps": [
+    {
+      "id": "diff",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "candidates",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "validate",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "candidate-tests",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "architecture",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "historical",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "g03",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "inputs-autocrlf-true",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "bundle-autocrlf-true",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "bytes-autocrlf-true",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "scope-autocrlf-true",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "cutover-preservation-autocrlf-true",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "inputs-autocrlf-false",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "bundle-autocrlf-false",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "bytes-autocrlf-false",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "scope-autocrlf-false",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "cutover-preservation-autocrlf-false",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "compose",
+      "exit": 0,
+      "asExpected": true
+    },
+    {
+      "id": "composed-package",
+      "exit": 0,
+      "asExpected": true
+    }
+  ],
+  "notRunLocally": [
+    "v3-quality-solution",
+    "v3-quality-assembly",
+    "v3-quality-frontend",
+    "v3-specialized-g04",
+    "v3-specialized-g05",
+    "v3-specialized-plan04",
+    "v3-specialized-database",
+    "v3-cross-platform-ubuntu-latest",
+    "v3-cross-platform-windows-latest (candidate suite)"
+  ],
+  "remoteSteps": [
+    {
+      "step": "D6",
+      "action": "Rebuild the head on the then-current main, push codex/i2d-publish-v4-adoption and open the PR to main",
+      "then": "the operator reports the checks or asks for one GET read"
+    },
+    {
+      "step": "D7",
+      "action": "Merge with a merge commit after 13/13, --match-head-commit",
+      "then": "GET verify"
+    },
+    {
+      "step": "D8",
+      "action": "Post-state record, merge main into the development branch (README conflict by rule), receipt",
+      "then": "local"
+    },
+    {
+      "step": "D9",
+      "action": "Push the development branch (fast-forward)",
+      "then": "GET verify"
+    }
+  ],
+  "questions": [
+    "Accept the publication pull request (the 298 copied files, the main README and its V3 plan) as prepared?",
+    "After acceptance, D6 (push and open the PR) needs its own authorization."
+  ]
+}

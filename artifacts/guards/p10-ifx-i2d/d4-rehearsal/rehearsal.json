@@ -1,0 +1,2621 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2d-rehearsal",
+  "planId": "20261001-v4-ifx-i2d-publish-trusted-inputs",
+  "step": "D4",
+  "status": "pass",
+  "createdAtUtc": "2026-10-01T11:05:53.7991148Z",
+  "repositoryHead": "3fda068669df9c8c201eb556c4587fdc484a2433",
+  "specSha256": "0a0bc600269e03dfa665c1c7fec456fc8661ed300d21de371c59ab5a34043a92",
+  "sourceCommit": "2c82d6e8d3ec13817d67f8f71718124ca35ed323",
+  "base": "7b9b53dcc102fd8513927681641493101b4599ca",
+  "head": "d7eebaa06c4b7634fd82ec7747330f5a07bf40ff",
+  "build": {
+    "set": "P1",
+    "kind": "change",
+    "consumesRecords": false,
+    "branch": "rehearsal/p1",
+    "base": "7b9b53dcc102fd8513927681641493101b4599ca",
+    "head": "d7eebaa06c4b7634fd82ec7747330f5a07bf40ff",
+    "changed": [
+      {
+        "status": "A",
+        "path": "docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.md"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.plan.json"
+      },
+      {
+        "status": "M",
+        "path": "docs/guards/v4-adoption/README.md"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/ci/Invoke-IFXV4Aggregate.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/bundle-manifest.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/embedded/ifx-ownership-graph-policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/embedded/ifx-reference-cycle-policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/embedded/layer-policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/embedded/type-rule.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/source-inventory.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/embedded/project-name-policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/embedded/reference-cycle-policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/adapter.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/config.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/dependencies.lock.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/module.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/rule-execution-plan.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/profiles/catalog/ifx_profile/authority-map.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/profiles/catalog/ifx_profile/evidence-lineage.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/profiles/catalog/ifx_profile/profile.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/extensions/ifx/0.5.2/production-extension-review.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/integrations/github/ifx-cutover-proposal.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/migration/ifx-i1-rebinding-1-1-6-receipt.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/migration/ifx-i2b-a1-0-5-0-a-receipt.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/migration/ifx-i2b-a2-0-5-1-receipt.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/migration/ifx-i2b-a3-0-5-2-receipt.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/migration/ifx-i2c-main-promotion-receipt.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/migration/v4-todo-008-ifx-cleanup-receipt.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/migration/v4-todo-008-ifx-rebinding-receipt.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/database/Invoke-IFXSpecialized.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/database/contracts/detector-result.schema.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/database/scripts/Invoke-G02DatabaseInventory.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/database/scripts/New-DatabaseMigrationArtifacts.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/database/scripts/Test-DatabasePendingModelChanges.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/database/scripts/Test-MigrationSafetyPolicy.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/database/source-inventory.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/graph/policies/ifx-ownership-graph-policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/graph/policies/ifx-reference-cycle-policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/graph/policy.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/origins.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/policy/ARCH.BINARY.DOMAIN.CONTRACTS.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/policy/layerguard.json"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXAssemblyGuard.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXPackageAudit.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/quality/Invoke-IFXQuality.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1"
+      },
+      {
+        "status": "A",
+        "path": "docs/guards/v4-adoption/producers/type/type-policy.json"
+      }
+    ],
+    "blobs": {
+      "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1": {
+        "blob": "7b4927e98ca94c814c65dccd4c1b8866ca18545d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/ci/Invoke-IFXV4Aggregate.ps1": {
+        "blob": "ca1ac78dbafef36c7914347a6cdb748119f3ce53",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/bundle-manifest.json": {
+        "blob": "babd9a174141762e73cdfee170290753e67a6a28",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/adapter.ps1": {
+        "blob": "076763669e5c6d15d54741c2ef850f8866b4100e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/config.schema.json": {
+        "blob": "1941a2e77543ecade7a7ed14a24ab0c75b260cbf",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/module.json": {
+        "blob": "68586c9f5c300e0ebdd2bb4beb00f198e0782144",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/policy.json": {
+        "blob": "1e6caee1db05aef57d93f4191c785ec22c775137",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/result.schema.json": {
+        "blob": "65377c7ae094a3a4b6000d92f5e616c9e76ef07e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-assembly-evidence/rule-execution-plan.json": {
+        "blob": "1b5f361985c7a961da56129242719c36808df1a3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/adapter.ps1": {
+        "blob": "0bb13ba6394979187e76238bc9a0f71bf0d97d3b",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/config.schema.json": {
+        "blob": "e5c80f90136d49dd16263d890f580e81d546f613",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/embedded/ifx-ownership-graph-policy.json": {
+        "blob": "a0b6e56231136bac00ce4b95fa1eeadc7fa31f1d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/embedded/ifx-reference-cycle-policy.json": {
+        "blob": "2c69a0c40f80b13dc973c7f0a8132680deb73198",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/module.json": {
+        "blob": "3a2fd598066f155463efd2fe00cd41d5c27832e3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/policy.json": {
+        "blob": "43cf02190e31f0cda1456c7fc46fbad6c5e0b085",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/result.schema.json": {
+        "blob": "f7cf50d52f27e432dc4332fdc4cd60be998afc9e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-evaluated-reference/rule-execution-plan.json": {
+        "blob": "aa3a65af5975a0f80d32cf22c6ece481303ca880",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/adapter.ps1": {
+        "blob": "02ee716940284d37bfb177e06ff62b97d7041ec0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/config.schema.json": {
+        "blob": "9c1b5e29b414edf6690e1c34f051e3be320df7b3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/embedded/layer-policy.json": {
+        "blob": "50e5bb5187423acb7d56377de8b2816b3d063ef1",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/embedded/type-rule.json": {
+        "blob": "5e062090994c7ebca968f3bbb65afd58a879d671",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/module.json": {
+        "blob": "e295a1d5a68fdcbefcd4619b4f8ba2477a09a3c0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/policy.json": {
+        "blob": "30554a6cf1b44cb89bd920fb5b53d6def4d48925",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/result.schema.json": {
+        "blob": "4cc4e61018bfc4fd8e970ff4652ed96d31bc3a8a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-c1-type-provenance/rule-execution-plan.json": {
+        "blob": "535e45c905db532a6ff2ca9ab10954bdf5ff24ee",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/adapter.ps1": {
+        "blob": "00fcac041a5bca6494028207048ffe8ffa633613",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/config.schema.json": {
+        "blob": "3fd8f7c2716e99678bc45ea397efb60c06758821",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/module.json": {
+        "blob": "948926a1efc729a592e6623c6f6e6ccfed2709fd",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/policy.json": {
+        "blob": "39c52cb3d5586448830395c4e29cf7f4997df776",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/result.schema.json": {
+        "blob": "ffc0c68baabe3b5abf0a02239b4f502a20830aec",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/rule-execution-plan.json": {
+        "blob": "63d9ba362a9d79f1bbd6cb6ea4341a7b00d74d0c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-database-evidence/source-inventory.json": {
+        "blob": "4f1b3f08e7bbfc7fc7fd11383bd4928d08c954b3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/adapter.ps1": {
+        "blob": "39f8bcf048deaef80ef6f4b3cc2b33136ed9f572",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/config.schema.json": {
+        "blob": "ff5801f16ecc7c85dfdcffbf7b46fcebfd329a4c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/module.json": {
+        "blob": "40105e91f472f0e5fe4a0cb11f6614ea0fd85b95",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/policy.json": {
+        "blob": "0c39a082c1606ea2cb579d0f003b58498fcb7614",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/result.schema.json": {
+        "blob": "9ce395ea7831845bf324969fd533574e40036cf9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-domain-reference/rule-execution-plan.json": {
+        "blob": "c56ac581473364a0a2a426714f4782c499d79443",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/adapter.ps1": {
+        "blob": "42a8db4c7580e7eb6b816e57ce01a07093fe7ace",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/config.schema.json": {
+        "blob": "a39fb9e36ad9385ee87b45f5d8922248dbb3b2cd",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/dependencies.lock.json": {
+        "blob": "46694dd93fcd2094668c9e947d841ca362a1af89",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/module.json": {
+        "blob": "826e115d26be5bfc688bd8e7a1dfab7831cd26ef",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/policy.json": {
+        "blob": "4d60fcce91bc62970ed2fef5eafb6c3ffb86d3c4",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/result.schema.json": {
+        "blob": "35a15521da1603205f68a17909edee2da10c8261",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-embedded-adapter/rule-execution-plan.json": {
+        "blob": "f610c5b4641f45eef5c951f50c9e59a803223bda",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/adapter.ps1": {
+        "blob": "213c3046ad1b42c575319aab0dd00f5cb177eced",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/config.schema.json": {
+        "blob": "3fd72a264c3ff5bc94ee7279034a2d8648a20883",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/module.json": {
+        "blob": "7d398801ca57178ae02cf689c6ef253de48c3fd3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/policy.json": {
+        "blob": "f3d13b4b65e9a999d1d43e465c804c294953d7fb",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/result.schema.json": {
+        "blob": "d4fffae58f5fc7e89396859ac1ad825747aaca00",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-frontend-evidence/rule-execution-plan.json": {
+        "blob": "38261e64ae07d393abcf613690dcb2c48bd9bdcc",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/adapter.ps1": {
+        "blob": "cfb693337b8af3db9a0ed45d0d8a5236fe3340a1",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/config.schema.json": {
+        "blob": "7d588a15bdd6935c33945747172512f910699abc",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/module.json": {
+        "blob": "3ef79fd729d8adaf87bcef7ff5b8a48d37f78f45",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/policy.json": {
+        "blob": "127fa402fb54f651e511ad336b7c1e52bc97f1a7",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/result.schema.json": {
+        "blob": "00f1e42d69c42d7d3f0dca9092dde5b987bc8e05",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-catalog-semantics/rule-execution-plan.json": {
+        "blob": "e60951301edaff46cc0c642002f3875ba608ba4a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/adapter.ps1": {
+        "blob": "f41bbe76ead7d9d94a2e95f6239ea248c0c7231a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/config.schema.json": {
+        "blob": "7ecae442b87e8dde74546ce0e011d476b97ae7e2",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/module.json": {
+        "blob": "65a8b0a548f485a9b9951f3ffab56609842d26f0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/policy.json": {
+        "blob": "b961219ee562f2181127ea1a6a4af89c0a668e61",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/result.schema.json": {
+        "blob": "ca5788fe9c63d96ff7ea464e18507a00cdd05849",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-docs-closeout/rule-execution-plan.json": {
+        "blob": "5cc81a2b64340b8b8b68d73e5fd22d0209862c03",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/adapter.ps1": {
+        "blob": "8e2029f637ea84d0d7e673727e502976dedfe2a7",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/config.schema.json": {
+        "blob": "f57fbb245f7e531dd152e44dc285572c2cceef78",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/module.json": {
+        "blob": "3ca022704449eb0e021427061ee6fccb2b103693",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/policy.json": {
+        "blob": "e3ba1688cfab9807031c765fa7c6b272e0a856c3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/result.schema.json": {
+        "blob": "9288d9da926a70307c384a2c3c7676c186a732cc",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-governance-core/rule-execution-plan.json": {
+        "blob": "893a3b466e93fd671fb01558f612992e78660b2d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/adapter.ps1": {
+        "blob": "b878a2b6857eff7bf87a0af3f03e6ee31208bb76",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/config.schema.json": {
+        "blob": "b18a51e2b9fa4546cf0322c8ea0583e77f1b83c0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/module.json": {
+        "blob": "343a5b94624ec773093428f22c1d0040bc70b705",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/policy.json": {
+        "blob": "d37e53a01c2ce8f7c2ab6259194cc9ccd35129bf",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/result.schema.json": {
+        "blob": "0d5f8d4cad0733274920baef2f5282e994297a99",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-snapshots/rule-execution-plan.json": {
+        "blob": "948483840c1981067c9a161a1915a0feb8c24e47",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/adapter.ps1": {
+        "blob": "50d758fc749e375ec32ab38213580409c8f3277b",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/config.schema.json": {
+        "blob": "78aa5b808cfb7de84c1e03853240065f81c9a989",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/module.json": {
+        "blob": "fa8a7b7d3783d9d6b9af0522424993d3a9f942b7",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/policy.json": {
+        "blob": "2dd53bc69fad16aa78ee8031069eb1790c62e837",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/result.schema.json": {
+        "blob": "b1d107bc5066d8287f5db4502da807cb06a09009",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g03-source-reconciliation/rule-execution-plan.json": {
+        "blob": "63621b05e333312f709510ee1258bb875cd5669c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/adapter.ps1": {
+        "blob": "f40840b938a96692378dd8279782a37da4aedba2",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/config.schema.json": {
+        "blob": "5b3a09bb7dce5641a25e300269c8bd56a9e460f5",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/module.json": {
+        "blob": "e8b6f561449b7571fca3e2991cbdbcbc7bf99aa7",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/policy.json": {
+        "blob": "4c0aa98b458e2763711988e6b8e33316e95d2f8e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/result.schema.json": {
+        "blob": "a68bb112993041719367f13e865c34c2341d1ef9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-closeout/rule-execution-plan.json": {
+        "blob": "06c999b82513068a834fbf6bff3e56b2885c88e4",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/adapter.ps1": {
+        "blob": "4ddb291fa0daa2f7440dbc330546cb39affd1485",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/config.schema.json": {
+        "blob": "b908eabc5e30ddbd302c9d4d8e5b6194a4911449",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/module.json": {
+        "blob": "9ded019c6b95f4176c6b57325b30407df6602fcd",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/policy.json": {
+        "blob": "00cc5a2e2a74e7cdd6f2855b69f62595c0d845e9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/result.schema.json": {
+        "blob": "350b78521f042e39a9ca7b242dbb91975c120dcc",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-manifests/rule-execution-plan.json": {
+        "blob": "0c127e74929df888e3c66953149ad5f68dd3b53e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/adapter.ps1": {
+        "blob": "657eb828ad17f01f0b7426fa3d40c9128ceedaf9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/config.schema.json": {
+        "blob": "b23c39c1c63f1490085740705a29f81396325b59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/module.json": {
+        "blob": "955cd7b8cb8b6b0a80724911c4b00c19b2b90940",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/policy.json": {
+        "blob": "6985c25e74075962c44c786453d4fbae1f19c7f5",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/result.schema.json": {
+        "blob": "25ebd7d49369909dcb002be82cb14ba3f54e244d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g04-runtime/rule-execution-plan.json": {
+        "blob": "283993f688319e9baaa67f0c718a9b7d2fe3656e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/adapter.ps1": {
+        "blob": "54cfd8294c20c7d68e50a71518649bca63dba299",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/config.schema.json": {
+        "blob": "9e9cf18be800e7a380453b99847058d24a1ae59e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/module.json": {
+        "blob": "3dc6777ebae125f454ece931efd0753dcfa9d1a5",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/policy.json": {
+        "blob": "3c67b3e96bc34b33233625c8e88c352ac3153224",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/result.schema.json": {
+        "blob": "d199acbc6db64be938f787c248c527f75334d710",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-carriers/rule-execution-plan.json": {
+        "blob": "028fce2e4a96dedf16cdcae59b699a1e4b407741",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/adapter.ps1": {
+        "blob": "67da77f11ddd23a06036e922d77e540de03af664",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/config.schema.json": {
+        "blob": "ad18fe45fe815b33440487f1d73468c3744c16fc",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/module.json": {
+        "blob": "81832e7f2a578b5fad799ebe8e43e974fca67465",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/policy.json": {
+        "blob": "51803af9db9b592cd39c38b2de551f5994ed8ed0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/result.schema.json": {
+        "blob": "4e57bed7f66f36e1ecba8a6cc031e4f8684c6af1",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-closeout/rule-execution-plan.json": {
+        "blob": "f58bb235ffea8e787e5677b57b0a6926a01c4d9f",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/adapter.ps1": {
+        "blob": "90fc92b42f7034ea2eeffb3ff2a2abad91f77dfb",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/config.schema.json": {
+        "blob": "5e61d470bb11094a495efbdfa619a935033693ce",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/module.json": {
+        "blob": "79e5fbc1dd08052406d056c590757de641dc2baa",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/policy.json": {
+        "blob": "ef9ea0245dcd5d2b24fa038ae7195dbfa101d172",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/result.schema.json": {
+        "blob": "62f2b0203cb63ac2c583e6a794ae11252c56d19e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-execution-http/rule-execution-plan.json": {
+        "blob": "716519480c7e9efb2e9b1a082a3f9d38562b93c0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/adapter.ps1": {
+        "blob": "202fdb89f52e0de101d86a304dbcf07eca54bd24",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/config.schema.json": {
+        "blob": "4237c4c3ebb5d660a30e4bef820cca886f5fd223",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/dependencies.lock.json": {
+        "blob": "38eb3824826d3afd2c0e6ec8cb92a6652905c47e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/module.json": {
+        "blob": "b438e85d18a775cd79410bd8f5499133d14d8d81",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/policy.json": {
+        "blob": "a055ea98e2ef9c8fab66474bb0f8d6d90ca26ce4",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/result.schema.json": {
+        "blob": "9455342fbcca9d6f28a9cfa6af854fffa26fcdb3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-governance/rule-execution-plan.json": {
+        "blob": "542524b0b41a07b7d947b948e2cf7ad92308b390",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/adapter.ps1": {
+        "blob": "9fd0b17004baab0c5eef7abeddf6de59f435541e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/config.schema.json": {
+        "blob": "b2e62e426f835f1f6cef02999b15d0802d64319c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/module.json": {
+        "blob": "ea7458c285615ada581f03c6d7c5b5729f622eda",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/policy.json": {
+        "blob": "a9440c38237fea4c3039f706310abe5705f5debb",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/result.schema.json": {
+        "blob": "88ebe9d9f2851bf661592b5d27266fa866ec4752",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-inventory/rule-execution-plan.json": {
+        "blob": "591bb67cf359ee4d1c8611c680a7799617204aa3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/adapter.ps1": {
+        "blob": "d7c2b4f25f6fa21de34b76c3a4a92c9f10432021",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/config.schema.json": {
+        "blob": "30ced9b916dea86899e6149165166a7b188b666c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/module.json": {
+        "blob": "439b884ae9f520e05561a9fead0925e4732f8520",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/policy.json": {
+        "blob": "0ffd02b144b86d36636f6f57118768e715e43c54",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/result.schema.json": {
+        "blob": "974ffa435e547d3ce06e54f99f5b0e76b0c9a596",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-g05-protocol/rule-execution-plan.json": {
+        "blob": "d763ee832e65b8cb3896f5273b62a703368e96fd",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/adapter.ps1": {
+        "blob": "6c20fb7fb14f664e8a93fa9f14f52a34ed4c2c83",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/config.schema.json": {
+        "blob": "8884687b9c72de775f2719486b8a31af88ba943b",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/module.json": {
+        "blob": "25f2c9e41ca9b1be64473b0fea9c9b9b34d64370",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/policy.json": {
+        "blob": "4e51018f4f6bdb8933cefa215d789e146894ee62",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/result.schema.json": {
+        "blob": "f93210b468baa593749326cdec26a6c1591e8091",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-history-integrity/rule-execution-plan.json": {
+        "blob": "8194343fa914dd3fabc862fdcc91d91c9fe7faa1",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/adapter.ps1": {
+        "blob": "354bcb76409a7f903f300f0b04e2b1fff8f87259",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/config.schema.json": {
+        "blob": "d00eac6c42790fa1f9e1032bfccc934700428946",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/module.json": {
+        "blob": "fc41f0f3a465f088dd5b7a9bd279b5f10aabb774",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/policy.json": {
+        "blob": "a7cf6820e4a631ec461c96b85fb362609143dfad",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/result.schema.json": {
+        "blob": "c46002e96e0b8b3d9757c2ff97ea81f27bcf8d00",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-injection/rule-execution-plan.json": {
+        "blob": "dde6895a430fdffd319cd36d575b6fe21a32167e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/adapter.ps1": {
+        "blob": "82e7e5a6a82d0fb2751d3ad7525b8ea6e9e7d75a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/config.schema.json": {
+        "blob": "ab4a0b352908077acd9f4479a426cb63aedf64d9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/module.json": {
+        "blob": "4cb7a44d4773641d355573d9a2e59314059f9f30",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/policy.json": {
+        "blob": "a0b6e56231136bac00ce4b95fa1eeadc7fa31f1d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/result.schema.json": {
+        "blob": "15e007d7e65262c8718e23b5d877dc48870d64a6",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ownership-graph/rule-execution-plan.json": {
+        "blob": "8fdb3ea00ca9f8a894c9f5fed824480ef3257ef5",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/adapter.ps1": {
+        "blob": "86fb2aa80bb40de8faa4a5a9e9c3d797e9c6a3ba",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/config.schema.json": {
+        "blob": "9047e7fa6de0434cd487f7901e4ea7d14baa2152",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/module.json": {
+        "blob": "82fb9861cac5b987847487efde97cf51398d965a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/policy.json": {
+        "blob": "45c29fa6c4130a81ac44822042ac118989cd97b0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/result.schema.json": {
+        "blob": "476552056f3cde045d502cff38b1a97e6ac3b915",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-package-reference/rule-execution-plan.json": {
+        "blob": "586eb004961b26e021fb173cc33c5507e55ef58a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/adapter.ps1": {
+        "blob": "843259d39bc22f7d1ae2ac1645cf88ac4562222d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/config.schema.json": {
+        "blob": "ffe9c1f2dd08f065e18420048068a1469777869c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/embedded/project-name-policy.json": {
+        "blob": "3352c3bc73cc56e37a16d621a15d76e1d3c79800",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/embedded/reference-cycle-policy.json": {
+        "blob": "2c69a0c40f80b13dc973c7f0a8132680deb73198",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/module.json": {
+        "blob": "c26f4ff5c3cb1829966129a3129e89d4700ea174",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/policy.json": {
+        "blob": "66630fa9a36d655e28ad4020c6d8a3929915698d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/result.schema.json": {
+        "blob": "9b8d17fc5ae67af571737a362c7a9328ed975a4a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-abstractions/rule-execution-plan.json": {
+        "blob": "08927dab0666d06b80c2b35768644044cd4e97cf",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/adapter.ps1": {
+        "blob": "4aea8bcf63892c0c151cb2d70e1a8f8f168c098f",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/config.schema.json": {
+        "blob": "da138859fbf56879a854011fa08e1688c4ec7a2f",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/module.json": {
+        "blob": "64376c10a7ce46742e9cd01f7296b3b4c6de233c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/policy.json": {
+        "blob": "99ed83a155cacef4f3863b12769e0d1925579327",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/result.schema.json": {
+        "blob": "3ef9b68648700894e0abe747d3fcffd795cc526e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-extraction/rule-execution-plan.json": {
+        "blob": "83614a4b361594cae9ae6f9b407f8be462a99dc4",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/adapter.ps1": {
+        "blob": "be2501437282f3a7357981e8c10e5391da7f2891",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/config.schema.json": {
+        "blob": "c5efb38bb7a2f5be4d5823dae2c562e50fc6d26c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/module.json": {
+        "blob": "41f9a54e7ab9854003a11a51e7561ff296e1d821",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/policy.json": {
+        "blob": "ba67031b2d024d95abb3e58617d820e93b740037",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/result.schema.json": {
+        "blob": "6eda4977604fdf26f85a1c48d7f325cadb7c155e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-projection/rule-execution-plan.json": {
+        "blob": "d67075af8a5af24dfc7692d4e680aef347b3f79a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/adapter.ps1": {
+        "blob": "eab5584c4117a39b4ad65959e97c5f4a7dd513f1",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/config.schema.json": {
+        "blob": "ee088b40b29b894319bb413c2e855b34c5dda86c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/module.json": {
+        "blob": "a109847d91203bb16e7fa55d157c0e707dcea96e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/policy.json": {
+        "blob": "61637666dbc956cbea973181d814863dbd379db5",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/result.schema.json": {
+        "blob": "96f2bd30c1c78bae887f6dd3af44d5f71317863b",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan04-tenant/rule-execution-plan.json": {
+        "blob": "ee7d2235e73319374e6e45309d3605be191aef14",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/adapter.ps1": {
+        "blob": "c58771413745e42964ebdcb7b9867cc7a123388d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/config.schema.json": {
+        "blob": "22b212d963f77f088031453ffd65c98c64e2aee3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/dependencies.lock.json": {
+        "blob": "572f30ff4b9ed2aaaa01d6c45bbf3000d2d9c89d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/module.json": {
+        "blob": "91e00b5aeff0773b7981e382ad8f07e06c017fb5",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/policy.json": {
+        "blob": "9970f75fb23705f68e00ad42b85f8090b9f2237a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/result.schema.json": {
+        "blob": "c9e82c9b5b046ff18f7ced6a30307b95221ea84d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-plan05-security/rule-execution-plan.json": {
+        "blob": "2a2d2bf18b7230fa186d69e409e13568c7c6fa7e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/adapter.ps1": {
+        "blob": "41297384a5fb6c6960a2d75812a3369cad8e7d45",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/config.schema.json": {
+        "blob": "10c26633ff00b050a96c8459d748ae9ccfd55ae3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/module.json": {
+        "blob": "0e42054b7556e2ee41306774a882848512a9702a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/policy.json": {
+        "blob": "3352c3bc73cc56e37a16d621a15d76e1d3c79800",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/result.schema.json": {
+        "blob": "6b52362948384ce06b7ffd01e29a1fab69ff6c10",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-project-name/rule-execution-plan.json": {
+        "blob": "45f0d4efe05c4ac4223d156012f8916c635ddafc",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/adapter.ps1": {
+        "blob": "65c2f6559355ecd59c93b876b477e1bf3fbde314",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/config.schema.json": {
+        "blob": "ab77508b9edb12ddb58640b6b95fef0d23071f05",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/module.json": {
+        "blob": "1cc9b97dcdb63ca666cb0ea1dc347f1d7a44e6d0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/policy.json": {
+        "blob": "14ecb1d50a9e7bbddade9b0caed690ca5dac4045",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/result.schema.json": {
+        "blob": "57fc58573c7da3d78e2253f3e77a503ab9d0ff93",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-provider-cycle/rule-execution-plan.json": {
+        "blob": "58a5c20a4959541ae4009777daabfaab81dd2a2e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/adapter.ps1": {
+        "blob": "1f9247eaaacc449e43d3a51b57842c336d318f43",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/config.schema.json": {
+        "blob": "1dcffb7c83ec504f71805041fa60a8c2d030b61b",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/module.json": {
+        "blob": "585ef6e01dc52a0a41158978d8e90a0ad5bdd4b9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/policy.json": {
+        "blob": "2c69a0c40f80b13dc973c7f0a8132680deb73198",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/result.schema.json": {
+        "blob": "83ecbb9f1068bd404436a1ba440b9d32965d6b3e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-reference-cycle/rule-execution-plan.json": {
+        "blob": "b46f0efdf6de15802ad2a73d9652f4dfb14bd950",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/adapter.ps1": {
+        "blob": "4618cc0c1e1a405071492f653248c49e3a0be879",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/config.schema.json": {
+        "blob": "a728feae2b996c1efd5ad3eaf902227203593290",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/dependencies.lock.json": {
+        "blob": "6543b7c23424aa7fadc5b9aa292f6746c4f39013",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/module.json": {
+        "blob": "f9a1c98b20c757f295efe13974920ec78aebc464",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/policy.json": {
+        "blob": "59689eb84521203a3188c23b24c709539cc41b92",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/result.schema.json": {
+        "blob": "ccbb0092b690b83a173121e09022811493ef0ac0",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-ring-graph/rule-execution-plan.json": {
+        "blob": "a641459a89fb40881526b12466391c866d704050",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/adapter.ps1": {
+        "blob": "f1e136ed7732e88ab4969a14a015e8c3bfc218df",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/config.schema.json": {
+        "blob": "751239ab68039a15ed634999fdc170858d99b577",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/dependencies.lock.json": {
+        "blob": "78cea84dc31f9bf10e64b7344ed04cd62781dd59",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/module.json": {
+        "blob": "ebd35be99a2326066ed7cd1055a226c77a28cac5",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/policy.json": {
+        "blob": "81f57d85db3f2a004083174ff00965c6962a3cce",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/result.schema.json": {
+        "blob": "9f7fb45fc18178a738e950e462b632244be14ac9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-solution-evidence/rule-execution-plan.json": {
+        "blob": "5dff25df021dfd74bb84ba171e84be723b580a60",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/adapter.ps1": {
+        "blob": "909b15358437589746e55a966936657e44fd3c39",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/config.schema.json": {
+        "blob": "068609912c53807d58fdbfe99dc3fa056e063113",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/dependencies.lock.json": {
+        "blob": "46694dd93fcd2094668c9e947d841ca362a1af89",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/module.json": {
+        "blob": "8ca35475a9e64118850201938388e354b1d39ecc",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/policy.json": {
+        "blob": "15ece91625e48d787261a6e3bba282a78ad1d8d3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/result.schema.json": {
+        "blob": "7719145a78936363a7a33dd7897e0508d4971fab",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/modules/ifx-source-policy/rule-execution-plan.json": {
+        "blob": "307ec3992ebd00a4acd45b382f94577796a8aac2",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/profiles/catalog/ifx_profile/authority-map.json": {
+        "blob": "4dcf769d9cafff59f5562746ca0288f102bffbe4",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/profiles/catalog/ifx_profile/evidence-lineage.json": {
+        "blob": "5dca2faac02be17eef51cf986c06ac2670ad7dad",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/bundle/package/profiles/catalog/ifx_profile/profile.json": {
+        "blob": "534d9d7591c596b094c778312dbb77ab3ccc6b63",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/extensions/ifx/0.5.2/production-extension-review.json": {
+        "blob": "a8c21b70e70a8eb035a404bbf9a8ccf852c84766",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/integrations/github/ifx-cutover-proposal.json": {
+        "blob": "2b75021c3585d23cda7955857fdbc8b35a222ee3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/integrations/github/proposed-v4-ifx-guardrails.yml": {
+        "blob": "68858731b1fc64568d6ee304aa86c74ee05fdd6d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/migration/ifx-i1-rebinding-1-1-6-receipt.json": {
+        "blob": "50fe7f6f61aaa0065c4c2a6d19ed40a58fe60b71",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/migration/ifx-i2b-a1-0-5-0-a-receipt.json": {
+        "blob": "26d53f8fec264441a05ecdbb8a73b01c81282f9a",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/migration/ifx-i2b-a2-0-5-1-receipt.json": {
+        "blob": "f28e02cd349404478ded0952bb7b7b477daa1df4",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/migration/ifx-i2b-a3-0-5-2-receipt.json": {
+        "blob": "e96b952c170705799100e73c39d4c6cf9d3bded8",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/migration/ifx-i2c-main-promotion-receipt.json": {
+        "blob": "473b55bb25eee131f555036bae294ff495f8d81c",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/migration/v4-todo-008-ifx-cleanup-receipt.json": {
+        "blob": "783a8659503666cda44ad7f48bf90a7dc6f1090d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/migration/v4-todo-008-ifx-rebinding-receipt.json": {
+        "blob": "2c01cb535045322397cdfbd80696543d2c699501",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/assembly/Invoke-IFXAssemblyEvidenceProducer.ps1": {
+        "blob": "ff554e2854e43b6db316ba5232212c38cef05db2",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/database/Invoke-IFXDatabaseEvidenceProducer.ps1": {
+        "blob": "49ef88def5175b9242f1700f7ed2f43f02ee07b9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/database/Invoke-IFXSpecialized.ps1": {
+        "blob": "f6a6a32299700c733bfd376c26af62baae296fc6",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/database/contracts/detector-result.schema.json": {
+        "blob": "912b24d8d32acd17abb05c55f661f6f6c557ce90",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/database/scripts/Invoke-G02DatabaseInventory.ps1": {
+        "blob": "07aa0bbeac79c687d960db853099826d8660282e",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/database/scripts/New-DatabaseMigrationArtifacts.ps1": {
+        "blob": "e58ab8c582b59432dc79c426098da9ecda537e64",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/database/scripts/Test-DatabasePendingModelChanges.ps1": {
+        "blob": "8360f997adde1ae6cf14d7104727b051ea07ca81",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/database/scripts/Test-MigrationSafetyPolicy.ps1": {
+        "blob": "899a06e8ac263fde2cfec53aa9ff0b6ac68e48b2",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/database/source-inventory.json": {
+        "blob": "4f1b3f08e7bbfc7fc7fd11383bd4928d08c954b3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/frontend/Invoke-IFXFrontendEvidenceProducer.ps1": {
+        "blob": "eee89e2f532f6a10e1583828d9ad6727c682c4b3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1": {
+        "blob": "24aa52e57ce23dbba4324f63d405a12ed2addca9",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/graph/policies/ifx-ownership-graph-policy.json": {
+        "blob": "a0b6e56231136bac00ce4b95fa1eeadc7fa31f1d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/graph/policies/ifx-reference-cycle-policy.json": {
+        "blob": "2c69a0c40f80b13dc973c7f0a8132680deb73198",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/graph/policy.json": {
+        "blob": "fb1b3d7de71725514c5cddf5dca40f2c3e0797e3",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/origins.json": {
+        "blob": "6b9072496179f16267f1ca9d4d3d4c969779636f",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/policy/ARCH.BINARY.DOMAIN.CONTRACTS.json": {
+        "blob": "5e062090994c7ebca968f3bbb65afd58a879d671",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/policy/layerguard.json": {
+        "blob": "50e5bb5187423acb7d56377de8b2816b3d063ef1",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/quality/Invoke-IFXAssemblyGuard.ps1": {
+        "blob": "acf713e64aea7d8d8e20dfe6babd507e6c1906fc",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/quality/Invoke-IFXPackageAudit.ps1": {
+        "blob": "b61ea40c8ed07caa88bae6b97be89fb48634f70b",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/quality/Invoke-IFXQuality.ps1": {
+        "blob": "68e8f6574b41547b674a5939661405e1e71c776d",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/solution/Invoke-IFXSolutionEvidenceProducer.ps1": {
+        "blob": "61a776a1e7e81d49fc52b5589946bca88915dc3f",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/type/Invoke-IFXCompiledTypeEvidenceProducer.ps1": {
+        "blob": "980abf626f536a1cd6cfea7ffc5b24a45e2beee8",
+        "origin": "source-commit"
+      },
+      "docs/guards/v4-adoption/producers/type/type-policy.json": {
+        "blob": "d148b77aaf31458bf4e62bdbce549ca0d8831ada",
+        "origin": "source-commit"
+      },
+      "docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.md": {
+        "blob": "b01fcc22f1378020c30cbcfb1674d2fe66bdb77b",
+        "origin": "authored"
+      },
+      "docs/guards/plans/20261001-v4-ifx-i2d-p1-publish-v4-adoption.plan.json": {
+        "blob": "27035bff1aca0f0072f73af77d4ef71b73f4c572",
+        "origin": "authored"
+      },
+      "docs/guards/v4-adoption/README.md": {
+        "blob": "de872af27ad9832b9fc8db97a6b7340aad7b9973",
+        "origin": "authored"
+      }
+    }
+  },
+  "publishedFiles": 301,
+  "expectedPackageHash": "0fab0676c80fdc9342b3132ca54a1c5af97980796cdb3cd303488ce7506dec42",
+  "steps": [
+    {
+      "id": "diff",
+      "description": "The trusted Diff passes with the formal plan and no protected obligation.",
+      "expectedExit": 0,
+      "expectText": "Protected change verification passed (no protected changes)",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/01-diff.log"
+    },
+    {
+      "id": "candidates",
+      "description": "The head changes no trusted component.",
+      "expectedExit": 0,
+      "expectText": "no trusted component changes",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/02-candidates.log"
+    },
+    {
+      "id": "validate",
+      "description": "Validate passes for the explicit head.",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/03-validate.log"
+    },
+    {
+      "id": "candidate-tests",
+      "description": "The head candidate package tests pass (Test-CutoverPreservation among them).",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/04-candidate-tests.log"
+    },
+    {
+      "id": "architecture",
+      "description": "The production architecture scan passes.",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/05-architecture.log"
+    },
+    {
+      "id": "historical",
+      "description": "Historical Integrity passes.",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/06-historical.log"
+    },
+    {
+      "id": "g03",
+      "description": "The G03 specialized gate passes.",
+      "expectedExit": 0,
+      "expectText": "Trusted base run passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/07-g03.log"
+    },
+    {
+      "id": "inputs-autocrlf-true",
+      "description": "The specimen's input checks pass on a checkout with core.autocrlf=true.",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/08-inputs-autocrlf-true.log"
+    },
+    {
+      "id": "bundle-autocrlf-true",
+      "description": "Every bundle file matches its manifest entry (core.autocrlf=true).",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/09-bundle-autocrlf-true.log"
+    },
+    {
+      "id": "bytes-autocrlf-true",
+      "description": "Every published file has its development-branch bytes on disk (core.autocrlf=true).",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/10-bytes-autocrlf-true.log"
+    },
+    {
+      "id": "scope-autocrlf-true",
+      "description": "Nothing outside docs/guards/v4-adoption changes except the plan pair.",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/11-scope-autocrlf-true.log"
+    },
+    {
+      "id": "cutover-preservation-autocrlf-true",
+      "description": "Test-CutoverPreservation passes on the checkout (core.autocrlf=true).",
+      "expectedExit": 0,
+      "expectText": "Cutover preservation passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/12-cutover-preservation-autocrlf-true.log"
+    },
+    {
+      "id": "inputs-autocrlf-false",
+      "description": "The specimen's input checks pass on a checkout with core.autocrlf=false.",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/13-inputs-autocrlf-false.log"
+    },
+    {
+      "id": "bundle-autocrlf-false",
+      "description": "Every bundle file matches its manifest entry (core.autocrlf=false).",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/14-bundle-autocrlf-false.log"
+    },
+    {
+      "id": "bytes-autocrlf-false",
+      "description": "Every published file has its development-branch bytes on disk (core.autocrlf=false).",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/15-bytes-autocrlf-false.log"
+    },
+    {
+      "id": "scope-autocrlf-false",
+      "description": "Nothing outside docs/guards/v4-adoption changes except the plan pair.",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/16-scope-autocrlf-false.log"
+    },
+    {
+      "id": "cutover-preservation-autocrlf-false",
+      "description": "Test-CutoverPreservation passes on the checkout (core.autocrlf=false).",
+      "expectedExit": 0,
+      "expectText": "Cutover preservation passed",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/17-cutover-preservation-autocrlf-false.log"
+    },
+    {
+      "id": "compose",
+      "description": "The published bundle composes with the 1.1.6 base under the published review.",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/18-compose.log"
+    },
+    {
+      "id": "composed-package",
+      "description": "The composed package equals the A3-10a package.",
+      "expectedExit": 0,
+      "expectText": "",
+      "exit": 0,
+      "asExpected": true,
+      "log": "logs/19-composed-package.log"
+    }
+  ],
+  "unexpectedSteps": [],
+  "notRunLocally": [
+    "v3-quality-solution",
+    "v3-quality-assembly",
+    "v3-quality-frontend",
+    "v3-specialized-g04",
+    "v3-specialized-g05",
+    "v3-specialized-plan04",
+    "v3-specialized-database",
+    "v3-cross-platform-ubuntu-latest",
+    "v3-cross-platform-windows-latest (candidate suite)"
+  ],
+  "note": "The rehearsal commit is local; D6 rebuilds the head on the real main head."
+}

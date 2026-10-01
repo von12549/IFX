@@ -1,6 +1,6 @@
 # IFX I2-D — publish the curated `v4-adoption` package and the exact 0.5.2 bundle to `main`
 
-Status: `ACTIVE — rulings RD1–RD6 taken as recommended and D0–D5 authorized for local execution (2026-10-01, "全部按推荐，并授权D0到D5本地执行"); every remote step D6–D9 needs its own authorization`
+Status: `ACTIVE — rulings RD1–RD6 taken as recommended and D0–D5 authorized for local execution (2026-10-01, "全部按推荐，并授权D0到D5本地执行"); D0–D4 complete; D5 review packet ready; every remote step D6–D9 needs its own authorization`
 
 Formal Plan ID: `20261001-v4-ifx-i2d-publish-trusted-inputs`. Phase I2-D of the program Plan
 `20260929-v4-ifx-i2-p10-gate-successor`. I2-E (installing the workflow) builds on it.
@@ -140,3 +140,23 @@ Each of these stops I2-D, and the evidence is kept:
 
 - **D0 (2026-10-01).** Rulings RD1–RD6 taken as recommended; D0–D5 authorized for local execution. The stale A3 texts of
   the I2-B Plan and the TODO are corrected.
+- **D1.** GET-only snapshot passes (`d1-remote-snapshot.json`, evrun 001): `main` = `codex/guards-principles-plan` =
+  `7b9b53dc`, default branch `main`, `main`'s `v4-adoption` only the README, ruleset equal to I2-C (`857a51aa…`), no open
+  pull request.
+- **D2 (`2c82d6e8`).** `docs/guards/v4-adoption/extensions/ifx/0.5.2/` on the development branch: the bundle (manifest
+  `a2f619a3…` plus 262 package files, each equal to its manifest entry) and the review `38eb775a…`; Git stores every file
+  without normalization (`Copy-IFXI2DBundle.ps1`, evrun 002-003).
+- **D3 (`4fe202f1`).** `candidates/ifx-i2d/pr-spec.json`: 298 files copied from `2c82d6e8`, the `main` README and a V3 plan
+  pair listing all 301 paths (V3 Diff matches paths exactly); the I2-C head builder reused as a byte copy.
+- **D4.** Rehearsal passes (evrun 005, `d4-rehearsal/rehearsal.json` `0704f14d…`):
+  - on `main`'s trusted runner: trusted Diff with no protected obligation, no trusted component change, Validate,
+    candidate tests, Architecture, Historical Integrity, G03;
+  - on fresh checkouts with `core.autocrlf` true and false: the specimen's input checks, every bundle file against its
+    manifest, every published file's bytes against its source, nothing outside `v4-adoption` changed, and
+    `Test-CutoverPreservation`;
+  - the published bundle, copied out of the checkout as the specimen does, composes to package `0fab0676…` (A3-10a).
+
+  Attempt 1 (evrun 004) passed the 17 V3 and publication checks, but the composer refused a bundle root inside the
+  Target checkout; it is kept under `artifacts/guards/p10-ifx-i2d-trials`.
+- **D5.** Review packet `d5-review/review-packet.json` `5e2d2211…` and `review.md` (evrun 006). Waiting for the operator.
+
