@@ -3,15 +3,31 @@
 ## Outcome
 
 G03 is **PRE-READY, not closed**. The governance baseline, automation, CI seam, documentation, and
-three downstream handoff packages are complete. The Phase 9 guard passes because it accurately
-detects and records closure readiness; its report says `closureStatus=pre-ready` and
-`readyForClosure=false`.
+three downstream handoff packages are complete. The committed Phase 9 status report is a
+2026-09-08 historical snapshot, not a live readiness authority. Current readiness is derived
+from the catalog, plans, handoffs and source projects below.
 
-Phase 6 and Phase 9 remain incomplete. The Gate 3 prerequisite checkbox is released, but no
-G03 final-approval checkbox has been marked complete. All four candidates and all three shared
-Messaging primitives remain Proposed.
+Phase 6 and Phase 9 final closure remain incomplete. The Gate 3 prerequisite checkbox is
+released, but no G03 final-approval checkbox has been marked complete. The current catalog has
+six protocols: four Active and two Proposed. All 46 historical legacy surfaces are Retired;
+the Messaging Contracts/runtime split exists.
 
-## GOV evidence
+## Current readiness checkpoint
+
+<!-- G03-CURRENT-READINESS-START -->
+`closureStatus=pre-ready`; `readyForClosure=false`.
+
+| Blocker code | Owner | Revisit condition |
+| --- | --- | --- |
+| `protocols-not-active` | Plans 01/02 provider and consumer owners | After the two remaining Proposed protocols have source, tests, reconciliation and approvals |
+| `behavior-tests-pending` | Plans 01/02 implementers | When G03-6.5 and G03-6.6 are checked against complete provider/consumer evidence |
+| `closure-approvals-pending` | Module, Consumer, Platform Messaging and Architecture owners | After every technical blocker is cleared and G03-9.8 receives multi-owner approval |
+<!-- G03-CURRENT-READINESS-END -->
+
+This checkpoint does not grant closure approval. Recompute it whenever the catalog, plan
+checkboxes or physical source changes; do not infer current counts from the historical report.
+
+## Historical GOV evidence — 2026-09-08
 
 | Requirement | Implemented evidence | Final-closure qualification |
 | --- | --- | --- |
@@ -33,7 +49,7 @@ Primary evidence:
   [Plan 02 handoff](../../../gates/G03/handoffs/plan02-events-handoff.md), and
   [Plan 03 handoff](../../../gates/G03/handoffs/plan03-layerguard-handoff.md)
 
-## Blocking conditions and revisit ownership
+## Historical blocking conditions and revisit ownership — 2026-09-08
 
 | Blocker | Owner | Revisit condition |
 | --- | --- | --- |
@@ -59,7 +75,7 @@ plan, removal condition, and 2026-12-01 deadline; 0 are overdue.
 
 ## Phase 9 verification
 
-- G03 Phase 9 guard: passed; closure status remains `pre-ready` with five blocker categories.
+- Historical G03 Phase 9 guard: passed; closure status was `pre-ready` with four blocker categories.
 - Closeout audit: 4 protocols, 0 Active; 46 legacy items, 0 overdue; 3 handoffs present.
 - LayerGuard: 179 tests passed; B0.5 `baseline-clean`, 116 matched, 0 new, 0 stale.
 - Solution build: passed with 0 errors and 20 pre-existing warnings.
@@ -68,8 +84,8 @@ plan, removal condition, and 2026-12-01 deadline; 0 are overdue.
 ## Plan 01/B2 and Plan 02/B3 returns — 2026-09-08
 
 The earlier PRE-READY counts above are retained as the historical Gate snapshot. Current source and
-the authoritative catalog now contain two Active synchronous V1 protocols and two Active event V1
-protocols. Plan 02 retired all 20 legacy event surfaces, added the two provider-owned schemas,
+the authoritative catalog now contain two Active synchronous V1 protocols, two Active event V1
+protocols and two additional Proposed synchronous protocols. Plan 02 retired all 20 legacy event surfaces, added the two provider-owned schemas,
 separated BCL-only Messaging Contracts from Runtime, and returned provider/consumer behavior plus
 serialization evidence. Phase-6 catalog, source reconciliation, and guard reports all pass.
 
