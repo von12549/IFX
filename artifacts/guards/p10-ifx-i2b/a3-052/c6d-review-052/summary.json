@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "result": "ready-for-designated-human-review",
+  "reviewPacketPath": "artifacts/guards/p10-ifx-i2b/a3-052/c6d-review-052/review-packet.json",
+  "reviewPacketSha256": "e8d0b0ca6a95d750e302517ec327e85d3dc157be1650e0ca8e407e65de812a78",
+  "reviewSha256": "13b6a77a1b30c56b57521d618a9a8c00c9839026e39cdc2b915c3859d6ba985e",
+  "productionReviewRecordCreated": false,
+  "c6eAuthorized": false
+}

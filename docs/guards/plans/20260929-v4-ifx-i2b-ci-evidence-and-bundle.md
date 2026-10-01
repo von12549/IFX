@@ -786,3 +786,8 @@ So A3 touches one module (`ifx-c1-evaluated-reference`, the graph lock consumer)
   projection equal). Bundle manifest `a2f619a3…`; decision `phase-1-complete-stop-for-human-review` (`5b5edf13…`). Records at their natural paths under `a3-052`;
   evrun 119.
   - Next: A3-9, the C6d review packet against the accepted 0.5.1 packet, and human review.
+- **A3-9 packet (2026-10-01, "准备审阅包").** `Export-IFX052C6dReviewPacket.ps1` (`458e2d90`) checks every changed field
+  against an exact allow-list and writes `a3-052/c6d-review-052` (review packet `e8d0b0ca…`, evrun 120): six package
+  files change, one module version (0.2.0 → 0.2.1), four adapter lines, the Profile version and one `policySha256`, the
+  lineage's staging script and graph producer, and 25 provenance `sourcePath` values in the authority map. Waiting for
+  the human review decision.

@@ -1,0 +1,315 @@
+{
+  "formatVersion": 1,
+  "predecessorVersion": "0.5.1",
+  "predecessorManifestSha256": "b7a6751612f2279809b07988916112b499c52e7b1b36ae175c68924bd979e5e7",
+  "bundleManifestSha256": "a2f619a31c2751949058812d73fdf6a6b6142832c85e772d23a714f40304e372",
+  "rule": "only ifx-c1-evaluated-reference (adapter, module.json, policy) and the three IFX Profile files change; no file added or removed; ceilings identical; every changed JSON field is on its allow-list; four adapter lines change",
+  "changedPackageFiles": [
+    {
+      "path": "modules/ifx-c1-evaluated-reference/adapter.ps1",
+      "old": "6cd5a5c3194f7d27fb8d8ae3659314b5fb86e962d7c83ded2f4f48bd86fcb8f4",
+      "new": "5a7ef219e9870cc65e2ea68b5cf48f145fd9d95b492a762c2fdfd523bfb32845"
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/module.json",
+      "old": "da354d2037390a55689045c7c1bb082efac1110a87e11cc132a59d63ceaab2b9",
+      "new": "e4ff79d87ba82d34051bc8ea88629e9c4b9dac65edb9fa4a73b17de1f437ec24"
+    },
+    {
+      "path": "modules/ifx-c1-evaluated-reference/policy.json",
+      "old": "6bdc6e33adeea6bd30394bb1d5e3eedc09fb61b78dabadd584ec33be0d1eb4f4",
+      "new": "a50501666e2cbbe7819ca874f26207656f3879f72088690f0346c4a579e7bf65"
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/authority-map.json",
+      "old": "299fd14faab29049ebd72679cd8030c3e87b192b3fe81e38fe85da06e9d9e90f",
+      "new": "09cc0b57cc769478340779d640e95abcf01530c456080dc66c09ccdd1d56e927"
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/evidence-lineage.json",
+      "old": "7c9d8f194ef73217002a8229ab681b8aad31f6d799ffd4b68ce633793a504af5",
+      "new": "9e4498e57dcd145ecf39ec041fda0474621e1de0011ed34dc3da9ef5af0d3c25"
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/profile.json",
+      "old": "5c26e82724703e9ac00f258a489c73d8b98b03b95d9901fcc136b3476e379761",
+      "new": "ec337a6edc09716d08d190cb0c7a710a3e4c9bd26fb0d0712f8286f9bcef5302"
+    }
+  ],
+  "moduleVersionChanges": [
+    {
+      "moduleId": "ifx-c1-evaluated-reference",
+      "from": "0.2.0",
+      "to": "0.2.1"
+    }
+  ],
+  "fieldChanges": {
+    "policy.json": [
+      {
+        "pointer": "/producer/id",
+        "from": "ifx-c1-r2b-controlled-v1",
+        "to": "ifx-v4a-graph-v1"
+      },
+      {
+        "pointer": "/producer/policySha256",
+        "from": "ffac9479a94f562117f800ebe917a62dd7f5f3277992df365c0154e1eaacb6ec",
+        "to": "0677a56ff5e8719a7cb421a2b94a0d7c0c0095867a140bbeb05eaadd8b75f26a"
+      },
+      {
+        "pointer": "/producer/script",
+        "from": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+        "to": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1"
+      },
+      {
+        "pointer": "/producer/scriptSha256",
+        "from": "d6057dc41a65e997f0985a7fc84476223488666566396d60d616f0d83d5ebebc",
+        "to": "ee739ace44bcdfd401f689aedcc0836a83d3dd1c6e9539fabf777f01f696071e"
+      }
+    ],
+    "module.json": [
+      {
+        "pointer": "/adapter/sha256",
+        "from": "6cd5a5c3194f7d27fb8d8ae3659314b5fb86e962d7c83ded2f4f48bd86fcb8f4",
+        "to": "5a7ef219e9870cc65e2ea68b5cf48f145fd9d95b492a762c2fdfd523bfb32845"
+      },
+      {
+        "pointer": "/authorities/0/sha256",
+        "from": "6bdc6e33adeea6bd30394bb1d5e3eedc09fb61b78dabadd584ec33be0d1eb4f4",
+        "to": "a50501666e2cbbe7819ca874f26207656f3879f72088690f0346c4a579e7bf65"
+      },
+      {
+        "pointer": "/version",
+        "from": "0.2.0",
+        "to": "0.2.1"
+      }
+    ],
+    "profile.json": [
+      {
+        "pointer": "/moduleSelections/12/config/policySha256",
+        "from": "6bdc6e33adeea6bd30394bb1d5e3eedc09fb61b78dabadd584ec33be0d1eb4f4",
+        "to": "a50501666e2cbbe7819ca874f26207656f3879f72088690f0346c4a579e7bf65"
+      },
+      {
+        "pointer": "/version",
+        "from": "0.5.1",
+        "to": "0.5.2"
+      }
+    ],
+    "evidence-lineage.json": [
+      {
+        "pointer": "/changeSpecSha256",
+        "from": "c7bcee9f6b43ac273eb23fddaae877f6610d6fb19ab5b22a79b48080aafe332e",
+        "to": "ac8adbeb5e2ffcf3b8822f4ae0a41122e092ff9542bbe5616b1b0a41d06222a6"
+      },
+      {
+        "pointer": "/ordinalInventorySha256",
+        "from": "299fd14faab29049ebd72679cd8030c3e87b192b3fe81e38fe85da06e9d9e90f",
+        "to": "09cc0b57cc769478340779d640e95abcf01530c456080dc66c09ccdd1d56e927"
+      },
+      {
+        "pointer": "/producers/1/producerId",
+        "from": "ifx-c1-r2b-controlled-v1",
+        "to": "ifx-v4a-graph-v1"
+      },
+      {
+        "pointer": "/producers/1/script",
+        "from": "docs/guards/candidates/ifx-gate-coverage-c1r2b/Invoke-IFXEvaluatedGraphProducer.ps1",
+        "to": "docs/guards/v4-adoption/producers/graph/Invoke-IFXEvaluatedGraphProducer.ps1"
+      },
+      {
+        "pointer": "/producers/1/scriptSha256",
+        "from": "d6057dc41a65e997f0985a7fc84476223488666566396d60d616f0d83d5ebebc",
+        "to": "ee739ace44bcdfd401f689aedcc0836a83d3dd1c6e9539fabf777f01f696071e"
+      },
+      {
+        "pointer": "/sourceCommit",
+        "from": "351b504bd6549a8e9cede9ab34571986f6188c49",
+        "to": "3600988cc9e91f0a523ec60f5f4378dd4c83c541"
+      },
+      {
+        "pointer": "/stagingScript",
+        "from": "docs/guards/candidates/ifx-i2b-051/Invoke-IFX050EvidenceProducers.ps1",
+        "to": "docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1"
+      }
+    ],
+    "authority-map.json": [
+      {
+        "pointer": "/changeSpecSha256",
+        "from": "c7bcee9f6b43ac273eb23fddaae877f6610d6fb19ab5b22a79b48080aafe332e",
+        "to": "ac8adbeb5e2ffcf3b8822f4ae0a41122e092ff9542bbe5616b1b0a41d06222a6"
+      },
+      {
+        "pointer": "/modules/11/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-c1-type-provenance",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-c1-type-provenance"
+      },
+      {
+        "pointer": "/modules/12/adapterSha256",
+        "from": "6cd5a5c3194f7d27fb8d8ae3659314b5fb86e962d7c83ded2f4f48bd86fcb8f4",
+        "to": "5a7ef219e9870cc65e2ea68b5cf48f145fd9d95b492a762c2fdfd523bfb32845"
+      },
+      {
+        "pointer": "/modules/12/authorities/0/sha256",
+        "from": "6bdc6e33adeea6bd30394bb1d5e3eedc09fb61b78dabadd584ec33be0d1eb4f4",
+        "to": "a50501666e2cbbe7819ca874f26207656f3879f72088690f0346c4a579e7bf65"
+      },
+      {
+        "pointer": "/modules/12/manifestSha256",
+        "from": "da354d2037390a55689045c7c1bb082efac1110a87e11cc132a59d63ceaab2b9",
+        "to": "e4ff79d87ba82d34051bc8ea88629e9c4b9dac65edb9fa4a73b17de1f437ec24"
+      },
+      {
+        "pointer": "/modules/12/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-c1-evaluated-reference",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-c1-evaluated-reference"
+      },
+      {
+        "pointer": "/modules/12/version",
+        "from": "0.2.0",
+        "to": "0.2.1"
+      },
+      {
+        "pointer": "/modules/13/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-governance-core",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g03-governance-core"
+      },
+      {
+        "pointer": "/modules/14/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-catalog-semantics",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g03-catalog-semantics"
+      },
+      {
+        "pointer": "/modules/15/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-source-reconciliation",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g03-source-reconciliation"
+      },
+      {
+        "pointer": "/modules/16/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-snapshots",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g03-snapshots"
+      },
+      {
+        "pointer": "/modules/17/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g03-docs-closeout",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g03-docs-closeout"
+      },
+      {
+        "pointer": "/modules/18/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g04-manifests",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g04-manifests"
+      },
+      {
+        "pointer": "/modules/19/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g04-runtime",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g04-runtime"
+      },
+      {
+        "pointer": "/modules/20/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g04-closeout",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g04-closeout"
+      },
+      {
+        "pointer": "/modules/21/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan04-extraction",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-plan04-extraction"
+      },
+      {
+        "pointer": "/modules/22/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan04-tenant",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-plan04-tenant"
+      },
+      {
+        "pointer": "/modules/23/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan04-projection",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-plan04-projection"
+      },
+      {
+        "pointer": "/modules/24/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan04-abstractions",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-plan04-abstractions"
+      },
+      {
+        "pointer": "/modules/25/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-database-evidence",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-database-evidence"
+      },
+      {
+        "pointer": "/modules/26/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-inventory",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g05-inventory"
+      },
+      {
+        "pointer": "/modules/27/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-protocol",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g05-protocol"
+      },
+      {
+        "pointer": "/modules/28/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-execution-http",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g05-execution-http"
+      },
+      {
+        "pointer": "/modules/29/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-carriers",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g05-carriers"
+      },
+      {
+        "pointer": "/modules/30/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-governance",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g05-governance"
+      },
+      {
+        "pointer": "/modules/31/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-g05-closeout",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-g05-closeout"
+      },
+      {
+        "pointer": "/modules/32/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-plan05-security",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-plan05-security"
+      },
+      {
+        "pointer": "/modules/33/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-solution-evidence",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-solution-evidence"
+      },
+      {
+        "pointer": "/modules/34/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-assembly-evidence",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-assembly-evidence"
+      },
+      {
+        "pointer": "/modules/35/sourcePath",
+        "from": "docs/guards/candidates/ifx-i2b-051/modules/ifx-frontend-evidence",
+        "to": "docs/guards/candidates/ifx-i2b-052/modules/ifx-frontend-evidence"
+      },
+      {
+        "pointer": "/sourceCommit",
+        "from": "351b504bd6549a8e9cede9ab34571986f6188c49",
+        "to": "3600988cc9e91f0a523ec60f5f4378dd4c83c541"
+      }
+    ]
+  },
+  "adapterLines": [
+    {
+      "line": 3,
+      "from": "# 0.5.0-a: evidence locks are staged into EvidenceRoot by the trusted workflow",
+      "to": "# 0.5.2: evidence locks are staged into EvidenceRoot by the trusted workflow"
+    },
+    {
+      "line": 4,
+      "from": "# (candidates/ifx-i2b-050a/Invoke-IFX050EvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each",
+      "to": "# (docs/guards/v4-adoption/ci/Invoke-IFXEvidenceProducers.ps1); the Profile names no lock. locks/staging.json maps each"
+    },
+    {
+      "line": 92,
+      "from": "if($lockRelative -cnotmatch '^artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/[a-f0-9]{32}/evidence-lock\\.json$'){Stop-Adapter 'invalid-input' 'Uncontrolled lock path.'}",
+      "to": "if($lockRelative -cnotmatch '^artifacts/guards/v4a-producers/graph-runs/[a-f0-9]{32}/evidence-lock\\.json$'){Stop-Adapter 'invalid-input' 'Uncontrolled lock path.'}"
+    },
+    {
+      "line": 95,
+      "from": "if($lock.formatVersion -ne 1 -or $lock.gate -cne 'C1EvaluatedReferenceGraph' -or $lock.producer -cne 'ifx-c1-r2b-controlled-v1' -or $lock.result -cne 'passed' -or $lock.sdk -cne $policy.sdk -or $lock.configuration -cne $policy.configuration -or $lock.targetFramework -cne $policy.targetFramework -or $lock.policySha256 -cne [string]$policy.producer.policySha256 -or @($lock.projects).Count -ne 58 -or @($lock.projectStates).Count -ne 58 -or @($lock.edges).Count -lt 1 -or $lock.evaluatedReferenceCount -ne @($lock.edges).Count -or $lock.rawReferenceCount -lt 1 -or $lock.rawEvaluatedDelta -ne ($lock.evaluatedReferenceCount-$lock.rawReferenceCount) -or (@($lock.arguments)-join '|') -cne '-getProperty:TargetFramework,DisableTransitiveProjectReferences|-getItem:ProjectReference|-p:Configuration=Release|-nologo'){Stop-Adapter 'integrity-failure' 'Graph lock shape or authority drift.'}",
+      "to": "if($lock.formatVersion -ne 1 -or $lock.gate -cne 'C1EvaluatedReferenceGraph' -or $lock.producer -cne 'ifx-v4a-graph-v1' -or $lock.result -cne 'passed' -or $lock.sdk -cne $policy.sdk -or $lock.configuration -cne $policy.configuration -or $lock.targetFramework -cne $policy.targetFramework -or $lock.policySha256 -cne [string]$policy.producer.policySha256 -or @($lock.projects).Count -ne 58 -or @($lock.projectStates).Count -ne 58 -or @($lock.edges).Count -lt 1 -or $lock.evaluatedReferenceCount -ne @($lock.edges).Count -or $lock.rawReferenceCount -lt 1 -or $lock.rawEvaluatedDelta -ne ($lock.evaluatedReferenceCount-$lock.rawReferenceCount) -or (@($lock.arguments)-join '|') -cne '-getProperty:TargetFramework,DisableTransitiveProjectReferences|-getItem:ProjectReference|-p:Configuration=Release|-nologo'){Stop-Adapter 'integrity-failure' 'Graph lock shape or authority drift.'}"
+    }
+  ]
+}
