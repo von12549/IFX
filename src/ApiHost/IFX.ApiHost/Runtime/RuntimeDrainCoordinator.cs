@@ -58,16 +58,19 @@ public sealed class RuntimeDrainCoordinator(RuntimeLifecycle lifecycle) : IMessa
             return true;
         }
 
+        var idle = _idle.Task;
         using var timeoutSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeoutSource.CancelAfter(timeout);
         try
         {
-            await _idle.Task.WaitAsync(timeoutSource.Token);
+            await idle.WaitAsync(timeoutSource.Token);
             return true;
         }
         catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
         {
-            return false;
+            // The idle continuation and the timeout callback both run on the thread pool; under starvation the
+            // timeout can be observed after the runtime already became idle. Idle reached first wins.
+            return idle.IsCompleted;
         }
     }
 
