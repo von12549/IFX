@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2c-c6-record",
+  "planId": "20261001-v4-ifx-i2c-main-promotion",
+  "step": "C6",
+  "authorization": "授权合并 #109，并授权 C6",
+  "recordedAtUtc": "2026-10-01T04:11:19.727985+00:00",
+  "p1Merge": {
+    "pullRequest": 109,
+    "method": "merge commit",
+    "mergeCommit": "218591eca89e71954851c501c015203555b436ce",
+    "parents": [
+      "57647c9ae75c25666d825477c7a1ea11073468c5",
+      "1b234ace6f67480d157c8bf4fadec3227000caf8"
+    ],
+    "checksBeforeMerge": "13/13 SUCCESS, mergeStateStatus CLEAN (one GET read)",
+    "matchHeadCommit": "1b234ace6f67480d157c8bf4fadec3227000caf8"
+  },
+  "p2a": {
+    "head": "artifacts/guards/p10-ifx-i2c/c6-p2a-head.json",
+    "branch": "codex/i2c-p2-g03-documentation-authorization",
+    "remoteHead": "5df34289dd049c5ab089657c1d2d15be3235c698",
+    "recordsEqualToRehearsal": true,
+    "pullRequest": {
+      "number": 110,
+      "url": "https://github.com/von12549/IFX/pull/110",
+      "base": "codex/guards-principles-plan"
+    }
+  },
+  "next": [
+    "merge #110 after 13/13 (authorization)",
+    "then the P2 change PR (push and open under the C6 authorization), then its merge (authorization)"
+  ]
+}
