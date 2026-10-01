@@ -643,7 +643,7 @@ Network steps (restore, NuGet and npm audits) stay workflow steps inside the pro
 
 ## 11. Amendment A3 — bundle 0.5.2, the trusted-base closure (finding F-C1)
 
-Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-0 to A3-7 complete (A3-7 readiness pass at `f33b5086`); A3-8 and A3-12 need their own authorization`
+Status: `ACTIVE — rulings R12–R16 taken as recommended and A3-0 to A3-7 authorized for local execution (2026-10-01, "全部按推荐，并授权A3-0到A3-7本地执行"); A3-0 to A3-7 complete (A3-7 readiness pass at `f33b5086`); A3-8 C6c pass (authorized); A3-9 review next; A3-12 needs its own authorization`
 
 I2-C (Plan `20261001-v4-ifx-i2c-main-promotion`) admitted `docs/guards/v4-adoption` as the only V4 entry on `main`
 (`7b9b53dc`). Its finding **F-C1**: bundle 0.5.1 still needs three lab paths under `docs/guards/candidates`, which `main`
@@ -780,3 +780,9 @@ So A3 touches one module (`ifx-c1-evaluated-reference`, the graph lock consumer)
   `readiness-only-full-c6c-not-authorized`. Records `a3-closure/a3-7-readiness/index.json`; evrun 118.
   - Next: A3-8, the single 0.5.2 C6c (authorization). As in A2-8, the A3-7 run trees under `a3-052` are moved aside
     first because the chain requires absent outputs.
+- **A3-8 (2026-10-01, authorized "授权 A3-8").** The A3-7 trees were moved to the ignored `p10-ifx-i2b/a3-7-run`.
+  `Invoke-IFX050C6Chain.ps1 -AuthorizeA38C6c` (0.5.2 harness) at `3600988c` passes in 2713 s: Windows product certification
+  (independent matrix 191/191, controls 180 capability + 42 staged-evidence); Linux portability assessment (191/191, semantic
+  projection equal). Bundle manifest `a2f619a3…`; decision `phase-1-complete-stop-for-human-review` (`5b5edf13…`). Records at their natural paths under `a3-052`;
+  evrun 119.
+  - Next: A3-9, the C6d review packet against the accepted 0.5.1 packet, and human review.

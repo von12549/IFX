@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "kind": "ifx-i2b-linux-native-archive-copyback",
+  "status": "pass",
+  "nativeRoot": "/native/linux",
+  "outRoot": "/out/linux",
+  "excluded": [
+    "native-checkout"
+  ],
+  "diagnostics": [],
+  "archive": {
+    "path": "native-results.tar.gz",
+    "format": "tar (pax, sorted, gzip)",
+    "bytes": 2970172783,
+    "sha256": "28e9fea2b28ca1b82ebe8042ebdbccf47bacf24c7950e8a603a1ccb9d4aec869",
+    "fileEntries": 59324
+  },
+  "listing": {
+    "path": "native-listing.txt",
+    "files": 59324,
+    "bytes": 4063480089,
+    "sha256": "c1980194bf7bf4f9f91f1cf0f023ac00dfdb0554cc6d49f5769df49f36d7f20e",
+    "lineFormat": "<sha256> <bytes> <path>"
+  },
+  "reports": [
+    {
+      "path": "matrix/case-manifest.json",
+      "present": true,
+      "bytes": 149985,
+      "sha256": "ccfab880db1b740e47a64690077df56affcd59e7f6ecbc0724e3e7546575d1d2"
+    },
+    {
+      "path": "matrix/matrix-contract-summary.json",
+      "present": true,
+      "bytes": 767,
+      "sha256": "9b49b1cbb9d23c9627f48f7f8036ce3de4b8c059628de9343b09743b45610d81"
+    },
+    {
+      "path": "matrix/summary.json",
+      "present": true,
+      "bytes": 24592,
+      "sha256": "15e052ee484d93db9d0be1797d17a7d208ede09fd9e7baaa2ea7a98ad72e2f94"
+    },
+    {
+      "path": "native-links.json",
+      "present": true,
+      "bytes": 1358,
+      "sha256": "f663ed52a7efb0bc616d1b5a535445b2d26d1514866bda7c84ac0a049a8056a4"
+    },
+    {
+      "path": "positive.json",
+      "present": true,
+      "bytes": 1956,
+      "sha256": "9277ce3decefd85709bfec7e6da1213d55107552e283b18f280041c160db9a8d"
+    },
+    {
+      "path": "summary.json",
+      "present": true,
+      "bytes": 775,
+      "sha256": "2e710890a801aa943c9625c1d37ba7c847f4ea547c01d83938e62adec629c855"
+    }
+  ],
+  "timings": {
+    "listSeconds": 15.769,
+    "archiveSeconds": 91.997,
+    "verifyNativeSeconds": 21.157,
+    "copyArchiveSeconds": 154.587,
+    "copyReportsSeconds": 0.845,
+    "totalSeconds": 285.423
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "links": [
+    {
+      "path": "matrix/suites/c1c/87de4edad62543de9bc9ae01fc09a5ea/unsafe-link/src",
+      "target": "/native/linux/matrix/suites/c1c/87de4edad62543de9bc9ae01fc09a5ea/clean/src"
+    },
+    {
+      "path": "matrix/suites/c1g/ca57c7a427e240a59fc630f0e4e3276e/unsafe-link/src/linked-project",
+      "target": "/native/linux/matrix/suites/c1g/ca57c7a427e240a59fc630f0e4e3276e/unsafe-link/src/IFX.Modules.IAM.Contracts"
+    },
+    {
+      "path": "matrix/suites/c1h/52dbc40c162d45f89284f53bbaa02944/unsafe-link/src/linked-project",
+      "target": "/native/linux/matrix/suites/c1h/52dbc40c162d45f89284f53bbaa02944/unsafe-link/src/IFX.Modules.CRM.Contracts"
+    },
+    {
+      "path": "matrix/suites/c1j/5a1b330c53ff47f9ad9c15e2171a7ea8/linked-path/src/linked",
+      "target": "/native/linux/matrix/suites/c1j/5a1b330c53ff47f9ad9c15e2171a7ea8/linked-path/src/IFX.Modules.CRM.Domain"
+    },
+    {
+      "path": "matrix/suites/c1n/7c6a49b0c52c43be8aa76e196755cc1c/linked-path/src/linked",
+      "target": "/native/linux/matrix/suites/c1n/7c6a49b0c52c43be8aa76e196755cc1c/linked-path/src/Modules/A"
+    },
+    {
+      "path": "matrix/suites/c1o/7e55c606b50c466ba8b502fe22591438/linked-path/src/linked",
+      "target": "/native/linux/matrix/suites/c1o/7e55c606b50c466ba8b502fe22591438/linked-path/src/Modules/A"
+    }
+  ]
+}
